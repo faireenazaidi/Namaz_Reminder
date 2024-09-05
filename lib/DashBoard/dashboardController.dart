@@ -151,6 +151,7 @@ class DashBoardController extends GetxController {
             _convertTo12HourFormat(filteredData[0].timings?.maghrib ?? 'N/A'),
             _convertTo12HourFormat(filteredData[0].timings?.isha ?? 'N/A')
           ];
+          //new comment
           //print("Filtered Data ${filteredData[0].timings?.fajr}");
           print("Filtered Data ${prayerTimes}");
         } else {
