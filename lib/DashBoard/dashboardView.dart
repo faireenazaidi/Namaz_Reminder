@@ -97,7 +97,8 @@ class DashBoardView extends GetView<DashBoardController> {
                         endIndent: 6,
                       ),
                     ),
-                    const Text("17 Safar 1446 AH")
+                     Text('${dashboardController.islamicDate}')
+
                   ],
                 ),
               ),
