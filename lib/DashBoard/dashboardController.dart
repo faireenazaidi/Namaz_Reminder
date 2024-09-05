@@ -114,7 +114,8 @@ class DashBoardController extends GetxController {
             _convertTo12HourFormat(filteredData[0].timings?.isha ?? 'N/A')
           ];
           // print('msgqqqqqqqqqqqqqqq ${filteredData[0]}');
-          // print('Filtered Data List: $filteredData');
+          // print('Filtered Data List: $filteredData');9999999999o
+
           print('First item: ${filteredData[0].timings}');
         } else {
           print("No data available for the date $formattedDate");
