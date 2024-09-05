@@ -15,6 +15,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Container(
         child: ListView(
+          padding: EdgeInsets.zero, // Remove padding from the ListView
           children: [
             SizedBox(height: 10,),
             // Custom user account header
@@ -53,24 +54,28 @@ class CustomDrawer extends StatelessWidget {
               endIndent: 10,
               indent: 10,
             ),
-            ListTile (
+            ListTile(
               leading: Image.asset("assets/dashboard.png"),
               title: const Text('Dashboard',),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             ListTile(
               leading: Image.asset("assets/supportCentre.png"),
               title: const Text('Support Center'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             ListTile(
               leading: Image.asset("assets/widgets.png"),
               title: const Text('Widgets'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             Obx(() => ListTile(
               leading: Image.asset("assets/notification.png"),
               title: const Text('Notifications'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               trailing: customDrawerController.notificationCount.value > 0
                   ? CircleAvatar(
                 radius: 10,
@@ -92,6 +97,7 @@ class CustomDrawer extends StatelessWidget {
             Obx(() => ListTile(
               leading: Image.asset("assets/leaderboard.png"),
               title: const Text('Leaderboard'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               trailing: customDrawerController.leaderboardCount.value > 0
                   ? CircleAvatar(
                 radius: 10,
@@ -109,11 +115,13 @@ class CustomDrawer extends StatelessWidget {
             ListTile(
               leading: Image.asset("assets/reminders.png"),
               title: const Text('Reminders'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             Obx(() => ListTile(
               leading: Image.asset("assets/missedPrayer.png"),
               title: const Text('Missed Prayers'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               trailing: customDrawerController.missedPrayersCount.value > 0
                   ? CircleAvatar(
                 radius: 10,
@@ -129,6 +137,7 @@ class CustomDrawer extends StatelessWidget {
             ListTile(
               leading: Image.asset("assets/peerCircle.png"),
               title: const Text('Peer Circle'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             Divider(
@@ -141,35 +150,40 @@ class CustomDrawer extends StatelessWidget {
               leading: Image.asset("assets/translate.png"),
               title: const Text('Language'),
               subtitle: const Text('English'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             ListTile(
               leading: Image.asset("assets/darkMode.png"),
               title: const Text('Dark Mode'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               trailing: Obx(()
               {
-               return Switch(
+                return Switch(
                   value: customDrawerController.isDarkMode.value,
                   onChanged: (value) {
                     customDrawerController.toggleDarkMode(value);
                     Get.changeThemeMode(value ?  ThemeMode.dark : ThemeMode.light);
                   },
                 );
-              })
+              }),
             ),
             ListTile(
               leading: Image.asset("assets/gear.png"),
               title: const Text('Settings'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             ListTile(
               leading: Image.asset("assets/fAndQ.png"),
               title: const Text('F&Q'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
             ListTile(
               leading: Image.asset("assets/feedback.png"),
               title: const Text('Feedback'),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce horizontal padding
               onTap: () {},
             ),
           ],

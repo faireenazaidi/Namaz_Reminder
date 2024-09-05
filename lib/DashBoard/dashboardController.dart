@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'dart:async';
@@ -86,17 +85,19 @@ class DashBoardController extends GetxController {
 
         // Get today's date and format it as required
         DateTime now = DateTime.now();
-        DateFormat formatter = DateFormat('dd MMM yyyy');
+        DateFormat formatter = DateFormat('dd MMM yyyy');// dd-MM-yyyy
         String formattedDate = formatter.format(now);
 
+
+print(formattedDate);
         // Filter data for the specific date
         List<CalendarWiseData> filteredData = jsonData
             .map((element) => CalendarWiseData.fromJson(element))
-            .where((e) => e.date?.readable == formattedDate)//current date data
+            .where((e) => e.date?.readable == '01 Sep 2024')//current date data
             .toList();
-
         // Update calendar data
         updateCalendarData = filteredData;
+        print("cccccc"+filteredData.toString());
 
         // Print the specific day's prayer times
         // fefjebnf5965fesfdfsgdrf
@@ -105,7 +106,8 @@ class DashBoardController extends GetxController {
 
 
         if (filteredData.isNotEmpty) {
-          print(filteredData[0]); // Print entire filtered data list
+          print('yes');
+         // Print entire filtered data list
           prayerTimes = [
             _convertTo12HourFormat(filteredData[0].timings?.fajr ?? 'N/A') ,
             _convertTo12HourFormat(filteredData[0].timings?.dhuhr ?? 'N/A'),
@@ -115,7 +117,7 @@ class DashBoardController extends GetxController {
           ];
           // print('msgqqqqqqqqqqqqqqq ${filteredData[0]}');
           // print('Filtered Data List: $filteredData');9999999999o
-
+print("filter out $prayerTimes");
           print('First item: ${filteredData[0].timings}');
         } else {
           print("No data available for the date $formattedDate");

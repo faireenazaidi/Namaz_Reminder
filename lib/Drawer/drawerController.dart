@@ -7,6 +7,7 @@ class CustomDrawerController extends GetxController {
   var leaderboardCount = 5.obs;
   var missedPrayersCount = 33.obs;
   var isDarkMode = false.obs;
+  var selectedIndex = (-1).obs; // Add this line to track the selected tile index
 
   void updateUser(String name, String email) {
     userName.value = name;
@@ -24,7 +25,12 @@ class CustomDrawerController extends GetxController {
   void updateMissedPrayersCount(int count) {
     missedPrayersCount.value = count;
   }
+
   void toggleDarkMode(bool value) {
     isDarkMode.value = value;
+  }
+
+  void selectIndex(int index) {
+    selectedIndex.value = index; // Update the selected index
   }
 }
