@@ -29,7 +29,7 @@ class MyTextTheme  {
       fontWeight: FontWeight.bold
   );
   static TextStyle smallPCB=GoogleFonts.roboto(
-      color: AppColor.primaryColorLight,
+      color: AppColor.greyColor,
       fontSize: 12,
       fontWeight: FontWeight.bold
   );

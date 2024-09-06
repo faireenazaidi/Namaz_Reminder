@@ -119,6 +119,7 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
+          print("extracted data ${getExtractedData.toString()}");
          // Print entire filtered data list
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A') ,

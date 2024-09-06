@@ -76,6 +76,7 @@ class PrimaryTextField extends StatelessWidget {
             constraints: const BoxConstraints(
               maxHeight: 60,
               minHeight: 40,
+
             ),
 
             floatingLabelBehavior: FloatingLabelBehavior.always,

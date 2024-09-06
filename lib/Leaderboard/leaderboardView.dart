@@ -29,20 +29,23 @@ class LeaderBoardView extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
                   onPressed: () {
                     Get.back();
                   },
                 ),
               ),
             ),
+
             flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
               background: Padding(
                 padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  // mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 80,),
                     Obx(() => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -87,7 +90,7 @@ class LeaderBoardView extends StatelessWidget {
                         ),
                       ],
                     )),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 60),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -135,6 +138,7 @@ class LeaderBoardView extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Text("TODAYS'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
                     const SizedBox(height: 10),
                     SizedBox(
                       height: 50,
