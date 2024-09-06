@@ -27,98 +27,72 @@ class LeaderBoardView extends StatelessWidget {
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor: Colors.white, // Circular container background
+                backgroundColor: Colors.white,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black), // Back arrow icon
+                  icon: const Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () {
-                    Get.back(); // Go back to the previous page
+                    Get.back();
                   },
                 ),
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Daily and Weekly Tabs just below the title
                     Obx(() => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Container for Daily button with rounded corners
-                        Container(
-                          decoration: BoxDecoration(
-                            color: controller.selectedTab.value == 'Daily' ? Colors.orange[100] : Colors.transparent,
-                            borderRadius: BorderRadius.circular(30), // Rounded background
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4), // Adjust the padding
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () => controller.updateSelectedTab('Daily'),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: controller.selectedTab.value == 'Daily' ? Colors.orange : Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), // Padding inside the button
-                                  child: Text(
-                                    'Daily',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: controller.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
-                                    ),
-                                  ),
-                                ),
+                        // Daily Button
+                        GestureDetector(
+                          onTap: () => controller.updateSelectedTab('Daily'),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: controller.selectedTab.value == 'Daily' ? Colors.orange[100] : Colors.transparent,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            child: Text(
+                              'Daily',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: controller.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
                               ),
-                            ],
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
-                        // Container for Weekly button with rounded corners
-                        Container(
-                          decoration: BoxDecoration(
-                            color: controller.selectedTab.value == 'Weekly' ? Colors.orange[100] : Colors.transparent,
-                            borderRadius: BorderRadius.circular(15), // Rounded background
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4), // Adjust the padding
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () => controller.updateSelectedTab('Weekly'),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: controller.selectedTab.value == 'Weekly' ? Colors.orange : Colors.white,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), // Padding inside the button
-                                  child: Text(
-                                    'Weekly',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: controller.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
-                                    ),
-                                  ),
-                                ),
+                        // Weekly Button
+                        GestureDetector(
+                          onTap: () => controller.updateSelectedTab('Weekly'),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: controller.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            child: Text(
+                              'Weekly',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: controller.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     )),
-
-                    const SizedBox(height: 20), // Adjust spacing between tabs and rest
-                    // Date and timeline selection
-
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         InkWell(
-                          child: Image.asset("assets/iconcalen.png"),
+                          child: Image.asset("assets/iconcalen.png", width: 24, height: 24),
                           onTap: () async {
                             DateTime? picked = await showDatePicker(
                               context: context,
@@ -132,13 +106,15 @@ class LeaderBoardView extends StatelessWidget {
                           },
                         ),
                         const SizedBox(width: 5),
-                        // Updated date display using intl package
-                        Obx(() => Expanded(
-                          child: Row(
+                        Expanded(
+                          child: Obx(() => Row(
                             children: [
-                              Text(
-                                DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
-                                style: const TextStyle(fontSize: 14, color: Colors.black), // Decreased font size
+                              Expanded(
+                                child: Text(
+                                  DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
+                                  style: const TextStyle(fontSize: 14, color: Colors.black),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               const VerticalDivider(
                                 width: 20,
@@ -147,37 +123,37 @@ class LeaderBoardView extends StatelessWidget {
                                 endIndent: 5,
                                 indent: 5,
                               ),
-                              // Display current Hijri date
-                              Text(
-                                dateController.formatHijriDate(dateController.selectedDate.value),
-                                style: const TextStyle(fontSize: 14, color: Colors.black), // Decreased font size
-                              ),
+                              // Expanded(
+                              //   child: Text(
+                              //     dateController.formatHijriDate(dateController.selectedDate.value),
+                              //     style: const TextStyle(fontSize: 14, color: Colors.black),
+                              //     overflow: TextOverflow.ellipsis,
+                              //   ),
+                              // ),
                             ],
-                          ),
-                        )),
+                          )),
+                        ),
                       ],
                     ),
-                    SizedBox(height: 10,),
-
-                    // Today's Timeline (F, Z, A, etc)
+                    const SizedBox(height: 10),
                     SizedBox(
                       height: 50,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5, // Number of CircleAvatars
-                        separatorBuilder: (context, index) => SizedBox(width: 40), // Spacing between items
+                        itemCount: 5,
+                        separatorBuilder: (context, index) => const SizedBox(width: 30),
                         itemBuilder: (context, index) {
-                          // List of items
                           final labels = ['F', 'Z', 'A', 'M', 'I'];
                           return CircleAvatar(child: Text(labels[index]));
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
+
 
           SliverToBoxAdapter(
             child: Column(
@@ -203,7 +179,7 @@ class LeaderBoardView extends StatelessWidget {
                       return Column(
                         children: [
                           CircleAvatar(
-                            radius: 30,
+                            radius: 25,
                             backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
                           ),
                         ],

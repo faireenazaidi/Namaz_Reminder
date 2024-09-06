@@ -30,6 +30,14 @@ class DashBoardController extends GetxController {
   var isLoading = false.obs;
 
   List calendarData = [].obs;
+  List<CalendarWiseData> extractedData = [];
+  set updateExtractedData(List<CalendarWiseData> data){
+    extractedData = data;
+    update();
+  }
+
+  List<CalendarWiseData> get getExtractedData => extractedData;
+
   set updateCalendarData(List val){
     calendarData = val;
     update();
@@ -39,9 +47,15 @@ class DashBoardController extends GetxController {
       calendarData.map((element)=>CalendarWiseData.fromJson(element))
   );
 
-
   Timer? prayerTimer;
-  var prayerTimes=[];
+  List prayerTimes=[].obs;
+  set updatePrayerTimes(List val){
+    prayerTimes = val;
+    update();
+  }
+  List get getPrayerTimes => prayerTimes;
+
+
   @override
   void onInit() {
     super.onInit();
@@ -54,9 +68,24 @@ class DashBoardController extends GetxController {
   void onReady()
   {
     super.onReady();
-    fetchPrayerTime();
+    get();
   }
 
+  get()async{
+    await fetchPrayerTime();
+  }
+
+  String convertTo12HourFormat(String time24) {
+    try {
+      // Parse 24-hour time format
+      DateTime parsedTime = DateFormat('HH:mm').parse(time24);
+      // Convert to 12-hour time format
+      return DateFormat('hh:mm a').format(parsedTime);
+    } catch (e) {
+      // If parsing fails, return the original time
+      return time24;
+    }
+  }
 
   Future<void> fetchPrayerTime() async {
     final latitude = 26.8664718;
@@ -75,73 +104,44 @@ class DashBoardController extends GetxController {
       );
       final response = await http.get(uri);
       print("LINK ${response.request!.url}");
+      print('Raw API Response: ${response.body}');
 
-      print('API RESPONSE @@@ : ${response.body}');
       if (response.statusCode == 200) {
-        print("JSON DECODED RESPONSE ${jsonDecode(response.body.toString())["data"]}");
 
         // Decode the API response
-        List<dynamic> jsonData = jsonDecode(response.body.toString())["data"];
+        updateCalendarData = jsonDecode(response.body.toString())["data"];
 
         // Get today's date and format it as required
         DateTime now = DateTime.now();
         DateFormat formatter = DateFormat('dd MMM yyyy');// dd-MM-yyyy
         String formattedDate = formatter.format(now);
+        List<CalendarWiseData> extractedData = getCalendarData.map((e)=>e).where((element)=>element.date!.readable.toString() == formattedDate.toString()).toList();
+        updateExtractedData = extractedData;
 
-
-print(formattedDate);
-        // Filter data for the specific date
-        List<CalendarWiseData> filteredData = jsonData
-            .map((element) => CalendarWiseData.fromJson(element))
-            .where((e) => e.date?.readable == '01 Sep 2024')//current date data
-            .toList();
-        // Update calendar data
-        updateCalendarData = filteredData;
-        print("cccccc"+filteredData.toString());
-
-        // Print the specific day's prayer times
-        // fefjebnf5965fesfdfsgdrf
-
-        //print('First item: ${filteredData[0]}'); // Print first item
-
-
-        if (filteredData.isNotEmpty) {
-          print('yes');
+        if (getExtractedData.isNotEmpty) {
          // Print entire filtered data list
-          prayerTimes = [
-            _convertTo12HourFormat(filteredData[0].timings?.fajr ?? 'N/A') ,
-            _convertTo12HourFormat(filteredData[0].timings?.dhuhr ?? 'N/A'),
-            _convertTo12HourFormat(filteredData[0].timings?.asr ?? 'N/A'),
-            _convertTo12HourFormat(filteredData[0].timings?.maghrib ?? 'N/A'),
-            _convertTo12HourFormat(filteredData[0].timings?.isha ?? 'N/A')
+          updatePrayerTimes = [
+            convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A') ,
+            convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A')
           ];
-          // print('msgqqqqqqqqqqqqqqq ${filteredData[0]}');
-          // print('Filtered Data List: $filteredData');9999999999o
-print("filter out $prayerTimes");
-          print('First item: ${filteredData[0].timings}');
-        } else {
-          print("No data available for the date $formattedDate");
-        }
-      } else {
+          update();
+          print("PRAYER TIMES ${getPrayerTimes.toString()}");
+      }
+      else {
         print('Failed to load prayer data');
       }
+    }
     } catch (e) {
       print('Error: $e');
     } finally {
       isLoading.value = false;
     }
   }
-  String _convertTo12HourFormat(String time24) {
-    try {
-      // Parse 24-hour time format
-      DateTime parsedTime = DateFormat('HH:mm').parse(time24);
-      // Convert to 12-hour time format
-      return DateFormat('hh:mm a').format(parsedTime);
-    } catch (e) {
-      // If parsing fails, return the original time
-      return time24;
-    }
-  }
+
+
 
   @override
   void onClose() {

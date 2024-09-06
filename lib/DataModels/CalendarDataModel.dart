@@ -296,8 +296,8 @@ class Month {
 }
 
 class Meta {
-  int? latitude;
-  int? longitude;
+  double? latitude;
+  double? longitude;
   String? timezone;
   Method? method;
   String? latitudeAdjustmentMethod;

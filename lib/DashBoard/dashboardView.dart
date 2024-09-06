@@ -56,35 +56,48 @@ class DashBoardView extends GetView<DashBoardController> {
                   children: [
                     InkWell(
                       child: Image.asset("assets/calendar3.png"),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              content: MyDateTimeField(
-                                useFutureDate: true,
-                                suffixIcon: Container(
-                                  decoration: BoxDecoration(color: AppColor.buttonColor),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Icon(
-                                      CupertinoIcons.calendar,
-                                      color: Colors.indigoAccent,
-                                    ),
-                                  ),
-                                ),
-                                borderColor: AppColor.black,
-                                initialValue: DateTime.now().toString(),
-                                onChanged: (value) {
-                                  // Handle date change
-                                },
-                              ),
-                            );
+                      onTap: (){
+                      MyDateTimeField(
+                          useFutureDate: true,
+                          borderColor: AppColor.black,
+                          initialValue: DateTime.now().toString(),
+                          onChanged: (value) {
+                            // Handle date change
                           },
                         );
                       },
-
                     ),
+                    // InkWell(
+                    //   child: Image.asset("assets/calendar3.png"),
+                    //   onTap: () {
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (BuildContext context) {
+                    //         return AlertDialog(
+                    //           content: MyDateTimeField(
+                    //             useFutureDate: true,
+                    //             suffixIcon: Container(
+                    //               decoration: BoxDecoration(color: AppColor.buttonColor),
+                    //               child: const Padding(
+                    //                 padding: EdgeInsets.all(10.0),
+                    //                 child: Icon(
+                    //                   CupertinoIcons.calendar,
+                    //                   color: Colors.indigoAccent,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             borderColor: AppColor.black,
+                    //             initialValue: DateTime.now().toString(),
+                    //             onChanged: (value) {
+                    //               // Handle date change
+                    //             },
+                    //           ),
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    //
+                    // ),
                     const SizedBox(width: 5),
                     const Text("Thursday,22 August 2024"),
                     Container(
@@ -208,65 +221,71 @@ class DashBoardView extends GetView<DashBoardController> {
                 ),
               ),
               const SizedBox(height: 10),
-              Column(
-                children: [
-                  Container(
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.black87,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/jalih.png")
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: dashboardController.prayerNames.length,
-                      itemBuilder: (context, index) {
-                        bool isHighlighted = dashboardController.currentPrayerIndex.value ==
-                            dashboardController.prayerNames[index];
-                        return Container(
-                          width: 90,
-                          margin: EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/vector.png'),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: isHighlighted
-                                  ? Colors.orangeAccent
-                                  : Colors.transparent,
-                              width: 2,
-                            ),
+              GetBuilder(
+                init: controller,
+                builder: (_){
+                  return Column(
+                    children: [
+                      Container(
+                        height: 300,
+                        decoration: BoxDecoration(
+                          color: Colors.black87,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage("assets/jalih.png")
                           ),
-                          child:
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 20,),
-                              Text(
-                                dashboardController.prayerNames[index].toUpperCase(),
-                                style: TextStyle(color: Colors.white, fontSize: 14),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: dashboardController.prayerNames.length,
+                          itemBuilder: (context, index) {
+                            bool isHighlighted = dashboardController.currentPrayerIndex.value ==
+                                dashboardController.prayerNames[index];
+                            return Container(
+                              width: 90,
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/vector.png'),
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: isHighlighted
+                                      ? Colors.orangeAccent
+                                      : Colors.transparent,
+                                  width: 2,
+                                ),
                               ),
-                              SizedBox(height: 8),
+                              child:
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 20,),
+                                  Text(
+                                    dashboardController.prayerNames[index].toUpperCase(),
+                                    style: TextStyle(color: Colors.white, fontSize: 14),
+                                  ),
+                                  SizedBox(height: 8),
 
 
-                            Text(
-                              dashboardController.prayerTimes[index].toString(),
-                              style: MyTextTheme.smallGCN,
+                                  Obx(
+                                        ()=> Text(
+                                            dashboardController.getPrayerTimes.isEmpty?"Loading":
+                                      dashboardController.getPrayerTimes[index].toString(),
+                                      style: MyTextTheme.smallGCN,
+                                    ),
+                                  )
 
-
-                               )
-
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
