@@ -33,6 +33,7 @@ class Timings {
   String? dhuhr;
   String? asr;
   String? sunset;
+  String? zawal;
   String? maghrib;
   String? isha;
   String? imsak;
@@ -41,9 +42,11 @@ class Timings {
   String? lastthird;
 
   Timings(
-      {this.fajr,
+      {
+        this.fajr,
         this.sunrise,
         this.dhuhr,
+        this.zawal,
         this.asr,
         this.sunset,
         this.maghrib,

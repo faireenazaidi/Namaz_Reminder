@@ -10,16 +10,14 @@ import '../Widget/primary_text_field.dart';
 
 class LoginView extends GetView<LoginController> {
   final TextEditingController usernameController = TextEditingController();
-
+  final LoginController controller = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        // Enable the screen to resize when the keyboard is open
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          // Makes the screen scrollable when the keyboard is opened
           child: Column(
             children: [
               Container(
@@ -79,7 +77,10 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        Get.toNamed(AppRoutes.dashboardRoute);
+                        // controller.signInWithGoogle();
+                        Get.toNamed(AppRoutes.locationPageRoute);
+                        // Call the sign-in method
+                        print("Jjjjjjjjjjjjjjjjjj");
                       },
                       child: Container(
                         height: 40,

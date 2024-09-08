@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "707461754785",
+    "project_id": "namaz-152fb",
+    "storage_bucket": "namaz-152fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707461754785:android:261527e3e575dc103ee5e0",
+        "android_client_info": {
+          "package_name": "com.example.namaz_reminders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707461754785-tu5ni2c5g07bepnf3lhu07mnoa208aih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJel2G_Old6bWoHQjwyBQPQe4rS6PSrio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707461754785-tu5ni2c5g07bepnf3lhu07mnoa208aih.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "707461754785-lfe616u0ji12b61jrb40jj6pjn9eqa1o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.namazReminders"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

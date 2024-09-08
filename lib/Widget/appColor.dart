@@ -70,6 +70,9 @@ class AppColor {
   static final Color tile6Color  = ('#000000').toColor();
   static final Color circleIndicator = '##F9AD32'.toColor();
   static final Color leaderboard = '##F8F9FA'.toColor();
+  static final Color blackbg = '##121212CC'.toColor();
+
+
 
 
 

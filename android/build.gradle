@@ -16,3 +16,21 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+buildscript {
+    repositories {
+        google() // Add this
+        mavenCentral() // Add this
+    }
+    dependencies {
+
+        // Add this line if not already present
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}
+allprojects {
+    repositories {
+        google() // Add this
+        mavenCentral() // Add this
+    }
+}
