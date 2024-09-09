@@ -50,11 +50,11 @@ class AppRoutes {
       page: () =>   Upcoming(),
         binding: UpcomingBinding(),
     ),
-    GetPage(
-      name: locationPageRoute,
-      page: () =>  LocationPage(),
-      binding: LocationPageBinding(),
-    ),
+    // GetPage(
+    //   name: locationPageRoute,
+    //   page: () =>  LocationPage(),
+    //   binding: LocationPageBinding(),
+    // ),
     GetPage(
       name: splashRoute,
       page: () =>  SplashScreen(),
