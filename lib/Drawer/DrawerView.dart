@@ -61,7 +61,9 @@ class CustomDrawer extends StatelessWidget {
               ),
               // ListTiles
               _buildListTile(
-                  context, "Dashboard", "assets/dashboard.png", () {}
+                  context, "Dashboard", "assets/dashboard.png", () {
+                    Get.toNamed(AppRoutes.dashboardRoute);
+              }
               ),
               _buildListTile(
                   context, "Support Center", "assets/supportCentre.png", () {}

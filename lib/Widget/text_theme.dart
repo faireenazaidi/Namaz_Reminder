@@ -185,7 +185,7 @@ class MyTextTheme  {
   );
   static TextStyle mediumBCN=GoogleFonts.roboto(
       color: AppColor.white,
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: FontWeight.w300
   );
   static TextStyle mediumGCB=GoogleFonts.roboto(

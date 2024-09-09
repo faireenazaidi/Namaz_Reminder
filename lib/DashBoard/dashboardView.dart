@@ -10,9 +10,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
-import 'package:namaz_reminders/Widget/calendar.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-
 import '../Leaderboard/leaderboardDataModal.dart';
 
 
@@ -29,7 +27,7 @@ class DashBoardView extends GetView<DashBoardController> {
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 60,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         titleSpacing: 0,
         title: Text("Bill Maroof", style: MyTextTheme.largeBCN),
         actions: [
@@ -115,17 +113,25 @@ class DashBoardView extends GetView<DashBoardController> {
            Stack(
                 alignment: Alignment.center,
                 children: [
-                  CircularPercentIndicator(
-                    animateFromLastPercent: true,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    animation: true,
-                    animationDuration: 1200,
-                    radius: 140,
-                    lineWidth: 40,
-                    percent: 0.7,
-                    progressColor: AppColor.circleIndicator,
-                    backgroundColor: Colors.grey.shade300,
-                  ),
+                  Obx(() {
+                     double completionPercentage = controller.calculateCompletionPercentage();
+
+                    return CircularPercentIndicator(
+                      animateFromLastPercent: true,
+                      circularStrokeCap: CircularStrokeCap.round,
+                      animation: true,
+                      animationDuration: 1200,
+                      radius: 140,
+                      lineWidth: 40,
+                      percent: completionPercentage,
+                      progressColor: AppColor.circleIndicator,
+                      backgroundColor: Colors.grey.shade300,
+                      // center: Text(
+                      //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
+                      //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      // ),
+                    );
+                  }),
 
                   // Adding the GIF/Image inside the circular indicator
                   Positioned(
@@ -141,27 +147,39 @@ class DashBoardView extends GetView<DashBoardController> {
                    Positioned(
                     top: 70,
                   child: Obx(() {
-                    return Text(
-                      '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}', // Display the prayer timing
-                      style: MyTextTheme.smallBCn,
+                    return Column(
+                      children: [
+                          Text(
+                            '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}', // Display the prayer timing if available
+                            style: MyTextTheme.smallBCn,
+                          ),
+
+                        const SizedBox(height: 10),
+
+                        // Display remaining time for the current or next prayer
+                        Positioned(
+                          top: 90,
+                          child: Text(
+                            dashboardController.remainingTime.value,
+                            style: MyTextTheme.largeCustomBCB,
+                          ),
+                        ),
+
+                        // Display prayer name or "next prayer" message
+                        Positioned(
+                          top: 120,
+                          child: Obx(() {
+                            return Text(
+                                   "Left for ${dashboardController.currentPrayer.value} Prayer",
+                              style: MyTextTheme.mediumGCB,
+                            );
+                          }),
+                        ),
+                      ],
                     );
                   }),
-                  ),
-                  Positioned(
-                    top: 90,
-                    child: Text(
-                      controller.remainingTime.value,
-                      style: MyTextTheme.largeCustomBCB,
-                  ),),
-                  Positioned(
-                    top: 120,
-                    child:  Obx(() {
-                      return Text(
-                        "Left for ${dashboardController.currentPrayer.value} Prayer", // Display only the prayer name
-                        style: MyTextTheme.mediumGCB,
-                      );
-                    }),
-                  ),
+
+                   ),
                   Positioned(
                     bottom: 80,
                     child: InkWell(
@@ -257,7 +275,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                 height: 200,
                                 decoration: BoxDecoration(
                                   color: Colors.black87,
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       fit: BoxFit.cover,
                                       image: AssetImage("assets/jalih.png")
                                   ),
@@ -297,8 +315,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                         itemCount: dashboardController.prayerNames.length,
                                         itemBuilder: (context, index) {
                                           // Determine if the current item is highlighted (active)
-                                          bool isHighlighted = dashboardController.currentPrayerIndex.value ==
+                                          bool isHighlighted = dashboardController.currentPrayer.value ==
                                               dashboardController.prayerNames[index];
+
 
                                           return Transform.scale(
                                             scale: isHighlighted ? 1.2 : 1.0,  // Scale up the active item
@@ -306,10 +325,10 @@ class DashBoardView extends GetView<DashBoardController> {
                                               opacity: isHighlighted ? 1.0 : 0.5,  // Reduce opacity of inactive items
                                               child: Container(
                                                 width: 80,
-                                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                                margin: const EdgeInsets.symmetric(horizontal: 8),
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: AssetImage('assets/vector.png'),
+                                                    image: const AssetImage('assets/vector.png'),
                                                     colorFilter: isHighlighted
                                                         ? null  // No color filter for highlighted item (original image color)
                                                         : ColorFilter.mode(
@@ -318,29 +337,29 @@ class DashBoardView extends GetView<DashBoardController> {
                                                     ),  // Apply color filter for non-highlighted items
                                                   ),
                                                   borderRadius: BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                    color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
-                                                    width: 2,
-                                                  ),
+                                                  // border: Border.all(
+                                                  //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
+                                                  //   width: 2,
+                                                  // ),
                                                 ),
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    SizedBox(height: 20),
+                                                    const SizedBox(height: 20),
                                                     Text(
                                                       dashboardController.prayerNames[index].toUpperCase(),
                                                       style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: isHighlighted ? 16 : 14,  // Increase font size for active prayer
+                                                        fontSize: isHighlighted ? 14 : 14,  // Increase font size for active prayer
                                                       ),
                                                     ),
-                                                    SizedBox(height: 8),
+                                                    const SizedBox(height: 8),
                                                     Obx(() => Text(
                                                       dashboardController.getPrayerTimes.isEmpty
                                                           ? "Loading"
                                                           : dashboardController.getPrayerTimes[index].toString(),
                                                       style: isHighlighted
-                                                          ? MyTextTheme.largeCustomBCB  // Highlighted prayer time style
+                                                          ? MyTextTheme.mediumBCN  // Highlighted prayer time style
                                                           : MyTextTheme.smallGCN,  // Normal style for others
                                                     )),
                                                   ],

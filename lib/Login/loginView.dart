@@ -77,7 +77,7 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        controller.signInWithGoogle();
+                        // controller.signInWithGoogle();
                         Get.toNamed(AppRoutes.locationPageRoute);
                         // Call the sign-in method
                         print("Jjjjjjjjjjjjjjjjjj");

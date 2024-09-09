@@ -7,12 +7,13 @@ import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Login/loginView.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
-import 'firebase_options.dart';
+import 'SplashScreen/splashView.dart';
+// import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    // options: DefaultFirebaseOptions.currentPlatform,
   );
   Get.put(DashBoardController());
   Get.put(LoginController());
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
 
     return Obx(() {
       return GetMaterialApp(
-        initialRoute: AppRoutes.loginRoute,
+        initialRoute: AppRoutes.splashRoute,
         getPages: AppRoutes.pages,
         debugShowCheckedModeBanner: false,
         title: 'Namaz Reminders',
@@ -36,43 +37,9 @@ class MyApp extends StatelessWidget {
         themeMode: customDrawerController.isDarkMode.value
             ? ThemeMode.dark
             : ThemeMode.light,
-        home: LoginView(),
+        home: SplashScreen(),
       );
     });
   }
 }
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(seconds: 3), () {
-      Get.off(() => DashBoardView(), transition: Transition.circularReveal);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Image.asset("assets/whiteNet.png"),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset("assets/mosque.png"),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
