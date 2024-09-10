@@ -4,13 +4,16 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
+import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
 import 'package:namaz_reminders/Login/loginView.dart';
+import 'LocationSelectionPage/locationPageController.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'SplashScreen/splashView.dart';
 // import 'firebase_options.dart';
 
 void main() async {
+  Get.put(LocationPageController());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     // options: DefaultFirebaseOptions.currentPlatform,
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
 
     return Obx(() {
       return GetMaterialApp(
-        initialRoute: AppRoutes.splashRoute,
+        initialRoute: AppRoutes.locationPageRoute,
         getPages: AppRoutes.pages,
         debugShowCheckedModeBanner: false,
         title: 'Namaz Reminders',
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
         themeMode: customDrawerController.isDarkMode.value
             ? ThemeMode.dark
             : ThemeMode.light,
-        home: SplashScreen(),
+        home: LocationPage(),
       );
     });
   }

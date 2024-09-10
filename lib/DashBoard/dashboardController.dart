@@ -5,7 +5,6 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
-
 class DashBoardController extends GetxController {
   RxString islamicDate = ''.obs;
   RxInt rank = 5.obs;
@@ -196,27 +195,12 @@ class DashBoardController extends GetxController {
         break; // Exit loop once the current prayer is found
       }
     }
-    // If no current prayer was found, show the next upcoming prayer
-    // if (!foundCurrentPrayer) {
-    //   for (var prayer in prayerDuration.keys) {
-    //     var times = prayerDuration[prayer]!;
-    //     var prayerStartTime = times['start']!;
-    //
-    //     // If the current time is before the start time of a prayer, it is the next prayer
-    //     if (currentTime.compareTo(prayerStartTime) < 0) {
-    //       currentPrayer = prayer;
-    //       startTime = prayerStartTime;
-    //       endTime = prayerDuration[prayer]!['end']!;
-    //       break;
-    //     }
-    //   }
-    // }
-    // If no next prayer was found (meaning it's past Isha), show Fajr for the next day
-    // if (currentPrayer.isEmpty) {
-    //   currentPrayer = 'Fajr';
-    //   startTime = prayerDuration['Fajr']!['start']!;
-    //   endTime = prayerDuration['Fajr']!['end']!;
-    // }
+    // If no current prayer is found (meaning the current prayer has ended),
+    // fetch the next prayer and its start time
+    if (!foundCurrentPrayer) {
+      nextPrayer.value= getNextPrayer(prayerDuration, currentTime); // Fetch next prayer
+      print('Next prayer :$nextPrayer');
+    }
 
 
     // Update the reactive variables
@@ -226,6 +210,46 @@ class DashBoardController extends GetxController {
 
     return currentPrayer;
   }
+
+  String getNextPrayer(Map<String, Map<String, String>> prayerDuration, String currentTime) {
+    String nextPrayer = '';
+    String nextPrayerStartTime = '';
+
+    for (var prayer in prayerDuration.keys) {
+      var times = prayerDuration[prayer]!;
+      var prayerStartTime = times['start']!;
+
+      // If the current time is before the start time of a prayer, it is the next prayer
+      if (currentTime.compareTo(prayerStartTime) < 0) {
+        nextPrayer = prayer;
+        nextPrayerStartTime = prayerStartTime;
+        break;
+      }
+    }
+
+    // If no upcoming prayer was found, check if it's after Isha or Sunrise
+    if (nextPrayer.isEmpty) {
+      var ishaEndTime = prayerDuration['Isha']!['start']!;
+      var sunriseTime = prayerDuration['Sunrise']!['start']!;
+
+      if (currentTime.compareTo(ishaEndTime) >= 0) {
+        // After Isha, the next prayer is Fajr
+        nextPrayer = 'Fajr';
+        nextPrayerStartTime = prayerDuration['Fajr']!['start']!;
+      } else if (currentTime.compareTo(sunriseTime) >= 0) {
+        // After Sunrise, the next prayer is Zuhr
+        nextPrayer = 'Zuhr';
+        nextPrayerStartTime = prayerDuration['Zuhr']!['start']!;
+      }
+    }
+
+    // Update the reactive variables for next prayer
+    this.nextPrayer.value = nextPrayer;
+    this.nextPrayerStartTime.value = convertTo12HourFormat(nextPrayerStartTime);
+
+    return nextPrayer;
+  }
+
 
   void highlightCurrentPrayer() {
     prayerTimer = Timer.periodic(const Duration(minutes: 1), (timer) {

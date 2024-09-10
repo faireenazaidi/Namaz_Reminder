@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
@@ -86,7 +87,7 @@ class Upcoming extends GetView<UpcomingController>
                               onTap: () {
                                 Get.to(() => Upcoming());
                               },
-                              child: Image.asset("assets/close.png"),
+                              child:SvgPicture.asset("assets/close.svg"),
                             ),
                           ),
                         ],
