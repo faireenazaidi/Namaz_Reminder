@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
@@ -12,7 +13,7 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
-
+import 'package:flutter/widgets.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
   const DashBoardView({super.key});
@@ -110,79 +111,101 @@ class DashBoardView extends GetView<DashBoardController> {
                 ),
               ),
               const SizedBox(height: 20),
-           Stack(
-                alignment: Alignment.center,
-                children: [
-                  Obx(() {
-                     double completionPercentage = controller.calculateCompletionPercentage();
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Obx(() {
+                  double completionPercentage = controller.calculateCompletionPercentage();
 
-                    return CircularPercentIndicator(
-                      animateFromLastPercent: true,
-                      circularStrokeCap: CircularStrokeCap.round,
-                      animation: true,
-                      animationDuration: 1200,
-                      radius: 140,
-                      lineWidth: 40,
-                      percent: completionPercentage,
-                      progressColor: AppColor.circleIndicator,
-                      backgroundColor: Colors.grey.shade300,
-                      // center: Text(
-                      //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
-                      //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      // ),
-                    );
-                  }),
+                  return CircularPercentIndicator(
+                    animateFromLastPercent: true,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    animation: true,
+                    animationDuration: 1200,
+                    radius: 140,
+                    lineWidth: 40,
+                    percent: completionPercentage,
+                    progressColor: AppColor.circleIndicator,
+                    backgroundColor: Colors.grey.shade300,
+                    // center: Text(
+                    //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
+                    //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    // ),
+                  );
+                }),
 
-                  // Adding the GIF/Image inside the circular indicator
-                  Positioned(
-                    left: 10,
-                    bottom: 80,
-                    child: Image.asset(
-                      'assets/crown2.png',
-                      width: 30,
-                      height: 40,
-                    ),
+                // Adding the GIF/Image inside the circular indicator
+                Positioned(
+                  left: 10,
+                  bottom: 80,
+                  child: Image.asset(
+                    'assets/crown2.png',
+                    width: 30,
+                    height: 40,
                   ),
+                ),
 
-                   Positioned(
-                    top: 70,
+                Positioned(
+                  top: 70,
                   child: Obx(() {
-                    return Column(
-                      children: [
+                    // Check if there's a current prayer, if not, show the next prayer
+                    if (dashboardController.currentPrayer.value.isEmpty) {
+                      // Show next prayer message with blinking effect
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 50,),
+                            BlinkingTextWidget(
+                              text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                              style: MyTextTheme.mustard,
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      // Show the current prayer timings if available
+                      return Column(
+                        children: [
                           Text(
-                            '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}', // Display the prayer timing if available
+                            '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}',
                             style: MyTextTheme.smallBCn,
                           ),
-
-                        const SizedBox(height: 10),
-
-                        // Display remaining time for the current or next prayer
-                        Positioned(
-                          top: 90,
-                          child: Text(
+                          const SizedBox(height: 10),
+                          Text(
                             dashboardController.remainingTime.value,
                             style: MyTextTheme.largeCustomBCB,
                           ),
-                        ),
-
-                        // Display prayer name or "next prayer" message
-                        Positioned(
-                          top: 120,
-                          child: Obx(() {
-                            return Text(
-                                   "Left for ${dashboardController.currentPrayer.value} Prayer",
-                              style: MyTextTheme.mediumGCB,
-                            );
-                          }),
-                        ),
-                      ],
-                    );
+                          const SizedBox(height: 10),
+                          Text(
+                            "Left for ${dashboardController.currentPrayer.value} Prayer",
+                            style: MyTextTheme.mediumGCB,
+                          ),
+                        ],
+                      );
+                    }
                   }),
+                ),
 
-                   ),
-                  Positioned(
-                    bottom: 80,
-                    child: InkWell(
+                // Conditionally show the "Mark as Prayer" button
+                Positioned(
+                  bottom: 80,
+                  child: Obx(() {
+                    DateTime now = DateTime.now();
+                    DateTime nextPrayerTime;
+
+                    try {
+                      nextPrayerTime = DateFormat('hh:mm a').parse(dashboardController.nextPrayerStartTime.value);
+                      nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
+                    } catch (e) {
+                      nextPrayerTime = DateTime.now().subtract(Duration(days: 1)); // Default to a past time if parsing fails
+                    }
+
+                    bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
+
+                    return isBeforeNextPrayer
+                        ? SizedBox.shrink() // Hide the button
+                        : InkWell(
                       child: Text("Mark as Prayer", style: MyTextTheme.mustard),
                       onTap: () {
                         showDialog(
@@ -192,12 +215,14 @@ class DashBoardView extends GetView<DashBoardController> {
                           },
                         );
                       },
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  }),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 10),
+
+            const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -211,7 +236,13 @@ class DashBoardView extends GetView<DashBoardController> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                        child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("LEADERBOARD", style: MyTextTheme.mediumGCB),
+                            SvgPicture.asset("assets/open.svg")
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -299,7 +330,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                             onTap: () {
                                               Get.to(() => Upcoming());
                                             },
-                                            child: Image.asset("assets/close.png"),
+                                            child: SvgPicture.asset("assets/close.svg"),
                                           ),
                                         ),
                                       ],
@@ -381,6 +412,49 @@ class DashBoardView extends GetView<DashBoardController> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+
+class BlinkingTextWidget extends StatefulWidget {
+  final String text;
+  final TextStyle style;
+
+  const BlinkingTextWidget({required this.text, required this.style, Key? key}) : super(key: key);
+
+  @override
+  _BlinkingTextWidgetState createState() => _BlinkingTextWidgetState();
+}
+
+class _BlinkingTextWidgetState extends State<BlinkingTextWidget> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true); // Repeats the animation (forward and reverse)
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _controller.drive(
+        Tween(begin: 1.0, end: 0.0).chain(CurveTween(curve: Curves.easeInOut)),
+      ),
+      child: Text(
+        widget.text,
+        style: widget.style,
       ),
     );
   }
