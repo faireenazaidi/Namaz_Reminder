@@ -132,6 +132,11 @@ class MyTextTheme  {
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
+  static TextStyle smallGCN=GoogleFonts.roboto(
+      color: AppColor.greyColor,
+      fontSize: 12,
+      fontWeight: FontWeight.normal
+  );
   static TextStyle veryLargeBCB=GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 32,
@@ -198,7 +203,7 @@ class MyTextTheme  {
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallGCN=GoogleFonts.roboto(
+  static TextStyle smallCCN=GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
@@ -315,6 +320,11 @@ class MyTextTheme  {
   );
   static TextStyle smallBCn=GoogleFonts.roboto(
       color: AppColor.black,
+      fontSize: 12,
+      fontWeight: FontWeight.normal
+  );
+  static TextStyle mustardSN=GoogleFonts.roboto(
+      color: AppColor.circleIndicator,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );

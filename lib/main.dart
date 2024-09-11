@@ -13,6 +13,7 @@ import 'SplashScreen/splashView.dart';
 // import 'firebase_options.dart';
 
 void main() async {
+  Get.put(LocationPageController());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     // options: DefaultFirebaseOptions.currentPlatform,
