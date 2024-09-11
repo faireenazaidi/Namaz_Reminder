@@ -64,7 +64,10 @@ class DashBoardView extends GetView<DashBoardController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     InkWell(
-                      child: Image.asset("assets/iconcalen.png", width: 24, height: 24),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset("assets/iconcalen.png", width: 15, height: 24),
+                      ),
                       onTap: () async {
                         DateTime? picked = await showDatePicker(
                           context: context,
@@ -88,10 +91,10 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
                           ),
                           Container(
-                            width: 1.5,
+                            width: 1,
                             height: 15,
                             color: Colors.grey,
-                            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5), // Adjust space as needed
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), // Adjust space as needed
                           ),
 
                           Expanded(
@@ -171,15 +174,15 @@ class DashBoardView extends GetView<DashBoardController> {
                             '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}',
                             style: MyTextTheme.smallBCn,
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Text(
                             dashboardController.remainingTime.value,
                             style: MyTextTheme.largeCustomBCB,
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Text(
                             "Left for ${dashboardController.currentPrayer.value} Prayer",
-                            style: MyTextTheme.mediumGCB,
+                            style: MyTextTheme.greyNormal,
                           ),
                         ],
                       );
@@ -206,7 +209,7 @@ class DashBoardView extends GetView<DashBoardController> {
                     return isBeforeNextPrayer
                         ? SizedBox.shrink() // Hide the button
                         : InkWell(
-                      child: Text("Mark as Prayer", style: MyTextTheme.mustard),
+                      child: Text("Mark as Prayer", style: MyTextTheme.mustardN),
                       onTap: () {
                         showDialog(
                           context: context,
@@ -351,7 +354,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
 
                                           return Transform.scale(
-                                            scale: isHighlighted ? 1.2 : 1.0,  // Scale up the active item
+                                            scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
                                             child: Opacity(
                                               opacity: isHighlighted ? 1.0 : 0.5,  // Reduce opacity of inactive items
                                               child: Container(
@@ -361,11 +364,11 @@ class DashBoardView extends GetView<DashBoardController> {
                                                   image: DecorationImage(
                                                     image: const AssetImage('assets/vector.png'),
                                                     colorFilter: isHighlighted
-                                                        ? null  // No color filter for highlighted item (original image color)
+                                                        ? null
                                                         : ColorFilter.mode(
-                                                      Colors.grey.withOpacity(0.6),
+                                                      Colors.grey.withOpacity(0.3),
                                                       BlendMode.srcATop,
-                                                    ),  // Apply color filter for non-highlighted items
+                                                    ),
                                                   ),
                                                   borderRadius: BorderRadius.circular(10),
                                                   // border: Border.all(
@@ -385,13 +388,15 @@ class DashBoardView extends GetView<DashBoardController> {
                                                       ),
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    Obx(() => Text(
-                                                      dashboardController.getPrayerTimes.isEmpty
-                                                          ? "Loading"
-                                                          : dashboardController.getPrayerTimes[index].toString(),
-                                                      style: isHighlighted
-                                                          ? MyTextTheme.mediumBCN  // Highlighted prayer time style
-                                                          : MyTextTheme.smallGCN,  // Normal style for others
+                                                    Obx(() => Center(
+                                                      child: Text(
+                                                        dashboardController.getPrayerTimes.isEmpty
+                                                            ? "Loading"
+                                                            : dashboardController.getPrayerTimes[index].toString(),
+                                                        style: isHighlighted
+                                                            ? MyTextTheme.smallBCN  // Highlighted prayer time style
+                                                            : MyTextTheme.smallGCN,  // Normal style for others
+                                                      ),
                                                     )),
                                                   ],
                                                 ),
@@ -437,7 +442,7 @@ class _BlinkingTextWidgetState extends State<BlinkingTextWidget> with SingleTick
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
-    )..repeat(reverse: true); // Repeats the animation (forward and reverse)
+    )..repeat(reverse: true);
   }
 
   @override

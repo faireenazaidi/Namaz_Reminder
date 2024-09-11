@@ -10,6 +10,15 @@ class LocationPageController extends GetxController {
  RxBool isOtpFilled = false.obs;
  RxBool isOtpVerified = false.obs;
  RxBool showThirdContainer = false.obs;
+ RxBool showFourthContainer = false.obs;
+ RxDouble containerHeight = 400.0.obs;
+ RxInt step = 0.obs;
+ var selectedGender = "Male".obs;
+ void updateGender(String gender){
+  selectedGender.value=gender;
+ }
+
+
  RxInt secondsLeft = 60.obs;
  late Timer _timer;
 
@@ -35,6 +44,9 @@ class LocationPageController extends GetxController {
  void toggleThirdContainer() {
   showThirdContainer.value = !showThirdContainer.value;
  }
+ void toggleFourthContainer() {
+  showFourthContainer.value = !showFourthContainer.value;
+ }
 
  void verifyOtp(String code) {
   if (code.length == 6) {
@@ -56,9 +68,29 @@ class LocationPageController extends GetxController {
   });
  }
 
+ dynamicHeightAllocation(){
+  step.value = step.value +1;
+  print(" STEP VALUE ${step.value}");
+  if(step.value == 1){
+   containerHeight.value = 350;
+  }
+  else if(step.value==2){
+   containerHeight.value=  400;
+  }
+   else if(step.value==3){
+   containerHeight.value=250;
+  }
+   else if(step.value==4){
+    containerHeight.value=300;
+  }
+  update();
+ }
+
  @override
  void onClose() {
   _timer.cancel();
   super.onClose();
  }
+
+
 }

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-
 import '../DashBoard/dashboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Routes/approutes.dart';
@@ -103,9 +102,8 @@ class Upcoming extends GetView<UpcomingController>
                           itemCount: dashboardController.prayerNames.length,
                           itemBuilder: (context, index) {
                             // Determine if the current item is highlighted (active)
-                            bool isHighlighted = dashboardController.currentPrayerIndex.value ==
+                            bool isHighlighted = dashboardController.currentPrayer.value ==
                                 dashboardController.prayerNames[index];
-
                             return Transform.scale(
                               scale: isHighlighted ? 1.2 : 1.0,  // Scale up the active item
                               child: Opacity(
@@ -117,17 +115,17 @@ class Upcoming extends GetView<UpcomingController>
                                     image: DecorationImage(
                                       image: const AssetImage('assets/vector.png'),
                                       colorFilter: isHighlighted
-                                          ? null  // No color filter for highlighted item (original image color)
+                                          ? null
                                           : ColorFilter.mode(
-                                        Colors.grey.withOpacity(0.6),
+                                        Colors.grey.withOpacity(0.2),
                                         BlendMode.srcATop,
-                                      ),  // Apply color filter for non-highlighted items
+                                      ),
                                     ),
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
-                                      width: 2,
-                                    ),
+                                    // border: Border.all(
+                                    //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
+                                    //   width: 2,
+                                    // ),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -135,10 +133,10 @@ class Upcoming extends GetView<UpcomingController>
                                       const SizedBox(height: 20),
                                       Text(
                                         dashboardController.prayerNames[index].toUpperCase(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: isHighlighted ? 16 : 14,  // Increase font size for active prayer
-                                        ),
+                                        style:  TextStyle(
+                                        color: Colors.white,
+                                        fontSize: isHighlighted ? 14 : 14,  // Increase font size for active prayer
+                                      ),
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
@@ -146,7 +144,7 @@ class Upcoming extends GetView<UpcomingController>
                                             ? "Loading"
                                             : dashboardController.getPrayerTimes[index].toString(),
                                         style: isHighlighted
-                                            ? MyTextTheme.largeCustomBCB  // Highlighted prayer time style
+                                            ? MyTextTheme.mediumBCN  // Highlighted prayer time style
                                             : MyTextTheme.smallGCN,  // Normal style for others
                                       )
                                     ],
@@ -163,11 +161,10 @@ class Upcoming extends GetView<UpcomingController>
 
                 ),
 
-
               ],
             ),
          const SizedBox(height: 15,),
-
+        ////////////////////////////////////////
 
 
          ]
@@ -231,5 +228,7 @@ class DateTimeWidget extends StatelessWidget {
         ),
       ],
     );
+
+
   }
 }

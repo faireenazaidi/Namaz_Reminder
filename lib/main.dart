@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 
     return Obx(() {
       return GetMaterialApp(
-        initialRoute: AppRoutes.locationPageRoute,
+        initialRoute: AppRoutes.dashboardRoute,
         getPages: AppRoutes.pages,
         debugShowCheckedModeBanner: false,
         title: 'Namaz Reminders',
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         themeMode: customDrawerController.isDarkMode.value
             ? ThemeMode.dark
             : ThemeMode.light,
-        home: LocationPage(),
+        home: DashBoardView(),
       );
     });
   }
