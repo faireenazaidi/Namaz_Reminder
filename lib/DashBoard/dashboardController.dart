@@ -192,7 +192,7 @@ class DashBoardController extends GetxController {
         startTime = prayerStartTime;
         endTime = prayerEndTime;
         foundCurrentPrayer = true;
-        break; // Exit loop once the current prayer is found
+        break;
       }
     }
     // If no current prayer is found (meaning the current prayer has ended),

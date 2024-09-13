@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
+import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
@@ -352,8 +353,12 @@ class LocationPage extends GetView<LocationPageController> {
                                       onChanged: (String? value){
                                         controller.updateGender(value!);
                                       },
-                              )),
-                              Text("Female",style: MyTextTheme.mediumWCN,)
+                                                                )),
+                              InkWell(
+                                onTap:(){
+                                  Get.toNamed(AppRoutes.dashboardRoute);
+                                },
+                                  child: Text("Female",style: MyTextTheme.mediumWCN,))
                             ]
                           )
                         ]

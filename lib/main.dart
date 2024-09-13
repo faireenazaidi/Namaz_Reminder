@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
-import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
 import 'package:namaz_reminders/Login/loginView.dart';
 import 'LocationSelectionPage/locationPageController.dart';
 import 'Login/loginController.dart';
@@ -28,10 +27,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
-
     return Obx(() {
       return GetMaterialApp(
-        initialRoute: AppRoutes.dashboardRoute,
+        initialRoute: AppRoutes.splashRoute,
         getPages: AppRoutes.pages,
         debugShowCheckedModeBanner: false,
         title: 'Namaz Reminders',
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
         themeMode: customDrawerController.isDarkMode.value
             ? ThemeMode.dark
             : ThemeMode.light,
-        home: DashBoardView(),
+        home: SplashScreen(),
       );
     });
   }

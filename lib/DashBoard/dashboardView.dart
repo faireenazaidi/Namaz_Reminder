@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
@@ -146,6 +147,8 @@ class DashBoardView extends GetView<DashBoardController> {
                     width: 30,
                     height: 40,
                   ),
+                    // Lottie.asset("assets/otp.lottie",
+                    //   decoder: customDecoder,)
                 ),
 
                 Positioned(
@@ -384,7 +387,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                       dashboardController.prayerNames[index].toUpperCase(),
                                                       style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: isHighlighted ? 14 : 14,  // Increase font size for active prayer
+                                                        fontSize: isHighlighted ? 14 : 14,
                                                       ),
                                                     ),
                                                     const SizedBox(height: 8),
@@ -394,8 +397,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                                             ? "Loading"
                                                             : dashboardController.getPrayerTimes[index].toString(),
                                                         style: isHighlighted
-                                                            ? MyTextTheme.smallBCN  // Highlighted prayer time style
-                                                            : MyTextTheme.smallGCN,  // Normal style for others
+                                                            ? MyTextTheme.smallBCN
+                                                            : MyTextTheme.smallGCN,
                                                       ),
                                                     )),
                                                   ],
@@ -421,7 +424,6 @@ class DashBoardView extends GetView<DashBoardController> {
     );
   }
 }
-
 
 class BlinkingTextWidget extends StatefulWidget {
   final String text;
