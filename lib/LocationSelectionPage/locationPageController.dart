@@ -136,44 +136,21 @@ fetchCalculationMethods();
 
 
   registerUser() async {
-  var headers = {
-   'Content-Type': 'application/json',
-  };
-
-  var body = json.encode({
-   "username": "dffjghjf",
-   "name": "Johns Doke",
-   "mobile_no": "1234567866",
-   "gender": 0,
-   "fiqh": 0,
-   "times_of_prayer": 5,
-   "school_of_thought": 0
-  });
-
-  try {
-   // Adding timeout
-   final response = await http.post(
-    Uri.parse('http://172.16.58.162:8080/api/register/'),
-    headers: headers,
-    body: body,
-   ).timeout(Duration(seconds: 30)); // Adjust timeout if necessary
-
-   if (response.statusCode == 200) {
-    print('Response: ${response.body}');
-   } else {
-    print('Failed with status code: ${response.statusCode}');
-    print('Reason: ${response.reasonPhrase}');
-   }
-  } on SocketException catch (e) {
-   print('SocketException: $e');  // Could not connect to server
-  } on TimeoutException catch (e) {
-   print('TimeoutException: $e'); // Connection timed out
-  } on HttpException catch (e) {
-   print('HttpException: $e');    // HTTP error occurred
-  } on FormatException catch (e) {
-   print('FormatException: $e');  // Response format error
+   Map<String,String> headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+   };
+   Map<String,dynamic> body = {
+    "username": "kbnbhg",
+    "name": "John Doe",
+    "mobile_no": "1234567890",
+    "gender": "1",
+    "fiqh": "0",
+    "times_of_prayer": "5",
+    "school_of_thought": "1"
+   };
+   http.Response request  = await http.post(Uri.parse('http://172.16.58.162:8080/api/register/'),body:body, headers:headers);
+   print("@@@ REQUEST DATA ${request.body}");
   }
- }
 
 
 

@@ -740,8 +740,8 @@ class LocationPage extends GetView<LocationPageController> {
                         // color: controller.name.value
                         //     ? AppColor.circleIndicator
                         //     : AppColor.greyColor,
-                        onPressed: ()  {
-                        controller.registerUser();
+                        onPressed: ()  async {
+                        await controller.registerUser();
                         },
                       ),
 
