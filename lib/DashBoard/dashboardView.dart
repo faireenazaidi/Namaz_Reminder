@@ -16,6 +16,8 @@ import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import 'package:flutter/widgets.dart';
 
+import '../LocationSelectionPage/locationPageView.dart';
+
 class DashBoardView extends GetView<DashBoardController> {
   const DashBoardView({super.key});
 
@@ -140,15 +142,11 @@ class DashBoardView extends GetView<DashBoardController> {
 
                 // Adding the GIF/Image inside the circular indicator
                 Positioned(
-                  left: 10,
+                  left: 5,
                   bottom: 80,
-                  child: Image.asset(
-                    'assets/crown2.png',
-                    width: 30,
-                    height: 40,
-                  ),
-                    // Lottie.asset("assets/otp.lottie",
-                    //   decoder: customDecoder,)
+                  child:
+                  Lottie.asset("assets/Crown.lottie",
+                       decoder: customDecoder, height: 50),
                 ),
 
                 Positioned(
@@ -391,7 +389,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                       ),
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    Obx(() => Center(
+                                                    Center(
                                                       child: Text(
                                                         dashboardController.getPrayerTimes.isEmpty
                                                             ? "Loading"
@@ -400,7 +398,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                             ? MyTextTheme.smallBCN
                                                             : MyTextTheme.smallGCN,
                                                       ),
-                                                    )),
+                                                    )
                                                   ],
                                                 ),
                                               ),

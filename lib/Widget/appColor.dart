@@ -13,7 +13,7 @@ class AppColor {
   static final bgColor=("#eff3f4").toColor();
   static final bgMedicineColor=("#E4EEF8").toColor();
   static final cream=("##F3EAD2").toColor();
-
+  static final Color gray = '#101010'.toColor();
 
   static const white=Colors.white;
   static Color black=("#000000").toColor();
