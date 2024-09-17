@@ -114,7 +114,8 @@ fetchCalculationMethods();
  }
 
  Future<void> fetchCalculationMethods() async {
-  final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
+  //final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
+  final response = await http.get(Uri.parse(''));
   print('hhhhhhhhhhhhhhhhh $response');
   if (response.statusCode == 200) {
    final data = json.decode(response.body);

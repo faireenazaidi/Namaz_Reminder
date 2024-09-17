@@ -154,10 +154,10 @@ class DashBoardView extends GetView<DashBoardController> {
                   double y = radius * sin(angle);
 
                   return Positioned(
-                    left: x + radius + 40, // Offset to center the GIF on the circle
-                    top: y + radius + 155,  // Offset to center the GIF on the circle
+                    right: x + radius + 6, // Offset to center the GIF on the circle
+                    top: y + radius + 5,  // Offset to center the GIF on the circle
                     child: CircleAvatar
-                      (
+                      (radius: 15,
                       backgroundColor: Colors.white,
                       child:  Lottie.asset("assets/Crown.lottie",
                           decoder: customDecoder, height: 60),
@@ -242,7 +242,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return const TimePicker();
+                            return  TimePicker();
                           },
                         );
                       },
@@ -270,7 +270,11 @@ class DashBoardView extends GetView<DashBoardController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("LEADERBOARD", style: MyTextTheme.mediumGCB),
+                            InkWell(
+                              onTap:(){
+                                Get.toNamed(AppRoutes.leaderboardRoute);
+                              },
+                                child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB)),
                             SvgPicture.asset("assets/open.svg")
                           ],
                         ),

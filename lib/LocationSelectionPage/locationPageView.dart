@@ -742,6 +742,7 @@ class LocationPage extends GetView<LocationPageController> {
                         //     : AppColor.greyColor,
                         onPressed: ()  {
                         controller.registerUser();
+                        Get.toNamed(AppRoutes.dashboardRoute);
                         },
                       ),
 

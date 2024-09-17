@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:intl/intl.dart'; // Add this import to get current time
 
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
@@ -14,57 +15,60 @@ class TimePicker extends StatefulWidget {
 
 class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateMixin {
   var hour = 1;
-  var minute = 54;
+  var minute = 0;
   bool isAm = true;
   bool prayedAtMosque = false;
 
-  // AnimationController and OffsetAnimation
-  late AnimationController _controller;
-  late Animation<Offset> _offsetAnimation;
+  // AnimationController for ScaleTransition
+  late AnimationController _scaleController;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 1), // Slow motion animation
+
+    // Initialize hour and minute to current time
+    final now = DateTime.now();
+    hour = now.hour % 12; // Convert to 12-hour format
+    if (hour == 0) hour = 12; // Handle 0 hour case
+    minute = now.minute;
+    isAm = now.hour < 12;
+
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 300), // Duration of the scaling animation
       vsync: this,
     );
 
-    // Initialize the _offsetAnimation directly in initState
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, -1), // Start above the screen
-      end: Offset.zero, // End at the center
-    ).animate(CurvedAnimation(
-      parent: _controller,
+    _scaleAnimation = CurvedAnimation(
+      parent: _scaleController,
       curve: Curves.easeOut,
-    ));
+    ).drive(Tween<double>(begin: 0.8, end: 1.0)); // Scale from 0.8 to 1.0
 
-    // Start the animation
-    _controller.forward();
+    // Start the scaling animation
+    _scaleController.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _scaleController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _offsetAnimation,
+    return ScaleTransition(
+      scale: _scaleAnimation,
       child: Dialog(
-        backgroundColor: Colors.black87,
-
+        backgroundColor: AppColor.gray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/blacknet.png')
-            )
+              image: AssetImage('assets/blacknet.png'),
+            ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(14.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -76,8 +80,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       'MARK YOUR PRAYER TIME',
                       style: MyTextTheme.mustardS,
                     ),
-                    SizedBox(width: 10,),
-                    Image.asset("assets/container.png")
+                    SizedBox(width: 25),
+                    Image.asset("assets/container.png"),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -94,7 +98,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         itemHeight: 80,
                         value: hour,
                         zeroPad: true,
-                        infiniteLoop: true,
+                        infiniteLoop: false, // Prevent going forward
                         onChanged: (value) {
                           setState(() {
                             hour = value;
@@ -109,7 +113,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
-
                       ),
                     ),
                     // Colon separator
@@ -130,7 +133,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         itemHeight: 80,
                         value: minute,
                         zeroPad: true,
-                        infiniteLoop: true,
+                        infiniteLoop: false, // Prevent going forward
                         onChanged: (value) {
                           setState(() {
                             minute = value;
@@ -145,7 +148,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
-
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -195,14 +197,14 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   children: [
                     Checkbox(
                       value: prayedAtMosque,
-                      activeColor:AppColor.circleIndicator,
+                      activeColor: AppColor.circleIndicator,
                       onChanged: (bool? value) {
                         setState(() {
                           prayedAtMosque = value ?? false;
                         });
                       },
                     ),
-                     Expanded(
+                    Expanded(
                       child: Text(
                         "Prayed at Mosque / Jamat time",
                         style: MyTextTheme.smallWCN,
@@ -230,25 +232,10 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
 }
 
 void showCustomTimePicker(BuildContext context) {
-  showGeneralDialog(
+  showDialog(
     context: context,
-    barrierDismissible: true,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    transitionDuration: const Duration(seconds: 1), // Control transition speed
-    pageBuilder: (context, anim1, anim2) {
-      return const TimePicker(); // The dialog widget
-    },
-    transitionBuilder: (context, anim1, anim2, child) {
-      return SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, -1),
-          end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: anim1,
-          curve: Curves.easeOut,
-        )),
-        child: child,
-      );
+    builder: (context) {
+      return const TimePicker();
     },
   );
 }
