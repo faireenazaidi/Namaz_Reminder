@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import '../Routes/approutes.dart';
 import '../Services/user_data.dart';
+import '../Widget/location_services.dart';
 
+Position? latAndLong;
 class SplashController extends GetxController {
   final UserData _userData = UserData();
   @override
@@ -16,6 +19,9 @@ class SplashController extends GetxController {
 
   get() async {
     page();
+    Position latAndLong = await LocationServices().determinePosition();
+    print("@@@@  XYZ ${latAndLong.latitude}   ${latAndLong.longitude}");
+    print(latAndLong.longitude);
   }
 
   page() async {
