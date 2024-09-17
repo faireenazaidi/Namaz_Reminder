@@ -157,12 +157,20 @@ class LocationPage extends GetView<LocationPageController> {
                             ? AppColor.circleIndicator
                             : AppColor.greyColor,
                         onPressed: () async {
-                          controller.signInWithPhoneNumber();
-                          controller.dynamicHeightAllocation();
-
-                          print("Send OTP");
+                          if (controller.isPhoneNumberValid.value) {
+                            // Proceed with signing in if the phone number is valid
+                            await controller.signInWithPhoneNumber();
+                            controller.dynamicHeightAllocation();
+                            print("Send OTP");
+                          } else {
+                            // If the phone number is invalid or null, show an error or prevent navigation
+                            print("Invalid phone number");
+                            Get.snackbar('Error', 'Please enter a valid phone number',
+                                snackPosition: SnackPosition.TOP);
+                          }
                         },
                       ),
+
                       SizedBox(height: 10,),
                       Row(
                         children: [
@@ -508,16 +516,20 @@ class LocationPage extends GetView<LocationPageController> {
                       MyButton(
                         height: 50,
                         borderRadius: 10,
-                        // elevation: 2,
                         title: "Next",
                         color: AppColor.circleIndicator,
-                        //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
-                        // color: controller.name.value
-                        //     ? AppColor.circleIndicator
-                        //     : AppColor.greyColor,
                         onPressed: () {
-                          controller.dynamicHeightAllocation();
-                          print("aaaaaaaaaaaaaaaaa");
+                          // Check if both name and gender are filled
+                          if (controller.nameC.value.text.isNotEmpty && controller.selectedGender.value.isNotEmpty) {
+                            // Proceed with navigation or other logic
+                            controller.dynamicHeightAllocation();
+                            print("Navigate to the next screen");
+                          } else {
+                            // Show an error message if either name or gender is not selected
+                            Get.snackbar('Error', 'Please enter your name and select a gender',
+                                snackPosition: SnackPosition.TOP);
+                            print("Name or gender is missing");
+                          }
                         },
                       ),
                       SizedBox(height: 10,)
@@ -625,16 +637,20 @@ class LocationPage extends GetView<LocationPageController> {
                         MyButton(
                           height: 50,
                           borderRadius: 10,
-                          // elevation: 2,
                           title: "Next",
                           color: AppColor.circleIndicator,
-                          //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
-                          // color: controller.name.value
-                          //     ? AppColor.circleIndicator
-                          //     : AppColor.greyColor,
                           onPressed: () {
-                            controller.dynamicHeightAllocation();
-                            print("aaaaaaaaaaaaaaaaa");
+                            // Validate Fiqh and Prayer Time selection
+                            if (controller.selectedFiqh.value.isNotEmpty && controller.selectedPrayer.value.isNotEmpty) {
+                              // Proceed if both values are selected
+                              controller.dynamicHeightAllocation();
+                              print("Navigate to the next screen");
+                            } else {
+                              // Show error if either Fiqh or Prayer Time is not selected
+                              Get.snackbar('Error', 'Please select your Fiqh and Times of Prayer',
+                                  snackPosition: SnackPosition.TOP);
+                              print("Fiqh or Prayer Time is not selected");
+                            }
                           },
                         ),
 
@@ -666,24 +682,68 @@ class LocationPage extends GetView<LocationPageController> {
                               decoder: customDecoder, height: 100),
                         ],
                       ),
-                      Obx(() {
-                        if (controller.calculationMethods.isEmpty) {
-                          return Center(child: CircularProgressIndicator());
-                        } else {
-                          return ListView(
-                            children: controller.calculationMethods.map((method) {
-                              return RadioListTile<String>(
-                                title: Text(method.name),
-                                value: method.id,
-                                groupValue: controller.selectedCalculationMethod.value,
-                                onChanged: (value) {
-                                  controller.selectedCalculationMethod.value = value!;
-                                },
-                              );
-                            }).toList(),
-                          );
-                        }
-                      }),
+                      // Obx(() {
+                      //   if (controller.calculationMethods.isEmpty) {
+                      //     return Center(child: CircularProgressIndicator());
+                      //   } else {
+                      //     // Split methods into two lists
+                      //     final radioMethods = controller.calculationMethods.take(3).toList();
+                      //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
+                      //
+                      //     return Column(
+                      //       children: [
+                      //         // Display first three methods as radio buttons
+                      //         Column(
+                      //           children: radioMethods.map((method) {
+                      //             return RadioListTile<String>(
+                      //               title: Text(method.name),
+                      //               value: method.id,
+                      //               groupValue: controller.selectedCalculationMethod.value,
+                      //               onChanged: (value) {
+                      //                 controller.selectedCalculationMethod.value = value!;
+                      //               },
+                      //             );
+                      //           }).toList(),
+                      //         ),
+                      //         // Display remaining methods in a dropdown
+                      //         if (dropdownMethods.isNotEmpty)
+                      //           DropdownButton<String>(
+                      //             hint: Text('Select a calculation method'),
+                      //             value: controller.selectedCalculationMethod.value.isEmpty
+                      //                 ? null
+                      //                 : controller.selectedCalculationMethod.value,
+                      //             onChanged: (String? newValue) {
+                      //               controller.selectedCalculationMethod.value = newValue!;
+                      //             },
+                      //             items: dropdownMethods.map((method) {
+                      //               return DropdownMenuItem<String>(
+                      //                 value: method.id,
+                      //                 child: Text(method.name),
+                      //               );
+                      //             }).toList(),
+                      //           ),
+                      //         MyButton(
+                      //             onPressed: (){},
+                      //             title: "Next")
+                      //       ],
+                      //     );
+                      //   }
+                      // }),
+
+                      MyButton(
+                        height: 50,
+                        borderRadius: 10,
+                        // elevation: 2,
+                        title: "Next",
+                        color: AppColor.circleIndicator,
+                        //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
+                        // color: controller.name.value
+                        //     ? AppColor.circleIndicator
+                        //     : AppColor.greyColor,
+                        onPressed: ()  {
+                        controller.registerUser();
+                        },
+                      ),
 
                     ]
 

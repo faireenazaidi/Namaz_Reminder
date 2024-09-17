@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -139,15 +141,40 @@ class DashBoardView extends GetView<DashBoardController> {
                     // ),
                   );
                 }),
+                Obx(() {
+                  double completionPercentage =
+                  dashboardController.calculateCompletionPercentage();
+
+                  // Circle center and radius
+                  double radius = 120; // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                  double angle = 2 * pi * completionPercentage; // Convert percentage to radians
+
+                  // Calculate x and y positions based on angle
+                  double x = radius * cos(angle);
+                  double y = radius * sin(angle);
+
+                  return Positioned(
+                    left: x + radius + 40, // Offset to center the GIF on the circle
+                    top: y + radius + 155,  // Offset to center the GIF on the circle
+                    child: CircleAvatar
+                      (
+                      backgroundColor: Colors.white,
+                      child:  Lottie.asset("assets/Crown.lottie",
+                          decoder: customDecoder, height: 60),
+                    )
+
+                  );
+                }),
+
 
                 // Adding the GIF/Image inside the circular indicator
-                Positioned(
-                  left: 5,
-                  bottom: 80,
-                  child:
-                  Lottie.asset("assets/Crown.lottie",
-                       decoder: customDecoder, height: 50),
-                ),
+                // Positioned(
+                //   left: 5,
+                //   bottom: 80,
+                //   child:
+                //   Lottie.asset("assets/Crown.lottie",
+                //        decoder: customDecoder, height: 50),
+                // ),
 
                 Positioned(
                   top: 70,
