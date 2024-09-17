@@ -722,9 +722,7 @@ class LocationPage extends GetView<LocationPageController> {
                       //               );
                       //             }).toList(),
                       //           ),
-                      //         MyButton(
-                      //             onPressed: (){},
-                      //             title: "Next")
+                      //
                       //       ],
                       //     );
                       //   }
@@ -742,6 +740,7 @@ class LocationPage extends GetView<LocationPageController> {
                         //     : AppColor.greyColor,
                         onPressed: ()  async {
                         await controller.registerUser();
+                        Get.toNamed(AppRoutes.dashboardRoute);
                         },
                       ),
 

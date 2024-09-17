@@ -114,8 +114,8 @@ fetchCalculationMethods();
  }
 
  Future<void> fetchCalculationMethods() async {
-  //final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
-  final response = await http.get(Uri.parse(''));
+  final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
+  // final response = await http.get(Uri.parse(''));
   print('hhhhhhhhhhhhhhhhh $response');
   if (response.statusCode == 200) {
    final data = json.decode(response.body);
@@ -138,18 +138,18 @@ fetchCalculationMethods();
 
   registerUser() async {
    Map<String,String> headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json'
    };
    Map<String,dynamic> body = {
-    "username": "kbnbhg",
-    "name": "John Doe",
+    "username": "Faireena",
+    "name": "fairyna",
     "mobile_no": "1234567890",
     "gender": "1",
     "fiqh": "0",
     "times_of_prayer": "5",
     "school_of_thought": "1"
    };
-   http.Response request  = await http.post(Uri.parse('http://172.16.58.162:8080/api/register/'),body:body, headers:headers);
+   http.Response request  = await http.post(Uri.parse('http://172.16.58.162:8080/api/register/'),body:jsonEncode(body), headers:headers);
    print("@@@ REQUEST DATA ${request.body}");
   }
 
