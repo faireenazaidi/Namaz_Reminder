@@ -391,7 +391,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                       ),
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    Obx(() => Center(
+                                                    Center(
                                                       child: Text(
                                                         dashboardController.getPrayerTimes.isEmpty
                                                             ? "Loading"
@@ -400,7 +400,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                             ? MyTextTheme.smallBCN
                                                             : MyTextTheme.smallGCN,
                                                       ),
-                                                    )),
+                                                    )
                                                   ],
                                                 ),
                                               ),

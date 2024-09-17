@@ -6,8 +6,10 @@ import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../DashBoard/dashboardView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
+import '../Widget/radio_menu.dart';
 import '../Widget/textField.dart';
 import '../Widget/text_theme.dart';
 
@@ -60,7 +62,8 @@ class LocationPage extends GetView<LocationPageController> {
                     children: [
                       SizedBox(height: 50),
                       Text("Login/Signup", style: MyTextTheme.largeWCB),
-                      Text("Enter your phone number to send the OTP", style: MyTextTheme.mustardS),
+                      Text("Enter your phone number to send the OTP",
+                          style: MyTextTheme.mustardS),
                       SizedBox(height: 30),
                       IntlPhoneField(
                         cursorColor: Colors.grey,
@@ -77,15 +80,18 @@ class LocationPage extends GetView<LocationPageController> {
                           fillColor: Colors.grey.withOpacity(0.1),
                           counterText: "",
                           border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
@@ -113,8 +119,10 @@ class LocationPage extends GetView<LocationPageController> {
                         color: controller.isPhoneNumberValid.value
                             ? Colors.yellow
                             : AppColor.greyColor,
-                        onPressed: () async{
+                        onPressed: () async {
+                          controller.signInWithPhoneNumber();
                           controller.dynamicHeightAllocation();
+
                           print("Send OTP");
                         },
                       ),
@@ -128,7 +136,8 @@ class LocationPage extends GetView<LocationPageController> {
                           decoration: BoxDecoration(
                             color: Colors.grey.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColor.packageGray),
+                            border:
+                            Border.all(color: AppColor.packageGray),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +145,8 @@ class LocationPage extends GetView<LocationPageController> {
                               Image.asset("assets/googleLogo.png"),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("Log in with Google", style: MyTextTheme.smallWCB),
+                                child: Text("Log in with Google",
+                                    style: MyTextTheme.smallWCB),
                               ),
                             ],
                           ),
@@ -151,11 +161,15 @@ class LocationPage extends GetView<LocationPageController> {
                     children: [
                       const SizedBox(height: 50),
                       if (!controller.isOtpVerified.value) ...[
-                        Text("Verifying Your Account", style: MyTextTheme.largeWCB),
-                        Text("Please enter the 6 digit verification code sent to", style: MyTextTheme.mustardS),
+                        Text("Verifying Your Account",
+                            style: MyTextTheme.largeWCB),
+                        Text(
+                            "Please enter the 6 digit verification code sent to",
+                            style: MyTextTheme.mustardS),
                         SizedBox(height: 40),
                         OtpTextField(
                           autoFocus: false,
+
                           focusedBorderColor: Colors.white,
                           numberOfFields: 6,
                           borderColor: const Color(0xFF512DA8),
@@ -168,208 +182,221 @@ class LocationPage extends GetView<LocationPageController> {
                           showCursor: false,
                           fieldHeight: 45,
                           textStyle: TextStyle(color: Colors.white),
-                          onCodeChanged: ( String code) {
-                            controller.isOtpFilled.value = code.length == 6;
-                            if (controller.isOtpFilled.value) {
-                              controller.verifyOtp(code);
-                            }
+                          onCodeChanged: (String code) {
+                            // controller.isOtpFilled.value =
+                            //     code.length == 6;
+                            // if (controller.isOtpFilled.value) {
+                            //   controller.verifyOtp(code);
+                            // }
                           },
-                          onSubmit: (String verificationCode){
-                           controller.dynamicHeightAllocation();
-
+                          onSubmit: (String verificationOTPCode) {
+                            controller.otpVerifiedWithPhoneNumber(
+                                verificationOTPCode);
+                            controller.dynamicHeightAllocation();
                           }, // end onSubmit
-
                         ),
                         const SizedBox(height: 20),
                         Obx(() {
                           return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
                             children: [
                               if (controller.isOtpFilled.value) ...[
-                                Text("Verifying Your OTP...", style: MyTextTheme.largeWCB),
+                                Text("Verifying Your OTP...",
+                                    style: MyTextTheme.largeWCB),
                                 SizedBox(height: 10),
                               ],
-                              Text("Didn't receive an OTP?", style: MyTextTheme.smallWCN),
+                              Text("Didn't receive an OTP?",
+                                  style: MyTextTheme.smallWCN),
                               SizedBox(height: 10),
                               Obx(() {
-                                final seconds = controller.secondsLeft.value;
+                                final seconds =
+                                    controller.secondsLeft.value;
                                 final minutes = seconds ~/ 60;
-                                final remainingSeconds = seconds % 60;
-                                final formattedTime = '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+                                final remainingSeconds =
+                                    seconds % 60;
+                                final formattedTime =
+                                    '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
 
                                 return RichText(
                                   text: TextSpan(
                                     children: [
-                                      TextSpan(text: "Resend OTP ", style: MyTextTheme.mediumBCb),
-                                      TextSpan(text: "in ", style: MyTextTheme.smallWCN),
+                                      TextSpan(
+                                          text: "Resend OTP ",
+                                          style: MyTextTheme
+                                              .mediumBCb),
+                                      TextSpan(
+                                          text: "in ",
+                                          style:
+                                          MyTextTheme.smallWCN),
                                       WidgetSpan(
                                         child: Icon(
                                           Icons.timer_outlined,
                                           size: 15,
-                                          color: AppColor.circleIndicator,
+                                          color: AppColor
+                                              .circleIndicator,
                                         ),
                                       ),
-                                      TextSpan(text: " $formattedTime", style: MyTextTheme.mustardSN),
+                                      TextSpan(
+                                          text: " $formattedTime",
+                                          style: MyTextTheme
+                                              .mustardSN),
                                     ],
                                   ),
                                 );
                               }),
                             ],
                           );
-                        }
-                        ),
+                        }),
                       ] else ...[
                         Center(
-                          child: Text("OTP Verifying Successfully", style: MyTextTheme.largeWCB),
+                          child: Text("OTP Verifying Successfully",
+                              style: MyTextTheme.largeWCB),
                         ),
                       ],
                     ],
                   ):
                   controller.step.value == 2?
+                  // Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       SizedBox(height: 30,),
+                  //       Text("Setup your Account", style: MyTextTheme.largeWCB),
+                  //       Text("Select your gender", style: MyTextTheme.mustardS),
+                  //       SizedBox(height: 20,),
+                  //       Row(
+                  //           children: [
+                  //             Obx(()=>
+                  //                 Radio<String>(
+                  //                   value:"Male",
+                  //                   activeColor: AppColor.circleIndicator,
+                  //                   groupValue: controller.selectedGender.value,
+                  //                   onChanged: (String? value){
+                  //                     controller.updateGender(value!);
+                  //                   },
+                  //                 )),
+                  //             Text("Male",style: MyTextTheme.mediumWCN,),
+                  //             SizedBox(width: 100,),
+                  //             Obx(()=>
+                  //                 Radio(
+                  //                   value: "Female",
+                  //                   activeColor: AppColor.circleIndicator,
+                  //                   groupValue:  controller.selectedGender.value,
+                  //                   onChanged: (String? value){
+                  //                     controller.updateGender(value!);
+                  //                   },
+                  //                 )),
+                  //             InkWell(
+                  //                 onTap:(){
+                  //                   controller.dynamicHeightAllocation();
+                  //                 },
+                  //                 child: Text("Female",style: MyTextTheme.mediumWCN,))
+                  //           ]
+                  //       )
+                  //     ]
+                  //
+                  // ):
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30,),
+                        Text("Setup your Account",
+                            style: MyTextTheme.largeWCB
+                        ),
+                        Text("Select your School of Thoughts",
+                            style: MyTextTheme.mustardS
+                        ),
+                        SizedBox(height: 60,),
+                        Text('Fiqh',style: MyTextTheme.mediumWCN,),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: 'Shia',)),
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: 'Sunni',)),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: '3 Times',)),
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: '5 Times',)),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        MyButton(
+                            title: "Continue",
+                            onPressed: (){
+                              controller.dynamicHeightAllocation();
+                            }),
+
+                      ]
+
+                  ):
+                  controller.step.value == 3?
+
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30,),
+                        Text("Setup your Account",
+                            style: MyTextTheme.largeWCB
+                        ),
+                        Text("Select your School of Thoughts",
+                            style: MyTextTheme.mustardS
+                        ),
+                        SizedBox(height: 60,),
+                        Text('Fiqh',style: MyTextTheme.mediumWCN,),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: 'Shia',)),
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: 'Sunni',)),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: '3 Times',)),
+                            Expanded(child: CustomRadioMenu(value: 1, groupValue: 1, onChanged: (value) {  }, text: '5 Times',)),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        MyButton(
+                          onPressed: (){
+                            //authController.dynamicHeightAllocation();
+                          }, title: "Continue",),
+
+                      ]
+
+                  ):
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30,),
-                      Text("Setup your Account", style: MyTextTheme.largeWCB),
-                  Text("Enter your name", style: MyTextTheme.mustardS),
-                        SizedBox(height: 20,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("First Name",style: MyTextTheme.mediumWCN,),
-                        ),
-                        TextField(
-                          cursorColor: AppColor.circleIndicator,
-                          decoration: InputDecoration(
-                            hintText: "Enter your first name",
-                            hintStyle: MyTextTheme.mediumCustomGCN,
-                            prefixIcon: Image.asset("assets/profile.png"),
-                            fillColor: Colors.white.withOpacity(0.1),
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Last Name",style: MyTextTheme.mediumWCN,),
-                        ),
-                      TextField(
-                        cursorColor: AppColor.circleIndicator,
-                        decoration: InputDecoration(
-                          hintText: "Enter your first name",
-                          hintStyle: MyTextTheme.mediumCustomGCN,
-                          prefixIcon: Image.asset("assets/profile.png"),
-                          fillColor: Colors.white.withOpacity(0.1),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                              width: 1,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
+                      Text("Setup your Account",
+                          style: MyTextTheme.largeWCB
                       ),
-                    SizedBox(height: 30,),
-                    MyButton(
-                      height: 60,
-                      borderRadius: 10,
-                      elevation: 2,
-                      title: "Next",
-                      color: controller.isPhoneNumberValid.value
-                          ? Colors.yellow
-                          : AppColor.greyColor,
-                      onPressed: () {
-                        controller.dynamicHeightAllocation();
-                        print("aaaaaaaaaaaaaaaaa");
-                      },
-                    ),
-                        SizedBox(height: 10,)
+                      Text("Select your School of Thoughts",
+                          style: MyTextTheme.mustardS
+                      ),
+                      SizedBox(height: 50,),
+                      MyButton(
+                          title: "Next",
+                          onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const DashBoardView()),
+                            );
+
+                          })
+
                     ],
-                  ):
-                  controller.step.value == 3?
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 30,),
-                          Text("Setup your Account", style: MyTextTheme.largeWCB),
-                          Text("Select your gender", style: MyTextTheme.mustardS),
-                          SizedBox(height: 20,),
-                          Row(
-                            children: [
-                             Obx(()=>
-                    Radio<String>(
-                    value:"Male",
-                  activeColor: AppColor.circleIndicator,
-                  groupValue: controller.selectedGender.value,
-                  onChanged: (String? value){
-                      controller.updateGender(value!);
-                  },
-                )),
-                              Text("Male",style: MyTextTheme.mediumWCN,),
-                              SizedBox(width: 100,),
-                              Obx(()=>
-                                  Radio(
-                                      value: "Female",
-                                    activeColor: AppColor.circleIndicator,
-                                      groupValue:  controller.selectedGender.value,
-                                      onChanged: (String? value){
-                                        controller.updateGender(value!);
-                                      },
-                                                                )),
-                              InkWell(
-                                onTap:(){
-                                  Get.toNamed(AppRoutes.dashboardRoute);
-                                },
-                                  child: Text("Female",style: MyTextTheme.mediumWCN,))
-                            ]
-                          )
-                        ]
+                  )
 
-                      ):
 
-                      Column(
-                        children: [
-
-                        ],
-                      )
                 ),
 
               );

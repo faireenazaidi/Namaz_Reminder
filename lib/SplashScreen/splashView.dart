@@ -10,9 +10,9 @@ class SplashScreen extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     // Handle navigation in the controller or use a Timer here if needed
-    Future.delayed(Duration(seconds: 3), () {
-      Get.off(() => LocationPage(), transition: Transition.circularReveal);
-    });
+    // Future.delayed(Duration(seconds: 3), () {
+    //   Get.off(() => LocationPage(), transition: Transition.circularReveal);
+    // });
 
     return Scaffold(
       backgroundColor: Colors.black,

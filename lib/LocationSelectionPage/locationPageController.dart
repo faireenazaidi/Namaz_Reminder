@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+
+import '../Services/user_data.dart';
+import 'locationPageDataModal.dart';
 
 class LocationPageController extends GetxController {
  final Rx<TextEditingController> phoneController = TextEditingController().obs;
@@ -91,6 +95,78 @@ class LocationPageController extends GetxController {
   _timer.cancel();
   super.onClose();
  }
+
+
+ ///Firebase.
+ static final FirebaseAuth _auth = FirebaseAuth.instance;
+ UserData userData = UserData();
+ User? user = _auth.currentUser;
+ RxString otpVerificationId = "".obs;
+ List<UserDetailsDataModal> userDetailsList = [];
+
+ ///for sending otp to number
+ Future<void> signInWithPhoneNumber() async {
+  Future.delayed(const Duration(seconds: 1), () async {
+   try {
+    verificationCompleted(PhoneAuthCredential phoneAuthCredential) async {}
+    codeAutoRetrievalTimeout(String verificationId) async {}
+    verificationFailed(FirebaseAuthException e) async {
+     if (e.code == 'invalid-phone-number') {
+      debugPrint('The provided phone number is not valid.');
+     }
+     debugPrint("Check Internet Connection Properly");
+     debugPrint(e.toString());
+    }
+
+    codeSent(String verificationId, int? forceResendingToken) async =>
+        otpVerificationId.value = verificationId;
+    String number = "+91 ${phoneController.value.text.toString()}";
+    await _auth.verifyPhoneNumber(
+     phoneNumber: number,
+     timeout: const Duration(seconds: 60),
+     verificationCompleted: verificationCompleted,
+     verificationFailed: verificationFailed,
+     codeSent: codeSent,
+     codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+     // forceResendingToken: forceResendingToken,
+    );
+   } catch (e) {
+    debugPrint(e.toString());
+   }
+  });
+ }
+
+ /// for otp verification
+ Future<void> otpVerifiedWithPhoneNumber(verificationOTPCode) async {
+  final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: otpVerificationId.value, smsCode: verificationOTPCode);
+  final UserCredential userCredential =
+  await _auth.signInWithCredential(credential);
+
+  ///Get firebase user details
+  final User? user = userCredential.user;
+
+  if (user != null) {
+   print("User UID: ${user.uid}");
+
+   UserDetailsDataModal userDetails =
+   UserDetailsDataModal.fromFirebaseUser(user);
+   userData.addUserData(userDetails);
+   userData.getUserData!.uid.toString();
+   //
+   // if (userCredential.additionalUserInfo!.isNewUser) {
+   //   print("New user signed in.");
+   //   // Handle new user (e.g., navigate to onboarding screen)
+   // } else {
+   //   print("Existing user signed in.");
+   //   // Handle existing user (e.g., navigate to home screen)
+   // }
+  }
+
+  // if (userCredential.additionalUserInfo!.isNewUser) {}
+ }
+
+
 
 
 }
