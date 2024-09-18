@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 
 import '../LocationSelectionPage/locationPageDataModal.dart';
 
@@ -7,16 +8,16 @@ class UserData extends GetxController {
   final _storage = GetStorage('user');
   String get getUserToken => (_storage.read('userToken')) ?? '';
 
-  UserDetailsDataModal? get getUserData {
-    final data = _storage.read('userDetails');
+  PersonModel? get getUserData {
+    final data = _storage.read('personModal');
     if (data != null) {
-      return UserDetailsDataModal.fromJson(Map<String, dynamic>.from(data));
+      return PersonModel.fromJson(Map<String, dynamic>.from(data));
     }
     return null;
   }
 
-  Future<void> addUserData(UserDetailsDataModal userDetails) async {
-    await _storage.write('userDetails', userDetails.toJson());
+  Future<void> addUserData(PersonModel personModal) async {
+    await _storage.write('personModal', personModal.toJson());
     update(); // Notify listeners of changes
   }
 

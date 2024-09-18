@@ -6,9 +6,21 @@ import 'package:namaz_reminders/Widget/appColor.dart';
 import 'leaderboardController.dart';
 import 'leaderboardDataModal.dart'; // Import the DateController
 
-class LeaderBoardView extends StatelessWidget {
+class LeaderBoardView extends StatefulWidget {
   const LeaderBoardView({super.key});
 
+  @override
+  State<LeaderBoardView> createState() => _LeaderBoardViewState();
+}
+
+class _LeaderBoardViewState extends State<LeaderBoardView> {
+  LeaderBoardController leaderBoardController = LeaderBoardController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    leaderBoardController.leaderboard();
+  }
   @override
   Widget build(BuildContext context) {
     // Instantiate the DateController
@@ -176,7 +188,7 @@ class LeaderBoardView extends StatelessWidget {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                     ),
-                    itemCount: 25, // number of items
+                    itemCount: controller.staticData.length, // number of items
                     itemBuilder: (context, index) {
                       // Example of dynamic data for CircleAvatars
                       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
@@ -184,8 +196,8 @@ class LeaderBoardView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 25,
-                            backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
-                          ),
+                            backgroundImage: controller.staticData[index]['image']),  // Dynamically set image
+
                         ],
                       );
                     },

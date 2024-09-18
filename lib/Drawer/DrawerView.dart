@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
+import 'package:namaz_reminders/Login/loginView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
+
+import '../LocationSelectionPage/locationPageView.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -18,7 +21,7 @@ class CustomDrawer extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero, // Remove padding from the ListView
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               // Custom user account header
               Container(
                 padding: const EdgeInsets.all(12.0),
@@ -34,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Obx(() => Text(
                             customDrawerController.userName.value,
                             style: const TextStyle(
@@ -127,7 +130,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 dense: true, // Reduce spacing
-                contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce padding
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
                 trailing: Switch(
                   value: customDrawerController.isDarkMode.value,
                   onChanged: (value) {
@@ -145,6 +148,27 @@ class CustomDrawer extends StatelessWidget {
               _buildListTile(
                   context, "Feedback", "assets/feedback.png", () {}
               ),
+              InkWell(
+                onTap: (){
+                  Get.offAll(LocationPage());
+                  //Get.toNamed(AppRoutes.locationPageRoute);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0,bottom: 20,top: 8),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout,color: Colors.grey.shade500,size: 18,),
+                      const SizedBox(width: 25,),
+                      const Text("Logout",style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12, // Smaller text
+                        fontFamily: 'Roboto', // Roboto font
+                      ))
+                    ],
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),
@@ -165,7 +189,7 @@ class CustomDrawer extends StatelessWidget {
         ),
       ),
       dense: true, // Reduce spacing
-      contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce padding
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
       trailing: count != null && count > 0
           ? CircleAvatar(
         radius: 10,

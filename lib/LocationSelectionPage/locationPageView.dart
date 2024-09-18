@@ -15,9 +15,9 @@ import '../Widget/text_theme.dart';
 
 
 class LocationPage extends GetView<LocationPageController> {
-  LocationPage({super.key});
-  final LocationPageController controller = Get.put(LocationPageController());
-  final TextEditingController myController = TextEditingController();
+  const LocationPage({super.key});
+  // final LocationPageController controller = Get.put(LocationPageController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +44,13 @@ class LocationPage extends GetView<LocationPageController> {
                 height: controller.containerHeight.value,
                 width: MediaQuery.of(context).size.width,
                 decoration:  BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     opacity: 9,
                     image: AssetImage("assets/net.png"),
                     fit: BoxFit.cover
                   ),
                   color:AppColor.gray,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
@@ -61,7 +61,7 @@ class LocationPage extends GetView<LocationPageController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -101,7 +101,7 @@ class LocationPage extends GetView<LocationPageController> {
 
 
 
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       IntlPhoneField(
                         cursorColor: Colors.grey,
                         controller: controller.phoneController.value,
@@ -110,7 +110,7 @@ class LocationPage extends GetView<LocationPageController> {
                             Icons.local_phone_outlined,
                             color: Colors.white,
                           ),
-                          prefix: SizedBox(width: 10),
+                          prefix: const SizedBox(width: 10),
                           hintText: "Enter  your phone number",
                           hintStyle: MyTextTheme.mediumCustomGCN,
                           filled: true,
@@ -147,7 +147,7 @@ class LocationPage extends GetView<LocationPageController> {
                           print(phone.completeNumber);
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyButton(
                         height: 60,
                         borderRadius: 10,
@@ -157,22 +157,33 @@ class LocationPage extends GetView<LocationPageController> {
                             ? AppColor.circleIndicator
                             : AppColor.greyColor,
                         onPressed: () async {
-                          if (controller.isPhoneNumberValid.value) {
-                            // Proceed with signing in if the phone number is valid
-                            await controller.signInWithPhoneNumber();
-                            controller.dynamicHeightAllocation();
-                            print("Send OTP");
-                          } else {
-                            // If the phone number is invalid or null, show an error or prevent navigation
+                          if(controller.isPhoneNumberValid.value){
+                           await controller.login(controller.phoneController.value.text);
+                           print("Send OTP");
+                           controller.dynamicHeightAllocation();
+                          }else{
                             print("Invalid phone number");
                             Get.snackbar('Error', 'Please enter a valid phone number',
-                                snackPosition: SnackPosition.TOP);
+                                  snackPosition: SnackPosition.BOTTOM);
                           }
+
+
+                          // if (controller.isPhoneNumberValid.value) {
+                          //   // Proceed with signing in if the phone number is valid
+                          //   await controller.signInWithPhoneNumber();
+                          //   controller.dynamicHeightAllocation();
+                          //   print("Send OTP");
+                          // } else {
+                          //   // If the phone number is invalid or null, show an error or prevent navigation
+                          //   print("Invalid phone number");
+                          //   Get.snackbar('Error', 'Please enter a valid phone number',
+                          //       snackPosition: SnackPosition.TOP);
+                          // }
                         },
                       ),
 
-                      SizedBox(height: 10,),
-                      Row(
+                      const SizedBox(height: 10,),
+                      const Row(
                         children: [
                           Expanded(
                             child: Divider(
@@ -182,7 +193,7 @@ class LocationPage extends GetView<LocationPageController> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               "or",
                               style: TextStyle(color: Colors.grey),
@@ -198,7 +209,7 @@ class LocationPage extends GetView<LocationPageController> {
                         ],
                       ),
 
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       InkWell(
                         onTap: () {
                           controller.toggleSecondContainer();
@@ -277,7 +288,7 @@ class LocationPage extends GetView<LocationPageController> {
 
 
 
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         OtpTextField(
                           autoFocus: false,
 
@@ -292,7 +303,7 @@ class LocationPage extends GetView<LocationPageController> {
                           fillColor: Colors.grey.withOpacity(0.1),
                           showCursor: false,
                           fieldHeight: 45,
-                          textStyle: TextStyle(color: Colors.white),
+                          textStyle: const TextStyle(color: Colors.white),
                           onCodeChanged: (String code) {
                             // controller.isOtpFilled.value =
                             //     code.length == 6;
@@ -301,9 +312,10 @@ class LocationPage extends GetView<LocationPageController> {
                             // }
                           },
                           onSubmit: (String verificationOTPCode) {
-                            controller.otpVerifiedWithPhoneNumber(
-                                verificationOTPCode);
-                            controller.dynamicHeightAllocation();
+                            // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
+                          controller.otpVerification(verificationOTPCode);
+
+
                           }, // end onSubmit
                         ),
                         const SizedBox(height: 20),
@@ -315,11 +327,11 @@ class LocationPage extends GetView<LocationPageController> {
                               if (controller.isOtpFilled.value) ...[
                                 Text("Verifying Your OTP...",
                                     style: MyTextTheme.largeWCB),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                               Text("Didn't receive an OTP?",
                                   style: MyTextTheme.smallWCN),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Obx(() {
                                 final seconds =
                                     controller.secondsLeft.value;
@@ -430,7 +442,7 @@ class LocationPage extends GetView<LocationPageController> {
                               decoder: customDecoder, height: 80),
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
 
 
 
@@ -492,7 +504,7 @@ class LocationPage extends GetView<LocationPageController> {
                             Text("Male",
                               style: MyTextTheme.mediumWCN,
                             ),
-                            SizedBox(width: 100,),
+                            const SizedBox(width: 100,),
                             Obx(()=>
                                 Radio(
                                   value: "Female",
@@ -512,7 +524,7 @@ class LocationPage extends GetView<LocationPageController> {
                           ]
                       ),
 
-                      SizedBox(height: 30,),
+                      const SizedBox(height: 30,),
                       MyButton(
                         height: 50,
                         borderRadius: 10,
@@ -532,7 +544,7 @@ class LocationPage extends GetView<LocationPageController> {
                           }
                         },
                       ),
-                      SizedBox(height: 10,)
+                      const SizedBox(height: 10,)
                     ],
                   ),
                 ):
@@ -561,9 +573,9 @@ class LocationPage extends GetView<LocationPageController> {
                           ],
                         ),
 
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         Text('Fiqh',style: MyTextTheme.mediumWCN,),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                             children: [
                               Obx(()=>
@@ -578,7 +590,7 @@ class LocationPage extends GetView<LocationPageController> {
                               Text("Shia",
                                 style: MyTextTheme.mediumWCN,
                               ),
-                              SizedBox(width: 100,),
+                              const SizedBox(width: 100,),
                               Obx(()=>
                                   Radio(
                                     value: "Sunni",
@@ -597,9 +609,9 @@ class LocationPage extends GetView<LocationPageController> {
                                   ))
                             ]
                         ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                             children: [
                               Obx(()=>
@@ -614,7 +626,7 @@ class LocationPage extends GetView<LocationPageController> {
                               Text("3",
                                 style: MyTextTheme.mediumWCN,
                               ),
-                              SizedBox(width: 130,),
+                              const SizedBox(width: 130,),
                               Obx(()=>
                                   Radio(
                                     value: "5",
@@ -633,7 +645,7 @@ class LocationPage extends GetView<LocationPageController> {
                                   ))
                             ]
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         MyButton(
                           height: 50,
                           borderRadius: 10,

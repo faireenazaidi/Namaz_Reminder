@@ -50,3 +50,78 @@ final avatarUrls = [
 ];
 
 
+
+class LeaderboardDataModal {
+  User? user;
+  String? userTimestamp;
+  double? latitude;
+  double? longitude;
+  String? date;
+  String? prayerName;
+  double? score;
+  bool? jamat;
+  int? timesOfPrayer;
+
+  LeaderboardDataModal(
+      {this.user,
+        this.userTimestamp,
+        this.latitude,
+        this.longitude,
+        this.date,
+        this.prayerName,
+        this.score,
+        this.jamat,
+        this.timesOfPrayer});
+
+  LeaderboardDataModal.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    userTimestamp = json['user_timestamp'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    date = json['date'];
+    prayerName = json['prayer_name'];
+    score = json['score'];
+    jamat = json['jamat'];
+    timesOfPrayer = json['times_of_prayer'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    data['user_timestamp'] = this.userTimestamp;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['date'] = this.date;
+    data['prayer_name'] = this.prayerName;
+    data['score'] = this.score;
+    data['jamat'] = this.jamat;
+    data['times_of_prayer'] = this.timesOfPrayer;
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? username;
+  String? mobileNo;
+
+  User({this.id, this.username, this.mobileNo});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
+    mobileNo = json['mobile_no'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['mobile_no'] = this.mobileNo;
+    return data;
+  }
+}
+
+
