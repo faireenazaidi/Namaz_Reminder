@@ -70,3 +70,29 @@ class UserDetailsDataModal {
     );
   }
 }
+
+
+
+class CalculationDataModal {
+  String? key;
+  int? id;
+  String? name;
+  int? isChecked;
+
+  CalculationDataModal({this.key, this.id, this.name,this.isChecked});
+
+  CalculationDataModal.fromJson(Map<String, dynamic> json) {
+    key = json['key'];
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key'] = key;
+    data['id'] = id;
+    data['name'] = name;
+    return data;
+  }
+}
+

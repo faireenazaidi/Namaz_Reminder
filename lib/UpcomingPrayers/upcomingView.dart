@@ -189,60 +189,65 @@ class Upcoming extends GetView<UpcomingController> {
                   String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
                   String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
 
-                  return ListTile(
-                    title: Text(
-                      prayerName,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
+                  return Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      height: 100,
+
+                      decoration: BoxDecoration(
+                          color: AppColor.leaderboard,
+                        borderRadius: BorderRadius.circular(10)
                       ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Start at:',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
+                      child:  Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                                prayerName,
+                                style: MyTextTheme.largeCustomBCB
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Starts at',
+                                  style: MyTextTheme.smallGCN
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'End at:',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
+                              Expanded(
+                                child: Text(
+                                  'End at',
+                                    style: MyTextTheme.smallGCN
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                startTime12,
-                                style: TextStyle(
-                                  color: Colors.grey,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  startTime12,
+                                 style: MyTextTheme.mediumBCC,
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                endTime12,
-                                style: TextStyle(
-                                  color: Colors.grey,
+                              Expanded(
+                                child: Text(
+                                  endTime12,
+                                  style: MyTextTheme.mediumBCC,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+
+                        ],
+
+
+
+
+
+                      ),
                     ),
                   );
 

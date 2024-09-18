@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../DashBoard/dashboardView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
+import '../Widget/myCustomeSd.dart';
 import '../Widget/radio_menu.dart';
 import '../Widget/textField.dart';
 import '../Widget/text_theme.dart';
@@ -26,7 +29,7 @@ class LocationPage extends GetView<LocationPageController> {
         children: [
           // Background image
           Container(
-            height: 600,
+            height: 650,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 opacity: 10,
@@ -44,13 +47,13 @@ class LocationPage extends GetView<LocationPageController> {
                 height: controller.containerHeight.value,
                 width: MediaQuery.of(context).size.width,
                 decoration:  BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     opacity: 9,
                     image: AssetImage("assets/net.png"),
                     fit: BoxFit.cover
                   ),
                   color:AppColor.gray,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
@@ -61,7 +64,7 @@ class LocationPage extends GetView<LocationPageController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -101,22 +104,22 @@ class LocationPage extends GetView<LocationPageController> {
 
 
 
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       IntlPhoneField(
                         cursorColor: Colors.grey,
                         controller: controller.phoneController.value,
                         decoration: InputDecoration(
                           // Use Row in prefixIcon to combine phone icon and a space
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.only(left: 10),
+                          prefixIcon: const Padding(
+                            padding: EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisSize: MainAxisSize.min, // Ensures it takes the minimum width necessary
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.local_phone_outlined, // Phone icon
                                   color: Colors.white,
                                 ),
-                                const SizedBox(width: 8), // Spacing between icon and the rest of the field
+                                SizedBox(width: 8), // Spacing between icon and the rest of the field
                               ],
                             ),
                           ),
@@ -154,7 +157,7 @@ class LocationPage extends GetView<LocationPageController> {
                         },
                       ),
 
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyButton(
                         height: 60,
                         borderRadius: 10,
@@ -178,8 +181,8 @@ class LocationPage extends GetView<LocationPageController> {
                         },
                       ),
 
-                      SizedBox(height: 10,),
-                      Row(
+                      const SizedBox(height: 10,),
+                      const Row(
                         children: [
                           Expanded(
                             child: Divider(
@@ -189,7 +192,7 @@ class LocationPage extends GetView<LocationPageController> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               "or",
                               style: TextStyle(color: Colors.grey),
@@ -205,7 +208,7 @@ class LocationPage extends GetView<LocationPageController> {
                         ],
                       ),
 
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       InkWell(
                         onTap: () {
                           controller.toggleSecondContainer();
@@ -284,7 +287,7 @@ class LocationPage extends GetView<LocationPageController> {
 
 
 
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         OtpTextField(
                           autoFocus: false,
 
@@ -299,7 +302,7 @@ class LocationPage extends GetView<LocationPageController> {
                           fillColor: Colors.grey.withOpacity(0.1),
                           showCursor: false,
                           fieldHeight: 45,
-                          textStyle: TextStyle(color: Colors.white),
+                          textStyle: const TextStyle(color: Colors.white),
                           onCodeChanged: (String code) {
                             // controller.isOtpFilled.value =
                             //     code.length == 6;
@@ -322,11 +325,11 @@ class LocationPage extends GetView<LocationPageController> {
                               if (controller.isOtpFilled.value) ...[
                                 Text("Verifying Your OTP...",
                                     style: MyTextTheme.largeWCB),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                               Text("Didn't receive an OTP?",
                                   style: MyTextTheme.smallWCN),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Obx(() {
                                 final seconds =
                                     controller.secondsLeft.value;
@@ -437,7 +440,7 @@ class LocationPage extends GetView<LocationPageController> {
                               decoder: customDecoder, height: 80),
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
 
 
 
@@ -499,7 +502,7 @@ class LocationPage extends GetView<LocationPageController> {
                             Text("Male",
                               style: MyTextTheme.mediumWCN,
                             ),
-                            SizedBox(width: 100,),
+                            const SizedBox(width: 100,),
                             Obx(()=>
                                 Radio(
                                   value: "Female",
@@ -519,7 +522,7 @@ class LocationPage extends GetView<LocationPageController> {
                           ]
                       ),
 
-                      SizedBox(height: 30,),
+                      const SizedBox(height: 30,),
                       MyButton(
                         height: 50,
                         borderRadius: 10,
@@ -539,7 +542,7 @@ class LocationPage extends GetView<LocationPageController> {
                           }
                         },
                       ),
-                      SizedBox(height: 10,)
+                      const SizedBox(height: 10,)
                     ],
                   ),
                 ):
@@ -568,9 +571,9 @@ class LocationPage extends GetView<LocationPageController> {
                           ],
                         ),
 
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         Text('Fiqh',style: MyTextTheme.mediumWCN,),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                             children: [
                               Obx(()=>
@@ -585,7 +588,7 @@ class LocationPage extends GetView<LocationPageController> {
                               Text("Shia",
                                 style: MyTextTheme.mediumWCN,
                               ),
-                              SizedBox(width: 100,),
+                              const SizedBox(width: 100,),
                               Obx(()=>
                                   Radio(
                                     value: "Sunni",
@@ -604,9 +607,9 @@ class LocationPage extends GetView<LocationPageController> {
                                   ))
                             ]
                         ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         Row(
                             children: [
                               Obx(()=>
@@ -621,7 +624,7 @@ class LocationPage extends GetView<LocationPageController> {
                               Text("3",
                                 style: MyTextTheme.mediumWCN,
                               ),
-                              SizedBox(width: 130,),
+                              const SizedBox(width: 130,),
                               Obx(()=>
                                   Radio(
                                     value: "5",
@@ -640,7 +643,7 @@ class LocationPage extends GetView<LocationPageController> {
                                   ))
                             ]
                         ),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         MyButton(
                           height: 50,
                           borderRadius: 10,
@@ -650,6 +653,7 @@ class LocationPage extends GetView<LocationPageController> {
                             // Validate Fiqh and Prayer Time selection
                             if (controller.selectedFiqh.value.isNotEmpty && controller.selectedPrayer.value.isNotEmpty) {
                               // Proceed if both values are selected
+                              controller.calculationMethode();
                               controller.dynamicHeightAllocation();
                               print("Navigate to the next screen");
                             } else {
@@ -667,94 +671,187 @@ class LocationPage extends GetView<LocationPageController> {
                 ):
 
 
+                controller.step.value == 4?
+
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Setup your Account",
-                                  style: MyTextTheme.largeWCB),
-                              Text("Select your Calculation Method",
-                                  style: MyTextTheme.mustardS
-                              ),
-                            ],
-                          ),
-                          Lottie.asset("assets/though.lottie",
-                              decoder: customDecoder, height: 100),
-                        ],
-                      ),
-                      // Obx(() {
-                      //   if (controller.calculationMethods.isEmpty) {
-                      //     return Center(child: CircularProgressIndicator());
-                      //   } else {
-                      //     // Split methods into two lists
-                      //     final radioMethods = controller.calculationMethods.take(3).toList();
-                      //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
-                      //
-                      //     return Column(
-                      //       children: [
-                      //         // Display first three methods as radio buttons
-                      //         Column(
-                      //           children: radioMethods.map((method) {
-                      //             return RadioListTile<String>(
-                      //               title: Text(method.name),
-                      //               value: method.id,
-                      //               groupValue: controller.selectedCalculationMethod.value,
-                      //               onChanged: (value) {
-                      //                 controller.selectedCalculationMethod.value = value!;
-                      //               },
-                      //             );
-                      //           }).toList(),
-                      //         ),
-                      //         // Display remaining methods in a dropdown
-                      //         if (dropdownMethods.isNotEmpty)
-                      //           DropdownButton<String>(
-                      //             hint: Text('Select a calculation method'),
-                      //             value: controller.selectedCalculationMethod.value.isEmpty
-                      //                 ? null
-                      //                 : controller.selectedCalculationMethod.value,
-                      //             onChanged: (String? newValue) {
-                      //               controller.selectedCalculationMethod.value = newValue!;
-                      //             },
-                      //             items: dropdownMethods.map((method) {
-                      //               return DropdownMenuItem<String>(
-                      //                 value: method.id,
-                      //                 child: Text(method.name),
-                      //               );
-                      //             }).toList(),
-                      //           ),
-                      //
-                      //       ],
-                      //     );
-                      //   }
-                      // }),
+                  padding: const EdgeInsets.all(18.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Setup your Account",
+                                    style: MyTextTheme.largeWCB),
+                                Text("Select your Calculation Method",
+                                    style: MyTextTheme.mustardS
+                                ),
+                              ],
+                            ),
+                            Lottie.asset("assets/though.lottie",
+                                decoder: customDecoder, height: 100),
+                          ],
+                        ),
+                        // Obx(() {
+                        //   if (controller.calculationMethods.isEmpty) {
+                        //     return Center(child: CircularProgressIndicator());
+                        //   } else {
+                        //     // Split methods into two lists
+                        //     final radioMethods = controller.calculationMethods.take(3).toList();
+                        //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
+                        //
+                        //     return Column(
+                        //       children: [
+                        //         // Display first three methods as radio buttons
+                        //         Column(
+                        //           children: radioMethods.map((method) {
+                        //             return RadioListTile<String>(
+                        //               title: Text(method.name),
+                        //               value: method.id,
+                        //               groupValue: controller.selectedCalculationMethod.value,
+                        //               onChanged: (value) {
+                        //                 controller.selectedCalculationMethod.value = value!;
+                        //               },
+                        //             );
+                        //           }).toList(),
+                        //         ),
+                        //         // Display remaining methods in a dropdown
+                        //         if (dropdownMethods.isNotEmpty)
+                        //           DropdownButton<String>(
+                        //             hint: Text('Select a calculation method'),
+                        //             value: controller.selectedCalculationMethod.value.isEmpty
+                        //                 ? null
+                        //                 : controller.selectedCalculationMethod.value,
+                        //             onChanged: (String? newValue) {
+                        //               controller.selectedCalculationMethod.value = newValue!;
+                        //             },
+                        //             items: dropdownMethods.map((method) {
+                        //               return DropdownMenuItem<String>(
+                        //                 value: method.id,
+                        //                 child: Text(method.name),
+                        //               );
+                        //             }).toList(),
+                        //           ),
+                        //
+                        //       ],
+                        //     );
+                        //   }
+                        // }),
+                    
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                            itemCount: controller.getCalculationList.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              print("Checkdata${controller.getCalculationList.length}");
+                              return
+                                Visibility(
+                                  visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
+                                  child: RadioListTile<int>(
+                                    title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
+                                    value: 1,
+                                    groupValue: controller.calculationList[index]['isChecked'],
+                                    onChanged: (int? value) {
+                                      print("object${controller.calculationList[index]['isChecked']}");
+                                      for(int i=0;i<controller.getCalculationList.length;i++){
+                                        if(i==index){
+                                          if(controller.calculationList[index]['isChecked']==0){
+                                            controller.calculationList[index]['isChecked'] = 1;
+                                          }else{
+                                            controller.calculationList[index]['isChecked'] = 0;
+                                          }
+                                        }else{
+                                          controller.calculationList[index]['isChecked'] = 0;
+                                        }
+                                      }
+                    
+                                      print("object1"+controller.calculationList[index]['isChecked'].toString());
+                                      }),
+                                );
+                    
+                            },),
+                        ),
 
-                      MyButton(
-                        height: 50,
-                        borderRadius: 10,
-                        // elevation: 2,
-                        title: "Next",
-                        color: AppColor.circleIndicator,
-                        //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
-                        // color: controller.name.value
-                        //     ? AppColor.circleIndicator
-                        //     : AppColor.greyColor,
-                        onPressed: ()  async {
-                        // await controller.registerUser();
-                        Get.toNamed(AppRoutes.dashboardRoute);
-                        },
-                      ),
 
-                    ]
+                        MyCustomSD(
+                          listToSearch:controller.calculationList,
+                          valFrom: 'name',
+                          onChanged: (value) {
+                            controller.updateCalId = value['id'];
+                            print("GetMethodId: ${controller.getCalId.toString()}");
+                            print(value);
+                          },),
 
+                    
+                    
+                    
+                    
+                    
+                        // Obx(() {
+                        //   return Row(
+                        //     children: controller.keyCalculationMethods.map((method) {
+                        //       print('hhh:$method');
+                        //       return RadioListTile(
+                        //         title: Text(method.name!),
+                        //         value: method.id,
+                        //         groupValue: controller.selectedMethod.value,
+                        //         onChanged: (value) {
+                        //           print("method value ${value}");
+                        //           //controller.selectedMethod.value = value;
+                        //         },
+                        //       );
+                        //     }).toList(),
+                        //   );
+                        // }),
+                        // Obx(() {
+                        //   return DropdownButton<String>(
+                        //     value: controller.selectedMethod.value,
+                        //     items: controller.otherCalculationMethods.map((method) {
+                        //       return DropdownMenuItem(
+                        //         value: method.id,
+                        //         child: Text(method.name),
+                        //       );
+                        //     }).toList(),
+                        //     onChanged: (value) {
+                        //       controller.selectedMethod.value = value!;
+                        //     },
+                        //   );
+                        // }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                    
+                    
+                        MyButton(
+                          height: 50,
+                          borderRadius: 10,
+                          // elevation: 2,
+                          title: "Next",
+                          color: AppColor.circleIndicator,
+                          //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
+                          // color: controller.name.value
+                          //     ? AppColor.circleIndicator
+                          //     : AppColor.greyColor,
+                          onPressed: ()  async {
+                          await controller.registerUser();
+                          Get.toNamed(AppRoutes.dashboardRoute);
+                          },
+                        ),
+                    
+                      ]
+                    
+                    ),
                   ),
-                ),
+                ):
+                    const Column(
+
+                    )
 
               );
             }),

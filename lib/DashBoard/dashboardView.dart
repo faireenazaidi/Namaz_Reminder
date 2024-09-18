@@ -156,8 +156,8 @@ class DashBoardView extends GetView<DashBoardController> {
                     double y = radius * sin(angle);
 
                     return Positioned(
-                      left: radius + x - 33, // Offset to center the crown on the circle
-                      top: radius - y - 15,  // Offset to center the crown on the circle
+                      right: radius + x - 80, // Offset to center the crown on the circle
+                      top: radius - y - 185,  // Offset to center the crown on the circle
                       child: CircleAvatar(
                         radius: 15,
                         backgroundColor: Colors.white,

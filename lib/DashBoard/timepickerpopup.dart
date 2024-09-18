@@ -58,177 +58,191 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    // Get screen size
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Dialog(
         backgroundColor: AppColor.gray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
+          width: screenWidth * 0.85,
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.04,
+            vertical: screenHeight * 0.02,
+          ),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/blacknet.png'),
+              fit: BoxFit.cover,
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Title
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'MARK YOUR PRAYER TIME',
-                      style: MyTextTheme.mustardS,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Title
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'MARK YOUR PRAYER TIME',
+                    style: MyTextTheme.mustardS.copyWith(
+                      fontSize: screenWidth * 0.045, // Dynamic font size
                     ),
-                    SizedBox(width: 25),
-                    Image.asset("assets/container.png"),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                // Hour and Minute Pickers
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Wrap Hour picker in Flexible to avoid overflow
-                    Flexible(
-                      child: NumberPicker(
-                        minValue: 1,
-                        maxValue: 12,
-                        itemWidth: 60,
-                        itemHeight: 80,
-                        value: hour,
-                        zeroPad: true,
-                        infiniteLoop: false, // Prevent going forward
-                        onChanged: (value) {
-                          setState(() {
-                            hour = value;
-                          });
-                        },
-                        textStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                        ),
-                        selectedTextStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    // Colon separator
-                    const Text(
-                      " : ",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    // Wrap Minute picker in Flexible to avoid overflow
-                    Flexible(
-                      child: NumberPicker(
-                        minValue: 0,
-                        maxValue: 59,
-                        itemWidth: 60,
-                        itemHeight: 80,
-                        value: minute,
-                        zeroPad: true,
-                        infiniteLoop: false, // Prevent going forward
-                        onChanged: (value) {
-                          setState(() {
-                            minute = value;
-                          });
-                        },
-                        textStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                        ),
-                        selectedTextStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    // AM/PM Selector wrapped in Flexible to avoid overflow
-                    Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isAm = true;
-                              });
-                            },
-                            child: Text(
-                              "AM",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: isAm ? Colors.white : Colors.grey,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isAm = false;
-                              });
-                            },
-                            child: Text(
-                              "PM",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: !isAm ? Colors.white : Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                // Checkbox for Mosque/Jamat
-                Row(
-                  children: [
-                    Checkbox(
-                      value: prayedAtMosque,
-                      activeColor: AppColor.circleIndicator,
-                      onChanged: (bool? value) {
+                  ),
+                  SizedBox(width: screenWidth * 0.05),
+                  Image.asset(
+                    "assets/container.png",
+                    width: screenWidth * 0.1, // Dynamic size for image
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Hour and Minute Pickers
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Hour picker
+                  Flexible(
+                    child: NumberPicker(
+                      minValue: 1,
+                      maxValue: 12,
+                      itemWidth: screenWidth * 0.15,
+                      itemHeight: screenHeight * 0.12,
+                      value: hour,
+                      zeroPad: true,
+                      infiniteLoop: false, // Prevent going forward
+                      onChanged: (value) {
                         setState(() {
-                          prayedAtMosque = value ?? false;
+                          hour = value;
                         });
                       },
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Prayed at Mosque / Jamat time",
-                        style: MyTextTheme.smallWCN,
-                        overflow: TextOverflow.ellipsis, // Prevent overflow
+                      textStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: screenWidth * 0.04,
+                      ),
+                      selectedTextStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.08,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                // Submit Button
-                MyButton(
-                  borderRadius: 10,
-                  elevation: 2,
-                  title: "Submit",
-                  color: AppColor.circleIndicator,
-                  onPressed: () {
-                    Lottie.asset("assets/Crown.lottie",
-                        decoder: customDecoder, height: 60);
-                  },
-                ),
-              ],
-            ),
+                  ),
+                  // Colon separator
+                  Text(
+                    " : ",
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.08,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // Minute picker
+                  Flexible(
+                    child: NumberPicker(
+                      minValue: 0,
+                      maxValue: 59,
+                      itemWidth: screenWidth * 0.15,
+                      itemHeight: screenHeight * 0.12,
+                      value: minute,
+                      zeroPad: true,
+                      infiniteLoop: false, // Prevent going forward
+                      onChanged: (value) {
+                        setState(() {
+                          minute = value;
+                        });
+                      },
+                      textStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: screenWidth * 0.04,
+                      ),
+                      selectedTextStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.08,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  // AM/PM Selector
+                  Flexible(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isAm = true;
+                            });
+                          },
+                          child: Text(
+                            "AM",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.05,
+                              fontWeight: FontWeight.bold,
+                              color: isAm ? Colors.white : Colors.grey,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isAm = false;
+                            });
+                          },
+                          child: Text(
+                            "PM",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.05,
+                              fontWeight: FontWeight.bold,
+                              color: !isAm ? Colors.white : Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Checkbox for Mosque/Jamat
+              Row(
+                children: [
+                  Checkbox(
+                    value: prayedAtMosque,
+                    activeColor: AppColor.circleIndicator,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        prayedAtMosque = value ?? false;
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: Text(
+                      "Prayed at Mosque / Jamat time",
+                      style: MyTextTheme.smallWCN.copyWith(
+                        fontSize: screenWidth * 0.04, // Adjust font size dynamically
+                      ),
+                      overflow: TextOverflow.ellipsis, // Prevent overflow
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Submit Button
+              MyButton(
+                borderRadius: 10,
+                elevation: 2,
+                title: "Submit",
+                color: AppColor.circleIndicator,
+                onPressed: () {
+                  Lottie.asset("assets/Crown.lottie",
+                      decoder: customDecoder, height: 60);
+                },
+              ),
+            ],
           ),
         ),
       ),
