@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart' as http;
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
@@ -13,13 +15,34 @@ import '../Services/user_data.dart';
 import 'locationPageDataModal.dart';
 
 class LocationPageController extends GetxController {
-  final Rx<TextEditingController> phoneController = TextEditingController().obs;
-  final Rx<TextEditingController> nameC = TextEditingController().obs;
-  final Rx<TextEditingController> usernameC = TextEditingController().obs;
-  final Rx<TextEditingController> mobileNoC = TextEditingController().obs;
-  final Rx<TextEditingController> timesOfPrayerC = TextEditingController().obs;
-  final Rx<TextEditingController> schoolOfThoughtC = TextEditingController().obs;
+ final Rx<TextEditingController> phoneController = TextEditingController().obs;
+ final Rx<TextEditingController> nameC = TextEditingController().obs;
+ final Rx<TextEditingController> usernameC = TextEditingController().obs;
+ final Rx<TextEditingController> mobileNoC = TextEditingController().obs;
+ final Rx<TextEditingController> timesOfPrayerC = TextEditingController().obs;
+ final Rx<TextEditingController> schoolOfThoughtC = TextEditingController().obs;
+ RxList<CalculationMethod> calculationMethods = <CalculationMethod>[].obs;
 
+
+ RxBool isBottomSheetExpanded = false.obs;
+ RxBool isPhoneNumberValid = false.obs;
+ RxBool showSecondContainer = false.obs;
+ RxBool isOtpFilled = false.obs;
+ RxBool isOtpVerified = false.obs;
+ RxBool showThirdContainer = false.obs;
+ RxBool showFourthContainer = false.obs;
+ RxDouble containerHeight = 400.0.obs;
+ var calculationMethod = <CalculationMethod>[].obs; // All methods
+ var keyCalculationMethods = <CalculationDataModal>[].obs; // Key methods (ISNA, Makkah, Tehran)
+ var otherCalculationMethods = <CalculationMethod>[].obs; // Other methods
+
+ var selectedMethod = ''.obs; // To store the selected method
+
+ var selectedCalculationMethod = ''.obs;
+ RxInt step = 0.obs;
+ var selectedGender = "".obs;
+ var selectedFiqh = "".obs;
+ var selectedPrayer = "".obs;
   RxBool isBottomSheetExpanded = false.obs;
   RxBool isPhoneNumberValid = false.obs;
   RxBool showSecondContainer = false.obs;
@@ -125,24 +148,132 @@ class LocationPageController extends GetxController {
     super.onClose();
   }
 
-  Future<void> fetchCalculationMethods() async {
-    final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
-    // final response = await http.get(Uri.parse(''));
-    print('hhhhhhhhhhhhhhhhh $response');
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final methodsList = data['data'] as Map<String, dynamic>;
-      print("'this:'$methodsList");
-      calculationMethods.value = methodsList.entries
-          .map((entry) => CalculationMethod(
-                id: entry.key,
-                name: entry.value['name'],
-              ))
-          .toList();
-    } else {
-      throw Exception('Failed to load calculation methods');
-    }
+
+ calculationMethode() async {
+  var request = http.Request(
+      'GET', Uri.parse('http://172.16.58.162:8080/api/methods/'));
+
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+   // print(await response.stream.bytesToString());
+   var data = jsonDecode(await response.stream.bytesToString());
+
+   updateCalculationList = data;
+   print("getData${getCalculationList.toList()}");
+   checkData();
+
   }
+  else {
+   print(response.reasonPhrase);
+  }
+ }
+ RxInt  isChecked=0.obs;
+ List calculationList = [];
+ List<CalculationDataModal> get getCalculationList => List<CalculationDataModal>.from(
+     calculationList.map((element)=>CalculationDataModal.fromJson(element))
+ );
+ set updateCalculationList(List val){
+  calculationList = val;
+  update();
+ }
+
+ List<CalculationDataModal> keyMethods = [];
+
+ checkData(){
+  // Separate the key methods (ISNA, Makkah, Tehran) from others
+  keyMethods = getCalculationList.where((method) {
+   return method.id!.toString() == "2" ||
+       method.id!.toString() == "5" ||
+       method.id!.toString() == "7";
+  }).toList();
+
+
+  List<CalculationMethod> otherMethods = calculationMethods.value.where((method) {
+   return !keyMethods.contains(method);
+  }).toList();
+
+  keyCalculationMethods.value = keyMethods;
+  otherCalculationMethods.value = otherMethods;
+
+  print("@@@@@@@@ ${keyMethods.map((e)=>e.name).toList()}");
+  print(keyCalculationMethods.value.toString());
+
+ }
+
+
+ RxInt calId = 0.obs;
+ RxInt get getCalId => calId;
+ set updateCalId(int val){
+  calId.value = val;
+  update();
+ }
+
+
+
+
+
+// fetchCalculationMethods() async {
+//   final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
+//   // final response = await http.get(Uri.parse(''));
+//   print('hhhhhhhhhhhhhhhhh $response');
+//   if (response.statusCode == 200) {
+//    final data = json.decode(response.body);
+//    print('Status code: ${response.statusCode}');
+//    print('Response body: ${response.body}');
+//
+//    // final data = json.decode(response.body);
+//
+//    final methodsList = data['data'] as Map<String, dynamic>;
+//    print("'this:'$methodsList");
+//    calculationMethods.value = methodsList.entries
+//        .map((entry) => CalculationMethod(
+//     id: entry.key,
+//     name: entry.value['name'],
+//    ))
+//        .toList();
+//   } else {
+//    throw Exception('Failed to load calculation methods');
+//   }
+//  }
+
+
+
+
+ // fetchCalculationMethods() async {
+ //  final response = await http.get(Uri.parse('http://172.16.58.162:8080/api/methods/'));
+ //  if (response.statusCode == 200) {
+ //   final data = json.decode(response.body);
+ //   final methodsList = data['data'] as Map<String, dynamic>;
+ //
+ //   calculationMethods.value = methodsList.entries
+ //       .map((entry) => CalculationMethod(
+ //    id: entry.key,
+ //    name: entry.value['name'],
+ //   ))
+ //       .toList();
+ //
+ //   // Separate the key methods (ISNA, Makkah, Tehran) from others
+ //   List<CalculationMethod> keyMethods = calculationMethods.value.where((method) {
+ //    return method.name.contains('Islamic Society of North America') ||
+ //        method.name.contains('Umm Al-Qura University, Makkah') ||
+ //        method.name.contains('Institute of Geophysics, University of Tehran');
+ //   }).toList();
+ //
+ //   List<CalculationMethod> otherMethods = calculationMethods.value.where((method) {
+ //    return !keyMethods.contains(method);
+ //   }).toList();
+ //
+ //   keyCalculationMethods.value = keyMethods;
+ //   otherCalculationMethods.value = otherMethods;
+ //
+ //
+ //  } else {
+ //   throw Exception('Failed to load calculation methods');
+ //  }
+ // }
+
 
   ///login
 
@@ -199,93 +330,100 @@ class LocationPageController extends GetxController {
   /// Method to register use
 
   registerUser() async {
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {
-      "username": "Faireena",
-      "name": "fairyna",
-      "mobile_no": "1234567890",
-      "gender": "1",
-      "fiqh": "0",
-      "times_of_prayer": "5",
-      "school_of_thought": "1"
-    };
-    http.Response request = await http.post(Uri.parse('http://172.16.58.162:8080/api/register/'), body: jsonEncode(body), headers: headers);
-    print("@@@ REQUEST DATA ${request.body}");
+   Map<String,String> headers = {
+    'Content-Type': 'application/json'
+   };
+   Map<String,dynamic> body = {
+    "username": usernameC.value.toString(),
+    "name": nameC.value.toString(),
+    "mobile_no": phoneController.value.toString(),
+    "gender": selectedGender.value.toString(),
+    "fiqh": selectedFiqh.value.toString(),
+    "times_of_prayer": timesOfPrayerC.value.toString(),
+    "school_of_thought": schoolOfThoughtC.value.toString()
+   };
+   http.Response request  = await http.post(Uri.parse('http://172.16.58.162:8080/api/register/'),body:jsonEncode(body), headers:headers);
+   print("@@@ REQUEST DATA ${request.body}");
   }
 
-  //  registerUser() async {
-  //   var headers = {
-  //    'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request('POST', Uri.parse('http://172.16.58.162:8080/api/register/'));
-  //   request.body = json.encode({
-  //    "username": "dffjghjf",
-  //    "name": "Johns Doke",
-  //    "mobile_no": "1234567866",
-  //    "gender": 0,
-  //    "fiqh": 0,
-  //    "times_of_prayer": 5,
-  //    "school_of_thought": 0
-  //   });
-  //   print("ssss"+request.body);
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //    print(await response.stream.bytesToString());
-  //   }
-  //   else {
-  //    print(response.reasonPhrase);
-  //   }
-  //
-  //  }
 
-  ///Firebase.
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // User? user = _auth.currentUser;
-  RxString otpVerificationId = "".obs;
-  List<UserDetailsDataModal> userDetailsList = [];
+ //  registerUser() async {
+ //   var headers = {
+ //    'Content-Type': 'application/json'
+ //   };
+ //   var request = http.Request('POST', Uri.parse('http://172.16.58.162:8080/api/register/'));
+ //   request.body = json.encode({
+ //    "username": "dffjghjf",
+ //    "name": "Johns Doke",
+ //    "mobile_no": "1234567866",
+ //    "gender": 0,
+ //    "fiqh": 0,
+ //    "times_of_prayer": 5,
+ //    "school_of_thought": 0
+ //   });
+ //   print("ssss"+request.body);
+ //   request.headers.addAll(headers);
+ //
+ //   http.StreamedResponse response = await request.send();
+ //
+ //   if (response.statusCode == 200) {
+ //    print(await response.stream.bytesToString());
+ //   }
+ //   else {
+ //    print(response.reasonPhrase);
+ //   }
+ //
+ //  }
 
-  ///for sending otp to number
-  Future<void> signInWithPhoneNumber() async {
-    Future.delayed(const Duration(seconds: 1), () async {
-      try {
-        verificationCompleted(PhoneAuthCredential phoneAuthCredential) async {}
-        codeAutoRetrievalTimeout(String verificationId) async {}
-        verificationFailed(FirebaseAuthException e) async {
-          if (e.code == 'invalid-phone-number') {
-            debugPrint('The provided phone number is not valid.');
-          }
-          debugPrint("Check Internet Connection Properly");
-          debugPrint(e.toString());
-        }
+ ///Firebase.
+ static final FirebaseAuth _auth = FirebaseAuth.instance;
+ UserData userData = UserData();
+ User? user = _auth.currentUser;
+ RxString otpVerificationId = "".obs;
+ List<UserDetailsDataModal> userDetailsList = [];
 
-        codeSent(String verificationId, int? forceResendingToken) async => otpVerificationId.value = verificationId;
-        String number = "+91 ${phoneController.value.text.toString()}";
-        await _auth.verifyPhoneNumber(
-          phoneNumber: number,
-          timeout: const Duration(seconds: 60),
-          verificationCompleted: verificationCompleted,
-          verificationFailed: verificationFailed,
-          codeSent: codeSent,
-          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-          // forceResendingToken: forceResendingToken,
-        );
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    });
-  }
+ ///for sending otp to number
+ Future<void> signInWithPhoneNumber() async {
+  Future.delayed(const Duration(seconds: 1), () async {
+   try {
+    verificationCompleted(PhoneAuthCredential phoneAuthCredential) async {}
+    codeAutoRetrievalTimeout(String verificationId) async {}
+    verificationFailed(FirebaseAuthException e) async {
+     if (e.code == 'invalid-phone-number') {
+      debugPrint('The provided phone number is not valid.');
+     }
+     debugPrint("Check Internet Connection Properly");
+     debugPrint(e.toString());
+    }
 
-  /// for otp verification
-  Future<void> otpVerifiedWithPhoneNumber(verificationOTPCode) async {
-    final PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: otpVerificationId.value, smsCode: verificationOTPCode);
-    final UserCredential userCredential = await _auth.signInWithCredential(credential);
+    codeSent(String verificationId, int? forceResendingToken) async =>
+        otpVerificationId.value = verificationId;
+    String number = "+91 ${phoneController.value.text.toString()}";
+    await _auth.verifyPhoneNumber(
+     phoneNumber: number,
+     timeout: const Duration(seconds: 60),
+     verificationCompleted: verificationCompleted,
+     verificationFailed: verificationFailed,
+     codeSent: codeSent,
+     codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+     // forceResendingToken: forceResendingToken,
+    );
+   } catch (e) {
+    debugPrint(e.toString());
+   }
+  });
+ }
 
-    ///Get firebase user details
-    // final User? user = userCredential.user;
+ /// for otp verification
+ Future<void> otpVerifiedWithPhoneNumber(verificationOTPCode) async {
+  final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: otpVerificationId.value, smsCode: verificationOTPCode);
+  final UserCredential userCredential =
+  await _auth.signInWithCredential(credential);
+
+  ///Get firebase user details
+  final User? user = userCredential.user;
 
     // if (user != null) {
     //   print("User UID: ${user.uid}");

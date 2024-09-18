@@ -63,30 +63,30 @@ class CustomDrawer extends StatelessWidget {
                 indent: 10,
               ),
               // ListTiles
-              _buildListTile(
-                  context, "Dashboard", "assets/dashboard.png", () {
-                    Get.toNamed(AppRoutes.dashboardRoute);
-              }
-              ),
-              _buildListTile(
-                  context, "Support Center", "assets/supportCentre.png", () {}
-              ),
-              _buildListTile(
-                  context, "Widgets", "assets/widgets.png", () {}
-              ),
-              Obx(() => _buildListTile(
-                context,
-                "Notifications",
-                "assets/notification.png",
-                    () {},
-                customDrawerController.notificationCount.value,
-              )),
-              Divider(
-                color: AppColor.greyLight,
-                thickness: 1.4,
-                endIndent: 10,
-                indent: 10,
-              ),
+              // _buildListTile(
+              //     context, "Dashboard", "assets/dashboard.png", () {
+              //       Get.toNamed(AppRoutes.dashboardRoute);
+              // }
+              // ),
+              // _buildListTile(
+              //     context, "Support Center", "assets/supportCentre.png", () {}
+              // ),
+              // _buildListTile(
+              //     context, "Widgets", "assets/widgets.png", () {}
+              // ),
+              // Obx(() => _buildListTile(
+              //   context,
+              //   "Notifications",
+              //   "assets/notification.png",
+              //       () {},
+              //   customDrawerController.notificationCount.value,
+              // )),
+              // Divider(
+              //   color: AppColor.greyLight,
+              //   thickness: 1.4,
+              //   endIndent: 10,
+              //   indent: 10,
+              // ),
               Obx(() => _buildListTile(
                 context,
                 "Leaderboard",
@@ -97,9 +97,7 @@ class CustomDrawer extends StatelessWidget {
                 customDrawerController.leaderboardCount.value,
               )),
 
-              _buildListTile(
-                  context, "Reminders", "assets/reminders.png", () {}
-              ),
+
               Obx(() => _buildListTile(
                 context,
                 "Missed Prayers",
@@ -117,8 +115,14 @@ class CustomDrawer extends StatelessWidget {
                 indent: 10,
               ),
               _buildListTile(
-                  context, "Language", "assets/translate.png", () {}
+                  context, "Support Center", "assets/supportCentre.png", () {}
               ),
+              Obx(() => _buildListTile(
+                context,
+                "Notifications",
+                "assets/notification.png",
+                    () {},
+                customDrawerController.notificationCount.value,
               Obx(() => ListTile(
                 leading: Image.asset("assets/darkMode.png"),
                 title: const Text(
@@ -139,6 +143,32 @@ class CustomDrawer extends StatelessWidget {
                   },
                 ),
               )),
+              // Obx(() => ListTile(
+              //   leading: Image.asset("assets/darkMode.png"),
+              //   title: const Text(
+              //     'Dark Mode',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 12,
+              //       fontFamily: 'Roboto',
+              //     ),
+              //   ),
+              //   dense: true, // Reduce spacing
+              //   contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce padding
+              //   trailing: Switch(
+              //     value: customDrawerController.isDarkMode.value,
+              //     onChanged: (value) {
+              //       customDrawerController.toggleDarkMode(value);
+              //       Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+              //     },
+              //   ),
+              // )),
+              Divider(
+                color: AppColor.greyLight,
+                thickness: 1.4,
+                endIndent: 10,
+                indent: 10,
+              ),
               _buildListTile(
                   context, "Settings", "assets/gear.png", () {}
               ),

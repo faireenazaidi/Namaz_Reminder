@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../DashBoard/dashboardView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
+import '../Widget/myCustomeSd.dart';
 import '../Widget/radio_menu.dart';
 import '../Widget/textField.dart';
 import '../Widget/text_theme.dart';
@@ -26,7 +29,7 @@ class LocationPage extends GetView<LocationPageController> {
         children: [
           // Background image
           Container(
-            height: 600,
+            height: 650,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 opacity: 10,
@@ -106,29 +109,35 @@ class LocationPage extends GetView<LocationPageController> {
                         cursorColor: Colors.grey,
                         controller: controller.phoneController.value,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.local_phone_outlined,
-                            color: Colors.white,
+                          // Use Row in prefixIcon to combine phone icon and a space
+                          prefixIcon: const Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min, // Ensures it takes the minimum width necessary
+                              children: [
+                                Icon(
+                                  Icons.local_phone_outlined, // Phone icon
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 8), // Spacing between icon and the rest of the field
+                              ],
+                            ),
                           ),
-                          prefix: const SizedBox(width: 10),
-                          hintText: "Enter  your phone number",
+                          hintText: "Enter your phone number",
                           hintStyle: MyTextTheme.mediumCustomGCN,
                           filled: true,
                           fillColor: Colors.grey.withOpacity(0.1),
                           counterText: "",
                           border: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           enabledBorder: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           focusedBorder: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
@@ -147,6 +156,7 @@ class LocationPage extends GetView<LocationPageController> {
                           print(phone.completeNumber);
                         },
                       ),
+
                       const SizedBox(height: 20),
                       MyButton(
                         height: 60,
@@ -655,6 +665,7 @@ class LocationPage extends GetView<LocationPageController> {
                             // Validate Fiqh and Prayer Time selection
                             if (controller.selectedFiqh.value.isNotEmpty && controller.selectedPrayer.value.isNotEmpty) {
                               // Proceed if both values are selected
+                              controller.calculationMethode();
                               controller.dynamicHeightAllocation();
                               print("Navigate to the next screen");
                             } else {
@@ -672,94 +683,187 @@ class LocationPage extends GetView<LocationPageController> {
                 ):
 
 
+                controller.step.value == 4?
+
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Setup your Account",
-                                  style: MyTextTheme.largeWCB),
-                              Text("Select your Calculation Method",
-                                  style: MyTextTheme.mustardS
-                              ),
-                            ],
-                          ),
-                          Lottie.asset("assets/though.lottie",
-                              decoder: customDecoder, height: 100),
-                        ],
-                      ),
-                      // Obx(() {
-                      //   if (controller.calculationMethods.isEmpty) {
-                      //     return Center(child: CircularProgressIndicator());
-                      //   } else {
-                      //     // Split methods into two lists
-                      //     final radioMethods = controller.calculationMethods.take(3).toList();
-                      //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
-                      //
-                      //     return Column(
-                      //       children: [
-                      //         // Display first three methods as radio buttons
-                      //         Column(
-                      //           children: radioMethods.map((method) {
-                      //             return RadioListTile<String>(
-                      //               title: Text(method.name),
-                      //               value: method.id,
-                      //               groupValue: controller.selectedCalculationMethod.value,
-                      //               onChanged: (value) {
-                      //                 controller.selectedCalculationMethod.value = value!;
-                      //               },
-                      //             );
-                      //           }).toList(),
-                      //         ),
-                      //         // Display remaining methods in a dropdown
-                      //         if (dropdownMethods.isNotEmpty)
-                      //           DropdownButton<String>(
-                      //             hint: Text('Select a calculation method'),
-                      //             value: controller.selectedCalculationMethod.value.isEmpty
-                      //                 ? null
-                      //                 : controller.selectedCalculationMethod.value,
-                      //             onChanged: (String? newValue) {
-                      //               controller.selectedCalculationMethod.value = newValue!;
-                      //             },
-                      //             items: dropdownMethods.map((method) {
-                      //               return DropdownMenuItem<String>(
-                      //                 value: method.id,
-                      //                 child: Text(method.name),
-                      //               );
-                      //             }).toList(),
-                      //           ),
-                      //
-                      //       ],
-                      //     );
-                      //   }
-                      // }),
+                  padding: const EdgeInsets.all(18.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Setup your Account",
+                                    style: MyTextTheme.largeWCB),
+                                Text("Select your Calculation Method",
+                                    style: MyTextTheme.mustardS
+                                ),
+                              ],
+                            ),
+                            Lottie.asset("assets/though.lottie",
+                                decoder: customDecoder, height: 100),
+                          ],
+                        ),
+                        // Obx(() {
+                        //   if (controller.calculationMethods.isEmpty) {
+                        //     return Center(child: CircularProgressIndicator());
+                        //   } else {
+                        //     // Split methods into two lists
+                        //     final radioMethods = controller.calculationMethods.take(3).toList();
+                        //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
+                        //
+                        //     return Column(
+                        //       children: [
+                        //         // Display first three methods as radio buttons
+                        //         Column(
+                        //           children: radioMethods.map((method) {
+                        //             return RadioListTile<String>(
+                        //               title: Text(method.name),
+                        //               value: method.id,
+                        //               groupValue: controller.selectedCalculationMethod.value,
+                        //               onChanged: (value) {
+                        //                 controller.selectedCalculationMethod.value = value!;
+                        //               },
+                        //             );
+                        //           }).toList(),
+                        //         ),
+                        //         // Display remaining methods in a dropdown
+                        //         if (dropdownMethods.isNotEmpty)
+                        //           DropdownButton<String>(
+                        //             hint: Text('Select a calculation method'),
+                        //             value: controller.selectedCalculationMethod.value.isEmpty
+                        //                 ? null
+                        //                 : controller.selectedCalculationMethod.value,
+                        //             onChanged: (String? newValue) {
+                        //               controller.selectedCalculationMethod.value = newValue!;
+                        //             },
+                        //             items: dropdownMethods.map((method) {
+                        //               return DropdownMenuItem<String>(
+                        //                 value: method.id,
+                        //                 child: Text(method.name),
+                        //               );
+                        //             }).toList(),
+                        //           ),
+                        //
+                        //       ],
+                        //     );
+                        //   }
+                        // }),
 
-                      MyButton(
-                        height: 50,
-                        borderRadius: 10,
-                        // elevation: 2,
-                        title: "Next",
-                        color: AppColor.circleIndicator,
-                        //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
-                        // color: controller.name.value
-                        //     ? AppColor.circleIndicator
-                        //     : AppColor.greyColor,
-                        onPressed: ()  async {
-                        await controller.registerUser();
-                        Get.toNamed(AppRoutes.dashboardRoute);
-                        },
-                      ),
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                            itemCount: controller.getCalculationList.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              print("Checkdata${controller.getCalculationList.length}");
+                              return
+                                Visibility(
+                                  visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
+                                  child: RadioListTile<int>(
+                                    title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
+                                    value: 1,
+                                    groupValue: controller.calculationList[index]['isChecked'],
+                                    onChanged: (int? value) {
+                                      print("object${controller.calculationList[index]['isChecked']}");
+                                      for(int i=0;i<controller.getCalculationList.length;i++){
+                                        if(i==index){
+                                          if(controller.calculationList[index]['isChecked']==0){
+                                            controller.calculationList[index]['isChecked'] = 1;
+                                          }else{
+                                            controller.calculationList[index]['isChecked'] = 0;
+                                          }
+                                        }else{
+                                          controller.calculationList[index]['isChecked'] = 0;
+                                        }
+                                      }
 
-                    ]
+                                      print("object1"+controller.calculationList[index]['isChecked'].toString());
+                                      }),
+                                );
 
+                            },),
+                        ),
+
+
+                        MyCustomSD(
+                          listToSearch:controller.calculationList,
+                          valFrom: 'name',
+                          onChanged: (value) {
+                            controller.updateCalId = value['id'];
+                            print("GetMethodId: ${controller.getCalId.toString()}");
+                            print(value);
+                          },),
+
+
+
+
+
+
+                        // Obx(() {
+                        //   return Row(
+                        //     children: controller.keyCalculationMethods.map((method) {
+                        //       print('hhh:$method');
+                        //       return RadioListTile(
+                        //         title: Text(method.name!),
+                        //         value: method.id,
+                        //         groupValue: controller.selectedMethod.value,
+                        //         onChanged: (value) {
+                        //           print("method value ${value}");
+                        //           //controller.selectedMethod.value = value;
+                        //         },
+                        //       );
+                        //     }).toList(),
+                        //   );
+                        // }),
+                        // Obx(() {
+                        //   return DropdownButton<String>(
+                        //     value: controller.selectedMethod.value,
+                        //     items: controller.otherCalculationMethods.map((method) {
+                        //       return DropdownMenuItem(
+                        //         value: method.id,
+                        //         child: Text(method.name),
+                        //       );
+                        //     }).toList(),
+                        //     onChanged: (value) {
+                        //       controller.selectedMethod.value = value!;
+                        //     },
+                        //   );
+                        // }),
+                        SizedBox(
+                          height: 20,
+                        ),
+
+
+                        MyButton(
+                          height: 50,
+                          borderRadius: 10,
+                          // elevation: 2,
+                          title: "Next",
+                          color: AppColor.circleIndicator,
+                          //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
+                          // color: controller.name.value
+                          //     ? AppColor.circleIndicator
+                          //     : AppColor.greyColor,
+                          onPressed: ()  async {
+                          await controller.registerUser();
+                          Get.toNamed(AppRoutes.dashboardRoute);
+                          },
+                        ),
+
+                      ]
+
+                    ),
                   ),
-                ),
+                ):
+                    const Column(
+
+                    );
 
               );
             }),
