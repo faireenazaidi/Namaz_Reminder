@@ -19,6 +19,9 @@ class DashBoardController extends GetxController {
   RxString nextPrayerStartTime = ''.obs;
   RxDouble progressPercent = 0.0.obs;
   RxList<String> avatars = <String>[].obs;
+  RxString location = 'Lucknow'.obs;
+  var selectedDate = Rx<DateTime>(DateTime.now());
+
 
   var prayerNames = ['Fajr', 'Zuhr', 'Asar', 'Maghrib', 'Isha'].obs;
   var currentPrayerIndex = 0.obs;
@@ -30,6 +33,10 @@ class DashBoardController extends GetxController {
 
   Timer? prayerTimer;
   Timer? remainingTimeTimer;
+
+  void updateLocation(String newLocation) {
+    location.value = newLocation;
+  }
 
   set updateExtractedData(List<CalendarWiseData> data) {
     extractedData = data;
@@ -129,7 +136,7 @@ class DashBoardController extends GetxController {
               convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A');
           final hijriDate = getExtractedData[0].date?.hijri;
           islamicDate.value =
-          '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} (${hijriDate?.designation?.abbreviated ?? "Abbreviation"})';
+          '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
 
           // Set prayer start and end time
           updatePrayerDuration = {

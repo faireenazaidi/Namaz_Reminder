@@ -106,29 +106,35 @@ class LocationPage extends GetView<LocationPageController> {
                         cursorColor: Colors.grey,
                         controller: controller.phoneController.value,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.local_phone_outlined,
-                            color: Colors.white,
+                          // Use Row in prefixIcon to combine phone icon and a space
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min, // Ensures it takes the minimum width necessary
+                              children: [
+                                const Icon(
+                                  Icons.local_phone_outlined, // Phone icon
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 8), // Spacing between icon and the rest of the field
+                              ],
+                            ),
                           ),
-                          prefix: SizedBox(width: 10),
-                          hintText: "Enter  your phone number",
+                          hintText: "Enter your phone number",
                           hintStyle: MyTextTheme.mediumCustomGCN,
                           filled: true,
                           fillColor: Colors.grey.withOpacity(0.1),
                           counterText: "",
                           border: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           enabledBorder: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                           focusedBorder: const OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.white),
                           ),
                         ),
@@ -147,6 +153,7 @@ class LocationPage extends GetView<LocationPageController> {
                           print(phone.completeNumber);
                         },
                       ),
+
                       SizedBox(height: 20),
                       MyButton(
                         height: 60,
@@ -739,7 +746,7 @@ class LocationPage extends GetView<LocationPageController> {
                         //     ? AppColor.circleIndicator
                         //     : AppColor.greyColor,
                         onPressed: ()  async {
-                        await controller.registerUser();
+                        // await controller.registerUser();
                         Get.toNamed(AppRoutes.dashboardRoute);
                         },
                       ),

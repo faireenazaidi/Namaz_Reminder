@@ -1,74 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
-import '../Leaderboard/leaderboardDataModal.dart';
 import '../Routes/approutes.dart';
 import '../Widget/Date.dart';
-import '../Widget/ReusableUI.dart';
 import '../Widget/appColor.dart';
 
-class Upcoming extends GetView<UpcomingController>
-{
+class Upcoming extends GetView<UpcomingController> {
   @override
   Widget build(BuildContext context) {
-    final DashBoardController dashboardController = Get.put(DashBoardController());
+    final DashBoardController dashboardController = Get.find<DashBoardController>();
 
     return Scaffold(
-     backgroundColor: Colors.white,
-     appBar: AppBar(
-       title: Text("Upcoming Prayers",style: MyTextTheme.mediumBCD,),
-       titleSpacing: 0,
-       elevation: 0,
-       backgroundColor: Colors.white,
-       leading: InkWell(
-         onTap: (){
-           Get.back();
-         },
-        child:  Icon(Icons.arrow_back_ios,size: 20,)),
-       actions: [
-         Row(
-           children: [
-             Image.asset("assets/location.png"),
-             const SizedBox(width: 4),
-             const Text("Lucknow", style: TextStyle(color: Colors.black)),
-             Padding(
-               padding: const EdgeInsets.all(8.0),
-               child: Icon(Icons.settings_outlined,size: 20,color: Colors.grey,),
-             )
-           ],
-         )
-       ],
-       ),
-     body: Padding(
-       padding: const EdgeInsets.all(8.0),
-       child: Column(
-         children: [
-            Divider(
-             color: AppColor.greyLight,
-             thickness: 1,
-           ),
-           DateTimeWidget(),
-
-           const SizedBox(height: 15,),
-
-            Column(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Upcoming Prayers", style: MyTextTheme.mediumBCD),
+        titleSpacing: 0,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: Icon(Icons.arrow_back_ios, size: 20),
+        ),
+        actions: [
+          Row(
+            children: [
+              Image.asset("assets/location.png"),
+              const SizedBox(width: 4),
+              const Text("Lucknow", style: TextStyle(color: Colors.black)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.settings_outlined, size: 20, color: Colors.grey),
+              ),
+            ],
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               children: [
+                Divider(
+                  color: AppColor.greyLight,
+                  thickness: 1,
+                ),
+                const SizedBox(height: 15),
+
+                // Added Expanded widget with Row for date and Islamic date
+                Row(
+                  children: [
+                    Text(
+                      DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Container(
+                      width: 1, // Vertical divider width
+                      height: 15, // Divider height
+                      color: Colors.grey,
+                      margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+                    ),
+                    Expanded(
+                      child: Obx(
+                            () => Text(
+                          dashboardController.islamicDate.value,
+                          style: const TextStyle(fontSize: 12, color: Colors.black),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 15),
                 Container(
                   height: 200,
                   decoration: BoxDecoration(
                     color: Colors.black87,
                     image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/jalih.png")
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/jalih.png"),
                     ),
                     borderRadius: BorderRadius.circular(15),
                   ),
-
                   child: Stack(
                     children: [
                       Row(
@@ -86,14 +105,13 @@ class Upcoming extends GetView<UpcomingController>
                               onTap: () {
                                 Get.to(() => Upcoming());
                               },
-                              child:SvgPicture.asset("assets/close.svg"),
+                              child: SvgPicture.asset("assets/close.svg"),
                             ),
                           ),
                         ],
                       ),
-                      // Positioned block to properly contain ListView.builder
                       Positioned(
-                        top: 50,  // Adjust as necessary
+                        top: 50, // Adjust as necessary
                         left: 0,
                         right: 0,
                         bottom: 0,
@@ -105,9 +123,9 @@ class Upcoming extends GetView<UpcomingController>
                             bool isHighlighted = dashboardController.currentPrayer.value ==
                                 dashboardController.prayerNames[index];
                             return Transform.scale(
-                              scale: isHighlighted ? 1.2 : 1.0,  // Scale up the active item
+                              scale: isHighlighted ? 1.2 : 1.0, // Scale up the active item
                               child: Opacity(
-                                opacity: isHighlighted ? 1.0 : 0.5,  // Reduce opacity of inactive items
+                                opacity: isHighlighted ? 1.0 : 0.5, // Reduce opacity of inactive items
                                 child: Container(
                                   width: 80,
                                   margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -122,10 +140,6 @@ class Upcoming extends GetView<UpcomingController>
                                       ),
                                     ),
                                     borderRadius: BorderRadius.circular(10),
-                                    // border: Border.all(
-                                    //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
-                                    //   width: 2,
-                                    // ),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -133,10 +147,10 @@ class Upcoming extends GetView<UpcomingController>
                                       const SizedBox(height: 20),
                                       Text(
                                         dashboardController.prayerNames[index].toUpperCase(),
-                                        style:  TextStyle(
-                                        color: Colors.white,
-                                        fontSize: isHighlighted ? 14 : 14,  // Increase font size for active prayer
-                                      ),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: isHighlighted ? 14 : 14, // Increase font size for active prayer
+                                        ),
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
@@ -144,9 +158,9 @@ class Upcoming extends GetView<UpcomingController>
                                             ? "Loading"
                                             : dashboardController.getPrayerTimes[index].toString(),
                                         style: isHighlighted
-                                            ? MyTextTheme.mediumBCN  // Highlighted prayer time style
-                                            : MyTextTheme.smallGCN,  // Normal style for others
-                                      )
+                                            ? MyTextTheme.mediumBCN // Highlighted prayer time style
+                                            : MyTextTheme.smallGCN, // Normal style for others
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -155,80 +169,93 @@ class Upcoming extends GetView<UpcomingController>
                           },
                         ),
                       ),
-
                     ],
                   ),
-
                 ),
-
               ],
             ),
-         const SizedBox(height: 15,),
-        ////////////////////////////////////////
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: ListView.builder(
+                itemCount: dashboardController.prayerNames.length,
+                itemBuilder: (context, index) {
+                  String prayerName = dashboardController.prayerNames[index];
+                  String startTime24 = dashboardController.prayerDuration[prayerName]?['start'] ?? 'N/A';
+                  String endTime24 = dashboardController.prayerDuration[prayerName]?['end'] ?? 'N/A';
 
+                  // Convert times to 12-hour format
+                  String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+                  String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
 
-         ]
-       ),
-     ),
+                  return ListTile(
+                    title: Text(
+                      prayerName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Start at:',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'End at:',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                startTime12,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                endTime12,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
 
-   );
-  }
-
-}
-class DateTimeWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final DateController dateController = Get.find<DateController>();
-    final DashBoardController dashboardController = Get.find<DashBoardController>();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        InkWell(
-          child: Image.asset("assets/iconcalen.png", width: 24, height: 24),
-          onTap: () async {
-            DateTime? picked = await showDatePicker(
-              context: context,
-              initialDate: dateController.selectedDate.value,
-              firstDate: DateTime(2020),
-              lastDate: DateTime(2025),
-            );
-            if (picked != null) {
-              dateController.updateSelectedDate(picked);
-            }
-          },
-        ),
-        Expanded(
-          child: Obx(() => Row(
-            children: [
-              Expanded(
-                child: Text(
-                  DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
-                  style: const TextStyle(fontSize: 10, color: Colors.black),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                },
               ),
-              Container(
-                width: 1.5,
-                height: 15,
-                color: Colors.grey,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              ),
-              Expanded(
-                child: Obx(
-                      () => Text(
-                    dashboardController.islamicDate.value,
-                    style: const TextStyle(fontSize: 10, color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ],
-          )),
-        ),
-      ],
+            ),
+          ),
+
+
+
+
+        ],
+      ),
     );
-
-
   }
 }

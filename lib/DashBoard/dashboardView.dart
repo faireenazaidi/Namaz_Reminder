@@ -43,7 +43,10 @@ class DashBoardView extends GetView<DashBoardController> {
               children: [
                 Image.asset("assets/location.png"),
                 const SizedBox(width: 4),
-                const Text("Lucknow", style: TextStyle(color: Colors.black)),
+                Text(
+                  dashboardController.location.value,
+                  style: TextStyle(color: Colors.black),
+                ),
                 const CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
@@ -86,35 +89,35 @@ class DashBoardView extends GetView<DashBoardController> {
                       },
                     ),
                     Expanded(
-                      child: Obx(() => Row(
+                      child:Row(
                         children: [
-                          Expanded(
-                            child: Text(
-                              DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
-                              style: const TextStyle(fontSize: 10, color: Colors.black),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Container(
-                            width: 1,
-                            height: 15,
-                            color: Colors.grey,
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), // Adjust space as needed
+                          Text(
+                            DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
+                            style: const TextStyle(fontSize: 12, color: Colors.black),
+                            overflow: TextOverflow.ellipsis,
                           ),
 
+
+                          Container(
+                            width: 1, // Vertical divider width
+                            height: 15, // Divider height
+                            color: Colors.grey,
+                            margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+                          ),
                           Expanded(
+                            flex: 1, // Same flex value as the first Expanded for symmetry
                             child: Obx(
                                   () => Text(
                                 dashboardController.islamicDate.value,
-                                style: const TextStyle(fontSize: 10, color: Colors.black),
+                                style: const TextStyle(fontSize: 12, color: Colors.black),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
-
                         ],
-                      )),
+                      )
                     ),
+
                   ],
                 ),
               ),
@@ -141,30 +144,30 @@ class DashBoardView extends GetView<DashBoardController> {
                     // ),
                   );
                 }),
-                Obx(() {
-                  double completionPercentage =
-                  dashboardController.calculateCompletionPercentage();
+                Positioned(
+                  child: Obx(() {
+                    double completionPercentage = controller.calculateCompletionPercentage();
+                    // Circle center and radius
+                    double radius = 140; // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                    double angle = 2 * pi * completionPercentage; // Convert percentage to radians
 
-                  // Circle center and radius
-                  double radius = 120; // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                  double angle = 2 * pi * completionPercentage; // Convert percentage to radians
+                    // Calculate x and y positions based on angle
+                    double x = radius * cos(angle);
+                    double y = radius * sin(angle);
 
-                  // Calculate x and y positions based on angle
-                  double x = radius * cos(angle);
-                  double y = radius * sin(angle);
+                    return Positioned(
+                      left: radius + x - 33, // Offset to center the crown on the circle
+                      top: radius - y - 15,  // Offset to center the crown on the circle
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.white,
+                        child:     Lottie.asset("assets/Crown.lottie",
+                            decoder: customDecoder, height: 50),
+                         ),
 
-                  return Positioned(
-                    right: x + radius + 6, // Offset to center the GIF on the circle
-                    top: y + radius + 5,  // Offset to center the GIF on the circle
-                    child: CircleAvatar
-                      (radius: 15,
-                      backgroundColor: Colors.white,
-                      child:  Lottie.asset("assets/Crown.lottie",
-                          decoder: customDecoder, height: 60),
-                    )
-
-                  );
-                }),
+                    );
+                  }),
+                ),
 
 
                 // Adding the GIF/Image inside the circular indicator
@@ -301,10 +304,20 @@ class DashBoardView extends GetView<DashBoardController> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                         child: Stack(
                           children: [
-                            LinearPercentIndicator(
-                              width: 290,
-                              percent: 0.8,
-                              progressColor: AppColor.circleIndicator,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Transform(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.rotationY(3.14159),
+                                  child: LinearPercentIndicator(
+                                    width: 290,
+                                    barRadius: Radius.circular(2),
+                                    percent: 0.1,
+                                    progressColor: AppColor.circleIndicator,
+                                  ),
+                                ),
+                              ],
                             ),
 
                           ],

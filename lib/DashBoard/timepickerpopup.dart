@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:intl/intl.dart'; // Add this import to get current time
 
+import '../LocationSelectionPage/locationPageView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 
@@ -220,7 +222,10 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   elevation: 2,
                   title: "Submit",
                   color: AppColor.circleIndicator,
-                  onPressed: () {},
+                  onPressed: () {
+                    Lottie.asset("assets/Crown.lottie",
+                        decoder: customDecoder, height: 60);
+                  },
                 ),
               ],
             ),
