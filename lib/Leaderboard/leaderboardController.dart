@@ -21,7 +21,7 @@ class LeaderBoardController extends GetxController{
 
   leaderboard() async{
 
-    var request = http.Request('GET', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-response/17-09-2024/?user_id=2'));
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/17-09-2024/?user_id=2'));
 
 
     http.StreamedResponse response = await request.send();

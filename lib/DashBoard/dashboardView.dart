@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -9,14 +8,12 @@ import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
-import 'package:flutter/widgets.dart';
 
 import '../LocationSelectionPage/locationPageView.dart';
 
@@ -32,7 +29,7 @@ class DashBoardView extends GetView<DashBoardController> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        toolbarHeight: 60,
+        toolbarHeight: 35,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
         title: Text("Bill Maroof", style: MyTextTheme.largeBCN),
@@ -45,7 +42,7 @@ class DashBoardView extends GetView<DashBoardController> {
                 const SizedBox(width: 4),
                 Text(
                   dashboardController.location.value,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
                 const CircleAvatar(
                   radius: 25,
@@ -67,7 +64,7 @@ class DashBoardView extends GetView<DashBoardController> {
                 thickness: 1,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(0.0),
                 child:  Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -88,36 +85,29 @@ class DashBoardView extends GetView<DashBoardController> {
                         }
                       },
                     ),
-                    Expanded(
-                      child:Row(
-                        children: [
-                          Text(
-                            DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
+                    Row(
+                      children: [
+                        Text(
+                          DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
+                          style: const TextStyle(fontSize: 12, color: Colors.black),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Container(
+                          width: 1, // Vertical divider width
+                          height: 15, // Divider height
+                          color: Colors.grey,
+                          margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+                        ),
+                        Obx(
+                              () => Text(
+                            dashboardController.islamicDate.value,
                             style: const TextStyle(fontSize: 12, color: Colors.black),
                             overflow: TextOverflow.ellipsis,
                           ),
-
-
-                          Container(
-                            width: 1, // Vertical divider width
-                            height: 15, // Divider height
-                            color: Colors.grey,
-                            margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
-                          ),
-                          Expanded(
-                            flex: 1, // Same flex value as the first Expanded for symmetry
-                            child: Obx(
-                                  () => Text(
-                                dashboardController.islamicDate.value,
-                                style: const TextStyle(fontSize: 12, color: Colors.black),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
+                        ),
+                    
+                      ],
                     ),
-
                   ],
                 ),
               ),
@@ -148,16 +138,20 @@ class DashBoardView extends GetView<DashBoardController> {
                   child: Obx(() {
                     double completionPercentage = controller.calculateCompletionPercentage();
                     // Circle center and radius
-                    double radius = 140; // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                    double angle = 2 * pi * completionPercentage; // Convert percentage to radians
+                    double radius = 100;
+                    // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                    double angle = 2 * pi * completionPercentage;
+                    // Convert percentage to radians
 
                     // Calculate x and y positions based on angle
                     double x = radius * cos(angle);
                     double y = radius * sin(angle);
 
                     return Positioned(
-                      right: radius + x - 80, // Offset to center the crown on the circle
-                      top: radius - y - 185,  // Offset to center the crown on the circle
+                      left: radius + x - 120,
+                      // Offset to center the crown on the circle
+                      top: radius - y - 100,
+                      // Offset to center the crown on the circle
                       child: CircleAvatar(
                         radius: 15,
                         backgroundColor: Colors.white,
@@ -189,7 +183,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(height: 50,),
+                            const SizedBox(height: 50,),
                             BlinkingTextWidget(
                               text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
                               style: MyTextTheme.mustard,
@@ -232,20 +226,20 @@ class DashBoardView extends GetView<DashBoardController> {
                       nextPrayerTime = DateFormat('hh:mm a').parse(dashboardController.nextPrayerStartTime.value);
                       nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
                     } catch (e) {
-                      nextPrayerTime = DateTime.now().subtract(Duration(days: 1)); // Default to a past time if parsing fails
+                      nextPrayerTime = DateTime.now().subtract(const Duration(days: 1)); // Default to a past time if parsing fails
                     }
 
                     bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
 
                     return isBeforeNextPrayer
-                        ? SizedBox.shrink() // Hide the button
+                        ? const SizedBox.shrink() // Hide the button
                         : InkWell(
                       child: Text("Mark as Prayer", style: MyTextTheme.mustardN),
                       onTap: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return  TimePicker();
+                            return  const TimePicker();
                           },
                         );
                       },
@@ -312,7 +306,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                   transform: Matrix4.rotationY(3.14159),
                                   child: LinearPercentIndicator(
                                     width: 290,
-                                    barRadius: Radius.circular(2),
+                                    barRadius: const Radius.circular(2),
                                     percent: 0.1,
                                     progressColor: AppColor.circleIndicator,
                                   ),

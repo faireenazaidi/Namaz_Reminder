@@ -1,5 +1,6 @@
 
-import 'package:custom_searchable_dropdown/Custom_Searchable_Dropdown.dart';
+
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 

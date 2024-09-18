@@ -105,56 +105,59 @@ class LocationPage extends GetView<LocationPageController> {
 
 
                       const SizedBox(height: 20),
-                      IntlPhoneField(
-                        cursorColor: Colors.grey,
-                        controller: controller.phoneController.value,
-                        decoration: InputDecoration(
-                          // Use Row in prefixIcon to combine phone icon and a space
-                          prefixIcon: const Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min, // Ensures it takes the minimum width necessary
-                              children: [
-                                Icon(
-                                  Icons.local_phone_outlined, // Phone icon
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 8), // Spacing between icon and the rest of the field
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IntlPhoneField(
+                          cursorColor: Colors.grey,
+                          controller: controller.phoneController.value,
+                          decoration: InputDecoration(
+                            // Use Row in prefixIcon to combine phone icon and a space
+                            prefixIcon: const Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min, // Ensures it takes the minimum width necessary
+                                children: [
+                                  Icon(
+                                    Icons.local_phone_outlined, // Phone icon
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 8), // Spacing between icon and the rest of the field
+                                ],
+                              ),
+                            ),
+                            hintText: "Enter your phone number",
+                            hintStyle: MyTextTheme.mediumCustomGCN,
+                            filled: true,
+                            fillColor: Colors.grey.withOpacity(0.1),
+                            counterText: "",
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                           ),
-                          hintText: "Enter your phone number",
-                          hintStyle: MyTextTheme.mediumCustomGCN,
-                          filled: true,
-                          fillColor: Colors.grey.withOpacity(0.1),
-                          counterText: "",
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.white),
+                          initialCountryCode: 'IN',
+                          dropdownIconPosition: IconPosition.trailing,
+                          dropdownTextStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
                           ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.white),
+                          showCountryFlag: false,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                          },
                         ),
-                        initialCountryCode: 'IN',
-                        dropdownIconPosition: IconPosition.trailing,
-                        dropdownTextStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        showCountryFlag: false,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                        onChanged: (phone) {
-                          print(phone.completeNumber);
-                        },
                       ),
 
                       const SizedBox(height: 20),
@@ -261,7 +264,9 @@ class LocationPage extends GetView<LocationPageController> {
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+
                               children: [
+                                Text(controller.otp.toString(),style: TextStyle(color: Colors.white),),
                                 Text("Verifying Your Account",
                                     style: MyTextTheme.largeWCB),
                                 Text(
@@ -863,7 +868,7 @@ class LocationPage extends GetView<LocationPageController> {
                 ):
                     const Column(
 
-                    );
+                    )
 
               );
             }),

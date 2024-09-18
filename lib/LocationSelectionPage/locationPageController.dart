@@ -43,21 +43,21 @@ class LocationPageController extends GetxController {
  var selectedGender = "".obs;
  var selectedFiqh = "".obs;
  var selectedPrayer = "".obs;
-  RxBool isBottomSheetExpanded = false.obs;
-  RxBool isPhoneNumberValid = false.obs;
-  RxBool showSecondContainer = false.obs;
-  RxBool isOtpFilled = false.obs;
-  RxBool isOtpVerified = false.obs;
-  RxBool showThirdContainer = false.obs;
-  RxBool showFourthContainer = false.obs;
-  RxDouble containerHeight = 400.0.obs;
-  RxList<CalculationMethod> calculationMethods = <CalculationMethod>[].obs;
+  // RxBool isBottomSheetExpanded = false.obs;
+  // RxBool isPhoneNumberValid = false.obs;
+  // RxBool showSecondContainer = false.obs;
+  // RxBool isOtpFilled = false.obs;
+  // RxBool isOtpVerified = false.obs;
+  // RxBool showThirdContainer = false.obs;
+  // RxBool showFourthContainer = false.obs;
+  // RxDouble containerHeight = 400.0.obs;
+  // RxList<CalculationMethod> calculationMethods = <CalculationMethod>[].obs;
   RxMap loginUserResponse={}.obs;
-  var selectedCalculationMethod = ''.obs;
-  RxInt step = 0.obs;
-  var selectedGender = "".obs;
-  var selectedFiqh = "".obs;
-  var selectedPrayer = "".obs;
+  // var selectedCalculationMethod = ''.obs;
+  // RxInt step = 0.obs;
+  // var selectedGender = "".obs;
+  // var selectedFiqh = "".obs;
+  // var selectedPrayer = "".obs;
   UserData userData = UserData();
 
   PersonModel get getLoginUserResponse=>PersonModel.fromJson(loginUserResponse);
@@ -91,7 +91,7 @@ class LocationPageController extends GetxController {
       validatePhoneNumber(phoneController.value.text);
     });
     startTimer();
-    fetchCalculationMethods();
+    // fetchCalculationMethods();
   }
 
   void validatePhoneNumber(String phoneNumber) {
@@ -277,14 +277,17 @@ class LocationPageController extends GetxController {
 
   ///login
 
+  var otp = '';
+
   var response = {};
   login(String phoneNumber) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {"mobile_no": phoneNumber};
-    http.Response request = await http.post(Uri.parse('http://172.16.61.15:8011/adhanapi/login/'), body: jsonEncode(body), headers: headers);
+    http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/login/'), body: jsonEncode(body), headers: headers);
     print("@@@ REQUEST DATA ${request.body}");
     response = jsonDecode(request.body);
     print("ffff ${response['is_registered']}");
+    otp = response['response_data']['otp'].toString();
   }
 
   /// Otp verification
@@ -295,7 +298,7 @@ class LocationPageController extends GetxController {
     print("phoneNumber ${phoneController.value.text}");
     print("phoneNumber______________ ${body}");
 
-    http.Response request = await http.post(Uri.parse('http://172.16.61.15:8011/adhanapi/verify/'), body: body, );
+    http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/verify/'), body: body, );
     print("@@@ REQUEST DATA ${request.body}");
 
 
@@ -348,6 +351,9 @@ class LocationPageController extends GetxController {
 
 
 
+
+
+
  //  registerUser() async {
  //   var headers = {
  //    'Content-Type': 'application/json'
@@ -378,8 +384,8 @@ class LocationPageController extends GetxController {
 
  ///Firebase.
  static final FirebaseAuth _auth = FirebaseAuth.instance;
- UserData userData = UserData();
- User? user = _auth.currentUser;
+ // UserData userData = UserData();
+ // User? user = _auth.currentUser;
  RxString otpVerificationId = "".obs;
  List<UserDetailsDataModal> userDetailsList = [];
 
@@ -423,7 +429,7 @@ class LocationPageController extends GetxController {
   await _auth.signInWithCredential(credential);
 
   ///Get firebase user details
-  final User? user = userCredential.user;
+  // final User? user = userCredential.user;
 
     // if (user != null) {
     //   print("User UID: ${user.uid}");
@@ -457,4 +463,8 @@ class CalculationMethod {
       name: json['name'],
     );
   }
+
+
+
+
 }

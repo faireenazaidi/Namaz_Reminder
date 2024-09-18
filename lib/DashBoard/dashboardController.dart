@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
+
+import '../SplashScreen/splashController.dart';
 class DashBoardController extends GetxController {
   RxString islamicDate = ''.obs;
   RxInt rank = 5.obs;
@@ -21,6 +26,8 @@ class DashBoardController extends GetxController {
   RxList<String> avatars = <String>[].obs;
   RxString location = 'Lucknow'.obs;
   var selectedDate = Rx<DateTime>(DateTime.now());
+
+  UserData userData = UserData();
 
 
   var prayerNames = ['Fajr', 'Zuhr', 'Asar', 'Maghrib', 'Isha'].obs;
@@ -300,7 +307,7 @@ class DashBoardController extends GetxController {
           } else {
             remainingTime.value= formatDuration(remainingDuration);
           }
-          print("Remaining Time: ${remainingTime.value}");
+          //print("Remaining Time: ${remainingTime.value}");
         } catch (e) {
           print('Error parsing end time: $e');
         }
@@ -354,6 +361,44 @@ class DashBoardController extends GetxController {
   }
   return 0.0; // Default to 0% in case of error
   }
+  RxBool prayedAtMosque = false.obs;
+  var hour = 1;
+  var minute = 0;
+
+
+  submitPrayer() async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/19-09-2024/'));
+    request.body = json.encode({
+      "user_id": userData.getUserData!.responseData!.user!.id.toString(),
+      "mobile_no": userData.getUserData!.responseData!.user!.mobileNo.toString(),
+      "latitude": latAndLong?.latitude.toString(),
+      "longitude": latAndLong?.longitude.toString(),
+      "timestamp": "$hour:$minute",
+      "jamat": prayedAtMosque.value.toString(),
+      "times_of_prayer": 5
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString());
+      var data = jsonDecode(await response.stream.bytesToString());
+      print("APIRESPONSE "+data.toString());
+      Get.snackbar('Error', data['detail'].toString(),
+          snackPosition: SnackPosition.BOTTOM);
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
+  }
+
+
+
 
   }
 

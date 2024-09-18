@@ -192,61 +192,61 @@ class Upcoming extends GetView<UpcomingController> {
                   return Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Container(
-                      height: 100,
 
                       decoration: BoxDecoration(
                           color: AppColor.leaderboard,
                         borderRadius: BorderRadius.circular(10)
                       ),
-                      child:  Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                                prayerName,
-                                style: MyTextTheme.largeCustomBCB
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Starts at',
-                                  style: MyTextTheme.smallGCN
-                                ),
+                      child:  Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                  prayerName,
+                                  style: MyTextTheme.largeCustomBCB
                               ),
-                              Expanded(
-                                child: Text(
+                            ),
+                            Row(
+                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Starts at',
+                                    style: MyTextTheme.smallGCN
+                                  ),
+                                ),
+                                Text(
                                   'End at',
                                     style: MyTextTheme.smallGCN
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  startTime12,
-                                 style: MyTextTheme.mediumBCC,
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    startTime12,
+                                   style: MyTextTheme.mediumBCC,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Text(
+                                Text(
                                   endTime12,
                                   style: MyTextTheme.mediumBCC,
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                        ],
-
+                          ],
 
 
 
 
+
+                        ),
                       ),
                     ),
                   );

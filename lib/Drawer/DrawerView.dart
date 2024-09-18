@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Login/loginView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 
@@ -123,26 +124,26 @@ class CustomDrawer extends StatelessWidget {
                 "assets/notification.png",
                     () {},
                 customDrawerController.notificationCount.value,
-              Obx(() => ListTile(
-                leading: Image.asset("assets/darkMode.png"),
-                title: const Text(
-                  'Dark Mode',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    fontFamily: 'Roboto',
-                  ),
-                ),
-                dense: true, // Reduce spacing
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
-                trailing: Switch(
-                  value: customDrawerController.isDarkMode.value,
-                  onChanged: (value) {
-                    customDrawerController.toggleDarkMode(value);
-                    Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
-                  },
-                ),
-              )),
+              // Obx(() => ListTile(
+              //   leading: Image.asset("assets/darkMode.png"),
+              //   title: const Text(
+              //     'Dark Mode',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 12,
+              //       fontFamily: 'Roboto',
+              //     ),
+              //   ),
+              //   dense: true, // Reduce spacing
+              //   contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
+              //   trailing: Switch(
+              //     value: customDrawerController.isDarkMode.value,
+              //     onChanged: (value) {
+              //       customDrawerController.toggleDarkMode(value);
+              //       Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+              //     },
+              //   ),
+              // )),
               // Obx(() => ListTile(
               //   leading: Image.asset("assets/darkMode.png"),
               //   title: const Text(
@@ -162,7 +163,8 @@ class CustomDrawer extends StatelessWidget {
               //       Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
               //     },
               //   ),
-              // )),
+               )
+     ),
               Divider(
                 color: AppColor.greyLight,
                 thickness: 1.4,
@@ -180,7 +182,8 @@ class CustomDrawer extends StatelessWidget {
               ),
               InkWell(
                 onTap: (){
-                  Get.offAll(LocationPage());
+                  Get.offAll(const LocationPage());
+                  UserData().removeUserData();
                   //Get.toNamed(AppRoutes.locationPageRoute);
                 },
                 child: Padding(

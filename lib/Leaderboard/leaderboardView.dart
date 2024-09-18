@@ -66,7 +66,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           onTap: () => controller.updateSelectedTab('Daily'),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: controller.selectedTab.value == 'Daily' ? Colors.orange[100] : Colors.transparent,
+                              color: controller.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -75,7 +75,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: controller.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
+                                color: controller.selectedTab.value == 'Daily' ? Colors.black : Colors.black,
                               ),
                             ),
                           ),
@@ -188,7 +188,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                     ),
-                    itemCount: controller.staticData.length, // number of items
+                    itemCount: 25, // number of items
                     itemBuilder: (context, index) {
                       // Example of dynamic data for CircleAvatars
                       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
@@ -196,8 +196,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         children: [
                           CircleAvatar(
                             radius: 25,
-                            backgroundImage: controller.staticData[index]['image']),  // Dynamically set image
-
+                            backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
+                          ),
                         ],
                       );
                     },

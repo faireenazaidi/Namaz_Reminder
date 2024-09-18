@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart'; // Add this import to get current time
 import '../LocationSelectionPage/locationPageView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
+import 'dashboardController.dart';
 
 class TimePicker extends StatefulWidget {
   const TimePicker({super.key});
@@ -16,14 +18,16 @@ class TimePicker extends StatefulWidget {
 }
 
 class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateMixin {
-  var hour = 1;
-  var minute = 0;
+
+
   bool isAm = true;
-  bool prayedAtMosque = false;
+
 
   // AnimationController for ScaleTransition
   late AnimationController _scaleController;
   late Animation<double> _scaleAnimation;
+
+  DashBoardController dashBoardController = Get.put(DashBoardController());
 
   @override
   void initState() {
@@ -31,9 +35,9 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
 
     // Initialize hour and minute to current time
     final now = DateTime.now();
-    hour = now.hour % 12; // Convert to 12-hour format
-    if (hour == 0) hour = 12; // Handle 0 hour case
-    minute = now.minute;
+    dashBoardController.hour = now.hour % 12; // Convert to 12-hour format
+    if (dashBoardController.hour == 0) dashBoardController.hour = 12; // Handle 0 hour case
+    dashBoardController.minute = now.minute;
     isAm = now.hour < 12;
 
     _scaleController = AnimationController(
@@ -84,7 +88,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
             children: [
               // Title
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'MARK YOUR PRAYER TIME',
@@ -95,7 +99,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   SizedBox(width: screenWidth * 0.05),
                   Image.asset(
                     "assets/container.png",
-                    width: screenWidth * 0.1, // Dynamic size for image
+                    // width: screenWidth * 0.1,
+                    width: 30,
                   ),
                 ],
               ),
@@ -111,12 +116,13 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       maxValue: 12,
                       itemWidth: screenWidth * 0.15,
                       itemHeight: screenHeight * 0.12,
-                      value: hour,
+                      value: dashBoardController.hour,
                       zeroPad: true,
                       infiniteLoop: false, // Prevent going forward
                       onChanged: (value) {
                         setState(() {
-                          hour = value;
+                          dashBoardController.hour = value;
+                          print("ddddd "+dashBoardController.hour.toString());
                         });
                       },
                       textStyle: TextStyle(
@@ -146,12 +152,15 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       maxValue: 59,
                       itemWidth: screenWidth * 0.15,
                       itemHeight: screenHeight * 0.12,
-                      value: minute,
+                      value: dashBoardController.minute,
                       zeroPad: true,
                       infiniteLoop: false, // Prevent going forward
                       onChanged: (value) {
                         setState(() {
-                          minute = value;
+                          dashBoardController.minute = value;
+                          print("sdss"+dashBoardController.minute.toString());
+
+
                         });
                       },
                       textStyle: TextStyle(
@@ -211,11 +220,12 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
               Row(
                 children: [
                   Checkbox(
-                    value: prayedAtMosque,
+                    value: dashBoardController.prayedAtMosque.value,
                     activeColor: AppColor.circleIndicator,
                     onChanged: (bool? value) {
                       setState(() {
-                        prayedAtMosque = value ?? false;
+                        dashBoardController.prayedAtMosque.value = value ?? false;
+                        print("sssss "+dashBoardController.prayedAtMosque.value.toString());
                       });
                     },
                   ),
@@ -240,6 +250,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                 onPressed: () {
                   Lottie.asset("assets/Crown.lottie",
                       decoder: customDecoder, height: 60);
+                  dashBoardController.submitPrayer();
                 },
               ),
             ],
