@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -398,6 +399,8 @@ class DashBoardController extends GetxController {
 //       print('Error: $e');
 //     }
 //   }
+
+  bool isGifVisible = false;
   submitPrayer() async {
     print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     try {
@@ -421,27 +424,36 @@ class DashBoardController extends GetxController {
         "times_of_prayer": 5
       });
       print("${request.body}");
-      print("User ID: $userId");
-      print("Mobile No: $mobileNo");
-      // print("Latitude: $latitude");
-      // print("Longitude: $longitude");
-      print("jamat: $jamatValue");
-      print("time: $hour:$minute");
+      // print("User ID: $userId");
+      // print("Mobile No: $mobileNo");
+      // // print("Latitude: $latitude");
+      // // print("Longitude: $longitude");
+      // print("jamat: $jamatValue");
+      // print("time: $hour:$minute");
 
 
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
+      //print("API RESPONSE: " + await response.stream.bytesToString().toString());
+      var data = jsonDecode(await response.stream.bytesToString());
+      print("API RESPONSE: " + data['detail'].toString());
+      isGifVisible = true;
+      update();
 
-      if (response.statusCode == 200) {
-        var data = jsonDecode(await response.stream.bytesToString());
-        print("API RESPONSE: " + data.toString());
+      Future.delayed(Duration(seconds: 3), () {
 
-        Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
-      } else {
-        print('Failed with status code: ${response.statusCode}');
-        print('Reason: ${response.reasonPhrase}');
-      }
+          isGifVisible = false;
+          update();
+
+      });
+      // Future.delayed(Duration(seconds: 6), () {
+      //   Image.asset("assets/popup_Default.gif");
+      //
+      // });
+      Get.back();
+      // Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.green);
+
     } catch (e) {
       print('Error: $e');
     }
