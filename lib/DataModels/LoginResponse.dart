@@ -104,6 +104,7 @@ class UserModel {
   String schoolOfThought;
   String methodId;
   String methodName;
+  String picture;
 
   UserModel({
     required this.id,
@@ -117,6 +118,7 @@ class UserModel {
     required this.schoolOfThought,
     required this.methodId,
     required this.methodName,
+    required this.picture,
   });
 
 
@@ -133,6 +135,7 @@ class UserModel {
       schoolOfThought: (json['school_of_thought']??'').toString(),
       methodId: (json['method_id']??'').toString(),
       methodName: (json['method_name']??'').toString(),
+      picture: (json['picture']??'').toString(),
     );
   }
 
@@ -147,7 +150,9 @@ class UserModel {
       'gender': gender,
       'fiqh': fiqh,
       'times_of_prayer': timesOfPrayer,
-      'school_of_thought': schoolOfThought,
+      'method_id': methodId,
+      'method_name': methodName,
+      'picture': picture,
     };
   }
 }

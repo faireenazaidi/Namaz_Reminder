@@ -32,8 +32,8 @@ class CustomDrawer extends StatelessWidget {
                       onTap: (){
                         Get.toNamed(AppRoutes.profileRoute);
                       },
-                      child: const CircleAvatar(
-                        backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
+                      child:  CircleAvatar(
+                        backgroundImage: NetworkImage( "http://182.156.200.177:8011${UserData().getUserData!.picture}"),
                         radius: 30,
                       ),
                     ),
@@ -51,10 +51,10 @@ class CustomDrawer extends StatelessWidget {
                               fontFamily: 'Roboto',
                             ),
                           ),
-                          Obx(() => Text(
+                          Text(
                             UserData().getUserData!.email??'',
                             style: MyTextTheme.smallGCN,
-                          )),
+                          )
                         ],
                       ),
                     ),

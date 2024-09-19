@@ -50,9 +50,8 @@ class DashBoardView extends GetView<DashBoardController> {
                      Get.toNamed(AppRoutes.profileRoute);
                    },
                    child: CircleAvatar(
-                    backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
-                                   ),
-                 )
+                    backgroundImage: NetworkImage( "http://182.156.200.177:8011${UserData().getUserData!.picture}"),
+                 ))
               ],
             ),
           ),
@@ -255,94 +254,94 @@ class DashBoardView extends GetView<DashBoardController> {
             ),
 
 
-            const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 160,
-                  decoration: BoxDecoration(
-                    color: AppColor.leaderboard,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                              onTap:(){
-                                Get.toNamed(AppRoutes.leaderboardRoute);
-                              },
-                                child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB)),
-                            SvgPicture.asset("assets/open.svg")
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/person.png"),
-                            const SizedBox(width: 5),
-                            Text(
-                              '${dashboardController.rank.value}th',
-                              style: MyTextTheme.largeCustomBCB,
-                            ),
-                            const SizedBox(width: 4.0),
-                            Text(
-                              'Out of ${dashboardController.totalPeers.value} people in peers',
-                              style: MyTextTheme.smallGCN,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        child: Stack(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Transform(
-                                  alignment: Alignment.center,
-                                  transform: Matrix4.rotationY(3.14159),
-                                  child: LinearPercentIndicator(
-                                    width: 290,
-                                    barRadius: const Radius.circular(2),
-                                    percent: 0.1,
-                                    progressColor: AppColor.circleIndicator,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      SizedBox(
-                        height: 50,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: dashboardController.avatars.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(dashboardController.avatars[index]),
-                                radius: 15.0,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            const SizedBox(height: 55),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Container(
+              //     height: 160,
+              //     decoration: BoxDecoration(
+              //       color: AppColor.leaderboard,
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: [
+              //               InkWell(
+              //                 onTap:(){
+              //                   Get.toNamed(AppRoutes.leaderboardRoute);
+              //                 },
+              //                   child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB)),
+              //               SvgPicture.asset("assets/open.svg")
+              //             ],
+              //           ),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //           child: Row(
+              //             children: [
+              //               Image.asset("assets/person.png"),
+              //               const SizedBox(width: 5),
+              //               Text(
+              //                 '${dashboardController.rank.value}th',
+              //                 style: MyTextTheme.largeCustomBCB,
+              //               ),
+              //               const SizedBox(width: 4.0),
+              //               Text(
+              //                 'Out of ${dashboardController.totalPeers.value} people in peers',
+              //                 style: MyTextTheme.smallGCN,
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //         Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              //           child: Stack(
+              //             children: [
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.end,
+              //                 children: [
+              //                   Transform(
+              //                     alignment: Alignment.center,
+              //                     transform: Matrix4.rotationY(3.14159),
+              //                     child: LinearPercentIndicator(
+              //                       width: 290,
+              //                       barRadius: const Radius.circular(2),
+              //                       percent: 0.1,
+              //                       progressColor: AppColor.circleIndicator,
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //
+              //             ],
+              //           ),
+              //         ),
+              //         const SizedBox(width: 10.0),
+              //         SizedBox(
+              //           height: 50,
+              //           child: ListView.builder(
+              //             scrollDirection: Axis.horizontal,
+              //             itemCount: dashboardController.avatars.length,
+              //             itemBuilder: (context, index) {
+              //               return Padding(
+              //                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              //                 child: CircleAvatar(
+              //                   backgroundImage: NetworkImage(dashboardController.avatars[index]),
+              //                   radius: 15.0,
+              //                 ),
+              //               );
+              //             },
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 10),
               GetBuilder(
                 init: controller,
@@ -369,7 +368,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                           onPressed: () {
                                            Get.toNamed(AppRoutes.upcomingRoute);
                                           },
-                                          child: Text("UPCOMING PRAYERS", style: MyTextTheme.mediumWCB),
+                                          child: Text("CURRENT PRAYERS", style: MyTextTheme.mediumWCB),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
