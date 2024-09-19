@@ -40,6 +40,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
+                radius: 5,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
                   onPressed: () {
@@ -52,7 +53,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               background: Padding(
-                padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +161,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         separatorBuilder: (context, index) => const SizedBox(width: 30),
                         itemBuilder: (context, index) {
                           final labels = ['F', 'Z', 'A', 'M', 'I'];
-                          return CircleAvatar(child: Text(labels[index]));
+                          return CircleAvatar(
+                            backgroundColor: AppColor.circleIndicator,
+                            radius: 20,
+                              child: Text(labels[index]));
                         },
                       ),
                     ),
@@ -174,7 +178,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                // Space between leaderboard and toggle buttons
+
                 const SizedBox(height: 20), // Adjust the height as needed
 
                 // Leaderboard GridView

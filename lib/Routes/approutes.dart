@@ -5,10 +5,17 @@ import 'package:namaz_reminders/Leaderboard/leaderboardBinding.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageBinding.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendBinding.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
+import 'package:namaz_reminders/PeerCircle/peerView.dart';
+import 'package:namaz_reminders/Profile/profileController.dart';
+import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/SplashScreen/splashBinding.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import '../Login/loginBinding.dart';
 import '../Login/loginView.dart';
+import '../PeerCircle/peerBinding.dart';
+import '../Profile/profileBinding.dart';
 import '../SplashScreen/splashController.dart';
 import '../SplashScreen/splashView.dart';
 import '../UpcomingPrayers/upcomingBindings.dart';
@@ -23,6 +30,12 @@ class AppRoutes {
   static const String upcomingRoute = '/upcoming';
   static const String locationPageRoute = '/locationPage';
   static const String splashRoute = '/splash';
+  static const String profileRoute = '/profile';
+  static const String peerRoute = '/peer';
+  static const String addfriendRoute = '/friend';
+
+
+
 
 
 
@@ -60,8 +73,21 @@ class AppRoutes {
       page: () =>  SplashScreen(),
       binding: SplashBinding(),
     ),
-
-
+    GetPage(
+      name: profileRoute,
+      page: () =>  ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: peerRoute,
+      page: () =>  PeerView(),
+      binding: PeerBinding(),
+    ),
+    GetPage(
+      name: addfriendRoute,
+      page: () =>  AddFriendView(),
+      binding: AddFriendBinding(),
+    ),
 
   ];
 }

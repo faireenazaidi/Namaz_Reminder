@@ -44,10 +44,14 @@ class DashBoardView extends GetView<DashBoardController> {
                   dashboardController.location.value,
                   style: const TextStyle(color: Colors.black),
                 ),
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
-                )
+                 InkWell(
+                   onTap: (){
+                     Get.toNamed(AppRoutes.profileRoute);
+                   },
+                   child: CircleAvatar(
+                    backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
+                                   ),
+                 )
               ],
             ),
           ),
@@ -105,7 +109,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                    
+
                       ],
                     ),
                   ],
@@ -156,7 +160,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         radius: 15,
                         backgroundColor: Colors.white,
                         child:     Lottie.asset("assets/Crown.lottie",
-                            decoder: customDecoder, height: 50),
+                            decoder: customDecoder, height: 1000),
                          ),
 
                     );

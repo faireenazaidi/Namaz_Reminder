@@ -17,21 +17,25 @@ class CustomDrawer extends StatelessWidget {
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
     return Drawer(
-      child: SafeArea( // Use SafeArea to remove the status bar from view
+      child: SafeArea(
         child: Container(
           child: ListView(
-            padding: EdgeInsets.zero, // Remove padding from the ListView
+            padding: EdgeInsets.zero,
             children: [
               const SizedBox(height: 10,),
-              // Custom user account header
               Container(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CircleAvatar(
-                      backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
-                      radius: 30,
+                    InkWell(
+                      onTap: (){
+                        Get.toNamed(AppRoutes.profileRoute);
+                      },
+                      child: const CircleAvatar(
+                        backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
+                        radius: 30,
+                      ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -44,7 +48,7 @@ class CustomDrawer extends StatelessWidget {
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
-                              fontFamily: 'Roboto', // Apply Roboto font
+                              fontFamily: 'Roboto',
                             ),
                           )),
                           Obx(() => Text(
@@ -107,7 +111,9 @@ class CustomDrawer extends StatelessWidget {
                 customDrawerController.missedPrayersCount.value,
               )),
               _buildListTile(
-                  context, "Peer Circle", "assets/peerCircle.png", () {}
+                  context, "Peer Circle", "assets/peerCircle.png", () {
+                    Get.toNamed(AppRoutes.peerRoute);
+              }
               ),
               Divider(
                 color: AppColor.greyLight,
