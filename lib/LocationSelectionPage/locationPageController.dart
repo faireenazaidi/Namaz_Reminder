@@ -41,7 +41,7 @@ class LocationPageController extends GetxController {
  var selectedCalculationMethod = ''.obs;
  RxInt step = 0.obs;
  var selectedGender = "".obs;
- var selectedFiqh = "".obs;
+ var selectedFiqh = ''.obs;
  var selectedPrayer = "".obs;
   // RxBool isBottomSheetExpanded = false.obs;
   // RxBool isPhoneNumberValid = false.obs;
@@ -60,7 +60,7 @@ class LocationPageController extends GetxController {
   // var selectedPrayer = "".obs;
   UserData userData = UserData();
 
-  PersonModel get getLoginUserResponse=>PersonModel.fromJson(loginUserResponse);
+ // UserModel get getLoginUserResponse=>UserModel.fromJson(loginUserResponse);
 
   void updateGender(String gender) {
     selectedGender.value = gender;
@@ -70,7 +70,7 @@ class LocationPageController extends GetxController {
     update();
   }
 
-  void updateFiqh(String fiqh) {
+  void updateFiqh(fiqh) {
     selectedFiqh.value = fiqh;
   }
 
@@ -84,6 +84,7 @@ class LocationPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    calculationMethode();
     Future.delayed(const Duration(milliseconds: 300), () {
       isBottomSheetExpanded.value = true;
     });
@@ -137,7 +138,7 @@ class LocationPageController extends GetxController {
     } else if (step.value == 3) {
       containerHeight.value = 400;
     } else if (step.value == 4) {
-      containerHeight.value = 300;
+      containerHeight.value = 500;
     }
     update();
   }
@@ -150,8 +151,9 @@ class LocationPageController extends GetxController {
 
 
  calculationMethode() async {
+    print("calculation method running");
   var request = http.Request(
-      'GET', Uri.parse('http://172.16.58.162:8080/api/methods/'));
+      'GET', Uri.parse('http://182.156.200.177:8011/adhanapi/methods/'));
 
 
   http.StreamedResponse response = await request.send();
@@ -202,6 +204,11 @@ class LocationPageController extends GetxController {
 
  }
 
+Map selectMethod = {}.obs;
+ void updateSelectMethod(val){
+   selectMethod = val;
+   update();
+ }
 
  RxInt calId = 0.obs;
  RxInt get getCalId => calId;
@@ -299,27 +306,41 @@ class LocationPageController extends GetxController {
     print("phoneNumber______________ ${body}");
 
     http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/verify/'), body: body, );
-    print("@@@ REQUEST DATA ${request.body}");
+    print("verify otp api data ${request.body}");
 
 
     otpData = jsonDecode(request.body);
     if (otpData['response_code'].toString() == "1") {
-
-
-
-      updateLoginResponse(jsonDecode(request.body));
-      print("CheckLoginResponse${getLoginUserResponse.responseData!.user}");
-
-      userData.addUserData(getLoginUserResponse);
-      print("USERDATA: ${userData.getUserData!.responseData!.user!.mobileNo.toString()}");
-      print("CheckLoginResponse$loginUserResponse");
-      if(response['response_data']['is_registered'].toString()=="1"){
-        step.value=0;
-        update();
-        Get.toNamed(AppRoutes.dashboardRoute);
-      }else{
-        dynamicHeightAllocation();
+      final userModel = UserModel.fromJson(otpData['response_data']['user']);
+      if(otpData['response_data']['detail'].toString()!='Invalid or expired OTP'){
+        if(response['response_data']['is_registered'].toString()=='0'){
+          dynamicHeightAllocation();
+          await userData.addUserData(userModel);
+        }else{
+          // final userModel = UserModel.fromJson(otpData['response_data']['user']);
+          await userData.addUserData(userModel);
+          print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+          // updateLoginResponse(jsonDecode(otpData['response_data']['user']));
+          Get.toNamed(AppRoutes.dashboardRoute);
+        }
       }
+      print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+
+
+      // updateLoginResponse(jsonDecode(request.body));
+      // print("CheckLoginResponse${getLoginUserResponse.responseData!.user}");
+
+      // userData.addUserData(getLoginUserResponse);
+      // print("USERDATA: ${userData.getUserData!.responseData!.user!.mobileNo.toString()}");
+      // print("CheckLoginResponse$loginUserResponse");
+
+      // if(response['response_data']['is_registered'].toString()=="1"){
+      //   step.value=0;
+      //   update();
+      //   Get.toNamed(AppRoutes.dashboardRoute);
+      // }else{
+      //   dynamicHeightAllocation();
+      // }
 
     } else {
       print("ddddd ${otpData['detail']}");
@@ -337,16 +358,32 @@ class LocationPageController extends GetxController {
     'Content-Type': 'application/json'
    };
    Map<String,dynamic> body = {
-    "username": usernameC.value.toString(),
-    "name": nameC.value.toString(),
-    "mobile_no": phoneController.value.toString(),
+     "user_id": userData.getUserData?.id.toString(),
+    "username": "${usernameC.value.text.toString().toLowerCase().trim()}${phoneController.value.text.toString().substring(phoneController.value.text.toString().length - 3)}",
+    "name": nameC.value.text.toString(),
+    "mobile_no": phoneController.value.text.toString(),
     "gender": selectedGender.value.toString(),
     "fiqh": selectedFiqh.value.toString(),
-    "times_of_prayer": timesOfPrayerC.value.toString(),
-    "school_of_thought": schoolOfThoughtC.value.toString()
+    "times_of_prayer": selectedPrayer.value,
+     "school_of_thought": selectMethod['id'].toString(),
+     "method_name":selectMethod['name'].toString(),
+     "method_id":selectMethod['id'].toString()
    };
-   http.Response request  = await http.post(Uri.parse('http://172.16.58.162:8080/api/register/'),body:jsonEncode(body), headers:headers);
-   print("@@@ REQUEST DATA ${request.body}");
+   print("registration body $body");
+   http.Response request  = await http.put(Uri.parse('http://182.156.200.177:8011/adhanapi/update-user/'),body:jsonEncode(body), headers:headers);
+   final data = jsonDecode(request.body);
+   print("registration data $data");
+   if(request.statusCode==200){
+     final userModel = UserModel.fromJson(data['user']);
+     await userData.addUserData(userModel);
+     step.value=0;
+     Get.toNamed(AppRoutes.dashboardRoute);
+     print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+   }
+   else{
+
+   }
+   print("user register data ${request.body}");
   }
 
 

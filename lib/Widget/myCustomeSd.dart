@@ -68,7 +68,7 @@ class _MyCustomSDState extends State<MyCustomSD> {
       searchBarHeight: 40,
       padding: const EdgeInsets.all(0),
       initialValue: widget.initialValue,
-      primaryColor: Colors.grey,
+      primaryColor: Colors.white,
       hideSearch: widget.hideSearch?? false,
       menuHeight: widget.height??80,
       menuMode: true,
@@ -86,7 +86,7 @@ class _MyCustomSDState extends State<MyCustomSD> {
       },
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.transparent,
+          color: Colors.white,
           border: Border.all(
               color: Colors.white,
               width: 1

@@ -8,22 +8,22 @@ class UserData extends GetxController {
   final _storage = GetStorage('user');
   String get getUserToken => (_storage.read('userToken')) ?? '';
 
-  PersonModel? get getUserData {
+  UserModel? get getUserData {
     final data = _storage.read('personModal');
     if (data != null) {
-      return PersonModel.fromJson(Map<String, dynamic>.from(data));
+      return UserModel.fromJson(Map<String, dynamic>.from(data));
     }
     return null;
   }
 
-  Future<void> addUserData(PersonModel personModal) async {
+  Future<void> addUserData(UserModel personModal) async {
     await _storage.write('personModal', personModal.toJson());
     update(); // Notify listeners of changes
   }
 
   // Optionally, add a method to clear user data
   Future<void> clearUserData() async {
-    await _storage.remove('userDetails');
+    await _storage.remove('personModal');
     update(); // Notify listeners of changes
   }
 

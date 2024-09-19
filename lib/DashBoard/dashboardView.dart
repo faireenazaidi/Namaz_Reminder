@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
@@ -32,7 +33,7 @@ class DashBoardView extends GetView<DashBoardController> {
         toolbarHeight: 35,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
-        title: Text("Bill Maroof", style: MyTextTheme.largeBCN),
+        title: Text(controller.userData.getUserData!.name.toString(), style: MyTextTheme.largeBCN),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),

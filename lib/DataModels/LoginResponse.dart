@@ -90,3 +90,64 @@ class User {
     return data;
   }
 }
+
+
+class UserModel {
+  String id;
+  String username;
+  String email;
+  String mobileNo;
+  String name;
+  String gender;
+  String fiqh;
+  String timesOfPrayer;
+  String schoolOfThought;
+  String methodId;
+  String methodName;
+
+  UserModel({
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.mobileNo,
+    required this.name,
+    required this.gender,
+    required this.fiqh,
+    required this.timesOfPrayer,
+    required this.schoolOfThought,
+    required this.methodId,
+    required this.methodName,
+  });
+
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'].toString(),
+      username: (json['username']??'').toString(),
+      email: (json['email']??'').toString(),
+      mobileNo: (json['mobile_no']??'').toString(),
+      name: json['name'] ?? '',
+      gender: (json['gender']??'').toString(),
+      fiqh: (json['fiqh']??'').toString(),
+      timesOfPrayer: (json['times_of_prayer']??'').toString(),
+      schoolOfThought: (json['school_of_thought']??'').toString(),
+      methodId: (json['method_id']??'').toString(),
+      methodName: (json['method_name']??'').toString(),
+    );
+  }
+
+  // Method to convert UserModel to a map (JSON)
+  Map<String, String> toJson() {
+    return {
+      'id': id,
+      'username': username,
+      'email': email,
+      'mobile_no': mobileNo,
+      'name': name,
+      'gender': gender,
+      'fiqh': fiqh,
+      'times_of_prayer': timesOfPrayer,
+      'school_of_thought': schoolOfThought,
+    };
+  }
+}

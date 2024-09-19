@@ -28,16 +28,16 @@ class SplashController extends GetxController {
     Timer(const Duration(seconds: 3), () => pageRoute());
   }
 
-  // pageRoute() async {
-  //   Get.toNamed(AppRoutes.locationPageRoute);
-  // }
-
   pageRoute() async {
-    print("UserId${_userData.getUserData?.responseData?.user?.mobileNo.toString()}");
-    if (_userData.getUserData?.responseData?.user?.id.toString() == "null") {
-      Get.toNamed(AppRoutes.locationPageRoute);
-    } else {
-      Get.toNamed(AppRoutes.dashboardRoute);
-    }
+    Get.toNamed(AppRoutes.locationPageRoute);
   }
+
+  // pageRoute() async {
+  //   print("UserId${_userData.getUserData?.responseData?.user?.mobileNo.toString()}");
+  //   if (_userData.getUserData?.responseData?.user?.id.toString() == "null") {
+  //     Get.toNamed(AppRoutes.locationPageRoute);
+  //   } else {
+  //     Get.toNamed(AppRoutes.dashboardRoute);
+  //   }
+  // }
 }

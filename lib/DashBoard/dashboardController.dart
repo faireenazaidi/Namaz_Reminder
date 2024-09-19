@@ -372,8 +372,8 @@ class DashBoardController extends GetxController {
     };
     var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/19-09-2024/'));
     request.body = json.encode({
-      "user_id": userData.getUserData!.responseData!.user!.id.toString(),
-      "mobile_no": userData.getUserData!.responseData!.user!.mobileNo.toString(),
+      "user_id": userData.getUserData!.id.toString(),
+      "mobile_no": userData.getUserData!.mobileNo.toString(),
       "latitude": latAndLong?.latitude.toString(),
       "longitude": latAndLong?.longitude.toString(),
       "timestamp": "$hour:$minute",

@@ -2,12 +2,14 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../AppManager/toast.dart';
 import '../DashBoard/dashboardView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
@@ -225,7 +227,8 @@ class LocationPage extends GetView<LocationPageController> {
                       const SizedBox(height: 10),
                       InkWell(
                         onTap: () {
-                          controller.toggleSecondContainer();
+                          showToast(msg: 'Coming Soon');
+                          // controller.toggleSecondContainer();
                         },
                         child: Container(
                           height: 50,
@@ -509,7 +512,7 @@ class LocationPage extends GetView<LocationPageController> {
                           children: [
                             Obx(()=>
                                 Radio<String>(
-                                  value:"Male",
+                                  value:"0",
                                   activeColor: AppColor.circleIndicator,
                                   groupValue: controller.selectedGender.value,
                                   onChanged: (String? value){
@@ -522,7 +525,7 @@ class LocationPage extends GetView<LocationPageController> {
                             const SizedBox(width: 100,),
                             Obx(()=>
                                 Radio(
-                                  value: "Female",
+                                  value: "1",
                                   activeColor: AppColor.circleIndicator,
                                   groupValue:  controller.selectedGender.value,
                                   onChanged: (String? value){
@@ -595,10 +598,11 @@ class LocationPage extends GetView<LocationPageController> {
                             children: [
                               Obx(()=>
                                   Radio<String>(
-                                    value:"Shia",
+                                    value:'0',
                                     activeColor: AppColor.circleIndicator,
                                     groupValue: controller.selectedFiqh.value,
-                                    onChanged: (String? value){
+                                    onChanged: (value){
+                                      print(value);
                                       controller.selectedFiqh(value!);
                                     },
                                   )),
@@ -608,10 +612,10 @@ class LocationPage extends GetView<LocationPageController> {
                               const SizedBox(width: 100,),
                               Obx(()=>
                                   Radio(
-                                    value: "Sunni",
+                                    value: '1',
                                     activeColor: AppColor.circleIndicator,
                                     groupValue:  controller.selectedFiqh.value,
-                                    onChanged: (String? value){
+                                    onChanged: (value){
                                       controller.selectedFiqh(value!);
                                     },
                                   )),
@@ -670,7 +674,7 @@ class LocationPage extends GetView<LocationPageController> {
                             // Validate Fiqh and Prayer Time selection
                             if (controller.selectedFiqh.value.isNotEmpty && controller.selectedPrayer.value.isNotEmpty) {
                               // Proceed if both values are selected
-                              controller.calculationMethode();
+                              // controller.calculationMethode();
                               controller.dynamicHeightAllocation();
                               print("Navigate to the next screen");
                             } else {
@@ -693,176 +697,191 @@ class LocationPage extends GetView<LocationPageController> {
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: GetBuilder(
+                      init: LocationPageController(),
+                      builder: (_) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Setup your Account",
-                                    style: MyTextTheme.largeWCB),
-                                Text("Select your Calculation Method",
-                                    style: MyTextTheme.mustardS
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Setup your Account",
+                                        style: MyTextTheme.largeWCB),
+                                    Text("Select your Calculation Method",
+                                        style: MyTextTheme.mustardS
+                                    ),
+                                  ],
                                 ),
+                                Lottie.asset("assets/though.lottie",
+                                    decoder: customDecoder, height: 100),
                               ],
                             ),
-                            Lottie.asset("assets/though.lottie",
-                                decoder: customDecoder, height: 100),
-                          ],
-                        ),
-                        // Obx(() {
-                        //   if (controller.calculationMethods.isEmpty) {
-                        //     return Center(child: CircularProgressIndicator());
-                        //   } else {
-                        //     // Split methods into two lists
-                        //     final radioMethods = controller.calculationMethods.take(3).toList();
-                        //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
-                        //
-                        //     return Column(
-                        //       children: [
-                        //         // Display first three methods as radio buttons
-                        //         Column(
-                        //           children: radioMethods.map((method) {
-                        //             return RadioListTile<String>(
-                        //               title: Text(method.name),
-                        //               value: method.id,
-                        //               groupValue: controller.selectedCalculationMethod.value,
-                        //               onChanged: (value) {
-                        //                 controller.selectedCalculationMethod.value = value!;
-                        //               },
-                        //             );
-                        //           }).toList(),
-                        //         ),
-                        //         // Display remaining methods in a dropdown
-                        //         if (dropdownMethods.isNotEmpty)
-                        //           DropdownButton<String>(
-                        //             hint: Text('Select a calculation method'),
-                        //             value: controller.selectedCalculationMethod.value.isEmpty
-                        //                 ? null
-                        //                 : controller.selectedCalculationMethod.value,
-                        //             onChanged: (String? newValue) {
-                        //               controller.selectedCalculationMethod.value = newValue!;
-                        //             },
-                        //             items: dropdownMethods.map((method) {
-                        //               return DropdownMenuItem<String>(
-                        //                 value: method.id,
-                        //                 child: Text(method.name),
-                        //               );
-                        //             }).toList(),
-                        //           ),
-                        //
-                        //       ],
-                        //     );
-                        //   }
-                        // }),
+                            // Obx(() {
+                            //   if (controller.calculationMethods.isEmpty) {
+                            //     return Center(child: CircularProgressIndicator());
+                            //   } else {
+                            //     // Split methods into two lists
+                            //     final radioMethods = controller.calculationMethods.take(3).toList();
+                            //     final dropdownMethods = controller.calculationMethods.skip(3).toList();
+                            //
+                            //     return Column(
+                            //       children: [
+                            //         // Display first three methods as radio buttons
+                            //         Column(
+                            //           children: radioMethods.map((method) {
+                            //             return RadioListTile<String>(
+                            //               title: Text(method.name),
+                            //               value: method.id,
+                            //               groupValue: controller.selectedCalculationMethod.value,
+                            //               onChanged: (value) {
+                            //                 controller.selectedCalculationMethod.value = value!;
+                            //               },
+                            //             );
+                            //           }).toList(),
+                            //         ),
+                            //         // Display remaining methods in a dropdown
+                            //         if (dropdownMethods.isNotEmpty)
+                            //           DropdownButton<String>(
+                            //             hint: Text('Select a calculation method'),
+                            //             value: controller.selectedCalculationMethod.value.isEmpty
+                            //                 ? null
+                            //                 : controller.selectedCalculationMethod.value,
+                            //             onChanged: (String? newValue) {
+                            //               controller.selectedCalculationMethod.value = newValue!;
+                            //             },
+                            //             items: dropdownMethods.map((method) {
+                            //               return DropdownMenuItem<String>(
+                            //                 value: method.id,
+                            //                 child: Text(method.name),
+                            //               );
+                            //             }).toList(),
+                            //           ),
+                            //
+                            //       ],
+                            //     );
+                            //   }
+                            // }),
 
-                        Container(
-                          height: 200,
-                          child: ListView.builder(
-                            itemCount: controller.getCalculationList.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) {
-                              print("Checkdata${controller.getCalculationList.length}");
-                              return
-                                Visibility(
-                                  visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
-                                  child: RadioListTile<int>(
-                                    title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
-                                    value: 1,
-                                    groupValue: controller.calculationList[index]['isChecked'],
-                                    onChanged: (int? value) {
-                                      print("object${controller.calculationList[index]['isChecked']}");
-                                      for(int i=0;i<controller.getCalculationList.length;i++){
-                                        if(i==index){
-                                          if(controller.calculationList[index]['isChecked']==0){
-                                            controller.calculationList[index]['isChecked'] = 1;
-                                          }else{
-                                            controller.calculationList[index]['isChecked'] = 0;
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: controller.getCalculationList.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  print("Checkdata${controller.getCalculationList.length}");
+                                  return
+                                    Visibility(
+                                      visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
+                                      child: RadioListTile(
+                                        title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
+                                        value: controller.getCalculationList[index].id,
+                                        groupValue: controller.selectMethod['id'],
+                                        onChanged: (value) {
+                                          if(value!=null){
+                                            print("check method id ${controller.calculationList[index]}");
+                                             controller.updateSelectMethod(controller.calculationList[index]);
                                           }
-                                        }else{
-                                          controller.calculationList[index]['isChecked'] = 0;
-                                        }
-                                      }
+                                          // print("object${controller.calculationList[index]['isChecked']}");
+                                          // for(int i=0;i<controller.getCalculationList.length;i++){
+                                          //   if(i==index){
+                                          //     if(controller.calculationList[index]['isChecked']==0){
+                                          //       controller.calculationList[index]['isChecked'] = 1;
+                                          //     }else{
+                                          //       controller.calculationList[index]['isChecked'] = 0;
+                                          //     }
+                                          //   }else{
+                                          //     controller.calculationList[index]['isChecked'] = 0;
+                                          //   }
+                                          // }
 
-                                      print("object1"+controller.calculationList[index]['isChecked'].toString());
-                                      }),
-                                );
+                                          print("object1"+controller.calculationList[index]['isChecked'].toString());
+                                          }),
+                                    );
 
-                            },),
-                        ),
+                                },),
+                            ),
+                            const SizedBox(height: 20,),
+                            MyCustomSD(
+                              listToSearch:controller.calculationList,
+                              valFrom: 'name',
+                              onChanged: (value) {
+                                if(value!=null){
+                                  print("method values $value");
+                                  controller.updateSelectMethod(value);
+                                  // controller.updateCalId = value['id'];
+                                  // print("GetMethodId: ${controller.getCalId.toString()}");
+                                  print(value);
+                                }
 
-
-                        MyCustomSD(
-                          listToSearch:controller.calculationList,
-                          valFrom: 'name',
-                          onChanged: (value) {
-                            controller.updateCalId = value['id'];
-                            print("GetMethodId: ${controller.getCalId.toString()}");
-                            print(value);
-                          },),
-
-
-
-
-
-
-                        // Obx(() {
-                        //   return Row(
-                        //     children: controller.keyCalculationMethods.map((method) {
-                        //       print('hhh:$method');
-                        //       return RadioListTile(
-                        //         title: Text(method.name!),
-                        //         value: method.id,
-                        //         groupValue: controller.selectedMethod.value,
-                        //         onChanged: (value) {
-                        //           print("method value ${value}");
-                        //           //controller.selectedMethod.value = value;
-                        //         },
-                        //       );
-                        //     }).toList(),
-                        //   );
-                        // }),
-                        // Obx(() {
-                        //   return DropdownButton<String>(
-                        //     value: controller.selectedMethod.value,
-                        //     items: controller.otherCalculationMethods.map((method) {
-                        //       return DropdownMenuItem(
-                        //         value: method.id,
-                        //         child: Text(method.name),
-                        //       );
-                        //     }).toList(),
-                        //     onChanged: (value) {
-                        //       controller.selectedMethod.value = value!;
-                        //     },
-                        //   );
-                        // }),
-                        SizedBox(
-                          height: 20,
-                        ),
+                              },),
 
 
-                        MyButton(
-                          height: 50,
-                          borderRadius: 10,
-                          // elevation: 2,
-                          title: "Next",
-                          color: AppColor.circleIndicator,
-                          //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
-                          // color: controller.name.value
-                          //     ? AppColor.circleIndicator
-                          //     : AppColor.greyColor,
-                          onPressed: ()  async {
-                          await controller.registerUser();
-                          Get.toNamed(AppRoutes.dashboardRoute);
-                          },
-                        ),
 
-                      ]
 
+
+
+                            // Obx(() {
+                            //   return Row(
+                            //     children: controller.keyCalculationMethods.map((method) {
+                            //       print('hhh:$method');
+                            //       return RadioListTile(
+                            //         title: Text(method.name!),
+                            //         value: method.id,
+                            //         groupValue: controller.selectedMethod.value,
+                            //         onChanged: (value) {
+                            //           print("method value ${value}");
+                            //           //controller.selectedMethod.value = value;
+                            //         },
+                            //       );
+                            //     }).toList(),
+                            //   );
+                            // }),
+                            // Obx(() {
+                            //   return DropdownButton<String>(
+                            //     value: controller.selectedMethod.value,
+                            //     items: controller.otherCalculationMethods.map((method) {
+                            //       return DropdownMenuItem(
+                            //         value: method.id,
+                            //         child: Text(method.name),
+                            //       );
+                            //     }).toList(),
+                            //     onChanged: (value) {
+                            //       controller.selectedMethod.value = value!;
+                            //     },
+                            //   );
+                            // }),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+
+                            MyButton(
+                              height: 50,
+                              borderRadius: 10,
+                              // elevation: 2,
+                              title: "Next",
+                              color: AppColor.circleIndicator,
+                              //color:controller.nameC.value.text.toString().isEmpty?AppColor.greyColor:AppColor.circleIndicator,
+                              // color: controller.name.value
+                              //     ? AppColor.circleIndicator
+                              //     : AppColor.greyColor,
+                              onPressed: ()  async {
+                                if(controller.selectMethod.isNotEmpty){
+                                  await controller.registerUser();
+                                }
+                              },
+                            ),
+
+                          ]
+
+                        );
+                      }
                     ),
                   ),
                 ):

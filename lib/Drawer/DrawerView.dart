@@ -39,16 +39,16 @@ class CustomDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10,),
-                          Obx(() => Text(
-                            customDrawerController.userName.value,
+                          Text(
+                            UserData().getUserData!.name.toString().toUpperCase(),
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                               fontFamily: 'Roboto', // Apply Roboto font
                             ),
-                          )),
+                          ),
                           Obx(() => Text(
-                            customDrawerController.email.value,
+                            UserData().getUserData!.email??'',
                             style: MyTextTheme.smallGCN,
                           )),
                         ],
