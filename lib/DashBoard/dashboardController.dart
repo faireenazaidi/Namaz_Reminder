@@ -366,41 +366,92 @@ class DashBoardController extends GetxController {
   var minute = 0;
 
 
+//   submitPrayer() async {
+//     try {
+//       var headers = {'Content-Type': 'application/json'};
+//       var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
+//
+//       request.body = json.encode({
+//         "user_id": userData.getUserData!.responseData!.user!.id.toString(),
+//         "mobile_no": userData.getUserData!.responseData!.user!.mobileNo.toString(),
+//         "latitude": latAndLong?.latitude.toString(),
+//         "longitude": latAndLong?.longitude.toString(),
+//         "timestamp": "$hour:$minute",
+//         "jamat": prayedAtMosque.value.toString(),
+//         "times_of_prayer": 5
+//       });
+// print(userData.getUserData!.responseData!.user!.id.toString());
+//       request.headers.addAll(headers);
+//
+//       http.StreamedResponse response = await request.send();
+//
+//       if (response.statusCode == 200) {
+//         var data = jsonDecode(await response.stream.bytesToString());
+//         print("API RESPONSE: " + data.toString());
+//
+//         Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
+//       } else {
+//         print('Failed with status code: ${response.statusCode}');
+//         print('Reason: ${response.reasonPhrase}');
+//       }
+//     } catch (e) {
+//       print('Error: $e');
+//     }
+//   }
   submitPrayer() async {
-    var headers = {
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/19-09-2024/'));
-    request.body = json.encode({
-      "user_id": userData.getUserData!.responseData!.user!.id.toString(),
-      "mobile_no": userData.getUserData!.responseData!.user!.mobileNo.toString(),
-      "latitude": latAndLong?.latitude.toString(),
-      "longitude": latAndLong?.longitude.toString(),
-      "timestamp": "$hour:$minute",
-      "jamat": prayedAtMosque.value.toString(),
-      "times_of_prayer": 5
-    });
-    request.headers.addAll(headers);
+    print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
+    try {
+      var headers = {'Content-Type': 'application/json'};
 
-    http.StreamedResponse response = await request.send();
+      // Use null-aware operators and default values
+      var userId = userData.getUserData?.responseData?.user?.id?.toString() ?? 'default_id';
+      var mobileNo = userData.getUserData?.responseData?.user?.mobileNo?.toString() ?? 'default_mobile_no';
+      // var latitude = latAndLong!.latitude.toString() ?? '0.0';
+      // var longitude = latAndLong!.longitude.toString() ?? '0.0';
+      var jamatValue = prayedAtMosque.value.toString();
 
-    if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
-      var data = jsonDecode(await response.stream.bytesToString());
-      print("APIRESPONSE "+data.toString());
-      Get.snackbar('Error', data['detail'].toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
+      request.body = json.encode({
+        "user_id": 41,
+        "mobile_no": "8172800431",
+        "latitude": "26.739880",
+        "longitude": "83.886971",
+        "timestamp": "$hour:$minute",
+        "jamat": prayedAtMosque.value.toString(),
+        "times_of_prayer": 5
+      });
+      print("${request.body}");
+      print("User ID: $userId");
+      print("Mobile No: $mobileNo");
+      // print("Latitude: $latitude");
+      // print("Longitude: $longitude");
+      print("jamat: $jamatValue");
+      print("time: $hour:$minute");
+
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(await response.stream.bytesToString());
+        print("API RESPONSE: " + data.toString());
+
+        Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
+      } else {
+        print('Failed with status code: ${response.statusCode}');
+        print('Reason: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Error: $e');
     }
-    else {
-    print(response.reasonPhrase);
-    }
-
   }
 
 
 
 
-  }
+
+}
 
 
 
