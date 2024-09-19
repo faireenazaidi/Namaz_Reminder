@@ -323,6 +323,7 @@ Map selectMethod = {}.obs;
           }
           else{
             await userData.addUserData(userModel);
+            step.value = 0;
             print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
             // updateLoginResponse(jsonDecode(otpData['response_data']['user']));
             Get.toNamed(AppRoutes.dashboardRoute);

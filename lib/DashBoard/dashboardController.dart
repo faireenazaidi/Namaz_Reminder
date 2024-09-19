@@ -98,9 +98,10 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> fetchPrayerTime() async {
-    final latitude = 26.8664718;
-    final longitude = 80.8654426;
-    final method = 1;
+    const latitude = 26.8664718;
+    const longitude = 80.8654426;
+    // final method = userData.getUserData!.methodId.toString();
+    final method = '1';
     isLoading.value = true;
     try {
       Uri uri = Uri.https(
@@ -404,16 +405,16 @@ class DashBoardController extends GetxController {
       var headers = {'Content-Type': 'application/json'};
 
       // Use null-aware operators and default values
-      var userId = userData.getUserData?.responseData?.user?.id?.toString() ?? 'default_id';
-      var mobileNo = userData.getUserData?.responseData?.user?.mobileNo?.toString() ?? 'default_mobile_no';
+      var userId = userData.getUserData?.id.toString() ?? 'default_id';
+      var mobileNo = userData.getUserData?.mobileNo.toString() ?? 'default_mobile_no';
       // var latitude = latAndLong!.latitude.toString() ?? '0.0';
       // var longitude = latAndLong!.longitude.toString() ?? '0.0';
       var jamatValue = prayedAtMosque.value.toString();
 
       var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
       request.body = json.encode({
-        "user_id": 41,
-        "mobile_no": "8172800431",
+        "user_id":userData.getUserData?.id.toString(),
+        "mobile_no":userData.getUserData?.mobileNo.toString(),
         "latitude": "26.739880",
         "longitude": "83.886971",
         "timestamp": "$hour:$minute",
@@ -435,7 +436,7 @@ class DashBoardController extends GetxController {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(await response.stream.bytesToString());
-        print("API RESPONSE: " + data.toString());
+        print("API RESPONSE: $data");
 
         Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
       } else {
