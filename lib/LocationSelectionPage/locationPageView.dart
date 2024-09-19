@@ -759,41 +759,42 @@ class LocationPage extends GetView<LocationPageController> {
                         //   }
                         // }),
 
-                        Container(
-                          height: 200,
-                          child: ListView.builder(
-                            itemCount: controller.getCalculationList.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) {
-                              print("Checkdata${controller.getCalculationList.length}");
-                              return
-                                Visibility(
-                                  visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
-                                  child: RadioListTile<int>(
-                                    title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
-                                    value: 1,
-                                    groupValue: controller.calculationList[index]['isChecked'],
-                                    onChanged: (int? value) {
-                                      print("object${controller.calculationList[index]['isChecked']}");
-                                      for(int i=0;i<controller.getCalculationList.length;i++){
-                                        if(i==index){
-                                          if(controller.calculationList[index]['isChecked']==0){
-                                            controller.calculationList[index]['isChecked'] = 1;
+                      Container(
+                            height: 200,
+                            child: ListView.builder(
+                              itemCount: controller.getCalculationList.length,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                print("Checkdata${controller.getCalculationList.length}");
+                                return
+                                  Visibility(
+                                    visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
+                                    child: RadioListTile<int>(
+                                      title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
+                                      value: 1,
+                                      groupValue: controller.calculationList[index]['isChecked'],
+                                      onChanged: (int? value) {
+                                        print("object${controller.calculationList[index]['isChecked']}");
+                                        for(int i=0;i<controller.getCalculationList.length;i++){
+                                          if(i==index){
+                                            if(controller.calculationList[index]['isChecked']==0){
+                                              controller.calculationList[index]['isChecked'] = 1;
+                                            }else{
+                                              controller.calculationList[index]['isChecked'] = 0;
+                                            }
                                           }else{
                                             controller.calculationList[index]['isChecked'] = 0;
                                           }
-                                        }else{
-                                          controller.calculationList[index]['isChecked'] = 0;
                                         }
-                                      }
 
-                                      print("object1"+controller.calculationList[index]['isChecked'].toString());
-                                      }),
-                                );
+                                        print("object1"+controller.calculationList[index]['isChecked'].toString());
+                                        }),
+                                  );
 
-                            },),
-                        ),
+                              },),
+                          ),
+
 
 
                         MyCustomSD(
