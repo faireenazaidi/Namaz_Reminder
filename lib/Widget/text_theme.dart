@@ -174,7 +174,7 @@ class MyTextTheme  {
   );
   static TextStyle smallBCB=GoogleFonts.roboto(
       color: AppColor.black,
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: FontWeight.bold
   );
 
