@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -98,10 +99,9 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> fetchPrayerTime() async {
-    const latitude = 26.8664718;
-    const longitude = 80.8654426;
-    // final method = userData.getUserData!.methodId.toString();
-    final method = '1';
+    final latitude = 26.8664718;
+    final longitude = 80.8654426;
+    final method = 1;
     isLoading.value = true;
     try {
       Uri uri = Uri.https(
@@ -399,22 +399,24 @@ class DashBoardController extends GetxController {
 //       print('Error: $e');
 //     }
 //   }
+
+  bool isGifVisible = false;
   submitPrayer() async {
     print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     try {
       var headers = {'Content-Type': 'application/json'};
 
       // Use null-aware operators and default values
-      var userId = userData.getUserData?.id.toString() ?? 'default_id';
-      var mobileNo = userData.getUserData?.mobileNo.toString() ?? 'default_mobile_no';
+      var userId = userData.getUserData?.responseData?.user?.id?.toString() ?? 'default_id';
+      var mobileNo = userData.getUserData?.responseData?.user?.mobileNo?.toString() ?? 'default_mobile_no';
       // var latitude = latAndLong!.latitude.toString() ?? '0.0';
       // var longitude = latAndLong!.longitude.toString() ?? '0.0';
       var jamatValue = prayedAtMosque.value.toString();
 
       var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
       request.body = json.encode({
-        "user_id":userData.getUserData?.id.toString(),
-        "mobile_no":userData.getUserData?.mobileNo.toString(),
+        "user_id": 41,
+        "mobile_no": "8172800431",
         "latitude": "26.739880",
         "longitude": "83.886971",
         "timestamp": "$hour:$minute",
@@ -422,27 +424,36 @@ class DashBoardController extends GetxController {
         "times_of_prayer": 5
       });
       print("${request.body}");
-      print("User ID: $userId");
-      print("Mobile No: $mobileNo");
-      // print("Latitude: $latitude");
-      // print("Longitude: $longitude");
-      print("jamat: $jamatValue");
-      print("time: $hour:$minute");
+      // print("User ID: $userId");
+      // print("Mobile No: $mobileNo");
+      // // print("Latitude: $latitude");
+      // // print("Longitude: $longitude");
+      // print("jamat: $jamatValue");
+      // print("time: $hour:$minute");
 
 
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
+      //print("API RESPONSE: " + await response.stream.bytesToString().toString());
+      var data = jsonDecode(await response.stream.bytesToString());
+      print("API RESPONSE: " + data['detail'].toString());
+      isGifVisible = true;
+      update();
 
-      if (response.statusCode == 200) {
-        var data = jsonDecode(await response.stream.bytesToString());
-        print("API RESPONSE: $data");
+      Future.delayed(Duration(seconds: 3), () {
 
-        Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
-      } else {
-        print('Failed with status code: ${response.statusCode}');
-        print('Reason: ${response.reasonPhrase}');
-      }
+          isGifVisible = false;
+          update();
+
+      });
+      // Future.delayed(Duration(seconds: 6), () {
+      //   Image.asset("assets/popup_Default.gif");
+      //
+      // });
+      Get.back();
+      // Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.green);
+
     } catch (e) {
       print('Error: $e');
     }
