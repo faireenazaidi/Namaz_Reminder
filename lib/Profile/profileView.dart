@@ -9,6 +9,7 @@ import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 
 import '../AppManager/image_and_video_picker.dart';
+import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
 import '../Widget/appColor.dart';
 
@@ -102,47 +103,47 @@ class ProfileView extends GetView<ProfileController> {
                   ),
 
                   SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(7.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("User Name",style: MyTextTheme.mediumGCB,),
-                        TextField(
-                           controller: controller.userNameC,
-                          cursorColor: AppColor.circleIndicator,
-                          decoration: InputDecoration(
-                            hintText: "Enter your user name",
-                            hintStyle: MyTextTheme.mediumCustomGCN,
-                            // prefixIcon: Image.asset("asset/profile.png"),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:  BorderSide(
-                                color: Colors.black,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          style: const TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(7.0),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text("User Name",style: MyTextTheme.mediumGCB,),
+                  //       TextField(
+                  //          controller: controller.userNameC,
+                  //         cursorColor: AppColor.circleIndicator,
+                  //         decoration: InputDecoration(
+                  //           hintText: "Enter your user name",
+                  //           hintStyle: MyTextTheme.mediumCustomGCN,
+                  //           // prefixIcon: Image.asset("asset/profile.png"),
+                  //           border: OutlineInputBorder(
+                  //             borderRadius: BorderRadius.circular(10),
+                  //             borderSide:  BorderSide(
+                  //               color: Colors.black,
+                  //             ),
+                  //           ),
+                  //           enabledBorder: OutlineInputBorder(
+                  //             borderRadius: BorderRadius.circular(10),
+                  //             borderSide: const BorderSide(
+                  //               color: Colors.grey,
+                  //               width: 1,
+                  //             ),
+                  //           ),
+                  //           focusedBorder: OutlineInputBorder(
+                  //             borderRadius: BorderRadius.circular(10),
+                  //             borderSide: const BorderSide(
+                  //               color: Colors.grey,
+                  //               width: 1,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         style: const TextStyle(
+                  //           color: Colors.grey,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(7.0),
                     child: Column(
@@ -362,6 +363,7 @@ class ProfileView extends GetView<ProfileController> {
                       final myData =await jsonDecode(data);
                       final userModel = UserModel.fromJson(myData['user']);
                       await controller.userData.addUserData(userModel);
+                      showToast(msg: 'Photo Updated');
                     }
                     else {
                       print(response.reasonPhrase);
@@ -397,6 +399,7 @@ class ProfileView extends GetView<ProfileController> {
                      final myData =await jsonDecode(data);
                       final userModel = UserModel.fromJson(myData['user']);
                       await controller.userData.addUserData(userModel);
+                      showToast(msg: 'Photo Updated');
                     }
                     else {
                       print("Response"+response.reasonPhrase.toString());

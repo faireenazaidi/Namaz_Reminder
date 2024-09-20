@@ -117,11 +117,22 @@ class Upcoming extends GetView<UpcomingController> {
                         bottom: 0,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
+                          controller: dashboardController.scrollController,
                           itemCount: dashboardController.prayerNames.length,
                           itemBuilder: (context, index) {
                             // Determine if the current item is highlighted (active)
-                            bool isHighlighted = dashboardController.currentPrayer.value ==
-                                dashboardController.prayerNames[index];
+                            // bool isHighlighted = dashboardController.currentPrayer.value ==
+                            //     dashboardController.prayerNames[index];
+                            bool isHighlighted = false;
+                            if(dashboardController.nextPrayer.value.isEmpty){
+                              int currentPrayerIndex = dashboardController.prayerNames.indexOf(dashboardController.currentPrayer.value);
+                              int nextPrayerIndex = (currentPrayerIndex + 1) % dashboardController.prayerNames.length;
+                              isHighlighted = nextPrayerIndex == index;
+                            }
+                            else{
+                              isHighlighted = dashboardController.nextPrayer.value == dashboardController.prayerNames[index];
+                            }
+                            // bool isHighlighted = dashboardController.nextPrayer.value == dashboardController.prayerNames[index];
                             return Transform.scale(
                               scale: isHighlighted ? 1.2 : 1.0, // Scale up the active item
                               child: Opacity(

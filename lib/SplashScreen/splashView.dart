@@ -20,21 +20,14 @@ class SplashScreen extends GetView<SplashController> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/net.png"),
                 fit: BoxFit.cover
               )
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset("assets/mosque.png"),
-              ],
-            ),
-          ),
+          Image.asset("assets/logo.png",fit: BoxFit.cover,),
         ],
       ),
     );

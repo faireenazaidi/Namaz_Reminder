@@ -33,8 +33,8 @@ class SplashController extends GetxController {
   }
 
   // pageRoute() async {
-  //   print("UserId${_userData.getUserData?.responseData?.user?.mobileNo.toString()}");
-  //   if (_userData.getUserData?.responseData?.user?.id.toString() == "null") {
+  //   print("UserId${_userData.getUserData!.name.isEmpty}");
+  //   if (_userData.getUserData!.name.isEmpty) {
   //     Get.toNamed(AppRoutes.locationPageRoute);
   //   } else {
   //     Get.toNamed(AppRoutes.dashboardRoute);

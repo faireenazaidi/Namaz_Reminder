@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -13,8 +14,8 @@ import 'package:http/http.dart' as http;
 import '../SplashScreen/splashController.dart';
 class DashBoardController extends GetxController {
   RxString islamicDate = ''.obs;
-  RxInt rank = 5.obs;
-  RxInt totalPeers = 12.obs;
+  RxInt rank = 1.obs;
+  RxInt totalPeers = 1.obs;
   RxString currentPrayer = ''.obs;
   RxString currentPrayerStartTime = ''.obs;
   RxString currentPrayerEndTime = ''.obs;
@@ -73,10 +74,29 @@ class DashBoardController extends GetxController {
     update();
   }
 
+  final ScrollController scrollController = ScrollController();
+  void scrollToHighlightedPrayer() {
+    int nextPrayerIndex =  prayerNames.indexOf(nextPrayer.value);
+    scrollController.animateTo(
+      nextPrayerIndex * 80.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   void onInit() {
     super.onInit();
     highlightCurrentPrayer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollToHighlightedPrayer();
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -101,6 +121,7 @@ class DashBoardController extends GetxController {
   Future<void> fetchPrayerTime() async {
     final latitude = 26.8664718;
     final longitude = 80.8654426;
+    // final method = userData.getUserData!.methodId;
     final method = 1;
     isLoading.value = true;
     try {
@@ -114,6 +135,7 @@ class DashBoardController extends GetxController {
         },
       );
       final response = await http.get(uri);
+      log("checking response ${response.body}");
 
       if (response.statusCode == 200) {
         updateCalendarData = jsonDecode(response.body.toString())["data"];
@@ -204,6 +226,7 @@ class DashBoardController extends GetxController {
       if (currentTime.compareTo(prayerStartTime) >= 0 &&
           currentTime.compareTo(prayerEndTime) <= 0) {
         currentPrayer = prayer;
+        print("current parayer $currentPrayer");
         startTime = prayerStartTime;
         endTime = prayerEndTime;
         foundCurrentPrayer = true;
@@ -407,16 +430,16 @@ class DashBoardController extends GetxController {
       var headers = {'Content-Type': 'application/json'};
 
       // Use null-aware operators and default values
-      var userId = userData.getUserData?.responseData?.user?.id?.toString() ?? 'default_id';
-      var mobileNo = userData.getUserData?.responseData?.user?.mobileNo?.toString() ?? 'default_mobile_no';
+      var userId = userData.getUserData!.id.toString() ?? 'default_id';
+      var mobileNo = userData.getUserData!.mobileNo.toString() ?? 'default_mobile_no';
       // var latitude = latAndLong!.latitude.toString() ?? '0.0';
       // var longitude = latAndLong!.longitude.toString() ?? '0.0';
       var jamatValue = prayedAtMosque.value.toString();
 
       var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
       request.body = json.encode({
-        "user_id": 41,
-        "mobile_no": "8172800431",
+        "user_id": userId,
+        "mobile_no": mobileNo,
         "latitude": "26.739880",
         "longitude": "83.886971",
         "timestamp": "$hour:$minute",

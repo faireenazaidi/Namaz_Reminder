@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
 import '../Services/user_data.dart';
 
@@ -25,13 +26,13 @@ class ProfileController extends GetxController{
   }
 
   registerUser() async {
-    if(userNameC.text.isNotEmpty&&nameC.text.isNotEmpty&&genderC.text.isNotEmpty&&mailC.text.isNotEmpty){
+    if(nameC.text.isNotEmpty&&genderC.text.isNotEmpty){
       Map<String,String> headers = {
         'Content-Type': 'application/json'
       };
       Map<String,dynamic> body = {
         "user_id": userData.getUserData?.id.toString(),
-        "username": userNameC.text,
+        "username": userData.getUserData?.username.toString(),
         "name": nameC.text.toString(),
         "mobile_no": phoneC.text.toString(),
         "gender": genderC.text,
@@ -40,7 +41,7 @@ class ProfileController extends GetxController{
         "school_of_thought": userData.getUserData!.methodId,
         "method_name":userData.getUserData!.methodName,
         "method_id":userData.getUserData!.methodId,
-        "email":mailC.text
+        "email":mailC.text.isEmpty?"":mailC.text
       };
       print("registration body $body");
       http.Response request  = await http.put(Uri.parse('http://182.156.200.177:8011/adhanapi/update-user/'),body:jsonEncode(body), headers:headers);
@@ -49,6 +50,7 @@ class ProfileController extends GetxController{
       if(request.statusCode==200){
         final userModel = UserModel.fromJson(data['user']);
         await userData.addUserData(userModel);
+        showToast(msg: 'Profile Updated');
       }
       else{
 

@@ -10,7 +10,7 @@
 
 
     <application
-        android:label="Prayer o Clock"
+        android:label="Prayer O'Clock"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

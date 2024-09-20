@@ -20,7 +20,7 @@ void main() async {
   await GetStorage.init();
   await GetStorage.init('user');
   Get.put(LocationPageController());
-  Get.put(DashBoardController());
+  // Get.put(DashBoardController());
   Get.put(LoginController());
   Get.put(CustomDrawerController());
   runApp(MyApp());

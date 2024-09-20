@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Login/loginView.dart';
@@ -7,6 +8,8 @@ import 'package:namaz_reminders/Services/user_data.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 
+import '../AppManager/dialogs.dart';
+import '../AppManager/toast.dart';
 import '../LocationSelectionPage/locationPageView.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -107,7 +110,10 @@ class CustomDrawer extends StatelessWidget {
                 context,
                 "Missed Prayers",
                 "assets/missedPrayer.png",
-                    () {},
+                    () {
+                      showToast(msg: 'Coming Soon');
+
+                    },
                 customDrawerController.missedPrayersCount.value,
               )),
               _buildListTile(
@@ -122,13 +128,19 @@ class CustomDrawer extends StatelessWidget {
                 indent: 10,
               ),
               _buildListTile(
-                  context, "Support Center", "assets/supportCentre.png", () {}
+                  context, "Support Center", "assets/supportCentre.png", () {
+                showToast(msg: 'Coming Soon');
+
+              }
               ),
               Obx(() => _buildListTile(
                 context,
                 "Notifications",
                 "assets/notification.png",
-                    () {},
+                    () {
+                      showToast(msg: 'Coming Soon');
+
+                    },
                 customDrawerController.notificationCount.value,
               // Obx(() => ListTile(
               //   leading: Image.asset("assets/darkMode.png"),
@@ -178,18 +190,31 @@ class CustomDrawer extends StatelessWidget {
                 indent: 10,
               ),
               _buildListTile(
-                  context, "Settings", "assets/gear.png", () {}
+                  context, "Settings", "assets/gear.png", () {
+                showToast(msg: 'Coming Soon');
+
+              }
               ),
               _buildListTile(
-                  context, "F&Q", "assets/fAndQ.png", () {}
+                  context, "F&Q", "assets/fAndQ.png", () {
+                showToast(msg: 'Coming Soon');
+
+              }
               ),
               _buildListTile(
-                  context, "Feedback", "assets/feedback.png", () {}
+                  context, "Feedback", "assets/feedback.png", () {
+                showToast(msg: 'Coming Soon');
+
+              }
               ),
               InkWell(
                 onTap: (){
-                  Get.offAll(const LocationPage());
-                  UserData().removeUserData();
+                  Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,
+                      okPressEvent: (){
+                    UserData().removeUserData();
+                    Get.offAll(const LocationPage());
+                  });
+
                   //Get.toNamed(AppRoutes.locationPageRoute);
                 },
                 child: Padding(

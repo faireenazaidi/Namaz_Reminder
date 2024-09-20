@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
@@ -265,20 +264,35 @@ class LocationPage extends GetView<LocationPageController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
 
-                              children: [
-                                Text(controller.otp.toString(),style: TextStyle(color: Colors.white),),
-                                Text("Verifying Your Account",
-                                    style: MyTextTheme.largeWCB),
-                                Text(
-                                               "Please enter the 6 digit verification code",
-                                              style: MyTextTheme.mustardS),
-                              ],
+                                children: [
+                                  // Text(controller.otp.toString(),style: TextStyle(color: Colors.white),),
+                                  Text("Verifying Your Account",
+                                      style: MyTextTheme.largeWCB),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Enter the 6-digit verification code sent to the number ending in the last 4 digits ', // Default text
+                                      style: MyTextTheme.mustardS, // Default style
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: controller.phoneController.value.text.substring(6),
+                                          style: MyTextTheme.smallWCB,
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+
+                                  // Text("Enter the 6-digit verification code sent to the number ending in the last 3 digits ${controller.phoneController.value.text.substring(7)}",
+                                  //               style: MyTextTheme.mustardS),
+                                ],
+                              ),
                             ),
-                            Lottie.asset("assets/otp.lottie",
-                                decoder: customDecoder, height: 90),
+                            // Lottie.asset("assets/otp.lottie",
+                            //     decoder: customDecoder, height: 90),
                           ],
                         ),
                         // Column(
@@ -359,31 +373,46 @@ class LocationPage extends GetView<LocationPageController> {
                                 final formattedTime =
                                     '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
 
-                                return RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: "Resend OTP ",
-                                          style: MyTextTheme
-                                              .mediumBCb),
-                                      TextSpan(
-                                          text: "in ",
-                                          style:
-                                          MyTextTheme.smallWCN),
-                                      WidgetSpan(
-                                        child: Icon(
-                                          Icons.timer_outlined,
-                                          size: 15,
-                                          color: AppColor
-                                              .circleIndicator,
+                                return GetBuilder<LocationPageController>(
+                                  id: 'otp',
+                                  builder: (_) {
+                                    return InkWell(
+                                      onTap: (){
+                                        if(controller.isTimerRunning){
+
+                                        }
+                                        else{
+                                          controller.resendOtp();
+                                        }
+                                      },
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: "Resend OTP ",
+                                                style:controller.isTimerRunning? MyTextTheme
+                                                    .mediumBCb:MyTextTheme.mediumWCB),
+                                            TextSpan(
+                                                text: "in ",
+                                                style:
+                                                MyTextTheme.smallWCN),
+                                            WidgetSpan(
+                                              child: Icon(
+                                                Icons.timer_outlined,
+                                                size: 15,
+                                                color: AppColor
+                                                    .circleIndicator,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                                text: controller.formatTime(controller.start),
+                                                style: MyTextTheme
+                                                    .mustardSN),
+                                          ],
                                         ),
                                       ),
-                                      TextSpan(
-                                          text: " $formattedTime",
-                                          style: MyTextTheme
-                                              .mustardSN),
-                                    ],
-                                  ),
+                                    );
+                                  }
                                 );
                               }),
                             ],
@@ -566,7 +595,7 @@ class LocationPage extends GetView<LocationPageController> {
                     ],
                   ),
                 ):
-                controller.step.value == 3?
+                controller.step.value == 4 && controller.selectMethod['id']==7?
 
                 Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -592,43 +621,43 @@ class LocationPage extends GetView<LocationPageController> {
                         ),
 
                         const SizedBox(height: 20,),
-                        Text('Fiqh',style: MyTextTheme.mediumWCN,),
-                        const SizedBox(height: 10,),
-                        Row(
-                            children: [
-                              Obx(()=>
-                                  Radio<String>(
-                                    value:'0',
-                                    activeColor: AppColor.circleIndicator,
-                                    groupValue: controller.selectedFiqh.value,
-                                    onChanged: (value){
-                                      print(value);
-                                      controller.selectedFiqh(value!);
-                                    },
-                                  )),
-                              Text("Shia",
-                                style: MyTextTheme.mediumWCN,
-                              ),
-                              const SizedBox(width: 100,),
-                              Obx(()=>
-                                  Radio(
-                                    value: '1',
-                                    activeColor: AppColor.circleIndicator,
-                                    groupValue:  controller.selectedFiqh.value,
-                                    onChanged: (value){
-                                      controller.selectedFiqh(value!);
-                                    },
-                                  )),
-                              InkWell(
-                                  onTap:(){
-                                    // Get.toNamed(AppRoutes.dashboardRoute);
-                                  },
-                                  child: Text("Sunni",
-                                    style: MyTextTheme.mediumWCN,
-                                  ))
-                            ]
-                        ),
-                        const SizedBox(height: 10,),
+                        // Text('Fiqh',style: MyTextTheme.mediumWCN,),
+                        // const SizedBox(height: 10,),
+                        // Row(
+                        //     children: [
+                        //       Obx(()=>
+                        //           Radio<String>(
+                        //             value:'0',
+                        //             activeColor: AppColor.circleIndicator,
+                        //             groupValue: controller.selectedFiqh.value,
+                        //             onChanged: (value){
+                        //               print(value);
+                        //               controller.selectedFiqh(value!);
+                        //             },
+                        //           )),
+                        //       Text("Shia",
+                        //         style: MyTextTheme.mediumWCN,
+                        //       ),
+                        //       const SizedBox(width: 100,),
+                        //       Obx(()=>
+                        //           Radio(
+                        //             value: '1',
+                        //             activeColor: AppColor.circleIndicator,
+                        //             groupValue:  controller.selectedFiqh.value,
+                        //             onChanged: (value){
+                        //               controller.selectedFiqh(value!);
+                        //             },
+                        //           )),
+                        //       InkWell(
+                        //           onTap:(){
+                        //             // Get.toNamed(AppRoutes.dashboardRoute);
+                        //           },
+                        //           child: Text("Sunni",
+                        //             style: MyTextTheme.mediumWCN,
+                        //           ))
+                        //     ]
+                        // ),
+                        // const SizedBox(height: 10,),
                         Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
                         const SizedBox(height: 10,),
                         Row(
@@ -670,12 +699,13 @@ class LocationPage extends GetView<LocationPageController> {
                           borderRadius: 10,
                           title: "Next",
                           color: AppColor.circleIndicator,
-                          onPressed: () {
+                          onPressed: () async {
                             // Validate Fiqh and Prayer Time selection
-                            if (controller.selectedFiqh.value.isNotEmpty && controller.selectedPrayer.value.isNotEmpty) {
+                            if (controller.selectedPrayer.value.isNotEmpty) {
+                              await controller.registerUser();
                               // Proceed if both values are selected
                               // controller.calculationMethode();
-                              controller.dynamicHeightAllocation();
+
                               print("Navigate to the next screen");
                             } else {
                               // Show error if either Fiqh or Prayer Time is not selected
@@ -692,7 +722,7 @@ class LocationPage extends GetView<LocationPageController> {
                 ):
 
 
-                controller.step.value == 4?
+                controller.step.value == 3?
 
                 Padding(
                   padding: const EdgeInsets.all(18.0),
@@ -872,8 +902,16 @@ class LocationPage extends GetView<LocationPageController> {
                               //     ? AppColor.circleIndicator
                               //     : AppColor.greyColor,
                               onPressed: ()  async {
+                                print("#### ${controller.selectMethod['id']}");
                                 if(controller.selectMethod.isNotEmpty){
-                                  await controller.registerUser();
+                                  if(controller.selectMethod['id']!=7){
+                                    await controller.registerUser();
+                                  }
+                                  else{
+                                    controller.dynamicHeightAllocation();
+                                  }
+                                }
+                                else{
                                 }
                               },
                             ),

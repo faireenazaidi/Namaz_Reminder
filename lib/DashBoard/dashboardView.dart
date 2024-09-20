@@ -32,7 +32,7 @@ class DashBoardView extends GetView<DashBoardController> {
         toolbarHeight: 35,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
-        title: Text("Bill Maroof", style: MyTextTheme.largeBCN),
+        title: Text("Prayer O'Clock", style: MyTextTheme.largeBCN),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -49,8 +49,7 @@ class DashBoardView extends GetView<DashBoardController> {
                      Get.toNamed(AppRoutes.profileRoute);
                    },
                    child: CircleAvatar(
-                    backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
-                                   ),
+                    backgroundImage: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),),
                  )
               ],
             ),
@@ -319,7 +318,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                       child: LinearPercentIndicator(
                                         width: 290,
                                         barRadius: const Radius.circular(2),
-                                        percent: 0.1,
+                                        percent: 1,
                                         progressColor: AppColor.circleIndicator,
                                       ),
                                     ),
@@ -399,12 +398,19 @@ class DashBoardView extends GetView<DashBoardController> {
                                             scrollDirection: Axis.horizontal,
                                             itemCount: dashboardController.prayerNames.length,
                                             itemBuilder: (context, index) {
-                                              print("ddddddddd "+dashboardController.currentPrayer.value.toString());
-                                              // Determine if the current item is highlighted (active)
-                                              bool isHighlighted = dashboardController.currentPrayer.value ==
-                                                  dashboardController.prayerNames[index];
-
-
+                                              print("ddddddddd "+dashboardController.nextPrayer.value.toString());
+                                              // // Determine if the current item is highlighted (active)
+                                              // bool isHighlighted = dashboardController.nextPrayer.value ==
+                                              //      dashboardController.prayerNames[index];
+                                              bool isHighlighted = false;
+                                              if(dashboardController.nextPrayer.value.isEmpty){
+                                                int currentPrayerIndex = dashboardController.prayerNames.indexOf(dashboardController.currentPrayer.value);
+                                                int nextPrayerIndex = (currentPrayerIndex + 1) % dashboardController.prayerNames.length;
+                                                 isHighlighted = nextPrayerIndex == index;
+                                              }
+                                              else{
+                                                 isHighlighted = dashboardController.nextPrayer.value == dashboardController.prayerNames[index];
+                                              }
                                               return Transform.scale(
                                                 scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
                                                 child: Opacity(

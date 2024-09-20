@@ -79,7 +79,39 @@ class LocationPageController extends GetxController {
   }
 
   RxInt secondsLeft = 60.obs;
-  late Timer _timer;
+   Timer? _timer;
+  bool isTimerRunning = true;
+ int start = 250; // Timer starts from 5 minutes (300 seconds)
+ void startTimer() {
+   _timer?.cancel(); // Cancel previous timer if any
+     start = 250; // Reset the timer to 5 minutes (300 seconds)
+     isTimerRunning = true;
+     update(['otp']);
+   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+       if (start > 0) {
+         start--;
+       } else {
+         _timer?.cancel(); // Stop the timer when it reaches 0
+           isTimerRunning = false; // Set timer running state to false
+         update(['otp']);
+
+       }
+       update(['otp']);
+   });
+ }
+
+ // Helper function to format seconds into MM:SS format
+ String formatTime(int seconds) {
+   int minutes = seconds ~/ 60;
+   int remainingSeconds = seconds % 60;
+   return "$minutes:${remainingSeconds.toString().padLeft(2, '0')}";
+ }
+
+
+ void resendOtp() {
+   login(phoneController.value.text); // Call the sendOtp method
+   // startTimer(); // Start the timer after sending OTP
+ }
 
   @override
   void onInit() {
@@ -91,7 +123,7 @@ class LocationPageController extends GetxController {
     phoneController.value.addListener(() {
       validatePhoneNumber(phoneController.value.text);
     });
-    startTimer();
+
     // fetchCalculationMethods();
   }
 
@@ -118,15 +150,15 @@ class LocationPageController extends GetxController {
     }
   }
 
-  void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (secondsLeft.value > 0) {
-        secondsLeft.value--;
-      } else {
-        _timer.cancel();
-      }
-    });
-  }
+  // void startTimer() {
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (secondsLeft.value > 0) {
+  //       secondsLeft.value--;
+  //     } else {
+  //       _timer.cancel();
+  //     }
+  //   });
+  // }
 
   dynamicHeightAllocation() {
     step.value = step.value + 1;
@@ -136,16 +168,16 @@ class LocationPageController extends GetxController {
     } else if (step.value == 2) {
       containerHeight.value = 400;
     } else if (step.value == 3) {
-      containerHeight.value = 400;
-    } else if (step.value == 4) {
       containerHeight.value = 500;
+    } else if (step.value == 4) {
+      containerHeight.value = 300;
     }
     update();
   }
 
   @override
   void onClose() {
-    _timer.cancel();
+    _timer!.cancel();
     super.onClose();
   }
 
@@ -288,6 +320,7 @@ Map selectMethod = {}.obs;
 
   var response = {};
   login(String phoneNumber) async {
+    startTimer();
     Map<String, String> headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {"mobile_no": phoneNumber};
     http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/login/'), body: jsonEncode(body), headers: headers);
@@ -326,7 +359,7 @@ Map selectMethod = {}.obs;
             step.value = 0;
             print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
             // updateLoginResponse(jsonDecode(otpData['response_data']['user']));
-            Get.toNamed(AppRoutes.dashboardRoute);
+            Get.offAllNamed(AppRoutes.dashboardRoute);
           }
           // final userModel = UserModel.fromJson(otpData['response_data']['user']);
           // await userData.addUserData(userModel);
@@ -374,8 +407,9 @@ Map selectMethod = {}.obs;
     "name": nameC.value.text.toString(),
     "mobile_no": phoneController.value.text.toString(),
     "gender": selectedGender.value.toString(),
-    "fiqh": selectedFiqh.value.toString(),
-    "times_of_prayer": selectedPrayer.value,
+    // "fiqh": (selectedFiqh.value).toString(),
+    "fiqh": selectMethod['id'].toString()=='7'?'0':'1', //0 for shia 1 for sunni
+    "times_of_prayer":selectMethod['id'].toString()=='7'? selectedPrayer.value:'5',
      "school_of_thought": selectMethod['id'].toString(),
      "method_name":selectMethod['name'].toString(),
      "method_id":selectMethod['id'].toString()
@@ -388,7 +422,7 @@ Map selectMethod = {}.obs;
      final userModel = UserModel.fromJson(data['user']);
      await userData.addUserData(userModel);
      step.value=0;
-     Get.toNamed(AppRoutes.dashboardRoute);
+     Get.offAllNamed(AppRoutes.dashboardRoute);
      print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
    }
    else{
