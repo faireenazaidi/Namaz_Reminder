@@ -399,9 +399,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                             scrollDirection: Axis.horizontal,
                                             itemCount: dashboardController.prayerNames.length,
                                             itemBuilder: (context, index) {
-                                              print("ddddddddd "+dashboardController.currentPrayer.value.toString());
+                                              //print("ddddddddd "+dashboardController.currentPrayer.value.toString());
                                               // Determine if the current item is highlighted (active)
-                                              bool isHighlighted = dashboardController.currentPrayer.value ==
+                                              bool isHighlighted = (dashboardController.currentPrayer.value) ==
                                                   dashboardController.prayerNames[index];
 
 

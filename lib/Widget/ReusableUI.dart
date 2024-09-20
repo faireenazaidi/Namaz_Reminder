@@ -19,7 +19,7 @@ class PrayerTimesWidget extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 color: Colors.black87,
-                image: DecorationImage(
+                image: const DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage("assets/jalih.png")
                 ),
@@ -68,10 +68,10 @@ class PrayerTimesWidget extends StatelessWidget {
                             opacity: isHighlighted ? 1.0 : 0.5,  // Reduce opacity of inactive items
                             child: Container(
                               width: 80,
-                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage('assets/vector.png'),
+                                  image: const AssetImage('assets/vector.png'),
                                   colorFilter: isHighlighted
                                       ? null  // No color filter for highlighted item (original image color)
                                       : ColorFilter.mode(
@@ -88,7 +88,7 @@ class PrayerTimesWidget extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Text(
                                     controller.prayerNames[index].toUpperCase(),
                                     style: TextStyle(
@@ -96,7 +96,7 @@ class PrayerTimesWidget extends StatelessWidget {
                                       fontSize: isHighlighted ? 16 : 14,  // Increase font size for active prayer
                                     ),
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Obx(() => Text(
                                     controller.getPrayerTimes.isEmpty
                                         ? "Loading"
