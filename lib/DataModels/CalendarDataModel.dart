@@ -382,17 +382,17 @@ class Method {
 }
 
 class Params {
-  int? fajr;
-  int? isha;
-  int? maghrib;
+  String? fajr;
+  String? isha;
+  String? maghrib;
   String? midnight;
 
   Params({this.fajr, this.isha, this.maghrib, this.midnight});
 
   Params.fromJson(Map<String, dynamic> json) {
-    fajr = json['Fajr'];
-    isha = json['Isha'];
-    maghrib = json['Maghrib'];
+    fajr = json['Fajr'].toString();
+    isha =  json['Isha'].toString();
+    maghrib = json['Maghrib'].toString();
     midnight = json['Midnight'];
   }
 

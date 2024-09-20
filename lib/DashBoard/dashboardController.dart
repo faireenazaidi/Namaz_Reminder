@@ -121,10 +121,10 @@ class DashBoardController extends GetxController {
   Future<void> fetchPrayerTime() async {
     final latitude = 26.8664718;
     final longitude = 80.8654426;
-    // final method = userData.getUserData!.methodId;
-    final method = 1;
+    final method = userData.getUserData!.methodId;
+    // final method = 1;
     isLoading.value = true;
-    try {
+    // try {
       Uri uri = Uri.https(
         'api.aladhan.com',
         '/v1/calendar/2024/9',
@@ -152,6 +152,7 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
+          print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
@@ -188,7 +189,8 @@ class DashBoardController extends GetxController {
             },
             'Isha': {
               'start': (getExtractedData[0].timings?.isha ?? 'N/A'),
-              'end': (getExtractedData[0].timings?.midnight ?? 'N/A')
+              // 'end': (getExtractedData[0].timings?.midnight ?? 'N/A')
+              'end': ('23:59')
             }
           };
           // Get current time
@@ -204,11 +206,11 @@ class DashBoardController extends GetxController {
           print('Failed to load prayer data');
         }
       }
-    } catch (e) {
-      print('Error: $e');
-    } finally {
-      isLoading.value = false;
-    }
+    // } catch (e) {
+    //   print('Error: $e');
+    // } finally {
+    //   isLoading.value = false;
+    // }
   }
 
   // Function to get the current prayer time
