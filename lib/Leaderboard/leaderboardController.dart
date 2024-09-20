@@ -2,10 +2,28 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
+import 'package:intl/intl.dart';
 
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    print("Date:$formattedDate");
+    ;
+  }
+
+  String getFormattedDate() {
+    // Get the current date and format it
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    return formattedDate;
+  }
 
   var selectedDate = DateTime.now().obs;
   var selectedTab = 'Daily'.obs;
@@ -19,12 +37,15 @@ class LeaderBoardController extends GetxController{
 
   }
 
-  leaderboard() async{
 
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/19-09-2024/?user_id=2'));
+  leaderboard(formattedDate) async{
+    print(getFormattedDate);
+
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=2'));
 
 
     http.StreamedResponse response = await request.send();
+    print(request.url);
 
     if (response.statusCode == 200) {
      // print(await response.stream.bytesToString());

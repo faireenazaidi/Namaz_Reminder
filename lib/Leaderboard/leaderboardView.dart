@@ -19,7 +19,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    leaderBoardController.leaderboard();
+    leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
   }
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: controller.selectedTab.value == 'Daily' ? Colors.black : Colors.black,
+                                color: controller.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
@@ -117,6 +117,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                             );
                             if (picked != null) {
                               dateController.updateSelectedDate(picked);
+                              String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+                              leaderBoardController.leaderboard(formattedDate);
                             }
                           },
                         ),
@@ -154,7 +156,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     const SizedBox(height: 10),
 
 
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                     CircleAvatar(child: Text("F")),
@@ -168,20 +170,6 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     CircleAvatar(child: Text("I")),
                       ],
                     )
-
-
-                    // SizedBox(
-                    //   height: 50,
-                    //   child: ListView.separated(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: 5,
-                    //     separatorBuilder: (context, index) => const SizedBox(width: 30),
-                    //     itemBuilder: (context, index) {
-                    //       final labels = ['F', 'Z', 'A', 'M', 'I'];
-                    //       return CircleAvatar(child: Text(labels[index]));
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -191,164 +179,149 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
 
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                // Space between leaderboard and toggle buttons
-                const SizedBox(height: 20), // Adjust the height as needed
-                Row(
-                  children: [
-                    Obx((){
-                      return
-                      Expanded(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: leaderBoardController.getLeaderboardList.length,
-                          itemBuilder: (context, index) {
-                            print(leaderBoardController.getLeaderboardList.length);
-                            return Visibility(
-                              visible: leaderBoardController.getLeaderboardList[index].prayerName == "Fajr",
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.orange,
-                                  child: Icon(Icons.person,color: Colors.white,),),
-                              ),
-                            );
-
-                          },),
-                      );
-                    }),
-
-                    Obx((){
-                      return Expanded(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: leaderBoardController.getLeaderboardList.length,
-                          itemBuilder: (context, index) {
-                            print(leaderBoardController.getLeaderboardList.length);
-                            return Visibility(
-                              visible: leaderBoardController.getLeaderboardList[index].prayerName == "Dhuhr",
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.orange,
-                                  child: Icon(Icons.person,color: Colors.white,),),
-                              ),
-                            );
-
-                          },),
-                      );
-                    }),
-
-
-                    Obx((){
-                      return Expanded(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: leaderBoardController.getLeaderboardList.length,
-                          itemBuilder: (context, index) {
-                            print(leaderBoardController.getLeaderboardList.length);
-                            return Visibility(
-                              visible: leaderBoardController.getLeaderboardList[index].prayerName == "Asr",
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.transparent,
-                                  child: Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
-                              ),
-                            );
-
-                          },),
-                      );
-                    }),
-
-                    Obx((){
-                      return Expanded(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: leaderBoardController.getLeaderboardList.length,
-                          itemBuilder: (context, index) {
-                            print(leaderBoardController.getLeaderboardList.length);
-                            return Visibility(
-                              visible: leaderBoardController.getLeaderboardList[index].prayerName == "Maghrib",
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.transparent,
-                                  child: Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
-                              ),
-                            );
-
-                          },),
-                      );
-                    }),
-
-                    Obx((){
-                      return Expanded(
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: leaderBoardController.getLeaderboardList.length,
-                          itemBuilder: (context, index) {
-                            print(leaderBoardController.getLeaderboardList.length);
-                            return Visibility(
-                              visible: leaderBoardController.getLeaderboardList[index].prayerName == "Isha",
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipOval(
+            child: Visibility(
+              visible: controller.selectedTab.value == 'Daily',
+              child: Column(
+                children: [
+                  // Space between leaderboard and toggle buttons
+                  const SizedBox(height: 20), // Adjust the height as needed
+                  Row(
+                    children: [
+                      Obx((){
+                        return
+                        Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.length,
+                            itemBuilder: (context, index) {
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Fajr",
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: CircleAvatar(
-                                    radius: 22,
-                                    backgroundColor: Colors.transparent,
-                                    child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
+                                    backgroundColor: Colors.orange,
+                                    child: Icon(Icons.person,color: Colors.white,),),
                                 ),
-                              ),
-                            );
+                              );
 
-                          },),
-                      );
-                    })
+                            },),
+                        );
+                      }),
+
+                      Obx((){
+                        return Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.length,
+                            itemBuilder: (context, index) {
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Dhuhr",
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.orange,
+                                    child: Icon(Icons.person,color: Colors.white,),),
+                                ),
+                              );
+
+                            },),
+                        );
+                      }),
 
 
-                  ],
-                )
+                      Obx((){
+                        return Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.length,
+                            itemBuilder: (context, index) {
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Asr",
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Colors.transparent,
+                                    child: Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
+                                ),
+                              );
+
+                            },),
+                        );
+                      }),
+
+                      Obx((){
+                        return Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.length,
+                            itemBuilder: (context, index) {
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Maghrib",
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Colors.transparent,
+                                    child: Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
+                                ),
+                              );
+
+                            },),
+                        );
+                      }),
+
+            Expanded(
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: leaderBoardController.getLeaderboardList.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: leaderBoardController.getLeaderboardList[index].prayerName == "Isha",
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipOval(
+                        child: CircleAvatar(
+                          radius: 22,
+                          backgroundColor: Colors.transparent,
+                          child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
+                      ),
+                    ),
+                  );
+
+                },),
+            )
+
+                    ],
+                  )
 
 
-                // Leaderboard GridView
-                // Padding(
-                //   padding: const EdgeInsets.all(16.0),
-                //   child: GridView.builder(
-                //     shrinkWrap: true,
-                //     physics: const NeverScrollableScrollPhysics(),
-                //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //       crossAxisCount: 5,
-                //       mainAxisSpacing: 10,
-                //       crossAxisSpacing: 10,
-                //     ),
-                //     itemCount: 1, // number of items
-                //     itemBuilder: (context, index) {
-                //       // Example of dynamic data for CircleAvatars
-                //       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
-                //       return Column(
-                //         children: [
-                //           CircleAvatar(
-                //             radius: 20,
-                //             backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
-                //           ),
-                //           const Text("sdddd",style: TextStyle(color: Colors.black),),
-                //         ],
-                //       );
-                //     },
-                //   ),
-                // ),
-              ],
+                ],
+              ),
             ),
           ),
+
+
+          // SliverToBoxAdapter(
+          //   child: Visibility(
+          //     visible: controller.selectedTab.value == 'Weekly',
+          //     child: Column(
+          //       children: [
+          //         Container(
+          //           height: 200,width: 200,
+          //           color: Colors.red,
+          //
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // )
+
         ],
       ),
     );

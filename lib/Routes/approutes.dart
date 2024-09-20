@@ -5,6 +5,8 @@ import 'package:namaz_reminders/Leaderboard/leaderboardBinding.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageBinding.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
+import 'package:namaz_reminders/Missed%20Prayers/missed_orayers_binding.dart';
+import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendBinding.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
@@ -33,6 +35,7 @@ class AppRoutes {
   static const String profileRoute = '/profile';
   static const String peerRoute = '/peer';
   static const String addfriendRoute = '/friend';
+  static const String missedPrayers = '/missed_prayers';
 
 
 
@@ -87,6 +90,11 @@ class AppRoutes {
       name: addfriendRoute,
       page: () =>  AddFriendView(),
       binding: AddFriendBinding(),
+    ),
+    GetPage(
+      name: missedPrayers,
+      page: () =>  const MissedPrayersView(),
+      binding: MissedPrayersBinding(),
     ),
 
   ];

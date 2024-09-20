@@ -329,7 +329,7 @@ class DashBoardController extends GetxController {
           Duration remainingDuration = endTime.difference(now);
           // Format and print the remaining time
           if (remainingDuration.isNegative) {
-            print('The end time has passed.');
+            //print('The end time has passed.');
           } else {
             remainingTime.value= formatDuration(remainingDuration);
           }
