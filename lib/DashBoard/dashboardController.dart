@@ -33,6 +33,7 @@ class DashBoardController extends GetxController {
 
   var prayerNames = ['Fajr', 'Zuhr', 'Asar', 'Maghrib', 'Isha'].obs;
   var currentPrayerIndex = 0.obs;
+  var nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
   List calendarData = [].obs;
   List<CalendarWiseData> extractedData = [];
@@ -171,11 +172,9 @@ class DashBoardController extends GetxController {
           };
           // Get current time
           String currentTime = DateFormat('HH:mm').format(DateTime.now());
-          // Get the current prayer based on the current time
           currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
           print('current time: $currentTime');
           print('Current Prayer Time: $currentPrayer');
-          // Start the remaining time timer after prayer times are fetched
           startRemainingTimeTimer();
           update();
         } else {
@@ -189,7 +188,6 @@ class DashBoardController extends GetxController {
     }
   }
 
-  // Function to get the current prayer time
   String getCurrentPrayer(Map<String, Map<String, String>> c, String currentTime) {
     String currentPrayer = '';
     String startTime = '';
@@ -210,8 +208,7 @@ class DashBoardController extends GetxController {
         break;
       }
     }
-    // If no current prayer is found (meaning the current prayer has ended),
-    // fetch the next prayer and its start time
+
     if (!foundCurrentPrayer) {
       nextPrayer.value= getNextPrayer(prayerDuration, currentTime); // Fetch next prayer
       print('Next prayer :$nextPrayer');
@@ -268,8 +265,6 @@ class DashBoardController extends GetxController {
 
   void highlightCurrentPrayer() {
     prayerTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      // Example of how you might update progressPercent
-      // Replace this with your actual logic
       DateTime now = DateTime.now();
       DateTime start = DateTime(now.year, now.month, now.day, 5, 0); // Example start time
       DateTime end = DateTime(now.year, now.month, now.day, 18, 0); // Example end time
@@ -328,10 +323,8 @@ class DashBoardController extends GetxController {
 
   double calculateCompletionPercentage() {
   try {
-  // Ensure that both start and end times are available
-  if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty) {
-  // Parse the start and end time strings into DateTime objects
-  DateTime now = DateTime.now();
+    if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty) {
+      DateTime now = DateTime.now();
   DateTime startTime = DateFormat('hh:mm a').parse(currentPrayerStartTime.value);
   DateTime endTime = DateFormat('hh:mm a').parse(currentPrayerEndTime.value);
 
@@ -360,7 +353,7 @@ class DashBoardController extends GetxController {
   } catch (e) {
   print('Error calculating completion percentage: $e');
   }
-  return 0.0; // Default to 0% in case of error
+  return 0.0;
   }
   RxBool prayedAtMosque = false.obs;
   var hour = 1;

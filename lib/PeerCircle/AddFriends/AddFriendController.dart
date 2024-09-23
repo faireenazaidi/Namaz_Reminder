@@ -1,14 +1,18 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 import 'AddFriendDataModal.dart';
 
 class AddFriendController extends GetxController {
+  late RegisteredUserDataModal currentUser;
   var requests = <Person>[].obs;
   var contacts = <Person>[].obs;
   var nearbyPeople = <Person>[].obs;
   var registeredUsers = <Person>[].obs;
+
+  UserData userData = UserData();
+
 
   @override
   void onInit() {
@@ -21,16 +25,16 @@ class AddFriendController extends GetxController {
   /// Register USer Method
 
   Future<void> fetchRegisteredUsers() async {
-    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/registered-users/');
+    final url = Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/registered-users/');
 
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        print("APIDATA:"+data.toString());
+        print("APIDATA:" + data.toString());
         updateRegisteredList = data['users'];
-        print("DDDDDDDD"+getRegisteredUserList.toString());
-
+        print("DDDDDDDD" + getRegisteredUserList.toString());
       } else {
         print('Failed to fetch registered users: ${response.statusCode}');
       }
@@ -39,10 +43,14 @@ class AddFriendController extends GetxController {
     }
   }
 
-  List registeredUserList =[];
-  List<RegisteredUserDataModal> get getRegisteredUserList => List<RegisteredUserDataModal>.from(
-      registeredUserList.map((element) => RegisteredUserDataModal.fromJson(element)).toList());
-  set updateRegisteredList(List val){
+  List registeredUserList = [];
+
+  List<RegisteredUserDataModal> get getRegisteredUserList =>
+      List<RegisteredUserDataModal>.from(
+          registeredUserList.map((element) =>
+              RegisteredUserDataModal.fromJson(element)).toList());
+
+  set updateRegisteredList(List val) {
     registeredUserList = val;
     update();
   }
@@ -50,19 +58,17 @@ class AddFriendController extends GetxController {
 
   /// Friend request List
 
-
   Future<void> fetchFriendRequests() async {
-    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/friend-requests/?user_id=8');
+    final url = Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/friend-requests/?user_id=8');
 
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        var  data = json.decode(response.body);
-        print("555 "+data.toString());
+        var data = json.decode(response.body);
+        print("555 " + data.toString());
 
         updateFriendRequestList = data;
-
-
       } else {
         print('Failed to fetch friend requests: ${response.statusCode}');
       }
@@ -72,11 +78,14 @@ class AddFriendController extends GetxController {
   }
 
 
-
   List friendRequestList = [];
-  List<FriendRequestDataModal> get getFriendRequestList => List<FriendRequestDataModal>.from(
-      registeredUserList.map((element) => FriendRequestDataModal.fromJson(element)).toList());
-  set updateFriendRequestList(List val){
+
+  List<FriendRequestDataModal> get getFriendRequestList =>
+      List<FriendRequestDataModal>.from(
+          friendRequestList.map((element) =>
+              FriendRequestDataModal.fromJson(element)).toList());
+
+  set updateFriendRequestList(List val) {
     friendRequestList = val;
     update();
   }
@@ -89,7 +98,8 @@ class AddFriendController extends GetxController {
     var headers = {
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/send-friend-request/'));
+    var request = http.Request('POST',
+        Uri.parse('http://182.156.200.177:8011/adhanapi/send-friend-request/'));
     request.body = json.encode({
       "receiver_id": registeredData.userId.toString(),
       "sender_id": 9
@@ -99,8 +109,9 @@ class AddFriendController extends GetxController {
     http.StreamedResponse response = await request.send();
 
     var data = jsonDecode(await response.stream.bytesToString());
-    print("dddd "+data.toString());
-    Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
+    print("  " + data.toString());
+    Get.snackbar('Success', data['detail'].toString(),
+        snackPosition: SnackPosition.BOTTOM);
     // if (response.statusCode == 200) {
     //   //print(await response.stream.bytesToString());
     //
@@ -111,30 +122,35 @@ class AddFriendController extends GetxController {
 
   }
 
+  ///ACCEPT REQUEST
 
+  acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
+    request.body = json.encode({
+      "request_id": friendRequestData..id.toString(),
+      "user_id": userData.getUserData?.responseData?.user?.id.toString(),
+    });
+    request.headers.addAll(headers);
 
-  Future<void> acceptFriendRequest(String requestId) async {
-    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/accept-friend-request/');
+    http.StreamedResponse response = await request.send();
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'request_id': requestId,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        print('Friend request accepted');
-        fetchFriendRequests();
-      } else {
-        print('Failed to accept friend request: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error accepting friend request: $e');
-    }
+    var data = jsonDecode(await response.stream.bytesToString());
+    print("fff " + data.toString());
   }
+
+
 }
+
+
+
+
+
+
+
+
+
+

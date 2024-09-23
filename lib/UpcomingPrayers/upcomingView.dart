@@ -6,7 +6,6 @@ import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
 import '../Routes/approutes.dart';
-import '../Widget/Date.dart';
 import '../Widget/appColor.dart';
 
 class Upcoming extends GetView<UpcomingController> {
@@ -52,29 +51,31 @@ class Upcoming extends GetView<UpcomingController> {
                 const SizedBox(height: 15),
 
                 // Added Expanded widget with Row for date and Islamic date
-                Row(
-                  children: [
-                    Text(
-                      DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
-                      style: const TextStyle(fontSize: 12, color: Colors.black),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Container(
-                      width: 1, // Vertical divider width
-                      height: 15, // Divider height
-                      color: Colors.grey,
-                      margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
-                    ),
-                    Expanded(
-                      child: Obx(
-                            () => Text(
-                          dashboardController.islamicDate.value,
-                          style: const TextStyle(fontSize: 12, color: Colors.black),
-                          overflow: TextOverflow.ellipsis,
+                Center(
+                  child: Row(
+                    children: [
+                      Text(
+                        DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
+                        style: const TextStyle(fontSize: 12, color: Colors.black),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Container(
+                        width: 1, // Vertical divider width
+                        height: 15, // Divider height
+                        color: Colors.grey,
+                        margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+                      ),
+                      Expanded(
+                        child: Obx(
+                              () => Text(
+                            dashboardController.islamicDate.value,
+                            style: const TextStyle(fontSize: 12, color: Colors.black),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: 15),

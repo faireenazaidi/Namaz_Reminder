@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,7 +13,6 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
-
 import '../LocationSelectionPage/locationPageView.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
@@ -48,7 +46,7 @@ class DashBoardView extends GetView<DashBoardController> {
                    onTap: (){
                      Get.toNamed(AppRoutes.profileRoute);
                    },
-                   child: CircleAvatar(
+                   child: const CircleAvatar(
                     backgroundImage: NetworkImage("https://media.istockphoto.com/id/1409155424/photo/head-shot-portrait-of-millennial-handsome-30s-man.webp?a=1&b=1&s=612x612&w=0&k=20&c=Q5Zz9w0FulC0CtH-VCL8UX2SjT7tanu5sHNqCA96iVw="),
                                    ),
                  )
@@ -100,15 +98,15 @@ class DashBoardView extends GetView<DashBoardController> {
                         Row(
                           children: [
                             Text(
-                              DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
+                              DateFormat('EEE, d MMMM yyyy').format(DateTime.now()),
                               style: const TextStyle(fontSize: 12, color: Colors.black),
                               overflow: TextOverflow.ellipsis,
                             ),
                             Container(
-                              width: 1, // Vertical divider width
-                              height: 15, // Divider height
+                              width: 1,
+                              height: 15,
                               color: Colors.grey,
-                              margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+                              margin: const EdgeInsets.symmetric(horizontal: 10),
                             ),
                             Obx(
                                   () => Text(
@@ -129,7 +127,6 @@ class DashBoardView extends GetView<DashBoardController> {
                   children: [
                     Obx(() {
                       double completionPercentage = controller.calculateCompletionPercentage();
-
                       return CircularPercentIndicator(
                         animateFromLastPercent: true,
                         circularStrokeCap: CircularStrokeCap.round,
@@ -149,28 +146,20 @@ class DashBoardView extends GetView<DashBoardController> {
                     Positioned(
                       child: Obx(() {
                         double completionPercentage = controller.calculateCompletionPercentage();
-                        // Circle center and radius
                         double radius = 100;
-                        // Radius of the circle (adjust based on CircularPercentIndicator radius)
                         double angle = 2 * pi * completionPercentage;
-                        // Convert percentage to radians
-
-                        // Calculate x and y positions based on angle
                         double x = radius * cos(angle);
                         double y = radius * sin(angle);
 
                         return Positioned(
-                          left: radius + x - 120,
-                          // Offset to center the crown on the circle
-                          top: radius - y - 100,
-                          // Offset to center the crown on the circle
+                            right: radius + x - 135,
+                          top: radius + y - 130,
                           child: CircleAvatar(
-                            radius: 15,
+                            radius: 18,
                             backgroundColor: Colors.white,
-                            child:     Lottie.asset("assets/Crown.lottie",
+                            child: Lottie.asset("assets/Crown.lottie",
                                 decoder: customDecoder, height: 1000),
                              ),
-
                         );
                       }),
                     ),
@@ -389,9 +378,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                             ),
                                           ],
                                         ),
-                                        // Positioned block to properly contain ListView.builder
                                         Positioned(
-                                          top: 50,  // Adjust as necessary
+                                          top: 50,
                                           left: 0,
                                           right: 0,
                                           bottom: 0,
