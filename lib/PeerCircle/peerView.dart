@@ -81,8 +81,8 @@ class PeerView extends GetView<PeerController> {
                 return ListView.builder(
                   itemCount: controller.getFriendshipList.length,
                   itemBuilder: (context, index) {
-                    FriendRequestDataModal friend = controller.getFriendshipList[index];
-                    print(friend.id);
+                    Friendship  friend = controller.getFriendshipList[index];
+                    // print(friend.id);
                     return Column(
                       children: [
                         Row(
@@ -101,7 +101,7 @@ class PeerView extends GetView<PeerController> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        friend.name.toString(),
+                                        friend.user1.name.toString(),
                                         style: MyTextTheme.mediumGCB.copyWith(
                                           fontSize: 16,
                                           color: Colors.black,
@@ -109,7 +109,7 @@ class PeerView extends GetView<PeerController> {
                                         ),
                                       ),
                                       Text(
-                                        friend.mobileNo.toString(),
+                                        friend.user1.mobileNo.toString(),
                                         style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
                                       ),
                                     ],
@@ -169,7 +169,7 @@ class PeerView extends GetView<PeerController> {
                                                   ),
                                                   child: TextButton(
                                                     onPressed: () async {
-                                                      await controller.removeFriend(friend);
+                                                      await controller.removeFriend(friend.user1.id.toString());
                                                       controller.getFriendshipList.remove(index);                                                    },
                                                     child: const Text(
                                                       'Yes, Remove',

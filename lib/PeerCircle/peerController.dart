@@ -25,7 +25,7 @@ class PeerController extends GetxController{
 
   friendship() async {
     var request = http.Request('GET', Uri.parse(
-        'http://182.156.200.177:8011/adhanapi/friendships/?user_id=6'));
+        'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
 
 
 
@@ -45,10 +45,10 @@ class PeerController extends GetxController{
 
   List friendshipList = [];
 
-  List<FriendRequestDataModal> get getFriendshipList =>
-      List<FriendRequestDataModal>.from(
+  List<Friendship> get getFriendshipList =>
+      List<Friendship>.from(
           friendshipList.map((element) =>
-              FriendRequestDataModal.fromJson(element)).toList());
+              Friendship.fromJson(element)).toList());
 
   set updateFriendRequestList(List val) {
     friendshipList = val;
@@ -56,15 +56,17 @@ class PeerController extends GetxController{
   }
 
   ///REMOVE FRIEND
-  removeFriend(FriendRequestDataModal friend) async {
+  removeFriend(String friendId) async {
+    print("friendId $friendId");
+    print("myId ${userData.getUserData!.id}");
     var headers = {
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
         Uri.parse('http://182.156.200.177:8011/adhanapi/remove_friend/'));
     request.body = json.encode({
-      "user_id":userData.getUserData?.responseData?.user?.id.toString(),
-      "friend_id": friend.id.toString()
+      "user_id":userData.getUserData!.id.toString(),
+      "friend_id": friendId
     });
     request.headers.addAll(headers);
 

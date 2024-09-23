@@ -150,3 +150,102 @@ class FriendRequestDataModal {
     return data;
   }
 }
+class Friendship {
+  final int friendshipId;
+  final User user1;
+  final User user2;
+  final DateTime createdAt;
+
+  Friendship({
+    required this.friendshipId,
+    required this.user1,
+    required this.user2,
+    required this.createdAt,
+  });
+
+  // Factory constructor to create a Friendship instance from JSON
+  factory Friendship.fromJson(Map<String, dynamic> json) {
+    return Friendship(
+      friendshipId: json['friendship_id'],
+      user1: User.fromJson(json['user1']),
+      user2: User.fromJson(json['user2']),
+      createdAt: DateTime.parse(json['created_at']),
+    );
+  }
+
+  // Method to convert a Friendship instance to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'friendship_id': friendshipId,
+      'user1': user1.toJson(),
+      'user2': user2.toJson(),
+      'created_at': createdAt.toIso8601String(),
+    };
+  }
+}
+
+class User {
+  final int id;
+  final String username;
+  final String name;
+  final String? email;
+  final String mobileNo;
+  final int? gender;
+  final int? fiqh;
+  final int? timesOfPrayer;
+  final int? schoolOfThought;
+  final int? methodId;
+  final String? methodName;
+  final String? picture;
+
+  User({
+    required this.id,
+    required this.username,
+    required this.name,
+    this.email,
+    required this.mobileNo,
+    this.gender,
+    this.fiqh,
+    this.timesOfPrayer,
+    this.schoolOfThought,
+    this.methodId,
+    this.methodName,
+    this.picture,
+  });
+
+  // Factory constructor to create a User instance from JSON
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      username: json['username'],
+      name: json['name'],
+      email: json['email'],
+      mobileNo: json['mobile_no'],
+      gender: json['gender'],
+      fiqh: json['fiqh'],
+      timesOfPrayer: json['times_of_prayer'],
+      schoolOfThought: json['school_of_thought'],
+      methodId: json['method_id'],
+      methodName: json['method_name'],
+      picture: json['picture'],
+    );
+  }
+
+  // Method to convert a User instance to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'username': username,
+      'name': name,
+      'email': email,
+      'mobile_no': mobileNo,
+      'gender': gender,
+      'fiqh': fiqh,
+      'times_of_prayer': timesOfPrayer,
+      'school_of_thought': schoolOfThought,
+      'method_id': methodId,
+      'method_name': methodName,
+      'picture': picture,
+    };
+  }
+}

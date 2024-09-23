@@ -214,7 +214,7 @@ class CustomDrawer extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 
   // Function to create the ListTiles with reduced padding, small and bold text

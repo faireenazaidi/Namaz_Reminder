@@ -134,8 +134,8 @@ class AddFriendController extends GetxController {
     var request = http.Request('POST', Uri.parse(
         'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
     request.body = json.encode({
-      "request_id": friendRequestData..id.toString(),
-      "user_id": userData.getUserData.id.toString(),
+      "request_id": friendRequestData.id.toString(),
+      "user_id": userData.getUserData!.id.toString(),
     });
     request.headers.addAll(headers);
 
