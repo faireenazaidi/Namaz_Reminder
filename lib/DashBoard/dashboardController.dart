@@ -447,9 +447,10 @@ class DashBoardController extends GetxController {
         "longitude": position!.longitude,
         "timestamp": "$hour:$minute",
         "jamat": prayedAtMosque.value.toString(),
-        "times_of_prayer": userData.getUserData!.timesOfPrayer.toString()
+        "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
+        'prayed':true
       });
-      print("${request.body}");
+      print("prayer-record ${request.body}");
       // print("User ID: $userId");
       // print("Mobile No: $mobileNo");
       // // print("Latitude: $latitude");

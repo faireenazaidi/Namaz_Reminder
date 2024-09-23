@@ -110,7 +110,10 @@ class CustomDrawer extends StatelessWidget {
                 context,
                 "Missed Prayers",
                 "assets/missedPrayer.png",
-                    () {},
+                    () {
+
+                      Get.toNamed(AppRoutes.missedPrayers);
+                    },
                 customDrawerController.missedPrayersCount.value,
               )),
               _buildListTile(
@@ -231,16 +234,16 @@ class CustomDrawer extends StatelessWidget {
       ),
       dense: true, // Reduce spacing
       contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
-      trailing: count != null && count > 0
-          ? CircleAvatar(
-        radius: 10,
-        backgroundColor: Colors.orange,
-        child: Text(
-          count.toString(),
-          style: const TextStyle(color: Colors.white, fontSize: 12),
-        ),
-      )
-          : null,
+      // trailing: count != null && count > 0
+      //     ? CircleAvatar(
+      //   radius: 10,
+      //   backgroundColor: Colors.orange,
+      //   child: Text(
+      //     count.toString(),
+      //     style: const TextStyle(color: Colors.white, fontSize: 12),
+      //   ),
+      // )
+      //     : null,
       onTap: onTap,
     );
   }
