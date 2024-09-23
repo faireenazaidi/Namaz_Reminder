@@ -57,6 +57,9 @@ dependencies:
   get_storage: ^2.1.1
   custom_searchable_dropdown:
   image_picker: ^1.1.2
+  image_cropper:
+  fluttertoast: ^8.2.8
+  multi_functional_dropdown: ^0.0.7
 
 
 dev_dependencies:

@@ -145,34 +145,32 @@ class DashBoardView extends GetView<DashBoardController> {
                         // ),
                       );
                     }),
-                    Positioned(
-                      child: Obx(() {
-                        double completionPercentage = controller.calculateCompletionPercentage();
-                        // Circle center and radius
-                        double radius = 100;
-                        // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                        double angle = 2 * pi * completionPercentage;
-                        // Convert percentage to radians
+                    Obx(() {
+                      double completionPercentage = controller.calculateCompletionPercentage();
+                      // Circle center and radius
+                      double radius = 100;
+                      // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                      double angle = 2 * pi * completionPercentage;
+                      // Convert percentage to radians
 
-                        // Calculate x and y positions based on angle
-                        double x = radius * cos(angle);
-                        double y = radius * sin(angle);
+                      // Calculate x and y positions based on angle
+                      double x = radius * cos(angle);
+                      double y = radius * sin(angle);
 
-                        return Positioned(
-                          left: radius + x - 120,
-                          // Offset to center the crown on the circle
-                          top: radius - y - 100,
-                          // Offset to center the crown on the circle
-                          child: CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Colors.white,
-                            child:     Lottie.asset("assets/Crown.lottie",
-                                decoder: customDecoder, height: 1000),
-                             ),
+                      return Positioned(
+                        left: radius + x - 120,
+                        // Offset to center the crown on the circle
+                        top: radius - y - 100,
+                        // Offset to center the crown on the circle
+                        child: CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Colors.white,
+                          child:     Lottie.asset("assets/Crown.lottie",
+                              decoder: customDecoder, height: 1000),
+                           ),
 
-                        );
-                      }),
-                    ),
+                      );
+                    }),
 
 
                     // Adding the GIF/Image inside the circular indicator

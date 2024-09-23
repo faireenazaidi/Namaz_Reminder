@@ -19,25 +19,28 @@ class SplashController extends GetxController {
 
   get() async {
     page();
-    Position latAndLong = await LocationServices().determinePosition();
-    print("@@@@  XYZ ${latAndLong.latitude}   ${latAndLong.longitude}");
-    print(latAndLong.longitude);
+    // Position latAndLong = await LocationServices().determinePosition();
+    // print("@@@@  XYZ ${latAndLong.latitude}   ${latAndLong.longitude}");
+    // print(latAndLong.longitude);
   }
 
   page() async {
     Timer(const Duration(seconds: 3), () => pageRoute());
   }
 
-  pageRoute() async {
-    Get.toNamed(AppRoutes.locationPageRoute);
-  }
-
   // pageRoute() async {
-  //   print("UserId${_userData.getUserData!.name.isEmpty}");
-  //   if (_userData.getUserData!.name.isEmpty) {
-  //     Get.toNamed(AppRoutes.locationPageRoute);
-  //   } else {
-  //     Get.toNamed(AppRoutes.dashboardRoute);
-  //   }
+  //   Get.toNamed(AppRoutes.locationPageRoute);
   // }
+
+  pageRoute() async {
+    // print("UserId${_userData.getUserData!.name.isEmpty}");
+    if (_userData.getUserData == null) {
+      Get.toNamed(AppRoutes.locationPageRoute);
+    } else if (_userData.getUserData!.name.isEmpty) {
+      Get.toNamed(AppRoutes.locationPageRoute);
+    } else {
+      Get.toNamed(AppRoutes.dashboardRoute);
+    }
+
+  }
 }

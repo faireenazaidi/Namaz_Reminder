@@ -98,7 +98,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(friendRequestData.id.toString(),style: MyTextTheme.mediumGCB.copyWith(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold ),),
+                                    Text(friendRequestData.name.toString(),style: MyTextTheme.mediumGCB.copyWith(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold ),),
                                     Text(friendRequestData.mobileNo.toString(),style: MyTextTheme.mediumGCB.copyWith(fontSize: 14,),),
 
                                   ],
@@ -108,7 +108,8 @@ class AddFriendView extends GetView<AddFriendController> {
                           ),
                           InkWell(
                             onTap: () async {
-                              await controller.fetchFriendRequests();
+                              print("${friendRequestData.id}");
+                              await controller.acceptFriendRequest(friendRequestData.id.toString());
                             },
                             child: Container(
                               height: 30,width: 80,

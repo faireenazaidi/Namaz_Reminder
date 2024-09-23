@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 import 'AddFriendDataModal.dart';
 
 class AddFriendController extends GetxController {
@@ -9,6 +10,7 @@ class AddFriendController extends GetxController {
   var contacts = <Person>[].obs;
   var nearbyPeople = <Person>[].obs;
   var registeredUsers = <Person>[].obs;
+  UserData _userData = UserData();
 
   @override
   void onInit() {
@@ -52,7 +54,8 @@ class AddFriendController extends GetxController {
 
 
   Future<void> fetchFriendRequests() async {
-    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/friend-requests/?user_id=8');
+    print("myid ${_userData.getUserData!.id}");
+    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/friend-requests/?user_id=${_userData.getUserData!.id}');
 
     try {
       final response = await http.get(url);
@@ -75,9 +78,10 @@ class AddFriendController extends GetxController {
 
   List friendRequestList = [];
   List<FriendRequestDataModal> get getFriendRequestList => List<FriendRequestDataModal>.from(
-      registeredUserList.map((element) => FriendRequestDataModal.fromJson(element)).toList());
+      friendRequestList.map((element) => FriendRequestDataModal.fromJson(element)).toList());
   set updateFriendRequestList(List val){
     friendRequestList = val;
+    print("friendRequestList ${friendRequestList.length}");
     update();
   }
 
@@ -115,6 +119,8 @@ class AddFriendController extends GetxController {
 
   Future<void> acceptFriendRequest(String requestId) async {
     final url = Uri.parse('http://182.156.200.177:8011/adhanapi/accept-friend-request/');
+    print("re $requestId");
+    // print("re ${_userData.}");
 
     try {
       final response = await http.post(
@@ -124,9 +130,10 @@ class AddFriendController extends GetxController {
         },
         body: jsonEncode({
           'request_id': requestId,
+          "user_id": _userData.getUserData!.id.toString()
         }),
       );
-
+      // print('Friend bod ${response.}');
       if (response.statusCode == 200) {
         print('Friend request accepted');
         fetchFriendRequests();

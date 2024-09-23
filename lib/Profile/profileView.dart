@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:multi_functional_dropdown/multi_functional_dropdown.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
@@ -11,7 +12,9 @@ import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/image_and_video_picker.dart';
 import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
+import '../LocationSelectionPage/locationPageDataModal.dart';
 import '../Widget/appColor.dart';
+import '../Widget/myCustomeSd.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final ProfileController controller = Get.put(ProfileController());
@@ -316,7 +319,44 @@ class ProfileView extends GetView<ProfileController> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Column(
+                  //     children: [
+                  //       DropdownMenu<Map<String,dynamic>>(
+                  //         textStyle: const TextStyle(
+                  //           color: Colors.grey
+                  //         ),
+                  //         menuHeight: 150,
+                  //         initialSelection: {"key": "MWL", "id": 3, "name": "Muslim World League"},
+                  //         width: double.infinity,
+                  //         // initialSelection: selectedValue,
+                  //         onSelected: (value) {
+                  //           print("value $value");
+                  //             // selectedValue = value;
+                  //
+                  //           // if (widget.onSelected != null) {
+                  //           //   widget.onSelected!(value);
+                  //           // }
+                  //         },
+                  //         dropdownMenuEntries: controller.calculationList.map<DropdownMenuEntry<Map<String,dynamic>>>((value) {
+                  //           return DropdownMenuEntry<Map<String,dynamic>>(
+                  //             value: value,
+                  //             label: value['name'].toString(),
+                  //           );
+                  //         }).toList(),
+                  //       ),
+                  //       MultiDropdownDialog(hint: '', itemsList: controller.calculationList, displayText: (val) {
+                  //         return val['name'].toString();
+                  //
+                  //       },initialValues: [controller.schoolOFThought['name'].toString()],
+                  //         onChanged: (value) {
+                  //         controller.schoolOFThought = value;
+                  //       },),
+                  //     ],
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20,),
                   MyButton(onPressed: (){
                     controller.registerUser();
                   }, title: 'Update',color: Colors.black,),

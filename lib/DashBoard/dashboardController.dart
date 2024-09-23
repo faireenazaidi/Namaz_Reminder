@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -12,6 +13,7 @@ import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 
 import '../SplashScreen/splashController.dart';
+import '../Widget/location_services.dart';
 class DashBoardController extends GetxController {
   RxString islamicDate = ''.obs;
   RxInt rank = 1.obs;
@@ -84,13 +86,16 @@ class DashBoardController extends GetxController {
     );
   }
 
+  LocationService _locationService = LocationService();
+  Position? position;
+
   @override
-  void onInit() {
+  void onInit() async{
     super.onInit();
     highlightCurrentPrayer();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollToHighlightedPrayer();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   scrollToHighlightedPrayer();
+    // });
   }
 
   @override
@@ -106,6 +111,7 @@ class DashBoardController extends GetxController {
   }
 
   get() async {
+    position = await _locationService.getCurrentLocation();
     await fetchPrayerTime();
   }
 
@@ -119,8 +125,8 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> fetchPrayerTime() async {
-    final latitude = 26.8664718;
-    final longitude = 80.8654426;
+    final latitude = position!.latitude;
+    final longitude = position!.longitude;
     final method = userData.getUserData!.methodId;
     // final method = 1;
     isLoading.value = true;
@@ -303,6 +309,7 @@ class DashBoardController extends GetxController {
       } else {
         progressPercent.value = 0.0; // Set to 0 if not within the range
       }
+      scrollToHighlightedPrayer();
       update();
     });
   }
@@ -428,25 +435,26 @@ class DashBoardController extends GetxController {
   bool isGifVisible = false;
   submitPrayer() async {
     print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
+    DateTime date = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
     try {
       var headers = {'Content-Type': 'application/json'};
 
       // Use null-aware operators and default values
-      var userId = userData.getUserData!.id.toString() ?? 'default_id';
-      var mobileNo = userData.getUserData!.mobileNo.toString() ?? 'default_mobile_no';
+      var userId = userData.getUserData!.id.toString();
+      var mobileNo = userData.getUserData!.mobileNo.toString();
       // var latitude = latAndLong!.latitude.toString() ?? '0.0';
       // var longitude = latAndLong!.longitude.toString() ?? '0.0';
-      var jamatValue = prayedAtMosque.value.toString();
 
-      var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
+      var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/$formattedDate/'));
       request.body = json.encode({
         "user_id": userId,
         "mobile_no": mobileNo,
-        "latitude": "26.739880",
-        "longitude": "83.886971",
+        "latitude": position!.latitude,
+        "longitude": position!.longitude,
         "timestamp": "$hour:$minute",
         "jamat": prayedAtMosque.value.toString(),
-        "times_of_prayer": 5
+        "times_of_prayer": userData.getUserData!.timesOfPrayer.toString()
       });
       print("${request.body}");
       // print("User ID: $userId");

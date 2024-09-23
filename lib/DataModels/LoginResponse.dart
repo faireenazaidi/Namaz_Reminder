@@ -128,7 +128,7 @@ class UserModel {
       username: (json['username']??'').toString(),
       email: (json['email']??'').toString(),
       mobileNo: (json['mobile_no']??'').toString(),
-      name: json['name'] ?? '',
+      name: (json['name']??'').toString(),
       gender: (json['gender']??'').toString(),
       fiqh: (json['fiqh']??'').toString(),
       timesOfPrayer: (json['times_of_prayer']??'').toString(),
