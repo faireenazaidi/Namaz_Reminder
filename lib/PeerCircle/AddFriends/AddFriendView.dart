@@ -5,6 +5,8 @@ import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 
+import 'SeeAll.dart';
+
 class AddFriendView extends GetView<AddFriendController> {
   const AddFriendView({super.key});
 
@@ -67,9 +69,14 @@ class AddFriendView extends GetView<AddFriendController> {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("FRIEND REQUESTS",style: MyTextTheme.largeBCB,),
+                    InkWell(
+                      onTap: (){
+                        Get.to(SeeAll());
+                      },
+                        child: Text("See All"))
                   ],
                 ),
 
