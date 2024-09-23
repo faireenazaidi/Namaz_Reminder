@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:namaz_reminders/Widget/myButton.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
@@ -11,7 +10,6 @@ class AddFriendView extends GetView<AddFriendController> {
 
   @override
   Widget build(BuildContext context) {
-    //final AddFriendController controller = Get.put(AddFriendController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -67,68 +65,115 @@ class AddFriendView extends GetView<AddFriendController> {
                     color: Colors.grey,
                   ),
                 ),
+                SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Friend Reuests",style: MyTextTheme.largeBCB,),
+                    Text("FRIEND REQUESTS",style: MyTextTheme.largeBCB,),
                   ],
                 ),
 
-                Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.getFriendRequestList.length,
-                      itemBuilder: (context, index) {
-                        FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
-                        print("!!!!!!!!!!"+friendRequestData.name.toString());
+                SizedBox(
+                  height: 180,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.getFriendRequestList.length,
+                    itemBuilder: (context, index) {
+                      FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
+                      print("!!!!!!!!!!" + friendRequestData.name.toString());
 
-                        return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.grey,
-                                radius: 20,
-                                child: Icon(Icons.person,color: Colors.white,),
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    radius: 20,
+                                    child: Icon(Icons.person, color: Colors.white),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12.0, top: 12),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          friendRequestData.name.toString(),
+                                          style: MyTextTheme.mediumGCB.copyWith(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          friendRequestData.mobileNo.toString(),
+                                          style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12.0,top: 12),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(friendRequestData.name.toString(),style: MyTextTheme.mediumGCB.copyWith(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold ),),
-                                    Text(friendRequestData.mobileNo.toString(),style: MyTextTheme.mediumGCB.copyWith(fontSize: 14,),),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // Accept Button
+                              InkWell(
+                                onTap: () async {
+                                  await controller.acceptFriendRequest(friendRequestData);
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppColor.white),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppColor.circleIndicator,
+                                  ),
+                                  child: Center(
+                                    child: Text("Accept", style: TextStyle(color: Colors.white)),
+                                  ),
+                                ),
+                              ),
 
-                                  ],
+                              InkWell(
+                                onTap: ()  {
+
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppColor.white),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey,
+                                  ),
+                                  child: Center(
+                                    child: Text("Decline", style: TextStyle(color: Colors.white)),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          InkWell(
-                            onTap: () async {
-                              print("${friendRequestData.id}");
-                              await controller.acceptFriendRequest(friendRequestData.id.toString());
-                            },
-                            child: Container(
-                              height: 30,width: 80,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: AppColor.white),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColor.circleIndicator
-                              ),
-                               child: Center(child: Text("Accept",style: TextStyle(color: Colors.white),)),
-                            ),
-                          )
                         ],
                       );
-                    },)),  Row(
+                    },
+                  ),
+                ),
+                SizedBox(height: 10,),
+
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Registered User",style: MyTextTheme.largeBCB,),
+                    Text("REGISTERED USERS",style: MyTextTheme.largeBCB,),
                   ],
                 ),
+                SizedBox(height: 10,),
 
 
                 Expanded(

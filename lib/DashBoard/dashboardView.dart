@@ -14,7 +14,6 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
-
 import '../LocationSelectionPage/locationPageView.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
