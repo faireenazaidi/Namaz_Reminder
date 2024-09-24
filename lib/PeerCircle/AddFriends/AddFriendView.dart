@@ -74,7 +74,7 @@ class AddFriendView extends GetView<AddFriendController> {
                     Text("FRIEND REQUESTS",style: MyTextTheme.largeBCB,),
                     InkWell(
                       onTap: (){
-                        Get.to(SeeAll());
+                        Get.to(()=>SeeAll());
                       },
                         child: Text("See All"))
                   ],

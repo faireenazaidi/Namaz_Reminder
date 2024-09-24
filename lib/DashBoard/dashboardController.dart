@@ -4,9 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../DataModels/CalendarDataModel.dart';
@@ -34,7 +31,7 @@ class DashBoardController extends GetxController {
   UserData userData = UserData();
 
 
-  var prayerNames = ['Fajr', 'Zuhr', 'Asar', 'Maghrib', 'Isha'].obs;
+  var prayerNames = ['Fajr', 'Dhuhr', 'Asar', 'Maghrib', 'Isha'].obs;
   var currentPrayerIndex = 0.obs;
   var nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
@@ -113,6 +110,7 @@ class DashBoardController extends GetxController {
 
   get() async {
     position = await _locationService.getCurrentLocation();
+    getIsPrayed();
     await fetchPrayerTime();
   }
 
@@ -182,7 +180,11 @@ class DashBoardController extends GetxController {
               'start': getExtractedData[0].timings?.fajr ?? 'N/A',
               'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
             },
-            'Zuhr': {
+            'Free': {
+              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+              'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+            },
+            'Dhuhr': {
               'start': (getExtractedData[0].timings?.dhuhr ?? 'N/A'),
               'end': (getExtractedData[0].timings?.asr ?? 'N/A')
             },
@@ -218,6 +220,8 @@ class DashBoardController extends GetxController {
     // }
   }
 
+  bool isPrayed = false;
+
   String getCurrentPrayer(Map<String, Map<String, String>> c, String currentTime) {
     String currentPrayer = '';
     String startTime = '';
@@ -240,6 +244,11 @@ class DashBoardController extends GetxController {
       }
     }
 
+    if(currentPrayer=='Free'){
+      nextPrayer.value= getNextPrayer(prayerDuration, currentTime); // Fetch next prayer
+      print('Next prayer :$nextPrayer');
+    }
+
     if (!foundCurrentPrayer) {
       nextPrayer.value= getNextPrayer(prayerDuration, currentTime); // Fetch next prayer
       print('Next prayer :$nextPrayer');
@@ -251,12 +260,26 @@ class DashBoardController extends GetxController {
     this.currentPrayerStartTime.value = convertTo12HourFormat(startTime);
     this.currentPrayerEndTime.value = convertTo12HourFormat(endTime);
 
+    isPrayed = getPrayedValue(currentPrayer);
+    // print("ispadhi $ispadhi");
+
     return currentPrayer;
+  }
+
+  bool getPrayedValue(String prayerName) {
+    for (var prayer in isPrayedList) {
+      if (prayer['prayer_name'] == prayerName) {
+        return prayer['prayed'];
+      }
+    }
+    return false; // Return null if prayer name is not found
   }
 
   String getNextPrayer(Map<String, Map<String, String>> prayerDuration, String currentTime) {
     String nextPrayer = '';
     String nextPrayerStartTime = '';
+    print("prayerDuration $prayerDuration");
+    print("currentTime $currentTime");
 
     for (var prayer in prayerDuration.keys) {
       var times = prayerDuration[prayer]!;
@@ -280,9 +303,9 @@ class DashBoardController extends GetxController {
         nextPrayer = 'Fajr';
         nextPrayerStartTime = prayerDuration['Fajr']!['start']!;
       } else if (currentTime.compareTo(sunriseTime) >= 0) {
-        // After Sunrise, the next prayer is Zuhr
-        nextPrayer = 'Zuhr';
-        nextPrayerStartTime = prayerDuration['Zuhr']!['start']!;
+        // After Sunrise, the next prayer is Dhuhr
+        nextPrayer = 'Dhuhr';
+        nextPrayerStartTime = prayerDuration['Dhuhr']!['start']!;
       }
     }
 
@@ -465,6 +488,7 @@ class DashBoardController extends GetxController {
       //print("API RESPONSE: " + await response.stream.bytesToString().toString());
       var data = jsonDecode(await response.stream.bytesToString());
       print("API RESPONSE: " + data['detail'].toString());
+      isPrayed = true;
       isGifVisible = true;
       update();
 
@@ -486,8 +510,34 @@ class DashBoardController extends GetxController {
     }
   }
 
+List isPrayedList = [];
+  void updateIsPrayedList(val){
+    isPrayedList = val;
+    update();
+  }
+  Future<void> getIsPrayed() async{
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=${userData.getUserData!.id.toString()}'));
 
 
+    http.StreamedResponse response = await request.send();
+    print(request.url);
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString());
+      var decodeData = jsonDecode(await response.stream.bytesToString());
+      print(decodeData);
+      // updateLeaderboardList = decodeData['records'];
+      updateIsPrayedList(decodeData['records']);
+      print("@@@@@@@@@@@@ $isPrayedList");
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 
 
 }

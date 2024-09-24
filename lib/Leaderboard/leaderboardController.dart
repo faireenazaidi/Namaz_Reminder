@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
 import 'package:intl/intl.dart';
 
+import '../Services/user_data.dart';
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
@@ -41,7 +42,7 @@ class LeaderBoardController extends GetxController{
   leaderboard(formattedDate) async{
     print(getFormattedDate);
 
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=2'));
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=4&date=24-09-2024'));
 
 
     http.StreamedResponse response = await request.send();
@@ -50,9 +51,11 @@ class LeaderBoardController extends GetxController{
     if (response.statusCode == 200) {
      // print(await response.stream.bytesToString());
       var decodeData = jsonDecode(await response.stream.bytesToString());
-      print(decodeData);
-      updateLeaderboardList = decodeData['records'];
-      print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
+      print("decodeData $decodeData");
+      // updateLeaderboardList = decodeData;
+      getLeaderboardList= LeaderboardDataModal.fromJson(decodeData);
+      print("getLeaderboardList $getLeaderboardList");
+      // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
     }
     else {
       print(response.reasonPhrase);
@@ -60,11 +63,12 @@ class LeaderBoardController extends GetxController{
 
   }
 
-  RxList leaderboardList = [].obs;
-  List<LeaderboardDataModal> get getLeaderboardList => List<LeaderboardDataModal>.from(
-      leaderboardList.map((element) => LeaderboardDataModal.fromJson(element)).toList());
-  set updateLeaderboardList(List val){
-    leaderboardList.value = val;
+  Map<String,dynamic> leaderboardList = {};
+  LeaderboardDataModal?  getLeaderboardList;
+  // List<LeaderboardDataModal> get getLeaderboardList => List<LeaderboardDataModal>.from(
+  //     leaderboardList.map((element) => LeaderboardDataModal.fromJson(element)).toList());
+  set updateLeaderboardList(val){
+    leaderboardList = val;
     update();
   }
 

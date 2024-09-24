@@ -35,7 +35,7 @@ class PeerController extends GetxController{
       // print(await response.stream.bytesToString());
       var data = jsonDecode(await response.stream.bytesToString());
       updateFriendRequestList = data['friendships'];
-      print("object"+getFriendshipList.toString());
+      print("object"+data['friendships'].toString());
     }
     else {
       print(response.reasonPhrase);

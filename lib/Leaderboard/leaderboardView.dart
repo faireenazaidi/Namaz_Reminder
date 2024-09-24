@@ -124,7 +124,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         ),
                         const SizedBox(width: 5),
                         Expanded(
-                          child: Obx(() => Row(
+                          child:  Row(
                             children: [
                               Expanded(
                                 child: Text(
@@ -148,7 +148,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               //   ),
                               // ),
                             ],
-                          )),
+                          ),
                         ),
                       ],
                     ),
@@ -179,130 +179,123 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
 
           SliverToBoxAdapter(
-            child: Visibility(
-              visible: controller.selectedTab.value == 'Daily',
-              child: Column(
-                children: [
-                  // Space between leaderboard and toggle buttons
-                  const SizedBox(height: 20), // Adjust the height as needed
-                  Row(
+            child: GetBuilder<LeaderBoardController>(
+                builder: (_) {
+                return Visibility(
+                  visible: controller.selectedTab.value == 'Daily',
+                  child: Column(
                     children: [
-                      Obx((){
-                        return
-                        Expanded(
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: leaderBoardController.getLeaderboardList.length,
-                            itemBuilder: (context, index) {
-                              return Visibility(
-                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Fajr",
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.orange,
-                                    child: Icon(Icons.person,color: Colors.white,),),
-                                ),
-                              );
+                      // Space between leaderboard and toggle buttons
+                      const SizedBox(height: 20), // Adjust the height as needed
+                      Row(
+                        children: [
+                            Expanded(
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemBuilder: (context, index) {
+                                  return Visibility(
+                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Fajr",
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.orange,
+                                        child: Icon(Icons.person,color: Colors.white,),),
+                                    ),
+                                  );
 
-                            },),
-                        );
-                      }),
+                                },),
+                            ),
+                          Expanded(
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemBuilder: (context, index) {
+                                  return Visibility(
+                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Dhuhr",
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.orange,
+                                        child: Icon(Icons.person,color: Colors.white,),),
+                                    ),
+                                  );
 
-                      Obx((){
-                        return Expanded(
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: leaderBoardController.getLeaderboardList.length,
-                            itemBuilder: (context, index) {
-                              return Visibility(
-                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Dhuhr",
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.orange,
-                                    child: Icon(Icons.person,color: Colors.white,),),
-                                ),
-                              );
-
-                            },),
-                        );
-                      }),
+                                },),
+                            ),
 
 
-                      Obx((){
-                        return Expanded(
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: leaderBoardController.getLeaderboardList.length,
-                            itemBuilder: (context, index) {
-                              return Visibility(
-                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Asr",
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Colors.transparent,
-                                    child: Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
-                                ),
-                              );
+                         Expanded(
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemBuilder: (context, index) {
+                                  return Visibility(
+                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Asr",
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Colors.transparent,
+                                        child: Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
+                                    ),
+                                  );
 
-                            },),
-                        );
-                      }),
+                                },),
+                            ),
+                          Expanded(
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemBuilder: (context, index) {
+                                  return Visibility(
+                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Maghrib",
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundColor: Colors.transparent,
+                                        child: Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
+                                    ),
+                                  );
 
-                      Obx((){
-                        return Expanded(
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: leaderBoardController.getLeaderboardList.length,
-                            itemBuilder: (context, index) {
-                              return Visibility(
-                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Maghrib",
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Colors.transparent,
-                                    child: Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
-                                ),
-                              );
+                                },),
+                            ),
 
-                            },),
-                        );
-                      }),
+                Expanded(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                    itemBuilder: (context, index) {
+                      return Visibility(
+                        visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Isha",
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipOval(
+                            child: CircleAvatar(
+                              radius: 22,
+                              backgroundColor: Colors.transparent,
+                              child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
+                          ),
+                        ),
+                      );
 
-            Expanded(
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: leaderBoardController.getLeaderboardList.length,
-                itemBuilder: (context, index) {
-                  return Visibility(
-                    visible: leaderBoardController.getLeaderboardList[index].prayerName == "Isha",
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipOval(
-                        child: CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Colors.transparent,
-                          child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
-                      ),
-                    ),
-                  );
+                    },),
+                )
 
-                },),
-            )
+                        ],
+                      )
+
 
                     ],
-                  )
-
-
-                ],
-              ),
+                  ),
+                );
+              }
             ),
           ),
 

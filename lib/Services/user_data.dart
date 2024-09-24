@@ -33,8 +33,8 @@ class UserData extends GetxController {
   }
 
   removeUserData() async {
-    await _storage.remove('userDetails');
+    await _storage.remove('personModal');
     await _storage.remove('userToken');
-    await _storage.remove('headAssigned');
+    update();
   }
 }

@@ -101,7 +101,7 @@ class PeerView extends GetView<PeerController> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        friend.user1.name.toString(),
+                                        friend.user2.name.toString(),
                                         style: MyTextTheme.mediumGCB.copyWith(
                                           fontSize: 16,
                                           color: Colors.black,
@@ -109,7 +109,7 @@ class PeerView extends GetView<PeerController> {
                                         ),
                                       ),
                                       Text(
-                                        friend.user1.mobileNo.toString(),
+                                        friend.user2.mobileNo.toString(),
                                         style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
                                       ),
                                     ],

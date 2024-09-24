@@ -194,8 +194,12 @@ class CustomDrawer extends StatelessWidget {
               ),
               InkWell(
                 onTap: (){
-                  Get.offAll(const LocationPage());
-                  UserData().removeUserData();
+                  Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,
+                      okPressEvent: ()async{
+                   await UserData().removeUserData();
+                    Get.offAll(()=>const LocationPage());
+                  });
+
                   //Get.toNamed(AppRoutes.locationPageRoute);
                 },
                 child: Padding(

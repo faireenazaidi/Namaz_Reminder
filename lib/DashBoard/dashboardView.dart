@@ -136,7 +136,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         radius: 140,
                         lineWidth: 40,
                         percent: completionPercentage,
-                        progressColor: AppColor.circleIndicator,
+                        progressColor:dashboardController.currentPrayer.value=='Free'?Colors.greenAccent :AppColor.circleIndicator,
                         backgroundColor: Colors.grey.shade300,
                         // center: Text(
                         //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
@@ -185,6 +185,7 @@ class DashBoardView extends GetView<DashBoardController> {
                       top: 70,
                       child: Obx(() {
                         // Check if there's a current prayer, if not, show the next prayer
+                        print("ccccccccccc ${dashboardController.currentPrayer.value}");
                         if (dashboardController.currentPrayer.value.isEmpty) {
                           // Show next prayer message with blinking effect
                           return Center(
@@ -199,7 +200,22 @@ class DashBoardView extends GetView<DashBoardController> {
                               ],
                             ),
                           );
-                        } else {
+                        }
+                        else if(dashboardController.currentPrayer.value=='Free'){
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 50,),
+                                BlinkingTextWidget(
+                                  text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                                  style: MyTextTheme.greyNormal,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        else {
                           // Show the current prayer timings if available
                           return Column(
                             children: [
@@ -242,14 +258,18 @@ class DashBoardView extends GetView<DashBoardController> {
                         return isBeforeNextPrayer
                             ? const SizedBox.shrink() // Hide the button
                             : InkWell(
-                          child: Text("Mark as Prayer", style: MyTextTheme.mustardN),
+                          child:controller.isPrayed?const Text("Prayed",style: TextStyle(
+                            color: Colors.green,fontWeight: FontWeight.w600
+                          ),) :Text("Mark as Prayer", style: MyTextTheme.mustardN),
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return  const TimePicker();
-                              },
-                            );
+                            if(!controller.isPrayed){
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return  const TimePicker();
+                                },
+                              );
+                            }
                           },
                         );
                       }),
