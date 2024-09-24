@@ -20,6 +20,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
     // TODO: implement initState
     super.initState();
     leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
+    leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
   }
   @override
   Widget build(BuildContext context) {
@@ -30,11 +31,12 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          Obx(()=>SliverAppBar(
             title: const Text("Leaderboard"),
             centerTitle: true,
             pinned: true,
-            expandedHeight: 300.0,
+            expandedHeight: controller.getSelectedTab == 'Daily'?Get.height/2.9:Get.height/2.3,
+            // expandedHeight: 350.0,
             backgroundColor: AppColor.cream,
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -63,10 +65,11 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       children: [
                         // Daily Button
                         GestureDetector(
-                          onTap: () => controller.updateSelectedTab('Daily'),
+                          onTap: () =>
+                          controller.updateSelectedTab ='Daily',
                           child: Container(
                             decoration: BoxDecoration(
-                              color: controller.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
+                              color: controller.getSelectedTab == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -83,7 +86,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         const SizedBox(width: 10),
                         // Weekly Button
                         GestureDetector(
-                          onTap: () => controller.updateSelectedTab('Weekly'),
+                          onTap: () => controller.updateSelectedTab = 'Weekly',
                           child: Container(
                             decoration: BoxDecoration(
                               color: controller.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
@@ -156,29 +159,55 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     const SizedBox(height: 10),
 
 
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                    CircleAvatar(child: Text("F")),
-                    SizedBox(width: 5,),
-                    CircleAvatar(child: Text("Z")),
-                        SizedBox(width: 5,),
-                    CircleAvatar(child: Text("A")),
-                        SizedBox(width: 5,),
-                    CircleAvatar(child: Text("M")),
-                        SizedBox(width: 5,),
-                    CircleAvatar(child: Text("I")),
-                      ],
-                    )
+                    Obx(()=>Visibility(
+                      visible: controller.selectedTab.value == 'Daily',
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            child: Text("F"),
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            child: Text("Z"),
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            child: Text("A"),
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            child: Text("M"),
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            child: Text("I"),
+                          )
+                        ],
+                      ),
+                    ),),
+
+                    Obx(()=>Visibility(
+                      visible: controller.selectedTab.value == 'Weekly',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildTopUser("assets/bg.jpeg", "Abid Ali", "97%", 2),
+                          _buildTopUser("assets/bg.jpeg", "Amira", "98.5%", 1),
+                          _buildTopUser("assets/bg.jpeg", "Waleed Ahmed", "98%", 3),
+                        ],
+                      ),
+                    ),)
                   ],
                 ),
               ),
             ),
-          ),
+          ),),
 
 
 
-          SliverToBoxAdapter(
+          Obx(()=>SliverToBoxAdapter(
             child: Visibility(
               visible: controller.selectedTab.value == 'Daily',
               child: Column(
@@ -189,24 +218,24 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     children: [
                       Obx((){
                         return
-                        Expanded(
-                          child: ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: leaderBoardController.getLeaderboardList.length,
-                            itemBuilder: (context, index) {
-                              return Visibility(
-                                visible: leaderBoardController.getLeaderboardList[index].prayerName == "Fajr",
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.orange,
-                                    child: Icon(Icons.person,color: Colors.white,),),
-                                ),
-                              );
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: leaderBoardController.getLeaderboardList.length,
+                              itemBuilder: (context, index) {
+                                return Visibility(
+                                  visible: leaderBoardController.getLeaderboardList[index].prayerName == "Fajr",
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.orange,
+                                      child: Icon(Icons.person,color: Colors.white,),),
+                                  ),
+                                );
 
-                            },),
-                        );
+                              },),
+                          );
                       }),
 
                       Obx((){
@@ -275,27 +304,27 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         );
                       }),
 
-            Expanded(
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: leaderBoardController.getLeaderboardList.length,
-                itemBuilder: (context, index) {
-                  return Visibility(
-                    visible: leaderBoardController.getLeaderboardList[index].prayerName == "Isha",
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipOval(
-                        child: CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Colors.transparent,
-                          child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
-                      ),
-                    ),
-                  );
+                      Expanded(
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: leaderBoardController.getLeaderboardList.length,
+                          itemBuilder: (context, index) {
+                            return Visibility(
+                              visible: leaderBoardController.getLeaderboardList[index].prayerName == "Isha",
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipOval(
+                                  child: CircleAvatar(
+                                    radius: 22,
+                                    backgroundColor: Colors.transparent,
+                                    child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
+                                ),
+                              ),
+                            );
 
-                },),
-            )
+                          },),
+                      )
 
                     ],
                   )
@@ -304,26 +333,107 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                 ],
               ),
             ),
-          ),
+          )),
 
 
-          // SliverToBoxAdapter(
-          //   child: Visibility(
-          //     visible: controller.selectedTab.value == 'Weekly',
-          //     child: Column(
-          //       children: [
-          //         Container(
-          //           height: 200,width: 200,
-          //           color: Colors.red,
-          //
-          //         )
-          //       ],
-          //     ),
-          //   ),
-          // )
+
+          Obx(()=>SliverToBoxAdapter(
+            child: Visibility(
+                visible: controller.selectedTab.value == 'Weekly',
+                child: SizedBox(
+                  height: 500,
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      _buildUserProgress("assets/bg.jpeg", "Muhammad Ali", "90%"),
+                      _buildUserProgress("assets/bg.jpeg", "Shihab Shaharia", "90%"),
+                      _buildUserProgress("assets/bg.jpeg", "Ali Shaan", "95.5%"),
+                      _buildUserProgress("assets/bg.jpeg", "You", "95%", highlight: true),
+                      _buildUserProgress("assets/bg.jpeg", "Mahmudul Hasan", "95.5%"),
+                    ],
+                  ),
+                ),
+            ),
+          ))
 
         ],
       ),
     );
   }
+
+
+
+  Widget _buildTopUser(String imageUrl, String name, String score, int rank) {
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: AssetImage(imageUrl),
+            ),
+            CircleAvatar(
+              radius: 12,
+              backgroundColor: rank == 1 ? Colors.orange : Colors.grey.shade400,
+              child: Text(
+                rank.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 5),
+        Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(score, style: const TextStyle(color: Colors.orange)),
+      ],
+    );
+  }
+
+
+  Widget _buildUserProgress(String imageUrl, String name, String score, {bool highlight = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0,right: 10,top: 20),
+      child: Column(
+        children: [
+
+          const Icon(Icons.star,size: 40,),
+
+          Container(
+            height: 380,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: highlight ? [Colors.orange.shade200, Colors.yellow.shade50] : [Colors.grey.shade400,Colors.white12, ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 50,width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(image: AssetImage(imageUrl),fit: BoxFit.fill)
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(score, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+          SizedBox(
+            width: 60,
+              child: Text(name, style: const TextStyle())),
+        ],
+      ),
+    );
+  }
+
+
+
 }

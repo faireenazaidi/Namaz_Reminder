@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:multi_functional_dropdown/multi_functional_dropdown.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';

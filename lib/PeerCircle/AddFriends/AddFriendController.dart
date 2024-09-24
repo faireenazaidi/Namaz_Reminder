@@ -105,7 +105,7 @@ class AddFriendController extends GetxController {
         Uri.parse('http://182.156.200.177:8011/adhanapi/send-friend-request/'));
     request.body = json.encode({
       "receiver_id": registeredData.userId.toString(),
-      "sender_id": 9
+      "sender_id": userData.getUserData!.id
     });
     request.headers.addAll(headers);
 
