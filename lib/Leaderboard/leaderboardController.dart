@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
 import 'package:intl/intl.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 
 import '../Services/user_data.dart';
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
+
+  UserData _userData = UserData();
 
   @override
   void onInit() {
@@ -32,11 +35,16 @@ class LeaderBoardController extends GetxController{
   void updateSelectedDate(DateTime picked) {
   selectedDate.value = picked;
   }
-
-  void updateSelectedTab(String tab) {
-  selectedTab.value = tab;
-
+  RxString selectedTab = 'Daily'.obs;
+  String get getSelectedTab => selectedTab.value;
+  set updateSelectedTab(String val){
+    selectedTab.value = val;
+    update();
   }
+  // void updateSelectedTab(String tab) {
+  // selectedTab.value = tab;
+  //
+  // }
 
 
   leaderboard(formattedDate) async{
@@ -72,33 +80,31 @@ class LeaderBoardController extends GetxController{
     update();
   }
 
-  List staticData = [
-    {
-      'id':0,
-      'image':"assets/bg.jpeg",
-      'isFirst':1
-    },
-    {
-      'id':0,
-      'image':"assets/bg.jpeg",
-      'isFirst':1
-    },
-    {
-      'id':0,
-      'image':"assets/bg.jpeg",
-      'isFirst':1
-    },
-    {
-      'id':0,
-      'image':"assets/bg.jpeg",
-      'isFirst':1
-    },
-    {
-      'id':0,
-      'image':"assets/bg.jpeg",
-      'isFirst':1
-    },
-  ];
+  weeklyApi(String formattedDate) async {
+
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${_userData.getUserData!.id}&date=$formattedDate'));
+
+
+    http.StreamedResponse response = await request.send();
+    print("URL ${request.url.toString()}");
+
+    if (response.statusCode == 200) {
+     // print(await response.stream.bytesToString());
+      var data = await response.stream.bytesToString();
+      print("WeeklyApi:$data");
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
+
+    // List weeklyList = [];
+    // List get get
+
+  }
+
+
+
 
 
 

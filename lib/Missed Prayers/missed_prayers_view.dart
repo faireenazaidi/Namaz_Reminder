@@ -51,7 +51,7 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
                         children: [
                           // Daily Button
                           GestureDetector(
-                            onTap: () => leaderBoardController.updateSelectedTab('Daily'),
+                            onTap: () => leaderBoardController.updateSelectedTab='Daily',
                             child: Container(
                               decoration: BoxDecoration(
                                 color: leaderBoardController.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
@@ -63,7 +63,7 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: leaderBoardController.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
+                                  color: leaderBoardController.getSelectedTab == 'Daily' ? Colors.white : Colors.black,
                                 ),
                               ),
                             ),
@@ -71,10 +71,10 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
                           const SizedBox(width: 10),
                           // Weekly Button
                           GestureDetector(
-                            onTap: () => leaderBoardController.updateSelectedTab('Weekly'),
+                            onTap: () => leaderBoardController.updateSelectedTab ='Weekly',
                             child: Container(
                               decoration: BoxDecoration(
-                                color: leaderBoardController.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
+                                color: leaderBoardController.getSelectedTab == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -83,7 +83,7 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: leaderBoardController.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
+                                  color: leaderBoardController.getSelectedTab == 'Weekly' ? Colors.white : Colors.black,
                                 ),
                               ),
                             ),
