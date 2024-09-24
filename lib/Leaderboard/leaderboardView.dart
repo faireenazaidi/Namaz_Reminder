@@ -208,8 +208,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
 
           SliverToBoxAdapter(
-            child: GetBuilder<LeaderBoardController>(
-                builder: (_) {
+            child: Obx(() {
                 return Visibility(
                   visible: controller.selectedTab.value == 'Daily',
                   child: Column(
@@ -222,10 +221,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemCount:leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
                                 itemBuilder: (context, index) {
                                   return Visibility(
-                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Fajr",
+                                    visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: CircleAvatar(
@@ -240,10 +239,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
                                 itemBuilder: (context, index) {
                                   return Visibility(
-                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Dhuhr",
+                                    visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: CircleAvatar(
@@ -260,10 +259,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
                                 itemBuilder: (context, index) {
                                   return Visibility(
-                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Asr",
+                                    visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: CircleAvatar(
@@ -279,10 +278,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                                itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
                                 itemBuilder: (context, index) {
                                   return Visibility(
-                                    visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Maghrib",
+                                    visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: CircleAvatar(
@@ -299,10 +298,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: leaderBoardController.getLeaderboardList!.records.length,
+                    itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
                     itemBuilder: (context, index) {
                       return Visibility(
-                        visible: leaderBoardController.getLeaderboardList!.records[index].prayerName == "Isha",
+                        visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ClipOval(
@@ -316,19 +315,14 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
                     },),
                 )
-                          },),
+                        ]
                       )
-
-                        ],
-                      )
-
-
-                    ],
-                  ),
+                    ]
+                  )
                 );
-              }
-            ),
-          )),
+                          },),
+                      ),
+
 
 
 
@@ -353,8 +347,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
           ))
 
         ],
-      ),
-    );
+      ));
+
   }
 
 

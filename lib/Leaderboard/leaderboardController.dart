@@ -30,7 +30,7 @@ class LeaderBoardController extends GetxController{
   }
 
   var selectedDate = DateTime.now().obs;
-  var selectedTab = 'Daily'.obs;
+  // var selectedTab = 'Daily'.obs;
 
   void updateSelectedDate(DateTime picked) {
   selectedDate.value = picked;
@@ -61,7 +61,7 @@ class LeaderBoardController extends GetxController{
       var decodeData = jsonDecode(await response.stream.bytesToString());
       print("decodeData $decodeData");
       // updateLeaderboardList = decodeData;
-      getLeaderboardList= LeaderboardDataModal.fromJson(decodeData);
+      getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
       print("getLeaderboardList $getLeaderboardList");
       // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
     }
@@ -72,7 +72,8 @@ class LeaderBoardController extends GetxController{
   }
 
   Map<String,dynamic> leaderboardList = {};
-  LeaderboardDataModal?  getLeaderboardList;
+  // LeaderboardDataModal?  getLeaderboardList;
+  var getLeaderboardList = Rxn<LeaderboardDataModal>();
   // List<LeaderboardDataModal> get getLeaderboardList => List<LeaderboardDataModal>.from(
   //     leaderboardList.map((element) => LeaderboardDataModal.fromJson(element)).toList());
   set updateLeaderboardList(val){

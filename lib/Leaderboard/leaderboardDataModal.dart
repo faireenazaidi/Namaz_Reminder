@@ -159,7 +159,7 @@ final avatarUrls = [
 // }
 //
 class LeaderboardDataModal {
-  final User user;
+  final User? user;
   final List<Record> records;
   final List<RankedFriend> rankedFriends;
 
@@ -172,7 +172,7 @@ class LeaderboardDataModal {
   // Factory constructor to create LeaderboardDataModal from JSON
   factory LeaderboardDataModal.fromJson(Map<String, dynamic> json) {
     return LeaderboardDataModal(
-      user: User.fromJson(json['user']),
+      user:json['user'] != null ? User.fromJson(json['user']) : null,
       records: json['records'] != null
           ? List<Record>.from(json['records'].map((record) => Record.fromJson(record)))
           : [], // Provide an empty list if records is null
@@ -185,7 +185,7 @@ class LeaderboardDataModal {
   // Method to convert LeaderboardDataModal object to JSON
   Map<String, dynamic> toJson() {
     return {
-      'user': user.toJson(),
+      'user': user!.toJson(),
       'records': records.map((record) => record.toJson()).toList(),
       'ranked_friends': rankedFriends.map((friend) => friend.toJson()).toList(),
     };
