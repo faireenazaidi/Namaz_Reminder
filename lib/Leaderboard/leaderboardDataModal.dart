@@ -248,7 +248,7 @@ class Record {
   // Factory constructor to create Record from JSON
   factory Record.fromJson(Map<String, dynamic> json) {
     return Record(
-      user: User.fromJson(json['user']),
+      user: User.fromJson(json['user']??{}),
       userTimestamp: json['user_timestamp'],
       latitude: json['latitude'],
       longitude: json['longitude'],

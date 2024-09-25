@@ -9,6 +9,7 @@ import 'package:namaz_reminders/Services/user_data.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 
+import '../Leaderboard/leaderboardDataModal.dart';
 import '../SplashScreen/splashController.dart';
 import '../Widget/location_services.dart';
 class DashBoardController extends GetxController {
@@ -112,6 +113,7 @@ class DashBoardController extends GetxController {
     position = await _locationService.getCurrentLocation();
     getIsPrayed();
     await fetchPrayerTime();
+    leaderboard();
   }
 
   String convertTo12HourFormat(String time24) {
@@ -462,7 +464,7 @@ class DashBoardController extends GetxController {
       // var latitude = latAndLong!.latitude.toString() ?? '0.0';
       // var longitude = latAndLong!.longitude.toString() ?? '0.0';
 
-      var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/$formattedDate/'));
+      var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/$formattedDate/'));
       request.body = json.encode({
         "user_id": userId,
         "mobile_no": mobileNo,
@@ -539,6 +541,31 @@ List isPrayedList = [];
 
   }
 
+  var getLeaderboardList = Rxn<LeaderboardDataModal>();
+  leaderboard() async{
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+
+
+    http.StreamedResponse response = await request.send();
+    print(request.url);
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString());
+      var decodeData = jsonDecode(await response.stream.bytesToString());
+      print("decodeData $decodeData");
+      // updateLeaderboardList = decodeData;
+      getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
+      print("getLeaderboardList $getLeaderboardList");
+      // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 
 }
 
