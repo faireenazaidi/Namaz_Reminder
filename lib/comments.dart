@@ -154,3 +154,115 @@
 //       ]
 //   );
 // }
+///////////
+// Future<bool> checkInviteStatus(int receiverId) async {
+//   var headers = {'Content-Type': 'application/json'};
+//   var url = 'http://182.156.200.177:8011/adhanapi/receivers/$receiverId/';
+//
+//   var response = await http.get(Uri.parse(url), headers: headers);
+//
+//   if (response.statusCode == 200) {
+//     var data = jsonDecode(response.body);
+//     isInvited.value = data['invited'] == true;
+//     return isInvited.value;
+//   } else {
+//     print("Error checking invite status: ${response.statusCode}");
+//     return false;
+//   }
+// }
+// List invitedFriendList = [];
+// List<RegisteredUserDataModal> get getInvitedFriendList=>
+//     List<RegisteredUserDataModal>.from(
+//         invitedFriendList.map((element) =>
+//             RegisteredUserDataModal.fromJson(element)).toList());
+//
+// set updateInvitedFriendList(List val) {
+//   invitedFriendList= val;
+//   update();
+// }
+// Center(
+// child:  registeredData.userId.toString() ==
+// controller.getInvitedFriendList.any((invited) =>
+// invited.userId.toString() == registeredData.userId.toString())
+// ? Text("Invited")
+//     : Text("Invite"))
+
+// registeredData.userId.toString() == controller.getInvitedFriendList[index].userId.toString()?Text("Invited"):Text("Invite"),
+
+
+// Expanded(
+// child: ListView.builder(
+// shrinkWrap: true,
+// itemCount: controller.getRegisteredUserList.length,
+// itemBuilder: (context, index) {
+// RegisteredUserDataModal registeredData = controller.getRegisteredUserList[index];
+// print("?????????"+registeredData.name.toString());
+//
+// // Assuming you have the registered user ID stored in a variable
+// final int registeredUserId = controller.currentUserId; // replace with your actual variable
+//
+// // Check if the current registeredData userId matches the registeredUserId
+// if (registeredData.userId == registeredUserId) {
+// return Container(); // Return an empty container to hide this item
+// }
+//
+// return Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: [
+// Row(
+// mainAxisAlignment: MainAxisAlignment.start,
+// children: [
+// CircleAvatar(
+// backgroundColor: Colors.grey,
+// radius: 20,
+// child: Icon(Icons.person, color: Colors.white),
+// ),
+// Padding(
+// padding: const EdgeInsets.only(left: 12.0, top: 12),
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text(
+// capitalizeFirstLetter(registeredData.name.toString()),
+// style: MyTextTheme.mediumGCB.copyWith(
+// fontSize: 16,
+// color: Colors.black,
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// Text(
+// registeredData.mobileNo.toString(),
+// style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+// ),
+// ],
+// ),
+// ),
+// ],
+// ),
+// InkWell(
+// onTap: () async {
+// await controller.sendFriendRequest(registeredData);
+// },
+// child: Container(
+// height: 30,
+// width: 80,
+// decoration: BoxDecoration(
+// border: Border.all(color: AppColor.white),
+// borderRadius: BorderRadius.circular(10),
+// color: AppColor.circleIndicator,
+// ),
+// child: Center(
+// child: Text(
+// "Invite",
+// style: TextStyle(color: Colors.white),
+// ),
+// ),
+// ),
+// )
+// ],
+// );
+// },
+// ),
+// )
+
+

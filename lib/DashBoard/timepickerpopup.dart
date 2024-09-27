@@ -246,9 +246,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                 title: "Submit",
                 color: AppColor.circleIndicator,
                 onPressed: () {
-                  Lottie.asset("assets/Crown.lottie",
-                      decoder: customDecoder, height: 60);
-                  dashBoardController.submitPrayer();
+
                 },
               ),
             ],
