@@ -170,7 +170,8 @@ class PeerView extends GetView<PeerController> {
                                                   child: TextButton(
                                                     onPressed: () async {
                                                       await controller.removeFriend(friend.user1.id.toString());
-                                                      controller.getFriendshipList.remove(index);                                                    },
+                                                      controller.getFriendshipList.remove(index);
+                                                      Get.back();},
                                                     child: const Text(
                                                       'Yes, Remove',
                                                       style: TextStyle(color: Colors.white),

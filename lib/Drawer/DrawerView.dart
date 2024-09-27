@@ -128,13 +128,18 @@ class CustomDrawer extends StatelessWidget {
                 indent: 10,
               ),
               _buildListTile(
-                  context, "Support Center", "assets/supportCentre.png", () {}
+                  context, "Support Center", "assets/supportCentre.png", () {
+                    Fluttertoast.showToast(msg: "Coming Soon");
+              }
               ),
               Obx(() => _buildListTile(
                 context,
                 "Notifications",
                 "assets/notification.png",
-                    () {},
+                    () {
+                  Fluttertoast.showToast(msg: "Coming Soon");
+
+                    },
                 customDrawerController.notificationCount.value,
               // Obx(() => ListTile(
               //   leading: Image.asset("assets/darkMode.png"),
@@ -184,13 +189,20 @@ class CustomDrawer extends StatelessWidget {
                 indent: 10,
               ),
               _buildListTile(
-                  context, "Settings", "assets/gear.png", () {}
+                  context, "Settings", "assets/gear.png", () {
+                    Fluttertoast.showToast(msg: "Coming Soon");
+              }
               ),
               _buildListTile(
-                  context, "F&Q", "assets/fAndQ.png", () {}
+                  context, "F&Q", "assets/fAndQ.png", () {
+                    Fluttertoast.showToast(msg: "Coming Soon");
+
+              }
               ),
               _buildListTile(
-                  context, "Feedback", "assets/feedback.png", () {}
+                  context, "Feedback", "assets/feedback.png", () {
+                    Fluttertoast.showToast(msg: "Coming Soon");
+              }
               ),
               InkWell(
                 onTap: (){

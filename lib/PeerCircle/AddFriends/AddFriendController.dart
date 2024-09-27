@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
@@ -11,6 +10,12 @@ class AddFriendController extends GetxController {
   var contacts = <Person>[].obs;
   var nearbyPeople = <Person>[].obs;
   var registeredUsers = <Person>[].obs;
+  var isInvited = false.obs;
+  var searchQuery = ''.obs;
+
+
+
+
 
   UserData userData = UserData();
 
@@ -20,11 +25,12 @@ class AddFriendController extends GetxController {
     super.onInit();
     fetchRegisteredUsers();
     fetchFriendRequests();
+    // filteredUserList.value = getRegisteredUserList;
+    checkInviteStatus(userData.getUserData!.id);
+
   }
 
-
   /// Register USer Method
-
   Future<void> fetchRegisteredUsers() async {
     final url = Uri.parse('http://182.156.200.177:8011/adhanapi/registered-users/');
 
@@ -59,7 +65,6 @@ class AddFriendController extends GetxController {
 
   /// Friend request List
 
-
   Future<void> fetchFriendRequests() async {
     print("myid ${userData.getUserData!.id}");
     final url = Uri.parse('http://182.156.200.177:8011/adhanapi/friend-requests/?user_id=${userData.getUserData!.id}');
@@ -79,8 +84,6 @@ class AddFriendController extends GetxController {
     }
   }
 
-
-
   List friendRequestList = [];
 
   List<FriendRequestDataModal> get getFriendRequestList =>
@@ -93,10 +96,84 @@ class AddFriendController extends GetxController {
     update();
   }
 
+  ///Invited Friends
+  Future<bool> checkInviteStatus(id) async {
+    print("ffff "+id.toString());
+    var headers = {'Content-Type': 'application/json'};
+    var url = 'http://182.156.200.177:8011/adhanapi/receivers/$id/';
 
-  ///Invite Friends
+    try {
+      var response = await http.get(Uri.parse(url), headers: headers);
+print("URL:"+url.toString());
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
 
+        updateInvitedFriendList = data;
 
+         print("Dataaaaa"+data.toString());
+
+        return data['invited'] == true;
+      } else {
+        print("Error checking invite status: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      print("An error occurred: $e");
+      return false;
+    }
+  }
+  // Future<bool> checkInviteStatus(int receiverId) async {
+  //   print("Receiver ID: $receiverId");
+  //   var headers = {'Content-Type': 'application/json'};
+  //   var url = 'http://182.156.200.177:8011/adhanapi/receivers/$receiverId/';
+  //
+  //   try {
+  //     var response = await http.get(Uri.parse(url), headers: headers);
+  //
+  //     print("Response status code: ${response.statusCode}");
+  //     print("Response body: ${response.body}");
+  //
+  //     if (response.statusCode == 200) {
+  //       var data = jsonDecode(response.body);
+  //       print("Data received: $data");
+  //       bool isInvited = data['invited'] == true;
+  //       return isInvited;
+  //     } else {
+  //       print("Error checking invite status: ${response.statusCode}");
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print("An error occurred: $e");
+  //     return false;
+  //   }
+  // }
+  List invitedFriendList = [];
+  List<RegisteredUserDataModal> get getInvitedFriendList =>
+      List<RegisteredUserDataModal>.from(
+          invitedFriendList.map((element) =>
+              RegisteredUserDataModal.fromJson(element)).toList());
+
+  set updateInvitedFriendList(List val) {
+    invitedFriendList = val;
+    update();
+  }
+
+   // Future<bool> checkInviteStatus(int receiverId) async {
+  //   var headers = {'Content-Type': 'application/json'};
+  //   var url = 'http://182.156.200.177:8011/adhanapi/receivers/$receiverId/';
+  //
+  //   var response = await http.get(Uri.parse(url), headers: headers);
+  //
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(response.body);
+  //     isInvited.value = data['invited'] == true;
+  //     return isInvited.value;
+  //   } else {
+  //     print("Error checking invite status: ${response.statusCode}");
+  //     return false;
+  //   }
+  // }
+  ///Invite friends
   sendFriendRequest(RegisteredUserDataModal registeredData) async {
     var headers = {
       'Content-Type': 'application/json'
@@ -113,18 +190,16 @@ class AddFriendController extends GetxController {
 
     var data = jsonDecode(await response.stream.bytesToString());
     print("  " + data.toString());
+    if(response.statusCode==200){
     Get.snackbar('Success', data['detail'].toString(),
         snackPosition: SnackPosition.BOTTOM);
-    // if (response.statusCode == 200) {
-    //   //print(await response.stream.bytesToString());
-    //
-    // }
-    // else {
-    // print(response.reasonPhrase);
-    // }
-
   }
-
+    else
+      {
+        Get.snackbar('Error','Failed to sent friend request',
+            snackPosition: SnackPosition.BOTTOM);
+      }
+      }
   ///ACCEPT REQUEST
 
   acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
@@ -145,12 +220,27 @@ class AddFriendController extends GetxController {
     print("fff " + data.toString());
   }
 
+  ///DECLINE REQUEST
+  declineRequest(FriendRequestDataModal friendRequestData) async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
+    request.body = json.encode({
+      "user_id": userData.getUserData!.id.toString(),
+      "request_id": friendRequestData.id.toString(),
+    });
+    request.headers.addAll(headers);
 
-}
+    http.StreamedResponse response = await request.send();
 
+    var data = jsonDecode(await response.stream.bytesToString());
+    print("aaaaaaaaaa " + data.toString());
+  }
 
-
-
+  }
+  ///////////////////
 
 
 

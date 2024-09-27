@@ -7,13 +7,10 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-
 import '../AppManager/image_and_video_picker.dart';
 import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
-import '../LocationSelectionPage/locationPageDataModal.dart';
 import '../Widget/appColor.dart';
-import '../Widget/myCustomeSd.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final ProfileController controller = Get.put(ProfileController());
