@@ -356,7 +356,7 @@ Map selectMethod = {}.obs;
           }
           else{
             await userData.addUserData(userModel);
-            step.value = 0;
+            // step.value = 0;
             print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
             // updateLoginResponse(jsonDecode(otpData['response_data']['user']));
             Get.offAllNamed(AppRoutes.dashboardRoute);
@@ -421,7 +421,7 @@ Map selectMethod = {}.obs;
    if(request.statusCode==200){
      final userModel = UserModel.fromJson(data['user']);
      await userData.addUserData(userModel);
-     step.value=0;
+     // step.value=0;
      Get.offAllNamed(AppRoutes.dashboardRoute);
      print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
    }

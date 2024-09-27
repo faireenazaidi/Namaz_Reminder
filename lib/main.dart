@@ -19,7 +19,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
   await GetStorage.init('user');
-  Get.put(LocationPageController());
+
   // Get.put(DashBoardController());
   Get.put(LoginController());
   Get.put(CustomDrawerController());

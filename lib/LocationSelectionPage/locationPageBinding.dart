@@ -6,7 +6,7 @@ import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dar
 class LocationPageBinding extends Bindings{
   @override
   void dependencies() {
-    Get.put(LocationPageController());
+    Get.lazyPut<LocationPageController>(() => LocationPageController());
   }
 
 }

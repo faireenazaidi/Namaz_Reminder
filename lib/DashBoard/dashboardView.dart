@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:namaz_reminders/DashBoard/renked_friend.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
@@ -23,6 +24,12 @@ class DashBoardView extends GetView<DashBoardController> {
   Widget build(BuildContext context) {
     final DateController dateController = Get.put(DateController());
     final DashBoardController dashboardController = Get.put(DashBoardController());
+    final List<RankedFriend> rankedFriends = [
+      RankedFriend(id: 58, name: 'Baqar Naqvi', totalScore: 85.29, percentage: 17.058),
+      RankedFriend(id: 4, name: 'Faheem', totalScore: 0.0, percentage: 60.0),
+      RankedFriend(id: 6, name: 'Suhail', totalScore: 0.0, percentage: 75.0),
+      // Add more friends here...
+    ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -279,93 +286,113 @@ class DashBoardView extends GetView<DashBoardController> {
 
 
                 const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 160,
-                      decoration: BoxDecoration(
-                        color: AppColor.leaderboard,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap:(){
-                                    Get.toNamed(AppRoutes.leaderboardRoute);
-                                  },
-                                    child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB)),
-                                SvgPicture.asset("assets/open.svg")
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Row(
-                              children: [
-                                Image.asset("assets/person.png"),
-                                const SizedBox(width: 5),
-                                Text(
-                                  '${dashboardController.rank.value}th',
-                                  style: MyTextTheme.largeCustomBCB,
-                                ),
-                                const SizedBox(width: 4.0),
-                                Text(
-                                  'Out of ${dashboardController.totalPeers.value} people in peers',
-                                  style: MyTextTheme.smallGCN,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                            child: Stack(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.rotationY(3.14159),
-                                      child: LinearPercentIndicator(
-                                        width: 290,
-                                        barRadius: const Radius.circular(2),
-                                        percent: 1,
-                                        progressColor: AppColor.circleIndicator,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 10.0),
-                          SizedBox(
-                            height: 50,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: dashboardController.avatars.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                  child: CircleAvatar(
-                                    backgroundImage: NetworkImage(dashboardController.avatars[index]),
-                                    radius: 15.0,
+                  InkWell(
+                    onTap: (){
+                      Get.toNamed(AppRoutes.leaderboardRoute);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx((){
+                          return Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.leaderboard,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                              child: RankedFriendsIndicator(rankedFriends:controller.getLeaderboardList.value==null?[]: controller.getLeaderboardList.value!.rankedFriends, currentUserId: int.parse(controller.userData.getUserData!.id),));
+                        }
                       ),
                     ),
                   ),
+                  // const SizedBox(height: 50),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Container(
+                  //     height: 160,
+                  //     decoration: BoxDecoration(
+                  //       color: AppColor.leaderboard,
+                  //       borderRadius: BorderRadius.circular(10),
+                  //     ),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Padding(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //             children: [
+                  //               InkWell(
+                  //                 onTap:(){
+                  //                   Get.toNamed(AppRoutes.leaderboardRoute);
+                  //                 },
+                  //                   child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB)),
+                  //               SvgPicture.asset("assets/open.svg")
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         Padding(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  //           child: Row(
+                  //             children: [
+                  //               Image.asset("assets/person.png"),
+                  //               const SizedBox(width: 5),
+                  //               Text(
+                  //                 '${dashboardController.rank.value}th',
+                  //                 style: MyTextTheme.largeCustomBCB,
+                  //               ),
+                  //               const SizedBox(width: 4.0),
+                  //               Text(
+                  //                 'Out of ${dashboardController.totalPeers.value} people in peers',
+                  //                 style: MyTextTheme.smallGCN,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         Padding(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  //           child: Stack(
+                  //             children: [
+                  //               Row(
+                  //                 mainAxisAlignment: MainAxisAlignment.end,
+                  //                 children: [
+                  //                   Transform(
+                  //                     alignment: Alignment.center,
+                  //                     transform: Matrix4.rotationY(3.14159),
+                  //                     child: LinearPercentIndicator(
+                  //                       width: 290,
+                  //                       barRadius: const Radius.circular(2),
+                  //                       percent: 1,
+                  //                       progressColor: AppColor.circleIndicator,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         const SizedBox(width: 10.0),
+                  //         SizedBox(
+                  //           height: 50,
+                  //           child: ListView.builder(
+                  //             scrollDirection: Axis.horizontal,
+                  //             itemCount: dashboardController.avatars.length,
+                  //             itemBuilder: (context, index) {
+                  //               return Padding(
+                  //                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  //                 child: CircleAvatar(
+                  //                   backgroundImage: NetworkImage(dashboardController.avatars[index]),
+                  //                   radius: 15.0,
+                  //                 ),
+                  //               );
+                  //             },
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 10),
                   GetBuilder(
                     init: controller,
