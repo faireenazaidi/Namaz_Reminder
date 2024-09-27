@@ -197,7 +197,7 @@ class CustomDrawer extends StatelessWidget {
                   Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,
                       okPressEvent: ()async{
                    await UserData().removeUserData();
-                    Get.offAll(()=>const LocationPage());
+                    Get.offAllNamed(AppRoutes.locationPageRoute);
                   });
 
                   //Get.toNamed(AppRoutes.locationPageRoute);

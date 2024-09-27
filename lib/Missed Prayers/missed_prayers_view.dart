@@ -164,164 +164,164 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
               ),
             ),
 
-            // SliverToBoxAdapter(
-            //   child: Column(
-            //     children: [
-            //       // Space between leaderboard and toggle buttons
-            //       const SizedBox(height: 20), // Adjust the height as needed
-            //       Row(
-            //         children: [
-            //           Obx((){
-            //             return
-            //               Expanded(
-            //                 child: ListView.builder(
-            //                   physics: const NeverScrollableScrollPhysics(),
-            //                   shrinkWrap: true,
-            //                   itemCount: leaderBoardController.getLeaderboardList.length,
-            //                   itemBuilder: (context, index) {
-            //                     var isMissedPrayers = leaderBoardController.getLeaderboardList[index].userTimestamp == null;
-            //                     return Visibility(
-            //                       visible: leaderBoardController.getLeaderboardList[index].prayerName == "Fajr",
-            //                       child: Padding(
-            //                         padding: const EdgeInsets.all(8.0),
-            //                         child: CircleAvatar(
-            //                           child: Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),),
-            //                       ),
-            //                     );
-            //
-            //                   },),
-            //               );
-            //           }),
-            //
-            //           Obx((){
-            //             return Expanded(
-            //               child: ListView.builder(
-            //                 physics: const NeverScrollableScrollPhysics(),
-            //                 shrinkWrap: true,
-            //                 itemCount: leaderBoardController.getLeaderboardList.length,
-            //                 itemBuilder: (context, index) {
-            //                   var isMissedPrayers = leaderBoardController.getLeaderboardList[index].userTimestamp == null;
-            //                   return Visibility(
-            //                     visible: leaderBoardController.getLeaderboardList[index].prayerName == "Dhuhr",
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.all(8.0),
-            //                       child: CircleAvatar(
-            //                         //backgroundColor: Colors.transparent,
-            //                         child: Icon(isMissedPrayers?Icons.close:Icons.check,color: isMissedPrayers.toString()=="null"?Colors.green:Colors.red,),),
-            //                     ),
-            //                   );
-            //
-            //                 },),
-            //             );
-            //           }),
-            //
-            //
-            //           Obx((){
-            //             return Expanded(
-            //               child: ListView.builder(
-            //                 physics: const NeverScrollableScrollPhysics(),
-            //                 shrinkWrap: true,
-            //                 itemCount: leaderBoardController.getLeaderboardList.length,
-            //                 itemBuilder: (context, index) {
-            //                   var isMissedPrayers = leaderBoardController.getLeaderboardList[index].userTimestamp == null;
-            //                   return Visibility(
-            //                     visible: leaderBoardController.getLeaderboardList[index].prayerName == "Asr",
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.all(8.0),
-            //                       child: CircleAvatar(
-            //                         radius: 20,
-            //                         //backgroundColor: Colors.transparent,
-            //                         child: isMissedPrayers?Icon(Icons.close,color: Colors.red,):Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
-            //                     ),
-            //                   );
-            //
-            //                 },),
-            //             );
-            //           }),
-            //
-            //           Obx((){
-            //             return Expanded(
-            //               child: ListView.builder(
-            //                 physics: const NeverScrollableScrollPhysics(),
-            //                 shrinkWrap: true,
-            //                 itemCount: leaderBoardController.getLeaderboardList.length,
-            //                 itemBuilder: (context, index) {
-            //                   var isMissedPrayers = leaderBoardController.getLeaderboardList[index].userTimestamp == null;
-            //                   return Visibility(
-            //                     visible: leaderBoardController.getLeaderboardList[index].prayerName == "Maghrib",
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.all(8.0),
-            //                       child: CircleAvatar(
-            //                         radius: 20,
-            //                         //backgroundColor: Colors.transparent,
-            //                         child: isMissedPrayers?Icon(Icons.close,color: Colors.red,):Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
-            //                     ),
-            //                   );
-            //
-            //                 },),
-            //             );
-            //           }),
-            //
-            //           Obx((){
-            //             return Expanded(
-            //               child: ListView.builder(
-            //                 physics: const NeverScrollableScrollPhysics(),
-            //                 shrinkWrap: true,
-            //                 itemCount: leaderBoardController.getLeaderboardList.length,
-            //                 itemBuilder: (context, index) {
-            //                   var isMissedPrayers = leaderBoardController.getLeaderboardList[index].userTimestamp == null;
-            //                   return Visibility(
-            //                     visible: leaderBoardController.getLeaderboardList[index].prayerName == "Isha",
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.all(8.0),
-            //                       child: ClipOval(
-            //                         child: CircleAvatar(
-            //                           radius: 22,
-            //                           //backgroundColor: Colors.transparent,
-            //                           child: isMissedPrayers?Icon(Icons.close,color: Colors.red,):Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
-            //                       ),
-            //                     ),
-            //                   );
-            //
-            //                 },),
-            //             );
-            //           })
-            //
-            //
-            //         ],
-            //       )
-            //
-            //
-            //       // Leaderboard GridView
-            //       // Padding(
-            //       //   padding: const EdgeInsets.all(16.0),
-            //       //   child: GridView.builder(
-            //       //     shrinkWrap: true,
-            //       //     physics: const NeverScrollableScrollPhysics(),
-            //       //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //       //       crossAxisCount: 5,
-            //       //       mainAxisSpacing: 10,
-            //       //       crossAxisSpacing: 10,
-            //       //     ),
-            //       //     itemCount: 1, // number of items
-            //       //     itemBuilder: (context, index) {
-            //       //       // Example of dynamic data for CircleAvatars
-            //       //       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
-            //       //       return Column(
-            //       //         children: [
-            //       //           CircleAvatar(
-            //       //             radius: 20,
-            //       //             backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
-            //       //           ),
-            //       //           const Text("sdddd",style: TextStyle(color: Colors.black),),
-            //       //         ],
-            //       //       );
-            //       //     },
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  // Space between leaderboard and toggle buttons
+                  const SizedBox(height: 20), // Adjust the height as needed
+                  Row(
+                    children: [
+                      Obx((){
+                        return leaderBoardController.getLeaderboardList.value!=null?
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                              itemBuilder: (context, index) {
+                                var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                return Visibility(
+                                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      child: Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),),
+                                  ),
+                                );
+
+                              },),
+                          ):SizedBox();
+                      }),
+
+                      Obx((){
+                        return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                            itemBuilder: (context, index) {
+                              var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    //backgroundColor: Colors.transparent,
+                                    child: Icon(isMissedPrayers?Icons.close:Icons.check,color: isMissedPrayers.toString()=="null"?Colors.green:Colors.red,),),
+                                ),
+                              );
+
+                            },),
+                        ):SizedBox();
+                      }),
+
+
+                      Obx((){
+                        return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                            itemBuilder: (context, index) {
+                              var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    //backgroundColor: Colors.transparent,
+                                    child: isMissedPrayers?Icon(Icons.close,color: Colors.red,):Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
+                                ),
+                              );
+
+                            },),
+                        ):SizedBox();
+                      }),
+
+                      Obx((){
+                        return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                            itemBuilder: (context, index) {
+                              var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    //backgroundColor: Colors.transparent,
+                                    child: isMissedPrayers?Icon(Icons.close,color: Colors.red,):Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
+                                ),
+                              );
+
+                            },),
+                        ):SizedBox();
+                      }),
+
+                      Obx((){
+                        return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                            itemBuilder: (context, index) {
+                              var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                              return Visibility(
+                                visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipOval(
+                                    child: CircleAvatar(
+                                      radius: 22,
+                                      //backgroundColor: Colors.transparent,
+                                      child: isMissedPrayers?Icon(Icons.close,color: Colors.red,):Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
+                                  ),
+                                ),
+                              );
+
+                            },),
+                        ):SizedBox();
+                      })
+
+
+                    ],
+                  )
+
+
+                  // Leaderboard GridView
+                  // Padding(
+                  //   padding: const EdgeInsets.all(16.0),
+                  //   child: GridView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: const NeverScrollableScrollPhysics(),
+                  //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 5,
+                  //       mainAxisSpacing: 10,
+                  //       crossAxisSpacing: 10,
+                  //     ),
+                  //     itemCount: 1, // number of items
+                  //     itemBuilder: (context, index) {
+                  //       // Example of dynamic data for CircleAvatars
+                  //       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
+                  //       return Column(
+                  //         children: [
+                  //           CircleAvatar(
+                  //             radius: 20,
+                  //             backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
+                  //           ),
+                  //           const Text("sdddd",style: TextStyle(color: Colors.black),),
+                  //         ],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
 
 
           ]

@@ -115,6 +115,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       itemWidth: screenWidth * 0.15,
                       itemHeight: screenHeight * 0.12,
                       value: dashBoardController.hour,
+                      haptics: true,
                       zeroPad: true,
                       infiniteLoop: false, // Prevent going forward
                       onChanged: (value) {
@@ -246,6 +247,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                 title: "Submit",
                 color: AppColor.circleIndicator,
                 onPressed: () {
+                  dashBoardController.isAm = isAm;
+                  print("isAm ${dashBoardController.isAm}");
                   Lottie.asset("assets/Crown.lottie",
                       decoder: customDecoder, height: 60);
                   dashBoardController.submitPrayer();

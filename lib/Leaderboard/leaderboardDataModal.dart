@@ -172,7 +172,7 @@ class LeaderboardDataModal {
   // Factory constructor to create LeaderboardDataModal from JSON
   factory LeaderboardDataModal.fromJson(Map<String, dynamic> json) {
     return LeaderboardDataModal(
-      user:json['user'] != null ? User.fromJson(json['user']) : null,
+      user:json['user'] != null ? User.fromJson(json['user']) : User.fromJson({}),
       records: json['records'] != null
           ? List<Record>.from(json['records'].map((record) => Record.fromJson(record)))
           : [], // Provide an empty list if records is null
@@ -196,19 +196,25 @@ class User {
   final int id;
   final String username;
   final String mobileNo;
+  final String name;
+  final String? picture;
 
   User({
     required this.id,
     required this.username,
     required this.mobileNo,
+    required this.name,
+    required this.picture,
   });
 
   // Factory constructor to create User from JSON
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      username: json['username'],
-      mobileNo: json['mobile_no'],
+      id: json['id']??0,
+      username: json['username']??'',
+      mobileNo: json['mobile_no']??'',
+      name: json['name']??'',
+      picture: json['picture'],
     );
   }
 
@@ -231,7 +237,7 @@ class Record {
   final String prayerName;
   final String score;
   final bool jamat;
-  final int timesOfPrayer;
+  final String timesOfPrayer;
 
   Record({
     required this.user,
@@ -250,13 +256,13 @@ class Record {
     return Record(
       user: User.fromJson(json['user']??{}),
       userTimestamp: json['user_timestamp'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      latitude: json['latitude']??0.0,
+      longitude: json['longitude']??0.0,
       date: json['date'],
       prayerName: json['prayer_name'],
       score: json['score'].toString(),
       jamat: json['jamat'],
-      timesOfPrayer: json['times_of_prayer'],
+      timesOfPrayer: (json['times_of_prayer']??'').toString(),
     );
   }
 
@@ -279,12 +285,14 @@ class Record {
 class RankedFriend {
   final int id;
   final String name;
+  final String? picture;
   final double totalScore;
   final double percentage;
 
   RankedFriend({
     required this.id,
     required this.name,
+    required this.picture,
     required this.totalScore,
     required this.percentage,
   });
@@ -294,6 +302,7 @@ class RankedFriend {
     return RankedFriend(
       id: json['id'],
       name: json['name'],
+      picture: json['picture'],
       totalScore: json['total_score'],
       percentage: json['percentage'],
     );

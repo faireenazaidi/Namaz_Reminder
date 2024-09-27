@@ -24,12 +24,12 @@ class DashBoardView extends GetView<DashBoardController> {
   Widget build(BuildContext context) {
     final DateController dateController = Get.put(DateController());
     final DashBoardController dashboardController = Get.put(DashBoardController());
-    final List<RankedFriend> rankedFriends = [
-      RankedFriend(id: 58, name: 'Baqar Naqvi', totalScore: 85.29, percentage: 17.058),
-      RankedFriend(id: 4, name: 'Faheem', totalScore: 0.0, percentage: 60.0),
-      RankedFriend(id: 6, name: 'Suhail', totalScore: 0.0, percentage: 75.0),
-      // Add more friends here...
-    ];
+    // final List<RankedFriend> rankedFriends = [
+    //   RankedFriend(id: 58, name: 'Baqar Naqvi', totalScore: 85.29, percentage: 17.058),
+    //   RankedFriend(id: 4, name: 'Faheem', totalScore: 0.0, percentage: 60.0),
+    //   RankedFriend(id: 6, name: 'Suhail', totalScore: 0.0, percentage: 75.0),
+    //   // Add more friends here...
+    // ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -143,7 +143,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         radius: 140,
                         lineWidth: 40,
                         percent: completionPercentage,
-                        progressColor:dashboardController.currentPrayer.value=='Free'?Colors.greenAccent :AppColor.circleIndicator,
+                        progressColor:dashboardController.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
                         backgroundColor: Colors.grey.shade300,
                         // center: Text(
                         //   '${(completionPercentage * 100).toStringAsFixed(1)}%',

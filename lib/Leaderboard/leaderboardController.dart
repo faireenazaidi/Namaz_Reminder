@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
 import 'package:intl/intl.dart';
@@ -10,7 +11,7 @@ import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
 
-  UserData _userData = UserData();
+  UserData userData = UserData();
 
   @override
   void onInit() {
@@ -50,7 +51,7 @@ class LeaderBoardController extends GetxController{
   leaderboard(formattedDate) async{
     print(getFormattedDate);
 String formatDate = getFormattedDate();
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${UserData().getUserData!.id}&date=$formatDate'));
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formatDate'));
 
 
     http.StreamedResponse response = await request.send();
@@ -81,9 +82,19 @@ String formatDate = getFormattedDate();
     update();
   }
 
-  weeklyApi(String formattedDate) async {
+  List weeklyRanked = [].obs;
+  RxDouble height = 100.00.obs;
+  double sizedBoxHeight(val){
+    if(val.isEmpty){
+      return 100;
+    }
+    return double.parse(val[0]['percentage'].toStringAsFixed(2));
+  }
 
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${_userData.getUserData!.id}&date=$formattedDate'));
+  weeklyApi(String formattedDate) async {
+    String formatDate = getFormattedDate();
+
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
 
 
     http.StreamedResponse response = await request.send();
@@ -91,8 +102,14 @@ String formatDate = getFormattedDate();
 
     if (response.statusCode == 200) {
      // print(await response.stream.bytesToString());
-      var data = await response.stream.bytesToString();
-      print("WeeklyApi:$data");
+      var data = jsonDecode(await response.stream.bytesToString());
+      print("weekly baqar ${data['ranked_friends']}");
+      if(data['ranked_friends'].isNotEmpty){
+        // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
+      }
+      height.value= sizedBoxHeight(data['ranked_friends']);
+      weeklyRanked = data['ranked_friends'];
+      print("WeeklyApi data check:$weeklyRanked");
     }
     else {
     print(response.reasonPhrase);

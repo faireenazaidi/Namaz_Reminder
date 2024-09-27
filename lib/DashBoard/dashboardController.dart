@@ -32,7 +32,7 @@ class DashBoardController extends GetxController {
   UserData userData = UserData();
 
 
-  var prayerNames = ['Fajr', 'Dhuhr', 'Asar', 'Maghrib', 'Isha'].obs;
+  var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
   var currentPrayerIndex = 0.obs;
   var nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
@@ -190,7 +190,7 @@ class DashBoardController extends GetxController {
               'start': (getExtractedData[0].timings?.dhuhr ?? 'N/A'),
               'end': (getExtractedData[0].timings?.asr ?? 'N/A')
             },
-            'Asar': {
+            'Asr': {
               'start': (getExtractedData[0].timings?.asr ?? 'N/A'),
               'end': (getExtractedData[0].timings?.sunset ?? 'N/A')
             },
@@ -269,11 +269,16 @@ class DashBoardController extends GetxController {
   }
 
   bool getPrayedValue(String prayerName) {
+    print("prayer list**** $isPrayedList");
     for (var prayer in isPrayedList) {
+      print("prayer name $prayerName");
+      print("prayer name2 ${prayer['prayer_name']}");
       if (prayer['prayer_name'] == prayerName) {
+        print("isPrayed ${prayer['prayer_name']}");
         return prayer['prayed'];
       }
     }
+    print("out of loop");
     return false; // Return null if prayer name is not found
   }
 
@@ -451,6 +456,7 @@ class DashBoardController extends GetxController {
 //   }
 
   bool isGifVisible = false;
+  bool isAm = false;
   submitPrayer() async {
     print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
@@ -463,6 +469,31 @@ class DashBoardController extends GetxController {
       var mobileNo = userData.getUserData!.mobileNo.toString();
       // var latitude = latAndLong!.latitude.toString() ?? '0.0';
       // var longitude = latAndLong!.longitude.toString() ?? '0.0';
+      // var dataa = {
+      //   "user_id": userId,
+      //   "mobile_no": mobileNo,
+      //   "latitude": position!.latitude,
+      //   "longitude": position!.longitude,
+      //   "timestamp": "$hour:$minute",
+      //   "jamat": prayedAtMosque.value.toString(),
+      //   "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
+      //   'prayed':true
+      // };
+      // print("########$dataa");
+      // Convert hour to 24-hour format based on AM/PM
+      if (!isAm && hour < 12) {
+        hour += 12; // Convert to PM (24-hour format)
+      } else if (isAm && hour == 12) {
+        hour = 0; // Handle 12 AM as 00:00 in 24-hour format
+      }
+
+      // Create a DateTime object with the hour and minute
+      DateTime time = DateTime(0, 1, 1, hour, minute);
+
+      // Format it to 24-hour format
+      String formattedTime = DateFormat('HH:mm').format(time);
+
+      print("formattedTime $formattedTime"); // Output will be in 24-hour format, like 18:32 or 06:32
 
       var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/$formattedDate/'));
       request.body = json.encode({
@@ -470,7 +501,7 @@ class DashBoardController extends GetxController {
         "mobile_no": mobileNo,
         "latitude": position!.latitude,
         "longitude": position!.longitude,
-        "timestamp": "$hour:$minute",
+        "timestamp":formattedTime, //"$hour:$minute",
         "jamat": prayedAtMosque.value.toString(),
         "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
         'prayed':true
