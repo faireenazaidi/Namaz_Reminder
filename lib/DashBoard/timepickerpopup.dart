@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
@@ -91,18 +92,16 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   Text(
                     'MARK YOUR PRAYER TIME',
                     style: MyTextTheme.mustardS.copyWith(
-                      fontSize: screenWidth * 0.045, // Dynamic font size
+                      fontSize: screenWidth * 0.035, // Dynamic font size
                     ),
                   ),
                   SizedBox(width: screenWidth * 0.05),
-                  Image.asset(
-                    "assets/container.png",
-                    // width: screenWidth * 0.1,
-                    width: 30,
+                  SvgPicture.asset(
+                      "assets/namz.svg"
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               // Hour and Minute Pickers
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -126,12 +125,13 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       },
                       textStyle: TextStyle(
                         color: Colors.grey,
-                        fontSize: screenWidth * 0.04,
+                        fontSize: screenWidth * 0.08,
+                          fontWeight: FontWeight.w300
                       ),
                       selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: screenWidth * 0.08,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -153,7 +153,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       itemHeight: screenHeight * 0.12,
                       value: dashBoardController.minute,
                       zeroPad: true,
-                      infiniteLoop: false, // Prevent going forward
+                      infiniteLoop: false,
                       onChanged: (value) {
                         setState(() {
                           dashBoardController.minute = value;
@@ -164,12 +164,13 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       },
                       textStyle: TextStyle(
                         color: Colors.grey,
-                        fontSize: screenWidth * 0.04,
+                        fontSize: screenWidth * 0.08,
+                        fontWeight: FontWeight.w300
                       ),
                       selectedTextStyle: TextStyle(
                         color: Colors.white,
                         fontSize: screenWidth * 0.08,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -188,8 +189,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           child: Text(
                             "AM",
                             style: TextStyle(
-                              fontSize: screenWidth * 0.05,
-                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth * 0.06,
                               color: isAm ? Colors.white : Colors.grey,
                             ),
                           ),
@@ -203,8 +203,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           child: Text(
                             "PM",
                             style: TextStyle(
-                              fontSize: screenWidth * 0.05,
-                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth * 0.06,
                               color: !isAm ? Colors.white : Colors.grey,
                             ),
                           ),
@@ -215,7 +214,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                 ],
               ),
               const SizedBox(height: 20),
-              // Checkbox for Mosque/Jamat
+
               Row(
                 children: [
                   Checkbox(
@@ -232,14 +231,13 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     child: Text(
                       "Prayed at Mosque / Jamat time",
                       style: MyTextTheme.smallWCN.copyWith(
-                        fontSize: screenWidth * 0.04, // Adjust font size dynamically
+                       fontSize: 12// Adjust font size dynamically
                       ),
                       overflow: TextOverflow.ellipsis, // Prevent overflow
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
               // Submit Button
               MyButton(
                 borderRadius: 10,

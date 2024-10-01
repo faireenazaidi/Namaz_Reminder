@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
@@ -31,16 +32,11 @@ class CustomDrawer extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: (){
-                        Get.toNamed(AppRoutes.profileRoute);
-                      },
-                      child:  CircleAvatar(
-                        backgroundImage: NetworkImage( "http://182.156.200.177:8011${UserData().getUserData!.picture}"),
-                        radius: 30,
-                      ),
+                    CircleAvatar(
+                      backgroundImage: NetworkImage( "http://182.156.200.177:8011${UserData().getUserData!.picture}"),
+                      radius: 30,
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 17),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,9 +51,21 @@ class CustomDrawer extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            UserData().getUserData!.email??'',
+                            UserData().getUserData!.mobileNo??'',
                             style: MyTextTheme.smallGCN,
-                          )
+                          ),
+                          SizedBox(height: 5,),
+                          Row(
+                            children: [
+                              Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
+                              InkWell(
+                                onTap: (){
+                                  Get.toNamed(AppRoutes.profileRoute);
+                                },
+                                  child: Text("Edit Profile",style: MyTextTheme.mustardNn,))
+                            ],
+                          ),
+
                         ],
                       ),
                     ),
@@ -94,53 +102,71 @@ class CustomDrawer extends StatelessWidget {
               //   thickness: 1.4,
               //   endIndent: 10,
               //   indent: 10,
-              // ),
-              Obx(() => _buildListTile(
-                context,
-                "Leaderboard",
-                "assets/leaderboard.png",
-                    () {
+              // // ),
+              // Obx(() => _buildListTile(
+              //   context,
+              //   SvgPicture.asset(
+              //     "assets/icon.svg", // Replace with your SVG file
+              //     height: 24.0, // Adjust the height if needed
+              //     width: 24.0,  // Adjust the width if needed
+              //   ),
+              //       () {
+              //     Get.toNamed(AppRoutes.leaderboardRoute);
+              //   },
+              //   customDrawerController.leaderboardCount.value,
+              // )),
+              ListTile(
+                leading:  SvgPicture.asset(
+                  "assets/icon.svg"
+                ),
+                title: Text("Leaderboard",style: MyTextTheme.smallBC ,),
+                onTap: () {
                   Get.toNamed(AppRoutes.leaderboardRoute);
                 },
-                customDrawerController.leaderboardCount.value,
-              )),
-
-
-              Obx(() => _buildListTile(
-                context,
-                "Missed Prayers",
-                "assets/missedPrayer.png",
-                    () {
-
-                      Get.toNamed(AppRoutes.missedPrayers);
-                    },
-                customDrawerController.missedPrayersCount.value,
-              )),
-              _buildListTile(
-                  context, "Peer Circle", "assets/peerCircle.png", () {
-                    Get.toNamed(AppRoutes.peerRoute);
-              }
               ),
+
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/missed.svg"
+                ),
+                title: Text("Missed Prayers",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Get.toNamed(AppRoutes.missedPrayers);
+                },
+              ),
+
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/pc.svg"
+                ),
+                title: Text("Peer Circle",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Get.toNamed(AppRoutes.peerRoute);
+                },
+              ),
+
               Divider(
                 color: AppColor.greyLight,
                 thickness: 1.4,
                 endIndent: 10,
                 indent: 10,
               ),
-              _buildListTile(
-                  context, "Support Center", "assets/supportCentre.png", () {
-                    Fluttertoast.showToast(msg: "Coming Soon");
-              }
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/sc.svg"
+                ),
+                title: Text("Support Center",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Fluttertoast.showToast(msg: "Coming Soon");                },
               ),
-              Obx(() => _buildListTile(
-                context,
-                "Notifications",
-                "assets/notification.png",
-                    () {
-                  Fluttertoast.showToast(msg: "Coming Soon");
-
-                    },
-                customDrawerController.notificationCount.value,
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/noti.svg"
+                ),
+                title: Text("Notifications",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Fluttertoast.showToast(msg: "Coming Soon");                },
+              ),
               // Obx(() => ListTile(
               //   leading: Image.asset("assets/darkMode.png"),
               //   title: const Text(
@@ -180,29 +206,43 @@ class CustomDrawer extends StatelessWidget {
               //       Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
               //     },
               //   ),
-               )
-     ),
+
+
               Divider(
                 color: AppColor.greyLight,
                 thickness: 1.4,
                 endIndent: 10,
                 indent: 10,
               ),
-              _buildListTile(
-                  context, "Settings", "assets/gear.png", () {
-                    Fluttertoast.showToast(msg: "Coming Soon");
-              }
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/set.svg"
+                ),
+                title: Text("Setting",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Fluttertoast.showToast(msg: "Coming Soon");                },
               ),
-              _buildListTile(
-                  context, "F&Q", "assets/fAndQ.png", () {
-                    Fluttertoast.showToast(msg: "Coming Soon");
-
-              }
+              // _buildListTile(
+              //     context, "F&Q", "assets/fAndQ.png", () {
+              //       Fluttertoast.showToast(msg: "Coming Soon");
+              //
+              // }
+              // ),
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/fq.svg"
+                ),
+                title: Text("F&Q",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Fluttertoast.showToast(msg: "Coming Soon");                },
               ),
-              _buildListTile(
-                  context, "Feedback", "assets/feedback.png", () {
-                    Fluttertoast.showToast(msg: "Coming Soon");
-              }
+              ListTile(
+                leading:  SvgPicture.asset(
+                    "assets/feed.svg"
+                ),
+                title: Text("Feedback",style: MyTextTheme.smallBC ,),
+                onTap: () {
+                  Fluttertoast.showToast(msg: "Coming Soon");                },
               ),
               InkWell(
                 onTap: (){

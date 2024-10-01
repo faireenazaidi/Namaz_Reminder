@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -129,6 +128,7 @@ class DashBoardView extends GetView<DashBoardController> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -177,16 +177,6 @@ class DashBoardView extends GetView<DashBoardController> {
 
                       );
                     }),
-
-
-                    // Adding the GIF/Image inside the circular indicator
-                    // Positioned(
-                    //   left: 5,
-                    //   bottom: 80,
-                    //   child:
-                    //   Lottie.asset("assets/Crown.lottie",
-                    //        decoder: customDecoder, height: 50),
-                    // ),
 
                     Positioned(
                       top: 70,
@@ -265,8 +255,8 @@ class DashBoardView extends GetView<DashBoardController> {
                         return isBeforeNextPrayer
                             ? const SizedBox.shrink() // Hide the button
                             : InkWell(
-                          child:controller.isPrayed?const Text("Prayed",style: TextStyle(
-                            color: Colors.green,fontWeight: FontWeight.w600
+                          child:controller.isPrayed? Text("Prayed!",style: TextStyle(
+                            color: AppColor.circleIndicator,fontWeight: FontWeight.w600
                           ),) :Text("Mark as Prayer", style: MyTextTheme.mustardN),
                           onTap: () {
                             if(!controller.isPrayed){
@@ -281,6 +271,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         );
                       }),
                     ),
+
                   ],
                 ),
 
@@ -305,94 +296,7 @@ class DashBoardView extends GetView<DashBoardController> {
                       ),
                     ),
                   ),
-                  // const SizedBox(height: 50),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Container(
-                  //     height: 160,
-                  //     decoration: BoxDecoration(
-                  //       color: AppColor.leaderboard,
-                  //       borderRadius: BorderRadius.circular(10),
-                  //     ),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Padding(
-                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                  //           child: Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               InkWell(
-                  //                 onTap:(){
-                  //                   Get.toNamed(AppRoutes.leaderboardRoute);
-                  //                 },
-                  //                   child: Text("LEADERBOARD", style: MyTextTheme.mediumGCB)),
-                  //               SvgPicture.asset("assets/open.svg")
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         Padding(
-                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  //           child: Row(
-                  //             children: [
-                  //               Image.asset("assets/person.png"),
-                  //               const SizedBox(width: 5),
-                  //               Text(
-                  //                 '${dashboardController.rank.value}th',
-                  //                 style: MyTextTheme.largeCustomBCB,
-                  //               ),
-                  //               const SizedBox(width: 4.0),
-                  //               Text(
-                  //                 'Out of ${dashboardController.totalPeers.value} people in peers',
-                  //                 style: MyTextTheme.smallGCN,
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         Padding(
-                  //           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  //           child: Stack(
-                  //             children: [
-                  //               Row(
-                  //                 mainAxisAlignment: MainAxisAlignment.end,
-                  //                 children: [
-                  //                   Transform(
-                  //                     alignment: Alignment.center,
-                  //                     transform: Matrix4.rotationY(3.14159),
-                  //                     child: LinearPercentIndicator(
-                  //                       width: 290,
-                  //                       barRadius: const Radius.circular(2),
-                  //                       percent: 1,
-                  //                       progressColor: AppColor.circleIndicator,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         const SizedBox(width: 10.0),
-                  //         SizedBox(
-                  //           height: 50,
-                  //           child: ListView.builder(
-                  //             scrollDirection: Axis.horizontal,
-                  //             itemCount: dashboardController.avatars.length,
-                  //             itemBuilder: (context, index) {
-                  //               return Padding(
-                  //                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                  //                 child: CircleAvatar(
-                  //                   backgroundImage: NetworkImage(dashboardController.avatars[index]),
-                  //                   radius: 15.0,
-                  //                 ),
-                  //               );
-                  //             },
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+
                   const SizedBox(height: 10),
                   GetBuilder(
                     init: controller,
