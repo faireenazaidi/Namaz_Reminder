@@ -21,8 +21,11 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
-    leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
+      leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
+    });
+
   }
   @override
   Widget build(BuildContext context) {

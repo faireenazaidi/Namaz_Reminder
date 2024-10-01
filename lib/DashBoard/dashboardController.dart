@@ -57,6 +57,7 @@ class DashBoardController extends GetxController {
 
   set updateCalendarData(List val) {
     calendarData = val;
+    log("calendarData $calendarData");
     update();
   }
 
@@ -129,12 +130,14 @@ class DashBoardController extends GetxController {
     final latitude = position!.latitude;
     final longitude = position!.longitude;
     final method = userData.getUserData!.methodId;
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy/MM').format(now);
     // final method = 1;
     isLoading.value = true;
     // try {
       Uri uri = Uri.https(
         'api.aladhan.com',
-        '/v1/calendar/2024/9',
+        '/v1/calendar/$formattedDate',
         {
           'latitude': latitude.toString(),
           'longitude': longitude.toString(),
@@ -159,6 +162,7 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
+
           print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
