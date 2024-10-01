@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'AddFriendController.dart';
@@ -218,83 +220,89 @@ class AddFriendView extends GetView<AddFriendController> {
                 ),
                 const SizedBox(height: 10),
                 Expanded(
-                  child:
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: filteredUsers.length,
-                      itemBuilder: (context, index) {
-                        RegisteredUserDataModal registeredData = filteredUsers[index];
-                        print("Item${registeredData.picture}");
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 35,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: registeredData.picture != null && registeredData.picture!.isNotEmpty
-                                        ? DecorationImage(
-                                      image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
-                                      fit: BoxFit.cover,
-                                    )
-                                        : null,
-                                    color: registeredData.picture == null || registeredData.picture!.isEmpty
-                                        ? Colors.orange
-                                        : null,
-                                  ),
-                                  child: registeredData.picture == null || registeredData.picture!.isEmpty
-                                      ? const Icon(Icons.person, size: 20, color: Colors.white)
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: filteredUsers.length,
+                    itemBuilder: (context, index) {
+                      RegisteredUserDataModal registeredData = filteredUsers[index];
+                      print("Item${registeredData.picture}");
+
+                      String currentUserId = controller.userData.getUserData!.id.toString();
+                      if (registeredData.userId == currentUserId) {
+                        return const SizedBox();
+                      }
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 35,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+                                      ? DecorationImage(
+                                    image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
+                                    fit: BoxFit.cover,
+                                  )
+                                      : null,
+                                  color: registeredData.picture == null || registeredData.picture!.isEmpty
+                                      ? Colors.orange
                                       : null,
                                 ),
+                                child: registeredData.picture == null || registeredData.picture!.isEmpty
+                                    ? const Icon(Icons.person, size: 20, color: Colors.white)
+                                    : null,
+                              ),
 
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0, top: 12),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        capitalizeFirstLetter(registeredData.name.toString()),
-                                        style: MyTextTheme.mediumGCB.copyWith(
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12.0, top: 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      capitalizeFirstLetter(registeredData.name.toString()),
+                                      style: MyTextTheme.mediumGCB.copyWith(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        registeredData.mobileNo.toString(),
-                                        style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                await controller.sendFriendRequest(registeredData);
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppColor.white),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColor.circleIndicator,
-                                ),
-                                child: const Center(
-                                  child: Text("Invite", style: TextStyle(color: Colors.white)),
+                                    ),
+                                    Text(
+                                      registeredData.mobileNo.toString(),
+                                      style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+                                    ),
+                                  ],
                                 ),
                               ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await controller.sendFriendRequest(registeredData);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColor.white),
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColor.circleIndicator,
+                              ),
+                              child: const Center(
+                                child: Text("Invite", style: TextStyle(color: Colors.white)),
+                              ),
                             ),
-                          ],
-                        );
-                      },
-                    ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
+                ),
+
+
               ],
             ),
           );
@@ -303,3 +311,4 @@ class AddFriendView extends GetView<AddFriendController> {
     );
   }
 }
+

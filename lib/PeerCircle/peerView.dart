@@ -82,7 +82,9 @@ class PeerView extends GetView<PeerController> {
                   itemCount: controller.getFriendshipList.length,
                   itemBuilder: (context, index) {
                     Friendship  friend = controller.getFriendshipList[index];
+                    
                      // print(friend.id);
+
                     return Column(
                       children: [
                         Row(
@@ -169,7 +171,7 @@ class PeerView extends GetView<PeerController> {
                                                   ),
                                                   child: TextButton(
                                                     onPressed: () async {
-                                                      await controller.removeFriend(friend.user1.id.toString());
+                                                      await controller.removeFriend(friend.friendshipId.toString());
                                                       controller.getFriendshipList.remove(index);
                                                       Get.back();},
                                                     child: const Text(

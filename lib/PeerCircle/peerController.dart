@@ -10,6 +10,8 @@ class PeerController extends GetxController{
   var searchText = ''.obs;
   RxBool isLoading = true.obs;
   var friendsList=[].obs;
+  var searchQuery = '';
+
   UserData userData = UserData();
 
 
@@ -27,12 +29,9 @@ class PeerController extends GetxController{
     var request = http.Request('GET', Uri.parse(
         'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
 
-
-
     http.StreamedResponse response = await request.send();
     isLoading.value = false;
     if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
       var data = jsonDecode(await response.stream.bytesToString());
       updateFriendRequestList = data['friendships'];
       print("object"+data['friendships'].toString());
@@ -66,7 +65,7 @@ class PeerController extends GetxController{
         Uri.parse('http://182.156.200.177:8011/adhanapi/remove_friend/'));
     request.body = json.encode({
       "user_id":userData.getUserData!.id.toString(),
-      "friend_id": friendId
+      "friend_id": friendId.toString()
     });
     request.headers.addAll(headers);
 
