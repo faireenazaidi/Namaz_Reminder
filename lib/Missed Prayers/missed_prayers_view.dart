@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
+import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import 'missed_prayers_controller.dart';
 
@@ -31,7 +32,8 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
                     onPressed: () {
-                      Get.back();
+                      Get.toNamed(AppRoutes.dashboardRoute);
+
                     },
                   ),
                 ),

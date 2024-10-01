@@ -134,7 +134,7 @@ class DashBoardController extends GetxController {
     // try {
       Uri uri = Uri.https(
         'api.aladhan.com',
-        '/v1/calendar/2024/9',
+        '/v1/calendar/2024/10',
         {
           'latitude': latitude.toString(),
           'longitude': longitude.toString(),

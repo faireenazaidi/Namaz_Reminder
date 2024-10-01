@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:namaz_reminders/DataModels/CalendarDataModel.dart';
 import 'package:namaz_reminders/SplashScreen/splashController.dart';
-
-import '../LocationSelectionPage/locationPageView.dart';
-import '../Login/loginView.dart';
 import '../Widget/appColor.dart';
 
 class SplashScreen extends GetView<SplashController> {
@@ -14,21 +10,26 @@ class SplashScreen extends GetView<SplashController> {
     // Future.delayed(Duration(seconds: 3), () {
     //   Get.off(() => LocationPage(), transition: Transition.circularReveal);
     // });
-
-    return Scaffold(
-      backgroundColor: AppColor.gray,
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/net.png"),
-                fit: BoxFit.cover
-              )
+    FocusScope.of(context).unfocus();
+    return GestureDetector(
+      onTap: (){
+      FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColor.gray,
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/net.png"),
+                  fit: BoxFit.cover
+                )
+              ),
             ),
-          ),
-          Image.asset("assets/logo.png",fit: BoxFit.cover,),
-        ],
+            Image.asset("assets/logo.png",fit: BoxFit.cover,),
+          ],
+        ),
       ),
     );
   }

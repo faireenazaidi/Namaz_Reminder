@@ -64,7 +64,7 @@ class RegisteredUserDataModal {
     schoolOfThought = json['school_of_thought'];
     methodId = json['method_id'];
     methodName = json['method_name'];
-    picture = json['picture'];
+    picture =json["picture"];
   }
 
   Map<String, dynamic> toJson() {

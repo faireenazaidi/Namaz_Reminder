@@ -11,7 +11,6 @@ class PeerView extends GetView<PeerController> {
 
   @override
   Widget build(BuildContext context) {
-    final SearchController _searchController = Get.put(SearchController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -28,7 +27,8 @@ class PeerView extends GetView<PeerController> {
         ),
         leading: InkWell(
           onTap: () {
-            Get.back();
+            // Get.back();
+            Get.toNamed(AppRoutes.dashboardRoute);
           },
           child: const Icon(Icons.arrow_back_ios_new),
         ),
@@ -82,7 +82,7 @@ class PeerView extends GetView<PeerController> {
                   itemCount: controller.getFriendshipList.length,
                   itemBuilder: (context, index) {
                     Friendship  friend = controller.getFriendshipList[index];
-                    // print(friend.id);
+                     // print(friend.id);
                     return Column(
                       children: [
                         Row(

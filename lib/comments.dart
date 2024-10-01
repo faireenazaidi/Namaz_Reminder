@@ -266,3 +266,49 @@
 // )
 
 
+// Row(
+// mainAxisAlignment: MainAxisAlignment.start,
+// children: [
+// Container(
+// width: 35,
+// height: 40,
+// decoration: BoxDecoration(
+// shape: BoxShape.circle,
+// image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+// ? DecorationImage(
+// image: AssetImage(registeredData.picture!),
+// fit: BoxFit.cover,
+// )
+//     : null,
+// color: registeredData.picture == null || registeredData.picture!.isEmpty
+// ? Colors.orange
+//     : null,
+// ),
+// child: registeredData.picture == null || registeredData.picture!.isEmpty
+// ? Icon(Icons.person, size: 20, color: Colors.white)
+//     : null,
+// ),
+// Padding(
+// padding: const EdgeInsets.only(left: 12.0, top: 12),
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text(
+// capitalizeFirstLetter(registeredData.name.toString()),
+// style: MyTextTheme.mediumGCB.copyWith(
+// fontSize: 16,
+// color: Colors.black,
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// Text(
+// registeredData.mobileNo.toString(),
+// style: MyTextTheme.mediumGCB.copyWith(
+// fontSize: 14,
+// ),
+// ),
+// ],
+// ),
+// ),
+// ],
+// ),
