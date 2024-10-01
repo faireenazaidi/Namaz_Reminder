@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'AddFriendController.dart';
@@ -224,6 +226,12 @@ class AddFriendView extends GetView<AddFriendController> {
                       itemCount: filteredUsers.length,
                       itemBuilder: (context, index) {
                         RegisteredUserDataModal registeredData = filteredUsers[index];
+                        log("controller.invitedFriendList ${controller.invitedFriendList}");
+                        var matchedRequest = controller.invitedFriendList.firstWhere((request) => request['receiver']['id'].toString() == registeredData.userId.toString(),
+                          orElse: () => null,     );
+                        print("matchedRequest $matchedRequest");
+                        print("registeredData.userId ${registeredData.userId}");
+                        print("registeredData.userId ${registeredData.name}");
                         print("Item${registeredData.picture}");
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -275,9 +283,12 @@ class AddFriendView extends GetView<AddFriendController> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await controller.sendFriendRequest(registeredData);
+                                if(matchedRequest==null){
+                                  await controller.sendFriendRequest(registeredData);
+                                }
+
                               },
-                              child: Container(
+                              child:matchedRequest==null? Container(
                                 height: 30,
                                 width: 80,
                                 decoration: BoxDecoration(
@@ -287,6 +298,18 @@ class AddFriendView extends GetView<AddFriendController> {
                                 ),
                                 child: const Center(
                                   child: Text("Invite", style: TextStyle(color: Colors.white)),
+                                ),
+                              ):
+                              Container(
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.white),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
+                                ),
+                                child:  Center(
+                                  child: Text(matchedRequest['status_display'], style: TextStyle(color: Colors.white)),
                                 ),
                               ),
                             ),

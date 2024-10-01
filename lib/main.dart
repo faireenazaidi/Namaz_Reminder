@@ -10,6 +10,7 @@ import 'package:namaz_reminders/Login/loginView.dart';
 import 'LocationSelectionPage/locationPageController.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
+import 'Services/firebase_services.dart';
 import 'SplashScreen/splashView.dart';
 import 'firebase_options.dart';
 // import 'firebase_options.dart';
@@ -17,9 +18,10 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessagingService firebaseMessagingService = FirebaseMessagingService();
+  await firebaseMessagingService.initializeFirebaseMessaging();
   await GetStorage.init();
   await GetStorage.init('user');
-
   // Get.put(DashBoardController());
   Get.put(LoginController());
   Get.put(CustomDrawerController());

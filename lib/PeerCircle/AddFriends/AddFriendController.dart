@@ -24,10 +24,11 @@ class AddFriendController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    checkInviteStatus(userData.getUserData!.id);
     fetchRegisteredUsers();
     fetchFriendRequests();
      // filteredUserList.value = getRegisteredUserList;
-    checkInviteStatus(userData.getUserData!.id);
+
 
   }
   void updateSearchQuery(String query) {
@@ -149,6 +150,11 @@ print("URL:$url");
     var headers = {
       'Content-Type': 'application/json'
     };
+    var bodyy=json.encode({
+      "receiver_id": registeredData.userId.toString(),
+      "sender_id": userData.getUserData!.id.toString()
+    });
+    print("bodyy $bodyy");
     var request = http.Request('POST',
         Uri.parse('http://182.156.200.177:8011/adhanapi/send-friend-request/'));
     request.body = json.encode({
