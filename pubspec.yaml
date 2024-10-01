@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: 3.5.1
+  sdk: 3.4.4
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -61,6 +61,8 @@ dependencies:
   fluttertoast: ^8.2.8
   multi_functional_dropdown: ^0.0.7
   cached_network_image: ^3.4.1
+  sms_autofill: ^2.4.0
+  otp_autofill: ^4.0.0
 
 
 dev_dependencies:

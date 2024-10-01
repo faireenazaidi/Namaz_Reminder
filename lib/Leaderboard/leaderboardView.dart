@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
+import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/date_time_field.dart';
 import 'leaderboardController.dart';
-import 'leaderboardDataModal.dart'; // Import the DateController
+import 'leaderboardDataModal.dart';
 
 class LeaderBoardView extends StatefulWidget {
   const LeaderBoardView({super.key});
@@ -50,7 +51,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
                   onPressed: () {
-                    Get.back();
+                    Get.toNamed(AppRoutes.dashboardRoute);
                   },
                 ),
               ),
@@ -64,7 +65,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   // mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 80,),
+                    const SizedBox(height: 60,),
                     Obx(() => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

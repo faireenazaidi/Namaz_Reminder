@@ -11,10 +11,11 @@ class AddFriendController extends GetxController {
   var nearbyPeople = <Person>[].obs;
   var registeredUsers = <Person>[].obs;
   var isInvited = false.obs;
-  var searchQuery = ''.obs;
+  var searchQuery = '';
+  var invitedFriendIds = <int>[].obs;
+  RxBool isLoading = true.obs;
 
-
-
+  String loggedInUserId = '';
 
 
   UserData userData = UserData();
@@ -25,10 +26,19 @@ class AddFriendController extends GetxController {
     super.onInit();
     fetchRegisteredUsers();
     fetchFriendRequests();
-    // filteredUserList.value = getRegisteredUserList;
+     // filteredUserList.value = getRegisteredUserList;
     checkInviteStatus(userData.getUserData!.id);
 
   }
+  void updateSearchQuery(String query) {
+    searchQuery = query;
+    update();
+  }
+  // void setLoggedInUserId(String userId) {
+  //   loggedInUserId = userId;
+  //   update();
+  // }
+
 
   /// Register USer Method
   Future<void> fetchRegisteredUsers() async {
@@ -38,9 +48,9 @@ class AddFriendController extends GetxController {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        print("APIDATA:"+data.toString());
+        print("APIDATA:$data");
         updateRegisteredList = data['users'];
-        print("DDDDDDDD"+getRegisteredUserList.toString());
+        print("DDDDDDDD$getRegisteredUserList");
 
       } else {
         print('Failed to fetch registered users: ${response.statusCode}');
@@ -55,13 +65,13 @@ class AddFriendController extends GetxController {
   List<RegisteredUserDataModal> get getRegisteredUserList =>
       List<RegisteredUserDataModal>.from(
           registeredUserList.map((element) =>
-              RegisteredUserDataModal.fromJson(element)).toList());
+               RegisteredUserDataModal.fromJson(element)).toList());
+
 
   set updateRegisteredList(List val) {
     registeredUserList = val;
     update();
   }
-
 
   /// Friend request List
 
@@ -73,7 +83,7 @@ class AddFriendController extends GetxController {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        print("555 " + data.toString());
+        print("555 $data");
 
         updateFriendRequestList = data;
       } else {
@@ -98,19 +108,19 @@ class AddFriendController extends GetxController {
 
   ///Invited Friends
   Future<bool> checkInviteStatus(id) async {
-    print("ffff "+id.toString());
+    print("ffff $id");
     var headers = {'Content-Type': 'application/json'};
     var url = 'http://182.156.200.177:8011/adhanapi/receivers/$id/';
 
     try {
       var response = await http.get(Uri.parse(url), headers: headers);
-print("URL:"+url.toString());
+print("URL:$url");
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
         updateInvitedFriendList = data;
 
-         print("Dataaaaa"+data.toString());
+         print("Dataaaaa$data");
 
         return data['invited'] == true;
       } else {
@@ -122,31 +132,7 @@ print("URL:"+url.toString());
       return false;
     }
   }
-  // Future<bool> checkInviteStatus(int receiverId) async {
-  //   print("Receiver ID: $receiverId");
-  //   var headers = {'Content-Type': 'application/json'};
-  //   var url = 'http://182.156.200.177:8011/adhanapi/receivers/$receiverId/';
-  //
-  //   try {
-  //     var response = await http.get(Uri.parse(url), headers: headers);
-  //
-  //     print("Response status code: ${response.statusCode}");
-  //     print("Response body: ${response.body}");
-  //
-  //     if (response.statusCode == 200) {
-  //       var data = jsonDecode(response.body);
-  //       print("Data received: $data");
-  //       bool isInvited = data['invited'] == true;
-  //       return isInvited;
-  //     } else {
-  //       print("Error checking invite status: ${response.statusCode}");
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print("An error occurred: $e");
-  //     return false;
-  //   }
-  // }
+
   List invitedFriendList = [];
   List<RegisteredUserDataModal> get getInvitedFriendList =>
       List<RegisteredUserDataModal>.from(
@@ -158,21 +144,6 @@ print("URL:"+url.toString());
     update();
   }
 
-   // Future<bool> checkInviteStatus(int receiverId) async {
-  //   var headers = {'Content-Type': 'application/json'};
-  //   var url = 'http://182.156.200.177:8011/adhanapi/receivers/$receiverId/';
-  //
-  //   var response = await http.get(Uri.parse(url), headers: headers);
-  //
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(response.body);
-  //     isInvited.value = data['invited'] == true;
-  //     return isInvited.value;
-  //   } else {
-  //     print("Error checking invite status: ${response.statusCode}");
-  //     return false;
-  //   }
-  // }
   ///Invite friends
   sendFriendRequest(RegisteredUserDataModal registeredData) async {
     var headers = {
@@ -189,7 +160,7 @@ print("URL:"+url.toString());
     http.StreamedResponse response = await request.send();
 
     var data = jsonDecode(await response.stream.bytesToString());
-    print("  " + data.toString());
+    print("daaaaaaaaaaa $data");
     if(response.statusCode==200){
     Get.snackbar('Success', data['detail'].toString(),
         snackPosition: SnackPosition.BOTTOM);
@@ -217,7 +188,7 @@ print("URL:"+url.toString());
     http.StreamedResponse response = await request.send();
 
     var data = jsonDecode(await response.stream.bytesToString());
-    print("fff " + data.toString());
+    print("fff $data");
   }
 
   ///DECLINE REQUEST
@@ -236,14 +207,9 @@ print("URL:"+url.toString());
     http.StreamedResponse response = await request.send();
 
     var data = jsonDecode(await response.stream.bytesToString());
-    print("aaaaaaaaaa " + data.toString());
+    print("aaaaaaaaaa $data");
   }
 
   }
   ///////////////////
-
-
-
-
-
 

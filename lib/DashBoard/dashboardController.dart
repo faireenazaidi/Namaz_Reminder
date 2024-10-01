@@ -57,7 +57,6 @@ class DashBoardController extends GetxController {
 
   set updateCalendarData(List val) {
     calendarData = val;
-    log("calendarData $calendarData");
     update();
   }
 
@@ -162,7 +161,6 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
-
           print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
