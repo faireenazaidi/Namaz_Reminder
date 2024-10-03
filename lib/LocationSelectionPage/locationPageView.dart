@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -322,8 +323,8 @@ class LocationPage extends GetView<LocationPageController> {
 
                         const SizedBox(height: 30),
                         OtpTextField(
-                          autoFocus: false,
 
+                          autoFocus: false,
                           focusedBorderColor: Colors.white,
                           numberOfFields: 6,
                           borderColor: const Color(0xFF512DA8),
@@ -335,6 +336,10 @@ class LocationPage extends GetView<LocationPageController> {
                           fillColor: Colors.grey.withOpacity(0.1),
                           showCursor: false,
                           fieldHeight: 45,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(1),
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           textStyle: const TextStyle(color: Colors.white),
                           onCodeChanged: (String code) {
                             // controller.isOtpFilled.value =

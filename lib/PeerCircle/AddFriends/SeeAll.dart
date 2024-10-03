@@ -13,6 +13,7 @@ class SeeAll extends GetView<AddFriendController>{
      backgroundColor: Colors.white,
      appBar: AppBar(
        backgroundColor: Colors.white,
+       centerTitle: true,
        bottom: PreferredSize(
          preferredSize: const Size.fromHeight(1.0),
          child: Divider(
@@ -20,13 +21,13 @@ class SeeAll extends GetView<AddFriendController>{
            color: AppColor.packageGray,
          ),
        ),
-       title: Text("Follow requests"),
+       title: Text('Friend Requests', style: MyTextTheme.mediumBCD),
        leading: InkWell(
-         onTap: (){
+         onTap: () {
            Get.back();
          },
-           child: Icon(Icons.arrow_back_ios_new)),
-
+         child: const Icon(Icons.arrow_back_ios_new,size: 20,),
+       ),
      ),
      body:  Padding(
        padding: const EdgeInsets.all(8.0),
@@ -44,11 +45,31 @@ class SeeAll extends GetView<AddFriendController>{
                  children: [
                    Row(
                      children: [
-                       CircleAvatar(
-                         backgroundColor: Colors.grey,
-                         radius: 20,
-                         child: Icon(Icons.person, color: Colors.white),
+                       // CircleAvatar(
+                       //   backgroundColor: Colors.grey,
+                       //   radius: 20,
+                       //   child: Icon(Icons.person, color: Colors.white),
+                       // ),
+                       Container(
+                         width: 35,
+                         height: 40,
+                         decoration: BoxDecoration(
+                           shape: BoxShape.circle,
+                           image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
+                               ? DecorationImage(
+                             image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
+                             fit: BoxFit.cover,
+                           )
+                               : null,
+                           color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+                               ? Colors.orange
+                               : null,
+                         ),
+                         child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+                             ? const Icon(Icons.person, size: 20, color: Colors.white)
+                             : null,
                        ),
+
                        Padding(
                          padding: const EdgeInsets.only(left: 12.0, top: 12),
                          child: Column(

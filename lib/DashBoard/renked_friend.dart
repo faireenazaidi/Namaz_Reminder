@@ -97,6 +97,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import '../Leaderboard/leaderboardDataModal.dart';
+import '../Widget/appColor.dart';
 
 class RankedFriendsIndicator extends StatelessWidget {
   final List<RankedFriend> rankedFriends;
@@ -106,6 +107,21 @@ class RankedFriendsIndicator extends StatelessWidget {
     required this.rankedFriends,
     required this.currentUserId,
   });
+  String getOrdinalIndicator(int number) {
+    if (number >= 11 && number <= 13) {
+      return 'th';
+    }
+    switch (number % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,19 +129,45 @@ class RankedFriendsIndicator extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Display Rank Information
+        // Row(
+        //   children: [
+        //     Text(
+        //       '${getCurrentUserRank()}',
+        //       style: const TextStyle(
+        //         fontSize: 24,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //     const SizedBox(width: 4),
+        //     Text('Out of ${rankedFriends.length} person in peers'),
+        //   ],
+        // ),
         Row(
           children: [
-            Text(
-              '${getCurrentUserRank()}th',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            Text.rich(
+              TextSpan(
+                text: '${getCurrentUserRank()}',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: getOrdinalIndicator(getCurrentUserRank()),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      textBaseline: TextBaseline.alphabetic,
+
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: 4),
             Text('Out of ${rankedFriends.length} person in peers'),
           ],
         ),
+
         SizedBox(height: 16),
 
         // Display Ranking Bar
@@ -145,7 +187,7 @@ class RankedFriendsIndicator extends StatelessWidget {
                       child: Container(
                         height: 6,
                         width: MediaQuery.of(context).size.width * getHighlightedBarWidth(context),
-                        color: Colors.orange,
+                        color: AppColor.circleIndicator,
                       ),
                     ),
                   ],
@@ -162,11 +204,11 @@ class RankedFriendsIndicator extends StatelessWidget {
           children: rankedFriends.map((friend) {
             return Column(
               children: [
-                CircleAvatar(
-                  radius: 18,
-                  backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Replace with the friend's actual image
-                  backgroundColor: currentUserId == friend.id ? Colors.orange : Colors.transparent,
-                ),
+                // CircleAvatar(
+                //   radius: 18,
+                //   backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Replace with the friend's actual image
+                //   backgroundColor: currentUserId == friend.id ? Colors.orange : Colors.transparent,
+                // ),
                 SizedBox(height: 4),
                 Text(
                   friend.name,

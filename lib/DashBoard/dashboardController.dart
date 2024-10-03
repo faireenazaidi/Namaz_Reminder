@@ -14,7 +14,7 @@ import '../SplashScreen/splashController.dart';
 import '../Widget/location_services.dart';
 class DashBoardController extends GetxController {
   RxString islamicDate = ''.obs;
-  RxInt rank = 1.obs;
+  RxInt rank = 0.obs;
   RxInt totalPeers = 1.obs;
   RxString currentPrayer = ''.obs;
   RxString currentPrayerStartTime = ''.obs;
