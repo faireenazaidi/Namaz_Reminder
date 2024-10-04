@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
@@ -134,16 +135,17 @@ print("URL:$url");
     }
   }
 
-  List invitedFriendList = [];
+  RxList invitedFriendList = [].obs;
   List<RegisteredUserDataModal> get getInvitedFriendList =>
       List<RegisteredUserDataModal>.from(
           invitedFriendList.map((element) =>
               RegisteredUserDataModal.fromJson(element)).toList());
 
   set updateInvitedFriendList(List val) {
-    invitedFriendList = val;
+    invitedFriendList.value = val;
     update();
   }
+
 
   ///Invite friends
   sendFriendRequest(RegisteredUserDataModal registeredData) async {
@@ -167,14 +169,19 @@ print("URL:$url");
 
     var data = jsonDecode(await response.stream.bytesToString());
     print("daaaaaaaaaaa $data");
-    if(response.statusCode==200){
-    Get.snackbar('Success','friend request sent successfully',
-        snackPosition: SnackPosition.TOP);
-  }
+    if(response.statusCode==201) {
+      Get.snackbar('Success',data['detail'],
+        // Show the response data
+        snackPosition: SnackPosition.BOTTOM,
+
+      );
+    }
     else
       {
-        Get.snackbar('Alert!','friend request already sent',
+
+        Get.snackbar('Alert!',data['detail'],
             snackPosition: SnackPosition.BOTTOM);
+
       }
       }
   ///ACCEPT REQUEST

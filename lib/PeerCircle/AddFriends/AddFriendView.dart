@@ -1,10 +1,7 @@
 import 'dart:developer';
-import 'dart:ffi';
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namaz_reminders/Services/user_data.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
@@ -34,7 +31,7 @@ class AddFriendView extends GetView<AddFriendController> {
           child: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
-      body: GetBuilder<AddFriendController>(
+      body: GetBuilder(
         init: controller,
         builder: (_) {
           List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
@@ -47,173 +44,48 @@ class AddFriendView extends GetView<AddFriendController> {
           });
 
           return Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
-                TextField(
-                  onChanged: (value) {
-                    controller.updateSearchQuery(value);
-                  },
-                  cursorColor: AppColor.circleIndicator,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: "Search Username..",
-                    hintStyle: MyTextTheme.mediumCustomGCN,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.black,
+                SizedBox(
+                  height: 50,
+                  child: TextField(
+                    onChanged: (value) {
+                      controller.updateSearchQuery(value);
+                    },
+                    cursorColor: AppColor.circleIndicator,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: "Search Username..",
+                      hintStyle: MyTextTheme.mediumCustomGCN,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
                       ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                        width: 1,
-                      ),
+                    style: const TextStyle(
+                      color: Colors.grey,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  style: const TextStyle(
-                    color: Colors.grey,
                   ),
                 ),
                 const SizedBox(height: 10),
-                // Column(
-                //   children: [
-                //     Visibility(
-                //       visible: controller.getFriendRequestList.isNotEmpty,
-                //       child: Column(
-                //         children: [
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //             children: [
-                //               Text("REQUESTS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
-                //               Visibility(
-                //                 visible: controller.getFriendRequestList.length > 2,
-                //                 child: InkWell(
-                //                   onTap: () {
-                //                     Get.to(() => SeeAll());
-                //                   },
-                //                   child: Text("SEE ALL", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey, fontWeight: FontWeight.w600)),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           ListView.builder(
-                //             shrinkWrap: true,
-                //             itemCount: controller.getFriendRequestList.length,
-                //             itemBuilder: (context, index) {
-                //               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
-                //               RegisteredUserDataModal registeredData = filteredUsers[index];
-                //               print("Item${registeredData.picture}");
-                //               return Column(
-                //                 children: [
-                //                   Row(
-                //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //                     children: [
-                //                       Row(
-                //                         children: [
-                //                           Container(
-                //                             width: 35,
-                //                             height: 40,
-                //                             decoration: BoxDecoration(
-                //                               shape: BoxShape.circle,
-                //                               image: registeredData.picture != null && registeredData.picture!.isNotEmpty
-                //                                   ? DecorationImage(
-                //                                 image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
-                //                                 fit: BoxFit.cover,
-                //                               )
-                //                                   : null,
-                //                               color: registeredData.picture == null || registeredData.picture!.isEmpty
-                //                                   ? Colors.orange
-                //                                   : null,
-                //                             ),
-                //                             child: registeredData.picture == null || registeredData.picture!.isEmpty
-                //                                 ? const Icon(Icons.person, size: 20, color: Colors.white)
-                //                                 : null,
-                //                           ),
-                //
-                //                           Padding(
-                //                             padding: const EdgeInsets.only(left: 12.0, top: 12),
-                //                             child: Column(
-                //                               crossAxisAlignment: CrossAxisAlignment.start,
-                //                               children: [
-                //                                 Text(
-                //                                   friendRequestData.name.toString(),
-                //                                   style: MyTextTheme.mediumGCB.copyWith(
-                //                                     fontSize: 16,
-                //                                     color: Colors.black,
-                //                                     fontWeight: FontWeight.bold,
-                //                                   ),
-                //                                 ),
-                //                                 Text(
-                //                                   friendRequestData.mobileNo.toString(),
-                //                                   style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                //                                 ),
-                //                               ],
-                //                             ),
-                //                           ),
-                //                         ],
-                //                       ),
-                //                     ],
-                //                   ),
-                //                   const SizedBox(height: 8),
-                //                   Row(
-                //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //                     children: [
-                //                       InkWell(
-                //                         onTap: () async {
-                //                           await controller.acceptFriendRequest(friendRequestData);
-                //                           controller.acceptFriendRequest(friendRequestData);
-                //                         },
-                //                         child: Container(
-                //                           height: MediaQuery.of(context).size.height * 0.05,
-                //                           width: MediaQuery.of(context).size.width * 0.4,
-                //                           decoration: BoxDecoration(
-                //                             border: Border.all(color: AppColor.white),
-                //                             borderRadius: BorderRadius.circular(10),
-                //                             color: AppColor.circleIndicator,
-                //                           ),
-                //                           child: const Center(
-                //                             child: Text("Accept", style: TextStyle(color: Colors.white)),
-                //                           ),
-                //                         ),
-                //                       ),
-                //                       InkWell(
-                //                         onTap: () async {
-                //                           await controller.declineRequest(friendRequestData);
-                //                         },
-                //                         child: Container(
-                //                           height: MediaQuery.of(context).size.height * 0.05,
-                //                           width: MediaQuery.of(context).size.width * 0.4,
-                //                           decoration: BoxDecoration(
-                //                             border: Border.all(color: AppColor.white),
-                //                             borderRadius: BorderRadius.circular(10),
-                //                             color: AppColor.greyDark,
-                //                           ),
-                //                           child: const Center(
-                //                             child: Text("Decline", style: TextStyle(color: Colors.white)),
-                //                           ),
-                //                         ),
-                //                       ),
-                //                     ],
-                //                   ),
-                //                 ],
-                //               );
-                //             },
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
+
                 Column(
                   children: [
                     Visibility(
@@ -229,6 +101,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                 style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey),
                               ),
                               // Show "SEE ALL" only if requests are more than 2
+
                               Visibility(
                                 visible: controller.getFriendRequestList.length > 2,
                                 child: InkWell(
@@ -246,6 +119,7 @@ class AddFriendView extends GetView<AddFriendController> {
                               ),
                             ],
                           ),
+                          SizedBox(height: 5,),
                           // Show ListView if request count <= 2, otherwise show only first 2 in this list
                           ListView.builder(
                             shrinkWrap: true,
@@ -255,103 +129,99 @@ class AddFriendView extends GetView<AddFriendController> {
                             itemBuilder: (context, index) {
                               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
                               RegisteredUserDataModal registeredData = filteredUsers[index];
-                              print("Item${registeredData.picture}");
+                              // print("Item${registeredData.picture}");
 
-                              return Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          // User Picture
-                                          Container(
-                                            width: 35,
-                                            height: 40,
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    // Profile Picture
+                                    Container(
+                                      width: 35,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
+                                            ? DecorationImage(
+                                          image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
+                                          fit: BoxFit.cover,
+                                        )
+                                            : null,
+                                        color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+                                            ? AppColor.circleIndicator
+                                            : null,
+                                      ),
+                                      child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+                                          ? const Icon(Icons.person, size: 20, color: Colors.white)
+                                          : null,
+                                    ),
+
+                                    // User Details
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 12.0, top: 12),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              friendRequestData.name.toString(),
+                                              style: MyTextTheme.mediumGCB.copyWith(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                    // Accept and Decline Buttons
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            await controller.acceptFriendRequest(friendRequestData);
+                                            controller. acceptFriendRequest(friendRequestData);
+
+                                          },
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.height * 0.04,
+                                            width: MediaQuery.of(context).size.width * 0.2,
                                             decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
-                                                  ? DecorationImage(
-                                                image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
-                                                fit: BoxFit.cover,
-                                              )
-                                                  : null,
-                                              color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
-                                                  ? Colors.orange
-                                                  : null,
+                                              border: Border.all(color: AppColor.white),
+                                              borderRadius: BorderRadius.circular(10),
+                                              color: AppColor.circleIndicator,
                                             ),
-                                            child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
-                                                ? const Icon(Icons.person, size: 20, color: Colors.white)
-                                                : null,
-                                          ),
-                                          // User Details
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 12.0, top: 12),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  friendRequestData.name.toString(),
-                                                  style: MyTextTheme.mediumGCB.copyWith(
-                                                    fontSize: 16,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  friendRequestData.mobileNo.toString(),
-                                                  style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                                                ),
-                                              ],
+                                            child: const Center(
+                                              child: Text("Accept", style: TextStyle(color: Colors.white)),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  // Accept/Decline buttons
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          await controller.acceptFriendRequest(friendRequestData);
-                                        },
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.05,
-                                          width: MediaQuery.of(context).size.width * 0.4,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: AppColor.white),
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: AppColor.circleIndicator,
-                                          ),
-                                          child: const Center(
-                                            child: Text("Accept", style: TextStyle(color: Colors.white)),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        InkWell(
+                                          onTap: () async {
+                                            await controller.declineRequest(friendRequestData);
+                                          },
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.height * 0.04,
+                                            width: MediaQuery.of(context).size.width * 0.2,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: AppColor.white),
+                                              borderRadius: BorderRadius.circular(10),
+                                              color: AppColor.greyDark,
+                                            ),
+                                            child: const Center(
+                                              child: Text("Decline", style: TextStyle(color: Colors.white)),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      InkWell(
-                                        onTap: () async {
-                                          await controller.declineRequest(friendRequestData);
-                                        },
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.05,
-                                          width: MediaQuery.of(context).size.width * 0.4,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: AppColor.white),
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: AppColor.greyDark,
-                                          ),
-                                          child: const Center(
-                                            child: Text("Decline", style: TextStyle(color: Colors.white)),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               );
+
                             },
                           ),
                         ],
@@ -363,10 +233,9 @@ class AddFriendView extends GetView<AddFriendController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("REGISTERED USERS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
+                    Text("SUGGESTIONS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
                   ],
                 ),
-                const SizedBox(height: 10),
                 Expanded(
                   child:
                     ListView.builder(
@@ -399,7 +268,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                     )
                                         : null,
                                     color: registeredData.picture == null || registeredData.picture!.isEmpty
-                                        ? Colors.orange
+                                        ? AppColor.circleIndicator
                                         : null,
                                   ),
                                   child: registeredData.picture == null || registeredData.picture!.isEmpty
@@ -408,7 +277,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                 ),
 
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 12.0, top: 12),
+                                  padding: const EdgeInsets.only(left: 12.0, top: 16),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -420,48 +289,55 @@ class AddFriendView extends GetView<AddFriendController> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text(
-                                        registeredData.mobileNo.toString(),
-                                        style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                                      ),
+                                      SizedBox(height: 20,)
+                                      // Text(
+                                      //   registeredData.mobileNo.toString(),
+                                      //   style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+                                      // ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            InkWell(
-                              onTap: () async {
-                                if(matchedRequest==null){
-                                  await controller.sendFriendRequest(registeredData);
-                                }
 
-                              },
-                              child:matchedRequest==null? Container(
-                                height: 30,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppColor.white),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColor.circleIndicator,
-                                ),
-                                child: const Center(
-                                  child: Text("Invite", style: TextStyle(color: Colors.white)),
-                                ),
-                              ):
-                              Container(
-                                height: 30,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppColor.white),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
-                                ),
-                                child:  Center(
-                                  child: Text(matchedRequest['status_display'], style: TextStyle(color: Colors.white)),
+                              InkWell(
+                                onTap: () async {
+                                  if(matchedRequest==null){
+                                    await controller.sendFriendRequest(registeredData);
+                                    controller.checkInviteStatus(UserData().getUserData!.id.toString());
+
+                                  }
+
+                                },
+                                child:matchedRequest==null?
+                                Container(
+                                  height: 30,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppColor.white),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppColor.circleIndicator,
+                                  ),
+                                  child:  Center(
+                                    child: Text("Invite", style: TextStyle(color: Colors.white)),
+                                  ),
+                                )
+                                    :
+                                Container(
+                                  height: 30,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppColor.white),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
+                                  ),
+                                  child:  Center(
+                                    child: Text(matchedRequest['status_display'], style: const TextStyle(color: Colors.white)),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+
+                          ]
                         );
                       },
                     ),

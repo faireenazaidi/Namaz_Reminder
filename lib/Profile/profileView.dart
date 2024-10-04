@@ -66,7 +66,25 @@ class ProfileView extends GetView<ProfileController> {
                               backgroundImage:controller.userData.getUserData!.picture!=''? NetworkImage(
                                 "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
                               ):Image.file(File(controller.profilePhoto)).image,
+                              backgroundColor: controller.userData.getUserData!.picture.isEmpty
+                                  ? AppColor.circleIndicator
+                                  : Colors.transparent,
+                              child: controller.userData.getUserData!.picture.isEmpty
+                                  ? const Icon(Icons.person, size: 40, color: Colors.white)
+                                  : null,
                             ),
+                            // CircleAvatar(
+                            //   radius: 30,
+                            //   backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
+                            //       ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
+                            //       : null,
+                            //   backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
+                            //       ? AppColor.circleIndicator
+                            //       : Colors.transparent,
+                            //   child: customDrawerController.userData.getUserData!.picture.isEmpty
+                            //       ? const Icon(Icons.person, size: 25, color: Colors.white)
+                            //       : null,
+                            // ),
 
                           ],
                         ),
@@ -243,7 +261,7 @@ class ProfileView extends GetView<ProfileController> {
                             fillColor: AppColor.leaderboard,
                             hintText: "Enter your phone number",
                             hintStyle: MyTextTheme.mediumCustomGCN,
-                            prefixIcon: SvgPicture.asset("assets/icon.svg",fit: BoxFit.scaleDown,),
+                            prefixIcon: SvgPicture.asset("assets/call.svg",fit: BoxFit.scaleDown,),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:  BorderSide(
@@ -353,9 +371,21 @@ class ProfileView extends GetView<ProfileController> {
                   //   ),
                   // ),
                   const SizedBox(height: 20,),
-                  MyButton(onPressed: (){
-                    controller.registerUser();
-                  }, title: 'Update',color: Colors.black,),
+                  // MyButton(
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   onPressed: (){
+                  //
+                  //   controller.registerUser();
+                  // }, title: 'Update',color: AppColor.circleIndicator,),
+                  MyButton(
+                    borderRadius:10,
+                    onPressed: () {
+                      controller.registerUser(); // Call the registerUser method from the controller
+                    },
+                    title: 'Update', // Button label
+                    color: AppColor.circleIndicator, // Button color
+                  ),
+
                 ],
               );
             }

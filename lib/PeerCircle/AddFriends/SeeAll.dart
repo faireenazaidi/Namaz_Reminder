@@ -38,105 +38,193 @@ class SeeAll extends GetView<AddFriendController>{
            FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
            print("!!!!!!!!!!" + friendRequestData.name.toString());
 
-           return Column(
-             children: [
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                   Row(
-                     children: [
-                       // CircleAvatar(
-                       //   backgroundColor: Colors.grey,
-                       //   radius: 20,
-                       //   child: Icon(Icons.person, color: Colors.white),
-                       // ),
-                       Container(
-                         width: 35,
-                         height: 40,
+           // return Column(
+           //   children: [
+           //     Row(
+           //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           //       children: [
+           //         Row(
+           //           children: [
+           //             // CircleAvatar(
+           //             //   backgroundColor: Colors.grey,
+           //             //   radius: 20,
+           //             //   child: Icon(Icons.person, color: Colors.white),
+           //             // ),
+           //             Container(
+           //               width: 35,
+           //               height: 40,
+           //               decoration: BoxDecoration(
+           //                 shape: BoxShape.circle,
+           //                 image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
+           //                     ? DecorationImage(
+           //                   image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
+           //                   fit: BoxFit.cover,
+           //                 )
+           //                     : null,
+           //                 color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+           //                     ? AppColor.circleIndicator
+           //                     : null,
+           //               ),
+           //               child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+           //                   ? const Icon(Icons.person, size: 20, color: Colors.white)
+           //                   : null,
+           //             ),
+           //
+           //             Padding(
+           //               padding: const EdgeInsets.only(left: 12.0, top: 12),
+           //               child: Column(
+           //                 crossAxisAlignment: CrossAxisAlignment.start,
+           //                 children: [
+           //                   Text(
+           //                     friendRequestData.name.toString(),
+           //                     style: MyTextTheme.mediumGCB.copyWith(
+           //                       fontSize: 16,
+           //                       color: Colors.black,
+           //                       fontWeight: FontWeight.bold,
+           //                     ),
+           //                   ),
+           //                   Text(
+           //                     friendRequestData.mobileNo.toString(),
+           //                     style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+           //                   ),
+           //                 ],
+           //               ),
+           //             ),
+           //           ],
+           //         ),
+           //       ],
+           //     ),
+           //     SizedBox(height: 8),
+           //     Row(
+           //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           //       children: [
+           //         // Accept Button
+           //         InkWell(
+           //           onTap: () async {
+           //             await controller.acceptFriendRequest(friendRequestData);
+           //           },
+           //           child: Container(
+           //             height: 30,
+           //             width: 80,
+           //             decoration: BoxDecoration(
+           //               border: Border.all(color: AppColor.white),
+           //               borderRadius: BorderRadius.circular(10),
+           //               color: AppColor.circleIndicator,
+           //             ),
+           //             child: Center(
+           //               child: Text("Accept", style: TextStyle(color: Colors.white)),
+           //             ),
+           //           ),
+           //         ),
+           //
+           //         InkWell(
+           //           onTap: ()  {
+           //
+           //           },
+           //           child: Container(
+           //             height: 30,
+           //             width: 80,
+           //             decoration: BoxDecoration(
+           //               border: Border.all(color: AppColor.white),
+           //               borderRadius: BorderRadius.circular(10),
+           //               color: Colors.grey,
+           //             ),
+           //             child: Center(
+           //               child: Text("Decline", style: TextStyle(color: Colors.white)),
+           //             ),
+           //           ),
+           //         ),
+           //       ],
+           //     ),
+           //   ],
+           // );
+           return Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Row(
+               children: [
+                 // Profile Picture
+                 Container(
+                   width: 35,
+                   height: 40,
+                   decoration: BoxDecoration(
+                     shape: BoxShape.circle,
+                     image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
+                         ? DecorationImage(
+                       image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
+                       fit: BoxFit.cover,
+                     )
+                         : null,
+                     color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+                         ? AppColor.circleIndicator
+                         : null,
+                   ),
+                   child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
+                       ? const Icon(Icons.person, size: 20, color: Colors.white)
+                       : null,
+                 ),
+
+                 // User Details
+                 Expanded(
+                   child: Padding(
+                     padding: const EdgeInsets.only(left: 12.0, top: 12),
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Text(
+                           friendRequestData.name.toString(),
+                           style: MyTextTheme.mediumGCB.copyWith(
+                             fontSize: 16,
+                             color: Colors.black,
+                             fontWeight: FontWeight.bold,
+                           ),
+                         ),
+                       ],
+                     ),
+                   ),
+                 ),
+
+                 // Accept and Decline Buttons
+                 Row(
+                   children: [
+                     InkWell(
+                       onTap: () async {
+                         await controller.acceptFriendRequest(friendRequestData);
+                       },
+                       child: Container(
+                         height: MediaQuery.of(context).size.height * 0.04,
+                         width: MediaQuery.of(context).size.width * 0.2,
                          decoration: BoxDecoration(
-                           shape: BoxShape.circle,
-                           image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
-                               ? DecorationImage(
-                             image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
-                             fit: BoxFit.cover,
-                           )
-                               : null,
-                           color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
-                               ? Colors.orange
-                               : null,
+                           border: Border.all(color: AppColor.white),
+                           borderRadius: BorderRadius.circular(10),
+                           color: AppColor.circleIndicator,
                          ),
-                         child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
-                             ? const Icon(Icons.person, size: 20, color: Colors.white)
-                             : null,
-                       ),
-
-                       Padding(
-                         padding: const EdgeInsets.only(left: 12.0, top: 12),
-                         child: Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             Text(
-                               friendRequestData.name.toString(),
-                               style: MyTextTheme.mediumGCB.copyWith(
-                                 fontSize: 16,
-                                 color: Colors.black,
-                                 fontWeight: FontWeight.bold,
-                               ),
-                             ),
-                             Text(
-                               friendRequestData.mobileNo.toString(),
-                               style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                             ),
-                           ],
+                         child: const Center(
+                           child: Text("Accept", style: TextStyle(color: Colors.white)),
                          ),
                        ),
-                     ],
-                   ),
-                 ],
-               ),
-               SizedBox(height: 8),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 children: [
-                   // Accept Button
-                   InkWell(
-                     onTap: () async {
-                       await controller.acceptFriendRequest(friendRequestData);
-                     },
-                     child: Container(
-                       height: 30,
-                       width: 80,
-                       decoration: BoxDecoration(
-                         border: Border.all(color: AppColor.white),
-                         borderRadius: BorderRadius.circular(10),
-                         color: AppColor.circleIndicator,
-                       ),
-                       child: Center(
-                         child: Text("Accept", style: TextStyle(color: Colors.white)),
+                     ),
+                     const SizedBox(width: 5),
+                     InkWell(
+                       onTap: () async {
+                         await controller.declineRequest(friendRequestData);
+                       },
+                       child: Container(
+                         height: MediaQuery.of(context).size.height * 0.04,
+                         width: MediaQuery.of(context).size.width * 0.2,
+                         decoration: BoxDecoration(
+                           border: Border.all(color: AppColor.white),
+                           borderRadius: BorderRadius.circular(10),
+                           color: AppColor.greyDark,
+                         ),
+                         child: const Center(
+                           child: Text("Decline", style: TextStyle(color: Colors.white)),
+                         ),
                        ),
                      ),
-                   ),
-
-                   InkWell(
-                     onTap: ()  {
-
-                     },
-                     child: Container(
-                       height: 30,
-                       width: 80,
-                       decoration: BoxDecoration(
-                         border: Border.all(color: AppColor.white),
-                         borderRadius: BorderRadius.circular(10),
-                         color: Colors.grey,
-                       ),
-                       child: Center(
-                         child: Text("Decline", style: TextStyle(color: Colors.white)),
-                       ),
-                     ),
-                   ),
-                 ],
-               ),
-             ],
+                   ],
+                 ),
+               ],
+             ),
            );
          },
        ),

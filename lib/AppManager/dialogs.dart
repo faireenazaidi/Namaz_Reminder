@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Widget/appColor.dart';
+
 class Dialogs{
   static void actionBottomSheet({String? title,required String subTitle,required Function okPressEvent,
     Function? cancelPressEvent,Color? okButtonColor,Color? cancelButtonColor,
@@ -44,13 +46,14 @@ class Dialogs{
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(160,42),
                         elevation: 0,textStyle:const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,letterSpacing: 1),
-                        backgroundColor:cancelButtonColor?? Colors.grey.shade100,
+                        backgroundColor:cancelButtonColor?? AppColor.circleIndicator,
+                        // Colors.grey.shade100,
                         //padding:EdgeInsets.symmetric(horizontal: 50,vertical: 12),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50)),
 
                       ), child: Text(cancelButtonName??"Cancel",style: TextStyle(
-                          color:cancelButtonColor!=null?Colors.white:null
+                        color:cancelButtonColor??Colors.white,
                       ),),
                     ),
                   ),
@@ -60,9 +63,9 @@ class Dialogs{
                       okPressEvent();
                     },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: okButtonColor,
+                        backgroundColor:AppColor.circleIndicator,
                         fixedSize: const Size(160,42),
-                        elevation: 0,textStyle:const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,letterSpacing: 1),
+                        elevation: 0,textStyle:const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,letterSpacing: 1,),
                         //padding:EdgeInsets.symmetric(horizontal: 50,vertical: 12),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50)),
