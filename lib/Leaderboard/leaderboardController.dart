@@ -113,7 +113,10 @@ String formatDate = getFormattedDate();
       weeklyRanked.value = data['ranked_friends'];
       print("decodeData $data");
       // updateLeaderboardList = decodeData;
-      recordsList= data['records'].map((e)=>Record.fromJson(e));
+      List recordData= data['records'];
+      recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
+      print("recordList $recordsList");
+      weeklyMissedPrayer = groupByDate(recordsList);
       print("WeeklyApi data check:$weeklyRanked");
     }
     else {
@@ -127,8 +130,25 @@ String formatDate = getFormattedDate();
   }
 
 
-
-
+  final List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+  final Map<String, String> prayerShortNames = {
+    'Fajr': 'F',
+    'Dhuhr': 'Z',
+    'Asr': 'A',
+    'Maghrib': 'M',
+    'Isha': 'I'
+  };
+  Map<String, List<Record>> weeklyMissedPrayer=<String, List<Record>>{}.obs;
+  // Group records by date
+  Map<String, List<Record>> groupByDate(List<Record> records) {
+    return records.fold<Map<String, List<Record>>>({}, (acc, record) {
+      if (!acc.containsKey(record.date)) {
+        acc[record.date] = [];
+      }
+      acc[record.date]?.add(record);
+      return acc;
+    });
+  }
 
 
 }

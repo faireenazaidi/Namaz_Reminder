@@ -269,7 +269,7 @@ class Record {
       date: json['date'],
       prayerName: json['prayer_name'],
       score: json['score'].toString(),
-      jamat: json['jamat'],
+      jamat: json['jamat']??false,
       timesOfPrayer: (json['times_of_prayer']??'').toString(),
     );
   }
