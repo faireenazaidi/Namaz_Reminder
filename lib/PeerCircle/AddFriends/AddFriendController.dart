@@ -168,12 +168,12 @@ print("URL:$url");
     var data = jsonDecode(await response.stream.bytesToString());
     print("daaaaaaaaaaa $data");
     if(response.statusCode==200){
-    Get.snackbar('Success', data['detail'].toString(),
-        snackPosition: SnackPosition.BOTTOM);
+    Get.snackbar('Success','friend request sent successfully',
+        snackPosition: SnackPosition.TOP);
   }
     else
       {
-        Get.snackbar('Error','Failed to sent friend request',
+        Get.snackbar('Alert!','friend request already sent',
             snackPosition: SnackPosition.BOTTOM);
       }
       }

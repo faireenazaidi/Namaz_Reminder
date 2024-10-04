@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -34,7 +35,7 @@ class DashBoardView extends GetView<DashBoardController> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        toolbarHeight: 35,
+        toolbarHeight: 40,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
         title: Text("Prayer O'Clock", style: MyTextTheme.largeBCN),
@@ -43,7 +44,9 @@ class DashBoardView extends GetView<DashBoardController> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Image.asset("assets/location.png"),
+                SvgPicture.asset(
+                    "assets/loc.svg"
+                ),
                 const SizedBox(width: 4),
                 Text(
                   dashboardController.location.value,
@@ -51,10 +54,30 @@ class DashBoardView extends GetView<DashBoardController> {
                 ),
                  InkWell(
                    onTap: (){
-                     Get.toNamed(AppRoutes.profileRoute);
+                     Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
+
                    },
-                   child: CircleAvatar(
-                    backgroundImage: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),),
+                   // child: CircleAvatar(
+                   //  backgroundImage: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),),
+                   child:  Container(
+                     width: 35,
+                     height: 40,
+                     decoration: BoxDecoration(
+                       shape: BoxShape.circle,
+                       image: controller.userData.getUserData!.picture.isNotEmpty
+                           ? DecorationImage(
+                         image: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),
+                         fit: BoxFit.cover,
+                       )
+                           : null,
+                       color: controller.userData.getUserData!.picture.isEmpty
+                           ? Colors.orange
+                           : null,
+                     ),
+                     child: controller.userData.getUserData!.picture.isEmpty
+                         ? const Icon(Icons.person, size: 16, color: Colors.white)
+                         : null,
+                   ),
                  )
               ],
             ),
@@ -87,7 +110,9 @@ class DashBoardView extends GetView<DashBoardController> {
                         InkWell(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Image.asset("assets/iconcalen.png", width: 15, height: 24),
+                            child:  SvgPicture.asset(
+                                "assets/calendar3.svg"
+                            ),
                           ),
                           onTap: () async {
                             DateTime? picked = await showDatePicker(
@@ -276,7 +301,7 @@ class DashBoardView extends GetView<DashBoardController> {
                 ),
 
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 50),
                   InkWell(
                     onTap: (){
                       Get.toNamed(AppRoutes.leaderboardRoute);
@@ -296,6 +321,35 @@ class DashBoardView extends GetView<DashBoardController> {
                       ),
                     ),
                   ),
+                  // Obx(() {
+                  //   if (controller.rank.value == 0) {
+                  //     return SizedBox.shrink();
+                  //   } else {
+                  //     return InkWell(
+                  //       onTap: () {
+                  //         Get.toNamed(AppRoutes.leaderboardRoute);
+                  //       },
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: Container(
+                  //           alignment: Alignment.center,
+                  //           padding: const EdgeInsets.all(10),
+                  //           decoration: BoxDecoration(
+                  //             color: AppColor.leaderboard,
+                  //             borderRadius: BorderRadius.circular(10),
+                  //           ),
+                  //           child: RankedFriendsIndicator(
+                  //             rankedFriends: controller.getLeaderboardList.value == null
+                  //                 ? []
+                  //                 : controller.getLeaderboardList.value!.rankedFriends,
+                  //             currentUserId: int.parse(controller.userData.getUserData!.id),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     );
+                  //   }
+                  // }),
+
 
                   const SizedBox(height: 10),
                   GetBuilder(

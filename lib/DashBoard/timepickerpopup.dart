@@ -40,7 +40,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
     isAm = now.hour < 12;
 
     _scaleController = AnimationController(
-      duration: const Duration(milliseconds: 300), // Duration of the scaling animation
+      duration: const Duration(milliseconds: 500), // Duration of the scaling animation
       vsync: this,
     );
 
@@ -71,7 +71,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
         backgroundColor: AppColor.gray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
-          width: screenWidth * 0.85,
+          width: screenWidth * 0.70,
           padding: EdgeInsets.symmetric(
             horizontal: screenWidth * 0.04,
             vertical: screenHeight * 0.02,
@@ -89,19 +89,20 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  SizedBox(width: 3,),
                   Text(
                     'MARK YOUR PRAYER TIME',
                     style: MyTextTheme.mustardS.copyWith(
                       fontSize: screenWidth * 0.035, // Dynamic font size
                     ),
                   ),
-                  SizedBox(width: screenWidth * 0.05),
+                  SizedBox(width: screenWidth * 0.04),
                   SvgPicture.asset(
-                      "assets/namz.svg"
+                      "assets/namz.svg",height: 45,
                   ),
                 ],
               ),
-              const SizedBox(height: 5),
+              // const SizedBox(height: 3),
               // Hour and Minute Pickers
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -109,14 +110,15 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   // Hour picker
                   Flexible(
                     child: NumberPicker(
+                      itemCount: 5,
                       minValue: 1,
                       maxValue: 12,
-                      itemWidth: screenWidth * 0.15,
-                      itemHeight: screenHeight * 0.12,
+                      // itemWidth: screenWidth * 0.15,
+                      // itemHeight: screenHeight * 0.12,
                       value: dashBoardController.hour,
-                      haptics: true,
+                      haptics: false,
                       zeroPad: true,
-                      infiniteLoop: false, // Prevent going forward
+                      infiniteLoop: true, // Prevent going forward
                       onChanged: (value) {
                         setState(() {
                           dashBoardController.hour = value;
@@ -130,8 +132,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       ),
                       selectedTextStyle: TextStyle(
                         color: Colors.white,
-                        fontSize: screenWidth * 0.08,
-                        fontWeight: FontWeight.w600,
+                        fontSize: screenWidth * 0.10,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -147,13 +149,14 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   // Minute picker
                   Flexible(
                     child: NumberPicker(
+                      itemCount: 5,
                       minValue: 0,
                       maxValue: 59,
-                      itemWidth: screenWidth * 0.15,
-                      itemHeight: screenHeight * 0.12,
+                      // itemWidth: screenWidth * 0.15,
+                      // itemHeight: screenHeight * 0.12,
                       value: dashBoardController.minute,
                       zeroPad: true,
-                      infiniteLoop: false,
+                      infiniteLoop: true,
                       onChanged: (value) {
                         setState(() {
                           dashBoardController.minute = value;
@@ -169,8 +172,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       ),
                       selectedTextStyle: TextStyle(
                         color: Colors.white,
-                        fontSize: screenWidth * 0.08,
-                        fontWeight: FontWeight.w600,
+                        fontSize: screenWidth * 0.10,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -189,8 +192,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           child: Text(
                             "AM",
                             style: TextStyle(
-                              fontSize: screenWidth * 0.06,
-                              color: isAm ? Colors.white : Colors.grey,
+                              color: isAm ? Colors.white: Colors.grey,
+                              fontSize: isAm  ? 20.0 : 16.0,
                             ),
                           ),
                         ),
@@ -200,13 +203,15 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                               isAm = false;
                             });
                           },
-                          child: Text(
+                          child:
+                          Text(
                             "PM",
                             style: TextStyle(
-                              fontSize: screenWidth * 0.06,
                               color: !isAm ? Colors.white : Colors.grey,
+                              fontSize: !isAm  ? 20.0 : 16.0,
                             ),
                           ),
+
                         ),
                       ],
                     ),
@@ -268,3 +273,4 @@ void showCustomTimePicker(BuildContext context) {
     },
   );
 }
+

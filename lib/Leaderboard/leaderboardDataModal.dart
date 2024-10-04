@@ -4,12 +4,20 @@ import 'package:hijri/hijri_calendar.dart';
 class DateController extends GetxController {
   // Observable to hold the selected date
   var selectedDate = DateTime.now().obs;
+  RxString selectedTab = 'daily'.obs;
 
   // Method to update the selected date
   void updateSelectedDate(DateTime newDate) {
     selectedDate.value = newDate;
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+    if (Get.arguments != null && Get.arguments['selectedTab'] == 'weekly') {
+      selectedTab.value = 'weekly';
+    }
+  }
   // Method to format Hijri date
   String formatHijriDate(DateTime date) {
     final hijriDate = HijriCalendar.fromDate(date);
@@ -318,3 +326,4 @@ class RankedFriend {
     };
   }
 }
+

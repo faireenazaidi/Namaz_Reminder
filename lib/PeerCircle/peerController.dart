@@ -23,6 +23,7 @@ class PeerController extends GetxController{
   void onInit() {
     super.onInit();
     friendship();
+
   }
 
   friendship() async {
@@ -53,6 +54,10 @@ class PeerController extends GetxController{
     friendshipList = val;
     update();
   }
+  void removeFriends(int index){
+    friendshipList.removeAt(index);
+    update();
+  }
 
   ///REMOVE FRIEND
   removeFriend(String friendId) async {
@@ -73,9 +78,11 @@ class PeerController extends GetxController{
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      print("success");
     }
     else {
       print(response.reasonPhrase);
+      print('jjjjjjjjjjjjjjjjj');
     }
   }
 

@@ -85,34 +85,178 @@ class AddFriendView extends GetView<AddFriendController> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                // Column(
+                //   children: [
+                //     Visibility(
+                //       visible: controller.getFriendRequestList.isNotEmpty,
+                //       child: Column(
+                //         children: [
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Text("REQUESTS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
+                //               Visibility(
+                //                 visible: controller.getFriendRequestList.length > 2,
+                //                 child: InkWell(
+                //                   onTap: () {
+                //                     Get.to(() => SeeAll());
+                //                   },
+                //                   child: Text("SEE ALL", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey, fontWeight: FontWeight.w600)),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //           ListView.builder(
+                //             shrinkWrap: true,
+                //             itemCount: controller.getFriendRequestList.length,
+                //             itemBuilder: (context, index) {
+                //               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
+                //               RegisteredUserDataModal registeredData = filteredUsers[index];
+                //               print("Item${registeredData.picture}");
+                //               return Column(
+                //                 children: [
+                //                   Row(
+                //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //                     children: [
+                //                       Row(
+                //                         children: [
+                //                           Container(
+                //                             width: 35,
+                //                             height: 40,
+                //                             decoration: BoxDecoration(
+                //                               shape: BoxShape.circle,
+                //                               image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+                //                                   ? DecorationImage(
+                //                                 image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
+                //                                 fit: BoxFit.cover,
+                //                               )
+                //                                   : null,
+                //                               color: registeredData.picture == null || registeredData.picture!.isEmpty
+                //                                   ? Colors.orange
+                //                                   : null,
+                //                             ),
+                //                             child: registeredData.picture == null || registeredData.picture!.isEmpty
+                //                                 ? const Icon(Icons.person, size: 20, color: Colors.white)
+                //                                 : null,
+                //                           ),
+                //
+                //                           Padding(
+                //                             padding: const EdgeInsets.only(left: 12.0, top: 12),
+                //                             child: Column(
+                //                               crossAxisAlignment: CrossAxisAlignment.start,
+                //                               children: [
+                //                                 Text(
+                //                                   friendRequestData.name.toString(),
+                //                                   style: MyTextTheme.mediumGCB.copyWith(
+                //                                     fontSize: 16,
+                //                                     color: Colors.black,
+                //                                     fontWeight: FontWeight.bold,
+                //                                   ),
+                //                                 ),
+                //                                 Text(
+                //                                   friendRequestData.mobileNo.toString(),
+                //                                   style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+                //                                 ),
+                //                               ],
+                //                             ),
+                //                           ),
+                //                         ],
+                //                       ),
+                //                     ],
+                //                   ),
+                //                   const SizedBox(height: 8),
+                //                   Row(
+                //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //                     children: [
+                //                       InkWell(
+                //                         onTap: () async {
+                //                           await controller.acceptFriendRequest(friendRequestData);
+                //                           controller.acceptFriendRequest(friendRequestData);
+                //                         },
+                //                         child: Container(
+                //                           height: MediaQuery.of(context).size.height * 0.05,
+                //                           width: MediaQuery.of(context).size.width * 0.4,
+                //                           decoration: BoxDecoration(
+                //                             border: Border.all(color: AppColor.white),
+                //                             borderRadius: BorderRadius.circular(10),
+                //                             color: AppColor.circleIndicator,
+                //                           ),
+                //                           child: const Center(
+                //                             child: Text("Accept", style: TextStyle(color: Colors.white)),
+                //                           ),
+                //                         ),
+                //                       ),
+                //                       InkWell(
+                //                         onTap: () async {
+                //                           await controller.declineRequest(friendRequestData);
+                //                         },
+                //                         child: Container(
+                //                           height: MediaQuery.of(context).size.height * 0.05,
+                //                           width: MediaQuery.of(context).size.width * 0.4,
+                //                           decoration: BoxDecoration(
+                //                             border: Border.all(color: AppColor.white),
+                //                             borderRadius: BorderRadius.circular(10),
+                //                             color: AppColor.greyDark,
+                //                           ),
+                //                           child: const Center(
+                //                             child: Text("Decline", style: TextStyle(color: Colors.white)),
+                //                           ),
+                //                         ),
+                //                       ),
+                //                     ],
+                //                   ),
+                //                 ],
+                //               );
+                //             },
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 Column(
                   children: [
                     Visibility(
                       visible: controller.getFriendRequestList.isNotEmpty,
                       child: Column(
                         children: [
+                          // Header Row with "REQUESTS" and optional "SEE ALL"
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("REQUESTS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
+                              Text(
+                                "REQUESTS",
+                                style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey),
+                              ),
+                              // Show "SEE ALL" only if requests are more than 2
                               Visibility(
                                 visible: controller.getFriendRequestList.length > 2,
                                 child: InkWell(
                                   onTap: () {
                                     Get.to(() => SeeAll());
                                   },
-                                  child: Text("SEE ALL", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey, fontWeight: FontWeight.w600)),
+                                  child: Text(
+                                    "SEE ALL",
+                                    style: MyTextTheme.greyNormal.copyWith(
+                                      color: AppColor.textDarkGrey,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+                          // Show ListView if request count <= 2, otherwise show only first 2 in this list
                           ListView.builder(
                             shrinkWrap: true,
-                            itemCount: controller.getFriendRequestList.length,
+                            itemCount: controller.getFriendRequestList.length <= 2
+                                ? controller.getFriendRequestList.length
+                                : 2, // Show only first 2 if there are more than 2 requests
                             itemBuilder: (context, index) {
                               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
                               RegisteredUserDataModal registeredData = filteredUsers[index];
                               print("Item${registeredData.picture}");
+
                               return Column(
                                 children: [
                                   Row(
@@ -120,26 +264,27 @@ class AddFriendView extends GetView<AddFriendController> {
                                     children: [
                                       Row(
                                         children: [
+                                          // User Picture
                                           Container(
                                             width: 35,
                                             height: 40,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+                                              image: friendRequestData.picture != null && friendRequestData.picture!.isNotEmpty
                                                   ? DecorationImage(
-                                                image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
+                                                image: NetworkImage("http://182.156.200.177:8011${friendRequestData.picture}"),
                                                 fit: BoxFit.cover,
                                               )
                                                   : null,
-                                              color: registeredData.picture == null || registeredData.picture!.isEmpty
+                                              color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
                                                   ? Colors.orange
                                                   : null,
                                             ),
-                                            child: registeredData.picture == null || registeredData.picture!.isEmpty
+                                            child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
                                                 ? const Icon(Icons.person, size: 20, color: Colors.white)
                                                 : null,
                                           ),
-
+                                          // User Details
                                           Padding(
                                             padding: const EdgeInsets.only(left: 12.0, top: 12),
                                             child: Column(
@@ -165,13 +310,13 @@ class AddFriendView extends GetView<AddFriendController> {
                                     ],
                                   ),
                                   const SizedBox(height: 8),
+                                  // Accept/Decline buttons
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       InkWell(
                                         onTap: () async {
                                           await controller.acceptFriendRequest(friendRequestData);
-                                          controller.acceptFriendRequest(friendRequestData);
                                         },
                                         child: Container(
                                           height: MediaQuery.of(context).size.height * 0.05,

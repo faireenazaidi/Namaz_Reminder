@@ -68,8 +68,11 @@ class PeerView extends GetView<PeerController> {
               style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 20),
-            Expanded(
-              child: Obx(() {
+          Expanded(
+               child: GetBuilder(
+                 init: controller,
+            builder: (_)
+              {
                 if (controller.isLoading.value) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -81,9 +84,7 @@ class PeerView extends GetView<PeerController> {
                 return ListView.builder(
                   itemCount: controller.getFriendshipList.length,
                   itemBuilder: (context, index) {
-                    Friendship  friend = controller.getFriendshipList[index];
-                    
-                     // print(friend.id);
+                    Friendship friend = controller.getFriendshipList[index];
 
                     return Column(
                       children: [
@@ -92,11 +93,27 @@ class PeerView extends GetView<PeerController> {
                           children: [
                             Row(
                               children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey,
-                                  radius: 20,
-                                  child: Icon(Icons.person, color: Colors.white),
+                                // Replace CircleAvatar with a Container to show image
+                                Container(
+                                  width: 35,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: friend.user2.picture != null && friend.user2.picture!.isNotEmpty
+                                        ? DecorationImage(
+                                      image: NetworkImage("http://182.156.200.177:8011${friend.user2.picture}"),
+                                      fit: BoxFit.cover,
+                                    )
+                                        : null,
+                                    color: friend.user2.picture == null || friend.user2.picture!.isEmpty
+                                        ? Colors.orange
+                                        : null,
+                                  ),
+                                  child:friend.user2.picture == null || friend.user2.picture!.isEmpty
+                                      ? const Icon(Icons.person, size: 20, color: Colors.white)
+                                      : null,
                                 ),
+
                                 Padding(
                                   padding: const EdgeInsets.only(left: 12.0, top: 12),
                                   child: Column(
@@ -171,9 +188,11 @@ class PeerView extends GetView<PeerController> {
                                                   ),
                                                   child: TextButton(
                                                     onPressed: () async {
-                                                      await controller.removeFriend(friend.friendshipId.toString());
-                                                      controller.getFriendshipList.remove(index);
-                                                      Get.back();},
+                                                      await controller.removeFriend(friend.user2.id.toString());
+                                                      controller.friendshipList.removeAt(index);
+                                                      controller.update();
+                                                      Get.back();
+                                                    },
                                                     child: const Text(
                                                       'Yes, Remove',
                                                       style: TextStyle(color: Colors.white),
@@ -184,6 +203,8 @@ class PeerView extends GetView<PeerController> {
                                                     ),
                                                   ),
                                                 ),
+
+
                                               ],
                                             ),
                                           ),
@@ -194,18 +215,18 @@ class PeerView extends GetView<PeerController> {
                                   },
                                 );
                               },
-                              child: Text('Remove',
-                                  style: TextStyle(color: AppColor.circleIndicator)),
+                              child: Text('Remove', style: TextStyle(color: AppColor.circleIndicator)),
                             ),
                           ],
                         ),
                       ],
                     );
-
                   },
                 );
+
               }),
             ),
+
           ],
         ),
       ),

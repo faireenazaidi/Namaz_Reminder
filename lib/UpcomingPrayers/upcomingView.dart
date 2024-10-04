@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
+import '../Leaderboard/leaderboardDataModal.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 
@@ -12,6 +14,7 @@ class Upcoming extends GetView<UpcomingController> {
   @override
   Widget build(BuildContext context) {
     final DashBoardController dashboardController = Get.find<DashBoardController>();
+    final DateController dateController = Get.put(DateController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,10 +53,28 @@ class Upcoming extends GetView<UpcomingController> {
                 ),
                 const SizedBox(height: 15),
 
-                // Added Expanded widget with Row for date and Islamic date
                 Center(
                   child: Row(
                     children: [
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:  SvgPicture.asset(
+                              "assets/calendar3.svg"
+                          ),
+                        ),
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: dateController.selectedDate.value,
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2025),
+                          );
+                          if (picked != null) {
+                            dateController.updateSelectedDate(picked);
+                          }
+                        },
+                      ),
                       Text(
                         DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
                         style: const TextStyle(fontSize: 12, color: Colors.black),
@@ -104,7 +125,7 @@ class Upcoming extends GetView<UpcomingController> {
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
                               onTap: () {
-                                Get.to(() => Upcoming());
+                                Get.to(() => DashBoardView());
                               },
                               child: SvgPicture.asset("assets/close.svg"),
                             ),
@@ -135,9 +156,9 @@ class Upcoming extends GetView<UpcomingController> {
                             }
                             // bool isHighlighted = dashboardController.nextPrayer.value == dashboardController.prayerNames[index];
                             return Transform.scale(
-                              scale: isHighlighted ? 1.2 : 1.0, // Scale up the active item
+                              scale: isHighlighted ? 1.2 : 1.0,
                               child: Opacity(
-                                opacity: isHighlighted ? 1.0 : 0.5, // Reduce opacity of inactive items
+                                opacity: isHighlighted ? 1.0 : 0.5,
                                 child: Container(
                                   width: 80,
                                   margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -170,8 +191,8 @@ class Upcoming extends GetView<UpcomingController> {
                                             ? "Loading"
                                             : dashboardController.getPrayerTimes[index].toString(),
                                         style: isHighlighted
-                                            ? MyTextTheme.mediumBCN // Highlighted prayer time style
-                                            : MyTextTheme.smallGCN, // Normal style for others
+                                            ? MyTextTheme.smallBCN // Highlighted prayer time style
+                                            : MyTextTheme.smallBCN, // Normal style for others
                                       ),
                                     ],
                                   ),
@@ -223,7 +244,6 @@ class Upcoming extends GetView<UpcomingController> {
                             ),
                             Row(
                               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                               children: [
                                 Expanded(
                                   child: Text(
@@ -276,3 +296,8 @@ class Upcoming extends GetView<UpcomingController> {
     );
   }
 }
+
+
+
+
+
