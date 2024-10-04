@@ -6,6 +6,7 @@ import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/date_time_field.dart';
+import 'daily_top_leaderboard.dart';
 import 'leaderboardController.dart';
 import 'leaderboardDataModal.dart';
 
@@ -17,7 +18,9 @@ class LeaderBoardView extends StatefulWidget {
 }
 
 class _LeaderBoardViewState extends State<LeaderBoardView> {
-  LeaderBoardController leaderBoardController = LeaderBoardController();
+  // LeaderBoardController leaderBoardController = LeaderBoardController();
+  final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
+  final DateController dateController = Get.put(DateController());
   @override
   void initState() {
     // TODO: implement initState
@@ -31,8 +34,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
   @override
   Widget build(BuildContext context) {
     // Instantiate the DateController
-    final DateController dateController = Get.put(DateController());
-    final LeaderBoardController controller = Get.put(LeaderBoardController());
+
+    // final LeaderBoardController controller = Get.put(LeaderBoardController());
 
     return Scaffold(
       body: CustomScrollView(
@@ -41,7 +44,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             title: const Text("Leaderboard"),
             centerTitle: true,
             pinned: true,
-            expandedHeight: controller.getSelectedTab == 'Daily'?Get.height/2.9:Get.height/2.4,
+            expandedHeight: leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6,
             // expandedHeight: 350.0,
             backgroundColor: AppColor.cream,
             leading: Padding(
@@ -72,10 +75,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         // Daily Button
                         GestureDetector(
                           onTap: () =>
-                          controller.updateSelectedTab ='Daily',
+                          leaderBoardController.updateSelectedTab ='Daily',
                           child: Container(
                             decoration: BoxDecoration(
-                              color: controller.getSelectedTab == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
+                              color: leaderBoardController.getSelectedTab == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -84,7 +87,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: controller.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
+                                color: leaderBoardController.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
@@ -92,10 +95,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         const SizedBox(width: 10),
                         // Weekly Button
                         GestureDetector(
-                          onTap: () => controller.updateSelectedTab = 'Weekly',
+                          onTap: () => leaderBoardController.updateSelectedTab = 'Weekly',
                           child: Container(
                             decoration: BoxDecoration(
-                              color: controller.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
+                              color: leaderBoardController.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -104,7 +107,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: controller.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
+                                color: leaderBoardController.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
@@ -112,105 +115,115 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       ],
                     )),
                     const SizedBox(height: 20),
-                    controller.selectedTab.value == 'Weekly'?MyDateTimeField(
-                        borderColor: AppColor.cream,
-                      hintText: leaderBoardController.selectedDate.value.toString().substring(0,10),
-                      // controller: leaderBoardController.dateC,
-                      // initialValue: leaderBoardController.selectedDate.value.toString().substring(0,10),
-                      onChanged: (val){
-                          if(val!=null){
-                            leaderBoardController.weeklyApi(val.toString());
-                            print("val $val");
-                            print("val ${leaderBoardController.selectedDate.value.toString().substring(0,10)}");
-                          }
+                    // leaderBoardController.selectedTab.value == 'Weekly'?MyDateTimeField(
+                    //     borderColor: AppColor.cream,
+                    //   hintText: leaderBoardController.selectedDate.value.toString().substring(0,10),
+                    //   // controller: leaderBoardController.dateC,
+                    //   // initialValue: leaderBoardController.selectedDate.value.toString().substring(0,10),
+                    //   onChanged: (val){
+                    //       if(val!=null){
+                    //         leaderBoardController.weeklyApi(val.toString());
+                    //         print("val $val");
+                    //         print("val ${leaderBoardController.selectedDate.value.toString().substring(0,10)}");
+                    //       }
+                    //   },
+                    //   //   decoration: InputDecoration(
+                    //   //   fillColor: Colors.transparent,
+                    //   // ),
+                    //   ):
+                    InkWell(
+                      onTap: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: dateController.selectedDate.value,
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2025),
+                        );
+                        if (picked != null) {
+                          dateController.updateSelectedDate(picked);
+                          String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+                          print("formattedDate $formattedDate");
+                          leaderBoardController.weeklyApi(formattedDate.toString());
+                          // leaderBoardController.leaderboard(formattedDate);
+                        }
                       },
-                      //   decoration: InputDecoration(
-                      //   fillColor: Colors.transparent,
-                      // ),
-                      ):
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          child: Image.asset("assets/iconcalen.png", width: 24, height: 24),
-                          onTap: () async {
-                            DateTime? picked = await showDatePicker(
-                              context: context,
-                              initialDate: dateController.selectedDate.value,
-                              firstDate: DateTime(2020),
-                              lastDate: DateTime(2025),
-                            );
-                            if (picked != null) {
-                              dateController.updateSelectedDate(picked);
-                              String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-                              leaderBoardController.leaderboard(formattedDate);
-                            }
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Obx(() => Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
-                                  style: const TextStyle(fontSize: 14, color: Colors.black),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              const VerticalDivider(
-                                width: 20,
-                                thickness: 1,
-                                color: Colors.black,
-                                endIndent: 5,
-                                indent: 5,
-                              ),
-                              // Expanded(
-                              //   child: Text(
-                              //     dateController.formatHijriDate(dateController.selectedDate.value),
-                              //     style: const TextStyle(fontSize: 14, color: Colors.black),
-                              //     overflow: TextOverflow.ellipsis,
-                              //   ),
-                              // ),
-                            ],
-                          )),
-                        ),
-                      ],
-                    ),
-                    if(controller.selectedTab.value != 'Weekly')
-                    const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
-                    const SizedBox(height: 10),
-                    if(controller.selectedTab.value == 'Weekly')
-                    TopRankedUsers(rankedFriends: leaderBoardController.weeklyRanked,),
-
-                    Obx(()=>Visibility(
-                      visible: controller.selectedTab.value == 'Daily',
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            radius: 20,
-                            child: Text("F"),
+                          Image.asset("assets/iconcalen.png", width: 24, height: 24),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Obx(() => Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
+                                    style: const TextStyle(fontSize: 14, color: Colors.black),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const VerticalDivider(
+                                  width: 20,
+                                  thickness: 1,
+                                  color: Colors.black,
+                                  endIndent: 5,
+                                  indent: 5,
+                                ),
+                                // Expanded(
+                                //   child: Text(
+                                //     dateController.formatHijriDate(dateController.selectedDate.value),
+                                //     style: const TextStyle(fontSize: 14, color: Colors.black),
+                                //     overflow: TextOverflow.ellipsis,
+                                //   ),
+                                // ),
+                              ],
+                            )),
                           ),
-                          CircleAvatar(
-                            radius: 20,
-                            child: Text("Z"),
-                          ),
-                          CircleAvatar(
-                            radius: 20,
-                            child: Text("A"),
-                          ),
-                          CircleAvatar(
-                            radius: 20,
-                            child: Text("M"),
-                          ),
-                          CircleAvatar(
-                            radius: 20,
-                            child: Text("I"),
-                          )
                         ],
                       ),
-                    ),),
+                    ),
+                    if(leaderBoardController.selectedTab.value != 'Weekly')
+                    const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 10),
+                    if(leaderBoardController.selectedTab.value == 'Weekly')
+                      Obx(() {
+                        return TopRankedUsers(rankedFriends: leaderBoardController.weeklyRanked.value,);
+                      }
+                    ),
+
+                    // Obx(()=>Visibility(
+                    //   visible: leaderBoardController.selectedTab.value == 'Daily',
+                    //   child: const Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       CircleAvatar(
+                    //         radius: 20,
+                    //         child: Text("F"),
+                    //       ),
+                    //       CircleAvatar(
+                    //         radius: 20,
+                    //         child: Text("Z"),
+                    //       ),
+                    //       CircleAvatar(
+                    //         radius: 20,
+                    //         child: Text("A"),
+                    //       ),
+                    //       CircleAvatar(
+                    //         radius: 20,
+                    //         child: Text("M"),
+                    //       ),
+                    //       CircleAvatar(
+                    //         radius: 20,
+                    //         child: Text("I"),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),),
+                    // if(leaderBoardController.selectedTab.value == 'Daily')
+                    // DailyTopLeaderboard(records:leaderBoardController.getLeaderboardList.value!=null?
+                    // leaderBoardController.getLeaderboardList.value!.records:[],
+                    //   ranked: leaderBoardController.getLeaderboardList.value!=null?
+                    //   leaderBoardController.getLeaderboardList.value!.rankedFriends:[],),
 
                     // Obx(()=>Visibility(
                     //   visible: controller.selectedTab.value == 'Weekly',
@@ -234,7 +247,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
           SliverToBoxAdapter(
             child: Obx(() {
                 return Visibility(
-                  visible: controller.selectedTab.value == 'Daily',
+                  visible: leaderBoardController.selectedTab.value == 'Daily',
                   child: Column(
                     children: [
                       // ElevatedButton(onPressed: (){
@@ -441,9 +454,9 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
           Obx(()=>SliverToBoxAdapter(
             child: Visibility(
-                visible: controller.selectedTab.value == 'Weekly',
+                visible: leaderBoardController.selectedTab.value == 'Weekly',
                 child: SizedBox(
-                  height: leaderBoardController.height.value* 5 + 110+MediaQuery.sizeOf(context).height/2.8,
+                  height: leaderBoardController.height.value* 5 + 110+MediaQuery.sizeOf(context).height/2.6,
                   child: ListView.builder(itemCount: leaderBoardController.weeklyRanked.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -558,10 +571,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
         const SizedBox(height: 8),
         Flexible(
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 800),
             curve: Curves.easeIn,
             height: percentage * 5 + 110, // Dynamic height based on percentage
-            width: 80,
+            width: 60,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors:isHighlight? [Colors.orange.shade200, Colors.yellow.shade50]:[Colors.grey.shade500, Colors.grey.shade50],
@@ -576,7 +589,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                 // Remove ClipRRect to avoid circular border and allow rectangular image
                 friend['picture'] != null
                     ? Container(
-                  width: 80,
+                  width: 60,
                   height: 60,
                   margin: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
@@ -588,26 +601,26 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   ),
                 )
                     : Container(
-                  width: 80,
+                  width: 60,
                   height: 60,
                   margin: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(15)
                   ),
-                  child: Icon(Icons.person, color: Colors.white),
+                  child: const Icon(Icons.person, color: Colors.white),
                 ),
                 const SizedBox(height: 15),
                 Text(
                   '$percentage%',
-                  style: TextStyle(fontSize: 16, fontWeight:isHighlight? FontWeight.w600:null),
+                  style: TextStyle(fontSize: 12, fontWeight:isHighlight? FontWeight.w600:null),
                 ),
               ],
             ),
           ),
         ),
         const SizedBox(height: 4),
-       isHighlight?Text('You', style: MyTextTheme.mustard) :Text(friend['name'], style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
+       isHighlight?Text('You', style: MyTextTheme.mustard) :Text(friend['name'], style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
       ],
     );
   }
@@ -880,8 +893,9 @@ class TopRankedUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Sort the list in descending order based on percentage
-    rankedFriends.sort((a, b) => b['percentage'].compareTo(a['percentage']));
-
+    if(rankedFriends.isNotEmpty){
+      rankedFriends.sort((a, b) => b['percentage'].compareTo(a['percentage']));
+    }
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
@@ -925,26 +939,45 @@ class TopRankedUsers extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Container(
-          width: 80,
-          height: 50,
+          padding: const EdgeInsets.all(1), // Padding around the circular image
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: badgeColor, width: 3),
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.yellow,), // Yellow border
           ),
-          child: friend['picture'] != null
-              ? Image.network(
-            "http://182.156.200.177:8011${friend['picture']}",
-            width: 100,
-            height: 50,
-            fit: BoxFit.cover,
-          )
-              : Container(
-            width: 100,
-            height: 50,
-            color: Colors.grey[300],
-            child: Icon(Icons.person, size: 40, color: Colors.white),
+          child:friend['picture'] != null?
+    CircleAvatar(
+    radius: 30, // Radius of the circular image
+    backgroundImage: NetworkImage(
+    "http://182.156.200.177:8011${friend['picture']}", // Replace with your image URL
+    ),
+    )
+          :
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.person,color: Colors.grey,size: 30,),
           ),
         ),
+        // Container(
+        //   width: 80,
+        //   height: 50,
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(10),
+        //     border: Border.all(color: badgeColor, width: 3),
+        //   ),
+        //   child: friend['picture'] != null
+        //       ? Image.network(
+        //     "http://182.156.200.177:8011${friend['picture']}",
+        //     width: 100,
+        //     height: 50,
+        //     fit: BoxFit.cover,
+        //   )
+        //       : Container(
+        //     width: 100,
+        //     height: 50,
+        //     color: Colors.grey[300],
+        //     child: Icon(Icons.person, size: 40, color: Colors.white),
+        //   ),
+        // ),
         SizedBox(height: 8),
         Text(
           friend['name'],

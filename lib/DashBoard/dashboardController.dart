@@ -364,7 +364,7 @@ class DashBoardController extends GetxController {
           // Format and print the remaining time
           if (remainingDuration.isNegative) {
             //print('The end time has passed.');
-            moveToNextPrayer();
+            // moveToNextPrayer();
           } else {
             remainingTime.value= formatDuration(remainingDuration);
           }
@@ -376,12 +376,7 @@ class DashBoardController extends GetxController {
     });
   }
   // Function to move to the next prayer
-  void moveToNextPrayer() {
-    // Assuming you have a list of prayer times like:
-    fetchPrayerTime();
 
-    // Optionally reset the CircularPercentIndicator or any other logic
-  }
 
   String formatDuration(Duration duration) {
     int hours = duration.inHours;

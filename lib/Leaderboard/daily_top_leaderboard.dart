@@ -4,89 +4,85 @@ import 'package:intl/intl.dart';
 import '../Widget/text_theme.dart';
 import 'leaderboardDataModal.dart';
 
-class PrayerRanking extends StatelessWidget {
+class DailyTopLeaderboard extends StatelessWidget {
   final List<Record> records;
   final List<RankedFriend> ranked;
 
-  const PrayerRanking({super.key, required this.records, required this.ranked});
+  const DailyTopLeaderboard({super.key, required this.records, required this.ranked});
 
   @override
   Widget build(BuildContext context) {
     // Group users by prayer and sort by score (descending)
     Map<String, List<Record>> groupedByPrayer = groupByPrayer(records);
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header with prayer names
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buildPrayerCircle('F', Colors.orange),
-              buildPrayerCircle('D', Colors.orange),
-              buildPrayerCircle('A', Colors.orange),
-              buildPrayerCircle('M', Colors.orange),
-              buildPrayerCircle('I', Colors.orange),
-              Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,fontWeight: FontWeight.bold)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // User ranking under each prayer
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buildUserList(groupedByPrayer['Fajr']),
-              buildUserList(groupedByPrayer['Dhuhr']),
-              buildUserList(groupedByPrayer['Asr']),
-              buildUserList(groupedByPrayer['Maghrib']),
-              buildUserList(groupedByPrayer['Isha']),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(top: 7),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: ranked.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 14.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(1), // Padding around the circular image
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.yellow,), // Yellow border
-                        ),
-                        child:ranked[index].picture!=null? CircleAvatar(
-                          radius: 24, // Radius of the circular image
-                          backgroundImage: NetworkImage(
-                            "http://182.156.200.177:8011${ranked[index].picture}", // Replace with your image URL
-                          ),
-                        ):const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                        ),
-                      ),
-                    );
-
-                  },),
-              )
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header with prayer names
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildPrayerCircle('F', Colors.orange),
+            buildPrayerCircle('D', Colors.orange),
+            buildPrayerCircle('A', Colors.orange),
+            buildPrayerCircle('M', Colors.orange),
+            buildPrayerCircle('I', Colors.orange),
+          ],
+        ),
+        // const SizedBox(height: 16),
+        // User ranking under each prayer
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildUserList(groupedByPrayer['Fajr']),
+            buildUserList(groupedByPrayer['Dhuhr']),
+            buildUserList(groupedByPrayer['Asr']),
+            buildUserList(groupedByPrayer['Maghrib']),
+            buildUserList(groupedByPrayer['Isha']),
+            // Expanded(
+            //   child: ListView.builder(
+            //     padding: const EdgeInsets.only(top: 7),
+            //     physics: const NeverScrollableScrollPhysics(),
+            //     shrinkWrap: true,
+            //     itemCount: ranked.length,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: const EdgeInsets.only(bottom: 14.0),
+            //         child: Container(
+            //           padding: const EdgeInsets.all(1), // Padding around the circular image
+            //           decoration: BoxDecoration(
+            //             shape: BoxShape.circle,
+            //             border: Border.all(color: Colors.yellow,), // Yellow border
+            //           ),
+            //           child:ranked[index].picture!=null? CircleAvatar(
+            //             radius: 24, // Radius of the circular image
+            //             backgroundImage: NetworkImage(
+            //               "http://182.156.200.177:8011${ranked[index].picture}", // Replace with your image URL
+            //             ),
+            //           ):const Padding(
+            //             padding: EdgeInsets.all(8.0),
+            //             child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //           ),
+            //         ),
+            //       );
+            //
+            //     },),
+            // )
+          ],
+        ),
+      ],
     );
   }
 
   // Widget to build prayer circle header
   Widget buildPrayerCircle(String label, Color color) {
     return CircleAvatar(
-      radius: 24,
+      radius: 20,
       backgroundColor: color,
       child: Text(
         label,
-        style: const TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w400),
+        style: const TextStyle(color: Colors.black, fontSize: 16,fontWeight: FontWeight.w400),
       ),
     );
   }
@@ -107,7 +103,7 @@ class PrayerRanking extends StatelessWidget {
                 // border: Border.all(color: Colors.yellow,), // Yellow border
               ),
               child: CircleAvatar(
-                radius: 24, // Radius of the circular image
+                radius: 20, // Radius of the circular image
                 backgroundImage: NetworkImage(
                   "http://182.156.200.177:8011${user.user.picture}", // Replace with your image URL
                 ),
@@ -122,10 +118,7 @@ class PrayerRanking extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.person,color: Colors.grey,size: 30,),
               ),
-            ):const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('-'),
-            ),
+            ):const SizedBox.shrink(),
             // CircleAvatar(
             //   radius: 24,
             //   backgroundImage: NetworkImage(getUserAvatarUrl(user.user.id)), // Use user id for avatar URL

@@ -13,15 +13,14 @@ class LeaderBoardController extends GetxController{
 
   UserData userData = UserData();
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    print("Date:$formattedDate");
-    ;
-  }
+  // @override
+  // void onInit() {
+  //   // TODO: implement onInit
+  //   super.onInit();
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+  //   print("Date:$formattedDate");
+  // }
 
   String getFormattedDate() {
     // Get the current date and format it
@@ -75,6 +74,8 @@ String formatDate = getFormattedDate();
   Map<String,dynamic> leaderboardList = {};
   // LeaderboardDataModal?  getLeaderboardList;
   var getLeaderboardList = Rxn<LeaderboardDataModal>();
+  // var recordsList = Rxn<Record>();
+  List<Record> recordsList = <Record>[].obs;
   // List<LeaderboardDataModal> get getLeaderboardList => List<LeaderboardDataModal>.from(
   //     leaderboardList.map((element) => LeaderboardDataModal.fromJson(element)).toList());
   set updateLeaderboardList(val){
@@ -82,7 +83,8 @@ String formatDate = getFormattedDate();
     update();
   }
 
-  List weeklyRanked = [].obs;
+  RxList weeklyRanked = [].obs;
+
   RxDouble height = 100.00.obs;
   double sizedBoxHeight(val){
     if(val.isEmpty){
@@ -108,7 +110,10 @@ String formatDate = getFormattedDate();
         // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
       }
       height.value= sizedBoxHeight(data['ranked_friends']);
-      weeklyRanked = data['ranked_friends'];
+      weeklyRanked.value = data['ranked_friends'];
+      print("decodeData $data");
+      // updateLeaderboardList = decodeData;
+      recordsList= data['records'].map((e)=>Record.fromJson(e));
       print("WeeklyApi data check:$weeklyRanked");
     }
     else {
