@@ -107,6 +107,7 @@ class MissedPrayersView extends GetView<MissedPrayersController>{
                                 lastDate: DateTime(2025),
                               );
                               if (picked != null) {
+                                print("picked $picked");
                                 dateController.updateSelectedDate(picked);
                                 String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
                                 leaderBoardController.leaderboard(formattedDate);

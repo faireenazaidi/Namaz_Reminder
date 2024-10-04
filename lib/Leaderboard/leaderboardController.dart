@@ -50,7 +50,7 @@ class LeaderBoardController extends GetxController{
   leaderboard(formattedDate) async{
     print(getFormattedDate);
 String formatDate = getFormattedDate();
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formatDate'));
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
 
 
     http.StreamedResponse response = await request.send();
