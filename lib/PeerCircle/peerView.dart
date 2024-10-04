@@ -46,26 +46,29 @@ class PeerView extends GetView<PeerController> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            TextField(
-              cursorColor: AppColor.circleIndicator,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                hintText: "Search Username..",
-                hintStyle: MyTextTheme.mediumCustomGCN,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.black),
+            SizedBox(
+              height: 50,
+              child: TextField(
+                cursorColor: AppColor.circleIndicator,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: "Search Username..",
+                  hintStyle: MyTextTheme.mediumCustomGCN,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.grey, width: 1),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.grey, width: 1),
-                ),
+                style: const TextStyle(color: Colors.grey),
               ),
-              style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 20),
           Expanded(
@@ -106,7 +109,7 @@ class PeerView extends GetView<PeerController> {
                                     )
                                         : null,
                                     color: friend.user2.picture == null || friend.user2.picture!.isEmpty
-                                        ? Colors.orange
+                                        ? AppColor.circleIndicator
                                         : null,
                                   ),
                                   child:friend.user2.picture == null || friend.user2.picture!.isEmpty
@@ -127,10 +130,10 @@ class PeerView extends GetView<PeerController> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text(
-                                        friend.user2.mobileNo.toString(),
-                                        style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                                      ),
+                                      // Text(
+                                      //   friend.user2.mobileNo.toString(),
+                                      //   style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
+                                      // ),
                                     ],
                                   ),
                                 ),

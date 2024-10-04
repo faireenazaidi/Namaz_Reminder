@@ -71,7 +71,7 @@ class DashBoardView extends GetView<DashBoardController> {
                        )
                            : null,
                        color: controller.userData.getUserData!.picture.isEmpty
-                           ? Colors.orange
+                           ? AppColor.circleIndicator
                            : null,
                      ),
                      child: controller.userData.getUserData!.picture.isEmpty
@@ -129,7 +129,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         Row(
                           children: [
                             Text(
-                              DateFormat('EEEE, d MMM yyyy').format(DateTime.now()), // Always shows current date
+                              DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
                               style: const TextStyle(fontSize: 12, color: Colors.black),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -154,173 +154,181 @@ class DashBoardView extends GetView<DashBoardController> {
                   ),
                   const SizedBox(height: 20),
 
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Obx(() {
-                      double completionPercentage = controller.calculateCompletionPercentage();
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Obx(() {
+                        double completionPercentage = controller.calculateCompletionPercentage();
 
-                      return CircularPercentIndicator(
-                        animateFromLastPercent: true,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        animation: true,
-                        animationDuration: 1200,
-                        radius: 140,
-                        lineWidth: 40,
-                        percent: completionPercentage,
-                        progressColor:dashboardController.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
-                        backgroundColor: Colors.grey.shade300,
-                        // center: Text(
-                        //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
-                        //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        // ),
-                      );
-                    }),
-                    Obx(() {
-                      double completionPercentage = controller.calculateCompletionPercentage();
-                      // Circle center and radius
-                      double radius = 100;
-                      // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                      double angle = 2 * pi * completionPercentage;
-                      // Convert percentage to radians
+                        return CircularPercentIndicator(
+                          animateFromLastPercent: true,
+                          circularStrokeCap: CircularStrokeCap.round,
+                          animation: true,
+                          animationDuration: 1200,
+                          radius: 140,
+                          lineWidth: 40,
+                          percent: completionPercentage,
+                          progressColor:dashboardController.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
+                          backgroundColor: Colors.grey.shade300,
+                          // center: Text(
+                          //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
+                          //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          // ),
+                        );
+                      }),
+                      Obx(() {
+                        double completionPercentage = controller.calculateCompletionPercentage();
+                        // Circle center and radius
+                        double radius = 100;
+                        // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                        double angle = 2 * pi * completionPercentage;
+                        // Convert percentage to radians
 
-                      // Calculate x and y positions based on angle
-                      double x = radius * cos(angle);
-                      double y = radius * sin(angle);
+                        // Calculate x and y positions based on angle
+                        double x = radius * cos(angle);
+                        double y = radius * sin(angle);
 
-                      return Positioned(
-                        left: radius + x - 120,
-                        // Offset to center the crown on the circle
-                        top: radius - y - 100,
-                        // Offset to center the crown on the circle
-                        child: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Colors.white,
-                          child:     Lottie.asset("assets/Crown.lottie",
-                              decoder: customDecoder, height: 1000),
-                           ),
+                        return Positioned(
+                          left: radius + x - 120,
+                          // Offset to center the crown on the circle
+                          top: radius - y - 100,
+                          // Offset to center the crown on the circle
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.white,
+                            child:     Lottie.asset("assets/Crown.lottie",
+                                decoder: customDecoder, height: 1000),
+                          ),
 
-                      );
-                    }),
+                        );
+                      }),
 
-                    Positioned(
-                      top: 70,
-                      child: Obx(() {
-                        // Check if there's a current prayer, if not, show the next prayer
-                        print("ccccccccccc ${dashboardController.currentPrayer.value}");
-                        if (dashboardController.currentPrayer.value.isEmpty) {
-                          // Show next prayer message with blinking effect
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                      Positioned(
+                        top: 70,
+                        child: Obx(() {
+                          // Check if there's a current prayer, if not, show the next prayer
+                          print("ccccccccccc ${dashboardController.currentPrayer.value}");
+                          if (dashboardController.currentPrayer.value.isEmpty) {
+                            // Show next prayer message with blinking effect
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 50,),
+                                  BlinkingTextWidget(
+                                    text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                                    style: MyTextTheme.mustard,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          else if(dashboardController.currentPrayer.value=='Free'){
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 50,),
+                                  BlinkingTextWidget(
+                                    text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                                    style: MyTextTheme.greyNormal,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          else {
+                            // Show the current prayer timings if available
+                            return Column(
                               children: [
-                                const SizedBox(height: 50,),
-                                BlinkingTextWidget(
-                                  text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
-                                  style: MyTextTheme.mustard,
+                                Text(
+                                  '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}',
+                                  style: MyTextTheme.smallBCn,
                                 ),
-                              ],
-                            ),
-                          );
-                        }
-                        else if(dashboardController.currentPrayer.value=='Free'){
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SizedBox(height: 50,),
-                                BlinkingTextWidget(
-                                  text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                                const SizedBox(height: 5),
+                                Text(
+                                  dashboardController.remainingTime.value,
+                                  style: MyTextTheme.largeCustomBCB,
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  "Left for ${dashboardController.currentPrayer.value} Prayer",
                                   style: MyTextTheme.greyNormal,
                                 ),
                               ],
-                            ),
+                            );
+                          }
+                        }),
+                      ),
+
+                      // Conditionally show the "Mark as Prayer" button
+                      Positioned(
+                        bottom: 80,
+                        child: Obx(() {
+                          DateTime now = DateTime.now();
+                          DateTime nextPrayerTime;
+
+                          try {
+                            nextPrayerTime = DateFormat('hh:mm a').parse(dashboardController.nextPrayerStartTime.value);
+                            nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
+                          } catch (e) {
+                            nextPrayerTime = DateTime.now().subtract(const Duration(days: 1)); // Default to a past time if parsing fails
+                          }
+
+                          bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
+
+                          return isBeforeNextPrayer
+                              ? const SizedBox.shrink() // Hide the button
+                              : InkWell(
+                            child:controller.isPrayed? Text("Prayed!",style: TextStyle(
+                                color: AppColor.circleIndicator,fontWeight: FontWeight.w600
+                            ),) :Text("Mark as Prayer", style: MyTextTheme.mustardN),
+                            onTap: () {
+                              if(!controller.isPrayed){
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return  const TimePicker();
+                                  },
+                                );
+                              }
+                            },
                           );
-                        }
-                        else {
-                          // Show the current prayer timings if available
-                          return Column(
-                            children: [
-                              Text(
-                                '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}',
-                                style: MyTextTheme.smallBCn,
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                dashboardController.remainingTime.value,
-                                style: MyTextTheme.largeCustomBCB,
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                "Left for ${dashboardController.currentPrayer.value} Prayer",
-                                style: MyTextTheme.greyNormal,
-                              ),
-                            ],
-                          );
-                        }
-                      }),
-                    ),
+                        }),
+                      ),
 
-                    // Conditionally show the "Mark as Prayer" button
-                    Positioned(
-                      bottom: 80,
-                      child: Obx(() {
-                        DateTime now = DateTime.now();
-                        DateTime nextPrayerTime;
-
-                        try {
-                          nextPrayerTime = DateFormat('hh:mm a').parse(dashboardController.nextPrayerStartTime.value);
-                          nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
-                        } catch (e) {
-                          nextPrayerTime = DateTime.now().subtract(const Duration(days: 1)); // Default to a past time if parsing fails
-                        }
-
-                        bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
-
-                        return isBeforeNextPrayer
-                            ? const SizedBox.shrink() // Hide the button
-                            : InkWell(
-                          child:controller.isPrayed? Text("Prayed!",style: TextStyle(
-                            color: AppColor.circleIndicator,fontWeight: FontWeight.w600
-                          ),) :Text("Mark as Prayer", style: MyTextTheme.mustardN),
-                          onTap: () {
-                            if(!controller.isPrayed){
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return  const TimePicker();
-                                },
-                              );
-                            }
-                          },
-                        );
-                      }),
-                    ),
-
-                  ],
-                ),
-
+                    ],
+                  ),
 
                 const SizedBox(height: 50),
-                  InkWell(
-                    onTap: (){
-                      Get.toNamed(AppRoutes.leaderboardRoute);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Obx((){
+                  Visibility(
+                    visible: controller.getLeaderboardList.value != null && controller.getLeaderboardList.value!.rankedFriends.isNotEmpty,
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.leaderboardRoute);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Obx(() {
                           return Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: AppColor.leaderboard,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                              child: RankedFriendsIndicator(rankedFriends:controller.getLeaderboardList.value==null?[]: controller.getLeaderboardList.value!.rankedFriends, currentUserId: int.parse(controller.userData.getUserData!.id),));
-                        }
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: AppColor.leaderboard,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: RankedFriendsIndicator(
+                              rankedFriends: controller.getLeaderboardList.value == null
+                                  ? []
+                                  : controller.getLeaderboardList.value!.rankedFriends,
+                              currentUserId: int.parse(controller.userData.getUserData!.id),
+                            ),
+                          );
+                        }),
                       ),
                     ),
                   ),
+
                   // Obx(() {
                   //   if (controller.rank.value == 0) {
                   //     return SizedBox.shrink();

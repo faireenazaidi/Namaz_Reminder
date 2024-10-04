@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../Services/user_data.dart';
+
 class CustomDrawerController extends GetxController {
   var userName = 'Mansoor Khan'.obs;
   var email = 'mailto:mansoor.k@gmail.com'.obs;
@@ -7,8 +9,9 @@ class CustomDrawerController extends GetxController {
   var leaderboardCount = 5.obs;
   var missedPrayersCount = 33.obs;
   var isDarkMode = false.obs;
-  var selectedIndex = (-1).obs; // Add this line to track the selected tile index
+  var selectedIndex = (-1).obs;
 
+  UserData userData = UserData();
   void updateUser(String name, String email) {
     userName.value = name;
     this.email.value = email;
