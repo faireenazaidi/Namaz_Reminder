@@ -182,12 +182,13 @@ class AddFriendView extends GetView<AddFriendController> {
                                         InkWell(
                                           onTap: () async {
                                             // First API call to accept the friend request
-                                            bool success = await controller.acceptFriendRequest(friendRequestData);
-
-                                            if (success) {
-                                              await controller.acceptFriendRequest(friendRequestData);
-                                              controller.update();
-                                            }
+                                            // bool success = await controller.acceptFriendRequest(friendRequestData);
+                                            //
+                                            // if (success) {
+                                            //   await controller.acceptFriendRequest(friendRequestData);
+                                            //   controller.update();
+                                            // }
+                                            await controller.acceptFriendRequest(friendRequestData);
                                           },
                                           child: Container(
                                             height: MediaQuery.of(context).size.height * 0.04,
@@ -322,7 +323,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: AppColor.circleIndicator,
                                   ),
-                                  child:  Center(
+                                  child:  const Center(
                                     child: Text("Invite", style: TextStyle(color: Colors.white)),
                                   ),
                                 )

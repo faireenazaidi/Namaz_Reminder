@@ -52,7 +52,9 @@ class AddFriendController extends GetxController {
         var data = json.decode(response.body);
         print("APIDATA:$data");
         updateRegisteredList = data['users'];
-        print("DDDDDDDD$getRegisteredUserList");
+        int indexValue = getRegisteredUserList.indexWhere((e)=>e.userId.toString() == UserData().getUserData!.id.toString());
+        updateRegisteredList = registeredUserList.removeAt(indexValue);
+        update();
 
       } else {
         print('Failed to fetch registered users: ${response.statusCode}');
@@ -201,7 +203,10 @@ print("URL:$url");
     http.StreamedResponse response = await request.send();
 
     var data = jsonDecode(await response.stream.bytesToString());
+
     print("fff $data");
+
+    fetchFriendRequests();
   }
 
   ///DECLINE REQUEST
