@@ -1,12 +1,16 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:namaz_reminders/DashBoard/dashboardBinding.dart';
 import 'package:namaz_reminders/DashBoard/dashboardView.dart';
+import 'package:namaz_reminders/Feedback/feedbackBinding.dart';
+import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardBinding.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageBinding.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
 import 'package:namaz_reminders/Missed%20Prayers/missed_orayers_binding.dart';
 import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
+import 'package:namaz_reminders/Notification/notificationBindings.dart';
+import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendBinding.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
@@ -16,6 +20,8 @@ import 'package:namaz_reminders/SplashScreen/splashBinding.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import '../Login/loginBinding.dart';
 import '../Login/loginView.dart';
+import '../Notification/Setting/settingBinding.dart';
+import '../Notification/Setting/settingView.dart';
 import '../PeerCircle/peerBinding.dart';
 import '../Profile/profileBinding.dart';
 import '../SplashScreen/splashController.dart';
@@ -36,9 +42,9 @@ class AppRoutes {
   static const String peerRoute = '/peer';
   static const String addfriendRoute = '/friend';
   static const String missedPrayers = '/missed_prayers';
-
-
-
+  static const String notifications = '/notification';
+  static const String settingRoute = '/setting';
+  static const String feedback = '/feed';
 
 
 
@@ -95,6 +101,21 @@ class AppRoutes {
       name: missedPrayers,
       page: () =>  const MissedPrayersView(),
       binding: MissedPrayersBinding(),
+    ),
+    GetPage(
+      name: notifications,
+      page: () => NotificationView(),
+      binding: NotificationBindings(),
+    ),
+    GetPage(
+      name: settingRoute,
+      page: () => SettingView(),
+      binding: SettingBindings(),
+    ),
+    GetPage(
+      name: feedback,
+      page: () => FeedbackView(),
+      binding: FeedbackBindings(),
     ),
 
   ];

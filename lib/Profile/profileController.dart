@@ -62,7 +62,7 @@ class ProfileController extends GetxController{
       if(request.statusCode==200){
         final userModel = UserModel.fromJson(data['user']);
         await userData.addUserData(userModel);
-        showToast(msg: 'Profile Updated');
+        showToast(msg: 'Profile Updated',bgColor: Colors.black);
       }
       else{
 

@@ -50,7 +50,7 @@ class Dialogs{
                         // Colors.grey.shade100,
                         //padding:EdgeInsets.symmetric(horizontal: 50,vertical: 12),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
+                            borderRadius: BorderRadius.circular(15)),
 
                       ), child: Text(cancelButtonName??"Cancel",style: TextStyle(
                         color:cancelButtonColor??Colors.white,
@@ -68,7 +68,7 @@ class Dialogs{
                         elevation: 0,textStyle:const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,letterSpacing: 1,),
                         //padding:EdgeInsets.symmetric(horizontal: 50,vertical: 12),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
+                            borderRadius: BorderRadius.circular(15)),
 
                       ), child: Text(okButtonName??"Ok",style: TextStyle(color: okButtonColor!=null?Colors.white:null),),
                     ),

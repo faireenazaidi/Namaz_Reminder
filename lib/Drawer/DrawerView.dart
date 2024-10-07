@@ -203,7 +203,8 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   title: Text("Notifications",style: MyTextTheme.smallBC ,),
                   onTap: () {
-                    Fluttertoast.showToast(msg: "Coming Soon");                },
+                    Get.toNamed(AppRoutes.notifications);
+                    },
                 ),
                 // Obx(() => ListTile(
                 //   leading: Image.asset("assets/darkMode.png"),
@@ -280,7 +281,8 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   title: Text("Feedback",style: MyTextTheme.smallBC ,),
                   onTap: () {
-                    Fluttertoast.showToast(msg: "Coming Soon");                },
+                    Get.toNamed(AppRoutes.feedback);
+                  },
                 ),
                 InkWell(
                   onTap: (){

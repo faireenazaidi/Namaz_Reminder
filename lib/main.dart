@@ -2,18 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:namaz_reminders/DashBoard/dashboardController.dart';
-import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
-import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
-import 'package:namaz_reminders/Login/loginView.dart';
-import 'LocationSelectionPage/locationPageController.dart';
+import 'package:namaz_reminders/Feedback/feedbackView.dart';
+import 'package:namaz_reminders/Notification/notificationView.dart';
+import 'package:namaz_reminders/SplashScreen/splashView.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
-import 'SplashScreen/splashView.dart';
 import 'firebase_options.dart';
-// import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
