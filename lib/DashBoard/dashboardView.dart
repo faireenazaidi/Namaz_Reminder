@@ -30,7 +30,12 @@ class DashBoardView extends GetView<DashBoardController> {
     //   RankedFriend(id: 6, name: 'Suhail', totalScore: 0.0, percentage: 75.0),
     //   // Add more friends here...
     // ];
-
+    Future<LottieComposition?> customDecoder(List<int> bytes) {
+      return LottieComposition.decodeZip(bytes, filePicker: (files) {
+        return files.firstWhereOrNull(
+                (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'));
+      });
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -296,10 +301,49 @@ class DashBoardView extends GetView<DashBoardController> {
                           );
                         }),
                       ),
+                      if(controller.isPrayed)
+                      GetBuilder<DashBoardController>(
+                        id: 'lottie',
+                        builder: (_) {
+                          return Positioned(
+                            top: -35, // Adjust the 'top' value as per your layout
+                            child: Lottie.asset(
+                              "assets/circular.lottie", // Replace with your new Lottie animation path
+                              decoder: customDecoder, // Replace with your new Lottie animation path
+                              width: 450,  // Adjust the width and height as per your design
+                              height: 340,
+                              // fit: BoxFit.contain,
+                            ),
+                          );
+                        }
+                      ),
+                      if(controller.isPrayed)
+                      GetBuilder<DashBoardController>(
+                        id: 'lottie',
+                        builder: (_) {
+                          return Positioned(
+                            top: -35, // Adjust the 'top' value as per your layout
+                            child: Lottie.asset(
+                              "assets/crystal.lottie", // Replace with your new Lottie animation path
+                              decoder: customDecoder, // Replace with your new Lottie animation path
+                              width: 500,  // Adjust the width and height as per your design
+                              height: 350,
+                              // fit: BoxFit.contain,
+                            ),
+                          );
+                        }
+                      ),
+
 
                     ],
                   ),
-
+                  // Lottie.asset(
+                  //   "assets/circular.lottie", // Replace with your new Lottie animation path
+                  //   decoder: customDecoder,
+                  //   width: 300,  // Adjust the width and height as per your design
+                  //   height: 100,
+                  //   // fit: BoxFit.contain,
+                  // ),
                 const SizedBox(height: 50),
                   Visibility(
                     visible: controller.getLeaderboardList.value != null && controller.getLeaderboardList.value!.rankedFriends.isNotEmpty,
@@ -406,6 +450,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                           bottom: 0,
                                           child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
+                                            controller: dashboardController.scrollController,
                                             itemCount: dashboardController.prayerNames.length,
                                             itemBuilder: (context, index) {
                                               print("ddddddddd "+dashboardController.nextPrayer.value.toString());

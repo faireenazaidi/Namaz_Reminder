@@ -139,7 +139,7 @@ class Upcoming extends GetView<UpcomingController> {
                         bottom: 0,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          controller: dashboardController.scrollController,
+                          // controller: dashboardController.scrollController,
                           itemCount: dashboardController.prayerNames.length,
                           itemBuilder: (context, index) {
                             // Determine if the current item is highlighted (active)

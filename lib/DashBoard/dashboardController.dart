@@ -114,6 +114,7 @@ class DashBoardController extends GetxController {
     getIsPrayed();
     await fetchPrayerTime();
     leaderboard();
+    scrollToHighlightedPrayer();
   }
 
   String convertTo12HourFormat(String time24) {
@@ -265,6 +266,7 @@ class DashBoardController extends GetxController {
     this.currentPrayerEndTime.value = convertTo12HourFormat(endTime);
 
     isPrayed = getPrayedValue(currentPrayer);
+    update(['lottie']);
     // print("ispadhi $ispadhi");
 
     return currentPrayer;

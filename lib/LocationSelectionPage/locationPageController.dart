@@ -116,6 +116,7 @@ class LocationPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    precacheImage(const AssetImage("assets/mecca.jpg"), Get.context!);
     calculationMethode();
     Future.delayed(const Duration(milliseconds: 300), () {
       isBottomSheetExpanded.value = true;
