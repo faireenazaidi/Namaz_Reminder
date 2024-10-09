@@ -109,6 +109,10 @@ class AddFriendController extends GetxController {
     friendRequestList = val;
     update();
   }
+  void removeFriends(int index){
+    friendRequestList.removeAt(index);
+    update();
+  }
 
   ///Invited Friends
   Future<bool> checkInviteStatus(id) async {
@@ -208,6 +212,7 @@ print("URL:$url");
 
     fetchFriendRequests();
   }
+
 
   ///DECLINE REQUEST
   declineRequest(FriendRequestDataModal friendRequestData) async {
