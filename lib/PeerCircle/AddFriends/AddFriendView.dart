@@ -207,6 +207,8 @@ class AddFriendView extends GetView<AddFriendController> {
                                         InkWell(
                                           onTap: () async {
                                             await controller.declineRequest(friendRequestData);
+                                            controller.friendRequestList.removeAt(index);
+                                            controller.update();
                                           },
                                           child: Container(
                                             height: MediaQuery.of(context).size.height * 0.04,

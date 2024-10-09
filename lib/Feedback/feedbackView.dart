@@ -115,7 +115,21 @@ class FeedbackView extends GetView<FeedbackController>{
                  hintText: 'Say something here...',
                  hintStyle:TextStyle(color: Colors.grey,fontWeight: FontWeight.w400),
                  border: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(15)
+                   borderRadius: BorderRadius.circular(15),
+                 ),
+                 enabledBorder: OutlineInputBorder(
+                   borderRadius: BorderRadius.circular(10),
+                   borderSide: const BorderSide(
+                     color: Colors.grey,
+                     width: 1.5,
+                   ),
+                 ),
+                 focusedBorder: OutlineInputBorder(
+                   borderRadius: BorderRadius.circular(10),
+                   borderSide: const BorderSide(
+                     color: Colors.grey,
+                     width: 1.5,
+                   ),
                  ),
                ),
                maxLines: 5,
@@ -128,10 +142,14 @@ class FeedbackView extends GetView<FeedbackController>{
              // Submit button
              Obx(() {
                return ElevatedButton(
+
                  onPressed: controller.isFormValid ? controller.submitFeedback : null,
                  style: ElevatedButton.styleFrom(
                    backgroundColor: controller.isFormValid ? AppColor.circleIndicator: AppColor.greyColor, // Button color
-                   minimumSize: Size(double.infinity, 50), // Full width button
+                   minimumSize: Size(double.infinity, 50),
+                   shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(10)
+                   )
                  ),
                  child: Text('Submit',style: TextStyle(color: Colors.white),),
                );

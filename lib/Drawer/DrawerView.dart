@@ -294,19 +294,32 @@ class CustomDrawer extends StatelessWidget {
 
                     //Get.toNamed(AppRoutes.locationPageRoute);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0,bottom: 20,top: 8),
-                    child: Row(
-                      children: [
-                        Icon(Icons.logout,color: Colors.grey.shade500,size: 18,),
-                        const SizedBox(width: 25,),
-                        const Text("Logout",style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12, // Smaller text
-                          fontFamily: 'Roboto', // Roboto font
-                        ))
-                      ],
+                  // child: Padding(
+                  //   padding: const EdgeInsets.only(left: 10.0,bottom: 20,top: 8),
+                  //   child: Row(
+                  //     children: [
+                  //      SvgPicture.asset("assets/logout.svg"),
+                  //       const SizedBox(width: 25,),
+                  //       const Text("Logout",style: TextStyle(
+                  //         fontWeight: FontWeight.bold,
+                  //         fontSize: 12, // Smaller text
+                  //         fontFamily: 'Roboto', // Roboto font
+                  //       ))
+                  //     ],
+                  //   ),
+                  // ),
+                 child:  ListTile(
+                    leading:  SvgPicture.asset(
+                        "assets/logout.svg"
                     ),
+                    title: Text("Logout",style: MyTextTheme.smallBC ,),
+                      onTap: (){
+                        Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
+                            okPressEvent: ()async{
+                              await UserData().removeUserData();
+                              Get.offAllNamed(AppRoutes.locationPageRoute);
+                            });
+                      },
                   ),
                 ),
 

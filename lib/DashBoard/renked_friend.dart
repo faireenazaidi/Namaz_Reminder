@@ -212,8 +212,8 @@ class RankedFriendsIndicator extends StatelessWidget {
                 // ),
                 CircleAvatar(
                   radius: 18,
-                  backgroundImage:friend.picture!=null?NetworkImage('http://182.156.200.177:8011${friend.picture}') :NetworkImage('https://via.placeholder.com/150'), // Replace with the friend's actual image
-                  backgroundColor: currentUserId == friend.id ? Colors.orange : Colors.transparent,
+                  backgroundImage:friend.picture!=null?NetworkImage('http://182.156.200.177:8011${friend.picture}') :NetworkImage('https://via.placeholder.com/150'),
+                  backgroundColor: currentUserId == friend.id ? Colors.orange : Colors.orange,
                 ),
 
 

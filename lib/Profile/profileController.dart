@@ -16,14 +16,14 @@ class ProfileController extends GetxController{
   TextEditingController phoneC = TextEditingController();
   TextEditingController mailC = TextEditingController();
   TextEditingController searchC = TextEditingController();
+  var selectedPrayer = "".obs;
   Map<String,dynamic> schoolOFThought = {};
-  void updateSelectMethod(val){
-    schoolOFThought = val;
-    update();
-  }
+
 
   @override
   void onInit() {
+    schoolOFThought['name']=userData.getUserData!.methodName;
+    schoolOFThought['id']=userData.getUserData!.methodId;
     calculationMethode();
     print(userData.getUserData?.toJson());
     userNameC.text=userData.getUserData!.username;
@@ -54,6 +54,7 @@ class ProfileController extends GetxController{
         "method_name":userData.getUserData!.methodName,
         "method_id":userData.getUserData!.methodId,
         "email":mailC.text.isEmpty?"":mailC.text
+
       };
       print("registration body $body");
       http.Response request  = await http.put(Uri.parse('http://182.156.200.177:8011/adhanapi/update-user/'),body:jsonEncode(body), headers:headers);
@@ -76,6 +77,7 @@ class ProfileController extends GetxController{
   var email = ''.obs;
   var selectedGender = "".obs;
   var profilePhoto = '';
+  var selectedMethod = ''.obs;
   void updateProfilePhoto(val){
     profilePhoto=val;
     update();
