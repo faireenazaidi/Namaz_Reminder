@@ -365,8 +365,11 @@ class DashBoardController extends GetxController {
           Duration remainingDuration = endTime.difference(now);
           // Format and print the remaining time
           if (remainingDuration.isNegative) {
-            //print('The end time has passed.');
-            // moveToNextPrayer();
+            // Stop the timer to prevent multiple executions
+            timer.cancel();
+
+            // End time has passed, move to the next prayer
+            moveToNextPrayer(); // Transition to next prayer
           } else {
             remainingTime.value= formatDuration(remainingDuration);
           }
@@ -377,7 +380,21 @@ class DashBoardController extends GetxController {
       }
     });
   }
+
   // Function to move to the next prayer
+  void moveToNextPrayer() {
+    String nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now()));
+    currentPrayer.value = nextPrayerName;
+
+    // Fetch next prayer timings
+    var nextPrayerTimes = prayerDuration[nextPrayerName]!;
+    currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
+    currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+
+    // Restart the timer with new prayer times
+    startRemainingTimeTimer(); // Restart timer after switching to next prayer
+    print('Next prayer: $nextPrayerName');
+  }
 
 
   String formatDuration(Duration duration) {

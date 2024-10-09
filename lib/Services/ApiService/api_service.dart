@@ -3,21 +3,18 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // Default base URL
+
   static const String _defaultBaseUrl = 'http://182.156.200.177:8011/adhanapi/';
 
-  // Private constructor
   ApiService._internal();
 
-  // Singleton instance
   static final ApiService _instance = ApiService._internal();
 
-  // Factory constructor for returning the singleton instance
   factory ApiService() {
     return _instance;
   }
 
-  // Method to perform GET request with optional base URL
+
   Future<dynamic> getRequest(String endpoint, {String? customBaseUrl}) async {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl; // Use customBaseUrl if provided
     try {
@@ -28,7 +25,7 @@ class ApiService {
     }
   }
 
-  // Method to perform POST request with optional base URL
+
   Future<dynamic> postRequest(String endpoint, dynamic body, {String? customBaseUrl}) async {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl; // Use customBaseUrl if provided
     try {
@@ -81,12 +78,12 @@ class ApiService {
       final uri = Uri.parse('$baseUrl/$endpoint');
       final request = http.MultipartRequest('POST', uri);
 
-      // Add form fields if any
+
       if (fields != null) {
         request.fields.addAll(fields);
       }
 
-      // Add the file to the request
+
       final multipartFile = await http.MultipartFile.fromPath(
         'picture', // field name of the file in the form
         file.path,
@@ -94,10 +91,10 @@ class ApiService {
       );
       request.files.add(multipartFile);
 
-      // Send the request
+
       final streamedResponse = await request.send();
 
-      // Convert the response to a more manageable type
+
       final response = await http.Response.fromStream(streamedResponse);
       return _processResponse(response); // Use existing _processResponse
     } catch (e) {
@@ -105,7 +102,7 @@ class ApiService {
     }
   }
 
-  // Method to process the API response
+
   dynamic _processResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
