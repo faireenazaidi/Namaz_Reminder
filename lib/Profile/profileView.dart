@@ -335,6 +335,89 @@ class ProfileView extends GetView<ProfileController> {
                       ],
                     ),
                   ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("School of Thought", style: MyTextTheme.mediumGCB),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey), // Border color
+                            borderRadius: BorderRadius.circular(10.0), // Circular border radius
+                          ),
+                          child: DropdownButton<String>(
+                            value: controller.schoolOFThought['id'].toString(),
+                            isExpanded: true, // Ensures the dropdown takes the full width
+                            underline: SizedBox(), // Removes default underline
+                            hint: Text(
+                              "Select an institute",
+                              style: MyTextTheme.mediumCustomGCN,
+                            ),
+                            items: controller.calculationList.map<DropdownMenuItem<String>>((value) {
+                              return DropdownMenuItem<String>(
+                                value: value['id'].toString(), // Use 'id' as the value
+                                child: Text(value['name'].toString(), style: MyTextTheme.mediumCustomGCN), // Display the name
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              controller.schoolOFThought['id'] = value;
+                              controller.update();
+                              print("Selected value: $value");
+                            },
+                          ),
+                        ),
+
+                        // Conditionally display the radio buttons if id == 7
+                        if (controller.schoolOFThought['id'].toString() == '7')
+                          SizedBox(height: 10,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Times of Prayer",style:  MyTextTheme.mediumGCB,),
+                              Row(
+                                  children: [
+                                    Obx(()=>
+                                        Radio<String>(
+                                          value:"3",
+                                          activeColor: AppColor.circleIndicator,
+                                          groupValue: controller.selectedPrayer.value,
+                                          onChanged: (String? value){
+                                            controller.selectedPrayer(value!);
+                                          },
+                                        )),
+                                    Text("3",
+                                      style: MyTextTheme.mediumGCB,
+                                    ),
+                                    const SizedBox(width: 130,),
+                                    Obx(()=>
+                                        Radio(
+                                          value: "5",
+                                          activeColor: AppColor.circleIndicator,
+                                          groupValue:  controller.selectedPrayer.value,
+                                          onChanged: (String? value){
+                                            controller.selectedPrayer(value!);
+                                          },
+                                        )),
+                                    InkWell(
+                                        onTap:(){
+                                          // Get.toNamed(AppRoutes.dashboardRoute);
+                                        },
+                                        child: Text("5",
+                                          style: MyTextTheme.mediumGCB,
+                                        ))
+                                  ]
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+
+
+
                   // Padding(
                   //   padding: const EdgeInsets.all(8.0),
                   //   child: Column(
@@ -381,6 +464,7 @@ class ProfileView extends GetView<ProfileController> {
                     title: 'Update', // Button label
                     color: AppColor.circleIndicator, // Button color
                   ),
+                  SizedBox(height: 10,)
 
                 ],
               );
