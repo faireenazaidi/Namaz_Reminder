@@ -18,12 +18,16 @@ class ProfileController extends GetxController{
   TextEditingController searchC = TextEditingController();
   var selectedPrayer = "".obs;
   Map<String,dynamic> schoolOFThought = {};
+  void selectSchool(String value){
+    schoolOFThought['id'] = value;
+    schoolOFThought['name']=calculationList.firstWhere((e){return e['id'].toString()==value;})['name'];
+    print(schoolOFThought);
+    update();
+  }
 
 
   @override
   void onInit() {
-    schoolOFThought['name']=userData.getUserData!.methodName;
-    schoolOFThought['id']=userData.getUserData!.methodId;
     calculationMethode();
     print(userData.getUserData?.toJson());
     userNameC.text=userData.getUserData!.username;
@@ -33,6 +37,7 @@ class ProfileController extends GetxController{
     mailC.text=userData.getUserData!.email;
     schoolOFThought['name']=userData.getUserData!.methodName;
     schoolOFThought['id']=userData.getUserData!.methodId;
+    selectedPrayer.value=userData.getUserData!.timesOfPrayer;
     print("schoolOFThought $schoolOFThought");
     super.onInit();
   }
@@ -49,10 +54,10 @@ class ProfileController extends GetxController{
         "mobile_no": phoneC.text.toString(),
         "gender": genderC.text,
         "fiqh": userData.getUserData!.fiqh,
-        "times_of_prayer": userData.getUserData!.timesOfPrayer,
-        "school_of_thought": userData.getUserData!.methodId,
-        "method_name":userData.getUserData!.methodName,
-        "method_id":userData.getUserData!.methodId,
+        "times_of_prayer":selectedPrayer.value==""? userData.getUserData!.timesOfPrayer:selectedPrayer.value,
+        "school_of_thought": schoolOFThought['id'],
+        "method_name":schoolOFThought['name'],
+        "method_id":schoolOFThought['id'],
         "email":mailC.text.isEmpty?"":mailC.text
 
       };

@@ -359,23 +359,22 @@ class ProfileView extends GetView<ProfileController> {
                             items: controller.calculationList.map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem<String>(
                                 value: value['id'].toString(), // Use 'id' as the value
-                                child: Text(value['name'].toString(), style: MyTextTheme.mediumCustomGCN), // Display the name
+                                child: Text(value['name'].toString(), style: TextStyle(color: Colors.grey,fontSize: 14)), // Display the name
                               );
                             }).toList(),
                             onChanged: (value) {
-                              controller.schoolOFThought['id'] = value;
-                              controller.update();
+                             controller.selectSchool(value.toString());
                               print("Selected value: $value");
                             },
                           ),
                         ),
 
                         // Conditionally display the radio buttons if id == 7
-                        if (controller.schoolOFThought['id'].toString() == '7')
-                          SizedBox(height: 10,),
+                        if (controller.schoolOFThought['id'].toString() == '7'||controller.schoolOFThought['id'].toString() == '0')
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(height: 10,),
                               Text("Times of Prayer",style:  MyTextTheme.mediumGCB,),
                               Row(
                                   children: [

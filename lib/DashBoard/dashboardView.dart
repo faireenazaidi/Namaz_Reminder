@@ -92,7 +92,6 @@ class DashBoardView extends GetView<DashBoardController> {
       drawer: const CustomDrawer(),
       body: SingleChildScrollView(
         child: GetBuilder<DashBoardController>(
-          init: dashboardController,
           builder: (_) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -404,8 +403,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
 
                   const SizedBox(height: 10),
-                  GetBuilder(
-                    init: controller,
+                  GetBuilder<DashBoardController>(
                     builder: (_){
                       return Column(
                         children: [
