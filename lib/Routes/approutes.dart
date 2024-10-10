@@ -1,6 +1,8 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:namaz_reminders/DashBoard/dashboardBinding.dart';
 import 'package:namaz_reminders/DashBoard/dashboardView.dart';
+import 'package:namaz_reminders/FAQs/FAQsBinding.dart';
+import 'package:namaz_reminders/FAQs/FAQsView.dart';
 import 'package:namaz_reminders/Feedback/feedbackBinding.dart';
 import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardBinding.dart';
@@ -16,14 +18,14 @@ import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
+import 'package:namaz_reminders/Setting/SettingBinding.dart';
 import 'package:namaz_reminders/SplashScreen/splashBinding.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import '../Login/loginBinding.dart';
 import '../Login/loginView.dart';
-import '../Notification/Setting/settingBinding.dart';
-import '../Notification/Setting/settingView.dart';
 import '../PeerCircle/peerBinding.dart';
 import '../Profile/profileBinding.dart';
+import '../Setting/SettingView.dart';
 import '../SplashScreen/splashController.dart';
 import '../SplashScreen/splashView.dart';
 import '../UpcomingPrayers/upcomingBindings.dart';
@@ -45,6 +47,7 @@ class AppRoutes {
   static const String notifications = '/notification';
   static const String settingRoute = '/setting';
   static const String feedback = '/feed';
+  static const String faqsRoute = '/faqs';
 
 
 
@@ -117,6 +120,10 @@ class AppRoutes {
       page: () => FeedbackView(),
       binding: FeedbackBindings(),
     ),
-
+    GetPage(
+      name: faqsRoute,
+      page: () => FAQSView(),
+      binding: FAQsBindings(),
+    ),
   ];
 }

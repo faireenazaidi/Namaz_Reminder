@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:namaz_reminders/Notification/Setting/settingController.dart';
+import'SettingController.dart';
+
 
 class SettingBindings extends Bindings{
   @override

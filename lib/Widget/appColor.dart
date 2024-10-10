@@ -25,6 +25,8 @@ class AppColor {
   static final Color themeColor = '#2B97A3'.toColor();
   static final Color packageGray = '#EBEBEB'.toColor();
   static final Color lightGrey = '#E9E9E9'.toColor();
+  static final Color searchbarColor = '#F8F9FA'.toColor();
+
   static final Color backgroundWhite = '#FFFFFF'.toColor();
   static final Color paragraphText = '#23384D'.toColor();
 

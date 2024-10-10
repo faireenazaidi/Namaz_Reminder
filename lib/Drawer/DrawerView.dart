@@ -34,14 +34,11 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 const SizedBox(height: 10,),
                 Container(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // CircleAvatar(
-                      //   backgroundImage: NetworkImage( "http://182.156.200.177:8011${UserData().getUserData!.picture}"),
-                      //   radius: 30,
-                      // ),
+
                       CircleAvatar(
                         radius: 30,
                         backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
@@ -54,27 +51,7 @@ class CustomDrawer extends StatelessWidget {
                             ? const Icon(Icons.person, size: 25, color: Colors.white)
                             : null,
                       ),
-
-                      // Container(
-                     //    width: 40,
-                     //    height: 40,
-                     //      decoration: BoxDecoration(
-                     //      shape: BoxShape.circle,
-                     //      image: customDrawerController.userData.getUserData!.picture.isNotEmpty
-                     //          ? DecorationImage(
-                     //        image: NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}"),
-                     //        fit: BoxFit.cover,
-                     //      )
-                     //          : null,
-                     //      color: customDrawerController.userData.getUserData!.picture.isEmpty
-                     //          ? Colors.orange
-                     //          : null,
-                     //    ),
-                     //    child: customDrawerController.userData.getUserData!.picture.isEmpty
-                     //        ? const Icon(Icons.person, size: 16, color: Colors.white)
-                     //        : null,
-                     //  ),
-                      const SizedBox(width: 17),
+                      const SizedBox(width: 15),
                       Expanded(
                         child: InkWell(
                           onTap: (){
@@ -117,48 +94,15 @@ class CustomDrawer extends StatelessWidget {
                   endIndent: 10,
                   indent: 10,
                 ),
-                // ListTiles
-                // _buildListTile(
-                //     context, "Dashboard", "assets/dashboard.png", () {
-                //       Get.toNamed(AppRoutes.dashboardRoute);
-                // }
-                // ),
-                // _buildListTile(
-                //     context, "Support Center", "assets/supportCentre.png", () {}
-                // ),
-                // _buildListTile(
-                //     context, "Widgets", "assets/widgets.png", () {}
-                // ),
-                // Obx(() => _buildListTile(
-                //   context,
-                //   "Notifications",
-                //   "assets/notification.png",
-                //       () {},
-                //   customDrawerController.notificationCount.value,
-                // )),
-                // Divider(
-                //   color: AppColor.greyLight,
-                //   thickness: 1.4,
-                //   endIndent: 10,
-                //   indent: 10,
-                // // ),
-                // Obx(() => _buildListTile(
-                //   context,
-                //   SvgPicture.asset(
-                //     "assets/icon.svg", // Replace with your SVG file
-                //     height: 24.0, // Adjust the height if needed
-                //     width: 24.0,  // Adjust the width if needed
-                //   ),
-                //       () {
-                //     Get.toNamed(AppRoutes.leaderboardRoute);
-                //   },
-                //   customDrawerController.leaderboardCount.value,
-                // )),
+
                 ListTile(
                   leading:  SvgPicture.asset(
                       "assets/icon.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
                   title: Text("Leaderboard",style: MyTextTheme.smallBC ,),
+
                   onTap: () {
                     Get.toNamed(AppRoutes.leaderboardRoute);
                   },
@@ -168,6 +112,8 @@ class CustomDrawer extends StatelessWidget {
                   leading:  SvgPicture.asset(
                       "assets/missed.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
                   title: Text("Missed Prayers",style: MyTextTheme.smallBC ,),
                   onTap: () {
                     Get.toNamed(AppRoutes.missedPrayers);
@@ -178,6 +124,8 @@ class CustomDrawer extends StatelessWidget {
                   leading:  SvgPicture.asset(
                       "assets/pc.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
                   title: Text("Peer Circle",style: MyTextTheme.smallBC ,),
                   onTap: () {
                     Get.toNamed(AppRoutes.peerRoute);
@@ -194,6 +142,8 @@ class CustomDrawer extends StatelessWidget {
                   leading:  SvgPicture.asset(
                       "assets/sc.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
                   title: Text("Support Center",style: MyTextTheme.smallBC ,),
                   onTap: () {
                     Fluttertoast.showToast(msg: "Coming Soon");                },
@@ -202,51 +152,13 @@ class CustomDrawer extends StatelessWidget {
                   leading:  SvgPicture.asset(
                       "assets/noti.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
                   title: Text("Notifications",style: MyTextTheme.smallBC ,),
                   onTap: () {
                     Get.toNamed(AppRoutes.notifications);
                     },
                 ),
-                // Obx(() => ListTile(
-                //   leading: Image.asset("assets/darkMode.png"),
-                //   title: const Text(
-                //     'Dark Mode',
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 12,
-                //       fontFamily: 'Roboto',
-                //     ),
-                //   ),
-                //   dense: true, // Reduce spacing
-                //   contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
-                //   trailing: Switch(
-                //     value: customDrawerController.isDarkMode.value,
-                //     onChanged: (value) {
-                //       customDrawerController.toggleDarkMode(value);
-                //       Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
-                //     },
-                //   ),
-                // )),
-                // Obx(() => ListTile(
-                //   leading: Image.asset("assets/darkMode.png"),
-                //   title: const Text(
-                //     'Dark Mode',
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 12,
-                //       fontFamily: 'Roboto',
-                //     ),
-                //   ),
-                //   dense: true, // Reduce spacing
-                //   contentPadding: EdgeInsets.symmetric(horizontal: 12), // Reduce padding
-                //   trailing: Switch(
-                //     value: customDrawerController.isDarkMode.value,
-                //     onChanged: (value) {
-                //       customDrawerController.toggleDarkMode(value);
-                //       Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
-                //     },
-                //   ),
-
 
                 Divider(
                   color: AppColor.greyLight,
@@ -258,9 +170,14 @@ class CustomDrawer extends StatelessWidget {
                   leading:  SvgPicture.asset(
                       "assets/set.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
                   title: Text("Setting",style: MyTextTheme.smallBC ,),
                   onTap: () {
-                    Fluttertoast.showToast(msg: "Coming Soon");                },
+                    // Fluttertoast.showToast(msg: "Coming Soon");
+                    Get.toNamed(AppRoutes.settingRoute);
+
+                  },
                 ),
                 // _buildListTile(
                 //     context, "F&Q", "assets/fAndQ.png", () {
@@ -272,14 +189,23 @@ class CustomDrawer extends StatelessWidget {
                   leading:  SvgPicture.asset(
                       "assets/fq.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+
                   title: Text("F&Q",style: MyTextTheme.smallBC ,),
                   onTap: () {
-                    Fluttertoast.showToast(msg: "Coming Soon");                },
+                    // Fluttertoast.showToast(msg: "Coming Soon");
+                    Get.toNamed(AppRoutes.faqsRoute);
+
+                  },
                 ),
                 ListTile(
                   leading:  SvgPicture.asset(
                       "assets/feed.svg"
                   ),
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+
                   title: Text("Feedback",style: MyTextTheme.smallBC ,),
                   onTap: () {
                     Get.toNamed(AppRoutes.feedback);
@@ -295,25 +221,14 @@ class CustomDrawer extends StatelessWidget {
 
                     //Get.toNamed(AppRoutes.locationPageRoute);
                   },
-                  // child: Padding(
-                  //   padding: const EdgeInsets.only(left: 10.0,bottom: 20,top: 8),
-                  //   child: Row(
-                  //     children: [
-                  //      SvgPicture.asset("assets/logout.svg"),
-                  //       const SizedBox(width: 25,),
-                  //       const Text("Logout",style: TextStyle(
-                  //         fontWeight: FontWeight.bold,
-                  //         fontSize: 12, // Smaller text
-                  //         fontFamily: 'Roboto', // Roboto font
-                  //       ))
-                  //     ],
-                  //   ),
-                  // ),
+
                  child:  ListTile(
                     leading:  SvgPicture.asset(
                         "assets/logout.svg"
                     ),
-                    title: Text("Logout",style: MyTextTheme.smallBC ,),
+                   dense: true,
+                   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                   title: Text("Logout",style: MyTextTheme.smallBC ,),
                       onTap: (){
                         Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
                             okPressEvent: ()async{
@@ -344,16 +259,6 @@ class CustomDrawer extends StatelessWidget {
       ),
       dense: true, // Reduce spacing
       contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
-      // trailing: count != null && count > 0
-      //     ? CircleAvatar(
-      //   radius: 10,
-      //   backgroundColor: Colors.orange,
-      //   child: Text(
-      //     count.toString(),
-      //     style: const TextStyle(color: Colors.white, fontSize: 12),
-      //   ),
-      // )
-      //     : null,
       onTap: onTap,
     );
   }
