@@ -32,7 +32,7 @@ class NotificationView extends GetView<NotificationController>{
         actions: [
           TextButton(
             onPressed: () {
-              Get.toNamed(AppRoutes.settingRoute);
+              // Get.toNamed(AppRoutes.settingRoute);
             },
             child:SvgPicture.asset(
                 "assets/set.svg",height: 25,color: AppColor.greyDark,

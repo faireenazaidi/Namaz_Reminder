@@ -84,6 +84,7 @@ class AddFriendView extends GetView<AddFriendController> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 10),
 
                 Column(
@@ -237,13 +238,24 @@ class AddFriendView extends GetView<AddFriendController> {
                   ],
                 ),
                 const SizedBox(height: 15),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("SUGGESTIONS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
                   ],
                 ),
-                Expanded(
+                if (filteredUsers.isEmpty)
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "No friend found.",
+                        style: MyTextTheme.mediumGCB
+                        
+                      ),
+                    ),
+                  ),
+              Expanded(
                   child:
                     ListView.builder(
                       shrinkWrap: true,
@@ -296,11 +308,9 @@ class AddFriendView extends GetView<AddFriendController> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 20,)
-                                      // Text(
-                                      //   registeredData.mobileNo.toString(),
-                                      //   style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                                      // ),
+                                      SizedBox(height: 20,),
+
+
                                     ],
                                   ),
                                 ),

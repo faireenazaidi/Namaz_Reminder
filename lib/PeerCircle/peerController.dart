@@ -11,12 +11,14 @@ class PeerController extends GetxController{
   RxBool isLoading = true.obs;
   var friendsList=[].obs;
   var searchQuery = '';
+  var filteredFriendsList = <Friendship>[].obs; // Filtered list for search results
 
   UserData userData = UserData();
 
 
   void setSearchText(String value) {
     searchText.value = value;
+    filterFriends(); // Filter the friends list when search text changes
   }
 
   @override
@@ -52,6 +54,20 @@ class PeerController extends GetxController{
 
   set updateFriendRequestList(List val) {
     friendshipList = val;
+    filterFriends();
+    update();
+  }
+  void filterFriends() {
+    if (searchText.value.isEmpty) {
+      filteredFriendsList.value = getFriendshipList; // Show all friends if search text is empty
+    } else {
+      filteredFriendsList.value = getFriendshipList.where((friend) {
+        return friend.user2.name
+            .toString()
+            .toLowerCase()
+            .contains(searchText.value.toLowerCase());
+      }).toList();
+    }
     update();
   }
   void removeFriends(int index){
