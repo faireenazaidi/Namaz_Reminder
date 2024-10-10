@@ -10,7 +10,8 @@ import '../Widget/myButton.dart';
 import 'dashboardController.dart';
 
 class TimePicker extends StatefulWidget {
-  const TimePicker({super.key});
+  final String? date;
+  const TimePicker({super.key, this.date});
 
   @override
   State<TimePicker> createState() => _TimePickerState();
@@ -257,7 +258,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   print("isAm ${dashBoardController.isAm}");
                   Lottie.asset("assets/Crown.lottie",
                       decoder: customDecoder, height: 60);
-                  dashBoardController.submitPrayer();
+                  dashBoardController.submitPrayer(valDate: widget.date);
                 },
               ),
             ],

@@ -76,35 +76,36 @@ class CustomDrawer extends StatelessWidget {
                      //  ),
                       const SizedBox(width: 17),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10,),
-                            Text(
-                              UserData().getUserData!.name.toString().toUpperCase(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                fontFamily: 'Roboto',
+                        child: InkWell(
+                          onTap: (){
+                            Get.toNamed(AppRoutes.profileRoute);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10,),
+                              Text(
+                                UserData().getUserData!.name.toString().toUpperCase(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  fontFamily: 'Roboto',
+                                ),
                               ),
-                            ),
-                            Text(
-                              UserData().getUserData!.mobileNo??'',
-                              style: MyTextTheme.smallGCN,
-                            ),
-                            SizedBox(height: 5,),
-                            Row(
-                              children: [
-                                Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
-                                InkWell(
-                                    onTap: (){
-                                      Get.toNamed(AppRoutes.profileRoute);
-                                    },
-                                    child: Text("Edit Profile",style: MyTextTheme.mustardNn,))
-                              ],
-                            ),
+                              Text(
+                                UserData().getUserData!.mobileNo??'',
+                                style: MyTextTheme.smallGCN,
+                              ),
+                              SizedBox(height: 5,),
+                              Row(
+                                children: [
+                                  Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
+                                  Text("Edit Profile",style: MyTextTheme.mustardNn,)
+                                ],
+                              ),
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],

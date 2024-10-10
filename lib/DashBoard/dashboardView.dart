@@ -456,7 +456,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                               // bool isHighlighted = dashboardController.nextPrayer.value ==
                                               //      dashboardController.prayerNames[index];
                                               bool isHighlighted = false;
-                                              if(dashboardController.currentPrayer.value.isNotEmpty){
+                                              if(dashboardController.nextPrayer.value.isEmpty){
                                                 int currentPrayerIndex = dashboardController.prayerNames.indexOf(dashboardController.currentPrayer.value);
                                                 int nextPrayerIndex = (currentPrayerIndex + 1) % dashboardController.prayerNames.length;
                                                  isHighlighted = nextPrayerIndex == index;

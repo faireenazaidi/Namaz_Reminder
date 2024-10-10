@@ -196,7 +196,7 @@ class RankedFriendsIndicator extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
 
         // Display avatars of ranked friends
         Row(
@@ -218,10 +218,10 @@ class RankedFriendsIndicator extends StatelessWidget {
 
 
 
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  friend.name,
-                  style: TextStyle(
+                  friend.name.split(' ')[0],
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,

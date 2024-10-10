@@ -235,6 +235,7 @@ class ProfileView extends GetView<ProfileController> {
                               activeColor: AppColor.circleIndicator,
                               groupValue:  controller.genderC.text,
                               onChanged: (String? value){
+                                print(value);
                                 controller.updateGender(value!);
                               },
                             ),

@@ -81,4 +81,142 @@ class Dialogs{
         )
     );
   }
+  static Future<void> showConfirmationDialog({
+    required BuildContext context,
+    required dynamic Function() onConfirmed,
+    VoidCallback? onCancelled,
+    String initialMessage = "ARE YOU SURE?",
+    String confirmButtonText = "Yes, Remove",
+    String cancelButtonText = "No, Go Back",
+    String? successMessage,
+    String? failureMessage,
+  }) {
+    return showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return Container();
+      },
+      barrierColor: Colors.black54,
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          scale: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          ),
+          child: Dialog(
+            backgroundColor: Colors.grey, // Dark background
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                String message = initialMessage;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                      opacity: 9,
+                      image: AssetImage("assets/net.png"),
+                      fit: BoxFit.cover,
+                    ),
+                    color: AppColor.gray,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(
+                          Icons.person,
+                          size: 80,
+                          color: Colors.orange,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          message,
+                          style: const TextStyle(
+                            color: Colors.orange,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange, // Background color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                if (onCancelled != null) {
+                                  onCancelled();
+                                }
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                cancelButtonText,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey, // Inactive button color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                var result = onConfirmed();
+
+
+                                if (result is Future) {
+
+                                  setState(() {
+                                    message = "Processing...";
+                                  });
+
+                                  bool success = await result;
+                                  setState(() {
+                                    message = success
+                                        ? successMessage ?? "Item removed successfully!"
+                                        : failureMessage ?? "Failed to remove the item.";
+                                  });
+
+
+                                  await Future.delayed(const Duration(seconds: 2));
+                                  Navigator.of(context).pop();
+                                } else {
+
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: Text(
+                                confirmButtonText,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 400),
+    );
+  }
 }
+
+

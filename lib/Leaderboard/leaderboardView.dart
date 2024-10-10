@@ -456,7 +456,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             child: Visibility(
                 visible: leaderBoardController.selectedTab.value == 'Weekly',
                 child: SizedBox(
-                  height: leaderBoardController.height.value* 5 + 110+MediaQuery.sizeOf(context).height/2.6,
+                  height: leaderBoardController.height.value* 5 + 110+MediaQuery.sizeOf(context).height/2.9,
                   child: ListView.builder(itemCount: leaderBoardController.weeklyRanked.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -620,7 +620,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
           ),
         ),
         const SizedBox(height: 4),
-       isHighlight?Text('You', style: MyTextTheme.mustard) :Text(friend['name'], style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
+       isHighlight?Text('You', style: MyTextTheme.mustardS) :Text(friend['name'].split(' ')[0], style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
       ],
     );
   }

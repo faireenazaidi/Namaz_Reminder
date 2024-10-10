@@ -89,7 +89,8 @@ class ProfileController extends GetxController{
   }
 
   void updateGender(String gender) {
-    selectedGender.value = gender;
+    genderC.text = gender;
+    update();
   }
 
   List calculationList = [];

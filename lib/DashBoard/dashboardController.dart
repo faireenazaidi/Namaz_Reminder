@@ -481,10 +481,11 @@ class DashBoardController extends GetxController {
 
   bool isGifVisible = false;
   bool isAm = false;
-  submitPrayer() async {
+  submitPrayer({String? valDate}) async {
     print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+    String formattedDate =valDate ?? DateFormat('dd-MM-yyyy').format(date);
+    print("formattedDate $formattedDate");
     try {
       var headers = {'Content-Type': 'application/json'};
 
@@ -519,7 +520,7 @@ class DashBoardController extends GetxController {
 
       print("formattedTime $formattedTime"); // Output will be in 24-hour format, like 18:32 or 06:32
 
-      var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/$formattedDate/'));
+      var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
       request.body = json.encode({
         "user_id": userId,
         "mobile_no": mobileNo,

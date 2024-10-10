@@ -29,6 +29,7 @@ class LeaderBoardController extends GetxController{
     return formattedDate;
   }
 
+
   var selectedDate = DateTime.now().obs;
   // var selectedTab = 'Daily'.obs;
 
@@ -116,7 +117,8 @@ String formatDate = getFormattedDate();
       List recordData= data['records'];
       recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
       print("recordList $recordsList");
-      weeklyMissedPrayer = groupByDate(recordsList);
+      weeklyMissedPrayer.value = groupByDate(recordsList);
+      update();
       print("WeeklyApi data check:$weeklyRanked");
     }
     else {
@@ -138,7 +140,7 @@ String formatDate = getFormattedDate();
     'Maghrib': 'M',
     'Isha': 'I'
   };
-  Map<String, List<Record>> weeklyMissedPrayer=<String, List<Record>>{}.obs;
+  RxMap<String, List<Record>> weeklyMissedPrayer=<String, List<Record>>{}.obs;
   // Group records by date
   Map<String, List<Record>> groupByDate(List<Record> records) {
     return records.fold<Map<String, List<Record>>>({}, (acc, record) {
