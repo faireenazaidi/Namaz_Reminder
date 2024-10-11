@@ -182,14 +182,14 @@ class RankedFriendsIndicator extends StatelessWidget {
                   children: [
                     // Highlighted progress bar for current user's position
                     if (rankedFriends.isNotEmpty)
-                    Positioned(
-                      left: getCurrentUserPercentagePosition(context) * MediaQuery.of(context).size.width,
-                      child: Container(
-                        height: 6,
-                        width: MediaQuery.of(context).size.width * getHighlightedBarWidth(context),
-                        color: AppColor.circleIndicator,
+                      Positioned(
+                        right: 0,
+                        child: Container(
+                          height: 6,
+                          width: MediaQuery.of(context).size.width * getCurrentUserPercentagePosition(context),
+                          color: AppColor.circleIndicator,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -244,11 +244,19 @@ class RankedFriendsIndicator extends StatelessWidget {
   double getCurrentUserPercentagePosition(BuildContext context) {
     int rank = getCurrentUserRank();
     print("this is rank $rank");
-    return (rank - 1) / rankedFriends.length;
+
+    if (rankedFriends.length == 1) {
+      return 1; // If there's only 1 user, the bar should fill completely
+    }
+
+    // Calculate the width from right to left: rank 1 should give 1 (full), last rank should give 0
+    return (rankedFriends.length - rank + 1) / rankedFriends.length;
   }
+
 
   // Get the width of the highlighted bar (based on the current user's rank)
   double getHighlightedBarWidth(BuildContext context) {
+    // Highlight bar width should be proportional to the total number of ranked friends
     return 1 / rankedFriends.length;
   }
 }
