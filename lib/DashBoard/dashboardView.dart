@@ -40,7 +40,7 @@ class DashBoardView extends GetView<DashBoardController> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        toolbarHeight: 40,
+        toolbarHeight: 45,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
         title: Text("Prayer O'Clock", style: MyTextTheme.largeBCN),
@@ -111,24 +111,11 @@ class DashBoardView extends GetView<DashBoardController> {
                     child:  Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child:  SvgPicture.asset(
-                                "assets/calendar3.svg"
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:  SvgPicture.asset(
+                              "assets/calendar3.svg"
                           ),
-                          onTap: () async {
-                            DateTime? picked = await showDatePicker(
-                              context: context,
-                              initialDate: dateController.selectedDate.value,
-                              firstDate: DateTime(2020),
-                              lastDate: DateTime(2025),
-                            );
-                            if (picked != null) {
-                              dateController.updateSelectedDate(picked);
-                            }
-                          },
                         ),
                         Row(
                           children: [
@@ -276,7 +263,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             nextPrayerTime = DateFormat('hh:mm a').parse(dashboardController.nextPrayerStartTime.value);
                             nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
                           } catch (e) {
-                            nextPrayerTime = DateTime.now().subtract(const Duration(days: 1)); // Default to a past time if parsing fails
+                            nextPrayerTime = DateTime.now().subtract(const Duration(days: 1));
                           }
 
                           bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
@@ -305,14 +292,13 @@ class DashBoardView extends GetView<DashBoardController> {
                         id: 'lottie',
                         builder: (_) {
                           return Positioned(
-                            top: -35, // Adjust the 'top' value as per your layout
-                            child: Lottie.asset(
-                              "assets/circular.lottie", // Replace with your new Lottie animation path
-                              decoder: customDecoder, // Replace with your new Lottie animation path
-                              width: 450,  // Adjust the width and height as per your design
-                              height: 340,
-                              // fit: BoxFit.contain,
-                            ),
+                            top: -30, // Adjust the 'top' value as per your layout
+                              child: Lottie.asset(
+                                "assets/circular.lottie", // Replace with your new Lottie animation path
+                                decoder: customDecoder, // Replace with your new Lottie animation path
+                                width: 420,  // Adjust the width and height as per your design
+                                height: 330,
+                                ),
                           );
                         }
                       ),

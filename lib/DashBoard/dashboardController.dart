@@ -26,7 +26,7 @@ class DashBoardController extends GetxController {
   RxString nextPrayerStartTime = ''.obs;
   RxDouble progressPercent = 0.0.obs;
   RxList<String> avatars = <String>[].obs;
-  RxString location = 'Lucknow'.obs;
+  RxString location = ''.obs;
   var selectedDate = Rx<DateTime>(DateTime.now());
 
   UserData userData = UserData();

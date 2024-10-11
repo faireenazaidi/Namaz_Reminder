@@ -42,6 +42,8 @@ class AppColor {
 
   static final Color productName = '##F9AD32'.toColor();
   static final Color offerColor = '#1A7984'.toColor();
+  static final Color lightmustard = '#FBC86A'.toColor();
+
 
 
   static final Color textFieldColor = ('#F9F9F9').toColor();

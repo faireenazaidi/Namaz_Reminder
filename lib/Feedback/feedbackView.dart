@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Feedback/feedbackController.dart';
 import '../Routes/approutes.dart';
-import '../Widget/appColor.dart';
-import '../Widget/appColor.dart';
-import '../Widget/appColor.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
@@ -26,7 +24,6 @@ class FeedbackView extends GetView<FeedbackController>{
        ),
        leading: InkWell(
          onTap: () {
-           // Get.back();
            Get.toNamed(AppRoutes.dashboardRoute);
          },
          child: Icon(Icons.arrow_back_ios_new),
@@ -52,19 +49,30 @@ class FeedbackView extends GetView<FeedbackController>{
              SizedBox(
                height: 10,
              ),
-             TextField(
-               decoration: InputDecoration(
-                 enabledBorder: OutlineInputBorder(
-                   borderSide: BorderSide(color: AppColor.packageGray),
-                     borderRadius: BorderRadius.circular(10)
+
+             TextFormField(
+               decoration:  InputDecoration(
+                 enabled: true,
+                 enabledBorder:  OutlineInputBorder(
+                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                   borderSide: BorderSide(color:AppColor.packageGray,width: 1.5),
                  ),
-                 labelText: 'Enter your email address',
-                 labelStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.w400)
-               ),
+                 hintText: 'Enter your email address',
+                   hintStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.w400),
+                   border: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(10)),
+                   ),
                onChanged: (value) {
                  controller.setEmail(value);
                },
+               keyboardType: TextInputType.emailAddress,
+               autofillHints: const [AutofillHints.email],
+               validator: (value) =>
+               value != null && value.isNotEmpty
+                   ? null
+                   : 'Required',
              ),
+
              SizedBox(height: 16),
              // Rating scale
              Text('On a scale of 1-5 how likely you are to recommend this tool to someone you know?',style: TextStyle(color: AppColor.greyDark),),

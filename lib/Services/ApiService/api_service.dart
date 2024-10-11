@@ -18,7 +18,8 @@ class ApiService {
   Future<dynamic> getRequest(String endpoint, {String? customBaseUrl}) async {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl; // Use customBaseUrl if provided
     try {
-      final response = await http.get(Uri.parse('$baseUrl/$endpoint'));
+      final response = await http.get(Uri.parse('$baseUrl$endpoint'));
+      print("response $response");
       return _processResponse(response);
     } catch (e) {
       _handleError(e);
@@ -30,7 +31,7 @@ class ApiService {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl; // Use customBaseUrl if provided
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/$endpoint'),
+        Uri.parse('$baseUrl$endpoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -45,7 +46,7 @@ class ApiService {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl;
     try {
       final response = await http.put(
-        Uri.parse('$baseUrl/$endpoint'),
+        Uri.parse('$baseUrl$endpoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -59,7 +60,7 @@ class ApiService {
   Future<dynamic> deleteRequest(String endpoint, {String? customBaseUrl}) async {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl;
     try {
-      final response = await http.delete(Uri.parse('$baseUrl/$endpoint'));
+      final response = await http.delete(Uri.parse('$baseUrl$endpoint'));
       return _processResponse(response);
     } catch (e) {
       _handleError(e);
@@ -75,7 +76,7 @@ class ApiService {
       }) async {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl;
     try {
-      final uri = Uri.parse('$baseUrl/$endpoint');
+      final uri = Uri.parse('$baseUrl$endpoint');
       final request = http.MultipartRequest('POST', uri);
 
 

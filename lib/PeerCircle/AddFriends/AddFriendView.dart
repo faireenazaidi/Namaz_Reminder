@@ -129,7 +129,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                 : 2, // Show only first 2 if there are more than 2 requests
                             itemBuilder: (context, index) {
                               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
-                              RegisteredUserDataModal registeredData = filteredUsers[index];
+                              // RegisteredUserDataModal registeredData = filteredUsers[index];
                               // print("Item${registeredData.picture}");
 
                               return Padding(

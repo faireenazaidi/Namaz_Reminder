@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import '../../Services/ApiService/api_service.dart';
 import 'AddFriendDataModal.dart';
 
 class AddFriendController extends GetxController {
@@ -18,7 +19,7 @@ class AddFriendController extends GetxController {
 
   String loggedInUserId = '';
 
-
+  final apiService = ApiService();
   UserData userData = UserData();
 
 
@@ -43,26 +44,49 @@ class AddFriendController extends GetxController {
 
 
   /// Register USer Method
-  Future<void> fetchRegisteredUsers() async {
-    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/registered-users/');
-
+  // Future<void> fetchRegisteredUsers() async {
+  //   final url = Uri.parse('http://182.156.200.177:8011/adhanapi/registered-users/');
+  //
+  //   try {
+  //     final response = await http.get(url);
+  //     if (response.statusCode == 200) {
+  //       var data = json.decode(response.body);
+  //       print("APIDATA:$data");
+  //       updateRegisteredList = data['users'];
+  //       int indexValue = getRegisteredUserList.indexWhere((e)=>e.userId.toString() == UserData().getUserData!.id.toString());
+  //       updateRegisteredList = registeredUserList.removeAt(indexValue);
+  //       update();
+  //
+  //     } else {
+  //       print('Failed to fetch registered users: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error fetching registered users: $e');
+  //   }
+  // }
+  fetchRegisteredUsers() async {
     try {
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        print("APIDATA:$data");
-        updateRegisteredList = data['users'];
-        int indexValue = getRegisteredUserList.indexWhere((e)=>e.userId.toString() == UserData().getUserData!.id.toString());
-        updateRegisteredList = registeredUserList.removeAt(indexValue);
-        update();
+      final response = await apiService.getRequest('registered-users/');
+      print("APIDATA:$response");
 
-      } else {
-        print('Failed to fetch registered users: ${response.statusCode}');
+      if (response != null && response['users'] != null) {
+        updateRegisteredList = response['users'];
+
+        int indexValue = getRegisteredUserList.indexWhere(
+                (e) => e.userId.toString() == UserData().getUserData!.id.toString()
+        );
+
+        if (indexValue != -1) {
+          updateRegisteredList = registeredUserList.removeAt(indexValue);
+        }
+
+        update();
       }
     } catch (e) {
       print('Error fetching registered users: $e');
     }
   }
+
 
   List registeredUserList = [];
 

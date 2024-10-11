@@ -34,11 +34,10 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 const SizedBox(height: 10,),
                 Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 16.0,left: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       CircleAvatar(
                         radius: 30,
                         backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
@@ -51,7 +50,7 @@ class CustomDrawer extends StatelessWidget {
                             ? const Icon(Icons.person, size: 25, color: Colors.white)
                             : null,
                       ),
-                      const SizedBox(width: 15),
+                      const SizedBox(width: 20,),
                       Expanded(
                         child: InkWell(
                           onTap: (){

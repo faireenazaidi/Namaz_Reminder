@@ -93,9 +93,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   SizedBox(width: 3,),
                   Text(
                     'MARK YOUR PRAYER TIME',
-                    style: MyTextTheme.mustardS.copyWith(
-                      fontSize: screenWidth * 0.035, // Dynamic font size
-                    ),
+                    style: MyTextTheme.mustard2
                   ),
                   SizedBox(width: screenWidth * 0.04),
                   SvgPicture.asset(
@@ -103,7 +101,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   ),
                 ],
               ),
-              // const SizedBox(height: 3),
+              const SizedBox(height: 5),
               // Hour and Minute Pickers
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -227,6 +225,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
               Row(
                 children: [
                   Checkbox(
+
                     value: dashBoardController.prayedAtMosque.value,
                     activeColor: AppColor.circleIndicator,
                     onChanged: (bool? value) {
@@ -240,7 +239,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     child: Text(
                       "Prayed at Mosque / Jamat time",
                       style: MyTextTheme.smallWCN.copyWith(
-                       fontSize: 12// Adjust font size dynamically
+                       fontSize: 14// Adjust font size dynamically
                       ),
                       overflow: TextOverflow.ellipsis, // Prevent overflow
                     ),
