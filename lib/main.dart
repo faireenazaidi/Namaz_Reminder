@@ -6,6 +6,7 @@ import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/SplashScreen/splashView.dart';
+import 'package:namaz_reminders/Widget/appColor.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
@@ -41,11 +42,16 @@ class MyApp extends StatelessWidget {
     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     return Obx(() {
       return GetMaterialApp(
+        theme: ThemeData(
+            appBarTheme:AppBarTheme(
+            surfaceTintColor: AppColor.lightmustard
+            ),
+            useMaterial3: true),
         initialRoute: AppRoutes.splashRoute,
         getPages: AppRoutes.pages,
         debugShowCheckedModeBanner: false,
         title: 'Namaz Reminders',
-        theme: ThemeData.light(),
+
         darkTheme: ThemeData.dark(),
         themeMode: customDrawerController.isDarkMode.value
             ? ThemeMode.dark

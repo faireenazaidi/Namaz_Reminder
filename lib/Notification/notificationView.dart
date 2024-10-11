@@ -5,6 +5,7 @@ import 'package:namaz_reminders/Notification/notificationController.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
+import 'NotificationSetting/notificationSettingView.dart';
 
 class NotificationView extends GetView<NotificationController>{
   @override
@@ -32,7 +33,8 @@ class NotificationView extends GetView<NotificationController>{
         actions: [
           TextButton(
             onPressed: () {
-              // Get.toNamed(AppRoutes.settingRoute);
+              Get.to(() => NotificationSetting ());
+
             },
             child:SvgPicture.asset(
                 "assets/set.svg",height: 25,color: AppColor.greyDark,

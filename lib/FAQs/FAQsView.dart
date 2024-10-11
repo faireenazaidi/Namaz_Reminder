@@ -33,7 +33,7 @@ class FAQSView extends StatelessWidget {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: GetBuilder<FAQController>(
           builder: (controller) {
             return ListView.builder(
@@ -43,7 +43,10 @@ class FAQSView extends StatelessWidget {
                 return Column(
                   children: [
                     ListTile(
-                      title: Text(faq['question'],style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
+                      dense: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 12.0,),
+
+                      title: Text(faq['question'],style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
                       trailing: Icon(faq['isExpanded'] ? Icons.remove : Icons.add),
                       onTap: () {
                         faqController.toggleExpansion(index);

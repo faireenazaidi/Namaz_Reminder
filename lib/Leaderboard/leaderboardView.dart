@@ -68,7 +68,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   // mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 60,),
+                    const SizedBox(height: 70,),
                     Obx(() => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -101,7 +101,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               color: leaderBoardController.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                             child: Text(
                               'Weekly',
                               style: TextStyle(
