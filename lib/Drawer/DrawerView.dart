@@ -32,23 +32,25 @@ class CustomDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                const SizedBox(height: 10,),
                 Container(
-                  padding: const EdgeInsets.only(top: 16.0,left: 10),
+                  padding: const EdgeInsets.only(top: 20.0,left: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
-                            ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
-                            : null,
-                        backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
-                            ? AppColor.circleIndicator
-                            : Colors.transparent,
-                        child: customDrawerController.userData.getUserData!.picture.isEmpty
-                            ? const Icon(Icons.person, size: 25, color: Colors.white)
-                            : null,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0,),
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
+                              ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
+                              : null,
+                          backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
+                              ? AppColor.circleIndicator
+                              : Colors.transparent,
+                          child: customDrawerController.userData.getUserData!.picture.isEmpty
+                              ? const Icon(Icons.person, size: 25, color: Colors.white)
+                              : null,
+                        ),
                       ),
                       const SizedBox(width: 20,),
                       Expanded(
@@ -68,6 +70,7 @@ class CustomDrawer extends StatelessWidget {
                                   fontFamily: 'Roboto',
                                 ),
                               ),
+                              SizedBox(height: 5,),
                               Text(
                                 UserData().getUserData!.mobileNo??'',
                                 style: MyTextTheme.smallGCN,
@@ -87,129 +90,229 @@ class CustomDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(height: 10,),
                 Divider(
                   color: AppColor.greyLight,
-                  thickness: 1.4,
-                  endIndent: 10,
-                  indent: 10,
                 ),
-
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/icon.svg"
-                  ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                  title: Text("Leaderboard",style: MyTextTheme.smallBC ,),
-
+                SizedBox(height: 10,),
+                InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.leaderboardRoute);
                   },
-                ),
-
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/missed.svg"
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/icon.svg"),
+                        SizedBox(width: 6,),
+                        Text("Leaderboard",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
                   ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                  title: Text("Missed Prayers",style: MyTextTheme.smallBC ,),
+                ),
+                SizedBox(height: 10,),
+
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/icon.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //   title: Text("Leaderboard",style: MyTextTheme.smallBC ,),
+                //
+                //   onTap: () {
+                //     Get.toNamed(AppRoutes.leaderboardRoute);
+                //   },
+                // ),
+                InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.missedPrayers);
                   },
-                ),
-
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/pc.svg"
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/missed.svg"),
+                        SizedBox(width: 6,),
+                        Text("Missed Prayers",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
                   ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                  title: Text("Peer Circle",style: MyTextTheme.smallBC ,),
+                ),
+                SizedBox(height: 10,),
+
+
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/missed.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //   title: Text("Missed Prayers",style: MyTextTheme.smallBC ,),
+                //   onTap: () {
+                //     Get.toNamed(AppRoutes.missedPrayers);
+                //   },
+                // ),
+                InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.peerRoute);
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/pc.svg"),
+                        SizedBox(width: 6,),
+                        Text("Peer Circle",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 10,),
+
+
+
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/pc.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //   title: Text("Peer Circle",style: MyTextTheme.smallBC ,),
+                //   onTap: () {
+                //     Get.toNamed(AppRoutes.peerRoute);
+                //   },
+                // ),
 
                 Divider(
                   color: AppColor.greyLight,
-                  thickness: 1.4,
-                  endIndent: 10,
-                  indent: 10,
                 ),
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/sc.svg"
-                  ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                  title: Text("Support Center",style: MyTextTheme.smallBC ,),
-                  onTap: () {
-                    Fluttertoast.showToast(msg: "Coming Soon");                },
-                ),
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/noti.svg"
-                  ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                  title: Text("Notifications",style: MyTextTheme.smallBC ,),
+                SizedBox(height: 10,),
+                InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.notifications);
-                    },
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/noti.svg"),
+                        SizedBox(width: 6,),
+                        Text("Notifications",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 10,),
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/noti.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //   title: Text("Notifications",style: MyTextTheme.smallBC ,),
+                //   onTap: () {
+                //     Get.toNamed(AppRoutes.notifications);
+                //     },
+                // ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.settingRoute);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/set.svg"),
+                        SizedBox(width: 6,),
+                        Text("Settings",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/set.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //   title: Text("Settings",style: MyTextTheme.smallBC ,),
+                //   onTap: () {
+                //     // Fluttertoast.showToast(msg: "Coming Soon");
+                //     Get.toNamed(AppRoutes.settingRoute);
+                //
+                //   },
+                // ),
 
                 Divider(
                   color: AppColor.greyLight,
-                  thickness: 1.4,
-                  endIndent: 10,
-                  indent: 10,
                 ),
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/set.svg"
-                  ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                  title: Text("Setting",style: MyTextTheme.smallBC ,),
-                  onTap: () {
-                    // Fluttertoast.showToast(msg: "Coming Soon");
-                    Get.toNamed(AppRoutes.settingRoute);
+                SizedBox(height: 10,),
 
-                  },
-                ),
                 // _buildListTile(
                 //     context, "F&Q", "assets/fAndQ.png", () {
                 //       Fluttertoast.showToast(msg: "Coming Soon");
                 //
                 // }
                 // ),
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/fq.svg"
-                  ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-
-                  title: Text("F&Q",style: MyTextTheme.smallBC ,),
+                InkWell(
                   onTap: () {
-                    // Fluttertoast.showToast(msg: "Coming Soon");
                     Get.toNamed(AppRoutes.faqsRoute);
-
                   },
-                ),
-                ListTile(
-                  leading:  SvgPicture.asset(
-                      "assets/feed.svg"
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/fq.svg"),
+                        SizedBox(width: 6,),
+                        Text("F&Q",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
                   ),
-                  dense: true,
-                  visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-
-                  title: Text("Feedback",style: MyTextTheme.smallBC ,),
+                ),
+                SizedBox(height: 10,),
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/fq.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //
+                //   title: Text("F&Q",style: MyTextTheme.smallBC ,),
+                //   onTap: () {
+                //     // Fluttertoast.showToast(msg: "Coming Soon");
+                //     Get.toNamed(AppRoutes.faqsRoute);
+                //
+                //   },
+                // ),
+                InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.feedback);
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/feed.svg"),
+                        SizedBox(width: 6,),
+                        Text("Feedback",style: MyTextTheme.smallBC ,),
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(height: 10,),
+                // ListTile(
+                //   leading:  SvgPicture.asset(
+                //       "assets/feed.svg"
+                //   ),
+                //   dense: true,
+                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //   title: Text("Feedback",style: MyTextTheme.smallBC ,),
+                //   onTap: () {
+                //     Get.toNamed(AppRoutes.feedback);
+                //   },
+                // ),
                 InkWell(
                   onTap: (){
                     Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
@@ -220,23 +323,45 @@ class CustomDrawer extends StatelessWidget {
 
                     //Get.toNamed(AppRoutes.locationPageRoute);
                   },
-
-                 child:  ListTile(
-                    leading:  SvgPicture.asset(
-                        "assets/logout.svg"
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/logout.svg"),
+                        SizedBox(width: 6,),
+                        Text("Logout",style: MyTextTheme.smallBC ,),
+                      ],
                     ),
-                   dense: true,
-                   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                   title: Text("Logout",style: MyTextTheme.smallBC ,),
-                      onTap: (){
-                        Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
-                            okPressEvent: ()async{
-                              await UserData().removeUserData();
-                              Get.offAllNamed(AppRoutes.locationPageRoute);
-                            });
-                      },
                   ),
-                ),
+               ),
+                SizedBox(height: 10,),
+                // InkWell(
+                //   onTap: (){
+                //     Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
+                //         okPressEvent: ()async{
+                //           await UserData().removeUserData();
+                //           Get.offAllNamed(AppRoutes.locationPageRoute);
+                //         });
+                //
+                //     //Get.toNamed(AppRoutes.locationPageRoute);
+                //   },
+                //
+                //  child:  ListTile(
+                //     leading:  SvgPicture.asset(
+                //         "assets/logout.svg"
+                //     ),
+                //    dense: true, visualDensity: VisualDensity(vertical: -1,horizontal: -4),
+                //
+                //    title: Text("Logout",style: MyTextTheme.smallBC ,),
+                //       onTap: (){
+                //         Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
+                //             okPressEvent: ()async{
+                //               await UserData().removeUserData();
+                //               Get.offAllNamed(AppRoutes.locationPageRoute);
+                //             });
+                //       },
+                //   ),
+                // ),
 
               ],
             ),

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -39,11 +40,17 @@ class DashBoardView extends GetView<DashBoardController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 45,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Divider(
+            height: 1.0,
+            color: AppColor.packageGray,
+          ),
+        ),
+        toolbarHeight: 55,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
-        title: Text("Prayer O'Clock", style: MyTextTheme.largeBCN),
+        title: Text("Prayer O'clock", style: MyTextTheme.largeBN),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -55,8 +62,9 @@ class DashBoardView extends GetView<DashBoardController> {
                 const SizedBox(width: 4),
                 Text(
                   dashboardController.location.value,
-                  style: const TextStyle(color: Colors.black),
+                  style: MyTextTheme.greyNormal
                 ),
+                 SizedBox(width: 8,),
                  InkWell(
                    onTap: (){
                      Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
@@ -65,7 +73,7 @@ class DashBoardView extends GetView<DashBoardController> {
                    // child: CircleAvatar(
                    //  backgroundImage: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),),
                    child:  Container(
-                     width: 35,
+                     width: 40,
                      height: 40,
                      decoration: BoxDecoration(
                        shape: BoxShape.circle,
@@ -102,10 +110,10 @@ class DashBoardView extends GetView<DashBoardController> {
                   :
               Column(
                 children: [
-                  Divider(
-                    color: AppColor.greyLight,
-                    thickness: 1,
-                  ),
+                  // Divider(
+                  //   color: AppColor.greyLight,
+                  //   thickness: 1,
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(0.0),
                     child:  Row(
@@ -273,17 +281,32 @@ class DashBoardView extends GetView<DashBoardController> {
                               : InkWell(
                             child:controller.isPrayed? Text("Prayed!",style: TextStyle(
                                 color: AppColor.circleIndicator,fontWeight: FontWeight.w600
-                            ),) :Text("Mark as Prayer", style: MyTextTheme.mustardN),
+                            ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
                             onTap: () {
-                              if(!controller.isPrayed){
+                              if (!controller.isPrayed) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return  const TimePicker();
+                                    return GestureDetector(
+                                      onTap: () => Navigator.of(context).pop(),
+                                      child: Stack(
+                                        children: [
+                                          // Apply blur to the background
+                                          BackdropFilter(
+                                            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                                            child: Container(
+                                              color: Colors.black.withOpacity(0.5), // Optional dark overlay
+                                            ),
+                                          ),
+                                           TimePicker()
+                                        ],
+                                      ),
+                                    );
                                   },
                                 );
                               }
                             },
+
                           );
                         }),
                       ),
@@ -339,19 +362,34 @@ class DashBoardView extends GetView<DashBoardController> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Obx(() {
-                          return Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppColor.leaderboard,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: RankedFriendsIndicator(
-                              rankedFriends: controller.getLeaderboardList.value == null
-                                  ? []
-                                  : controller.getLeaderboardList.value!.rankedFriends,
-                              currentUserId: int.parse(controller.userData.getUserData!.id),
-                            ),
+                          return
+                              Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: AppColor.leaderboard,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("LEADERBOARD",style: MyTextTheme.greyN,),
+                                        SvgPicture.asset("assets/Close.svg")
+                                      ],
+                                    ),
+                                    RankedFriendsIndicator(
+                                      rankedFriends: controller.getLeaderboardList.value == null
+                                          ? []
+                                          : controller.getLeaderboardList.value!.rankedFriends,
+                                      currentUserId: int.parse(controller.userData.getUserData!.id),
+                                    ),
+                                  ],
+                                ),
+
+
                           );
                         }),
                       ),
@@ -421,7 +459,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                 onTap: () {
                                                   Get.to(() => Upcoming());
                                                 },
-                                                child: SvgPicture.asset("assets/close.svg"),
+                                                child: SvgPicture.asset("assets/cl.svg"),
                                               ),
                                             ),
                                           ],
@@ -535,7 +573,7 @@ class _BlinkingTextWidgetState extends State<BlinkingTextWidget> with SingleTick
   late AnimationController _controller;
 
   @override
-  void initState() {
+   initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -544,7 +582,7 @@ class _BlinkingTextWidgetState extends State<BlinkingTextWidget> with SingleTick
   }
 
   @override
-  void dispose() {
+ dispose() {
     _controller.dispose();
     super.dispose();
   }

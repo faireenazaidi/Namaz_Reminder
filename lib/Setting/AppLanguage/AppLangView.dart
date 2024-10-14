@@ -18,7 +18,7 @@ class AppLangView extends GetView<SettingController>{
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: Text('Prayer Times', style: MyTextTheme.mediumBCD),
+          title: Text('App Language', style: MyTextTheme.mediumBCD),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Divider(

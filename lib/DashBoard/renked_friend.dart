@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 // class RankDisplayWidget extends StatelessWidget {
@@ -144,6 +145,8 @@ class RankedFriendsIndicator extends StatelessWidget {
         // ),
         Row(
           children: [
+           SvgPicture.asset("assets/Frame.svg",height: 20,),
+            SizedBox(width: 5),
             Text.rich(
               TextSpan(
                 text: '${getCurrentUserRank()}',
@@ -177,7 +180,12 @@ class RankedFriendsIndicator extends StatelessWidget {
             Expanded(
               child: Container(
                 height: 6,
-                color: Colors.grey[300],
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(20)
+
+                ),
+
                 child: Stack(
                   children: [
                     // Highlighted progress bar for current user's position
@@ -186,8 +194,15 @@ class RankedFriendsIndicator extends StatelessWidget {
                       left: getCurrentUserPercentagePosition(context) * MediaQuery.of(context).size.width,
                       child: Container(
                         height: 6,
-                        width: MediaQuery.of(context).size.width * getHighlightedBarWidth(context),
-                        color: AppColor.circleIndicator,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.horizontal(
+                            left: Radius.circular(10),
+                            right: Radius.circular(10),
+                          ),
+                          color: AppColor.circleIndicator,
+                        ),
+                         width: MediaQuery.of(context).size.width * getHighlightedBarWidth(context),
+
                       ),
                     ),
                   ],

@@ -43,7 +43,7 @@ class NotificationSetting extends StatelessWidget {
             //Notification Sound//
             ListTile(
               title: Text('Notification Sound',style: MyTextTheme.medium2,),
-              subtitle: Text('Default (Call to Prayer)',style: MyTextTheme.smallGCN,),
+              subtitle: Text('Default (Classic)',style: MyTextTheme.smallGCN,),
               trailing:Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
               onTap: () {
                 Get.to(() => NotificationSound());

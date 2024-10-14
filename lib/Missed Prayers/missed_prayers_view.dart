@@ -5,7 +5,7 @@ import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
-import 'missed_prayers_controller.dart';
+import '../Widget/text_theme.dart';
 
 class MissedPrayersView extends GetView<LeaderBoardController>{
   const MissedPrayersView({super.key});
@@ -21,7 +21,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
       body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              title: const Text("Missed Prayers"),
+              title:  Text("Missed Prayers",style: MyTextTheme.mediumBCD,),
               centerTitle: true,
               pinned: true,
               expandedHeight: 300.0,
@@ -267,7 +267,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 itemBuilder: (context, index) {
                                   var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
                                   return Visibility(
-                                    visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+                                    visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Zuhr",
                                     child: Column(
                                       children: [
                                         Padding(

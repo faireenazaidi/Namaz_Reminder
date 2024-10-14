@@ -89,14 +89,14 @@ class SettingView extends StatelessWidget {
                         imagePath:"assets/hijri.svg"
                       ),
 
-                      buildSettingItem(
-                        title: 'Prayer Time Setting',
-                        subtitle: '5 times',
-                        onTap: () {
-                          Get.to(() => PrayTimeView());
-                        },
-                          imagePath:"assets/prayertime.svg"
-                      ),
+                      // buildSettingItem(
+                      //   title: 'Prayer Time Setting',
+                      //   subtitle: '5 times',
+                      //   onTap: () {
+                      //     Get.to(() => PrayTimeView());
+                      //   },
+                      //     imagePath:"assets/prayertime.svg"
+                      // ),
                       buildSettingItem(
                         title: 'Notifications',
                         subtitle: '',
@@ -113,14 +113,14 @@ class SettingView extends StatelessWidget {
                         },
                           imagePath:"assets/frndrqst.svg"
                       ),
-                      buildSettingItem(
-                        title: 'App Language',
-                        subtitle: 'English',
-                        onTap: () {
-                          Get.to(() => AppLangView());
-                        },
-                          imagePath:"assets/language.svg"
-                      ),
+                      // buildSettingItem(
+                      //   title: 'App Language',
+                      //   subtitle: 'English',
+                      //   onTap: () {
+                      //     Get.to(() => AppLangView());
+                      //   },
+                      //     imagePath:"assets/language.svg"
+                      // ),
                       buildSettingItem(
                         title: 'Privacy & Security',
                         subtitle: '',
@@ -166,7 +166,7 @@ class SettingView extends StatelessWidget {
             style: MyTextTheme.mediumB,
           ),
           subtitle: subtitle != null && subtitle.isNotEmpty
-              ? Text(subtitle, style: TextStyle(color: Colors.grey,fontSize: 11))
+              ? Text(subtitle, style: TextStyle(color: Colors.grey,fontSize: 14))
               : null,
           trailing: SizedBox(
             width: 5,
