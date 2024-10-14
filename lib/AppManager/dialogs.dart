@@ -130,11 +130,16 @@ class Dialogs{
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const Icon(
-                          Icons.person,
-                          size: 80,
-                          color: Colors.orange,
+                        Image.asset(
+                          "assets/container.png",
+                          width: 40,
+                          height: 50,
                         ),
+                        // const Icon(
+                        //   Icons.person,
+                        //   size: 80,
+                        //   color: Colors.orange,
+                        // ),
                         const SizedBox(height: 10),
                         Text(
                           message,

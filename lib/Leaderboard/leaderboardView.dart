@@ -925,13 +925,13 @@ class TopRankedUsers extends StatelessWidget {
             Positioned(
               child: Text(
                 '$rank', // Display the rank number
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.all(1), // Padding around the square image
           decoration: BoxDecoration(
@@ -982,12 +982,12 @@ class TopRankedUsers extends StatelessWidget {
         // ),
         SizedBox(height: 8),
         Text(
-          friend['name'],
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          friend['name'].split(' ')[0],
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Text(
           '${friend['percentage'].toStringAsFixed(2)}%',
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
         ),
       ],
     );
