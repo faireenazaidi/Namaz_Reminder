@@ -1,5 +1,7 @@
 
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
 import 'AddFriends/AddFriendDataModal.dart';
@@ -28,32 +30,32 @@ class PeerController extends GetxController{
 
   }
 
-  // friendship() async {
-  //   var request = http.Request('GET', Uri.parse(
-  //       'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
-  //
-  //   http.StreamedResponse response = await request.send();
-  //   isLoading.value = false;
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(await response.stream.bytesToString());
-  //     updateFriendRequestList = data['friendships'];
-  //     print("object"+data['friendships'].toString());
-  //   }
-  //   else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
   friendship() async {
-    try {
-      final data = await apiService.getRequest('friendships/?user_id=${userData.getUserData!.id.toString()}');
-        isLoading.value = false;
+    var request = http.Request('GET', Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
+
+    http.StreamedResponse response = await request.send();
+    isLoading.value = false;
+    if (response.statusCode == 200) {
+      var data = jsonDecode(await response.stream.bytesToString());
       updateFriendRequestList = data['friendships'];
       print("object"+data['friendships'].toString());
-      print('Data: $data');
     }
-    catch (e) {
-      print('Error: $e');  }
+    else {
+      print(response.reasonPhrase);
+    }
   }
+  // friendship() async {
+  //   try {
+  //     final data = await apiService.getRequest('friendships/?user_id=${userData.getUserData!.id.toString()}');
+  //       isLoading.value = false;
+  //     updateFriendRequestList = data['friendships'];
+  //     print("object"+data['friendships'].toString());
+  //     print('Data: $data');
+  //   }
+  //   catch (e) {
+  //     print('Error: $e');  }
+  // }
 
   List friendshipList = [];
 
@@ -86,46 +88,46 @@ class PeerController extends GetxController{
   }
 
   ///REMOVE FRIEND
-  // removeFriend(String friendId) async {
-  //   print("friendId $friendId");
-  //   print("myId ${userData.getUserData!.id}");
-  //   var headers = {
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request('POST',
-  //       Uri.parse('http://182.156.200.177:8011/adhanapi/remove_friend/')
-  //   );
-  //   request.body = json.encode({
-  //     "user_id":userData.getUserData!.id.toString(),
-  //     "friend_id": friendId.toString()
-  //   });
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     print(await response.stream.bytesToString());
-  //     print("success");
-  //   }
-  //   else {
-  //     print(response.reasonPhrase);
-  //     print('jjjjjjjjjjjjjjjjj');
-  //   }
-  // }
   removeFriend(String friendId) async {
-
-    Map<String, dynamic> requestBody = {
-      "user_id": userData.getUserData!.id.toString(),
-      "friend_id": friendId.toString(),
+    print("friendId $friendId");
+    print("myId ${userData.getUserData!.id}");
+    var headers = {
+      'Content-Type': 'application/json'
     };
+    var request = http.Request('POST',
+        Uri.parse('http://182.156.200.177:8011/adhanapi/remove_friend/')
+    );
+    request.body = json.encode({
+      "user_id":userData.getUserData!.id.toString(),
+      "friend_id": friendId.toString()
+    });
+    request.headers.addAll(headers);
 
-    try {
-      final response = await apiService.postRequest('remove_friend/', requestBody);
-      print('Friend removed successfully: $response');
-    } catch (e) {
-      print('Failed to remove friend: $e');
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      print("success");
+    }
+    else {
+      print(response.reasonPhrase);
+      print('jjjjjjjjjjjjjjjjj');
     }
   }
+  // removeFriend(String friendId) async {
+  //
+  //   Map<String, dynamic> requestBody = {
+  //     "user_id": userData.getUserData!.id.toString(),
+  //     "friend_id": friendId.toString(),
+  //   };
+  //
+  //   try {
+  //     final response = await apiService.postRequest('remove_friend/', requestBody);
+  //     print('Friend removed successfully: $response');
+  //   } catch (e) {
+  //     print('Failed to remove friend: $e');
+  //   }
+  // }
 
 
   }

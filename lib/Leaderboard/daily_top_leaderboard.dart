@@ -36,7 +36,7 @@ class DailyTopLeaderboard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildUserList(groupedByPrayer['Fajr']),
-            buildUserList(groupedByPrayer['Dhuhr']),
+            buildUserList(groupedByPrayer['Zuhr']),
             buildUserList(groupedByPrayer['Asr']),
             buildUserList(groupedByPrayer['Maghrib']),
             buildUserList(groupedByPrayer['Isha']),
@@ -133,7 +133,7 @@ class DailyTopLeaderboard extends StatelessWidget {
   Map<String, List<Record>> groupByPrayer(List<Record> records) {
     Map<String, List<Record>> prayerGroups = {
       'Fajr': [],
-      'Dhuhr': [],
+      'Zuhr': [],
       'Asr': [],
       'Maghrib': [],
       'Isha': [],

@@ -177,13 +177,13 @@ class ProfileView extends GetView<ProfileController> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:  BorderSide(
-                                color: Colors.black,
+                                color: AppColor.packageGray,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: AppColor.packageGray,
                                 width: 1,
                               ),
                             ),
@@ -266,20 +266,20 @@ class ProfileView extends GetView<ProfileController> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:  BorderSide(
-                                color: Colors.black,
+                                color: AppColor.packageGray,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: AppColor.packageGray,
                                 width: 1,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: AppColor.packageGray,
                                 width: 1,
                               ),
                             ),
@@ -314,8 +314,8 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: AppColor.packageGray,
                                 width: 1,
                               ),
                             ),
@@ -344,7 +344,7 @@ class ProfileView extends GetView<ProfileController> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey), // Border color
+                            border: Border.all(  color: AppColor.packageGray,), // Border color
                             borderRadius: BorderRadius.circular(10.0), // Circular border radius
                           ),
                           child: DropdownButton<String>(

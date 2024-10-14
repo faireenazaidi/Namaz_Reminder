@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 // class RankDisplayWidget extends StatelessWidget {
@@ -144,6 +145,8 @@ class RankedFriendsIndicator extends StatelessWidget {
         // ),
         Row(
           children: [
+           SvgPicture.asset("assets/Frame.svg",height: 20,),
+            SizedBox(width: 5),
             Text.rich(
               TextSpan(
                 text: '${getCurrentUserRank()}',
@@ -177,19 +180,31 @@ class RankedFriendsIndicator extends StatelessWidget {
             Expanded(
               child: Container(
                 height: 6,
-                color: Colors.grey[300],
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(20)
+
+                ),
+
                 child: Stack(
                   children: [
                     // Highlighted progress bar for current user's position
                     if (rankedFriends.isNotEmpty)
-                      Positioned(
-                        right: 0,
-                        child: Container(
-                          height: 6,
-                          width: MediaQuery.of(context).size.width * getCurrentUserPercentagePosition(context),
+                    Positioned(
+                      left: getCurrentUserPercentagePosition(context) * MediaQuery.of(context).size.width,
+                      child: Container(
+                        height: 6,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.horizontal(
+                            left: Radius.circular(10),
+                            right: Radius.circular(10),
+                          ),
                           color: AppColor.circleIndicator,
                         ),
+                         width: MediaQuery.of(context).size.width * getHighlightedBarWidth(context),
+
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -244,19 +259,11 @@ class RankedFriendsIndicator extends StatelessWidget {
   double getCurrentUserPercentagePosition(BuildContext context) {
     int rank = getCurrentUserRank();
     print("this is rank $rank");
-
-    if (rankedFriends.length == 1) {
-      return 1; // If there's only 1 user, the bar should fill completely
-    }
-
-    // Calculate the width from right to left: rank 1 should give 1 (full), last rank should give 0
-    return (rankedFriends.length - rank + 1) / rankedFriends.length;
+    return (rank - 1) / rankedFriends.length;
   }
-
 
   // Get the width of the highlighted bar (based on the current user's rank)
   double getHighlightedBarWidth(BuildContext context) {
-    // Highlight bar width should be proportional to the total number of ranked friends
     return 1 / rankedFriends.length;
   }
 }

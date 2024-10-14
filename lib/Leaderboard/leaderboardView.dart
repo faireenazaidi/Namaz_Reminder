@@ -5,8 +5,6 @@ import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-import '../AppManager/date_time_field.dart';
-import 'daily_top_leaderboard.dart';
 import 'leaderboardController.dart';
 import 'leaderboardDataModal.dart';
 
@@ -41,22 +39,19 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
       body: CustomScrollView(
         slivers: [
           Obx(()=>SliverAppBar(
-            title: const Text("Leaderboard"),
+            title:  Text("Leaderboard",style: MyTextTheme.mediumBCD,),
             centerTitle: true,
             pinned: true,
-            expandedHeight: leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6,
+             expandedHeight: leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6,
             // expandedHeight: 350.0,
             backgroundColor: AppColor.cream,
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.dashboardRoute);
-                  },
-                ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+                onPressed: () {
+                  Get.toNamed(AppRoutes.dashboardRoute);
+                },
               ),
             ),
 
@@ -158,8 +153,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                 Expanded(
                                   child: Text(
                                     DateFormat('EEEE, d MMMM yyyy').format(dateController.selectedDate.value),
-                                    style: const TextStyle(fontSize: 14, color: Colors.black),
-                                    overflow: TextOverflow.ellipsis,
+
                                   ),
                                 ),
                                 const VerticalDivider(
@@ -183,7 +177,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       ),
                     ),
                     if(leaderBoardController.selectedTab.value != 'Weekly')
-                    const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+                    Center(child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),)),
                     const SizedBox(height: 10),
                     if(leaderBoardController.selectedTab.value == 'Weekly')
                       Obx(() {
@@ -500,7 +494,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
         ),
         const SizedBox(height: 5),
         Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text(score, style: const TextStyle(color: Colors.orange)),
+        Text(score, style:  TextStyle(color: AppColor.circleIndicator)),
       ],
     );
   }
@@ -518,7 +512,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             height: 380,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: highlight ? [Colors.orange.shade200, Colors.yellow.shade50] : [Colors.grey.shade400,Colors.white12, ],
+                colors: highlight ? [AppColor.circleIndicator, Colors.yellow.shade50] : [Colors.grey.shade400,Colors.white12, ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -597,7 +591,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       image: NetworkImage("http://182.156.200.177:8011${friend['picture']}"),
                       fit: BoxFit.cover, // This will ensure the image covers the entire container
                     ),
-                    borderRadius: BorderRadius.circular(15), // Optional: to round the corners
+                    borderRadius: BorderRadius.circular(10), // Optional: to round the corners
                   ),
                 )
                     : Container(
@@ -939,24 +933,32 @@ class TopRankedUsers extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Container(
-          padding: const EdgeInsets.all(1), // Padding around the circular image
+          padding: const EdgeInsets.all(1), // Padding around the square image
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.yellow,), // Yellow border
+            shape: BoxShape.rectangle, // Change to rectangle for a square shape
+            border: Border.all(color: Colors.yellow), // Yellow border
+            borderRadius: BorderRadius.circular(8), // Optional: Adds rounded corners
           ),
-          child:friend['picture'] != null?
-    CircleAvatar(
-    radius: 30, // Radius of the circular image
-    backgroundImage: NetworkImage(
-    "http://182.156.200.177:8011${friend['picture']}", // Replace with your image URL
-    ),
-    )
-          :
-          const Padding(
+          child: friend['picture'] != null
+              ? ClipRRect(
+            borderRadius: BorderRadius.circular(8), // Optional: Rounded corners for the image
+            child: Image.network(
+              "http://182.156.200.177:8011${friend['picture']}", // Replace with your image URL
+              width: 50, // Set width for the square image
+              height: 50, // Set height for the square image
+              fit: BoxFit.cover, // Crop the image to fit
+            ),
+          )
+              : const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            child: Icon(
+              Icons.person,
+              color: Colors.grey,
+              size: 30,
+            ),
           ),
         ),
+
         // Container(
         //   width: 80,
         //   height: 50,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:namaz_reminders/Widget/appColor.dart';
 
 import '../Widget/text_theme.dart';
 import 'leaderboardDataModal.dart';
@@ -24,11 +25,11 @@ class PrayerRanking extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              buildPrayerCircle('F', Colors.orange),
-              buildPrayerCircle('D', Colors.orange),
-              buildPrayerCircle('A', Colors.orange),
-              buildPrayerCircle('M', Colors.orange),
-              buildPrayerCircle('I', Colors.orange),
+              buildPrayerCircle('F', AppColor.circleIndicator),
+              buildPrayerCircle('D', AppColor.circleIndicator),
+              buildPrayerCircle('A', AppColor.circleIndicator),
+              buildPrayerCircle('M', AppColor.circleIndicator),
+              buildPrayerCircle('I', AppColor.circleIndicator),
               Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,fontWeight: FontWeight.bold)),
             ],
           ),

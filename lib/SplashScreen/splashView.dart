@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/SplashScreen/splashController.dart';
 import '../Widget/appColor.dart';
@@ -19,18 +20,23 @@ class SplashScreen extends GetView<SplashController> {
         backgroundColor: AppColor.gray,
         body: Stack(
           children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/net.png"),
-                  fit: BoxFit.cover
-                )
+            Positioned.fill(
+              child: SvgPicture.asset(
+                "assets/jali.svg",
+                fit: BoxFit.cover,
               ),
             ),
-            Image.asset("assets/logo.png",fit: BoxFit.cover,),
+
+            // Center widget or title
+            Center(
+              child: SvgPicture.asset(
+                "assets/title.svg",
+                fit: BoxFit.contain,
+              ),
+            ),
           ],
         ),
-      ),
+      )
     );
   }
 }
