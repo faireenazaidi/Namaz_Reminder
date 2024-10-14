@@ -242,7 +242,8 @@ Map selectMethod = {}.obs;
   /// Otp verification
 
   otpVerification(verificationOTPCode) async {
-    var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim()};
+    var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim(),
+      'token':"cAw7hsBUQfCVvvmAcxuc0x:APA91bFq0rhpFjk-OfOV1Yen-bHc-bJlSX54edqq-3QQuIEv6BdnLDejnWIELUFbbNnF89qWhJbGXkNKutZQaD068ZBaKIQog91iH945HZokkZoTnIVes5AgkV79cgA_l89d73Q14eo1"};
 
     print("phoneNumber ${phoneController.value.text}");
     print("phoneNumber______________ ${body}");

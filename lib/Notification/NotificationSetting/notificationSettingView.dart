@@ -67,7 +67,11 @@ class NotificationSetting extends StatelessWidget {
               title: Text('Pause all',style: MyTextTheme.medium2,),
               subtitle: Text('Temporarily pause notifications',style: MyTextTheme.smallGCN,),
               value: notificationSettingsController.pauseAll.value,
-              onChanged: (value) => notificationSettingsController.pauseAll.value = value,
+              onChanged: (value) {
+                print("value $value");
+                notificationSettingsController.pauseAll.value = value;
+                notificationSettingsController.registerUser();
+              },
             )
             ),
 
@@ -79,7 +83,9 @@ class NotificationSetting extends StatelessWidget {
               title: Text('Quiet mode',style: MyTextTheme.medium2,),
               subtitle: Text('Automatically mute notifications at night or whenever you need to focus.',style: MyTextTheme.smallGCN,),
               value: notificationSettingsController.quietMode.value,
-              onChanged: (value) => notificationSettingsController.quietMode.value = value,
+              onChanged: (value) {
+                notificationSettingsController.quietMode.value = value;
+              },
             )
             ),
 
@@ -90,7 +96,10 @@ class NotificationSetting extends StatelessWidget {
               activeTrackColor: AppColor.circleIndicator,              title: Text('Friend requests',style: MyTextTheme.medium2,),
               subtitle: Text('Notify when someone sends you a joining request',style: MyTextTheme.smallGCN,),
               value: notificationSettingsController.friendRequests.value,
-              onChanged: (value) => notificationSettingsController.friendRequests.value = value,
+              onChanged: (value) {
+                notificationSettingsController.friendRequests.value = value;
+                notificationSettingsController.registerUser();
+              },
             )
             ),
 
@@ -101,7 +110,10 @@ class NotificationSetting extends StatelessWidget {
               activeTrackColor: AppColor.circleIndicator,
               title: Text('Friend Namaz Prayed',style: MyTextTheme.medium2,),
               value: notificationSettingsController.friendNamazPrayed.value,
-              onChanged: (value) => notificationSettingsController.friendNamazPrayed.value = value,
+              onChanged: (value) {
+                notificationSettingsController.friendNamazPrayed.value = value;
+                notificationSettingsController.registerUser();
+              },
             )
             ),
 

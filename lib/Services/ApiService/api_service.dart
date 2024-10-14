@@ -45,11 +45,14 @@ class ApiService {
   Future<dynamic> putRequest(String endpoint, dynamic body, {String? customBaseUrl}) async {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl;
     try {
+      print('url $baseUrl$endpoint');
+      print('body $body');
       final response = await http.put(
         Uri.parse('$baseUrl$endpoint'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
+      print("api response ${response.statusCode} ${response.body}");
       return _processResponse(response);
     } catch (e) {
       _handleError(e);
