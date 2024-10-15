@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -7,15 +5,10 @@ import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
-import 'package:namaz_reminders/Routes/approutes.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../AppManager/toast.dart';
-import '../DashBoard/dashboardView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/myCustomeSd.dart';
-import '../Widget/radio_menu.dart';
-import '../Widget/textField.dart';
 import '../Widget/text_theme.dart';
 
 
@@ -70,16 +63,19 @@ class LocationPage extends GetView<LocationPageController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Login/Signup", style: MyTextTheme.largeWCB),
-                              Text("Enter your phone number to send the OTP",
-                                  style: MyTextTheme.mustardS),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Login/Signup", style: MyTextTheme.largeWCB),
+                                Text("Enter your phone number to send the OTP",
+                                    style: MyTextTheme.mustardS),
+                              ],
+                            ),
                           ),
                           Lottie.asset("assets/login.lottie",
-                              decoder: customDecoder, height: 80),
+                              decoder: customDecoder, height: 90),
                         ],
                       ),
                       // Column(
@@ -103,10 +99,7 @@ class LocationPage extends GetView<LocationPageController> {
                       //   ],
                       // ),
 
-
-
-
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: IntlPhoneField(
@@ -164,7 +157,6 @@ class LocationPage extends GetView<LocationPageController> {
 
                       const SizedBox(height: 20),
                       MyButton(
-                        height: 60,
                         borderRadius: 10,
                         elevation: 2,
                         title: "Send OTP",
@@ -323,7 +315,6 @@ class LocationPage extends GetView<LocationPageController> {
 
                         const SizedBox(height: 30),
                         OtpTextField(
-
                           autoFocus: false,
                           focusedBorderColor: Colors.white,
                           numberOfFields: 6,
