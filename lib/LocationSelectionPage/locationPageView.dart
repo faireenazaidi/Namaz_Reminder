@@ -1,11 +1,12 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
-import '../AppManager/toast.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/myCustomeSd.dart';
@@ -49,8 +50,8 @@ class LocationPage extends GetView<LocationPageController> {
                   ),
                   color:AppColor.gray,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
                   ),
                 ),
                 child: controller.step.value == 0?
@@ -100,63 +101,93 @@ class LocationPage extends GetView<LocationPageController> {
                       // ),
 
                       const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IntlPhoneField(
-                          cursorColor: Colors.grey,
-                          controller: controller.phoneController.value,
-                          decoration: InputDecoration(
-                            // Use Row in prefixIcon to combine phone icon and a space
-                            prefixIcon: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min, // Ensures it takes the minimum width necessary
-                                children: [
-                                  Icon(
-                                    Icons.local_phone_outlined, // Phone icon
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 8), // Spacing between icon and the rest of the field
-                                ],
-                              ),
-                            ),
-                            hintText: "Enter your phone number",
-                            hintStyle: MyTextTheme.mediumCustomGCN,
-                            filled: true,
-                            fillColor: Colors.grey.withOpacity(0.1),
-                            counterText: "",
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
+                      IntlPhoneField(
+                        cursorColor: Colors.grey,
+                        controller: controller.phoneController.value,
+                        decoration: InputDecoration(
+                          // Use Row in prefixIcon to combine phone icon and a space
+                      prefixIcon: Icon(Icons.abc),
+                          hintText: "Enter your phone number",
+                          hintStyle: MyTextTheme.mediumCustomGCN,
+                          filled: true,
+                          fillColor: Colors.grey.withOpacity(0.1),
+                          counterText: "",
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
-                          initialCountryCode: 'IN',
-                          dropdownIconPosition: IconPosition.trailing,
-                          dropdownTextStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
-                          showCountryFlag: false,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                          focusedBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
-                          onChanged: (phone) {
-                            print(phone.completeNumber);
-                          },
                         ),
+                        initialCountryCode: 'IN',
+                        dropdownIconPosition: IconPosition.trailing,
+                        dropdownTextStyle: const TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        showCountryFlag: false,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                        onChanged: (phone) {
+                          print(phone.completeNumber);
+                        },
                       ),
+
+                      // Container(
+                      //   height: 50,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(8),
+                      //     border: Border.all(color: Colors.white70), // Border color
+                      //   ),
+                      //   child: Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       Padding(
+                      //         padding: const EdgeInsets.symmetric(horizontal: 4.0), // Reduce padding here
+                      //         child: SvgPicture.asset(
+                      //           "assets/mob.svg",
+                      //           width: 24, // Optional: adjust the icon size if needed
+                      //         ),
+                      //       ),
+                      //       CountryCodePicker(
+                      //         onChanged: (countryCode) {
+                      //           print("Country code selected: ${countryCode.dialCode}");
+                      //         },
+                      //
+                      //         initialSelection: 'IN',
+                      //         favorite: ['+91', 'IN'],
+                      //         showFlag: false,
+                      //         textStyle: TextStyle(color: Colors.white),
+                      //         showFlagDialog: true,
+                      //         showDropDownButton: true,
+                      //       ),
+                      //       Expanded(
+                      //         child: TextField(
+                      //           controller: controller.phoneController.value,
+                      //           keyboardType: TextInputType.phone,
+                      //           style: TextStyle(color: Colors.white),
+                      //           decoration: InputDecoration(
+                      //             hintText: 'Enter phone number',
+                      //             hintStyle: TextStyle(color: Colors.white54),
+                      //             border: InputBorder.none,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
                       const SizedBox(height: 20),
                       MyButton(
+                        height: 80,
                         borderRadius: 10,
                         elevation: 2,
                         title: "Send OTP",
@@ -189,66 +220,64 @@ class LocationPage extends GetView<LocationPageController> {
                         },
                       ),
 
-                      const SizedBox(height: 10,),
-                      const Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey,
-                              thickness: 1,
-                              indent: 50,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              "or",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey,
-                              thickness: 1,
-                              endIndent: 50,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // const Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Divider(
+                      //         color: Colors.grey,
+                      //         thickness: 1,
+                      //         indent: 50,
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: EdgeInsets.symmetric(horizontal: 10),
+                      //       child: Text(
+                      //         "or",
+                      //         style: TextStyle(color: Colors.grey),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Divider(
+                      //         color: Colors.grey,
+                      //         thickness: 1,
+                      //         endIndent: 50,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
 
-                      const SizedBox(height: 10),
-                      InkWell(
-                        onTap: () {
-                          showToast(msg: 'Coming Soon');
-                          // controller.toggleSecondContainer();
-                        },
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                            Border.all(color: AppColor.packageGray),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset("assets/googleLogo.png"),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Log in with Google",
-                                    style: MyTextTheme.smallWCB),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     showToast(msg: 'Coming Soon');
+                      //     // controller.toggleSecondContainer();
+                      //   },
+                      //   child: Container(
+                      //     height: 50,
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.grey.withOpacity(0.1),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border:
+                      //       Border.all(color: AppColor.packageGray),
+                      //     ),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Image.asset("assets/googleLogo.png"),
+                      //         Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Text("Log in with Google",
+                      //               style: MyTextTheme.smallWCB),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ):
                 controller.step.value == 1?
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -262,9 +291,11 @@ class LocationPage extends GetView<LocationPageController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
 
                                 children: [
+                                  SizedBox(height: 5,),
                                   // Text(controller.otp.toString(),style: TextStyle(color: Colors.white),),
                                   Text("Verifying Your Account",
                                       style: MyTextTheme.largeWCB),
+                                  SizedBox(height: 5,),
                                   RichText(
                                     text: TextSpan(
                                       text: 'Enter the 6-digit verification code sent to the number ending in the last 4 digits ', // Default text
@@ -468,6 +499,7 @@ class LocationPage extends GetView<LocationPageController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 5,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -477,22 +509,20 @@ class LocationPage extends GetView<LocationPageController> {
                               Text("Setup your Account",
                                   style: MyTextTheme.largeWCB),
                               Text("Help us get to know you better",
-                                  style: MyTextTheme.mustardS
+                                  style: MyTextTheme.mustardB
                               ),
                             ],
                           ),
                           Lottie.asset("assets/profile.lottie",
-                              decoder: customDecoder, height: 80),
+                              decoder: customDecoder, height: 90),
                         ],
                       ),
-                      const SizedBox(height: 20,),
-
-
-
+                      const SizedBox(height: 10,),
 
                       Text("Name",
                         style: MyTextTheme.mediumWCN,
                       ),
+                      SizedBox(height: 5,),
                       TextField(
                         controller: controller.nameC.value,
                         cursorColor: AppColor.circleIndicator,
@@ -547,7 +577,7 @@ class LocationPage extends GetView<LocationPageController> {
                             Text("Male",
                               style: MyTextTheme.mediumWCN,
                             ),
-                            const SizedBox(width: 100,),
+                          SizedBox(width: 50,),
                             Obx(()=>
                                 Radio(
                                   value: "1",
@@ -567,7 +597,7 @@ class LocationPage extends GetView<LocationPageController> {
                           ]
                       ),
 
-                      const SizedBox(height: 30,),
+                      const SizedBox(height: 10,),
                       MyButton(
                         height: 50,
                         borderRadius: 10,
@@ -587,7 +617,6 @@ class LocationPage extends GetView<LocationPageController> {
                           }
                         },
                       ),
-                      const SizedBox(height: 10,)
                     ],
                   ),
                 ):
@@ -738,12 +767,12 @@ class LocationPage extends GetView<LocationPageController> {
                                     Text("Setup your Account",
                                         style: MyTextTheme.largeWCB),
                                     Text("Select your Calculation Method",
-                                        style: MyTextTheme.mustardS
+                                        style: MyTextTheme.mustardB
                                     ),
                                   ],
                                 ),
                                 Lottie.asset("assets/though.lottie",
-                                    decoder: customDecoder, height: 100),
+                                    decoder: customDecoder, height: 110),
                               ],
                             ),
                             // Obx(() {
@@ -805,6 +834,7 @@ class LocationPage extends GetView<LocationPageController> {
                                     Visibility(
                                       visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
                                       child: RadioListTile(
+                                        activeColor: AppColor.circleIndicator,
                                         title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
                                         value: controller.getCalculationList[index].id,
                                         groupValue: controller.selectMethod['id'],

@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
 import 'package:namaz_reminders/Setting/FriendRequests/friendRequestView.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriDate.dart';
-import 'package:namaz_reminders/Setting/PrayerTimeSetting/PrayTimeView.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
-import 'AppLanguage/AppLangView.dart';
+import 'Privacy&Security/privacyView.dart';
 import 'SettingController.dart';
 
 class SettingView extends StatelessWidget {
@@ -35,7 +34,7 @@ class SettingView extends StatelessWidget {
                 // Get.back();
                 Get.toNamed(AppRoutes.dashboardRoute);
               },
-              child: const Icon(Icons.arrow_back_ios_new,),
+              child: const Icon(Icons.arrow_back_ios_new,size: 20,),
             ),
           ),
           body: Padding(
@@ -125,6 +124,7 @@ class SettingView extends StatelessWidget {
                         title: 'Privacy & Security',
                         subtitle: '',
                         onTap: () {
+                          Get.to(() => PrivacyView());
                         },
                           imagePath:"assets/privacy.svg"
                       ),

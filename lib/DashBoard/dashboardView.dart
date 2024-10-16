@@ -88,7 +88,7 @@ class DashBoardView extends GetView<DashBoardController> {
                            : null,
                      ),
                      child: controller.userData.getUserData!.picture.isEmpty
-                         ? const Icon(Icons.person, size: 16, color: Colors.white)
+                         ? const Icon(Icons.person, size: 25, color: Colors.white)
                          : null,
                    ),
                  )
@@ -195,7 +195,7 @@ class DashBoardView extends GetView<DashBoardController> {
                           child: CircleAvatar(
                             radius: 15,
                             backgroundColor: Colors.white,
-                            child:     Lottie.asset("assets/Crown.lottie",
+                            child:     Lottie.asset("assets/Star.lottie",
                                 decoder: customDecoder, height: 1000),
                           ),
 
@@ -310,18 +310,23 @@ class DashBoardView extends GetView<DashBoardController> {
                           );
                         }),
                       ),
+
                       if(controller.isPrayed)
                       GetBuilder<DashBoardController>(
                         id: 'lottie',
                         builder: (_) {
                           return Positioned(
                             top: -30, // Adjust the 'top' value as per your layout
-                              child: Lottie.asset(
-                                "assets/circular.lottie", // Replace with your new Lottie animation path
-                                decoder: customDecoder, // Replace with your new Lottie animation path
-                                width: 420,  // Adjust the width and height as per your design
-                                height: 330,
-                                ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Lottie.asset(
+                                  "assets/circular.lottie", // Replace with your new Lottie animation path
+                                  decoder: customDecoder, // Replace with your new Lottie animation path
+                                  width: 420,  // Adjust the width and height as per your design
+                                  height: 330,
+
+                                  ),
+                              ),
                           );
                         }
                       ),
@@ -336,7 +341,8 @@ class DashBoardView extends GetView<DashBoardController> {
                               decoder: customDecoder, // Replace with your new Lottie animation path
                               width: 500,  // Adjust the width and height as per your design
                               height: 350,
-                              // fit: BoxFit.contain,
+                               fit: BoxFit.contain,
+
                             ),
                           );
                         }
@@ -466,7 +472,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                         ),
                                         // Positioned block to properly contain ListView.builder
                                         Positioned(
-                                          top: 50,  // Adjust as necessary
+                                          top: 60,  // Adjust as necessary
                                           left: 0,
                                           right: 0,
                                           bottom: 0,
@@ -491,53 +497,113 @@ class DashBoardView extends GetView<DashBoardController> {
                                               return Transform.scale(
                                                 scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
                                                 child: Opacity(
-                                                  opacity: isHighlighted ? 1.0 : 0.5,  // Reduce opacity of inactive items
+                                                  opacity: isHighlighted ? 1.0 : 0.6,  // Reduce opacity of inactive items
                                                   child: Container(
                                                     width: 80,
                                                     margin: const EdgeInsets.symmetric(horizontal: 8),
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                        image: const AssetImage('assets/vector.png'),
-                                                        colorFilter: isHighlighted
-                                                            ? null
-                                                            : ColorFilter.mode(
-                                                          Colors.grey.withOpacity(0.3),
-                                                          BlendMode.srcATop,
-                                                        ),
+                                                    // decoration: BoxDecoration(
+                                                    //   image: DecorationImage(
+                                                    //     image: const AssetImage('assets/vector.png'),
+                                                    //     colorFilter: isHighlighted
+                                                    //         ? null
+                                                    //         : ColorFilter.mode(
+                                                    //       Colors.grey.withOpacity(0.3),
+                                                    //       BlendMode.srcATop,
+                                                    //     ),
+                                                    //   ),
+                                                    //   borderRadius: BorderRadius.circular(10),
+                                                    //   // border: Border.all(
+                                                    //   //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
+                                                    //   //   width: 2,
+                                                    //   // ),
+                                                    // ),
+                                                    child: Stack(
+                                                      children:[
+                                                        SvgPicture.asset("assets/Vec.svg"),
+                                                      Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          // const SizedBox(height: 20),
+                                                          Text(
+                                                            dashboardController.prayerNames[index].toUpperCase(),
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: isHighlighted ? 13 : 13,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(height: 8),
+                                                          Center(
+                                                            child: Text(
+                                                              dashboardController.getPrayerTimes.isEmpty
+                                                                  ? "Loading"
+                                                                  : dashboardController.getPrayerTimes[index].toString(),
+                                                              style: isHighlighted
+                                                                  ? MyTextTheme.smallBCN
+                                                                  : MyTextTheme.smallGCN,
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      // border: Border.all(
-                                                      //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
-                                                      //   width: 2,
-                                                      // ),
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        const SizedBox(height: 20),
-                                                        Text(
-                                                          dashboardController.prayerNames[index].toUpperCase(),
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: isHighlighted ? 14 : 14,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(height: 8),
-                                                        Center(
-                                                          child: Text(
-                                                            dashboardController.getPrayerTimes.isEmpty
-                                                                ? "Loading"
-                                                                : dashboardController.getPrayerTimes[index].toString(),
-                                                            style: isHighlighted
-                                                                ? MyTextTheme.smallBCN
-                                                                : MyTextTheme.smallGCN,
-                                                          ),
-                                                        )
-                                                      ],
+                                                      ]
                                                     ),
                                                   ),
                                                 ),
                                               );
+                                              // return Transform.scale(
+                                              //   scale: isHighlighted ? 1.1 : 1.0, // Scale up the active item
+                                              //   child: Opacity(
+                                              //     opacity: isHighlighted ? 1.0 : 0.5, // Reduce opacity of inactive items
+                                              //     child: Container(
+                                              //       width: 80,
+                                              //       margin: const EdgeInsets.symmetric(horizontal: 8),
+                                              //       decoration: BoxDecoration(
+                                              //         borderRadius: BorderRadius.circular(10),
+                                              //       ),
+                                              //       child: Stack(
+                                              //         children: [
+                                              //           // Load the SVG image in the background
+                                              //           SvgPicture.asset(
+                                              //             'assets/Vec.svg',height: 40,
+                                              //             fit: BoxFit.cover,// Use your SVG image here
+                                              //
+                                              //             colorFilter: isHighlighted
+                                              //                 ? null
+                                              //                 : ColorFilter.mode(
+                                              //               Colors.grey.withOpacity(0.3),
+                                              //               BlendMode.srcATop,
+                                              //             ),
+                                              //           ),
+                                              //           // Place the rest of the content over the SVG image
+                                              //           Column(
+                                              //             mainAxisAlignment: MainAxisAlignment.center,
+                                              //             children: [
+                                              //               const SizedBox(height: 20),
+                                              //               Text(
+                                              //                 dashboardController.prayerNames[index].toUpperCase(),
+                                              //                 style: TextStyle(
+                                              //                   color: Colors.white,
+                                              //                   fontSize: isHighlighted ? 14 : 14,
+                                              //                 ),
+                                              //               ),
+                                              //               const SizedBox(height: 8),
+                                              //               Center(
+                                              //                 child: Text(
+                                              //                   dashboardController.getPrayerTimes.isEmpty
+                                              //                       ? "Loading"
+                                              //                       : dashboardController.getPrayerTimes[index].toString(),
+                                              //                   style: isHighlighted
+                                              //                       ? MyTextTheme.smallBCN
+                                              //                       : MyTextTheme.smallGCN,
+                                              //                 ),
+                                              //               ),
+                                              //             ],
+                                              //           ),
+                                              //         ],
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              // );
+
                                             },
                                           ),
                                         ),

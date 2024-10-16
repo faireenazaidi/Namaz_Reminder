@@ -4,21 +4,23 @@ import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
 
 import '../Leaderboard/leaderboardDataModal.dart';
 
-class MissedPrayersController extends GetxController{
+class MissedPrayersController extends GetxController {
+
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    Get.lazyPut(()=>LeaderBoardController());
+    Get.lazyPut(() => LeaderBoardController());
     Get.find<LeaderBoardController>().leaderboard(getFormattedDate());
-
   }
+
   @override
   void dispose() {
     Get.delete<LeaderBoardController>();
     super.dispose();
   }
+
   @override
   void onClose() {
     // TODO: implement onClose

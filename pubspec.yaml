@@ -65,6 +65,7 @@ dependencies:
   cached_network_image: ^3.4.1
   sms_autofill: ^2.4.0
   otp_autofill: ^4.0.0
+  country_code_picker: ^3.0.0
 
 
 dev_dependencies:

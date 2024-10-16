@@ -30,7 +30,7 @@ class PeerView extends GetView<PeerController> {
             // Get.back();
             Get.toNamed(AppRoutes.dashboardRoute);
           },
-          child: const Icon(Icons.arrow_back_ios_new),
+          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
         actions: [
           TextButton(

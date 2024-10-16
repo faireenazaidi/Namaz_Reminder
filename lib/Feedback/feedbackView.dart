@@ -26,7 +26,7 @@ class FeedbackView extends GetView<FeedbackController>{
          onTap: () {
            Get.toNamed(AppRoutes.dashboardRoute);
          },
-         child: Icon(Icons.arrow_back_ios_new),
+         child: Icon(Icons.arrow_back_ios_new,size: 20,),
        ),
    
      ),
@@ -51,7 +51,15 @@ class FeedbackView extends GetView<FeedbackController>{
              ),
 
              TextFormField(
+               cursorColor: AppColor.circleIndicator,
                decoration:  InputDecoration(
+                 focusedBorder: OutlineInputBorder(
+                   borderRadius: BorderRadius.circular(10),
+                   borderSide: const BorderSide(
+                     color: Colors.grey,
+                     width: 1.5,
+                   ),
+                 ),
                  enabled: true,
                  enabledBorder:  OutlineInputBorder(
                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -62,6 +70,7 @@ class FeedbackView extends GetView<FeedbackController>{
                    border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(10)),
                    ),
+
                onChanged: (value) {
                  controller.setEmail(value);
                },
@@ -103,7 +112,7 @@ class FeedbackView extends GetView<FeedbackController>{
                  });
                }),
              ),
-             SizedBox(height: 8),
+             SizedBox(height: 5),
              Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
@@ -119,6 +128,7 @@ class FeedbackView extends GetView<FeedbackController>{
              ),
             SizedBox(height: 10,),
              TextField(
+               cursorColor: AppColor.circleIndicator,
                decoration: InputDecoration(
                  hintText: 'Say something here...',
                  hintStyle:TextStyle(color: Colors.grey,fontWeight: FontWeight.w400),

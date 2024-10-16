@@ -26,9 +26,9 @@ class FAQSView extends StatelessWidget {
         leading: InkWell(
           onTap: () {
             // Get.back();
-            Get.toNamed(AppRoutes.settingRoute);
+            Get.toNamed(AppRoutes.dashboardRoute);
           },
-          child: const Icon(Icons.arrow_back_ios_new,),
+          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
       ),
 

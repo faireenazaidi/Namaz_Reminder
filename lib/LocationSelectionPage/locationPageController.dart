@@ -30,7 +30,7 @@ class LocationPageController extends GetxController {
  RxBool isOtpVerified = false.obs;
  RxBool showThirdContainer = false.obs;
  RxBool showFourthContainer = false.obs;
- RxDouble containerHeight = 400.0.obs;
+ RxDouble containerHeight = 300.0.obs;
  var calculationMethod = <CalculationMethod>[].obs;
  var keyCalculationMethods = <CalculationDataModal>[].obs;
  var otherCalculationMethods = <CalculationMethod>[].obs;

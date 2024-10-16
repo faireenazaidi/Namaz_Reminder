@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
 import '../../../Routes/approutes.dart';
 import '../../../Widget/appColor.dart';
 import '../../../Widget/text_theme.dart';
@@ -16,7 +17,7 @@ class NamazAlertView extends GetView<NamazAlertController>{
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text('Notification Sound', style: MyTextTheme.mediumBCD),
+        title: Text('Pre Namaz Alert', style: MyTextTheme.mediumBCD),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
@@ -27,9 +28,8 @@ class NamazAlertView extends GetView<NamazAlertController>{
         leading: InkWell(
           onTap: () {
             // Get.back();
-            Get.toNamed(AppRoutes.notifications);
-          },
-          child: const Icon(Icons.arrow_back_ios_new,),
+            Get.to(()=>NotificationSetting());          },
+          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
       ),
       body: Padding(

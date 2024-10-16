@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/PreNamazAlert/NamzAlertView.dart';
-import 'package:namaz_reminders/PeerCircle/AddFriends/SeeAll.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
 import '../../Routes/approutes.dart';
 import '../../Widget/appColor.dart';
@@ -32,7 +31,7 @@ class NotificationSetting extends StatelessWidget {
           onTap: () {
             Get.toNamed(AppRoutes.notifications);
           },
-          child: Icon(Icons.arrow_back_ios_new),
+          child: Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
       ),
       body: Padding(
