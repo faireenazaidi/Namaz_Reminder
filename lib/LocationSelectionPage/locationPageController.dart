@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
+import '../Services/firebase_services.dart';
 import '../Services/user_data.dart';
 import 'locationPageDataModal.dart';
 
@@ -243,7 +244,7 @@ Map selectMethod = {}.obs;
 
   otpVerification(verificationOTPCode) async {
     var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim(),
-      'token':"dSL8L7JzR7Otmg_jX7XHLK:APA91bGHQ6j4rONRHlfecaNEFQCBKLxfhqwtJqIZAHqJkwLz8qJB422UtYeN0VxoAIaA0Ngc3S523taJiLWlZj4kaQ5a8gZ00_fV4KY3o2W_QP0Pb6YC_kyer1SYytWctvL2zsETcqHS"};
+      'token':FirebaseMessagingService().getToken()};
 
     print("phoneNumber ${phoneController.value.text}");
     print("phoneNumber______________ ${body}");

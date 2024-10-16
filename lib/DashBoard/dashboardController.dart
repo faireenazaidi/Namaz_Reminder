@@ -126,15 +126,16 @@ class DashBoardController extends GetxController {
     }
   }
 
-  Future<void> fetchPrayerTime() async {
+  Future<void> fetchPrayerTime({DateTime? specificDate}) async {
     final latitude = position!.latitude;
     final longitude = position!.longitude;
     final method = userData.getUserData!.methodId;
-    DateTime now = DateTime.now();
+    DateTime now =specificDate?? DateTime.now();
     String formattedDate = DateFormat('yyyy/MM').format(now);
-    // final method = 1;
+
     isLoading.value = true;
-    // try {
+
+    try {
       Uri uri = Uri.https(
         'api.aladhan.com',
         '/v1/calendar/$formattedDate',
@@ -145,15 +146,17 @@ class DashBoardController extends GetxController {
         },
       );
       final response = await http.get(uri);
-      log("checking response ${response.body}");
+      log("API Response: ${response.body}");
 
       if (response.statusCode == 200) {
+        // Decode the data
         updateCalendarData = jsonDecode(response.body.toString())["data"];
 
         DateTime now = DateTime.now();
         DateFormat formatter = DateFormat('dd MMM yyyy');
         String formattedDate = formatter.format(now);
 
+        // Extract current day's data
         List<CalendarWiseData> extractedData = getCalendarData
             .map((e) => e)
             .where((element) =>
@@ -162,7 +165,8 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
-          print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
+          print("Isha Time: ${extractedData.map((e) => e.timings!.isha).toList()}");
+
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
@@ -170,11 +174,13 @@ class DashBoardController extends GetxController {
             convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
           ];
+
           // Update sunset and zawal times
           sunsetTime.value =
               convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A');
           zawalTime.value =
               convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A');
+
           final hijriDate = getExtractedData[0].date?.hijri;
           islamicDate.value =
           '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
@@ -190,40 +196,145 @@ class DashBoardController extends GetxController {
               'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
             },
             'Dhuhr': {
-              'start': (getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-              'end': (getExtractedData[0].timings?.asr ?? 'N/A')
+              'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
+              'end': getExtractedData[0].timings?.asr ?? 'N/A'
             },
             'Asr': {
-              'start': (getExtractedData[0].timings?.asr ?? 'N/A'),
-              'end': (getExtractedData[0].timings?.sunset ?? 'N/A')
+              'start': getExtractedData[0].timings?.asr ?? 'N/A',
+              'end': '16:08'
             },
             'Maghrib': {
-              'start': (getExtractedData[0].timings?.maghrib ?? 'N/A'),
-              'end': (getExtractedData[0].timings?.isha ?? 'N/A')
+              'start': '16:08',
+              'end': getExtractedData[0].timings?.isha ?? 'N/A'
             },
             'Isha': {
-              'start': (getExtractedData[0].timings?.isha ?? 'N/A'),
-              // 'end': (getExtractedData[0].timings?.midnight ?? 'N/A')
-              'end': ('23:59')
+              'start': getExtractedData[0].timings?.isha ?? 'N/A',
+              'end': '23:59'
             }
           };
+
           // Get current time
           String currentTime = DateFormat('HH:mm').format(DateTime.now());
           currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
-          print('current time: $currentTime');
-          print('Current Prayer Time: $currentPrayer');
+
+          print('Current time: $currentTime');
+          print('Current Prayer: $currentPrayer');
+
+          // Start timer for remaining time
           startRemainingTimeTimer();
           update();
         } else {
-          print('Failed to load prayer data');
+          print('No data found for current date.');
         }
+      } else {
+        print('Error fetching prayer times. Status Code: ${response.statusCode}');
       }
-    // } catch (e) {
-    //   print('Error: $e');
-    // } finally {
-    //   isLoading.value = false;
-    // }
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
+
+
+  // Future<void> fetchPrayerTime() async {
+  //   final latitude = position!.latitude;
+  //   final longitude = position!.longitude;
+  //   final method = userData.getUserData!.methodId;
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('yyyy/MM').format(now);
+  //   // final method = 1;
+  //   isLoading.value = true;
+  //   // try {
+  //     Uri uri = Uri.https(
+  //       'api.aladhan.com',
+  //       '/v1/calendar/$formattedDate',
+  //       {
+  //         'latitude': latitude.toString(),
+  //         'longitude': longitude.toString(),
+  //         'method': method.toString(),
+  //       },
+  //     );
+  //     final response = await http.get(uri);
+  //     log("checking response ${response.body}");
+  //
+  //     if (response.statusCode == 200) {
+  //       updateCalendarData = jsonDecode(response.body.toString())["data"];
+  //
+  //       DateTime now = DateTime.now();
+  //       DateFormat formatter = DateFormat('dd MMM yyyy');
+  //       String formattedDate = formatter.format(now);
+  //
+  //       List<CalendarWiseData> extractedData = getCalendarData
+  //           .map((e) => e)
+  //           .where((element) =>
+  //       element.date!.readable.toString() == formattedDate.toString())
+  //           .toList();
+  //       updateExtractedData = extractedData;
+  //
+  //       if (getExtractedData.isNotEmpty) {
+  //         print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
+  //         updatePrayerTimes = [
+  //           convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
+  //           convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
+  //           convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
+  //           convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
+  //           convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
+  //         ];
+  //         // Update sunset and zawal times
+  //         sunsetTime.value =
+  //             convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A');
+  //         zawalTime.value =
+  //             convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A');
+  //         final hijriDate = getExtractedData[0].date?.hijri;
+  //         islamicDate.value =
+  //         '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
+  //
+  //         // Set prayer start and end time
+  //         updatePrayerDuration = {
+  //           'Fajr': {
+  //             'start': getExtractedData[0].timings?.fajr ?? 'N/A',
+  //             'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+  //           },
+  //           'Free': {
+  //             'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+  //             'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+  //           },
+  //           'Dhuhr': {
+  //             'start': (getExtractedData[0].timings?.dhuhr ?? 'N/A'),
+  //             'end': (getExtractedData[0].timings?.asr ?? 'N/A')
+  //           },
+  //           'Asr': {
+  //             'start': (getExtractedData[0].timings?.asr ?? 'N/A'),
+  //             'end': (getExtractedData[0].timings?.sunset ?? 'N/A')
+  //           },
+  //           'Maghrib': {
+  //             'start': (getExtractedData[0].timings?.maghrib ?? 'N/A'),
+  //             'end': (getExtractedData[0].timings?.isha ?? 'N/A')
+  //           },
+  //           'Isha': {
+  //             'start': (getExtractedData[0].timings?.isha ?? 'N/A'),
+  //             // 'end': (getExtractedData[0].timings?.midnight ?? 'N/A')
+  //             'end': ('23:59')
+  //           }
+  //         };
+  //         // Get current time
+  //         String currentTime = DateFormat('HH:mm').format(DateTime.now());
+  //         currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
+  //         print('current time: $currentTime');
+  //         print('Current Prayer Time: $currentPrayer');
+  //         startRemainingTimeTimer();
+  //         update();
+  //       } else {
+  //         print('Failed to load prayer data');
+  //       }
+  //     }
+  //   // } catch (e) {
+  //   //   print('Error: $e');
+  //   // } finally {
+  //   //   isLoading.value = false;
+  //   // }
+  // }
 
   bool isPrayed = false;
 
@@ -395,6 +506,69 @@ class DashBoardController extends GetxController {
     startRemainingTimeTimer(); // Restart timer after switching to next prayer
     print('Next prayer: $nextPrayerName');
   }
+  // Future<void> moveToNextPrayer() async {
+  //   // Get the next prayer based on the current time
+  //   String nextPrayerName = getNextPrayer(
+  //       prayerDuration,
+  //       DateFormat('HH:mm').format(DateTime.now())
+  //   );
+  //
+  //   // If the current time is past Isha and the next prayer is Fajr, it's the end of the day
+  //   if (nextPrayerName == 'Fajr' && DateTime.now().hour >= 0) {
+  //     // Fetch next day's prayer timings
+  //     await fetchPrayerTime(specificDate: DateTime.now().add(Duration(days: 1)));
+  //
+  //     // Recalculate the next prayer after fetching new timings
+  //     nextPrayerName = getNextPrayer(
+  //         prayerDuration,
+  //         DateFormat('HH:mm').format(DateTime.now())
+  //     );
+  //   }
+  //
+  //   // Safety check: Ensure that the next prayer exists in the prayerDuration map
+  //   if (prayerDuration.containsKey(nextPrayerName)) {
+  //     // Update the current prayer details
+  //     currentPrayer.value = nextPrayerName;
+  //
+  //     var nextPrayerTimes = prayerDuration[nextPrayerName]!;
+  //
+  //     // Update start and end times for the next prayer
+  //     currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
+  //     currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+  //
+  //     // Also update the next prayer that comes after the current prayer
+  //     nextPrayer.value = getNextPrayer(prayerDuration, currentPrayerEndTime.value);
+  //
+  //     // Restart the timer for the new prayer
+  //     startRemainingTimeTimer();
+  //     print('Next prayer: $nextPrayerName');
+  //     print('Upcoming prayer: ${nextPrayer.value}');
+  //   } else {
+  //     print('Error: Next prayer not found in prayerDuration map.');
+  //   }
+  // }
+
+  // void moveToNextPrayer() async {
+  //   String nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now()));
+  //
+  //   // If the current time is past Isha and it's the end of the day, fetch next day's timings
+  //   if (nextPrayerName == 'Fajr' && DateTime.now().hour >= 0) {
+  //     await fetchPrayerTime(); // Fetch the next day's prayer timings
+  //     // nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now())); // Recheck next prayer
+  //   }
+  //
+  //   // Update current prayer details
+  //   currentPrayer.value = nextPrayerName;
+  //
+  //   var nextPrayerTimes = prayerDuration[nextPrayerName]!;
+  //   currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
+  //   currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+  //
+  //   // Restart the timer for the new prayer time
+  //   startRemainingTimeTimer();
+  //   print('Next prayer: $nextPrayerName');
+  // }
+
 
 
   String formatDuration(Duration duration) {

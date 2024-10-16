@@ -105,6 +105,11 @@ class UserModel {
   String methodId;
   String methodName;
   String picture;
+  String? preNamazAlert;
+  bool? pauseAll;
+  bool? quitMode;
+  bool? friendRequest;
+  bool? friendPrayed;
 
   UserModel({
     required this.id,
@@ -119,6 +124,11 @@ class UserModel {
     required this.methodId,
     required this.methodName,
     required this.picture,
+     this.preNamazAlert,
+     this.pauseAll,
+     this.quitMode,
+     this.friendRequest,
+     this.friendPrayed,
   });
 
 
@@ -136,6 +146,11 @@ class UserModel {
       methodId: (json['method_id']??'').toString(),
       methodName: (json['method_name']??'').toString(),
       picture: (json['picture']??'').toString(),
+      preNamazAlert: (json['preNamazAlert']??'').toString(),
+      pauseAll: (json['notification_on']??false).toString()=='true'?true:false,
+      quitMode: (json['quitMode']??false).toString()=='true'?true:false,
+      friendRequest: (json['fr_noti']??false).toString()=='true'?true:false,
+      friendPrayed: (json['fn_mark_noti']??false).toString()=='true'?true:false,
     );
   }
 
@@ -153,6 +168,11 @@ class UserModel {
       'method_id': methodId,
       'method_name': methodName,
       'picture': picture,
+      'preNamazAlert': preNamazAlert!,
+      'notification_on': pauseAll.toString(),
+      'quitMode': quitMode.toString(),
+      'fr_noti': friendRequest.toString(),
+      'fn_mark_noti': friendPrayed.toString(),
     };
   }
 }
