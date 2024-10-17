@@ -85,6 +85,7 @@ class NotificationSetting extends StatelessWidget {
               value: notificationSettingsController.quietMode.value,
               onChanged: (value) {
                 notificationSettingsController.quietMode.value = value;
+                notificationSettingsController.registerUser();
               },
             )
             ),

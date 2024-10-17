@@ -58,7 +58,10 @@ class ProfileController extends GetxController{
         "school_of_thought": schoolOFThought['id'],
         "method_name":schoolOFThought['name'],
         "method_id":schoolOFThought['id'],
-        "email":mailC.text.isEmpty?"":mailC.text
+        "email":mailC.text.isEmpty?"":mailC.text,
+        "notification_on":userData.getUserData!.pauseAll!,
+        "fr_noti":userData.getUserData!.friendRequest!,
+        "fn_mark_noti":userData.getUserData!.friendPrayed!,
 
       };
       print("registration body $body");

@@ -23,8 +23,8 @@ class DashBoardView extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
-    final DateController dateController = Get.put(DateController());
-    final DashBoardController dashboardController = Get.put(DashBoardController());
+    // final DateController dateController = Get.put(DateController());
+    // final DashBoardController dashboardController = Get.put(DashBoardController());
     // final List<RankedFriend> rankedFriends = [
     //   RankedFriend(id: 58, name: 'Baqar Naqvi', totalScore: 85.29, percentage: 17.058),
     //   RankedFriend(id: 4, name: 'Faheem', totalScore: 0.0, percentage: 60.0),
@@ -60,9 +60,14 @@ class DashBoardView extends GetView<DashBoardController> {
                     "assets/loc.svg"
                 ),
                 const SizedBox(width: 4),
-                Text(
-                  dashboardController.location.value,
-                  style: MyTextTheme.greyNormal
+                GetBuilder<DashBoardController>(
+                  id: 'add',
+                  builder: (_) {
+                    return Text(
+                      controller.address,
+                      style: MyTextTheme.greyNormal
+                    );
+                  }
                 ),
                  SizedBox(width: 8,),
                  InkWell(
@@ -103,7 +108,7 @@ class DashBoardView extends GetView<DashBoardController> {
           builder: (_) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: dashboardController.isGifVisible
+              child: controller.isGifVisible
                   ? Image.asset(
                 "assets/popup_Default.gif",
               )
@@ -140,7 +145,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
                             Obx(
                                   () => Text(
-                                dashboardController.islamicDate.value,
+                                    controller.islamicDate.value,
                                 style: const TextStyle(fontSize: 12, color: Colors.black),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -167,7 +172,7 @@ class DashBoardView extends GetView<DashBoardController> {
                           radius: 140,
                           lineWidth: 40,
                           percent: completionPercentage,
-                          progressColor:dashboardController.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
+                          progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
                           backgroundColor: Colors.grey.shade300,
                           // center: Text(
                           //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
@@ -206,8 +211,8 @@ class DashBoardView extends GetView<DashBoardController> {
                         top: 70,
                         child: Obx(() {
                           // Check if there's a current prayer, if not, show the next prayer
-                          print("ccccccccccc ${dashboardController.currentPrayer.value}");
-                          if (dashboardController.currentPrayer.value.isEmpty) {
+                          print("ccccccccccc ${controller.currentPrayer.value}");
+                          if (controller.currentPrayer.value.isEmpty) {
                             // Show next prayer message with blinking effect
                             return Center(
                               child: Column(
@@ -215,21 +220,21 @@ class DashBoardView extends GetView<DashBoardController> {
                                 children: [
                                   const SizedBox(height: 50,),
                                   BlinkingTextWidget(
-                                    text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                                    text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
                                     style: MyTextTheme.mustard,
                                   ),
                                 ],
                               ),
                             );
                           }
-                          else if(dashboardController.currentPrayer.value=='Free'){
+                          else if(controller.currentPrayer.value=='Free'){
                             return Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const SizedBox(height: 50,),
                                   BlinkingTextWidget(
-                                    text: "${dashboardController.nextPrayer.value} starts at ${dashboardController.nextPrayerStartTime.value}",
+                                    text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
                                     style: MyTextTheme.greyNormal,
                                   ),
                                 ],
@@ -241,17 +246,17 @@ class DashBoardView extends GetView<DashBoardController> {
                             return Column(
                               children: [
                                 Text(
-                                  '${dashboardController.currentPrayerStartTime.value} - ${dashboardController.currentPrayerEndTime.value}',
+                                  '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
                                   style: MyTextTheme.smallBCn,
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  dashboardController.remainingTime.value,
+                                  controller.remainingTime.value,
                                   style: MyTextTheme.largeCustomBCB,
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  "Left for ${dashboardController.currentPrayer.value} Prayer",
+                                  "Left for ${controller.currentPrayer.value} Prayer",
                                   style: MyTextTheme.greyNormal,
                                 ),
                               ],
@@ -268,7 +273,7 @@ class DashBoardView extends GetView<DashBoardController> {
                           DateTime nextPrayerTime;
 
                           try {
-                            nextPrayerTime = DateFormat('hh:mm a').parse(dashboardController.nextPrayerStartTime.value);
+                            nextPrayerTime = DateFormat('hh:mm a').parse(controller.nextPrayerStartTime.value);
                             nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
                           } catch (e) {
                             nextPrayerTime = DateTime.now().subtract(const Duration(days: 1));
@@ -472,22 +477,22 @@ class DashBoardView extends GetView<DashBoardController> {
                                           bottom: 0,
                                           child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
-                                            controller: dashboardController.scrollController,
-                                            itemCount: dashboardController.prayerNames.length,
+                                            controller: controller.scrollController,
+                                            itemCount: controller.prayerNames.length,
                                             itemBuilder: (context, index) {
-                                              print("ddddddddd "+dashboardController.nextPrayer.value.toString());
-                                              print("eeeeeeeee "+dashboardController.currentPrayer.value.toString());
+                                              print("ddddddddd "+controller.nextPrayer.value.toString());
+                                              print("eeeeeeeee "+controller.currentPrayer.value.toString());
                                               // // Determine if the current item is highlighted (active)
                                               // bool isHighlighted = dashboardController.nextPrayer.value ==
                                               //      dashboardController.prayerNames[index];
                                               bool isHighlighted = false;
-                                              if(dashboardController.nextPrayer.value.isEmpty){
-                                                int currentPrayerIndex = dashboardController.prayerNames.indexOf(dashboardController.currentPrayer.value);
-                                                int nextPrayerIndex = (currentPrayerIndex + 1) % dashboardController.prayerNames.length;
+                                              if(controller.nextPrayer.value.isEmpty){
+                                                int currentPrayerIndex = controller.prayerNames.indexOf(controller.currentPrayer.value);
+                                                int nextPrayerIndex = (currentPrayerIndex + 1) % controller.prayerNames.length;
                                                  isHighlighted = nextPrayerIndex == index;
                                               }
                                               else{
-                                                 isHighlighted = dashboardController.nextPrayer.value == dashboardController.prayerNames[index];
+                                                 isHighlighted = controller.nextPrayer.value == controller.prayerNames[index];
                                               }
                                               return Transform.scale(
                                                 scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
@@ -517,7 +522,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                       children: [
                                                         const SizedBox(height: 20),
                                                         Text(
-                                                          dashboardController.prayerNames[index].toUpperCase(),
+                                                          controller.prayerNames[index].toUpperCase(),
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: isHighlighted ? 14 : 14,
@@ -526,9 +531,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                                         const SizedBox(height: 8),
                                                         Center(
                                                           child: Text(
-                                                            dashboardController.getPrayerTimes.isEmpty
+                                                            controller.getPrayerTimes.isEmpty
                                                                 ? "Loading"
-                                                                : dashboardController.getPrayerTimes[index].toString(),
+                                                                : controller.getPrayerTimes[index].toString(),
                                                             style: isHighlighted
                                                                 ? MyTextTheme.smallBCN
                                                                 : MyTextTheme.smallGCN,

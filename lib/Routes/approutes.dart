@@ -62,8 +62,8 @@ class AppRoutes {
     ),
     GetPage(
       name: dashboardRoute,
-      page: () =>  DashBoardView (),
-      bindings: [DashBoardBinding()],
+      page: () =>  const DashBoardView(),
+      binding: DashBoardBinding(),
     ),
     GetPage(
       name: leaderboardRoute,

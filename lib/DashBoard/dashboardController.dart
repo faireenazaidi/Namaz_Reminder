@@ -9,7 +9,9 @@ import 'package:namaz_reminders/Services/user_data.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 
+import '../DataModels/LoginResponse.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
+import '../Services/notification_service.dart';
 import '../SplashScreen/splashController.dart';
 import '../Widget/location_services.dart';
 class DashBoardController extends GetxController {
@@ -87,6 +89,11 @@ class DashBoardController extends GetxController {
 
   LocationService _locationService = LocationService();
   Position? position;
+  String address= '';
+  set updateAddress(String val){
+    address =val;
+    update(['add']);
+  }
 
   @override
   void onInit() async{
@@ -110,7 +117,24 @@ class DashBoardController extends GetxController {
   }
 
   get() async {
-    position = await _locationService.getCurrentLocation();
+    if(userData.getLocationData==null){
+      print("annnnder");
+      print("userData ander ${userData.getLocationData?.toJson()}");
+      position = await _locationService.getCurrentLocation();
+      print("llllllllll${position!.latitude.toString()}");
+      print("llllllllllll${position!.longitude.toString()}");
+      updateAddress = await _locationService.getAddressFromCoordinates(position!);
+      final locationData=LocationDataModel(latitude: position!.latitude.toString(),longitude: position!.longitude.toString(),address: address);
+      userData.addLocationData(locationData);
+      print("uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude.toString()}");
+    }
+    else{
+      print("baaaaaaahar");
+      print("userData bahar ${userData.getLocationData?.toJson()}");
+      updateAddress = userData.getLocationData!.address!;
+    }
+    print("address $address");
+    print("lat ${userData.getLocationData!.latitude}");
     getIsPrayed();
     await fetchPrayerTime();
     leaderboard();
@@ -127,8 +151,10 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> fetchPrayerTime({DateTime? specificDate}) async {
-    final latitude = position!.latitude;
-    final longitude = position!.longitude;
+    final latitude =position!=null? position!.latitude:double.parse(userData.getLocationData!.latitude.toString());
+    final longitude =position!=null? position!.longitude:double.parse(userData.getLocationData!.longitude.toString());
+    print("latitude $latitude");
+    print("longitude $longitude");
     final method = userData.getUserData!.methodId;
     DateTime now =specificDate?? DateTime.now();
     String formattedDate = DateFormat('yyyy/MM').format(now);
@@ -201,10 +227,10 @@ class DashBoardController extends GetxController {
             },
             'Asr': {
               'start': getExtractedData[0].timings?.asr ?? 'N/A',
-              'end': '16:08'
+              'end': '16:40'
             },
             'Maghrib': {
-              'start': '16:08',
+              'start': '16:40',
               'end': getExtractedData[0].timings?.isha ?? 'N/A'
             },
             'Isha': {
@@ -460,7 +486,7 @@ class DashBoardController extends GetxController {
 
     super.onClose();
   }
-
+  bool isNotificationSent = false;
   // Updated startRemainingTimeTimer method with debugging and time formatting
   void startRemainingTimeTimer() {
     remainingTimeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -474,8 +500,21 @@ class DashBoardController extends GetxController {
           endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
           // Calculate the remaining time
           Duration remainingDuration = endTime.difference(now);
+          print("endTime $endTime");
+          // Schedule a reminder notification exactly 10 minutes before the current prayer ends
+          if (remainingDuration.inMinutes == 10 && !isNotificationSent) {
+            // Send the notification only once
+            AwesomeNotificationService().showNotification(
+              title: "Reminder: ${nextPrayer.value}",
+              body: "${nextPrayer.value} prayer starts in 10 minutes.",
+              channelKey: 'important_channel',
+            );
+            isNotificationSent = true; // Set the flag to true to prevent further notifications
+          }
           // Format and print the remaining time
           if (remainingDuration.isNegative) {
+            // Reset the flag for the next prayer
+            isNotificationSent = false;
             // Stop the timer to prevent multiple executions
             timer.cancel();
 
@@ -495,16 +534,24 @@ class DashBoardController extends GetxController {
   // Function to move to the next prayer
   void moveToNextPrayer() {
     String nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now()));
+    print('Next prayer: $nextPrayerName');
     currentPrayer.value = nextPrayerName;
-
     // Fetch next prayer timings
     var nextPrayerTimes = prayerDuration[nextPrayerName]!;
     currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
     currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+    // Convert next prayer start time to DateTime
+    // DateTime nextPrayerTime = DateFormat('hh:mm a').parse(nextPrayerTimes['start']!);
+
+      AwesomeNotificationService().showNotification(
+        title: "Reminder: $nextPrayerName",
+        body: "$nextPrayerName prayer starts in 10 minutes.",
+        channelKey: 'important_channel',
+      );
 
     // Restart the timer with new prayer times
     startRemainingTimeTimer(); // Restart timer after switching to next prayer
-    print('Next prayer: $nextPrayerName');
+    print('Next prayer2: $nextPrayerName');
   }
   // Future<void> moveToNextPrayer() async {
   //   // Get the next prayer based on the current time

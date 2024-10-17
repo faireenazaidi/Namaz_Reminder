@@ -16,14 +16,28 @@ class UserData extends GetxController {
     return null;
   }
 
+  LocationDataModel? get getLocationData {
+    final data = _storage.read('location');
+    if (data != null) {
+      return LocationDataModel.fromJson(Map<String, dynamic>.from(data));
+    }
+    return null;
+  }
+
   Future<void> addUserData(UserModel personModal) async {
     await _storage.write('personModal', personModal.toJson());
+    update(); // Notify listeners of changes
+  }
+
+  Future<void> addLocationData(LocationDataModel location) async {
+    await _storage.write('location', location.toJson());
     update(); // Notify listeners of changes
   }
 
   // Optionally, add a method to clear user data
   Future<void> clearUserData() async {
     await _storage.remove('personModal');
+    await _storage.remove('location');
     update(); // Notify listeners of changes
   }
 
@@ -35,6 +49,7 @@ class UserData extends GetxController {
   removeUserData() async {
     await _storage.remove('personModal');
     await _storage.remove('userToken');
+    await _storage.remove('location');
     update();
   }
 }

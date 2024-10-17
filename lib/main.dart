@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:background_fetch/background_fetch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,12 +9,15 @@ import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Notification/notificationView.dart';
+import 'package:namaz_reminders/Services/notification_service.dart';
 import 'package:namaz_reminders/SplashScreen/splashView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'AppTranslation/apptrans.dart';
+import 'DashBoard/dashboardController.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
+import 'Services/user_data.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -24,7 +31,126 @@ void main() async {
   Get.put(LoginController());
   Get.put(CustomDrawerController());
   runApp(MyApp());
+  BackgroundFetch.configure(
+    BackgroundFetchConfig(
+      minimumFetchInterval: 15,
+      startOnBoot: true,
+      forceAlarmManager: true,
+      stopOnTerminate: false,
+      enableHeadless: true,
+      requiresBatteryNotLow: false,
+      requiresCharging: false,
+      requiresStorageNotLow: false,
+      requiresDeviceIdle: false,
+      // requiresNetworkType: NetworkType.NONE,
+    ),
+    _backgroundFetchHandler,
+  ).then((int status) {
+    print('[BackgroundFetch] configure success: $status');
+  }).catchError((e) {
+    print('[BackgroundFetch] configure ERROR: $e');
+  });
+
+  // Register the headless task
+  BackgroundFetch.registerHeadlessTask(myBackgroundFetchHeadlessTask);
 }
+// This is the background fetch handler that runs when the app is active or in the background.
+void _backgroundFetchHandler(String taskId) async {
+  print("[BackgroundFetch] Background task: $taskId");
+
+  // Directly simulate a fetch operation and show a notification
+  await fetchPrayerTimeData();
+
+  // Finish the background task
+  BackgroundFetch.finish(taskId);
+}
+// This is the headless task that runs when the app is terminated.
+void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
+  String taskId = task.taskId;
+  bool isTimeout = task.timeout;
+  // AwesomeNotificationService().showNotification(title: "Prayer Time Fetched", body: UserData().getUserData!.name.toString(), channelKey: 'important_channel');
+  // AwesomeNotifications().createNotification(
+  //   content: NotificationContent(
+  //     id: 1,
+  //     channelKey: 'important_channel',
+  //     title: "Prayer Time Fetched",
+  //     body: UserData().getUserData!.name.toString(),
+  //   ),
+  // );
+  if (isTimeout) {
+    print("[BackgroundFetch] Headless TIMEOUT: $taskId");
+    BackgroundFetch.finish(taskId);
+    return;
+  }
+
+  print("[BackgroundFetch] Headless task: $taskId - Running in background or terminated state.");
+
+  // Fetch prayer time or perform any necessary background task
+  await fetchPrayerTimeData();
+
+  BackgroundFetch.finish(taskId);
+}
+
+// Function to fetch prayer time data and show a notification
+Future<void> fetchPrayerTimeData() async {
+  try {
+    // Dummy coordinates for the example
+    double latitude = 23.8103;
+    double longitude = 90.4125;
+    int method = 2; // Replace with the actual prayer calculation method
+
+    Uri uri = Uri.https(
+      'api.aladhan.com',
+      '/v1/calendar',
+      {
+        'latitude': latitude.toString(),
+        'longitude': longitude.toString(),
+        'method': method.toString(),
+      },
+    );
+
+    // final response = await http.get(uri);
+    // AwesomeNotificationService().showNotification(title: "Api Prayer Time Fetched", body: UserData().getUserData!.name.toString(), channelKey: 'important_channel');
+    // if (response.statusCode == 200) {
+    //   print("API Response: ${response.body}");
+    //
+    //   // Display notification when prayer time data is successfully fetched
+    //   AwesomeNotifications().createNotification(
+    //     content: NotificationContent(
+    //       id: 1,
+    //       channelKey: 'important_channel',
+    //       title: "Prayer Time Fetched",
+    //       body: "Prayer times have been updated successfully.",
+    //     ),
+    //   );
+    // } else {
+    //   print("Error fetching prayer times. Status Code: ${response.statusCode}");
+    // }
+  } catch (e) {
+    print('Error fetching prayer time: $e');
+  }
+}
+
+// void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
+//   String taskId = task.taskId;
+//   bool isTimeout = task.timeout;
+//
+//   if (isTimeout) {
+//     print("[BackgroundFetch] Headless TIMEOUT: $taskId");
+//     BackgroundFetch.finish(taskId);
+//     return;
+//   }
+//
+//   print("[BackgroundFetch] Headless task: $taskId - Running in background or terminated state.");
+//
+//   // Example task logic:
+//   DashBoardController dashboardController = DashBoardController();
+//   await dashboardController.fetchPrayerTime();
+//   dashboardController.startRemainingTimeTimer();
+//
+//   BackgroundFetch.finish(taskId);
+// }
+
 // void main() async {
 //   Get.put(LocationPageController());
 //   WidgetsFlutterBinding.ensureInitialized();

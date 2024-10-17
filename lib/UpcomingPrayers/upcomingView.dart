@@ -125,7 +125,8 @@ class Upcoming extends GetView<UpcomingController> {
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
                               onTap: () {
-                                Get.to(() => DashBoardView());
+                                Get.back();
+                                // Get.to(() => DashBoardView());
                               },
                               child: SvgPicture.asset("assets/close.svg"),
                             ),

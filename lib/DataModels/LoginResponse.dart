@@ -147,8 +147,8 @@ class UserModel {
       methodName: (json['method_name']??'').toString(),
       picture: (json['picture']??'').toString(),
       preNamazAlert: (json['preNamazAlert']??'').toString(),
-      pauseAll: (json['notification_on']??false).toString()=='true'?true:false,
-      quitMode: (json['quitMode']??false).toString()=='true'?true:false,
+      pauseAll: (json['notification_off']??false).toString()=='true'?true:false,
+      quitMode: (json['quiet_mode']??false).toString()=='true'?true:false,
       friendRequest: (json['fr_noti']??false).toString()=='true'?true:false,
       friendPrayed: (json['fn_mark_noti']??false).toString()=='true'?true:false,
     );
@@ -169,10 +169,46 @@ class UserModel {
       'method_name': methodName,
       'picture': picture,
       'preNamazAlert': preNamazAlert!,
-      'notification_on': pauseAll.toString(),
+      'notification_off': pauseAll.toString(),
       'quitMode': quitMode.toString(),
       'fr_noti': friendRequest.toString(),
       'fn_mark_noti': friendPrayed.toString(),
     };
   }
 }
+
+class LocationDataModel {
+  final String? latitude;
+  final String? longitude;
+  final String? address;
+
+  LocationDataModel({
+    this.latitude,
+    this.longitude,
+    this.address,
+  });
+
+  // Factory constructor to create LocationDataModel object from a JSON map
+  factory LocationDataModel.fromJson(Map<String, dynamic> json) {
+    return LocationDataModel(
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      address: json['address'],
+    );
+  }
+
+  // Method to convert LocationDataModel object to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'LocationDataModel(latitude: $latitude, longitude: $longitude, address: $address)';
+  }
+}
+

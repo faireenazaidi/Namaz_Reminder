@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 // class LocationServices{
@@ -63,17 +64,18 @@ class LocationService {
     }
   }
 
-  // // Method to reverse geocode the position (convert coordinates to address)
-  // Future<String> getAddressFromCoordinates(Position position) async {
-  //   try {
-  //     List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
-  //     Placemark place = placemarks[0];
-  //     return "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-  //   } catch (e) {
-  //     print("Error getting address: $e");
-  //     return "Unknown location";
-  //   }
-  // }
+  // Method to reverse geocode the position (convert coordinates to address)
+  Future<String> getAddressFromCoordinates(Position position) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemarks[0];
+      // return "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+      return "${place.locality}";
+    } catch (e) {
+      print("Error getting address: $e");
+      return "Unknown location";
+    }
+  }
   //
   // // Method to get coordinates from a user-provided address (forward geocoding)
   // Future<Location?> getCoordinatesFromAddress(String address) async {
