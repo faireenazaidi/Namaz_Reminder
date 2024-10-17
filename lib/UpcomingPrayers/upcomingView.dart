@@ -30,12 +30,16 @@ class Upcoming extends GetView<UpcomingController> {
         actions: [
           Row(
             children: [
-              Image.asset("assets/location.png"),
+              SvgPicture.asset(
+                  "assets/loc.svg"
+              ),
               const SizedBox(width: 4),
               const Text("Lucknow", style: TextStyle(color: Colors.black)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.settings_outlined, size: 20, color: Colors.grey),
+                child:   SvgPicture.asset(
+                    "assets/gear.svg"
+                ),
               ),
             ],
           ),
@@ -101,7 +105,7 @@ class Upcoming extends GetView<UpcomingController> {
 
                 const SizedBox(height: 15),
                 Container(
-                  height: 200,
+                  height: 160,
                   decoration: BoxDecoration(
                     color: Colors.black87,
                     image: const DecorationImage(
@@ -112,27 +116,27 @@ class Upcoming extends GetView<UpcomingController> {
                   ),
                   child: Stack(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Get.toNamed(AppRoutes.upcomingRoute);
-                            },
-                            child: Text("UPCOMING PRAYERS", style: MyTextTheme.mediumWCB),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                              onTap: () {
-                                Get.back();
-                                // Get.to(() => DashBoardView());
-                              },
-                              child: SvgPicture.asset("assets/close.svg"),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     TextButton(
+                      //       onPressed: () {
+                      //         Get.toNamed(AppRoutes.upcomingRoute);
+                      //       },
+                      //       child: Text("UPCOMING PRAYERS", style: MyTextTheme.mediumWCB),
+                      //     ),
+                      //     Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: InkWell(
+                      //         onTap: () {
+                      //           Get.back();
+                      //           // Get.to(() => DashBoardView());
+                      //         },
+                      //         child: SvgPicture.asset("assets/close.svg"),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       Positioned(
                         top: 50, // Adjust as necessary
                         left: 0,
@@ -140,6 +144,7 @@ class Upcoming extends GetView<UpcomingController> {
                         bottom: 0,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
+                          controller: dashboardController.scrollController,
                           // controller: dashboardController.scrollController,
                           itemCount: dashboardController.prayerNames.length,
                           itemBuilder: (context, index) {
@@ -157,45 +162,56 @@ class Upcoming extends GetView<UpcomingController> {
                             }
                             // bool isHighlighted = dashboardController.nextPrayer.value == dashboardController.prayerNames[index];
                             return Transform.scale(
-                              scale: isHighlighted ? 1.2 : 1.0,
+                              scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
                               child: Opacity(
-                                opacity: isHighlighted ? 1.0 : 0.5,
+                                opacity: isHighlighted ? 1.0 : 0.6,  // Reduce opacity of inactive items
                                 child: Container(
                                   width: 80,
                                   margin: const EdgeInsets.symmetric(horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: const AssetImage('assets/vector.png'),
-                                      colorFilter: isHighlighted
-                                          ? null
-                                          : ColorFilter.mode(
-                                        Colors.grey.withOpacity(0.2),
-                                        BlendMode.srcATop,
-                                      ),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const SizedBox(height: 20),
-                                      Text(
-                                        dashboardController.prayerNames[index].toUpperCase(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: isHighlighted ? 14 : 14, // Increase font size for active prayer
+                                  // decoration: BoxDecoration(
+                                  //   image: DecorationImage(
+                                  //     image: const AssetImage('assets/vector.png'),
+                                  //     colorFilter: isHighlighted
+                                  //         ? null
+                                  //         : ColorFilter.mode(
+                                  //       Colors.grey.withOpacity(0.3),
+                                  //       BlendMode.srcATop,
+                                  //     ),
+                                  //   ),
+                                  //   borderRadius: BorderRadius.circular(10),
+                                  //   // border: Border.all(
+                                  //   //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
+                                  //   //   width: 2,
+                                  //   // ),
+                                  // ),
+                                  child: Stack(
+                                      children:[
+                                        SvgPicture.asset("assets/Vec.svg"),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            // const SizedBox(height: 20),
+                                            Text(
+                                              dashboardController.prayerNames[index].toUpperCase(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: isHighlighted ? 13 : 13,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Center(
+                                              child: Text(
+                                                dashboardController.getPrayerTimes.isEmpty
+                                                    ? "Loading"
+                                                    : dashboardController.getPrayerTimes[index].toString(),
+                                                style: isHighlighted
+                                                    ? MyTextTheme.smallBCN
+                                                    : MyTextTheme.smallGCN,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        dashboardController.getPrayerTimes.isEmpty
-                                            ? "Loading"
-                                            : dashboardController.getPrayerTimes[index].toString(),
-                                        style: isHighlighted
-                                            ? MyTextTheme.smallBCN // Highlighted prayer time style
-                                            : MyTextTheme.smallBCN, // Normal style for others
-                                      ),
-                                    ],
+                                      ]
                                   ),
                                 ),
                               ),
@@ -211,7 +227,7 @@ class Upcoming extends GetView<UpcomingController> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                 itemCount: dashboardController.prayerNames.length,
                 itemBuilder: (context, index) {
@@ -224,7 +240,7 @@ class Upcoming extends GetView<UpcomingController> {
                   String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
 
                   return Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
 
                       decoration: BoxDecoration(
@@ -233,52 +249,53 @@ class Upcoming extends GetView<UpcomingController> {
                       ),
                       child:  Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
                                   prayerName,
-                                  style: MyTextTheme.largeCustomBCB
+                                  style: MyTextTheme.medium
                               ),
-                            ),
-                            Row(
-                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    'Starts at',
-                                    style: MyTextTheme.smallGCN
+                              SizedBox(height: 5,),
+                              Row(
+                                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Starts at',
+                                      style: MyTextTheme.smallGCN
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'End at',
-                                    style: MyTextTheme.smallGCN
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    startTime12,
-                                   style: MyTextTheme.mediumBCC,
+                                  Text(
+                                    'Ends at',
+                                      style: MyTextTheme.smallGCN
                                   ),
-                                ),
-                                Text(
-                                  endTime12,
-                                  style: MyTextTheme.mediumBCC,
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      startTime12,
+                                     style: MyTextTheme.mediumBCD,
+                                    ),
+                                  ),
+                                  Text(
+                                    endTime12,
+                                    style: MyTextTheme.mediumBCD,
+                                  ),
+                                ],
+                              ),
 
-                          ],
+                            ],
 
 
 
 
 
+                          ),
                         ),
                       ),
                     ),
