@@ -530,7 +530,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                                         children: [
                                                           // const SizedBox(height: 20),
                                                           Text(
-                                                            dashboardController.prayerNames[index].toUpperCase(),
+                                                            controller.prayerNames[index].toUpperCase(),
                                                             style: TextStyle(
                                                               color: Colors.white,
                                                               fontSize: isHighlighted ? 13 : 13,
@@ -539,9 +539,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                                           const SizedBox(height: 8),
                                                           Center(
                                                             child: Text(
-                                                              dashboardController.getPrayerTimes.isEmpty
+                                                              controller.getPrayerTimes.isEmpty
                                                                   ? "Loading"
-                                                                  : dashboardController.getPrayerTimes[index].toString(),
+                                                                  : controller.getPrayerTimes[index].toString(),
                                                               style: isHighlighted
                                                                   ? MyTextTheme.smallBCN
                                                                   : MyTextTheme.smallGCN,

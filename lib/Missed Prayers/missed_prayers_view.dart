@@ -299,7 +299,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     itemBuilder: (context, index) {
                                       var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
                                       return Visibility(
-                                        visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Zuhr",
+                                        visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
                                         child: Column(
                                           children: [
                                             Padding(
