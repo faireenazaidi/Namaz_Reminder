@@ -494,10 +494,13 @@ class DashBoardView extends GetView<DashBoardController> {
                                               if(controller.nextPrayer.value.isEmpty){
                                                 int currentPrayerIndex = controller.prayerNames.indexOf(controller.currentPrayer.value);
                                                 int nextPrayerIndex = (currentPrayerIndex + 1) % controller.prayerNames.length;
+                                                print("NEXT PRAYER INDEX !!@# $nextPrayerIndex");
                                                  isHighlighted = nextPrayerIndex == index;
                                               }
                                               else{
                                                  isHighlighted = controller.nextPrayer.value == controller.prayerNames[index];
+                                                 print("NEXT PRAYER INDEX !!@# $isHighlighted");
+                                                 print("NEXT PRAYER INDEX !!@# ${controller.nextPrayer.value}");
                                               }
                                               return Transform.scale(
                                                 scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item

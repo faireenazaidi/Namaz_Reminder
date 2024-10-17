@@ -227,10 +227,10 @@ class DashBoardController extends GetxController {
             },
             'Asr': {
               'start': getExtractedData[0].timings?.asr ?? 'N/A',
-              'end': '16:40'
+              'end': getExtractedData[0].timings?.maghrib ?? 'N/A'
             },
             'Maghrib': {
-              'start': '16:40',
+              'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
               'end': getExtractedData[0].timings?.isha ?? 'N/A'
             },
             'Isha': {
@@ -431,11 +431,14 @@ class DashBoardController extends GetxController {
 
     for (var prayer in prayerDuration.keys) {
       var times = prayerDuration[prayer]!;
+      print("TIMES !!@# $times");
       var prayerStartTime = times['start']!;
+      print("PRAYER START TIME $prayerStartTime");
 
       // If the current time is before the start time of a prayer, it is the next prayer
-      if (currentTime.compareTo(prayerStartTime) < 0) {
+      if (currentTime.compareTo(prayerStartTime) < 0 || currentTime.compareTo(prayerStartTime) == 0) {
         nextPrayer = prayer;
+        print("NEXT PRAYER !@# $nextPrayer");
         nextPrayerStartTime = prayerStartTime;
         break;
       }
@@ -443,10 +446,10 @@ class DashBoardController extends GetxController {
 
     // If no upcoming prayer was found, check if it's after Isha or Sunrise
     if (nextPrayer.isEmpty) {
-      var ishaEndTime = prayerDuration['Isha']!['start']!;
+      var ishaEndTime = prayerDuration['Isha']!['end']!;
       var sunriseTime = prayerDuration['Sunrise']!['start']!;
 
-      if (currentTime.compareTo(ishaEndTime) >= 0) {
+      if (currentTime.compareTo(ishaEndTime) >= 0 ||currentTime.compareTo(ishaEndTime) == 0) {
         // After Isha, the next prayer is Fajr
         nextPrayer = 'Fajr';
         nextPrayerStartTime = prayerDuration['Fajr']!['start']!;
@@ -458,7 +461,7 @@ class DashBoardController extends GetxController {
     }
 
     // Update the reactive variables for next prayer
-    this.nextPrayer.value = nextPrayer;
+    // this.nextPrayer.value = nextPrayer;
     this.nextPrayerStartTime.value = convertTo12HourFormat(nextPrayerStartTime);
 
     return nextPrayer;
@@ -502,15 +505,15 @@ class DashBoardController extends GetxController {
           Duration remainingDuration = endTime.difference(now);
           print("endTime $endTime");
           // Schedule a reminder notification exactly 10 minutes before the current prayer ends
-          if (remainingDuration.inMinutes == 10 && !isNotificationSent) {
-            // Send the notification only once
-            AwesomeNotificationService().showNotification(
-              title: "Reminder: ${nextPrayer.value}",
-              body: "${nextPrayer.value} prayer starts in 10 minutes.",
-              channelKey: 'important_channel',
-            );
-            isNotificationSent = true; // Set the flag to true to prevent further notifications
-          }
+          // if (remainingDuration.inMinutes == 10 && !isNotificationSent) {
+          //   // Send the notification only once
+          //   AwesomeNotificationService().showNotification(
+          //     title: "Reminder: ${nextPrayer.value}",
+          //     body: "${nextPrayer.value} prayer starts in 10 minutes.",
+          //     channelKey: 'important_channel',
+          //   );
+          //   isNotificationSent = true; // Set the flag to true to prevent further notifications
+          // }
           // Format and print the remaining time
           if (remainingDuration.isNegative) {
             // Reset the flag for the next prayer
@@ -540,12 +543,13 @@ class DashBoardController extends GetxController {
     var nextPrayerTimes = prayerDuration[nextPrayerName]!;
     currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
     currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+
     // Convert next prayer start time to DateTime
     // DateTime nextPrayerTime = DateFormat('hh:mm a').parse(nextPrayerTimes['start']!);
 
       AwesomeNotificationService().showNotification(
         title: "Reminder: $nextPrayerName",
-        body: "$nextPrayerName prayer starts in 10 minutes.",
+        body: "$nextPrayerName prayer started",
         channelKey: 'important_channel',
       );
 
@@ -745,8 +749,8 @@ class DashBoardController extends GetxController {
       request.body = json.encode({
         "user_id": userId,
         "mobile_no": mobileNo,
-        "latitude": position!.latitude,
-        "longitude": position!.longitude,
+        "latitude": position!=null? position!.latitude:double.parse(userData.getLocationData!.latitude.toString()),
+        "longitude": position!=null? position!.longitude:double.parse(userData.getLocationData!.longitude.toString()),
         "timestamp":formattedTime, //"$hour:$minute",
         "jamat": prayedAtMosque.value.toString(),
         "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),

@@ -40,26 +40,26 @@ class NotificationSetting extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Notification Sound//
-            ListTile(
-              title: Text('Notification Sound',style: MyTextTheme.medium2,),
-              subtitle: Text('Default (Classic)',style: MyTextTheme.smallGCN,),
-              trailing:Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
-              onTap: () {
-                Get.to(() => NotificationSound());
-              },
-            ),
-            SizedBox(height: 5,),
-            //Upcoming Prayers//
-            ListTile(
-              title: Text('Upcoming Prayers',style: MyTextTheme.medium2,),
-              subtitle: Text('Default (Call to Prayer)',style: MyTextTheme.smallGCN,),
-              trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
-              onTap: () {
-                Get.to (()=> Upcoming());
-
-              },
-            ),
-            SizedBox(height: 5,),
+            // ListTile(
+            //   title: Text('Notification Sound',style: MyTextTheme.medium2,),
+            //   subtitle: Text('Default (Classic)',style: MyTextTheme.smallGCN,),
+            //   trailing:Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
+            //   onTap: () {
+            //     Get.to(() => NotificationSound());
+            //   },
+            // ),
+            // SizedBox(height: 5,),
+            // //Upcoming Prayers//
+            // ListTile(
+            //   title: Text('Upcoming Prayers',style: MyTextTheme.medium2,),
+            //   subtitle: Text('Default (Call to Prayer)',style: MyTextTheme.smallGCN,),
+            //   trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
+            //   onTap: () {
+            //     Get.to (()=> Upcoming());
+            //
+            //   },
+            // ),
+            // SizedBox(height: 5,),
             //PAUse//
             Obx(() => SwitchListTile(
               activeTrackColor: AppColor.circleIndicator,
