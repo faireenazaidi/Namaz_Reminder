@@ -70,7 +70,7 @@ class ProfileView extends GetView<ProfileController> {
                                   ? AppColor.circleIndicator
                                   : Colors.transparent,
                               child: controller.userData.getUserData!.picture.isEmpty
-                                  ? const Icon(Icons.person, size: 40, color: Colors.white)
+                                  ? const Icon(Icons.person, size: 50, color: Colors.white)
                                   : null,
                             ),
                             // CircleAvatar(
@@ -103,16 +103,12 @@ class ProfileView extends GetView<ProfileController> {
                               color: Colors.white, // Background color of the icon
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppColor.packageGray,
+                                color: AppColor.greyColor,
                                 width: 1.0,
                               ),
                             ),
                             padding: EdgeInsets.all(6),
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.grey,
-                              size: 20,
-                            ),
+                            child: SvgPicture.asset("assets/cam.svg")
                           ),
                         ),
                       ),
@@ -226,7 +222,7 @@ class ProfileView extends GetView<ProfileController> {
                         Text("Male",
                           style: MyTextTheme.mediumGCB,
                         ),
-                        const SizedBox(width: 100,),
+                        const SizedBox(width: 50,),
 
                             Radio(
                               value: "1",

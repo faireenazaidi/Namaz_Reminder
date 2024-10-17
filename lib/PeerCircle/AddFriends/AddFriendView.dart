@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
@@ -26,9 +28,9 @@ class AddFriendView extends GetView<AddFriendController> {
         title: Text('Invite friends', style: MyTextTheme.mediumBCD),
         leading: InkWell(
           onTap: () {
-            Get.back();
+          Get.toNamed(AppRoutes.peerRoute);
           },
-          child: const Icon(Icons.arrow_back_ios_new),
+          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
       ),
       body: GetBuilder(
@@ -99,7 +101,7 @@ class AddFriendView extends GetView<AddFriendController> {
                             children: [
                               Text(
                                 "REQUESTS",
-                                style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey),
+                                style: MyTextTheme.greyNormal
                               ),
                               // Show "SEE ALL" only if requests are more than 2
 
@@ -111,10 +113,8 @@ class AddFriendView extends GetView<AddFriendController> {
                                   },
                                   child: Text(
                                     "SEE ALL",
-                                    style: MyTextTheme.greyNormal.copyWith(
-                                      color: AppColor.textDarkGrey,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: MyTextTheme.greyNormal
+
                                   ),
                                 ),
                               ),
@@ -131,7 +131,7 @@ class AddFriendView extends GetView<AddFriendController> {
                               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
                               // RegisteredUserDataModal registeredData = filteredUsers[index];
                               // print("Item${registeredData.picture}");
-
+                          
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
@@ -156,7 +156,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                           ? const Icon(Icons.person, size: 20, color: Colors.white)
                                           : null,
                                     ),
-
+                          
                                     // User Details
                                     Expanded(
                                       child: Padding(
@@ -176,7 +176,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                         ),
                                       ),
                                     ),
-
+                          
                                     // Accept and Decline Buttons
                                     Row(
                                       children: [
@@ -229,7 +229,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                   ],
                                 ),
                               );
-
+                          
                             },
                           ),
                         ],
@@ -242,7 +242,7 @@ class AddFriendView extends GetView<AddFriendController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("SUGGESTIONS", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey)),
+                    Text("SUGGESTIONS", style: MyTextTheme.greyNormal),
                   ],
                 ),
                 if (filteredUsers.isEmpty)

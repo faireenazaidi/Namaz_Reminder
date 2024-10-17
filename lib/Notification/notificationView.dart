@@ -28,7 +28,7 @@ class NotificationView extends GetView<NotificationController>{
             // Get.back();
             Get.toNamed(AppRoutes.dashboardRoute);
           },
-          child: Icon(Icons.arrow_back_ios_new),
+          child: Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
         actions: [
           TextButton(

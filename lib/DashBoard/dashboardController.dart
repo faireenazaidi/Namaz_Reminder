@@ -752,6 +752,7 @@ class DashBoardController extends GetxController {
         "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
         'prayed':true
       });
+      print("URL ${request.url}");
       print("prayer-record ${request.body}");
       // print("User ID: $userId");
       // print("Mobile No: $mobileNo");
@@ -765,8 +766,11 @@ class DashBoardController extends GetxController {
 
       http.StreamedResponse response = await request.send();
       //print("API RESPONSE: " + await response.stream.bytesToString().toString());
-      var data = jsonDecode(await response.stream.bytesToString());
-      print("API RESPONSE: " + data['detail'].toString());
+      // var data = jsonDecode(await response.stream.bytesToString());
+      // print("API RESPONSE: " + data['detail'].toString());
+      String responseString = await response.stream.bytesToString();
+      // print("Raw API response: $responseString");
+
       isPrayed = true;
       isGifVisible = true;
       update();
@@ -788,6 +792,8 @@ class DashBoardController extends GetxController {
       print('Error: $e');
     }
   }
+
+
 
 List isPrayedList = [];
   void updateIsPrayedList(val){

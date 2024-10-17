@@ -31,7 +31,7 @@ class HijriDateView extends GetView<SettingController>{
            // Get.back();
            Get.toNamed(AppRoutes.settingRoute);
          },
-         child: const Icon(Icons.arrow_back_ios_new,),
+         child: const Icon(Icons.arrow_back_ios_new,size: 20,),
        ),
      ),
      body: Padding(

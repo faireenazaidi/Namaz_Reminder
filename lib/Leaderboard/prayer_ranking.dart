@@ -17,20 +17,21 @@ class PrayerRanking extends StatelessWidget {
     Map<String, List<Record>> groupedByPrayer = groupByPrayer(records);
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 10,),
           // Header with prayer names
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              buildPrayerCircle('F', AppColor.circleIndicator),
-              buildPrayerCircle('D', AppColor.circleIndicator),
+              buildPrayerCircle('F', AppColor.circleIndicator,),
+              buildPrayerCircle('Z', AppColor.circleIndicator),
               buildPrayerCircle('A', AppColor.circleIndicator),
               buildPrayerCircle('M', AppColor.circleIndicator),
               buildPrayerCircle('I', AppColor.circleIndicator),
-              Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,fontWeight: FontWeight.bold)),
+              Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,)),
             ],
           ),
           const SizedBox(height: 16),
@@ -81,13 +82,13 @@ class PrayerRanking extends StatelessWidget {
   }
 
   // Widget to build prayer circle header
-  Widget buildPrayerCircle(String label, Color color) {
+  Widget buildPrayerCircle(String label, Color color,) {
     return CircleAvatar(
-      radius: 24,
+      radius: 20,
       backgroundColor: color,
       child: Text(
         label,
-        style: const TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w400),
+        style: const TextStyle(color: Colors.black, fontSize: 16,fontWeight: FontWeight.w400),
       ),
     );
   }

@@ -239,7 +239,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     Text(
                       "Prayed at Mosque / Jamat time",
                       style: MyTextTheme.smallWCN.copyWith(
-                       fontSize: 14// Adjust font size dynamically
+                       fontSize: 12// Adjust font size dynamically
                       ),
                       overflow: TextOverflow.ellipsis, // Prevent overflow
                     ),
@@ -255,7 +255,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     print("isAm ${dashBoardController.isAm}");
                     Lottie.asset("assets/Crown.lottie",
                         decoder: customDecoder, height: 60);
-                    dashBoardController.submitPrayer(valDate: widget.date);
+                    dashBoardController.submitPrayer();
                   },
                 ),
                 // Submit Button
