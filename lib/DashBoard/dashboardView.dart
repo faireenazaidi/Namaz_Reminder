@@ -323,13 +323,19 @@ class DashBoardView extends GetView<DashBoardController> {
                             top: -30, // Adjust the 'top' value as per your layout
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: Lottie.asset(
-                                  "assets/circular.lottie", // Replace with your new Lottie animation path
-                                  decoder: customDecoder, // Replace with your new Lottie animation path
-                                  width: 420,  // Adjust the width and height as per your design
-                                  height: 330,
+                                child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                          Colors.blue.withOpacity(0), // Color for blending
+                          BlendMode.multiply,),           // Desired BlendMode
+                                  child: Lottie.asset(
+                                    "assets/circular.lottie",
+                                    // Replace with your new Lottie animation pat
+                                    decoder: customDecoder, // Replace with your new Lottie animation path
+                                    width: 420,  // Adjust the width and height as per your design
+                                    height: 330,
 
-                                  ),
+                                    ),
+                                ),
                               ),
                           );
                         }

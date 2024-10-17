@@ -42,110 +42,110 @@ class NotificationView extends GetView<NotificationController>{
           ),
         ],
       ),
-      body:   Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Today", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey,fontSize: 14)),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount:3,
-              itemBuilder: (context, index) {
-
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      // Profile Picture
-                     CircleAvatar(
-                       radius: 20,
-                       backgroundColor: AppColor.circleIndicator,
-                       child: Icon(Icons.person,color: Colors.white,size: 20,),
-                     ),
-
-                    ],
-                  ),
-                );
-              },
-            ),
-            Divider(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Yesterday", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey,fontSize: 14)),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount:3,
-              itemBuilder: (context, index) {
-
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      // Profile Picture
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor: AppColor.circleIndicator,
-                        child: Icon(Icons.person,color: Colors.white,size: 20,),
-                      ),
-
-                    ],
-                  ),
-                );
-              },
-            ),
-            Divider(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Last 7 days", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey,fontSize: 14)),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount:3,
-              itemBuilder: (context, index) {
-
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      // Profile Picture
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor: AppColor.circleIndicator,
-                        child: Icon(Icons.person,color: Colors.white,size: 20,),
-                      ),
-
-                    ],
-                  ),
-                );
-              },
-            ),
-
-          ],
-        ),
-      ),
+      // body:   Padding(
+      //   padding: const EdgeInsets.all(8.0),
+      //   child: Column(
+      //     children: [
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.start,
+      //           children: [
+      //             Text("Today", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey,fontSize: 14)),
+      //           ],
+      //         ),
+      //       ),
+      //       ListView.builder(
+      //         shrinkWrap: true,
+      //         itemCount:3,
+      //         itemBuilder: (context, index) {
+      //
+      //           return Padding(
+      //             padding: const EdgeInsets.all(8.0),
+      //             child: Row(
+      //               children: [
+      //                 // Profile Picture
+      //                CircleAvatar(
+      //                  radius: 20,
+      //                  backgroundColor: AppColor.circleIndicator,
+      //                  child: Icon(Icons.person,color: Colors.white,size: 20,),
+      //                ),
+      //
+      //               ],
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //       Divider(
+      //         height: 20,
+      //       ),
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.start,
+      //           children: [
+      //             Text("Yesterday", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey,fontSize: 14)),
+      //           ],
+      //         ),
+      //       ),
+      //       ListView.builder(
+      //         shrinkWrap: true,
+      //         itemCount:3,
+      //         itemBuilder: (context, index) {
+      //
+      //           return Padding(
+      //             padding: const EdgeInsets.all(8.0),
+      //             child: Row(
+      //               children: [
+      //                 // Profile Picture
+      //                 CircleAvatar(
+      //                   radius: 20,
+      //                   backgroundColor: AppColor.circleIndicator,
+      //                   child: Icon(Icons.person,color: Colors.white,size: 20,),
+      //                 ),
+      //
+      //               ],
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //       Divider(
+      //         height: 20,
+      //       ),
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.start,
+      //           children: [
+      //             Text("Last 7 days", style: MyTextTheme.greyNormal.copyWith(color: AppColor.textDarkGrey,fontSize: 14)),
+      //           ],
+      //         ),
+      //       ),
+      //       ListView.builder(
+      //         shrinkWrap: true,
+      //         itemCount:3,
+      //         itemBuilder: (context, index) {
+      //
+      //           return Padding(
+      //             padding: const EdgeInsets.all(8.0),
+      //             child: Row(
+      //               children: [
+      //                 // Profile Picture
+      //                 CircleAvatar(
+      //                   radius: 20,
+      //                   backgroundColor: AppColor.circleIndicator,
+      //                   child: Icon(Icons.person,color: Colors.white,size: 20,),
+      //                 ),
+      //
+      //               ],
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //
+      //     ],
+      //   ),
+      // ),
 
     );
   }
