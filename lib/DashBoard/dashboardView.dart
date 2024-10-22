@@ -18,6 +18,7 @@ import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
+import '../Leaderboard/leaderboardView.dart';
 import '../LocationSelectionPage/locationPageView.dart';
 import '../Widget/location_services.dart';
 
@@ -159,7 +160,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
                             Obx(
                                   () => Text(
-                                dashboardController.islamicDate.value, // Show updated Islamic date
+                                controller.islamicDate.value, // Show updated Islamic date
                                 style: const TextStyle(fontSize: 12, color: Colors.black),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -391,7 +392,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
 
                     ],
-                  ),
+                  )),
                   // Lottie.asset(
                   //   "assets/circular.lottie", // Replace with your new Lottie animation path
                   //   decoder: customDecoder,
@@ -400,58 +401,63 @@ class DashBoardView extends GetView<DashBoardController> {
                   //   // fit: BoxFit.contain,
                   // ),
                 const SizedBox(height: 10),
-                  Visibility(
-                    visible: controller.getLeaderboardList.value != null && controller.getLeaderboardList.value!.rankedFriends.isNotEmpty,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Obx(() {
-                        return
-                            Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: AppColor.leaderboard,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  GetBuilder<DashBoardController>(
+                    id: 'leader',
+                    builder: (_) {
+                      return Visibility(
+                        visible: controller.getLeaderboardList.value != null && controller.getLeaderboardList.value!.rankedFriends.isNotEmpty,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Obx(() {
+                            return
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.leaderboard,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      InkWell(
-                                        onTap: (){
-                                          Get.to(() => LeaderBoardView(),
-                                            transition: Transition.rightToLeft,
-                                            duration: Duration(milliseconds: 500),
-                                            curve: Curves.ease,);
-                                        },
-                                          child: Text("LEADERBOARD",style: MyTextTheme.greyN,)),
-                                      InkWell(
-                                        onTap: (){
-                                          Get.to(() => LeaderBoardView(),
-                                            transition: Transition.rightToLeft,
-                                            duration: Duration(milliseconds: 500),
-                                            curve: Curves.ease,);
-                                        },
-                                          child: SvgPicture.asset("assets/Close.svg"))
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          InkWell(
+                                            onTap: (){
+                                              Get.to(() => LeaderBoardView(),
+                                                transition: Transition.rightToLeft,
+                                                duration: Duration(milliseconds: 500),
+                                                curve: Curves.ease,);
+                                            },
+                                              child: Text("LEADERBOARD",style: MyTextTheme.greyN,)),
+                                          InkWell(
+                                            onTap: (){
+                                              Get.to(() => LeaderBoardView(),
+                                                transition: Transition.rightToLeft,
+                                                duration: Duration(milliseconds: 500),
+                                                curve: Curves.ease,);
+                                            },
+                                              child: SvgPicture.asset("assets/Close.svg"))
+                                        ],
+                                      ),
+                                      RankedFriendsIndicator(
+                                        rankedFriends: controller.getLeaderboardList.value == null
+                                            ? []
+                                            : controller.getLeaderboardList.value!.rankedFriends,
+                                        currentUserId: int.parse(controller.userData.getUserData!.id),
+                                      ),
                                     ],
                                   ),
-                                  RankedFriendsIndicator(
-                                    rankedFriends: controller.getLeaderboardList.value == null
-                                        ? []
-                                        : controller.getLeaderboardList.value!.rankedFriends,
-                                    currentUserId: int.parse(controller.userData.getUserData!.id),
-                                  ),
-                                ],
-                              ),
 
 
-                          );
-                        }),
-                      ),
-                    ),
+                              );
+                            }),
+                          ),
+                        );
+                    }
                   ),
+
 
                   // Obx(() {
                   //   if (controller.rank.value == 0) {
@@ -679,17 +685,15 @@ class DashBoardView extends GetView<DashBoardController> {
                                   ),
                         ],
                       );
-                    },
-                  ),
-                ],
-              ),
-            );
-          }
+                    })
+
+
+            ]
         ),
-      ),
+      );}
+  ))
     );
-  }
-}
+}}
 
 class BlinkingTextWidget extends StatefulWidget {
   final String text;

@@ -33,12 +33,13 @@ class ProfileView extends GetView<ProfileController> {
         ),
         leading: InkWell(
           onTap: (){
-            Get.to(
-                  () => DashBoardView(),
-              transition: Transition.rightToLeft,
-              duration: Duration(milliseconds: 550),
-              curve: Curves.ease,
-            );
+            Get.back();
+            // Get.to(
+            //       () => DashBoardView(),
+            //   transition: Transition.rightToLeft,
+            //   duration: Duration(milliseconds: 550),
+            //   curve: Curves.ease,
+            // );
           },
             child: Icon(Icons.arrow_back_ios_new,size: 20,)),
       ),

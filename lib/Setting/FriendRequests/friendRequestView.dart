@@ -29,13 +29,13 @@ class RequestView extends GetView<SettingController>{
           ),
           leading: InkWell(
             onTap: () {
-              // Get.back();
-              Get.to(
-                    () => SettingView(),
-                transition: Transition.rightToLeft,
-                duration: Duration(milliseconds: 500),
-                curve: Curves.ease,
-              );
+              Get.back();
+              // Get.to(
+              //       () => SettingView(),
+              //   transition: Transition.rightToLeft,
+              //   duration: Duration(milliseconds: 500),
+              //   curve: Curves.ease,
+              // );
             },
             child: const Icon(Icons.arrow_back_ios_new,size: 20,),
           ),

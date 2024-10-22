@@ -27,10 +27,11 @@ class SeeAll extends GetView<AddFriendController>{
        title: Text('Friend Requests', style: MyTextTheme.mediumBCD),
        leading: InkWell(
          onTap: () {
-           Get.to(() => AddFriendView(),
-             transition: Transition.leftToRight,
-             duration: Duration(milliseconds: 500),
-             curve: Curves.ease,);
+           Get.back();
+           // Get.to(() => AddFriendView(),
+           //   transition: Transition.leftToRight,
+           //   duration: Duration(milliseconds: 500),
+           //   curve: Curves.ease,);
          },
          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
        ),

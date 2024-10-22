@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:namaz_reminders/Widget/appColor.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
+import 'Services/notification_service.dart';
+import 'Services/user_data.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -33,6 +36,7 @@ void main() async {
       requiresCharging: false,
       requiresStorageNotLow: false,
       requiresDeviceIdle: false,
+      requiredNetworkType: NetworkType.ANY
       // requiresNetworkType: NetworkType.NONE,
     ),
     _backgroundFetchHandler,
@@ -145,7 +149,7 @@ Future<void> fetchPrayerTimeData() async {
   "Dhuhr": "11:56 (IST)",
   "Asr": "16:18 (IST)",
   "Sunset": "17:53 (IST)",
-  "Maghrib": "18:25 (IST)",
+  "Maghrib": "19:55 (IST)",
   "Isha": "18:52 (IST)",
   "Imsak": "04:41 (IST)",
   "Midnight": "23:56 (IST)",
@@ -156,7 +160,7 @@ Future<void> fetchPrayerTimeData() async {
   "readable": "01 Oct 2024",
   "timestamp": "1727753461",
   "gregorian": {
-  "date": "21-10-2024",
+  "date": "22-10-2024",
   "format": "DD-MM-YYYY",
   "day": "01",
   "weekday": {
@@ -271,11 +275,13 @@ DateTime _convertToDateTime(String timing) {
 
 // Schedule a single notification using Awesome Notifications
 void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
+  AwesomeNotificationService().showNotification(title: "inside schedule", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   // Check if the scheduled time is in the future
   if (scheduledTime.isAfter(DateTime.now())) {
+    AwesomeNotificationService().showNotification(title: "just to hit", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
     AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: prayerName.hashCode, // Unique ID for each prayer
+        id: DateTime.now().millisecondsSinceEpoch.remainder(100000), // Unique ID for each prayer
         channelKey: 'important_channel',
         title: 'Prayer Time Alert',
         body: '$prayerName time has arrived',

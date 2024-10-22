@@ -56,12 +56,13 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
               child:
                InkWell(
                  onTap: (){
-                   Get.to(
-                         () => DashBoardView(),
-                     transition: Transition.leftToRight,
-                     duration: Duration(milliseconds: 500),
-                     curve: Curves.ease,
-                   );
+                   Get.back();
+                   // Get.to(
+                   //       () => DashBoardView(),
+                   //   transition: Transition.leftToRight,
+                   //   duration: Duration(milliseconds: 500),
+                   //   curve: Curves.ease,
+                   // );
                  },
                    child: Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 20,)),
 

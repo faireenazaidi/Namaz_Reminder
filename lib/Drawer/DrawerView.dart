@@ -217,27 +217,27 @@ class CustomDrawer extends StatelessWidget {
                 Divider(
                   color: AppColor.greyLight,
                 ),
-                SizedBox(height: 10,),
-                InkWell(
-                  onTap: () {
-                    Get.to(
-                          () => NotificationView(),
-                      transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 550),
-                      curve: Curves.ease,
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/noti.svg"),
-                        SizedBox(width: 6,),
-                        Text("Notifications",style: MyTextTheme.smallBC ,),
-                      ],
-                    ),
-                  ),
-                ),
+                // SizedBox(height: 10,),
+                // InkWell(
+                //   onTap: () {
+                //     Get.to(
+                //           () => NotificationView(),
+                //       transition: Transition.rightToLeft,
+                //       duration: Duration(milliseconds: 550),
+                //       curve: Curves.ease,
+                //     );
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Row(
+                //       children: [
+                //         SvgPicture.asset( "assets/noti.svg"),
+                //         SizedBox(width: 6,),
+                //         Text("Notifications",style: MyTextTheme.smallBC ,),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 10,),
                 // ListTile(
                 //   leading:  SvgPicture.asset(

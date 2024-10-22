@@ -29,8 +29,8 @@ class PeerView extends GetView<PeerController> {
         ),
         leading: InkWell(
           onTap: () {
-            // Get.back();
-            Get.toNamed(AppRoutes.dashboardRoute);
+            Get.back();
+            // Get.toNamed(AppRoutes.dashboardRoute);
           },
           child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
@@ -78,8 +78,7 @@ class PeerView extends GetView<PeerController> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: GetBuilder(
-                  init: peerController,
+              child: GetBuilder<PeerController>(
                   builder: (_) {
                     if (peerController.isLoading.value) {
                       return Center(child: CircularProgressIndicator());
@@ -224,7 +223,7 @@ class PeerView extends GetView<PeerController> {
                                                               friend.user2.id
                                                                   .toString());
                                                           peerController
-                                                              .friendshipList
+                                                              .filteredFriendsList
                                                               .removeAt(index);
                                                           peerController.update();
                                                           Get.back();

@@ -19,6 +19,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
     LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
     final DashBoardController dashboardController = Get.put(DashBoardController());
     final DateController dateController = Get.put(DateController());
+    leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
     leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
     // TODO: implement build
     return Scaffold(
@@ -36,12 +37,13 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                 child:
                   InkWell(
                       onTap: () {
-                        Get.to(
-                              () => DashBoardView(),
-                          transition: Transition.leftToRight,
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.ease,
-                        );
+                        Get.back();
+                        // Get.to(
+                        //       () => DashBoardView(),
+                        //   transition: Transition.leftToRight,
+                        //   duration: Duration(milliseconds: 500),
+                        //   curve: Curves.ease,
+                        // );
                       },
                       child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
 

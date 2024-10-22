@@ -28,7 +28,7 @@ class AwesomeNotificationService {
           defaultColor: const Color(0xFFFF0000),
           ledColor: Colors.red,
           importance: NotificationImportance.Max,playSound: true,defaultRingtoneType: DefaultRingtoneType.Notification,
-          soundSource: 'resource://raw/important_tone',locked: true,criticalAlerts: true, // Custom sound
+          soundSource: 'resource://raw/important_tone',criticalAlerts: true, // Custom sound
         ),
         NotificationChannel(
           channelKey: 'urgent_channel',
@@ -57,7 +57,6 @@ class AwesomeNotificationService {
         title: title,
         body: body,
         notificationLayout: NotificationLayout.Default,
-        locked: true,
         criticalAlert: true,
         displayOnBackground: true,
         displayOnForeground: true,

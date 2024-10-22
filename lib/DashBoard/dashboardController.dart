@@ -547,6 +547,7 @@ class DashBoardController extends GetxController {
 
   // Function to move to the next prayer
   void moveToNextPrayer() {
+    isPrayed = false;
     String nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now()));
     print('Next prayer: $nextPrayerName');
     currentPrayer.value = nextPrayerName;
@@ -839,7 +840,7 @@ List isPrayedList = [];
 
   }
 
-  var getLeaderboardList = Rxn<LeaderboardDataModal>();
+  Rxn<LeaderboardDataModal>  getLeaderboardList = Rxn<LeaderboardDataModal>();
   leaderboard() async{
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
@@ -858,6 +859,7 @@ List isPrayedList = [];
       getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
       print("getLeaderboardList $getLeaderboardList");
       // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
+      update(['leader']);
     }
     else {
       print(response.reasonPhrase);
