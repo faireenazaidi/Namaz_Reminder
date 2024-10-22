@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
+import 'package:namaz_reminders/FAQs/FAQsView.dart';
+import 'package:namaz_reminders/Feedback/feedbackView.dart';
+import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
+import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
+import 'package:namaz_reminders/Notification/notificationView.dart';
+import 'package:namaz_reminders/PeerCircle/peerView.dart';
+import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
@@ -17,6 +24,7 @@ class CustomDrawer extends StatelessWidget {
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
     return Drawer(
+      backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(5),
@@ -56,7 +64,12 @@ class CustomDrawer extends StatelessWidget {
                       Expanded(
                         child: InkWell(
                           onTap: (){
-                            Get.toNamed(AppRoutes.profileRoute);
+                            Get.to(
+                                  () => ProfileView(),
+                              transition: Transition.rightToLeft,
+                              duration: Duration(milliseconds: 550),
+                              curve: Curves.ease,
+                            );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,8 +110,15 @@ class CustomDrawer extends StatelessWidget {
                 SizedBox(height: 10,),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.leaderboardRoute);
+                    Get.to(
+                          () => LeaderBoardView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 550),
+                      curve: Curves.ease,
+                    );
                   },
+
+
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -126,7 +146,12 @@ class CustomDrawer extends StatelessWidget {
                 // ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.missedPrayers);
+                    Get.to(
+                          () => MissedPrayersView(),
+                        transition: Transition.rightToLeft,
+                        duration: Duration(milliseconds: 550),
+                        curve: Curves.ease,
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -155,7 +180,12 @@ class CustomDrawer extends StatelessWidget {
                 // ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.peerRoute);
+                    Get.to(
+                          () => PeerView(), // Replace with your target widget
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 550),
+                      curve: Curves.ease,
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -190,7 +220,12 @@ class CustomDrawer extends StatelessWidget {
                 SizedBox(height: 10,),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.notifications);
+                    Get.to(
+                          () => NotificationView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 550),
+                      curve: Curves.ease,
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -217,7 +252,12 @@ class CustomDrawer extends StatelessWidget {
                 // ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.settingRoute);
+                    Get.to(
+                          () => SettingView(), // Replace with your target widget
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 550),
+                      curve: Curves.ease,
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -258,7 +298,12 @@ class CustomDrawer extends StatelessWidget {
                 // ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.faqsRoute);
+                    Get.to(
+                          () => FAQSView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 550),
+                      curve: Curves.ease,
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -288,7 +333,12 @@ class CustomDrawer extends StatelessWidget {
                 // ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.feedback);
+                    Get.to(
+                          () => FeedbackView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 550),
+                      curve: Curves.ease,
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

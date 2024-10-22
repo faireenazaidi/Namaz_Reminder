@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Feedback/feedbackController.dart';
+import '../DashBoard/dashboardView.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
@@ -9,7 +10,9 @@ import '../Widget/text_theme.dart';
 class FeedbackView extends GetView<FeedbackController>{
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
+     final FeedbackController feedbackController = Get.put(FeedbackController());
+
+    return Scaffold(
      backgroundColor: Colors.white,
      appBar: AppBar(
        backgroundColor: Colors.white,
@@ -24,7 +27,12 @@ class FeedbackView extends GetView<FeedbackController>{
        ),
        leading: InkWell(
          onTap: () {
-           Get.toNamed(AppRoutes.dashboardRoute);
+           Get.to(
+                 () => DashBoardView(),
+             transition: Transition.leftToRight,
+             duration: Duration(milliseconds: 500),
+             curve: Curves.ease,
+           );
          },
          child: Icon(Icons.arrow_back_ios_new,size: 20,),
        ),
@@ -72,7 +80,7 @@ class FeedbackView extends GetView<FeedbackController>{
                    ),
 
                onChanged: (value) {
-                 controller.setEmail(value);
+                 feedbackController.setEmail(value);
                },
                keyboardType: TextInputType.emailAddress,
                autofillHints: const [AutofillHints.email],
@@ -99,10 +107,10 @@ class FeedbackView extends GetView<FeedbackController>{
                     backgroundColor: Colors.white,
                     label: Text('${index + 1}'),
                     labelStyle: TextStyle(color: Colors.black),
-                    selected: controller.rating.value == index + 1,
+                    selected: feedbackController.rating.value == index + 1,
                     showCheckmark: false, // This removes the tick mark
                     onSelected: (isSelected) {
-                      controller.setRating(index + 1);
+                      feedbackController.setRating(index + 1);
                     },
                     padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 8.0),  // Increases the overall size of the chip
                     labelPadding: EdgeInsets.symmetric(horizontal: 8.0), // Adds padding around the label
@@ -152,7 +160,7 @@ class FeedbackView extends GetView<FeedbackController>{
                ),
                maxLines: 5,
                onChanged: (value) {
-                 controller.setComment(value);
+                 feedbackController.setComment(value);
                },
              ),
              SizedBox(height: 24),
@@ -161,9 +169,9 @@ class FeedbackView extends GetView<FeedbackController>{
              Obx(() {
                return ElevatedButton(
 
-                 onPressed: controller.isFormValid ? controller.submitFeedback : null,
+                 onPressed: feedbackController.isFormValid ? feedbackController.submitFeedback : null,
                  style: ElevatedButton.styleFrom(
-                   backgroundColor: controller.isFormValid ? AppColor.circleIndicator: AppColor.greyColor, // Button color
+                   backgroundColor: feedbackController.isFormValid ? AppColor.circleIndicator: AppColor.greyColor, // Button color
                    minimumSize: Size(double.infinity, 50),
                    shape: RoundedRectangleBorder(
                      borderRadius: BorderRadius.circular(10)

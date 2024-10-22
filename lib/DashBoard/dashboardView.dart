@@ -159,7 +159,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
                             Obx(
                                   () => Text(
-                                    controller.islamicDate.value,
+                                dashboardController.islamicDate.value, // Show updated Islamic date
                                 style: const TextStyle(fontSize: 12, color: Colors.black),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -170,37 +170,37 @@ class DashBoardView extends GetView<DashBoardController> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Obx(() {
-                        double completionPercentage = controller.calculateCompletionPercentage();
-
-                        return CircularPercentIndicator(
-                          animateFromLastPercent: true,
-                          circularStrokeCap: CircularStrokeCap.round,
-                          animation: true,
-                          animationDuration: 1200,
-                          radius: 140,
-                          lineWidth: 40,
-                          percent: completionPercentage,
-                          progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
-                          backgroundColor: Colors.grey.shade300,
-                          // center: Text(
-                          //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
-                          //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          // ),
-                        );
-                      }),
-                      Obx(() {
-                        double completionPercentage = controller.calculateCompletionPercentage();
-                        // Circle center and radius
-                        double radius = 100;
-                        // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                        double angle = 2 * pi * completionPercentage;
-                        // Convert percentage to radians
+                  SizedBox(
+                    height: 350,
+                    width: 350,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Obx(() {
+                          double completionPercentage = controller.calculateCompletionPercentage();
+                          return CircularPercentIndicator(
+                            animateFromLastPercent: true,
+                            circularStrokeCap: CircularStrokeCap.round,
+                            animation: true,
+                            animationDuration: 1200,
+                            radius: 140,
+                            lineWidth: 40,
+                            percent: completionPercentage,
+                            progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
+                            backgroundColor: Colors.grey.shade300,
+                            // center: Text(
+                            //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
+                            //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            // ),
+                          );
+                        }),
+                        Obx(() {
+                          double completionPercentage = controller.calculateCompletionPercentage();
+                          // Circle center and radius
+                          double radius = 100;
+                          // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                          double angle = 2 * pi * completionPercentage;
+                          // Convert percentage to radians
 
                         // Calculate x and y positions based on angle
                         double x = radius * cos(angle);
@@ -221,151 +221,168 @@ class DashBoardView extends GetView<DashBoardController> {
                         );
                       }),
 
-                      Positioned(
-                        top: 70,
-                        child: Obx(() {
-                          // Check if there's a current prayer, if not, show the next prayer
-                          print("ccccccccccc ${controller.currentPrayer.value}");
-                          if (controller.currentPrayer.value.isEmpty) {
-                            // Show next prayer message with blinking effect
-                            return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                        Positioned(
+                          top: 70,
+                          child: Obx(() {
+                            // Check if there's a current prayer, if not, show the next prayer
+                            print("ccccccccccc ${controller.currentPrayer.value}");
+                            if (controller.currentPrayer.value.isEmpty) {
+                              // Show next prayer message with blinking effect
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 50,),
+                                    BlinkingTextWidget(
+                                      text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                      style: MyTextTheme.mustard,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            else if(controller.currentPrayer.value=='Free'){
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 75,),
+                                    BlinkingTextWidget(
+                                      text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                      style: MyTextTheme.greyNormal,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            else {
+                              // Show the current prayer timings if available
+                              return Column(
                                 children: [
-                                  const SizedBox(height: 50,),
-                                  BlinkingTextWidget(
-                                    text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
-                                    style: MyTextTheme.mustard,
+                                  SizedBox(height: 35,),
+                                  Center(
+                                    child: Text(
+                                      '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
+                                      style: MyTextTheme.smallBCn,
+                                    ),
                                   ),
-                                ],
-                              ),
-                            );
-                          }
-                          else if(controller.currentPrayer.value=='Free'){
-                            return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(height: 50,),
-                                  BlinkingTextWidget(
-                                    text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    controller.remainingTime.value,
+                                    style: MyTextTheme.largeCustomBCB,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "Left for ${controller.currentPrayer.value} Prayer",
                                     style: MyTextTheme.greyNormal,
                                   ),
                                 ],
-                              ),
-                            );
-                          }
-                          else {
-                            // Show the current prayer timings if available
-                            return Column(
-                              children: [
-                                Text(
-                                  '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
-                                  style: MyTextTheme.smallBCn,
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  controller.remainingTime.value,
-                                  style: MyTextTheme.largeCustomBCB,
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  "Left for ${controller.currentPrayer.value} Prayer",
-                                  style: MyTextTheme.greyNormal,
-                                ),
-                              ],
-                            );
-                          }
-                        }),
-                      ),
+                              );
+                            }
+                          }),
+                        ),
 
-                      // Conditionally show the "Mark as Prayer" button
-                      Positioned(
-                        bottom: 80,
-                        child: Obx(() {
-                          DateTime now = DateTime.now();
-                          DateTime nextPrayerTime;
+                        // Conditionally show the "Mark as Prayer" button
+                        Positioned(
+                          bottom: 120,
+                          child: Obx(() {
+                            DateTime now = DateTime.now();
+                            DateTime nextPrayerTime;
 
-                          try {
-                            nextPrayerTime = DateFormat('hh:mm a').parse(controller.nextPrayerStartTime.value);
-                            nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
-                          } catch (e) {
-                            nextPrayerTime = DateTime.now().subtract(const Duration(days: 1));
-                          }
+                            try {
+                              nextPrayerTime = DateFormat('hh:mm a').parse(controller.nextPrayerStartTime.value);
+                              nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
+                            } catch (e) {
+                              nextPrayerTime = DateTime.now().subtract(const Duration(days: 1));
+                            }
 
-                          bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
+                            bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
 
-                          return isBeforeNextPrayer
-                              ? const SizedBox.shrink() // Hide the button
-                              : InkWell(
-                            child:controller.isPrayed? Text("Prayed!",style: TextStyle(
-                                color: AppColor.circleIndicator,fontWeight: FontWeight.w600
-                            ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
-                            onTap: () {
-                              if (!controller.isPrayed) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return GestureDetector(
-                                      onTap: () => Navigator.of(context).pop(),
-                                      child: Stack(
-                                        children: [
-                                          // Apply blur to the background
-                                          BackdropFilter(
-                                            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                                            child: Container(
-                                              color: Colors.black.withOpacity(0.5), // Optional dark overlay
+                            return isBeforeNextPrayer
+                                ? const SizedBox.shrink() // Hide the button
+                                : InkWell(
+                              child:controller.isPrayed? Text("Prayed!",style: TextStyle(
+                                  color: AppColor.circleIndicator,fontWeight: FontWeight.w600
+                              ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
+                              onTap: () {
+                                if (!controller.isPrayed) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return GestureDetector(
+                                        onTap: () => Navigator.of(context).pop(),
+                                        child: Stack(
+                                          children: [
+                                            // Apply blur to the background
+                                            BackdropFilter(
+                                              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                                              child: Container(
+                                                color: Colors.black.withOpacity(0.5), // Optional dark overlay
+                                              ),
                                             ),
-                                          ),
-                                           TimePicker()
-                                        ],
+                                             TimePicker()
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+
+                            );
+                          }),
+                        ),
+                        if(controller.isPrayed)
+                        GetBuilder<DashBoardController>(
+                          id: 'lottie',
+                          builder: (_) {
+                            return Positioned(
+                              top: -30, // Adjust the 'top' value as per your layout
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  // child: Lottie.asset(
+                                  //   "assets/circular.lottie",
+                                  //   // Replace with your new Lottie animation pat
+                                  //   decoder: customDecoder, // Replace with your new Lottie animation path
+                                  //   width: 420,  // Adjust the width and height as per your design
+                                  //   height: 330,
+                                  //
+                                  //   ),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 20,),
+                                      ColorFiltered(
+                                        colorFilter: ColorFilter.mode(
+                                          Colors.blue.withOpacity(0), // The color you want to blend with
+                                          BlendMode.multiply,            // The blend mode
+                                        ),
+                                        child: Lottie.asset(
+                                          "assets/circular.lottie", // Your existing Lottie animation path
+                                          decoder: customDecoder,    // Your custom decoder
+                                          width: 430,                // Adjust width as needed
+                                          height: 350,
+                                          fit: BoxFit.contain// Adjust height as needed
+                                        ),
                                       ),
-                                    );
-                                  },
-                                );
-                              }
-                            },
+                                    ],
+                                  ),
 
-                          );
-                        }),
-                      ),
-                      if(controller.isPrayed)
-                      GetBuilder<DashBoardController>(
-                        id: 'lottie',
-                        builder: (_) {
-                          return Positioned(
-                            top: -30, // Adjust the 'top' value as per your layout
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                          Colors.blue.withOpacity(0), // Color for blending
-                          BlendMode.multiply,),           // Desired BlendMode
-                                  child: Lottie.asset(
-                                    "assets/circular.lottie",
-                                    // Replace with your new Lottie animation pat
-                                    decoder: customDecoder, // Replace with your new Lottie animation path
-                                    width: 420,  // Adjust the width and height as per your design
-                                    height: 330,
-
-                                    ),
                                 ),
-                              ),
-                          );
-                        }
-                      ),
-                      if(controller.isPrayed)
-                      GetBuilder<DashBoardController>(
-                        id: 'lottie',
-                        builder: (_) {
-                          return Positioned(
-                            top: -35, // Adjust the 'top' value as per your layout
-                            child: Lottie.asset(
-                              "assets/crystal.lottie", // Replace with your new Lottie animation path
-                              decoder: customDecoder, // Replace with your new Lottie animation path
-                              width: 500,  // Adjust the width and height as per your design
-                              height: 350,
-                               fit: BoxFit.contain,
+                            );
+                          }
+                        ),
+                        if(controller.isPrayed)
+                        GetBuilder<DashBoardController>(
+                          id: 'lottie',
+                          builder: (_) {
+                            return Positioned(
+                              top: -35, // Adjust the 'top' value as per your layout
+                              child: Lottie.asset(
+                                "assets/crystal.lottie", // Replace with your new Lottie animation path
+                                decoder: customDecoder, // Replace with your new Lottie animation path
+                                width: 500,  // Adjust the width and height as per your design
+                                height: 350,
+                                 fit: BoxFit.contain,
 
                             ),
                           );
@@ -382,42 +399,52 @@ class DashBoardView extends GetView<DashBoardController> {
                   //   height: 100,
                   //   // fit: BoxFit.contain,
                   // ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 10),
                   Visibility(
                     visible: controller.getLeaderboardList.value != null && controller.getLeaderboardList.value!.rankedFriends.isNotEmpty,
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.leaderboardRoute);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Obx(() {
-                          return
-                              Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: AppColor.leaderboard,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("LEADERBOARD",style: MyTextTheme.greyN,),
-                                        SvgPicture.asset("assets/Close.svg")
-                                      ],
-                                    ),
-                                    RankedFriendsIndicator(
-                                      rankedFriends: controller.getLeaderboardList.value == null
-                                          ? []
-                                          : controller.getLeaderboardList.value!.rankedFriends,
-                                      currentUserId: int.parse(controller.userData.getUserData!.id),
-                                    ),
-                                  ],
-                                ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx(() {
+                        return
+                            Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: AppColor.leaderboard,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: (){
+                                          Get.to(() => LeaderBoardView(),
+                                            transition: Transition.rightToLeft,
+                                            duration: Duration(milliseconds: 500),
+                                            curve: Curves.ease,);
+                                        },
+                                          child: Text("LEADERBOARD",style: MyTextTheme.greyN,)),
+                                      InkWell(
+                                        onTap: (){
+                                          Get.to(() => LeaderBoardView(),
+                                            transition: Transition.rightToLeft,
+                                            duration: Duration(milliseconds: 500),
+                                            curve: Curves.ease,);
+                                        },
+                                          child: SvgPicture.asset("assets/Close.svg"))
+                                    ],
+                                  ),
+                                  RankedFriendsIndicator(
+                                    rankedFriends: controller.getLeaderboardList.value == null
+                                        ? []
+                                        : controller.getLeaderboardList.value!.rankedFriends,
+                                    currentUserId: int.parse(controller.userData.getUserData!.id),
+                                  ),
+                                ],
+                              ),
 
 
                           );
@@ -477,17 +504,28 @@ class DashBoardView extends GetView<DashBoardController> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            TextButton(
-                                              onPressed: () {
-                                               Get.toNamed(AppRoutes.upcomingRoute);
-                                              },
-                                              child: Text("UPCOMING PRAYERS", style: MyTextTheme.mediumWCB),
-                                            ),
+
+                                             InkWell(
+                                               onTap: (){
+                                                 Get.to(() => Upcoming(),
+                                                   transition: Transition.rightToLeft,
+                                                   duration: Duration(milliseconds: 500),
+                                                   curve: Curves.ease,);
+
+                                               },
+                                                 child: Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Text("UPCOMING PRAYERS", style: MyTextTheme.mediumWCB),
+                                                 )),
+
                                             Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: InkWell(
                                                 onTap: () {
-                                                  Get.to(() => Upcoming());
+                                                  Get.to(() => Upcoming(),
+                                                    transition: Transition.rightToLeft,
+                                                    duration: Duration(milliseconds: 500),
+                                                    curve: Curves.ease,);
                                                 },
                                                 child: SvgPicture.asset("assets/cl.svg"),
                                               ),

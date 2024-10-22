@@ -140,7 +140,7 @@ class LocationPageController extends GetxController {
     step.value = step.value + 1;
     print("STEP VALUE ${step.value}");
     if (step.value == 1) {
-      containerHeight.value = 300;
+      containerHeight.value = 310;
     } else if (step.value == 2) {
       containerHeight.value = 400;
     } else if (step.value == 3) {

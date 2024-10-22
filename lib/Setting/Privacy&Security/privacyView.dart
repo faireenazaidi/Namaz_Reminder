@@ -5,6 +5,7 @@ import 'package:namaz_reminders/Setting/SettingController.dart';
 import '../../Routes/approutes.dart';
 import '../../Widget/appColor.dart';
 import '../../Widget/text_theme.dart';
+import '../SettingView.dart';
 
 class PrivacyView extends GetView<SettingController>{
   @override
@@ -29,7 +30,12 @@ class PrivacyView extends GetView<SettingController>{
           leading: InkWell(
             onTap: () {
               // Get.back();
-              Get.toNamed(AppRoutes.settingRoute);
+              Get.to(
+                    () => SettingView(),
+                transition: Transition.rightToLeft,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.ease,
+              );
             },
             child: const Icon(Icons.arrow_back_ios_new,size: 20,),
           ),

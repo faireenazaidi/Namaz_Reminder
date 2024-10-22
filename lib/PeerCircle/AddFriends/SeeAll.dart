@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendController.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
 import '../../Widget/appColor.dart';
 import '../../Widget/text_theme.dart';
 import 'AddFriendDataModal.dart';
@@ -26,7 +27,10 @@ class SeeAll extends GetView<AddFriendController>{
        title: Text('Friend Requests', style: MyTextTheme.mediumBCD),
        leading: InkWell(
          onTap: () {
-           Get.back();
+           Get.to(() => AddFriendView(),
+             transition: Transition.leftToRight,
+             duration: Duration(milliseconds: 500),
+             curve: Curves.ease,);
          },
          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
        ),

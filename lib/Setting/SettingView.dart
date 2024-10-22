@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
 import 'package:namaz_reminders/Setting/FriendRequests/friendRequestView.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriDate.dart';
+import '../DashBoard/dashboardView.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
@@ -32,7 +33,12 @@ class SettingView extends StatelessWidget {
             leading: InkWell(
               onTap: () {
                 // Get.back();
-                Get.toNamed(AppRoutes.dashboardRoute);
+                Get.to(
+                      () => DashBoardView(),
+                  transition: Transition.leftToRight,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.ease,
+                );
               },
               child: const Icon(Icons.arrow_back_ios_new,size: 20,),
             ),
@@ -53,7 +59,7 @@ class SettingView extends StatelessWidget {
                     cursorColor: AppColor.circleIndicator,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.search),
-                      hintText: "Search Username..",
+                      hintText: "Search for a setting..",
                       hintStyle: MyTextTheme.mediumCustomGCN,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -82,7 +88,12 @@ class SettingView extends StatelessWidget {
                         title: 'Hijri Date Adjustment',
                         subtitle: 'One day ahead',
                         onTap: () {
-                          Get.to(() => HijriDateView());
+                          Get.to(
+                                () => HijriDateView(),
+                            transition: Transition.leftToRight,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
 
                         },
                         imagePath:"assets/hijri.svg"
@@ -100,7 +111,10 @@ class SettingView extends StatelessWidget {
                         title: 'Notifications',
                         subtitle: '',
                         onTap: () {
-                          Get.to(() => NotificationSetting());
+                          Get.to(() => NotificationSetting(),
+                            transition: Transition.leftToRight,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,);
                         },
                           imagePath:"assets/notifi.svg"
                       ),
@@ -108,7 +122,10 @@ class SettingView extends StatelessWidget {
                         title: 'Friend Request',
                         subtitle: 'Manage who can send you joining request',
                         onTap: () {
-                          Get.to(() => RequestView());
+                          Get.to(() => RequestView(),
+                            transition: Transition.leftToRight,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,);
                         },
                           imagePath:"assets/frndrqst.svg"
                       ),
@@ -124,7 +141,10 @@ class SettingView extends StatelessWidget {
                         title: 'Privacy & Security',
                         subtitle: '',
                         onTap: () {
-                          Get.to(() => PrivacyView());
+                          Get.to(() => PrivacyView(),
+                            transition: Transition.leftToRight,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,);
                         },
                           imagePath:"assets/privacy.svg"
                       ),

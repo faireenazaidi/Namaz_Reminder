@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/PreNamazAlert/NamzAlertView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
 import '../../Routes/approutes.dart';
+import '../../Setting/SettingView.dart';
 import '../../Widget/appColor.dart';
 import '../../Widget/text_theme.dart';
 import 'NotificationSound/notificationSound.dart';
@@ -29,7 +30,9 @@ class NotificationSetting extends StatelessWidget {
         ),
         leading: InkWell(
           onTap: () {
-            Get.toNamed(AppRoutes.notifications);
+            Get.back(
+
+            );
           },
           child: Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
