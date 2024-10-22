@@ -150,7 +150,7 @@ Future<void> fetchPrayerTimeData() async {
   "Asr": "16:18 (IST)",
   "Sunset": "17:53 (IST)",
   "Maghrib": "19:55 (IST)",
-  "Isha": "18:52 (IST)",
+  "Isha": "20:52 (IST)",
   "Imsak": "04:41 (IST)",
   "Midnight": "23:56 (IST)",
   "Firstthird": "21:55 (IST)",
