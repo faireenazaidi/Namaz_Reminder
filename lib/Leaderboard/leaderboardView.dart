@@ -3,10 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
-import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
+import '../DashBoard/dashboardView.dart';
 import 'leaderboardController.dart';
 import 'leaderboardDataModal.dart';
 
@@ -46,18 +46,26 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             title:  Text("Leaderboard",style: MyTextTheme.mediumBCD,),
             centerTitle: true,
             pinned: true,
-             expandedHeight:350,
+             // expandedHeight:350,
+            expandedHeight: leaderBoardController.selectedTab.value == 'Weekly' ? 350 : 250,
              // leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6 ,
 
             backgroundColor: AppColor.cream,
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 20,),
-                onPressed: () {
-                  Get.toNamed(AppRoutes.dashboardRoute);
-                },
-              ),
+              child:
+               InkWell(
+                 onTap: (){
+                   Get.to(
+                         () => DashBoardView(),
+                     transition: Transition.leftToRight,
+                     duration: Duration(milliseconds: 500),
+                     curve: Curves.ease,
+                   );
+                 },
+                   child: Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 20,)),
+
+
             ),
 
             flexibleSpace: FlexibleSpaceBar(
@@ -489,7 +497,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             child: Visibility(
                 visible: leaderBoardController.selectedTab.value == 'Weekly',
                 child: Container(
-                  height: Get.height,
+                  height: MediaQuery.of(context).size.height * 0.55,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(50.0),

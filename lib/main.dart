@@ -1,23 +1,14 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
-import 'package:namaz_reminders/Feedback/feedbackView.dart';
-import 'package:namaz_reminders/Notification/notificationView.dart';
-import 'package:namaz_reminders/Services/notification_service.dart';
 import 'package:namaz_reminders/SplashScreen/splashView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
-import 'AppTranslation/apptrans.dart';
-import 'DashBoard/dashboardController.dart';
 import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
-import 'Services/user_data.dart';
 import 'firebase_options.dart';
 
 void main() async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/notificationController.dart';
+import '../DashBoard/dashboardView.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
@@ -26,14 +27,22 @@ class NotificationView extends GetView<NotificationController>{
         leading: InkWell(
           onTap: () {
             // Get.back();
-            Get.toNamed(AppRoutes.dashboardRoute);
+            Get.to(
+                  () => DashBoardView(),
+              transition: Transition.leftToRight,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+            );
           },
           child: Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
         actions: [
           TextButton(
             onPressed: () {
-              Get.to(() => NotificationSetting ());
+              Get.to(() => NotificationSetting (),
+                transition: Transition.rightToLeft,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.ease,);
 
             },
             child:SvgPicture.asset(

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/DashBoard/dashboardView.dart';
+import 'package:namaz_reminders/Routes/approutes.dart';
+import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
-import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 
 class Upcoming extends GetView<UpcomingController> {
@@ -37,8 +37,16 @@ class Upcoming extends GetView<UpcomingController> {
               const Text("Lucknow", style: TextStyle(color: Colors.black)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:   SvgPicture.asset(
-                    "assets/gear.svg"
+                child:   InkWell(
+                  onTap: (){
+                    Get.to(() => SettingView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease,);
+                  },
+                  child: SvgPicture.asset(
+                      "assets/gear.svg"
+                  ),
                 ),
               ),
             ],
@@ -229,12 +237,12 @@ class Upcoming extends GetView<UpcomingController> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                itemCount: dashboardController.prayerNames.length,
+                itemCount: dashboardController.prayerTimes.length,
                 itemBuilder: (context, index) {
                   String prayerName = dashboardController.prayerNames[index];
+                  Map<String, Map<String, String>> prayerTimes = dashboardController.getAllPrayerTimes();
                   String startTime24 = dashboardController.prayerDuration[prayerName]?['start'] ?? 'N/A';
                   String endTime24 = dashboardController.prayerDuration[prayerName]?['end'] ?? 'N/A';
-
                   // Convert times to 12-hour format
                   String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
                   String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
@@ -258,6 +266,13 @@ class Upcoming extends GetView<UpcomingController> {
                                   prayerName,
                                   style: MyTextTheme.medium
                               ),
+
+                              // Text(
+                              //     prayerTimes.toString(),
+                              //     style: MyTextTheme.medium
+                              // ),
+
+
                               SizedBox(height: 5,),
                               Row(
                                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -309,13 +324,14 @@ class Upcoming extends GetView<UpcomingController> {
 
 
 
+
+
+
         ],
       ),
     );
   }
 }
-
-
 
 
 

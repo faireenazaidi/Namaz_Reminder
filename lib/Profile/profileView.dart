@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
@@ -11,10 +12,10 @@ import '../AppManager/image_and_video_picker.dart';
 import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
 import '../Widget/appColor.dart';
+import '../Widget/myCustomeSd.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final ProfileController controller = Get.put(ProfileController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +33,14 @@ class ProfileView extends GetView<ProfileController> {
         ),
         leading: InkWell(
           onTap: (){
-            Get.back();
+            Get.to(
+                  () => DashBoardView(),
+              transition: Transition.rightToLeft,
+              duration: Duration(milliseconds: 550),
+              curve: Curves.ease,
+            );
           },
-            child: Icon(Icons.arrow_back_ios_new)),
+            child: Icon(Icons.arrow_back_ios_new,size: 20,)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -362,6 +368,22 @@ class ProfileView extends GetView<ProfileController> {
                               print("Selected value: $value");
                             },
                           ),
+                        // child:   MyCustomSD(
+                        //     listToSearch:controller.calculationList,
+                        //     valFrom: 'name',
+                        //     onChanged: (value) {
+                        //       if(value!=null){
+                        //         print("method values $value");
+                        //
+                        //         // controller.updateCalId = value['id'];
+                        //         // print("GetMethodId: ${controller.getCalId.toString()}");
+                        //         print(value);
+                        //       }
+                        //
+                        //     },),
+
+
+
                         ),
 
                         // Conditionally display the radio buttons if id == 7

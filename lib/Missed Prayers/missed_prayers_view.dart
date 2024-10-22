@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
@@ -32,14 +33,19 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
               backgroundColor: AppColor.cream,
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-                  onPressed: () {
-                    Get.back();
-                    // Get.toNamed(AppRoutes.dashboardRoute);
+                child:
+                  InkWell(
+                      onTap: () {
+                        Get.to(
+                              () => DashBoardView(),
+                          transition: Transition.leftToRight,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease,
+                        );
+                      },
+                      child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
 
-                  },
-                ),
+
               ),
 
               flexibleSpace: FlexibleSpaceBar(
@@ -187,8 +193,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
 
             SliverToBoxAdapter(
               child: Obx(() {
-                  return Container(
-                    height: Get.height,
+                return Container(
+                     height:leaderBoardController.selectedTab.value == 'Weekly' ? Get.height: 800,
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.vertical(
                           top: Radius.circular(50.0),
@@ -352,7 +358,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                           ],
                                         ),
                                       );
-                                  
+
                                     },),
                                 ),
                               ):const SizedBox();
@@ -588,7 +594,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   itemCount: leaderBoardController.weeklyMissedPrayer.keys.length,
                                   itemBuilder: (context, index) {
                                     final date = leaderBoardController.weeklyMissedPrayer.keys.elementAt(index);
-                                
+
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [

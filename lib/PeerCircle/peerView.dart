@@ -11,6 +11,8 @@ class PeerView extends GetView<PeerController> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController searchController = TextEditingController();
+    final PeerController peerController = Get.put(PeerController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,6 +52,9 @@ class PeerView extends GetView<PeerController> {
             SizedBox(
               height: 50,
               child: TextField(
+                onChanged: (value) {
+                  peerController.filterFriends();
+                },
                 cursorColor: AppColor.circleIndicator,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
@@ -74,21 +79,22 @@ class PeerView extends GetView<PeerController> {
             const SizedBox(height: 20),
             Expanded(
               child: GetBuilder(
-                  init: controller,
+                  init: peerController,
                   builder: (_) {
-                    if (controller.isLoading.value) {
+                    if (peerController.isLoading.value) {
                       return Center(child: CircularProgressIndicator());
                     }
 
-                    if (controller.getFriendshipList.isEmpty) {
+                    if (peerController.getFriendshipList.isEmpty) {
                       return Center(child: Text('No friends found'));
                     }
 
                     return ListView.builder(
-                      itemCount: controller.filteredFriendsList.length,
+                      itemCount: peerController.filteredFriendsList.length,
                       itemBuilder: (context, index) {
-                        Friendship friend = controller
+                        Friendship friend = peerController
                             .filteredFriendsList[index];
+
 
                         return Column(
                           children: [
@@ -97,7 +103,7 @@ class PeerView extends GetView<PeerController> {
                               children: [
                                 Row(
                                   children: [
-                                    // Replace CircleAvatar with a Container to show image
+
                                     Container(
                                       width: 35,
                                       height: 40,
@@ -213,14 +219,14 @@ class PeerView extends GetView<PeerController> {
                                                       ),
                                                       child: TextButton(
                                                         onPressed: () async {
-                                                          await controller
+                                                          await peerController
                                                               .removeFriend(
                                                               friend.user2.id
                                                                   .toString());
-                                                          controller
+                                                          peerController
                                                               .friendshipList
                                                               .removeAt(index);
-                                                          controller.update();
+                                                          peerController.update();
                                                           Get.back();
                                                         },
                                                         child: const Text(

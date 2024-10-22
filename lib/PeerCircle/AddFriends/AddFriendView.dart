@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import 'AddFriendController.dart';
@@ -28,7 +29,12 @@ class AddFriendView extends GetView<AddFriendController> {
         title: Text('Invite friends', style: MyTextTheme.mediumBCD),
         leading: InkWell(
           onTap: () {
-          Get.toNamed(AppRoutes.peerRoute);
+            Get.to(
+                  () => PeerView(),
+              transition: Transition.leftToRight,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+            );
           },
           child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
@@ -109,7 +115,10 @@ class AddFriendView extends GetView<AddFriendController> {
                                 visible: controller.getFriendRequestList.length > 2,
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(() => SeeAll());
+                                    Get.to(() => SeeAll(),
+                                      transition: Transition.rightToLeft,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.ease,);
                                   },
                                   child: Text(
                                     "SEE ALL",

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../DataModels/CalendarDataModel.dart';
@@ -853,7 +854,78 @@ List isPrayedList = [];
     }
 
   }
+  void updateIslamicDateBasedOnOption(int index) {
+    final hijriDate = getExtractedData[0].date?.hijri;
+    DateTime baseDate = DateTime(2024, 10, 21);
+    DateTime newDate;
 
+    // Switch case to adjust the date based on the provided index
+    switch (index) {
+      case 0:
+        newDate = baseDate.subtract(Duration(days: 2)); // Two days ago
+        break;
+      case 1:
+        newDate = baseDate.subtract(Duration(days: 1)); // One day ago
+        break;
+      case 2:
+        newDate = baseDate; // None (today)
+        break;
+      case 3:
+        newDate = baseDate.add(Duration(days: 1)); // One day ahead
+        break;
+      case 4:
+        newDate = baseDate.add(Duration(days: 2)); // Two days ahead
+        break;
+      default:
+        newDate = baseDate; // Fallback to today if index is out of range
+    }
+
+    final hijriNewDate = HijriCalendar.fromDate(newDate); // Convert to Hijri date
+
+    // Update the islamicDate value with the new Hijri date
+    islamicDate.value =
+    '${hijriNewDate.hDay} ${hijriNewDate.longMonthName} ${hijriNewDate.hYear}';
+  }
+
+  // New method to get all prayer times including Zawal, sunset, and sunrise
+
+  Map<String, Map<String, String>> getAllPrayerTimes() {
+  // Initialize a map to hold the prayer times
+  Map<String, Map<String, String>> allPrayerTimes = {};
+
+  // Add prayer times to the map
+  allPrayerTimes['Fajr'] = {
+  'start': convertTo12HourFormat(prayerDuration['Fajr']?['start'] ?? 'N/A'),
+  'end': convertTo12HourFormat(prayerDuration['Fajr']?['end'] ?? 'N/A'),
+  };
+  allPrayerTimes['Dhuhr'] = {
+  'start': convertTo12HourFormat(prayerDuration['Dhuhr']?['start'] ?? 'N/A'),
+  'end': convertTo12HourFormat(prayerDuration['Dhuhr']?['end'] ?? 'N/A'),
+  };
+  allPrayerTimes['Asr'] = {
+  'start': convertTo12HourFormat(prayerDuration['Asr']?['start'] ?? 'N/A'),
+  'end': convertTo12HourFormat(prayerDuration['Asr']?['end'] ?? 'N/A'),
+  };
+  allPrayerTimes['Maghrib'] = {
+  'start': convertTo12HourFormat(prayerDuration['Maghrib']?['start'] ?? 'N/A'),
+  'end': convertTo12HourFormat(prayerDuration['Maghrib']?['end'] ?? 'N/A'),
+  };
+  allPrayerTimes['Isha'] = {
+  'start': convertTo12HourFormat(prayerDuration['Isha']?['start'] ?? 'N/A'),
+  'end': convertTo12HourFormat(prayerDuration['Isha']?['end'] ?? 'N/A'),
+  };
+  allPrayerTimes['Zawal'] = {
+  'time': zawalTime.value, // Assuming zawalTime is already set
+  };
+  allPrayerTimes['Sunrise'] = {
+  'time': convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
+  };
+  allPrayerTimes['Sunset'] = {
+  'time': sunsetTime.value, // Assuming sunsetTime is already set
+  };
+
+  return allPrayerTimes;
+  }
 }
 
 
