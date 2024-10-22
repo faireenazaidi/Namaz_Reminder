@@ -93,8 +93,6 @@ class PeerView extends GetView<PeerController> {
                       itemBuilder: (context, index) {
                         Friendship friend = peerController
                             .filteredFriendsList[index];
-
-
                         return Column(
                           children: [
                             Row(

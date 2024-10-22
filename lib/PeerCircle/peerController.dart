@@ -71,7 +71,7 @@ class PeerController extends GetxController{
   }
   void filterFriends() {
     if (searchText.value.isEmpty) {
-      filteredFriendsList.value = getFriendshipList; // Show all friends if search text is empty
+      filteredFriendsList.value = getFriendshipList;
     } else {
       filteredFriendsList.value = getFriendshipList.where((friend) {
         return friend.user2.name
@@ -86,6 +86,7 @@ class PeerController extends GetxController{
     friendshipList.removeAt(index);
     update();
   }
+
 
   ///REMOVE FRIEND
   removeFriend(String friendId) async {

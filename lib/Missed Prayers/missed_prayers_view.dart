@@ -196,7 +196,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             SliverToBoxAdapter(
               child: Obx(() {
                 return Container(
-                     height:leaderBoardController.selectedTab.value == 'Weekly' ? Get.height: 800,
+                     height:leaderBoardController.selectedTab.value == 'Weekly' ? Get.height*0.5: 800,
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.vertical(
                           top: Radius.circular(50.0),
