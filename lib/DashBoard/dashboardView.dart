@@ -354,7 +354,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                           decoder: customDecoder,    // Your custom decoder
                                           width: 430,                // Adjust width as needed
                                           height: 350,
-                                          fit: BoxFit.contain// Adjust height as needed
+                                          fit: BoxFit.contain,// Adjust height as needed
+
                                         ),
                                       ),
                                     ],

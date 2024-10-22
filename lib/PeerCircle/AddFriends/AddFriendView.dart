@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import '../peerController.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
@@ -16,6 +17,7 @@ class AddFriendView extends GetView<AddFriendController> {
 
   @override
   Widget build(BuildContext context) {
+
     String capitalizeFirstLetter(String name) {
       if (name.isEmpty) return name;
       return name[0].toUpperCase() + name.substring(1).toLowerCase();

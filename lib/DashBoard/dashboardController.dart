@@ -859,25 +859,24 @@ List isPrayedList = [];
     DateTime baseDate = DateTime(2024, 10, 21);
     DateTime newDate;
 
-    // Switch case to adjust the date based on the provided index
     switch (index) {
       case 0:
-        newDate = baseDate.subtract(Duration(days: 2)); // Two days ago
+        newDate = baseDate.subtract(Duration(days: 2));
         break;
       case 1:
-        newDate = baseDate.subtract(Duration(days: 1)); // One day ago
+        newDate = baseDate.subtract(Duration(days: 1));
         break;
       case 2:
         newDate = baseDate; // None (today)
         break;
       case 3:
-        newDate = baseDate.add(Duration(days: 1)); // One day ahead
+        newDate = baseDate.add(Duration(days: 1));
         break;
       case 4:
-        newDate = baseDate.add(Duration(days: 2)); // Two days ahead
+        newDate = baseDate.add(Duration(days: 2));
         break;
       default:
-        newDate = baseDate; // Fallback to today if index is out of range
+        newDate = baseDate;
     }
 
     final hijriNewDate = HijriCalendar.fromDate(newDate); // Convert to Hijri date

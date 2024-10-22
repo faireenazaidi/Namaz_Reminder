@@ -29,7 +29,7 @@ class AddFriendController extends GetxController {
     checkInviteStatus(userData.getUserData!.id);
     fetchRegisteredUsers();
     fetchFriendRequests();
-     // filteredUserList.value = getRegisteredUserList;
+    // filteredUserList.value = getRegisteredUserList;
 
 
   }
@@ -93,7 +93,7 @@ class AddFriendController extends GetxController {
   List<RegisteredUserDataModal> get getRegisteredUserList =>
       List<RegisteredUserDataModal>.from(
           registeredUserList.map((element) =>
-               RegisteredUserDataModal.fromJson(element)).toList());
+              RegisteredUserDataModal.fromJson(element)).toList());
 
 
   set updateRegisteredList(List val) {
@@ -146,13 +146,13 @@ class AddFriendController extends GetxController {
 
     try {
       var response = await http.get(Uri.parse(url), headers: headers);
-print("URL:$url");
+      print("URL:$url");
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
         updateInvitedFriendList = data;
 
-         print("Dataaaaa$data");
+        print("Dataaaaa$data");
 
         return data['invited'] == true;
       } else {
@@ -207,13 +207,13 @@ print("URL:$url");
       );
     }
     else
-      {
+    {
 
-        Get.snackbar('Alert!',data['detail'],
-            snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Alert!',data['detail'],
+          snackPosition: SnackPosition.BOTTOM);
 
-      }
-      }
+    }
+  }
   ///ACCEPT REQUEST
 
   acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
@@ -257,6 +257,6 @@ print("URL:$url");
     print("aaaaaaaaaa $data");
   }
 
-  }
-  ///////////////////
+}
+///////////////////
 
