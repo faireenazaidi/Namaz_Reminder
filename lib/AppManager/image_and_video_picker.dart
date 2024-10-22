@@ -49,10 +49,13 @@ class MyImagePicker{
 
   static Future<String> pickImage({required bool isFromCam}) async {
     final XFile? pickedFile = await _pickImage(isFromCam);
+    print("pickedFile $pickedFile");
     if(pickedFile == null) {
       return "";
     }
+    print("before crop");
     final CroppedFile? croppedFile = await _cropImage(pickedFile);
+    print("croppedFile $croppedFile");
     if(croppedFile==null){
       return pickedFile.path;
     }

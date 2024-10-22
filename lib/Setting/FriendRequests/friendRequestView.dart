@@ -40,7 +40,7 @@ class RequestView extends GetView<SettingController>{
             child: Column(
               children: [
                 SizedBox(height: 10),
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                   GestureDetector(
                     onTap: () {
                       requestController.selectItem(i);
@@ -81,8 +81,6 @@ String _getOptionText(int index) {
     case 0:
       return "Everyone";
     case 1:
-      return "Only my contacts";
-    case 2:
       return "No one";
     default:
       return "";

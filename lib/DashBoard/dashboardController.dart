@@ -94,6 +94,16 @@ class DashBoardController extends GetxController {
     address =val;
     update(['add']);
   }
+  Future<bool> changeLocation()async{
+     position= await LocationService().getCurrentLocation();
+     print("new llllllllll${position!.latitude.toString()}");
+     print("new llllllllllll${position!.longitude.toString()}");
+     updateAddress = await _locationService.getAddressFromCoordinates(position!);
+     final locationData=LocationDataModel(latitude: position!.latitude.toString(),longitude: position!.longitude.toString(),address: address);
+     userData.addLocationData(locationData);
+     print("new uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude.toString()}");
+     return true;
+  }
 
   @override
   void onInit() async{

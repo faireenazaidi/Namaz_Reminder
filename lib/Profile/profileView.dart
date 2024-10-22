@@ -484,6 +484,7 @@ class ProfileView extends GetView<ProfileController> {
                   onTap: () async {
                     Navigator.of(context).pop(); // Close the menu
                     final file =await MyImagePicker.pickImage(isFromCam: true);
+                    print("file $file");
                     controller.updateProfilePhoto(file);
                     var headers = {
                       'Cookie': 'csrftoken=yQZryaCTtTmYrYdjA6ZZSxgbPfJJlNft'

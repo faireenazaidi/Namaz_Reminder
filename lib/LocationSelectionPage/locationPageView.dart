@@ -196,9 +196,9 @@ class LocationPage extends GetView<LocationPageController> {
                             : AppColor.greyColor,
                         onPressed: () async {
                           if(controller.isPhoneNumberValid.value){
+                            controller.dynamicHeightAllocation();
                            await controller.login(controller.phoneController.value.text);
                            print("Send OTP");
-                           controller.dynamicHeightAllocation();
                           }else{
                             print("Invalid phone number");
                             Get.snackbar('Error', 'Please enter a valid phone number',
@@ -620,7 +620,7 @@ class LocationPage extends GetView<LocationPageController> {
                     ],
                   ),
                 ):
-                controller.step.value == 4 && controller.selectMethod['id']==7?
+                controller.step.value == 4 && controller.selectMethod['id']==7&& controller.selectMethod['id']==0?
 
                 Padding(
                   padding: const EdgeInsets.all(12.0),

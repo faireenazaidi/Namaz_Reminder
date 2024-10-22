@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -15,8 +16,10 @@ import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
+import '../AppManager/dialogs.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../LocationSelectionPage/locationPageView.dart';
+import '../Widget/location_services.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
   const DashBoardView({super.key});
@@ -63,9 +66,20 @@ class DashBoardView extends GetView<DashBoardController> {
                 GetBuilder<DashBoardController>(
                   id: 'add',
                   builder: (_) {
-                    return Text(
-                      controller.address,
-                      style: MyTextTheme.greyNormal
+                    return InkWell(
+                      onTap: (){
+                        Dialogs.showConfirmationDialog(context: context, onConfirmed: ()async{
+                         return controller.changeLocation();
+                        },showCancelButton: false,
+                        initialMessage: 'Change Location',confirmButtonText: 'Get Current Location',
+                        confirmButtonColor: AppColor.buttonColor,
+                        successMessage: controller.address,
+                        loadingMessage: 'Getting Current Location...');
+                      },
+                      child: Text(
+                        controller.address,
+                        style: MyTextTheme.greyNormal
+                      ),
                     );
                   }
                 ),
