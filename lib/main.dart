@@ -147,7 +147,7 @@ Future<void> fetchPrayerTimeData() async {
   "Fajr": "04:51 (IST)",
   "Sunrise": "05:59 (IST)",
   "Dhuhr": "11:56 (IST)",
-  "Asr": "16:18 (IST)",
+  "Asr": "15:40 (IST)",
   "Sunset": "17:53 (IST)",
   "Maghrib": "19:55 (IST)",
   "Isha": "20:52 (IST)",
@@ -160,7 +160,7 @@ Future<void> fetchPrayerTimeData() async {
   "readable": "01 Oct 2024",
   "timestamp": "1727753461",
   "gregorian": {
-  "date": "22-10-2024",
+  "date": "23-10-2024",
   "format": "DD-MM-YYYY",
   "day": "01",
   "weekday": {
@@ -290,6 +290,8 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
         criticalAlert: true,
         customSound: 'resource://raw/important_tone',
         wakeUpScreen: true, // Custom sound
+        displayOnForeground: true,
+        displayOnBackground: true,
       ),
       schedule: NotificationCalendar(
         year: scheduledTime.year,
@@ -300,7 +302,7 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
         second: 0,
         millisecond: 0,
         repeats: false,
-        preciseAlarm: true
+        preciseAlarm: true,
       ),
     );
   }

@@ -8,6 +8,8 @@ import '../../Widget/text_theme.dart';
 import 'friendRequestController.dart';
 
 class RequestView extends GetView<SettingController>{
+  const RequestView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final RequestController requestController = Get.put(RequestController());
@@ -49,6 +51,7 @@ class RequestView extends GetView<SettingController>{
                 for (int i = 0; i < 3; i++)
                   GestureDetector(
                     onTap: () {
+                      print(i);
                       requestController.selectItem(i);
                     },
                     child: Padding(
