@@ -620,131 +620,7 @@ class LocationPage extends GetView<LocationPageController> {
                     ],
                   ),
                 ):
-                controller.step.value == 4 && controller.selectMethod['id']==7&& controller.selectMethod['id']==0?
 
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Setup your Account",
-                                    style: MyTextTheme.largeWCB),
-                                Text("Select your School of Thought",
-                                    style: MyTextTheme.mustardS
-                                ),
-                              ],
-                            ),
-                            Lottie.asset("assets/Salah.lottie",
-                                decoder: customDecoder, height: 100),
-                          ],
-                        ),
-
-                        const SizedBox(height: 20,),
-                        // Text('Fiqh',style: MyTextTheme.mediumWCN,),
-                        // const SizedBox(height: 10,),
-                        // Row(
-                        //     children: [
-                        //       Obx(()=>
-                        //           Radio<String>(
-                        //             value:'0',
-                        //             activeColor: AppColor.circleIndicator,
-                        //             groupValue: controller.selectedFiqh.value,
-                        //             onChanged: (value){
-                        //               print(value);
-                        //               controller.selectedFiqh(value!);
-                        //             },
-                        //           )),
-                        //       Text("Shia",
-                        //         style: MyTextTheme.mediumWCN,
-                        //       ),
-                        //       const SizedBox(width: 100,),
-                        //       Obx(()=>
-                        //           Radio(
-                        //             value: '1',
-                        //             activeColor: AppColor.circleIndicator,
-                        //             groupValue:  controller.selectedFiqh.value,
-                        //             onChanged: (value){
-                        //               controller.selectedFiqh(value!);
-                        //             },
-                        //           )),
-                        //       InkWell(
-                        //           onTap:(){
-                        //             // Get.toNamed(AppRoutes.dashboardRoute);
-                        //           },
-                        //           child: Text("Sunni",
-                        //             style: MyTextTheme.mediumWCN,
-                        //           ))
-                        //     ]
-                        // ),
-                        // const SizedBox(height: 10,),
-                        Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
-                        const SizedBox(height: 10,),
-                        Row(
-                            children: [
-                              Obx(()=>
-                                  Radio<String>(
-                                    value:"3",
-                                    activeColor: AppColor.circleIndicator,
-                                    groupValue: controller.selectedPrayer.value,
-                                    onChanged: (String? value){
-                                      controller.selectedPrayer(value!);
-                                    },
-                                  )),
-                              Text("3",
-                                style: MyTextTheme.mediumWCN,
-                              ),
-                              const SizedBox(width: 130,),
-                              Obx(()=>
-                                  Radio(
-                                    value: "5",
-                                    activeColor: AppColor.circleIndicator,
-                                    groupValue:  controller.selectedPrayer.value,
-                                    onChanged: (String? value){
-                                      controller.selectedPrayer(value!);
-                                    },
-                                  )),
-                              InkWell(
-                                  onTap:(){
-                                    // Get.toNamed(AppRoutes.dashboardRoute);
-                                  },
-                                  child: Text("5",
-                                    style: MyTextTheme.mediumWCN,
-                                  ))
-                            ]
-                        ),
-                        const SizedBox(height: 20,),
-                        MyButton(
-                          height: 50,
-                          borderRadius: 10,
-                          title: "Next",
-                          color: AppColor.circleIndicator,
-                          onPressed: () async {
-                            // Validate Fiqh and Prayer Time selection
-                            if (controller.selectedPrayer.value.isNotEmpty) {
-                              await controller.registerUser();
-                              // Proceed if both values are selected
-                              // controller.calculationMethode();
-
-                              print("Navigate to the next screen");
-                            } else {
-                              // Show error if either Fiqh or Prayer Time is not selected
-                              Get.snackbar('Error', 'Please select your Fiqh and Times of Prayer',
-                                  snackPosition: SnackPosition.TOP);
-                              print("Fiqh or Prayer Time is not selected");
-                            }
-                          },
-                        ),
-
-                      ]
-
-                  ),
-                ):
 
 
                 controller.step.value == 3?
@@ -949,9 +825,137 @@ class LocationPage extends GetView<LocationPageController> {
                     ),
                   ),
                 ):
-                    const Column(
 
-                    )
+                // controller.step.value == 4 && controller.selectMethod['id']==7&& controller.selectMethod['id']==0?
+                controller.step.value == 4 && (controller.selectMethod['id'] == 7 || controller.selectMethod['id'] == 0)?
+
+
+
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Setup your Account",
+                                    style: MyTextTheme.largeWCB),
+                                Text("Select your School of Thought",
+                                    style: MyTextTheme.mustardS
+                                ),
+                              ],
+                            ),
+                            Lottie.asset("assets/Salah.lottie",
+                                decoder: customDecoder, height: 100),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20,),
+                        // Text('Fiqh',style: MyTextTheme.mediumWCN,),
+                        // const SizedBox(height: 10,),
+                        // Row(
+                        //     children: [
+                        //       Obx(()=>
+                        //           Radio<String>(
+                        //             value:'0',
+                        //             activeColor: AppColor.circleIndicator,
+                        //             groupValue: controller.selectedFiqh.value,
+                        //             onChanged: (value){
+                        //               print(value);
+                        //               controller.selectedFiqh(value!);
+                        //             },
+                        //           )),
+                        //       Text("Shia",
+                        //         style: MyTextTheme.mediumWCN,
+                        //       ),
+                        //       const SizedBox(width: 100,),
+                        //       Obx(()=>
+                        //           Radio(
+                        //             value: '1',
+                        //             activeColor: AppColor.circleIndicator,
+                        //             groupValue:  controller.selectedFiqh.value,
+                        //             onChanged: (value){
+                        //               controller.selectedFiqh(value!);
+                        //             },
+                        //           )),
+                        //       InkWell(
+                        //           onTap:(){
+                        //             // Get.toNamed(AppRoutes.dashboardRoute);
+                        //           },
+                        //           child: Text("Sunni",
+                        //             style: MyTextTheme.mediumWCN,
+                        //           ))
+                        //     ]
+                        // ),
+                        // const SizedBox(height: 10,),
+                        Text('Times of Prayer',style:  MyTextTheme.mediumWCN,),
+                        const SizedBox(height: 10,),
+                        Row(
+                            children: [
+                              Obx(()=>
+                                  Radio<String>(
+                                    value:"3",
+                                    activeColor: AppColor.circleIndicator,
+                                    groupValue: controller.selectedPrayer.value,
+                                    onChanged: (String? value){
+                                      controller.selectedPrayer(value!);
+                                    },
+                                  )),
+                              Text("3",
+                                style: MyTextTheme.mediumWCN,
+                              ),
+                              const SizedBox(width: 130,),
+                              Obx(()=>
+                                  Radio(
+                                    value: "5",
+                                    activeColor: AppColor.circleIndicator,
+                                    groupValue:  controller.selectedPrayer.value,
+                                    onChanged: (String? value){
+                                      controller.selectedPrayer(value!);
+                                    },
+                                  )),
+                              InkWell(
+                                  onTap:(){
+                                    // Get.toNamed(AppRoutes.dashboardRoute);
+                                  },
+                                  child: Text("5",
+                                    style: MyTextTheme.mediumWCN,
+                                  ))
+                            ]
+                        ),
+                        const SizedBox(height: 20,),
+                        MyButton(
+                          height: 50,
+                          borderRadius: 10,
+                          title: "Submit",
+                          color: AppColor.circleIndicator,
+                          onPressed: () async {
+                            // Validate Fiqh and Prayer Time selection
+                            if (controller.selectedPrayer.value.isNotEmpty) {
+                              await controller.registerUser();
+                              // Proceed if both values are selected
+                              // controller.calculationMethode();
+
+                              print("Navigate to the next screen");
+                            } else {
+                              // Show error if either Fiqh or Prayer Time is not selected
+                              Get.snackbar('Error', 'Please select your Fiqh and Times of Prayer',
+                                  snackPosition: SnackPosition.TOP);
+                              print("Fiqh or Prayer Time is not selected");
+                            }
+                          },
+                        ),
+                        SizedBox(height: 5,)
+
+                      ]
+
+                  ),
+                ):
+Column()
 
               );
             }),

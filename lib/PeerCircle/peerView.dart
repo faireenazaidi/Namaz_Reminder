@@ -49,11 +49,41 @@ class PeerView extends GetView<PeerController> {
         child: Column(
           children: [
             const SizedBox(height: 20),
+            // SizedBox(
+            //   height: 50,
+            //   child: TextField(
+            //     controller: searchController,
+            //     onChanged: (value) {
+            //       peerController.filterFriends();
+            //     },
+            //     cursorColor: AppColor.circleIndicator,
+            //     decoration: InputDecoration(
+            //       prefixIcon: const Icon(Icons.search),
+            //       hintText: "Search Username..",
+            //       hintStyle: MyTextTheme.mediumCustomGCN,
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(10),
+            //         borderSide: const BorderSide(color: Colors.black),
+            //       ),
+            //       enabledBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(10),
+            //         borderSide: const BorderSide(color: Colors.grey, width: 1),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(10),
+            //         borderSide: const BorderSide(color: Colors.grey, width: 1),
+            //       ),
+            //     ),
+            //     style: const TextStyle(color: Colors.grey),
+            //   ),
+            // ),
             SizedBox(
               height: 50,
               child: TextField(
+                controller: searchController,
                 onChanged: (value) {
-                  peerController.filterFriends();
+                  // Update the search text in the controller as the user types
+                  peerController.setSearchText(value);
                 },
                 cursorColor: AppColor.circleIndicator,
                 decoration: InputDecoration(
@@ -76,6 +106,7 @@ class PeerView extends GetView<PeerController> {
                 style: const TextStyle(color: Colors.grey),
               ),
             ),
+
             const SizedBox(height: 20),
             Expanded(
               child: GetBuilder<PeerController>(
@@ -262,6 +293,8 @@ class PeerView extends GetView<PeerController> {
                         );
                       },
                     );
+
+
                   }),
             ),
 

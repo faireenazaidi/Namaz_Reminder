@@ -6,7 +6,6 @@ import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
-import '../DashBoard/dashboardView.dart';
 import 'leaderboardController.dart';
 import 'leaderboardDataModal.dart';
 
@@ -47,7 +46,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             centerTitle: true,
             pinned: true,
              // expandedHeight:350,
-            expandedHeight: leaderBoardController.selectedTab.value == 'Weekly' ? 350 : 250,
+            expandedHeight: leaderBoardController.selectedTab.value == 'Weekly' ? 350 : 200,
              // leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6 ,
 
             backgroundColor: AppColor.cream,
@@ -197,7 +196,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     if(leaderBoardController.selectedTab.value != 'Weekly')
                     Center(child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+                      // child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
                     )),
                     if(leaderBoardController.selectedTab.value == 'Weekly')
                       Obx(() {
@@ -278,216 +277,220 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         ),
                       color: Colors.white
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Container(
-                        width: 100,
-                          height: 8  ,
-                          decoration: BoxDecoration(
-                            color:AppColor.packageGray,
-                            borderRadius: BorderRadius.circular(10)
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          Container(
+                          width: 100,
+                            height: 8  ,
+                            decoration: BoxDecoration(
+                              color:AppColor.packageGray,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+
                           ),
+                          SizedBox(height: 10),
+                          // ElevatedButton(onPressed: (){
+                          //   Get.to(()=>PrayerRanking());
+                          // }, child: Text('data'))
+                          PrayerRanking(records:leaderBoardController.getLeaderboardList.value!=null?
+                          leaderBoardController.getLeaderboardList.value!.records:[],
+                            ranked: leaderBoardController.getLeaderboardList.value!=null?
+                            leaderBoardController.getLeaderboardList.value!.rankedFriends:[],),
 
-                        ),
-                        // ElevatedButton(onPressed: (){
-                        //   Get.to(()=>PrayerRanking());
-                        // }, child: Text('data'))
-                        PrayerRanking(records:leaderBoardController.getLeaderboardList.value!=null?
-                        leaderBoardController.getLeaderboardList.value!.records:[],
-                          ranked: leaderBoardController.getLeaderboardList.value!=null?
-                          leaderBoardController.getLeaderboardList.value!.rankedFriends:[],),
+                           // Padding(
+                           //   padding: const EdgeInsets.only(right: 8.0,top: 10),
+                           //   child: Row(
+                           //     crossAxisAlignment: CrossAxisAlignment.start,
+                           //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           //    children: [
+                           //      Expanded(
+                           //        child: Column(
+                           //          children: [
+                           //            CircleAvatar(
+                           //              radius: 20,
+                           //              backgroundColor: AppColor.circleIndicator,
+                           //              child: Text("F"),
+                           //            ),
+                           //
+                           //            ListView.builder(
+                           //              physics: const NeverScrollableScrollPhysics(),
+                           //              shrinkWrap: true,
+                           //              itemCount:leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
+                           //              itemBuilder: (context, index) {
+                           //                return Visibility(
+                           //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+                           //                  child: Padding(
+                           //                    padding: const EdgeInsets.all(8.0),
+                           //                    child: CircleAvatar(
+                           //                      backgroundColor: Colors.red,
+                           //                      child: Icon(Icons.person,color: Colors.white,),),
+                           //                  ),
+                           //                );
+                           //
+                           //              },),
+                           //
+                           //
+                           //          ],
+                           //        ),
+                           //      ),
+                           //
+                           //
+                           //
+                           //      Expanded(
+                           //        child: Column(
+                           //          children: [
+                           //            CircleAvatar(
+                           //              radius: 20,
+                           //              backgroundColor: AppColor.circleIndicator,
+                           //              child: Text("Z"),
+                           //            ),
+                           //
+                           //            ListView.builder(
+                           //              physics: const NeverScrollableScrollPhysics(),
+                           //              shrinkWrap: true,
+                           //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
+                           //              itemBuilder: (context, index) {
+                           //                return Visibility(
+                           //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+                           //                  child: Padding(
+                           //                    padding: const EdgeInsets.all(8.0),
+                           //                    child: CircleAvatar(
+                           //                      backgroundColor: Colors.orange,
+                           //                      child: Icon(Icons.person,color: Colors.white,),),
+                           //                  ),
+                           //                );
+                           //
+                           //              },),
+                           //
+                           //          ],
+                           //        ),
+                           //      ),
+                           //
+                           //
+                           //      Expanded(
+                           //        child: Column(
+                           //          children: [
+                           //            CircleAvatar(
+                           //              radius: 20,
+                           //              backgroundColor: AppColor.circleIndicator,
+                           //              child: Text("A"),
+                           //            ),
+                           //
+                           //            ListView.builder(
+                           //              physics: const NeverScrollableScrollPhysics(),
+                           //              shrinkWrap: true,
+                           //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
+                           //              itemBuilder: (context, index) {
+                           //                return Visibility(
+                           //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
+                           //                  child: Padding(
+                           //                    padding: const EdgeInsets.all(8.0),
+                           //                    child: CircleAvatar(
+                           //                      radius: 20,
+                           //                      backgroundColor: Colors.transparent,
+                           //                      child: Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
+                           //                  ),
+                           //                );
+                           //
+                           //              },),
+                           //          ],
+                           //        ),
+                           //
+                           //
+                           //
+                           //      ),
+                           //      Expanded(
+                           //        child: Column(
+                           //          children: [
+                           //            CircleAvatar(
+                           //              radius: 20,
+                           //              backgroundColor: AppColor.circleIndicator,
+                           //              child: Text("M"),
+                           //            ),
+                           //            ListView.builder(
+                           //              physics: const NeverScrollableScrollPhysics(),
+                           //              shrinkWrap: true,
+                           //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
+                           //              itemBuilder: (context, index) {
+                           //                return Visibility(
+                           //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+                           //                  child: Padding(
+                           //                    padding: const EdgeInsets.all(8.0),
+                           //                    child: CircleAvatar(
+                           //                      radius: 20,
+                           //                      backgroundColor: Colors.transparent,
+                           //                      child: Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
+                           //                  ),
+                           //                );
+                           //
+                           //              },),
+                           //          ],
+                           //        ),
+                           //      ),
+                           //      Expanded(
+                           //        child: Column(
+                           //          children: [
+                           //            CircleAvatar(
+                           //              radius: 20,
+                           //              backgroundColor: AppColor.circleIndicator,
+                           //              child: Text("I"),
+                           //            ),
+                           //            ListView.builder(
+                           //              physics: const NeverScrollableScrollPhysics(),
+                           //              shrinkWrap: true,
+                           //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
+                           //              itemBuilder: (context, index) {
+                           //                return Visibility(
+                           //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
+                           //                  child: Padding(
+                           //                    padding: const EdgeInsets.all(8.0),
+                           //                    child: CircleAvatar(
+                           //                      radius: 22,
+                           //                      backgroundColor: Colors.transparent,
+                           //                      child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
+                           //                  ),
+                           //                );
+                           //
+                           //              },)
+                           //          ],
+                           //        ),
+                           //      ),
+                           //      Expanded(
+                           //        child: Column(
+                           //          children: [
+                           //            Padding(
+                           //              padding: const EdgeInsets.all(8.0),
+                           //              child: Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,fontWeight: FontWeight.bold),),
+                           //            ),
+                           //
+                           //            ListView.builder(
+                           //              physics: const NeverScrollableScrollPhysics(),
+                           //              shrinkWrap: true,
+                           //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.rankedFriends.length:0,
+                           //              itemBuilder: (context, index) {
+                           //                return Padding(
+                           //                  padding: const EdgeInsets.only(bottom: 8,top: 12),
+                           //                  child: CircleAvatar(
+                           //                    radius: 20,
+                           //                    backgroundColor: Colors.orangeAccent,
+                           //                    child: Icon(Icons.person,color: Colors.white,)),
+                           //                );
+                           //
+                           //              },)
+                           //
+                           //
+                           //          ],
+                           //        ),
+                           //      )
+                           //    ],
+                           //                         ),
+                           // ),
 
-                         // Padding(
-                         //   padding: const EdgeInsets.only(right: 8.0,top: 10),
-                         //   child: Row(
-                         //     crossAxisAlignment: CrossAxisAlignment.start,
-                         //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         //    children: [
-                         //      Expanded(
-                         //        child: Column(
-                         //          children: [
-                         //            CircleAvatar(
-                         //              radius: 20,
-                         //              backgroundColor: AppColor.circleIndicator,
-                         //              child: Text("F"),
-                         //            ),
-                         //
-                         //            ListView.builder(
-                         //              physics: const NeverScrollableScrollPhysics(),
-                         //              shrinkWrap: true,
-                         //              itemCount:leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
-                         //              itemBuilder: (context, index) {
-                         //                return Visibility(
-                         //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
-                         //                  child: Padding(
-                         //                    padding: const EdgeInsets.all(8.0),
-                         //                    child: CircleAvatar(
-                         //                      backgroundColor: Colors.red,
-                         //                      child: Icon(Icons.person,color: Colors.white,),),
-                         //                  ),
-                         //                );
-                         //
-                         //              },),
-                         //
-                         //
-                         //          ],
-                         //        ),
-                         //      ),
-                         //
-                         //
-                         //
-                         //      Expanded(
-                         //        child: Column(
-                         //          children: [
-                         //            CircleAvatar(
-                         //              radius: 20,
-                         //              backgroundColor: AppColor.circleIndicator,
-                         //              child: Text("Z"),
-                         //            ),
-                         //
-                         //            ListView.builder(
-                         //              physics: const NeverScrollableScrollPhysics(),
-                         //              shrinkWrap: true,
-                         //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
-                         //              itemBuilder: (context, index) {
-                         //                return Visibility(
-                         //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
-                         //                  child: Padding(
-                         //                    padding: const EdgeInsets.all(8.0),
-                         //                    child: CircleAvatar(
-                         //                      backgroundColor: Colors.orange,
-                         //                      child: Icon(Icons.person,color: Colors.white,),),
-                         //                  ),
-                         //                );
-                         //
-                         //              },),
-                         //
-                         //          ],
-                         //        ),
-                         //      ),
-                         //
-                         //
-                         //      Expanded(
-                         //        child: Column(
-                         //          children: [
-                         //            CircleAvatar(
-                         //              radius: 20,
-                         //              backgroundColor: AppColor.circleIndicator,
-                         //              child: Text("A"),
-                         //            ),
-                         //
-                         //            ListView.builder(
-                         //              physics: const NeverScrollableScrollPhysics(),
-                         //              shrinkWrap: true,
-                         //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
-                         //              itemBuilder: (context, index) {
-                         //                return Visibility(
-                         //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
-                         //                  child: Padding(
-                         //                    padding: const EdgeInsets.all(8.0),
-                         //                    child: CircleAvatar(
-                         //                      radius: 20,
-                         //                      backgroundColor: Colors.transparent,
-                         //                      child: Image.network("https://5.imimg.com/data5/SELLER/Default/2023/11/363042627/BL/GC/VA/141770070/ya-ali-islamic-wall-decor-metal-arts-for-muslim-homes-wall-hangings-islamic-calligraphy-islamic-gifts-500x500.jpg",scale: 6,),),
-                         //                  ),
-                         //                );
-                         //
-                         //              },),
-                         //          ],
-                         //        ),
-                         //
-                         //
-                         //
-                         //      ),
-                         //      Expanded(
-                         //        child: Column(
-                         //          children: [
-                         //            CircleAvatar(
-                         //              radius: 20,
-                         //              backgroundColor: AppColor.circleIndicator,
-                         //              child: Text("M"),
-                         //            ),
-                         //            ListView.builder(
-                         //              physics: const NeverScrollableScrollPhysics(),
-                         //              shrinkWrap: true,
-                         //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
-                         //              itemBuilder: (context, index) {
-                         //                return Visibility(
-                         //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
-                         //                  child: Padding(
-                         //                    padding: const EdgeInsets.all(8.0),
-                         //                    child: CircleAvatar(
-                         //                      radius: 20,
-                         //                      backgroundColor: Colors.transparent,
-                         //                      child: Image.network("https://st.depositphotos.com/1057689/4949/i/450/depositphotos_49490713-stock-photo-islamic-symbol.jpg",scale: 6,),),
-                         //                  ),
-                         //                );
-                         //
-                         //              },),
-                         //          ],
-                         //        ),
-                         //      ),
-                         //      Expanded(
-                         //        child: Column(
-                         //          children: [
-                         //            CircleAvatar(
-                         //              radius: 20,
-                         //              backgroundColor: AppColor.circleIndicator,
-                         //              child: Text("I"),
-                         //            ),
-                         //            ListView.builder(
-                         //              physics: const NeverScrollableScrollPhysics(),
-                         //              shrinkWrap: true,
-                         //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.records.length:0,
-                         //              itemBuilder: (context, index) {
-                         //                return Visibility(
-                         //                  visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
-                         //                  child: Padding(
-                         //                    padding: const EdgeInsets.all(8.0),
-                         //                    child: CircleAvatar(
-                         //                      radius: 22,
-                         //                      backgroundColor: Colors.transparent,
-                         //                      child: Image.network("https://www.auromin.in/cdn/shop/products/Untitled-1_ee823ade-f1f3-4b60-9665-865f453b7f16_600x.jpg?v=1664521813",scale: 6,),),
-                         //                  ),
-                         //                );
-                         //
-                         //              },)
-                         //          ],
-                         //        ),
-                         //      ),
-                         //      Expanded(
-                         //        child: Column(
-                         //          children: [
-                         //            Padding(
-                         //              padding: const EdgeInsets.all(8.0),
-                         //              child: Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,fontWeight: FontWeight.bold),),
-                         //            ),
-                         //
-                         //            ListView.builder(
-                         //              physics: const NeverScrollableScrollPhysics(),
-                         //              shrinkWrap: true,
-                         //              itemCount: leaderBoardController.getLeaderboardList.value!=null? leaderBoardController.getLeaderboardList.value!.rankedFriends.length:0,
-                         //              itemBuilder: (context, index) {
-                         //                return Padding(
-                         //                  padding: const EdgeInsets.only(bottom: 8,top: 12),
-                         //                  child: CircleAvatar(
-                         //                    radius: 20,
-                         //                    backgroundColor: Colors.orangeAccent,
-                         //                    child: Icon(Icons.person,color: Colors.white,)),
-                         //                );
-                         //
-                         //              },)
-                         //
-                         //
-                         //          ],
-                         //        ),
-                         //      )
-                         //    ],
-                         //                         ),
-                         // ),
-
-                      ]
+                        ]
+                      ),
                     ),
                   )
                 );

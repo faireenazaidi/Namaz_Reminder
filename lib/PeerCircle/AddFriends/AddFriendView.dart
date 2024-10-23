@@ -202,6 +202,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                             //   controller.update();
                                             // }
                                             await controller.acceptFriendRequest(friendRequestData);
+                                            // peerController.friendshipList.toString();
                                           },
                                           child: Container(
                                             height: MediaQuery.of(context).size.height * 0.04,
