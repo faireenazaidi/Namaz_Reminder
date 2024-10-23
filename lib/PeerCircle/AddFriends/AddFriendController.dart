@@ -235,6 +235,7 @@ class AddFriendController extends GetxController {
     print("fff $data");
 
     fetchFriendRequests();
+    update();
   }
 
 

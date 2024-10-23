@@ -11,23 +11,23 @@ class PeerController extends GetxController{
   var searchText = ''.obs;
   RxBool isLoading = true.obs;
   var friendsList=[].obs;
-  var searchQuery = '';
+  var friendsLists = <Friendship>[].obs;
   var filteredFriendsList = <Friendship>[].obs; // Filtered list for search results
 
   UserData userData = UserData();
   final apiService = ApiService();
 
 
-  void setSearchText(String value) {
-    searchText.value = value;
-    filterFriends();
-  }
-
   @override
   void onInit() {
     super.onInit();
     friendship();
 
+  }
+
+  void setSearchText(String value) {
+    searchText.value = value; // Update the search text
+    filterFriends(); // Trigger the filtering logic
   }
 
   friendship() async {
@@ -82,6 +82,8 @@ class PeerController extends GetxController{
     }
     update();
   }
+
+
   void removeFriends(int index){
     friendshipList.removeAt(index);
     update();

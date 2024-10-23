@@ -193,599 +193,1168 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
               ),
             ),
 
+            // SliverToBoxAdapter(
+            //   child: Obx(() {
+            //     return Container(
+            //          height:leaderBoardController.selectedTab.value == 'Weekly' ? Get.height: 800,
+            //         decoration: const BoxDecoration(
+            //             borderRadius: BorderRadius.vertical(
+            //               top: Radius.circular(50.0),
+            //             ),
+            //             color: Colors.white
+            //         ),
+            //
+            //         child: Column(
+            //           children: [
+            //             SizedBox(height: 10,),
+            //             Container(
+            //               width: 100,
+            //               height: 8,
+            //               decoration: BoxDecoration(
+            //                   color:AppColor.packageGray,
+            //                   borderRadius: BorderRadius.circular(10)
+            //               ),
+            //
+            //             ),
+            //             // Space between leaderboard and toggle buttons
+            //             const SizedBox(height: 20), // Adjust the height as needed
+            //             if(leaderBoardController.selectedTab.value == 'Daily')
+            //             Row(
+            //               children: [
+            //                 Obx((){
+            //                   return leaderBoardController.getLeaderboardList.value!=null?
+            //                     Expanded(
+            //                       child: ListView.builder(
+            //                         physics: const NeverScrollableScrollPhysics(),
+            //                         padding: EdgeInsets.zero,
+            //                         shrinkWrap: true,
+            //                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                         itemBuilder: (context, index) {
+            //                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                           return Visibility(
+            //                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+            //                             child: Column(
+            //                               children: [
+            //                                 Padding(
+            //                                   padding: const EdgeInsets.all(8.0),
+            //                                   child:!isMissedPrayers? CircleAvatar(
+            //                                       child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                         radius: 24, // Radius of the circular image
+            //                                         backgroundImage: NetworkImage(
+            //                                           "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                         ),
+            //                                       ):
+            //                                       Icon(Icons.person,color: Colors.grey,size: 30,)
+            //                                     // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                   ):
+            //                                   InkWell(
+            //                                     onTap: (){
+            //                                       if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                         showDialog(
+            //                                           context: context,
+            //                                           builder: (BuildContext context) {
+            //                                             return  const TimePicker();
+            //                                           },
+            //                                         );
+            //                                       }
+            //                                     },
+            //                                     child: ColorFiltered(
+            //                                       colorFilter: ColorFilter.matrix(
+            //                                         <double>[
+            //                                           0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+            //                                           0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+            //                                           0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+            //                                           0, 0, 0, 1, 0,               // Alpha channel
+            //                                         ],
+            //                                       ),
+            //                                       child: CircleAvatar(
+            //                                           child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                             radius: 24, // Radius of the circular image
+            //                                             backgroundImage: NetworkImage(
+            //                                               "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                             ),
+            //                                           ):const Padding(
+            //                                             padding: EdgeInsets.all(8.0),
+            //                                             child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                           )
+            //                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                               ],
+            //                             ),
+            //                           );
+            //
+            //                         },),
+            //                     ):const SizedBox();
+            //                 }),
+            //
+            //                 Obx((){
+            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                     child: Expanded(
+            //                       child: ListView.builder(
+            //                         physics: const NeverScrollableScrollPhysics(),
+            //                         padding: EdgeInsets.zero,
+            //                         shrinkWrap: true,
+            //                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                         itemBuilder: (context, index) {
+            //                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                           return Visibility(
+            //                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+            //                             child: Column(
+            //                               children: [
+            //                                 Padding(
+            //                                   padding: const EdgeInsets.all(8.0),
+            //                                   child:!isMissedPrayers? CircleAvatar(
+            //                                       child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                         radius: 24, // Radius of the circular image
+            //                                         backgroundImage: NetworkImage(
+            //                                           "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                         ),
+            //                                       ):const Padding(
+            //                                         padding: EdgeInsets.all(8.0),
+            //                                         child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                       )
+            //                                     // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                   ):
+            //                                   InkWell(
+            //                                     onTap: (){
+            //                                       if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                         showDialog(
+            //                                           context: context,
+            //                                           builder: (BuildContext context) {
+            //                                             return  const TimePicker();
+            //                                           },
+            //                                         );
+            //                                       }
+            //                                     },
+            //                                     child: ColorFiltered(
+            //                                       colorFilter: const ColorFilter.matrix(
+            //                                         <double>[
+            //                                           0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+            //                                           0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+            //                                           0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+            //                                           0, 0, 0, 1, 0,               // Alpha channel
+            //                                         ],
+            //                                       ),
+            //                                       child: CircleAvatar(
+            //                                           child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                             radius: 24, // Radius of the circular image
+            //                                             backgroundImage: NetworkImage(
+            //                                               "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                             ),
+            //                                           ):const Padding(
+            //                                             padding: EdgeInsets.all(8.0),
+            //                                             child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                           )
+            //                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                               ],
+            //                             ),
+            //                           );
+            //
+            //                         },),
+            //                     ),
+            //                   ):const SizedBox();
+            //                 }),
+            //
+            //
+            //                 Obx((){
+            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                     child: ListView.builder(
+            //                       physics: const NeverScrollableScrollPhysics(),
+            //                       padding: EdgeInsets.zero,
+            //                       shrinkWrap: true,
+            //                       itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                       itemBuilder: (context, index) {
+            //                         var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                         return Visibility(
+            //                           visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
+            //                           child: Column(
+            //                             children: [
+            //                               Padding(
+            //                                 padding: const EdgeInsets.all(8.0),
+            //                                 child:!isMissedPrayers? CircleAvatar(
+            //                                     child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                       radius: 24, // Radius of the circular image
+            //                                       backgroundImage: NetworkImage(
+            //                                         "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                       ),
+            //                                     ):const Padding(
+            //                                       padding: EdgeInsets.all(8.0),
+            //                                       child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                     )
+            //                                   // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                 ):
+            //                                 InkWell(
+            //                                   onTap: (){
+            //                                     if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                       showDialog(
+            //                                         context: context,
+            //                                         builder: (BuildContext context) {
+            //                                           return  const TimePicker();
+            //                                         },
+            //                                       );
+            //                                     }
+            //                                   },
+            //                                   child: ColorFiltered(
+            //                                     colorFilter: const ColorFilter.matrix(
+            //                                       <double>[
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+            //                                         0, 0, 0, 1, 0,               // Alpha channel
+            //                                       ],
+            //                                     ),
+            //                                     child: CircleAvatar(
+            //                                         child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                           radius: 24, // Radius of the circular image
+            //                                           backgroundImage: NetworkImage(
+            //                                             "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                           ),
+            //                                         ):const Padding(
+            //                                           padding: EdgeInsets.all(8.0),
+            //                                           child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                         )
+            //                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                               Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                             ],
+            //                           ),
+            //                         );
+            //
+            //                       },),
+            //                   ):const SizedBox();
+            //                 }),
+            //
+            //                 Obx((){
+            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                     child: ListView.builder(
+            //                       physics: const NeverScrollableScrollPhysics(),
+            //                       padding: EdgeInsets.zero,
+            //                       shrinkWrap: true,
+            //                       itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                       itemBuilder: (context, index) {
+            //                         var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                         return Visibility(
+            //                           visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+            //                           child: Column(
+            //                             children: [
+            //                               Padding(
+            //                                 padding: const EdgeInsets.all(8.0),
+            //                                 child:!isMissedPrayers? CircleAvatar(
+            //                                     child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                       radius: 24, // Radius of the circular image
+            //                                       backgroundImage: NetworkImage(
+            //                                         "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                       ),
+            //                                     ):const Padding(
+            //                                       padding: EdgeInsets.all(8.0),
+            //                                       child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                     )
+            //                                   // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                 ):
+            //                                 InkWell(
+            //                                   onTap: (){
+            //                                     if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                       showDialog(
+            //                                         context: context,
+            //                                         builder: (BuildContext context) {
+            //                                           return  const TimePicker();
+            //                                         },
+            //                                       );
+            //                                     }
+            //                                   },
+            //                                   child: ColorFiltered(
+            //                                     colorFilter: const ColorFilter.matrix(
+            //                                       <double>[
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+            //                                         0, 0, 0, 1, 0,               // Alpha channel
+            //                                       ],
+            //                                     ),
+            //                                     child: CircleAvatar(
+            //                                         child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                           radius: 24, // Radius of the circular image
+            //                                           backgroundImage: NetworkImage(
+            //                                             "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                           ),
+            //                                         ):const Padding(
+            //                                           padding: EdgeInsets.all(8.0),
+            //                                           child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                         )
+            //                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                               Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                             ],
+            //                           ),
+            //                         );
+            //
+            //                       },),
+            //                   ):const SizedBox();
+            //                 }),
+            //
+            //                 Obx((){
+            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                     child: ListView.builder(
+            //                       physics: const NeverScrollableScrollPhysics(),
+            //                       padding: EdgeInsets.zero,
+            //                       shrinkWrap: true,
+            //                       itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                       itemBuilder: (context, index) {
+            //                         var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                         return Visibility(
+            //                           visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
+            //                           child: Column(
+            //                             children: [
+            //                               Padding(
+            //                                 padding: const EdgeInsets.all(8.0),
+            //                                 child:!isMissedPrayers? CircleAvatar(
+            //                                     child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                       radius: 24, // Radius of the circular image
+            //                                       backgroundImage: NetworkImage(
+            //                                         "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                       ),
+            //                                     ):const Padding(
+            //                                       padding: EdgeInsets.all(8.0),
+            //                                       child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                     )
+            //                                   // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                 ):
+            //                                 InkWell(
+            //                                   onTap: (){
+            //                                     if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                       showDialog(
+            //                                         context: context,
+            //                                         builder: (BuildContext context) {
+            //                                           return  const TimePicker();
+            //                                         },
+            //                                       );
+            //                                     }
+            //                                   },
+            //                                   child: ColorFiltered(
+            //                                     colorFilter: const ColorFilter.matrix(
+            //                                       <double>[
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+            //                                         0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+            //                                         0, 0, 0, 1, 0,               // Alpha channel
+            //                                       ],
+            //                                     ),
+            //                                     child: CircleAvatar(
+            //                                         child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                           radius: 24, // Radius of the circular image
+            //                                           backgroundImage: NetworkImage(
+            //                                             "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                           ),
+            //                                         ):
+            //                                         const Padding(
+            //                                           padding: EdgeInsets.all(8.0),
+            //                                           child: Icon(Icons.person,color: Colors.grey,size: 30,),
+            //                                         )
+            //                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                               Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                             ],
+            //                           ),
+            //                         );
+            //
+            //                       },),
+            //                   ):const SizedBox();
+            //                 }),
+            //
+            //               ],
+            //             ),
+            //             if(leaderBoardController.selectedTab.value =='Weekly')
+            //               Obx(() {
+            //                   return Expanded(
+            //                     child: ListView.builder(
+            //                       shrinkWrap: true,
+            //                       padding: EdgeInsets.zero,
+            //                       physics: const NeverScrollableScrollPhysics(),
+            //                       itemCount: leaderBoardController.weeklyMissedPrayer.keys.length,
+            //                       itemBuilder: (context, index) {
+            //                         final date = leaderBoardController.weeklyMissedPrayer.keys.elementAt(index);
+            //
+            //                         return Column(
+            //                           crossAxisAlignment: CrossAxisAlignment.start,
+            //                           children: [
+            //                             Padding(
+            //                               padding: const EdgeInsets.all(8.0),
+            //                               child: Text(
+            //                                 date,
+            //                                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            //                               ),
+            //                             ),
+            //                             Row(
+            //                               crossAxisAlignment: CrossAxisAlignment.start,
+            //                               mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //                               children: leaderBoardController.prayers.map((prayer) {
+            //                                 return Expanded(
+            //                                   child: Column(
+            //                                     children: [
+            //                                       Text(
+            //                                         leaderBoardController.prayerShortNames[prayer]!,
+            //                                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            //                                       ),
+            //                                       // Display user prayer info under each prayer
+            //                                       ...leaderBoardController.weeklyMissedPrayer[date]!
+            //                                           .where((record) => record.prayerName == prayer)
+            //                                           .map((record) {
+            //                                         return record.userTimestamp != null
+            //                                             ? Padding(
+            //                                               padding: const EdgeInsets.only(bottom: 5.0),
+            //                                               child: Column(
+            //                                                 children: [
+            //                                                   Container(
+            //                                                     margin: EdgeInsets.all(5),
+            //                                                     padding: const EdgeInsets.all(1), // Padding around the circular image
+            //                                                     decoration: BoxDecoration(
+            //                                                   shape: BoxShape.circle,
+            //                                                   border: Border.all(
+            //                                                     color: Colors.yellow,
+            //                                                   ), // Yellow border
+            //                                                     ),
+            //                                                     child: record.user.picture != null
+            //                                                     ? Column(
+            //                                                       children: [
+            //                                                         CircleAvatar(
+            //                                                           radius: 20, // Radius of the circular image
+            //                                                           backgroundImage: NetworkImage(
+            //                                                         "http://182.156.200.177:8011${record.user.picture}", // Replace with your image URL
+            //                                                           ),
+            //                                                         ),
+            //                                                       ],
+            //                                                     )
+            //                                                     :  Padding(
+            //                                                   padding: EdgeInsets.all(8.0),
+            //                                                   child: Icon(
+            //                                                     Icons.person,
+            //                                                    color: AppColor.circleIndicator,
+            //                                                     size: 20,
+            //                                                   ),
+            //                                                     ),
+            //                                                   ),
+            //                                                  record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+            //                                                  Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                                                 ],
+            //                                               ),
+            //                                             )
+            //                                             : InkWell(
+            //                                           onTap: (){
+            //                                             if(leaderBoardController.userData.getUserData!.id.toString()==record.user.id.toString()){
+            //                                               showDialog(
+            //                                                 context: context,
+            //                                                 builder: (BuildContext context) {
+            //                                                   return   TimePicker(date: date);
+            //                                                 },
+            //                                               );
+            //                                             }
+            //                                           },
+            //                                               child: Padding(
+            //                                                 padding: const EdgeInsets.only(bottom: 5.0),
+            //                                                 child: Column(
+            //                                                   children: [
+            //                                                     Container(
+            //                                                       margin: EdgeInsets.all(5),
+            //                                                       padding: const EdgeInsets.all(1), // Padding around the circular image
+            //                                                       decoration: BoxDecoration(
+            //                                                     shape: BoxShape.circle,
+            //                                                     border: Border.all(
+            //                                                       color: Colors.grey,
+            //                                                     ), // Grey border
+            //                                                       ),
+            //                                                       child: record.user.picture != null
+            //                                                       ? ColorFiltered(
+            //                                                     colorFilter: const ColorFilter.matrix(
+            //                                                       <double>[
+            //                                                         0.2126,
+            //                                                         0.7152,
+            //                                                         0.0722,
+            //                                                         0,
+            //                                                         0, // Red channel coefficients
+            //                                                         0.2126,
+            //                                                         0.7152,
+            //                                                         0.0722,
+            //                                                         0,
+            //                                                         0, // Green channel coefficients
+            //                                                         0.2126,
+            //                                                         0.7152,
+            //                                                         0.0722,
+            //                                                         0,
+            //                                                         0, // Blue channel coefficients
+            //                                                         0,
+            //                                                         0,
+            //                                                         0,
+            //                                                         1,
+            //                                                         0, // Alpha channel
+            //                                                       ],
+            //                                                     ),
+            //                                                     child: CircleAvatar(
+            //                                                       radius: 20, // Radius of the circular image
+            //                                                       backgroundImage: NetworkImage(
+            //                                                         "http://182.156.200.177:8011${record.user.picture}", // Replace with your image URL
+            //                                                       ),
+            //                                                     ),
+            //                                                                                                   )
+            //                                                       : const Padding(
+            //                                                     padding: EdgeInsets.all(8.0),
+            //                                                     child: Icon(
+            //                                                       Icons.person,
+            //                                                       color: Colors.grey,
+            //                                                       size: 20,
+            //                                                     ),
+            //                                                                                                   ),
+            //                                                                                                 ),
+            //                                                     record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+            //                                                     Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                                                   ],
+            //                                                 ),
+            //                                               ),
+            //                                             );
+            //                                       }).toList(),
+            //                                     ],
+            //                                   ),
+            //                                 );
+            //                               }).toList(),
+            //                             ),
+            //                             Divider(),
+            //                           ],
+            //                         );
+            //                       },
+            //                     ),
+            //                   );
+            //                 }
+            //               )
+            //
+            //
+            //
+            //
+            //
+            //             // Leaderboard GridView
+            //             // Padding(
+            //             //   padding: const EdgeInsets.all(16.0),
+            //             //   child: GridView.builder(
+            //             //     shrinkWrap: true,
+            //             //     physics: const NeverScrollableScrollPhysics(),
+            //             //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //             //       crossAxisCount: 5,
+            //             //       mainAxisSpacing: 10,
+            //             //       crossAxisSpacing: 10,
+            //             //     ),
+            //             //     itemCount: 1, // number of items
+            //             //     itemBuilder: (context, index) {
+            //             //       // Example of dynamic data for CircleAvatars
+            //             //       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
+            //             //       return Column(
+            //             //         children: [
+            //             //           CircleAvatar(
+            //             //             radius: 20,
+            //             //             backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
+            //             //           ),
+            //             //           const Text("sdddd",style: TextStyle(color: Colors.black),),
+            //             //         ],
+            //             //       );
+            //             //     },
+            //             //   ),
+            //             // ),
+            //           ],
+            //         ),
+            //       );
+            //     }
+            //   ),
+            // ),
             SliverToBoxAdapter(
               child: Obx(() {
-                return Container(
-                     height:leaderBoardController.selectedTab.value == 'Weekly' ? Get.height*0.5: 800,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(50.0),
-                        ),
-                        color: Colors.white
-                    ),
-
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10,),
-                        Container(
-                          width: 100,
-                          height: 8,
-                          decoration: BoxDecoration(
-                              color:AppColor.packageGray,
-                              borderRadius: BorderRadius.circular(10)
+                return Visibility(
+                    visible: leaderBoardController.selectedTab.value == 'Daily',
+                    child: Container(
+                      height: Get.height,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(50.0),
                           ),
-
-                        ),
-                        // Space between leaderboard and toggle buttons
-                        const SizedBox(height: 20), // Adjust the height as needed
-                        if(leaderBoardController.selectedTab.value == 'Daily')
-                        Row(
-                          children: [
-                            Obx((){
-                              return leaderBoardController.getLeaderboardList.value!=null?
-                                Expanded(
-                                  child: ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
-                                    itemBuilder: (context, index) {
-                                      var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                      return Visibility(
-                                        visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child:!isMissedPrayers? CircleAvatar(
-                                                  child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                    radius: 24, // Radius of the circular image
-                                                    backgroundImage: NetworkImage(
-                                                      "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                    ),
-                                                  ):
-                                                  Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                              ):
-                                              InkWell(
-                                                onTap: (){
-                                                  if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return  const TimePicker();
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                                child: ColorFiltered(
-                                                  colorFilter: ColorFilter.matrix(
-                                                    <double>[
-                                                      0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                      0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                      0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                      0, 0, 0, 1, 0,               // Alpha channel
-                                                    ],
-                                                  ),
-                                                  child: CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                        ),
-                                                      ):const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                      )
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                            Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                          ],
-                                        ),
-                                      );
-
-                                    },),
-                                ):const SizedBox();
-                            }),
-
-                            Obx((){
-                              return leaderBoardController.getLeaderboardList.value!=null? Expanded(
-                                child: Expanded(
-                                  child: ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
-                                    itemBuilder: (context, index) {
-                                      var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                      return Visibility(
-                                        visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child:!isMissedPrayers? CircleAvatar(
-                                                  child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                    radius: 24, // Radius of the circular image
-                                                    backgroundImage: NetworkImage(
-                                                      "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                    ),
-                                                  ):const Padding(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                  )
-                                                // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                              ):
-                                              InkWell(
-                                                onTap: (){
-                                                  if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return  const TimePicker();
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                                child: ColorFiltered(
-                                                  colorFilter: const ColorFilter.matrix(
-                                                    <double>[
-                                                      0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                      0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                      0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                      0, 0, 0, 1, 0,               // Alpha channel
-                                                    ],
-                                                  ),
-                                                  child: CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                        ),
-                                                      ):const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                      )
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                            Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                          ],
-                                        ),
-                                      );
-
-                                    },),
+                          color: Colors.white
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            children: [
+                              SizedBox(height: 10),
+                              Container(
+                                width: 100,
+                                height: 8  ,
+                                decoration: BoxDecoration(
+                                    color:AppColor.packageGray,
+                                    borderRadius: BorderRadius.circular(10)
                                 ),
-                              ):const SizedBox();
-                            }),
 
-
-                            Obx((){
-                              return leaderBoardController.getLeaderboardList.value!=null? Expanded(
-                                child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
-                                  itemBuilder: (context, index) {
-                                    var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                    return Visibility(
-                                      visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child:!isMissedPrayers? CircleAvatar(
-                                                child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                  radius: 24, // Radius of the circular image
-                                                  backgroundImage: NetworkImage(
-                                                    "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                  ),
-                                                ):const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                )
-                                              // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                            ):
-                                            InkWell(
-                                              onTap: (){
-                                                if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return  const TimePicker();
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Obx((){
+                                    return leaderBoardController.getLeaderboardList.value!=null?
+                                    Expanded(
+                                      child: ListView.builder(
+                                        // physics: const NeverScrollableScrollPhysics(),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemBuilder: (context, index) {
+                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          return Visibility(
+                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child:!isMissedPrayers? CircleAvatar(
+                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null?
+                                                      CircleAvatar(
+                                                        radius: 24, // Radius of the circular image
+                                                        backgroundImage: NetworkImage(
+                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                        ),
+                                                      ):
+                                                      Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                  ):
+                                                  InkWell(
+                                                    onTap: (){
+                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return  const TimePicker();
+                                                          },
+                                                        );
+                                                      }
                                                     },
-                                                  );
-                                                }
-                                              },
-                                              child: ColorFiltered(
-                                                colorFilter: const ColorFilter.matrix(
-                                                  <double>[
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                    0, 0, 0, 1, 0,               // Alpha channel
-                                                  ],
-                                                ),
-                                                child: CircleAvatar(
-                                                    child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                      radius: 24, // Radius of the circular image
-                                                      backgroundImage: NetworkImage(
-                                                        "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                    child: ColorFiltered(
+                                                      colorFilter: ColorFilter.matrix(
+                                                        <double>[
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                          0, 0, 0, 1, 0,               // Alpha channel
+                                                        ],
                                                       ),
-                                                    ):const Padding(
-                                                      padding: EdgeInsets.all(8.0),
-                                                      child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                    )
-                                                  // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                          Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                        ],
-                                      ),
-                                    );
-
-                                  },),
-                              ):const SizedBox();
-                            }),
-
-                            Obx((){
-                              return leaderBoardController.getLeaderboardList.value!=null? Expanded(
-                                child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
-                                  itemBuilder: (context, index) {
-                                    var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                    return Visibility(
-                                      visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child:!isMissedPrayers? CircleAvatar(
-                                                child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                  radius: 24, // Radius of the circular image
-                                                  backgroundImage: NetworkImage(
-                                                    "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                      child: CircleAvatar(
+                                                          child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                            radius: 24, // Radius of the circular image
+                                                            backgroundImage: NetworkImage(
+                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            ),
+                                                          ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ):const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                )
-                                              // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                            ):
-                                            InkWell(
-                                              onTap: (){
-                                                if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return  const TimePicker();
-                                                    },
-                                                  );
-                                                }
-                                              },
-                                              child: ColorFiltered(
-                                                colorFilter: const ColorFilter.matrix(
-                                                  <double>[
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                    0, 0, 0, 1, 0,               // Alpha channel
-                                                  ],
                                                 ),
-                                                child: CircleAvatar(
-                                                    child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                      radius: 24, // Radius of the circular image
-                                                      backgroundImage: NetworkImage(
-                                                        "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                      ),
-                                                    ):const Padding(
-                                                      padding: EdgeInsets.all(8.0),
-                                                      child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                    )
-                                                  // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                ),
-                                              ),
+                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                              ],
                                             ),
-                                          ),
-                                          leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                          Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                        ],
-                                      ),
-                                    );
+                                          );
 
-                                  },),
-                              ):const SizedBox();
-                            }),
+                                        },),
+                                    ):const SizedBox();
+                                  }),
 
-                            Obx((){
-                              return leaderBoardController.getLeaderboardList.value!=null? Expanded(
-                                child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
-                                  itemBuilder: (context, index) {
-                                    var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                    return Visibility(
-                                      visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child:!isMissedPrayers? CircleAvatar(
-                                                child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                  radius: 24, // Radius of the circular image
-                                                  backgroundImage: NetworkImage(
-                                                    "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                  ),
-                                                ):const Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                )
-                                              // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                            ):
-                                            InkWell(
-                                              onTap: (){
-                                                if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return  const TimePicker();
-                                                    },
-                                                  );
-                                                }
-                                              },
-                                              child: ColorFiltered(
-                                                colorFilter: const ColorFilter.matrix(
-                                                  <double>[
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                    0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                    0, 0, 0, 1, 0,               // Alpha channel
-                                                  ],
-                                                ),
-                                                child: CircleAvatar(
-                                                    child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                      radius: 24, // Radius of the circular image
-                                                      backgroundImage: NetworkImage(
-                                                        "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                      ),
-                                                    ):
-                                                    const Padding(
-                                                      padding: EdgeInsets.all(8.0),
-                                                      child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                    )
-                                                  // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                          Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                        ],
-                                      ),
-                                    );
-
-                                  },),
-                              ):const SizedBox();
-                            }),
-
-                          ],
-                        ),
-                        if(leaderBoardController.selectedTab.value =='Weekly')
-                          Obx(() {
-                              return Expanded(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: leaderBoardController.weeklyMissedPrayer.keys.length,
-                                  itemBuilder: (context, index) {
-                                    final date = leaderBoardController.weeklyMissedPrayer.keys.elementAt(index);
-
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            date,
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: leaderBoardController.prayers.map((prayer) {
-                                            return Expanded(
+                                  Obx((){
+                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                      child: Expanded(
+                                        child: ListView.builder(
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                          itemBuilder: (context, index) {
+                                            var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                            return Visibility(
+                                              visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
                                               child: Column(
                                                 children: [
-                                                  Text(
-                                                    leaderBoardController.prayerShortNames[prayer]!,
-                                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                                  ),
-                                                  // Display user prayer info under each prayer
-                                                  ...leaderBoardController.weeklyMissedPrayer[date]!
-                                                      .where((record) => record.prayerName == prayer)
-                                                      .map((record) {
-                                                    return record.userTimestamp != null
-                                                        ? Padding(
-                                                          padding: const EdgeInsets.only(bottom: 5.0),
-                                                          child: Column(
-                                                            children: [
-                                                              Container(
-                                                                margin: EdgeInsets.all(5),
-                                                                padding: const EdgeInsets.all(1), // Padding around the circular image
-                                                                decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              border: Border.all(
-                                                                color: Colors.yellow,
-                                                              ), // Yellow border
-                                                                ),
-                                                                child: record.user.picture != null
-                                                                ? Column(
-                                                                  children: [
-                                                                    CircleAvatar(
-                                                                      radius: 20, // Radius of the circular image
-                                                                      backgroundImage: NetworkImage(
-                                                                    "http://182.156.200.177:8011${record.user.picture}", // Replace with your image URL
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                                :  Padding(
-                                                              padding: EdgeInsets.all(8.0),
-                                                              child: Icon(
-                                                                Icons.person,
-                                                               color: AppColor.circleIndicator,
-                                                                size: 20,
-                                                              ),
-                                                                ),
-                                                              ),
-                                                             record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
-                                                             Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                            ],
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child:!isMissedPrayers? CircleAvatar(
+                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 24, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                           ),
+                                                        ):const Padding(
+                                                          padding: EdgeInsets.all(8.0),
+                                                          child: Icon(Icons.person,color: Colors.grey,size: 30,),
                                                         )
-                                                        : InkWell(
+                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    ):
+                                                    InkWell(
                                                       onTap: (){
-                                                        if(leaderBoardController.userData.getUserData!.id.toString()==record.user.id.toString()){
+                                                        if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
                                                           showDialog(
                                                             context: context,
                                                             builder: (BuildContext context) {
-                                                              return   TimePicker(date: date);
+                                                              return  const TimePicker();
                                                             },
                                                           );
                                                         }
                                                       },
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(bottom: 5.0),
-                                                            child: Column(
-                                                              children: [
-                                                                Container(
-                                                                  margin: EdgeInsets.all(5),
-                                                                  padding: const EdgeInsets.all(1), // Padding around the circular image
-                                                                  decoration: BoxDecoration(
-                                                                shape: BoxShape.circle,
-                                                                border: Border.all(
-                                                                  color: Colors.grey,
-                                                                ), // Grey border
-                                                                  ),
-                                                                  child: record.user.picture != null
-                                                                  ? ColorFiltered(
-                                                                colorFilter: const ColorFilter.matrix(
-                                                                  <double>[
-                                                                    0.2126,
-                                                                    0.7152,
-                                                                    0.0722,
-                                                                    0,
-                                                                    0, // Red channel coefficients
-                                                                    0.2126,
-                                                                    0.7152,
-                                                                    0.0722,
-                                                                    0,
-                                                                    0, // Green channel coefficients
-                                                                    0.2126,
-                                                                    0.7152,
-                                                                    0.0722,
-                                                                    0,
-                                                                    0, // Blue channel coefficients
-                                                                    0,
-                                                                    0,
-                                                                    0,
-                                                                    1,
-                                                                    0, // Alpha channel
-                                                                  ],
-                                                                ),
-                                                                child: CircleAvatar(
-                                                                  radius: 20, // Radius of the circular image
-                                                                  backgroundImage: NetworkImage(
-                                                                    "http://182.156.200.177:8011${record.user.picture}", // Replace with your image URL
-                                                                  ),
-                                                                ),
-                                                                                                              )
-                                                                  : const Padding(
-                                                                padding: EdgeInsets.all(8.0),
-                                                                child: Icon(
-                                                                  Icons.person,
-                                                                  color: Colors.grey,
-                                                                  size: 20,
-                                                                ),
-                                                                                                              ),
-                                                                                                            ),
-                                                                record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
-                                                                Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                  }).toList(),
+                                                      child: ColorFiltered(
+                                                        colorFilter: const ColorFilter.matrix(
+                                                          <double>[
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                            0, 0, 0, 1, 0,               // Alpha channel
+                                                          ],
+                                                        ),
+                                                        child: CircleAvatar(
+                                                            child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                              radius: 24, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                          // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                  Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                 ],
                                               ),
                                             );
-                                          }).toList(),
-                                        ),
-                                        Divider(),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-                          )
+
+                                          },),
+                                      ),
+                                    ):const SizedBox();
+                                  }),
 
 
+                                  Obx((){
+                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                      child: ListView.builder(
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemBuilder: (context, index) {
+                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          return Visibility(
+                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child:!isMissedPrayers? CircleAvatar(
+                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                        radius: 24, // Radius of the circular image
+                                                        backgroundImage: NetworkImage(
+                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                        ),
+                                                      ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                  ):
+                                                  InkWell(
+                                                    onTap: (){
+                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return  const TimePicker();
+                                                          },
+                                                        );
+                                                      }
+                                                    },
+                                                    child: ColorFiltered(
+                                                      colorFilter: const ColorFilter.matrix(
+                                                        <double>[
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                          0, 0, 0, 1, 0,               // Alpha channel
+                                                        ],
+                                                      ),
+                                                      child: CircleAvatar(
+                                                          child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                            radius: 24, // Radius of the circular image
+                                                            backgroundImage: NetworkImage(
+                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            ),
+                                                          ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                              ],
+                                            ),
+                                          );
 
+                                        },),
+                                    ):const SizedBox();
+                                  }),
 
+                                  Obx((){
+                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                      child: ListView.builder(
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemBuilder: (context, index) {
+                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          return Visibility(
+                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+                                            child: Column(
+                                              children: [
+                                                !isMissedPrayers? CircleAvatar(
+                                                    child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                      radius: 24, // Radius of the circular image
+                                                      backgroundImage: NetworkImage(
+                                                        "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                      ),
+                                                    ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                  // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                ):
+                                                InkWell(
+                                                  onTap: (){
+                                                    if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return  const TimePicker();
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                  child: ColorFiltered(
+                                                    colorFilter: const ColorFilter.matrix(
+                                                      <double>[
+                                                        0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                        0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                        0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                        0, 0, 0, 1, 0,               // Alpha channel
+                                                      ],
+                                                    ),
+                                                    child: CircleAvatar(
+                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 24, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          ),
+                                                        ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    ),
+                                                  ),
+                                                ),
+                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                              ],
+                                            ),
+                                          );
 
-                        // Leaderboard GridView
-                        // Padding(
-                        //   padding: const EdgeInsets.all(16.0),
-                        //   child: GridView.builder(
-                        //     shrinkWrap: true,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 5,
-                        //       mainAxisSpacing: 10,
-                        //       crossAxisSpacing: 10,
-                        //     ),
-                        //     itemCount: 1, // number of items
-                        //     itemBuilder: (context, index) {
-                        //       // Example of dynamic data for CircleAvatars
-                        //       final avatarUrls = List.generate(25, (i) => 'https://via.placeholder.com/150'); // Placeholder URLs
-                        //       return Column(
-                        //         children: [
-                        //           CircleAvatar(
-                        //             radius: 20,
-                        //             backgroundImage: NetworkImage(avatarUrls[index]),  // Dynamically set image
-                        //           ),
-                        //           const Text("sdddd",style: TextStyle(color: Colors.black),),
-                        //         ],
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  );
-                }
-              ),
+                                        },),
+                                    ):const SizedBox();
+                                  }),
+
+                                  Obx((){
+                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                      child: ListView.builder(
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemBuilder: (context, index) {
+                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          return Visibility(
+                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child:!isMissedPrayers? CircleAvatar(
+                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                        radius: 24, // Radius of the circular image
+                                                        backgroundImage: NetworkImage(
+                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                        ),
+                                                      ):Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                  ):
+                                                  InkWell(
+                                                    onTap: (){
+                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return  const TimePicker();
+                                                          },
+                                                        );
+                                                      }
+                                                    },
+                                                    child: ColorFiltered(
+                                                      colorFilter: const ColorFilter.matrix(
+                                                        <double>[
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                          0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                          0, 0, 0, 1, 0,               // Alpha channel
+                                                        ],
+                                                      ),
+                                                      child: CircleAvatar(
+                                                          child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                            radius: 24, // Radius of the circular image
+                                                            backgroundImage: NetworkImage(
+                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            ),
+                                                          ):
+                                                          Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                              ],
+                                            ),
+                                          );
+
+                                        },),
+                                    ):const SizedBox();
+                                  }),
+
+                                ],
+                              ),
+                            ]
+                        ),
+                      ),
+                    )
+                );
+              },),
             ),
+            SliverToBoxAdapter(
+              child: Obx(() {
+                return Visibility(
+                    visible: leaderBoardController.selectedTab.value == 'Weekly',
+                    child: Container(
+                      height:Get.height,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(50.0),
+                          ),
+                          color: Colors.white
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            children: [
+                              const SizedBox(height: 10),
+                              Container(
+                                width: 100,
+                                height: 8  ,
+                                decoration: BoxDecoration(
+                                    color:AppColor.packageGray,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
 
+                              ),
+                        Obx(() {
+                          return Expanded(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              itemCount: leaderBoardController.weeklyMissedPrayer.keys.length,
+                              itemBuilder: (context, index) {
+                                final date = leaderBoardController.weeklyMissedPrayer.keys.elementAt(index);
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        date,
+                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: leaderBoardController.prayers.map((prayer) {
+                                        return Expanded(
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                leaderBoardController.prayerShortNames[prayer]!,
+                                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              ),
+                                              // Display user prayer info under each prayer
+                                              ...leaderBoardController.weeklyMissedPrayer[date]!
+                                                  .where((record) => record.prayerName == prayer)
+                                                  .map((record) {
+                                                return record.userTimestamp != null
+                                                    ? Padding(
+                                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.all(5),
+                                                        padding: const EdgeInsets.all(1), // Padding around the circular image
+                                                        decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: Colors.yellow,
+                                                          ), // Yellow border
+                                                        ),
+                                                        child: record.user.picture != null
+                                                            ? Column(
+                                                          children: [
+                                                            CircleAvatar(
+                                                              radius: 20, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${record.user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                            :  Padding(
+                                                          padding: EdgeInsets.all(8.0),
+                                                          child: Icon(
+                                                            Icons.person,
+                                                            color: AppColor.circleIndicator,
+                                                            size: 20,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+                                                      Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                    ],
+                                                  ),
+                                                )
+                                                    : InkWell(
+                                                  onTap: (){
+                                                    if(leaderBoardController.userData.getUserData!.id.toString()==record.user.id.toString()){
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return   TimePicker(date: date);
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          margin: EdgeInsets.all(5),
+                                                          padding: const EdgeInsets.all(1), // Padding around the circular image
+                                                          decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            border: Border.all(
+                                                              color: Colors.grey,
+                                                            ), // Grey border
+                                                          ),
+                                                          child: record.user.picture != null
+                                                              ? ColorFiltered(
+                                                            colorFilter: const ColorFilter.matrix(
+                                                              <double>[
+                                                                0.2126,
+                                                                0.7152,
+                                                                0.0722,
+                                                                0,
+                                                                0, // Red channel coefficients
+                                                                0.2126,
+                                                                0.7152,
+                                                                0.0722,
+                                                                0,
+                                                                0, // Green channel coefficients
+                                                                0.2126,
+                                                                0.7152,
+                                                                0.0722,
+                                                                0,
+                                                                0, // Blue channel coefficients
+                                                                0,
+                                                                0,
+                                                                0,
+                                                                1,
+                                                                0, // Alpha channel
+                                                              ],
+                                                            ),
+                                                            child: CircleAvatar(
+                                                              radius: 20, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${record.user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ),
+                                                          )
+                                                              : const Padding(
+                                                            padding: EdgeInsets.all(8.0),
+                                                            child: Icon(
+                                                              Icons.person,
+                                                              color: Colors.grey,
+                                                              size: 20,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+                                                        Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                    Divider(),
+                                  ],
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        ),
+                              SizedBox(height: Get.height*0.4,)
+                            ]
+                        ),
+                      ),
+                    )
+                );
+              },),
+            ),
 
           ]
       )

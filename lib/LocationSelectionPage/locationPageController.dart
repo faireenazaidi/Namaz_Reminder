@@ -146,7 +146,7 @@ class LocationPageController extends GetxController {
     } else if (step.value == 3) {
       containerHeight.value = 500;
     } else if (step.value == 4) {
-      containerHeight.value = 300;
+      containerHeight.value = 320;
     }
     update();
   }

@@ -868,7 +868,7 @@ List isPrayedList = [];
   }
   void updateIslamicDateBasedOnOption(int index) {
     final hijriDate = getExtractedData[0].date?.hijri;
-    DateTime baseDate = DateTime(2024, 10, 21);
+    DateTime baseDate = DateTime(2024, 10, 22);
     DateTime newDate;
 
     switch (index) {
