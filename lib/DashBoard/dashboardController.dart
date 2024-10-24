@@ -172,6 +172,7 @@ class DashBoardController extends GetxController {
     String formattedDate = DateFormat('yyyy/MM').format(now);
 
     isLoading.value = true;
+    print("hhhhhhh"+formattedDate);
 
     try {
       Uri uri = Uri.https(
@@ -182,15 +183,18 @@ class DashBoardController extends GetxController {
           'longitude': longitude.toString(),
           'method': method.toString(),
         },
+
       );
+      print("ff"+latitude.toString());
+      print("zz"+ method.toString());
       final response = await http.get(uri);
       log("API Response: ${response.body}");
-
       if (response.statusCode == 200) {
         // Decode the data
         updateCalendarData = jsonDecode(response.body.toString())["data"];
 
-        DateTime now = DateTime.now();
+       // DateTime now = DateTime.now();
+        DateTime now=specificDate??DateTime.now();
         DateFormat formatter = DateFormat('dd MMM yyyy');
         String formattedDate = formatter.format(now);
 

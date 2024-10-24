@@ -23,6 +23,7 @@ class LocationPage extends GetView<LocationPageController> {
     return Scaffold(
       body: Stack(
         children: [
+          Icon(Icons.abc,color: Colors.red,),
           // Background image
           Container(
             height: 650,
@@ -277,6 +278,7 @@ class LocationPage extends GetView<LocationPageController> {
                     ],
                   ),
                 ):
+
                 controller.step.value == 1?
                 Padding(
                   padding: const EdgeInsets.all(15.0),
