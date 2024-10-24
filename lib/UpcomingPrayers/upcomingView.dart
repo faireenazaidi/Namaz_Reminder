@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
-
 class Upcoming extends GetView<UpcomingController> {
   @override
   Widget build(BuildContext context) {
@@ -71,27 +69,27 @@ class Upcoming extends GetView<UpcomingController> {
                       InkWell(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:  SvgPicture.asset(
-                              "assets/calendar3.svg"
-                          ),
+                          child: SvgPicture.asset("assets/calendar3.svg"),
                         ),
                         onTap: () async {
                           DateTime? picked = await showDatePicker(
                             context: context,
                             initialDate: dateController.selectedDate.value,
-                            firstDate: DateTime(2020),
+                            firstDate: DateTime.now(),
                             lastDate: DateTime(2025),
                           );
                           if (picked != null) {
                             dateController.updateSelectedDate(picked);
+                            // await dashboardController.fetchPrayerTime(specificDate: picked);
                           }
                         },
                       ),
-                      Text(
-                        DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
+                      Obx(() => Text(
+                        DateFormat('EEE, d MMMM yyyy').format(dateController.selectedDate.value), // Correctly displays the selected date
                         style: const TextStyle(fontSize: 12, color: Colors.black),
                         overflow: TextOverflow.ellipsis,
-                      ),
+                      )),
+
                       Container(
                         width: 1, // Vertical divider width
                         height: 15, // Divider height
@@ -124,27 +122,6 @@ class Upcoming extends GetView<UpcomingController> {
                   ),
                   child: Stack(
                     children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     TextButton(
-                      //       onPressed: () {
-                      //         Get.toNamed(AppRoutes.upcomingRoute);
-                      //       },
-                      //       child: Text("UPCOMING PRAYERS", style: MyTextTheme.mediumWCB),
-                      //     ),
-                      //     Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: InkWell(
-                      //         onTap: () {
-                      //           Get.back();
-                      //           // Get.to(() => DashBoardView());
-                      //         },
-                      //         child: SvgPicture.asset("assets/close.svg"),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                       Positioned(
                         top: 50, // Adjust as necessary
                         left: 0,
@@ -176,22 +153,7 @@ class Upcoming extends GetView<UpcomingController> {
                                 child: Container(
                                   width: 80,
                                   margin: const EdgeInsets.symmetric(horizontal: 8),
-                                  // decoration: BoxDecoration(
-                                  //   image: DecorationImage(
-                                  //     image: const AssetImage('assets/vector.png'),
-                                  //     colorFilter: isHighlighted
-                                  //         ? null
-                                  //         : ColorFilter.mode(
-                                  //       Colors.grey.withOpacity(0.3),
-                                  //       BlendMode.srcATop,
-                                  //     ),
-                                  //   ),
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   // border: Border.all(
-                                  //   //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
-                                  //   //   width: 2,
-                                  //   // ),
-                                  // ),
+
                                   child: Stack(
                                       children:[
                                         SvgPicture.asset("assets/Vec.svg"),
@@ -266,13 +228,6 @@ class Upcoming extends GetView<UpcomingController> {
                                   prayerName,
                                   style: MyTextTheme.medium
                               ),
-
-                              // Text(
-                              //     prayerTimes.toString(),
-                              //     style: MyTextTheme.medium
-                              // ),
-
-
                               SizedBox(height: 5,),
                               Row(
                                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -303,13 +258,7 @@ class Upcoming extends GetView<UpcomingController> {
                                   ),
                                 ],
                               ),
-
                             ],
-
-
-
-
-
                           ),
                         ),
                       ),
@@ -320,18 +269,12 @@ class Upcoming extends GetView<UpcomingController> {
               ),
             ),
           ),
-
-
-
-
-
-
-
         ],
       ),
     );
   }
 }
+
 
 
 

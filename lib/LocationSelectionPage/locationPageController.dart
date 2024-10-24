@@ -281,8 +281,7 @@ Map selectMethod = {}.obs;
     } else {
       print("ddddd ${otpData['detail']}");
       Get.snackbar('Error!', 'Invalid OTP',
-          colorText: Colors.white, backgroundColor: Get.theme.colorScheme.error, snackPosition: SnackPosition.BOTTOM);
-    }
+      snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);    }
   }
 
  var otpData = {};

@@ -50,6 +50,10 @@ class DashBoardController extends GetxController {
   void updateLocation(String newLocation) {
     location.value = newLocation;
   }
+  void updateSelectedDate(DateTime date) {
+    selectedDate.value = date;
+    fetchPrayerTime(); // Fetch prayer times for the selected date
+  }
 
   set updateExtractedData(List<CalendarWiseData> data) {
     extractedData = data;
@@ -105,28 +109,21 @@ class DashBoardController extends GetxController {
      print("new uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude.toString()}");
      return true;
   }
-
   @override
   void onInit() async{
     super.onInit();
     highlightCurrentPrayer();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   scrollToHighlightedPrayer();
-    // });
   }
-
   @override
   void dispose() {
     scrollController.dispose();
     super.dispose();
   }
-
   @override
   void onReady() {
     super.onReady();
     get();
   }
-
   get() async {
     if(userData.getLocationData==null){
       print("annnnder");
@@ -151,7 +148,6 @@ class DashBoardController extends GetxController {
     leaderboard();
     scrollToHighlightedPrayer();
   }
-
   String convertTo12HourFormat(String time24) {
     try {
       DateTime parsedTime = DateFormat('HH:mm').parse(time24);
@@ -160,7 +156,6 @@ class DashBoardController extends GetxController {
       return time24;
     }
   }
-
   Future<void> fetchPrayerTime({DateTime? specificDate}) async {
     final latitude =position!=null? position!.latitude:double.parse(userData.getLocationData!.latitude.toString());
     final longitude =position!=null? position!.longitude:double.parse(userData.getLocationData!.longitude.toString());
@@ -272,107 +267,6 @@ class DashBoardController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
-  // Future<void> fetchPrayerTime() async {
-  //   final latitude = position!.latitude;
-  //   final longitude = position!.longitude;
-  //   final method = userData.getUserData!.methodId;
-  //   DateTime now = DateTime.now();
-  //   String formattedDate = DateFormat('yyyy/MM').format(now);
-  //   // final method = 1;
-  //   isLoading.value = true;
-  //   // try {
-  //     Uri uri = Uri.https(
-  //       'api.aladhan.com',
-  //       '/v1/calendar/$formattedDate',
-  //       {
-  //         'latitude': latitude.toString(),
-  //         'longitude': longitude.toString(),
-  //         'method': method.toString(),
-  //       },
-  //     );
-  //     final response = await http.get(uri);
-  //     log("checking response ${response.body}");
-  //
-  //     if (response.statusCode == 200) {
-  //       updateCalendarData = jsonDecode(response.body.toString())["data"];
-  //
-  //       DateTime now = DateTime.now();
-  //       DateFormat formatter = DateFormat('dd MMM yyyy');
-  //       String formattedDate = formatter.format(now);
-  //
-  //       List<CalendarWiseData> extractedData = getCalendarData
-  //           .map((e) => e)
-  //           .where((element) =>
-  //       element.date!.readable.toString() == formattedDate.toString())
-  //           .toList();
-  //       updateExtractedData = extractedData;
-  //
-  //       if (getExtractedData.isNotEmpty) {
-  //         print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
-  //         updatePrayerTimes = [
-  //           convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
-  //         ];
-  //         // Update sunset and zawal times
-  //         sunsetTime.value =
-  //             convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A');
-  //         zawalTime.value =
-  //             convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A');
-  //         final hijriDate = getExtractedData[0].date?.hijri;
-  //         islamicDate.value =
-  //         '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
-  //
-  //         // Set prayer start and end time
-  //         updatePrayerDuration = {
-  //           'Fajr': {
-  //             'start': getExtractedData[0].timings?.fajr ?? 'N/A',
-  //             'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-  //           },
-  //           'Free': {
-  //             'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-  //             'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-  //           },
-  //           'Dhuhr': {
-  //             'start': (getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-  //             'end': (getExtractedData[0].timings?.asr ?? 'N/A')
-  //           },
-  //           'Asr': {
-  //             'start': (getExtractedData[0].timings?.asr ?? 'N/A'),
-  //             'end': (getExtractedData[0].timings?.sunset ?? 'N/A')
-  //           },
-  //           'Maghrib': {
-  //             'start': (getExtractedData[0].timings?.maghrib ?? 'N/A'),
-  //             'end': (getExtractedData[0].timings?.isha ?? 'N/A')
-  //           },
-  //           'Isha': {
-  //             'start': (getExtractedData[0].timings?.isha ?? 'N/A'),
-  //             // 'end': (getExtractedData[0].timings?.midnight ?? 'N/A')
-  //             'end': ('23:59')
-  //           }
-  //         };
-  //         // Get current time
-  //         String currentTime = DateFormat('HH:mm').format(DateTime.now());
-  //         currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
-  //         print('current time: $currentTime');
-  //         print('Current Prayer Time: $currentPrayer');
-  //         startRemainingTimeTimer();
-  //         update();
-  //       } else {
-  //         print('Failed to load prayer data');
-  //       }
-  //     }
-  //   // } catch (e) {
-  //   //   print('Error: $e');
-  //   // } finally {
-  //   //   isLoading.value = false;
-  //   // }
-  // }
-
   bool isPrayed = false;
 
   String getCurrentPrayer(Map<String, Map<String, String>> c, String currentTime) {
@@ -396,17 +290,14 @@ class DashBoardController extends GetxController {
         break;
       }
     }
-
     if(currentPrayer=='Free'){
       nextPrayer.value= getNextPrayer(prayerDuration, currentTime); // Fetch next prayer
       print('Next prayer :$nextPrayer');
     }
-
     if (!foundCurrentPrayer) {
       nextPrayer.value= getNextPrayer(prayerDuration, currentTime); // Fetch next prayer
       print('Next prayer :$nextPrayer');
     }
-
 
     // Update the reactive variables
     this.currentPrayer.value = currentPrayer;
@@ -515,17 +406,7 @@ class DashBoardController extends GetxController {
           // Calculate the remaining time
           Duration remainingDuration = endTime.difference(now);
           print("endTime $endTime");
-          // Schedule a reminder notification exactly 10 minutes before the current prayer ends
-          // if (remainingDuration.inMinutes == 10 && !isNotificationSent) {
-          //   // Send the notification only once
-          //   AwesomeNotificationService().showNotification(
-          //     title: "Reminder: ${nextPrayer.value}",
-          //     body: "${nextPrayer.value} prayer starts in 10 minutes.",
-          //     channelKey: 'important_channel',
-          //   );
-          //   isNotificationSent = true; // Set the flag to true to prevent further notifications
-          // }
-          // Format and print the remaining time
+
           if (remainingDuration.isNegative) {
             // Reset the flag for the next prayer
             isNotificationSent = false;
@@ -556,9 +437,6 @@ class DashBoardController extends GetxController {
     currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
     currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
 
-    // Convert next prayer start time to DateTime
-    // DateTime nextPrayerTime = DateFormat('hh:mm a').parse(nextPrayerTimes['start']!);
-
       AwesomeNotificationService().showNotification(
         title: "Reminder: $nextPrayerName",
         body: "$nextPrayerName prayer started",
@@ -569,71 +447,6 @@ class DashBoardController extends GetxController {
     startRemainingTimeTimer(); // Restart timer after switching to next prayer
     print('Next prayer2: $nextPrayerName');
   }
-  // Future<void> moveToNextPrayer() async {
-  //   // Get the next prayer based on the current time
-  //   String nextPrayerName = getNextPrayer(
-  //       prayerDuration,
-  //       DateFormat('HH:mm').format(DateTime.now())
-  //   );
-  //
-  //   // If the current time is past Isha and the next prayer is Fajr, it's the end of the day
-  //   if (nextPrayerName == 'Fajr' && DateTime.now().hour >= 0) {
-  //     // Fetch next day's prayer timings
-  //     await fetchPrayerTime(specificDate: DateTime.now().add(Duration(days: 1)));
-  //
-  //     // Recalculate the next prayer after fetching new timings
-  //     nextPrayerName = getNextPrayer(
-  //         prayerDuration,
-  //         DateFormat('HH:mm').format(DateTime.now())
-  //     );
-  //   }
-  //
-  //   // Safety check: Ensure that the next prayer exists in the prayerDuration map
-  //   if (prayerDuration.containsKey(nextPrayerName)) {
-  //     // Update the current prayer details
-  //     currentPrayer.value = nextPrayerName;
-  //
-  //     var nextPrayerTimes = prayerDuration[nextPrayerName]!;
-  //
-  //     // Update start and end times for the next prayer
-  //     currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
-  //     currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
-  //
-  //     // Also update the next prayer that comes after the current prayer
-  //     nextPrayer.value = getNextPrayer(prayerDuration, currentPrayerEndTime.value);
-  //
-  //     // Restart the timer for the new prayer
-  //     startRemainingTimeTimer();
-  //     print('Next prayer: $nextPrayerName');
-  //     print('Upcoming prayer: ${nextPrayer.value}');
-  //   } else {
-  //     print('Error: Next prayer not found in prayerDuration map.');
-  //   }
-  // }
-
-  // void moveToNextPrayer() async {
-  //   String nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now()));
-  //
-  //   // If the current time is past Isha and it's the end of the day, fetch next day's timings
-  //   if (nextPrayerName == 'Fajr' && DateTime.now().hour >= 0) {
-  //     await fetchPrayerTime(); // Fetch the next day's prayer timings
-  //     // nextPrayerName = getNextPrayer(prayerDuration, DateFormat('HH:mm').format(DateTime.now())); // Recheck next prayer
-  //   }
-  //
-  //   // Update current prayer details
-  //   currentPrayer.value = nextPrayerName;
-  //
-  //   var nextPrayerTimes = prayerDuration[nextPrayerName]!;
-  //   currentPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
-  //   currentPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
-  //
-  //   // Restart the timer for the new prayer time
-  //   startRemainingTimeTimer();
-  //   print('Next prayer: $nextPrayerName');
-  // }
-
-
-
   String formatDuration(Duration duration) {
     int hours = duration.inHours;
     int minutes = duration.inMinutes % 60;
@@ -682,40 +495,6 @@ class DashBoardController extends GetxController {
   var hour = 1;
   var minute = 0;
 
-
-//   submitPrayer() async {
-//     try {
-//       var headers = {'Content-Type': 'application/json'};
-//       var request = http.Request('POST', Uri.parse('http://172.16.61.15:8011/adhanapi/prayer-record/19-09-2024/'));
-//
-//       request.body = json.encode({
-//         "user_id": userData.getUserData!.responseData!.user!.id.toString(),
-//         "mobile_no": userData.getUserData!.responseData!.user!.mobileNo.toString(),
-//         "latitude": latAndLong?.latitude.toString(),
-//         "longitude": latAndLong?.longitude.toString(),
-//         "timestamp": "$hour:$minute",
-//         "jamat": prayedAtMosque.value.toString(),
-//         "times_of_prayer": 5
-//       });
-// print(userData.getUserData!.responseData!.user!.id.toString());
-//       request.headers.addAll(headers);
-//
-//       http.StreamedResponse response = await request.send();
-//
-//       if (response.statusCode == 200) {
-//         var data = jsonDecode(await response.stream.bytesToString());
-//         print("API RESPONSE: " + data.toString());
-//
-//         Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM);
-//       } else {
-//         print('Failed with status code: ${response.statusCode}');
-//         print('Reason: ${response.reasonPhrase}');
-//       }
-//     } catch (e) {
-//       print('Error: $e');
-//     }
-//   }
-
   bool isGifVisible = false;
   bool isAm = false;
   submitPrayer({String? valDate}) async {
@@ -729,20 +508,7 @@ class DashBoardController extends GetxController {
       // Use null-aware operators and default values
       var userId = userData.getUserData!.id.toString();
       var mobileNo = userData.getUserData!.mobileNo.toString();
-      // var latitude = latAndLong!.latitude.toString() ?? '0.0';
-      // var longitude = latAndLong!.longitude.toString() ?? '0.0';
-      // var dataa = {
-      //   "user_id": userId,
-      //   "mobile_no": mobileNo,
-      //   "latitude": position!.latitude,
-      //   "longitude": position!.longitude,
-      //   "timestamp": "$hour:$minute",
-      //   "jamat": prayedAtMosque.value.toString(),
-      //   "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
-      //   'prayed':true
-      // };
-      // print("########$dataa");
-      // Convert hour to 24-hour format based on AM/PM
+
       if (!isAm && hour < 12) {
         hour += 12; // Convert to PM (24-hour format)
       } else if (isAm && hour == 12) {
@@ -770,20 +536,11 @@ class DashBoardController extends GetxController {
       });
       print("URL ${request.url}");
       print("prayer-record ${request.body}");
-      // print("User ID: $userId");
-      // print("Mobile No: $mobileNo");
-      // // print("Latitude: $latitude");
-      // // print("Longitude: $longitude");
-      // print("jamat: $jamatValue");
-      // print("time: $hour:$minute");
-
 
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
-      //print("API RESPONSE: " + await response.stream.bytesToString().toString());
-      // var data = jsonDecode(await response.stream.bytesToString());
-      // print("API RESPONSE: " + data['detail'].toString());
+
       String responseString = await response.stream.bytesToString();
       // print("Raw API response: $responseString");
 
@@ -797,13 +554,8 @@ class DashBoardController extends GetxController {
           update();
 
       });
-      // Future.delayed(Duration(seconds: 6), () {
-      //   Image.asset("assets/popup_Default.gif");
-      //
-      // });
-      Get.back();
-      // Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.green);
 
+      Get.back();
     } catch (e) {
       print('Error: $e');
     }
@@ -868,24 +620,24 @@ List isPrayedList = [];
   }
   void updateIslamicDateBasedOnOption(int index) {
     final hijriDate = getExtractedData[0].date?.hijri;
-    DateTime baseDate = DateTime(2024, 10, 22);
+    DateTime baseDate = DateTime(2024, 10, 21);
     DateTime newDate;
 
     switch (index) {
       case 0:
-        newDate = baseDate.subtract(Duration(days: 2));
+        newDate = baseDate.add(Duration(days: 2));
         break;
       case 1:
-        newDate = baseDate.subtract(Duration(days: 1));
-        break;
-      case 2:
-        newDate = baseDate; // None (today)
-        break;
-      case 3:
         newDate = baseDate.add(Duration(days: 1));
         break;
+      case 2:
+        newDate = baseDate;
+        break;
+      case 3:
+        newDate = baseDate.subtract(Duration(days: 1));
+        break;
       case 4:
-        newDate = baseDate.add(Duration(days: 2));
+        newDate = baseDate.subtract(Duration(days: 2));
         break;
       default:
         newDate = baseDate;
@@ -897,6 +649,7 @@ List isPrayedList = [];
     islamicDate.value =
     '${hijriNewDate.hDay} ${hijriNewDate.longMonthName} ${hijriNewDate.hYear}';
   }
+
 
   // New method to get all prayer times including Zawal, sunset, and sunrise
 

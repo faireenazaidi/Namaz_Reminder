@@ -170,22 +170,53 @@ class ProfileView extends GetView<ProfileController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Full Name",style: MyTextTheme.mediumGCB,),
-                        TextField(
-                         controller: controller.nameC,
+                        // TextFormField(
+                        //  controller: controller.nameC,
+                        //   cursorColor: AppColor.circleIndicator,
+                        //   decoration: InputDecoration(
+                        //     hintText: "Enter your full name",
+                        //     hintStyle: MyTextTheme.mediumCustomGCN,
+                        //     // prefixIcon: Image.asset("asset/profile.png"),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       borderSide:  BorderSide(
+                        //         color: AppColor.packageGray,
+                        //       ),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       borderSide:  BorderSide(
+                        //         color: AppColor.packageGray,
+                        //         width: 1,
+                        //       ),
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       borderSide: const BorderSide(
+                        //         color: Colors.grey,
+                        //         width: 1,
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   style: const TextStyle(
+                        //     color: Colors.grey,
+                        //   ),
+                        // ),
+                        TextFormField(
+                          controller: controller.nameC,
                           cursorColor: AppColor.circleIndicator,
                           decoration: InputDecoration(
                             hintText: "Enter your full name",
                             hintStyle: MyTextTheme.mediumCustomGCN,
-                            // prefixIcon: Image.asset("asset/profile.png"),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide:  BorderSide(
+                              borderSide: BorderSide(
                                 color: AppColor.packageGray,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide:  BorderSide(
+                              borderSide: BorderSide(
                                 color: AppColor.packageGray,
                                 width: 1,
                               ),
@@ -201,7 +232,10 @@ class ProfileView extends GetView<ProfileController> {
                           style: const TextStyle(
                             color: Colors.grey,
                           ),
+                          // Add the validator here
+
                         ),
+
                       ],
                     ),
                   ),
@@ -351,6 +385,7 @@ class ProfileView extends GetView<ProfileController> {
                             borderRadius: BorderRadius.circular(10.0), // Circular border radius
                           ),
                           child: DropdownButton<String>(
+                            dropdownColor: Colors.white,
                             value: controller.schoolOFThought['id'].toString(),
                             isExpanded: true, // Ensures the dropdown takes the full width
                             underline: SizedBox(), // Removes default underline
@@ -358,6 +393,8 @@ class ProfileView extends GetView<ProfileController> {
                               "Select an institute",
                               style: MyTextTheme.mediumCustomGCN,
                             ),
+                            menuMaxHeight: MediaQuery.of(context).size.height * 0.50,
+                            // itemHeight: 40.0,
                             items: controller.calculationList.map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem<String>(
                                 value: value['id'].toString(), // Use 'id' as the value
@@ -369,7 +406,9 @@ class ProfileView extends GetView<ProfileController> {
                               print("Selected value: $value");
                             },
                           ),
-                        // child:   MyCustomSD(
+
+
+                          // child:   MyCustomSD(
                         //     listToSearch:controller.calculationList,
                         //     valFrom: 'name',
                         //     onChanged: (value) {
@@ -473,14 +512,34 @@ class ProfileView extends GetView<ProfileController> {
                   //
                   //   controller.registerUser();
                   // }, title: 'Update',color: AppColor.circleIndicator,),
+                  // MyButton(
+                  //   borderRadius:10,
+                  //   onPressed: () {
+                  //     controller.registerUser(); // Call the registerUser method from the controller
+                  //   },
+                  //   title: 'Update', // Button label
+                  //   color: AppColor.circleIndicator, // Button color
+                  // ),
                   MyButton(
-                    borderRadius:10,
+                    borderRadius: 10,
                     onPressed: () {
-                      controller.registerUser(); // Call the registerUser method from the controller
+                      if (controller.nameC.text.isEmpty) {
+                        Get.snackbar(
+                          'Error',
+                          'Please enter your name',
+                          snackPosition: SnackPosition.TOP,
+                          backgroundColor: Colors.black,
+                          colorText: Colors.white,
+                        );
+                      }
+                      else {
+                        controller.registerUser(); // Call the registerUser method from the controller
+                      }
                     },
                     title: 'Update', // Button label
                     color: AppColor.circleIndicator, // Button color
                   ),
+
                   SizedBox(height: 10,)
 
                 ],

@@ -199,10 +199,12 @@ class LocationPage extends GetView<LocationPageController> {
                             controller.dynamicHeightAllocation();
                            await controller.login(controller.phoneController.value.text);
                            print("Send OTP");
-                          }else{
+                          }else
+                          {
                             print("Invalid phone number");
+
                             Get.snackbar('Error', 'Please enter a valid phone number',
-                                  snackPosition: SnackPosition.BOTTOM);
+                                snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);
                           }
 
 
@@ -610,9 +612,8 @@ class LocationPage extends GetView<LocationPageController> {
                             controller.dynamicHeightAllocation();
                             print("Navigate to the next screen");
                           } else {
-                            // Show an error message if either name or gender is not selected
                             Get.snackbar('Error', 'Please enter your name and select a gender',
-                                snackPosition: SnackPosition.TOP);
+                                snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);
                             print("Name or gender is missing");
                           }
                         },
@@ -738,7 +739,7 @@ class LocationPage extends GetView<LocationPageController> {
 
                                 },),
                             ),
-                            const SizedBox(height: 20,),
+                            const SizedBox(height: 10,),
                             MyCustomSD(
                               listToSearch:controller.calculationList,
                               valFrom: 'name',
@@ -750,6 +751,7 @@ class LocationPage extends GetView<LocationPageController> {
                                   // print("GetMethodId: ${controller.getCalId.toString()}");
                                   print(value);
                                 }
+
 
                               },),
 
@@ -814,6 +816,10 @@ class LocationPage extends GetView<LocationPageController> {
                                   }
                                 }
                                 else{
+
+                                Get.snackbar('Error', 'Please select your Calculation Method',
+                                snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);
+
                                 }
                               },
                             ),
@@ -943,8 +949,8 @@ class LocationPage extends GetView<LocationPageController> {
                               print("Navigate to the next screen");
                             } else {
                               // Show error if either Fiqh or Prayer Time is not selected
-                              Get.snackbar('Error', 'Please select your Fiqh and Times of Prayer',
-                                  snackPosition: SnackPosition.TOP);
+                              Get.snackbar('Error', 'Please select your School of Thought',
+                                  snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);
                               print("Fiqh or Prayer Time is not selected");
                             }
                           },
