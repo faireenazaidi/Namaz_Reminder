@@ -22,7 +22,6 @@ class AddFriendView extends GetView<AddFriendController> {
       if (name.isEmpty) return name;
       return name[0].toUpperCase() + name.substring(1).toLowerCase();
     }
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

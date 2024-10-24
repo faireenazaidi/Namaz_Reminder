@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -17,10 +16,7 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
-import '../Leaderboard/leaderboardDataModal.dart';
 import '../Leaderboard/leaderboardView.dart';
-import '../LocationSelectionPage/locationPageView.dart';
-import '../Widget/location_services.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
   const DashBoardView({super.key});

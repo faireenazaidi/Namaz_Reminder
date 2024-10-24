@@ -115,7 +115,7 @@ class PeerView extends GetView<PeerController> {
                       return Center(child: CircularProgressIndicator());
                     }
 
-                    if (peerController.getFriendshipList.isEmpty) {
+                    if (peerController.filteredFriendsList.isEmpty) {
                       return Center(child: Text('No friends found'));
                     }
 
