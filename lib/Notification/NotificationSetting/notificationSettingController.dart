@@ -20,7 +20,8 @@ class NotificationSettingController extends GetxController {
     quietMode.value = userData.getUserData!.quitMode!;
     friendRequests.value = userData.getUserData!.friendRequest!;
     friendNamazPrayed.value = userData.getUserData!.friendPrayed!;
-    quietMode.value = userData.getUserData!.quitMode!;
+    // quietMode.value = userData.getUserData!.quitMode!;
+    print("############ ${quietMode.value}");
     super.onInit();
   }
 

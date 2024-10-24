@@ -110,6 +110,7 @@ class UserModel {
   bool? quitMode;
   bool? friendRequest;
   bool? friendPrayed;
+  int? frAllow;
 
   UserModel({
     required this.id,
@@ -129,6 +130,7 @@ class UserModel {
      this.quitMode,
      this.friendRequest,
      this.friendPrayed,
+     this.frAllow,
   });
 
 
@@ -151,6 +153,7 @@ class UserModel {
       quitMode: (json['quiet_mode']??false).toString()=='true'?true:false,
       friendRequest: (json['fr_noti']??false).toString()=='true'?true:false,
       friendPrayed: (json['fn_mark_noti']??false).toString()=='true'?true:false,
+      frAllow: (json['fr_allow']).toString()=='null'?0:int.parse(json['fr_allow'].toString()),
     );
   }
 
@@ -170,9 +173,10 @@ class UserModel {
       'picture': picture,
       'preNamazAlert': preNamazAlert!,
       'notification_off': pauseAll.toString(),
-      'quitMode': quitMode.toString(),
+      'quiet_mode': quitMode.toString(),
       'fr_noti': friendRequest.toString(),
       'fn_mark_noti': friendPrayed.toString(),
+      'fr_allow': frAllow.toString(),
     };
   }
 }

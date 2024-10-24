@@ -76,6 +76,26 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+        <service android:name="me.carda.awesome_notifications.notifications.receivers.ActionReceiver" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="true"/>
+        <receiver android:name="me.carda.awesome_notifications.notifications.receivers.CreatedReceiver"/>
+        <receiver android:name="me.carda.awesome_notifications.notifications.receivers.DisplayedReceiver"/>
+        <receiver android:name="me.carda.awesome_notifications.notifications.receivers.ScheduleReceiver"/>
+        <receiver
+            android:name="me.carda.awesome_notifications.notifications.receivers.DismissedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="DISMISSED_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="me.carda.awesome_notifications.notifications.receivers.ActionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
     <!-- Required to query activities that can process text, see:

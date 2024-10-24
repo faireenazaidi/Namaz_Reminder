@@ -14,6 +14,25 @@ import 'Services/notification_service.dart';
 import 'Services/user_data.dart';
 import 'firebase_options.dart';
 
+@pragma('vm:entry-point')
+void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
+  String taskId = task.taskId;
+  bool isTimeout = task.timeout;
+
+  if (isTimeout) {
+    print("[BackgroundFetch] Headless TIMEOUT: $taskId");
+    BackgroundFetch.finish(taskId);
+    return;
+  }
+
+  print("[BackgroundFetch] Headless task: $taskId - Running in background or terminated state.");
+
+  // Perform the background task (e.g., fetching prayer times, showing notifications)
+  await fetchPrayerTimeData();
+
+  // Finish the task after completing your work
+  BackgroundFetch.finish(taskId);
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -61,33 +80,33 @@ void _backgroundFetchHandler(String taskId) async {
   BackgroundFetch.finish(taskId);
 }
 // This is the headless task that runs when the app is terminated.
-void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
-  String taskId = task.taskId;
-  bool isTimeout = task.timeout;
-  AwesomeNotificationService().showNotification(title: "just enter Time Fetched", body: UserData().getUserData!.name.toString(), channelKey: 'important_channel');
-  // AwesomeNotifications().createNotification(
-  //   content: NotificationContent(
-  //     id: 1,
-  //     channelKey: 'important_channel',
-  //     title: "Prayer Time Fetched",
-  //     body: UserData().getUserData!.name.toString(),
-  //   ),
-  // );
-  await fetchPrayerTimeData();
-  if (isTimeout) {
-    print("[BackgroundFetch] Headless TIMEOUT: $taskId");
-    AwesomeNotificationService().showNotification(title: "time out", body: UserData().getUserData!.name.toString(), channelKey: 'important_channel');
-    BackgroundFetch.finish(taskId);
-    return;
-  }
-
-  print("[BackgroundFetch] Headless task: $taskId - Running in background or terminated state.");
-
-  // Fetch prayer time or perform any necessary background task
-  // await fetchPrayerTimeData();
-  // _scheduleManualNotification('zohr');
-  BackgroundFetch.finish(taskId);
-}
+// void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
+//   String taskId = task.taskId;
+//   bool isTimeout = task.timeout;
+//   AwesomeNotificationService().showNotification(title: "just enter Time Fetched", body: UserData().getUserData!.name.toString(), channelKey: 'important_channel');
+//   // AwesomeNotifications().createNotification(
+//   //   content: NotificationContent(
+//   //     id: 1,
+//   //     channelKey: 'important_channel',
+//   //     title: "Prayer Time Fetched",
+//   //     body: UserData().getUserData!.name.toString(),
+//   //   ),
+//   // );
+//   await fetchPrayerTimeData();
+//   if (isTimeout) {
+//     print("[BackgroundFetch] Headless TIMEOUT: $taskId");
+//     AwesomeNotificationService().showNotification(title: "time out", body: UserData().getUserData!.name.toString(), channelKey: 'important_channel');
+//     BackgroundFetch.finish(taskId);
+//     return;
+//   }
+//
+//   print("[BackgroundFetch] Headless task: $taskId - Running in background or terminated state.");
+//
+//   // Fetch prayer time or perform any necessary background task
+//   // await fetchPrayerTimeData();
+//   // _scheduleManualNotification('zohr');
+//   BackgroundFetch.finish(taskId);
+// }
 
 // Function to fetch prayer time data and show a notification
 // Schedule a single notification using Awesome Notifications for testing
@@ -147,10 +166,10 @@ Future<void> fetchPrayerTimeData() async {
   "Fajr": "04:51 (IST)",
   "Sunrise": "05:59 (IST)",
   "Dhuhr": "11:56 (IST)",
-  "Asr": "16:18 (IST)",
+  "Asr": "19:15 (IST)",
   "Sunset": "17:53 (IST)",
-  "Maghrib": "19:55 (IST)",
-  "Isha": "20:52 (IST)",
+  "Maghrib": "19:40 (IST)",
+  "Isha": "20:15 (IST)",
   "Imsak": "04:41 (IST)",
   "Midnight": "23:56 (IST)",
   "Firstthird": "21:55 (IST)",
@@ -160,7 +179,7 @@ Future<void> fetchPrayerTimeData() async {
   "readable": "01 Oct 2024",
   "timestamp": "1727753461",
   "gregorian": {
-  "date": "22-10-2024",
+  "date": "23-10-2024",
   "format": "DD-MM-YYYY",
   "day": "01",
   "weekday": {
@@ -288,8 +307,10 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
         notificationLayout: NotificationLayout.Default,
         category: NotificationCategory.Alarm,
         criticalAlert: true,
-        customSound: 'resource://raw/important_tone',
         wakeUpScreen: true, // Custom sound
+        displayOnForeground: true,
+        displayOnBackground: true,
+        customSound: 'resource://raw/important_tone'
       ),
       schedule: NotificationCalendar(
         year: scheduledTime.year,
@@ -300,7 +321,7 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
         second: 0,
         millisecond: 0,
         repeats: false,
-        preciseAlarm: true
+        preciseAlarm: true,
       ),
     );
   }
