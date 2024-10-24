@@ -166,10 +166,10 @@ Future<void> fetchPrayerTimeData() async {
   "Fajr": "04:51 (IST)",
   "Sunrise": "05:59 (IST)",
   "Dhuhr": "11:56 (IST)",
-  "Asr": "19:15 (IST)",
+  "Asr": "13:45 (IST)",
   "Sunset": "17:53 (IST)",
-  "Maghrib": "19:40 (IST)",
-  "Isha": "20:15 (IST)",
+  "Maghrib": "14:00 (IST)",
+  "Isha": "14:20 (IST)",
   "Imsak": "04:41 (IST)",
   "Midnight": "23:56 (IST)",
   "Firstthird": "21:55 (IST)",
@@ -179,7 +179,7 @@ Future<void> fetchPrayerTimeData() async {
   "readable": "01 Oct 2024",
   "timestamp": "1727753461",
   "gregorian": {
-  "date": "23-10-2024",
+  "date": "24-10-2024",
   "format": "DD-MM-YYYY",
   "day": "01",
   "weekday": {
@@ -294,7 +294,7 @@ DateTime _convertToDateTime(String timing) {
 
 // Schedule a single notification using Awesome Notifications
 void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
-  AwesomeNotificationService().showNotification(title: "inside schedule", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+  AwesomeNotificationService().showNotification(title: "inside schedule $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   // Check if the scheduled time is in the future
   if (scheduledTime.isAfter(DateTime.now())) {
     AwesomeNotificationService().showNotification(title: "just to hit", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');

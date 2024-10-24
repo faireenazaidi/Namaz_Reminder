@@ -70,9 +70,8 @@ class ProfileView extends GetView<ProfileController> {
                           children: [
                             CircleAvatar(
                               radius: 50,
-                              backgroundImage:controller.userData.getUserData!.picture!=''? NetworkImage(
-                                "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
-                              ):Image.file(File(controller.profilePhoto)).image,
+                              backgroundImage:controller.profilePhoto.isNotEmpty?Image.file(File(controller.profilePhoto)).image:
+                              NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}",),
                               backgroundColor: controller.userData.getUserData!.picture.isEmpty
                                   ? AppColor.circleIndicator
                                   : Colors.transparent,
@@ -522,8 +521,8 @@ class ProfileView extends GetView<ProfileController> {
                     http.StreamedResponse response = await request.send();
 
                     if (response.statusCode == 200) {
-                      print(await response.stream.bytesToString());
-                      final data =await (response.stream.bytesToString());
+                      // print(await response.stream.bytesToString());
+                      final data = await response.stream.bytesToString();
                       final myData =await jsonDecode(data);
                       final userModel = UserModel.fromJson(myData['user']);
                       await controller.userData.addUserData(userModel);

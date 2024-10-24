@@ -150,6 +150,7 @@ class DashBoardController extends GetxController {
     await fetchPrayerTime();
     leaderboard();
     scrollToHighlightedPrayer();
+    updateIslamicDateBasedOnOption(userData.getUserData!.hijriAdj!);
   }
 
   String convertTo12HourFormat(String time24) {
@@ -866,26 +867,28 @@ List isPrayedList = [];
     }
 
   }
-  void updateIslamicDateBasedOnOption(int index) {
+  void updateIslamicDateBasedOnOption(int id) {
     final hijriDate = getExtractedData[0].date?.hijri;
-    DateTime baseDate = DateTime(2024, 10, 22);
+    DateTime onlyDate  = DateTime.now();
+    DateTime baseDate = DateTime(onlyDate.year, onlyDate.month, onlyDate.day);
+    print("base # $baseDate");
     DateTime newDate;
 
-    switch (index) {
+    switch (id) {
       case 0:
-        newDate = baseDate.subtract(Duration(days: 2));
+        newDate = baseDate;
         break;
       case 1:
-        newDate = baseDate.subtract(Duration(days: 1));
-        break;
-      case 2:
-        newDate = baseDate; // None (today)
-        break;
-      case 3:
         newDate = baseDate.add(Duration(days: 1));
         break;
-      case 4:
+      case 2:
         newDate = baseDate.add(Duration(days: 2));
+        break;
+      case 3:
+        newDate = baseDate.subtract(Duration(days: 1));
+        break;
+      case 4:
+        newDate = baseDate.subtract(Duration(days: 2));
         break;
       default:
         newDate = baseDate;

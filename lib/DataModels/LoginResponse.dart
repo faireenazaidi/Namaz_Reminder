@@ -111,6 +111,7 @@ class UserModel {
   bool? friendRequest;
   bool? friendPrayed;
   int? frAllow;
+  int? hijriAdj;
 
   UserModel({
     required this.id,
@@ -131,6 +132,7 @@ class UserModel {
      this.friendRequest,
      this.friendPrayed,
      this.frAllow,
+     this.hijriAdj,
   });
 
 
@@ -154,6 +156,7 @@ class UserModel {
       friendRequest: (json['fr_noti']??false).toString()=='true'?true:false,
       friendPrayed: (json['fn_mark_noti']??false).toString()=='true'?true:false,
       frAllow: (json['fr_allow']).toString()=='null'?0:int.parse(json['fr_allow'].toString()),
+      hijriAdj: (json['hijri_adj']).toString()=='null'?0:int.parse(json['hijri_adj'].toString()),
     );
   }
 
@@ -177,6 +180,7 @@ class UserModel {
       'fr_noti': friendRequest.toString(),
       'fn_mark_noti': friendPrayed.toString(),
       'fr_allow': frAllow.toString(),
+      'hijri_adj': hijriAdj.toString(),
     };
   }
 }

@@ -1,14 +1,88 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../AppManager/toast.dart';
 import '../../DashBoard/dashboardController.dart';
+import '../../DataModels/LoginResponse.dart';
+import '../../Services/ApiService/api_service.dart';
+import '../../Services/user_data.dart';
 
 class HijriController extends GetxController {
+  UserData userData = UserData();
+  ApiService apiService = ApiService();
   var selectedIndex = 0.obs;
 
-  void selectItem(int index) {
-    selectedIndex.value = index;
+  @override
+  void onInit() async{
+    await registerUser(isFirst: true);
+    updateSelectedId(userData.getUserData!.hijriAdj!);
+    selectItem(selectedId!);
+    super.onInit();
+  }
+  int? selectedId;
+  void updateSelectedId(int id){
+    selectedId = id;
+    update();
+  }
+  List<Map<String, dynamic>> hijriDateAdjustment = [
+    {"id": 4, "name": "Two Day Ago"},
+    {"id": 3, "name": "One Day Ago"},
+    {"id": 0, "name": "None"},
+    {"id": 1, "name": "One Day Ahead"},
+    {"id": 2, "name": "Two Day Ahead"},
+  ];
+
+
+  void selectItem(int id) {
+    // selectedIndex.value = index;
 
     // Get DashBoardController and update Islamic date
     final DashBoardController dashboardController = Get.find<DashBoardController>();
-    dashboardController.updateIslamicDateBasedOnOption(index); // Update Hijri date in DashboardController
+    dashboardController.updateIslamicDateBasedOnOption(id); // Update Hijri date in DashboardController
+  }
+
+
+  registerUser({bool isFirst=false}) async {
+
+    var body =isFirst? {
+      "user_id": userData.getUserData?.id.toString(),
+      "username": userData.getUserData?.username.toString(),
+      "name": userData.getUserData?.name,
+      "mobile_no": userData.getUserData?.mobileNo,
+      "gender": userData.getUserData?.gender,
+      "fiqh": userData.getUserData!.fiqh,
+      "times_of_prayer":userData.getUserData!.timesOfPrayer,
+      "school_of_thought": userData.getUserData?.methodId,
+      "method_name":userData.getUserData?.methodName,
+      "method_id":userData.getUserData?.methodId,
+      "email":userData.getUserData?.email,
+    }:
+    {
+      "user_id": userData.getUserData?.id.toString(),
+      "username": userData.getUserData?.username.toString(),
+      "name": userData.getUserData?.name,
+      "mobile_no": userData.getUserData?.mobileNo,
+      "gender": userData.getUserData?.gender,
+      "fiqh": userData.getUserData!.fiqh,
+      "times_of_prayer":userData.getUserData!.timesOfPrayer,
+      "school_of_thought": userData.getUserData?.methodId,
+      "method_name":userData.getUserData?.methodName,
+      "method_id":userData.getUserData?.methodId,
+      "email":userData.getUserData?.email,
+      "hijri_adj":selectedId,
+
+    };
+    print("registration body $body");
+    var request  = await apiService.putRequest('update-user/',body,);
+    print("request $apiService");
+    final data = request;
+    print("registration data $data");
+    // Map<String,dynamic> temp = data['user'];
+    // temp['quitMode'] = quietMode.value;
+    final userModel = UserModel.fromJson(data['user']);
+    await userData.addUserData(userModel);
+    print("userData ${userData.getUserData?.toJson()}");
+    if(!isFirst){
+      showToast(msg: 'settings Updated',bgColor: Colors.black);
+    }
   }
 }
