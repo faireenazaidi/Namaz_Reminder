@@ -281,92 +281,95 @@ class AddFriendView extends GetView<AddFriendController> {
                         print("registeredData.userId ${registeredData.userId}");
                         print("registeredData.userId ${registeredData.name}");
                         print("Item${registeredData.picture}");
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 35,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: registeredData.picture != null && registeredData.picture!.isNotEmpty
-                                        ? DecorationImage(
-                                      image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
-                                      fit: BoxFit.cover,
-                                    )
-                                        : null,
-                                    color: registeredData.picture == null || registeredData.picture!.isEmpty
-                                        ? AppColor.circleIndicator
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(5,8,5,8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 35,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+                                          ? DecorationImage(
+                                        image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
+                                        fit: BoxFit.cover,
+                                      )
+                                          : null,
+                                      color: registeredData.picture == null || registeredData.picture!.isEmpty
+                                          ? AppColor.circleIndicator
+                                          : null,
+                                    ),
+                                    child: registeredData.picture == null || registeredData.picture!.isEmpty
+                                        ? const Icon(Icons.person, size: 20, color: Colors.white)
                                         : null,
                                   ),
-                                  child: registeredData.picture == null || registeredData.picture!.isEmpty
-                                      ? const Icon(Icons.person, size: 20, color: Colors.white)
-                                      : null,
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0, top: 16),
-                                  child: Column(
+                                  const SizedBox(width: 10,),
+                                  Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
                                         capitalizeFirstLetter(registeredData.name.toString()),
                                         style: MyTextTheme.mediumGCB.copyWith(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 20,),
-
-
+                                      // SizedBox(height: 20,),
+                                      Text(
+                                          registeredData.username.toString(),
+                                        style: MyTextTheme.smallGCB
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-
-                              InkWell(
-                                onTap: () async {
-                                  if(matchedRequest==null){
-                                    await controller.sendFriendRequest(registeredData);
-                                    controller.checkInviteStatus(UserData().getUserData!.id.toString());
-
-                                  }
-
-                                },
-                                child:matchedRequest==null?
-                                Container(
-                                  height: 30,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: AppColor.white),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.circleIndicator,
-                                  ),
-                                  child:  const Center(
-                                    child: Text("Invite", style: TextStyle(color: Colors.white)),
-                                  ),
-                                )
-                                    :
-                                Container(
-                                  height: 30,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: AppColor.white),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
-                                  ),
-                                  child:  Center(
-                                    child: Text(matchedRequest['status_display'], style: const TextStyle(color: Colors.white)),
-                                  ),
-                                ),
+                                ],
                               ),
 
-                          ]
+                                InkWell(
+                                  onTap: () async {
+                                    if(matchedRequest==null){
+                                      await controller.sendFriendRequest(registeredData);
+                                      controller.checkInviteStatus(UserData().getUserData!.id.toString());
+
+                                    }
+
+                                  },
+                                  child:matchedRequest==null?
+                                  Container(
+                                    height: 30,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: AppColor.white),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColor.circleIndicator,
+                                    ),
+                                    child:  const Center(
+                                      child: Text("Invite", style: TextStyle(color: Colors.white)),
+                                    ),
+                                  )
+                                      :
+                                  Container(
+                                    height: 30,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: AppColor.white),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
+                                    ),
+                                    child:  Center(
+                                      child: Text(matchedRequest['status_display'], style: const TextStyle(color: Colors.white)),
+                                    ),
+                                  ),
+                                ),
+
+                            ]
+                          ),
                         );
                       },
                     ),

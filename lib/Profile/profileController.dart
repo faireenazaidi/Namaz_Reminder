@@ -35,6 +35,7 @@ class ProfileController extends GetxController{
     genderC.text=userData.getUserData!.gender;
     phoneC.text=userData.getUserData!.mobileNo;
     mailC.text=userData.getUserData!.email;
+    userNameC.text=userData.getUserData!.username;
     schoolOFThought['name']=userData.getUserData!.methodName;
     schoolOFThought['id']=userData.getUserData!.methodId;
     selectedPrayer.value=userData.getUserData!.timesOfPrayer;

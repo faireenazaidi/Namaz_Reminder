@@ -239,6 +239,82 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("User Name",style: MyTextTheme.mediumGCB,),
+                        // TextFormField(
+                        //  controller: controller.nameC,
+                        //   cursorColor: AppColor.circleIndicator,
+                        //   decoration: InputDecoration(
+                        //     hintText: "Enter your full name",
+                        //     hintStyle: MyTextTheme.mediumCustomGCN,
+                        //     // prefixIcon: Image.asset("asset/profile.png"),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       borderSide:  BorderSide(
+                        //         color: AppColor.packageGray,
+                        //       ),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       borderSide:  BorderSide(
+                        //         color: AppColor.packageGray,
+                        //         width: 1,
+                        //       ),
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       borderSide: const BorderSide(
+                        //         color: Colors.grey,
+                        //         width: 1,
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   style: const TextStyle(
+                        //     color: Colors.grey,
+                        //   ),
+                        // ),
+                        TextFormField(
+                          controller: controller.userNameC,
+                          enabled: false,
+                          cursorColor: AppColor.circleIndicator,
+                          decoration: InputDecoration(
+                            hintText: "Enter your full name",
+                            hintStyle: MyTextTheme.mediumCustomGCN,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColor.packageGray,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: AppColor.packageGray,
+                                width: 1,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                          // Add the validator here
+
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
