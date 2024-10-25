@@ -136,8 +136,14 @@ class LocationPageController extends GetxController {
     }
   }
 
-  dynamicHeightAllocation() {
-    step.value = step.value + 1;
+  dynamicHeightAllocation({bool isBack = false}) {
+   if(isBack){
+     print("isvack $isBack");
+     step.value=--step.value;
+   }
+   else{
+     step.value = step.value + 1;
+   }
     print("STEP VALUE ${step.value}");
     if (step.value == 1) {
       containerHeight.value = 310;

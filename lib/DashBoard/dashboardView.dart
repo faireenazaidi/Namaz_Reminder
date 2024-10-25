@@ -175,14 +175,28 @@ class DashBoardView extends GetView<DashBoardController> {
                       children: [
                         Obx(() {
                           double completionPercentage = controller.calculateCompletionPercentage();
+                          print("completionPercentage $completionPercentage");
                           return CircularPercentIndicator(
                             restartAnimation: true,
                             circularStrokeCap: CircularStrokeCap.round,
                             animation: true,
+                            animateFromLastPercent: true,
                             animationDuration: 1200,
                             radius: 140,
                             lineWidth: 40,
-                            percent: completionPercentage,
+                            widgetIndicator: Container(
+                              height: 5,
+                              width: 5,
+                              alignment: Alignment.center,
+                              child: Lottie.asset(
+                                "assets/Star.lottie",
+                                fit: BoxFit.contain,
+                                width: 80,
+                                height: 80,
+                                decoder: customDecoder,
+                              ),
+                            ),
+                            percent:1.0-completionPercentage,
                             progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
                             backgroundColor: Colors.grey.shade300,
                             // center: Text(
@@ -191,32 +205,32 @@ class DashBoardView extends GetView<DashBoardController> {
                             // ),
                           );
                         }),
-                        Obx(() {
-                          double completionPercentage = controller.calculateCompletionPercentage();
-                          // Circle center and radius
-                          double radius = 100;
-                          // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                          double angle = 2 * pi * completionPercentage;
-                          // Convert percentage to radians
-
-                        // Calculate x and y positions based on angle
-                        double x = radius * cos(angle);
-                        double y = radius * sin(angle);
-
-                        return Positioned(
-                          left: radius + x - 120,
-                          // Offset to center the crown on the circle
-                          top: radius - y - 100,
-                          // Offset to center the crown on the circle
-                          child: CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Colors.white,
-                            child:     Lottie.asset("assets/Star.lottie",
-                                decoder: customDecoder, height: 1000),
-                          ),
-
-                        );
-                      }),
+                      //   Obx(() {
+                      //     double completionPercentage = controller.calculateCompletionPercentage();
+                      //     // Circle center and radius
+                      //     double radius = 100;
+                      //     // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                      //     double angle = 2 * pi * completionPercentage;
+                      //     // Convert percentage to radians
+                      //
+                      //   // Calculate x and y positions based on angle
+                      //   double x = radius * cos(angle);
+                      //   double y = radius * sin(angle);
+                      //
+                      //   return Positioned(
+                      //     left: radius + x - 120,
+                      //     // Offset to center the crown on the circle
+                      //     top: radius - y - 100,
+                      //     // Offset to center the crown on the circle
+                      //     child: CircleAvatar(
+                      //       radius: 15,
+                      //       backgroundColor: Colors.white,
+                      //       child:     Lottie.asset("assets/Star.lottie",
+                      //           decoder: customDecoder, height: 1000),
+                      //     ),
+                      //
+                      //   );
+                      // }),
 
                         Positioned(
                           top: 70,

@@ -35,18 +35,24 @@ class LocationPage extends GetView<LocationPageController> {
               ),
             ),
           ),
-          if (controller.step.value > 0)
-            Positioned(
-            top: 40,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
-              onPressed: () {
-                if (controller.step.value > 0) {
-                  controller.step.value--;
-                }
-              },
+            Obx(
+            () {
+                return Visibility(
+                  visible: controller.step.value > 0,
+                  child: Positioned(
+                  top: 40,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
+                    onPressed: () {
+                        controller.dynamicHeightAllocation(isBack: true);
+                        // controller.step.value--;
+
+                    },
+                  ),
+                            ),
+                );
+              }
             ),
-          ),
 
             // Only show the back button when step > 0
             // if (controller.step.value > 0)
