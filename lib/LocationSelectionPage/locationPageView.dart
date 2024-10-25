@@ -37,15 +37,37 @@ class LocationPage extends GetView<LocationPageController> {
           ),
           if (controller.step.value > 0)
             Positioned(
-            top: 40, // Adjust as needed
-            left: 5, // Adjust as needed
+            top: 40,
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
+              icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
               onPressed: () {
-                Navigator.of(context).pop(); // Navigate back
+                if (controller.step.value > 0) {
+                  controller.step.value--;
+                }
               },
             ),
           ),
+
+            // Only show the back button when step > 0
+            // if (controller.step.value > 0)
+            //    Positioned(
+            //     top: 40,
+            //     child: IconButton(
+            //       icon: Icon(
+            //         Icons.arrow_back_ios_new_outlined,
+            //         color: Colors.white,
+            //         size: 20,
+            //       ),
+            //       onPressed: () {
+            //           // controller.step.value--;
+            //           // controller.dynamicHeightAllocation();
+            //
+            //       },
+            //     ),
+            //   ),
+
+
+
           Align(
             alignment: Alignment.bottomCenter,
             child: Obx(() {
@@ -208,7 +230,7 @@ class LocationPage extends GetView<LocationPageController> {
                             : AppColor.greyColor,
                         onPressed: () async {
                           if(controller.isPhoneNumberValid.value){
-                            controller.dynamicHeightAllocation();
+                             controller.dynamicHeightAllocation();
                            await controller.login(controller.phoneController.value.text);
                            print("Send OTP");
                           }else
@@ -294,182 +316,183 @@ class LocationPage extends GetView<LocationPageController> {
                 controller.step.value == 1?
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10),
-                      if (!controller.isOtpVerified.value) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-
-                                children: [
-                                  SizedBox(height: 5,),
-                                  // Text(controller.otp.toString(),style: TextStyle(color: Colors.white),),
-                                  Text("Verifying Your Account",
-                                      style: MyTextTheme.largeWCB),
-                                  SizedBox(height: 5,),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Enter the 6-digit verification code sent to the number ending in the last 4 digits ', // Default text
-                                      style: MyTextTheme.mustardS, // Default style
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: controller.phoneController.value.text.substring(6),
-                                          style: MyTextTheme.smallWCB,
-                                        ),
-
-                                      ],
-                                    ),
-                                  ),
-
-                                  // Text("Enter the 6-digit verification code sent to the number ending in the last 3 digits ${controller.phoneController.value.text.substring(7)}",
-                                  //               style: MyTextTheme.mustardS),
-                                ],
-                              ),
-                            ),
-                            // Lottie.asset("assets/otp.lottie",
-                            //     decoder: customDecoder, height: 90),
-                          ],
-                        ),
-                        // Column(
-                        //   children: [
-                        //     Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         Text("Verifying Your Account",
-                        //             style: MyTextTheme.largeWCB),
-                        //         Lottie.asset("assets/otp.lottie",
-                        //             decoder: customDecoder, height: 80),
-                        //       ],
-                        //     ),
-                        //
-                        //     Row(
-                        //       children: [
-                        //         Text(
-                        //             "Please enter the 6 digit verification code",
-                        //             style: MyTextTheme.mustardS),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
-
-
-
-
-                        const SizedBox(height: 30),
-                        OtpTextField(
-                          autoFocus: false,
-                          focusedBorderColor: Colors.white,
-                          numberOfFields: 6,
-                          borderColor: const Color(0xFF512DA8),
-                          borderWidth: 1.0,
-                          showFieldAsBox: true,
-                          fieldWidth: 45,
-                          borderRadius: BorderRadius.circular(10),
-                          filled: true,
-                          fillColor: Colors.grey.withOpacity(0.1),
-                          showCursor: false,
-                          fieldHeight: 45,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(1),
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          textStyle: const TextStyle(color: Colors.white),
-                          onCodeChanged: (String code) {
-                            // controller.isOtpFilled.value =
-                            //     code.length == 6;
-                            // if (controller.isOtpFilled.value) {
-                            //   controller.verifyOtp(code);
-                            // }
-                          },
-                          onSubmit: (String verificationOTPCode) {
-                            // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
-                          controller.otpVerification(verificationOTPCode);
-
-
-                          }, // end onSubmit
-                        ),
-                        const SizedBox(height: 20),
-                        Obx(() {
-                          return Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                  child:
+                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10),
+                        if (!controller.isOtpVerified.value) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (controller.isOtpFilled.value) ...[
-                                Text("Verifying Your OTP...",
-                                    style: MyTextTheme.largeWCB),
-                                const SizedBox(height: 10),
-                              ],
-                              Text("Didn't receive an OTP?",
-                                  style: MyTextTheme.smallWCN),
-                              const SizedBox(height: 10),
-                              Obx(() {
-                                final seconds =
-                                    controller.secondsLeft.value;
-                                final minutes = seconds ~/ 60;
-                                final remainingSeconds =
-                                    seconds % 60;
-                                final formattedTime =
-                                    '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                                return GetBuilder<LocationPageController>(
-                                  id: 'otp',
-                                  builder: (_) {
-                                    return InkWell(
-                                      onTap: (){
-                                        if(controller.isTimerRunning){
+                                  children: [
+                                    SizedBox(height: 5,),
+                                    // Text(controller.otp.toString(),style: TextStyle(color: Colors.white),),
+                                    Text("Verifying Your Account",
+                                        style: MyTextTheme.largeWCB),
+                                    SizedBox(height: 5,),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Enter the 6-digit verification code sent to the number ending in the last 4 digits ', // Default text
+                                        style: MyTextTheme.mustardS, // Default style
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: controller.phoneController.value.text.substring(6),
+                                            style: MyTextTheme.smallWCB,
+                                          ),
 
-                                        }
-                                        else{
-                                          controller.resendOtp();
-                                        }
-                                      },
-                                      child: RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text: "Resend OTP ",
-                                                style:controller.isTimerRunning? MyTextTheme
-                                                    .mediumBCb:MyTextTheme.mediumWCB),
-                                            TextSpan(
-                                                text: "in ",
-                                                style:
-                                                MyTextTheme.smallWCN),
-                                            WidgetSpan(
-                                              child: Icon(
-                                                Icons.timer_outlined,
-                                                size: 15,
-                                                color: AppColor
-                                                    .circleIndicator,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                                text: controller.formatTime(controller.start),
-                                                style: MyTextTheme
-                                                    .mustardSN),
-                                          ],
-                                        ),
+                                        ],
                                       ),
-                                    );
-                                  }
-                                );
-                              }),
-                            ],
-                          );
-                        }),
-                      ] else ...[
-                        Center(
-                          child: Text("OTP Verifying Successfully",
-                              style: MyTextTheme.largeWCB),
-                        ),
+                                    ),
 
+                                    // Text("Enter the 6-digit verification code sent to the number ending in the last 3 digits ${controller.phoneController.value.text.substring(7)}",
+                                    //               style: MyTextTheme.mustardS),
+                                  ],
+                                ),
+                              ),
+                              // Lottie.asset("assets/otp.lottie",
+                              //     decoder: customDecoder, height: 90),
+                            ],
+                          ),
+                          // Column(
+                          //   children: [
+                          //     Row(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          //         Text("Verifying Your Account",
+                          //             style: MyTextTheme.largeWCB),
+                          //         Lottie.asset("assets/otp.lottie",
+                          //             decoder: customDecoder, height: 80),
+                          //       ],
+                          //     ),
+                          //
+                          //     Row(
+                          //       children: [
+                          //         Text(
+                          //             "Please enter the 6 digit verification code",
+                          //             style: MyTextTheme.mustardS),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
+
+
+
+
+                          const SizedBox(height: 30),
+                          OtpTextField(
+                            cursorColor: AppColor.circleIndicator,
+                            autoFocus: false,
+                            focusedBorderColor: Colors.white,
+                            numberOfFields: 6,
+                            borderColor: const Color(0xFF512DA8),
+                            borderWidth: 1.0,
+                            showFieldAsBox: true,
+                            fieldWidth: 45,
+                            borderRadius: BorderRadius.circular(10),
+                            filled: true,
+                            fillColor: Colors.grey.withOpacity(0.1),
+                            showCursor: true,
+                            fieldHeight: 45,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(1),
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            textStyle: const TextStyle(color: Colors.white),
+                            onCodeChanged: (String code) {
+                              // controller.isOtpFilled.value =
+                              //     code.length == 6;
+                              // if (controller.isOtpFilled.value) {
+                              //   controller.verifyOtp(code);
+                              // }
+                            },
+                            onSubmit: (String verificationOTPCode) {
+                              // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
+                            controller.otpVerification(verificationOTPCode);
+                            }, // end onSubmit
+                          ),
+                          const SizedBox(height: 20),
+                          Obx(() {
+                            return Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                if (controller.isOtpFilled.value) ...[
+                                  Text("Verifying Your OTP...",
+                                      style: MyTextTheme.largeWCB),
+                                  const SizedBox(height: 10),
+                                ],
+                                Text("Didn't receive an OTP?",
+                                    style: MyTextTheme.smallWCN),
+                                const SizedBox(height: 10),
+                                Obx(() {
+                                  final seconds =
+                                      controller.secondsLeft.value;
+                                  final minutes = seconds ~/ 60;
+                                  final remainingSeconds =
+                                      seconds % 60;
+                                  final formattedTime =
+                                      '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+
+                                  return GetBuilder<LocationPageController>(
+                                    id: 'otp',
+                                    builder: (_) {
+                                      return InkWell(
+                                        onTap: (){
+                                          if(controller.isTimerRunning){
+
+                                          }
+                                          else{
+                                            controller.resendOtp();
+                                          }
+                                        },
+                                        child: RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text: "Resend OTP ",
+                                                  style:controller.isTimerRunning? MyTextTheme
+                                                      .mediumBCb:MyTextTheme.mediumWCB),
+                                              TextSpan(
+                                                  text: "in ",
+                                                  style:
+                                                  MyTextTheme.smallWCN),
+                                              WidgetSpan(
+                                                child: Icon(
+                                                  Icons.timer_outlined,
+                                                  size: 15,
+                                                  color: AppColor
+                                                      .circleIndicator,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                  text: controller.formatTime(controller.start),
+                                                  style: MyTextTheme
+                                                      .mustardSN),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  );
+                                }),
+                              ],
+                            );
+                          }),
+                        ] else ...[
+                          Center(
+                            child: Text("OTP Verifying Successfully",
+                                style: MyTextTheme.largeWCB),
+                          ),
+
+                        ],
                       ],
-                    ],
-                  ),
+                    ),
+
                 ):
                 controller.step.value == 2?
                 // Column(
@@ -624,7 +647,7 @@ class LocationPage extends GetView<LocationPageController> {
                           // Check if both name and gender are filled
                           if (controller.nameC.value.text.isNotEmpty && controller.selectedGender.value.isNotEmpty) {
                             // Proceed with navigation or other logic
-                            controller.dynamicHeightAllocation();
+                             controller.dynamicHeightAllocation();
                             print("Navigate to the next screen");
                           } else {
                             Get.snackbar('Error', 'Please enter your name and select a gender',
@@ -636,11 +659,7 @@ class LocationPage extends GetView<LocationPageController> {
                     ],
                   ),
                 ):
-
-
-
                 controller.step.value == 3?
-
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: SingleChildScrollView(
