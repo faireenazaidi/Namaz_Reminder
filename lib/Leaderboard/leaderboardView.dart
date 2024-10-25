@@ -146,7 +146,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           context: context,
                           initialDate: dateController.selectedDate.value,
                           firstDate: DateTime(2020),
-                          lastDate: DateTime(2025),
+                          lastDate: DateTime.now(),
+
                         );
                         if (picked != null) {
                           dateController.updateSelectedDate(picked);

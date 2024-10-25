@@ -294,7 +294,7 @@ Map selectMethod = {}.obs;
    };
    Map<String,dynamic> body = {
      "user_id": userData.getUserData?.id.toString(),
-    "username": "${usernameC.value.text.toString().toLowerCase().trim()}${phoneController.value.text.toString().substring(phoneController.value.text.toString().length - 3)}",
+    "username": "${nameC.value.text.toString().toLowerCase().split(' ')[0]}${phoneController.value.text.toString().substring(phoneController.value.text.toString().length - 4)}",
     "name": nameC.value.text.toString(),
     "mobile_no": phoneController.value.text.toString(),
     "gender": selectedGender.value.toString(),

@@ -50,7 +50,7 @@ class DashBoardView extends GetView<DashBoardController> {
         toolbarHeight: 55,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
-        title: Text("Prayer O'clock", style: MyTextTheme.largeBN),
+        title: Text("Prayer O'Clock", style: MyTextTheme.largeBN),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),

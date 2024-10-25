@@ -701,61 +701,59 @@ class LocationPage extends GetView<LocationPageController> {
                             // }),
 
                             Container(
-                              height: 200,
+                              height: 250,
                               child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()
+                                ),
                                 itemCount: controller.getCalculationList.length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,padding: EdgeInsets.zero,
                                 itemBuilder: (context, index) {
                                   print("Checkdata${controller.getCalculationList.length}");
                                   return
-                                    Visibility(
-                                      visible: controller.getCalculationList[index].id==2|| controller.getCalculationList[index].id==4|| controller.getCalculationList[index].id==7,
-                                      child: RadioListTile(
-                                        activeColor: AppColor.circleIndicator,
-                                        title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
-                                        value: controller.getCalculationList[index].id,
-                                        groupValue: controller.selectMethod['id'],
-                                        onChanged: (value) {
-                                          if(value!=null){
-                                            print("check method id ${controller.calculationList[index]}");
-                                             controller.updateSelectMethod(controller.calculationList[index]);
-                                          }
-                                          // print("object${controller.calculationList[index]['isChecked']}");
-                                          // for(int i=0;i<controller.getCalculationList.length;i++){
-                                          //   if(i==index){
-                                          //     if(controller.calculationList[index]['isChecked']==0){
-                                          //       controller.calculationList[index]['isChecked'] = 1;
-                                          //     }else{
-                                          //       controller.calculationList[index]['isChecked'] = 0;
-                                          //     }
-                                          //   }else{
-                                          //     controller.calculationList[index]['isChecked'] = 0;
-                                          //   }
-                                          // }
+                                    RadioListTile(
+                                      activeColor: AppColor.circleIndicator,
+                                      title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
+                                      value: controller.getCalculationList[index].id,
+                                      groupValue: controller.selectMethod['id'],
+                                      onChanged: (value) {
+                                        if(value!=null){
+                                          print("check method id ${controller.calculationList[index]}");
+                                           controller.updateSelectMethod(controller.calculationList[index]);
+                                        }
+                                        // print("object${controller.calculationList[index]['isChecked']}");
+                                        // for(int i=0;i<controller.getCalculationList.length;i++){
+                                        //   if(i==index){
+                                        //     if(controller.calculationList[index]['isChecked']==0){
+                                        //       controller.calculationList[index]['isChecked'] = 1;
+                                        //     }else{
+                                        //       controller.calculationList[index]['isChecked'] = 0;
+                                        //     }
+                                        //   }else{
+                                        //     controller.calculationList[index]['isChecked'] = 0;
+                                        //   }
+                                        // }
 
-                                          print("object1"+controller.calculationList[index]['isChecked'].toString());
-                                          }),
-                                    );
+                                        print("object1"+controller.calculationList[index]['isChecked'].toString());
+                                        });
 
                                 },),
                             ),
-                            const SizedBox(height: 10,),
-                            MyCustomSD(
-                              listToSearch:controller.calculationList,
-                              valFrom: 'name',
-                              onChanged: (value) {
-                                if(value!=null){
-                                  print("method values $value");
-                                  controller.updateSelectMethod(value);
-                                  // controller.updateCalId = value['id'];
-                                  // print("GetMethodId: ${controller.getCalId.toString()}");
-                                  print(value);
-                                }
-
-
-                              },),
+                            // const SizedBox(height: 10,),
+                            // MyCustomSD(
+                            //   listToSearch:controller.calculationList,
+                            //   valFrom: 'name',
+                            //   onChanged: (value) {
+                            //     if(value!=null){
+                            //       print("method values $value");
+                            //       controller.updateSelectMethod(value);
+                            //       // controller.updateCalId = value['id'];
+                            //       // print("GetMethodId: ${controller.getCalId.toString()}");
+                            //       print(value);
+                            //     }
+                            //
+                            //
+                            //   },),
 
 
 
@@ -810,7 +808,7 @@ class LocationPage extends GetView<LocationPageController> {
                               onPressed: ()  async {
                                 print("#### ${controller.selectMethod['id']}");
                                 if(controller.selectMethod.isNotEmpty){
-                                  if(controller.selectMethod['id']!=7){
+                                  if(controller.selectMethod['id'].toString()!='7' && controller.selectMethod['id'].toString()!='0'){
                                     await controller.registerUser();
                                   }
                                   else{
@@ -852,7 +850,7 @@ class LocationPage extends GetView<LocationPageController> {
                               children: [
                                 Text("Setup your Account",
                                     style: MyTextTheme.largeWCB),
-                                Text("Select your School of Thought",
+                                Text("Select your Times of Prayer",
                                     style: MyTextTheme.mustardS
                                 ),
                               ],

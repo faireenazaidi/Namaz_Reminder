@@ -169,15 +169,15 @@ class PeerView extends GetView<PeerController> {
                                             friend.user2.name.toString(),
                                             style: MyTextTheme.mediumGCB
                                                 .copyWith(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          // Text(
-                                          //   friend.user2.mobileNo.toString(),
-                                          //   style: MyTextTheme.mediumGCB.copyWith(fontSize: 14),
-                                          // ),
+                                          Text(
+                                            friend.user2.username.toString(),
+                                            style: MyTextTheme.smallGCB,
+                                          ),
                                         ],
                                       ),
                                     ),

@@ -279,9 +279,12 @@ class ProfileView extends GetView<ProfileController> {
                         TextFormField(
                           controller: controller.userNameC,
                           enabled: false,
+                          // readOnly: true,
                           cursorColor: AppColor.circleIndicator,
                           decoration: InputDecoration(
-                            hintText: "Enter your full name",
+                            filled: true,
+                            fillColor: AppColor.leaderboard,
+                            hintText: "User name",
                             hintStyle: MyTextTheme.mediumCustomGCN,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -413,8 +416,8 @@ class ProfileView extends GetView<ProfileController> {
                           controller: controller.mailC,
                           cursorColor: AppColor.circleIndicator,
                           decoration: InputDecoration(
-                            filled: true,
-                            fillColor: AppColor.leaderboard,
+                            // filled: true,
+                            // fillColor: AppColor.leaderboard,
                             hintText: "Enter your email",
                             hintStyle: MyTextTheme.mediumCustomGCN,
                             prefixIcon: Icon(Icons.email_outlined,color: AppColor.greyColor,size: 20,),
