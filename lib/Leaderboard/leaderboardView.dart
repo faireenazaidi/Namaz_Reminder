@@ -298,7 +298,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           PrayerRanking(records:leaderBoardController.getLeaderboardList.value!=null?
                           leaderBoardController.getLeaderboardList.value!.records:[],
                             ranked: leaderBoardController.getLeaderboardList.value!=null?
-                            leaderBoardController.getLeaderboardList.value!.rankedFriends:[],),
+                            leaderBoardController.getLeaderboardList.value!.rankedFriends:[],id: leaderBoardController.userData.getUserData!.id.toString(),),
 
                            // Padding(
                            //   padding: const EdgeInsets.only(right: 8.0,top: 10),

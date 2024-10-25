@@ -8,8 +8,9 @@ import 'leaderboardDataModal.dart';
 class PrayerRanking extends StatelessWidget {
   final List<Record> records;
   final List<RankedFriend> ranked;
+  final String? id;
 
-  const PrayerRanking({super.key, required this.records, required this.ranked});
+  const PrayerRanking({super.key, required this.records, required this.ranked, this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +55,28 @@ class PrayerRanking extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 14.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(1), // Padding around the circular image
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.yellow,), // Yellow border
-                        ),
-                        child:ranked[index].picture!=null? CircleAvatar(
-                          radius: 24, // Radius of the circular image
-                          backgroundImage: NetworkImage(
-                            "http://182.156.200.177:8011${ranked[index].picture}", // Replace with your image URL
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(1), // Padding around the circular image
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.yellow,), // Yellow border
+                            ),
+                            child:ranked[index].picture!=null? CircleAvatar(
+                              radius: 24, // Radius of the circular image
+                              backgroundImage: NetworkImage(
+                                "http://182.156.200.177:8011${ranked[index].picture}", // Replace with your image URL
+                              ),
+                            ):const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                            ),
                           ),
-                        ):const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                        ),
+                          id==ranked[index].id.toString()?const Text('You',style: TextStyle(fontSize: 12),):Text(ranked[index].name.split(' ')[0],style: const TextStyle(
+                            fontSize: 12
+                          ),)
+                        ],
                       ),
                     );
 
@@ -103,27 +111,37 @@ class PrayerRanking extends StatelessWidget {
         children: users.map((user) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child:user.userTimestamp!=null? user.user.picture!=null? Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                // border: Border.all(color: Colors.yellow,), // Yellow border
-              ),
-              child: CircleAvatar(
-                radius: 24, // Radius of the circular image
-                backgroundImage: NetworkImage(
-                  "http://182.156.200.177:8011${user.user.picture}", // Replace with your image URL
+            child:user.userTimestamp!=null? user.user.picture!=null? Column(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    // border: Border.all(color: Colors.yellow,), // Yellow border
+                  ),
+                  child: CircleAvatar(
+                    radius: 24, // Radius of the circular image
+                    backgroundImage: NetworkImage(
+                      "http://182.156.200.177:8011${user.user.picture}", // Replace with your image URL
+                    ),
+                  ),
                 ),
-              ),
-            ):Container(
-              padding: EdgeInsets.all(1), // Padding around the circular image
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey,), // Yellow border
-              ),
-              child:const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.person,color: Colors.grey,size: 30,),
-              ),
+                id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
+              ],
+            ):Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(1), // Padding around the circular image
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.grey,), // Yellow border
+                  ),
+                  child:const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                  ),
+                ),
+                id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
+              ],
             ):const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text('-'),
