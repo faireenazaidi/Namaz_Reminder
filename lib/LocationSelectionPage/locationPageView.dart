@@ -35,6 +35,17 @@ class LocationPage extends GetView<LocationPageController> {
               ),
             ),
           ),
+          if (controller.step.value > 0)
+            Positioned(
+            top: 40, // Adjust as needed
+            left: 5, // Adjust as needed
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pop(); // Navigate back
+              },
+            ),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Obx(() {
@@ -275,6 +286,7 @@ class LocationPage extends GetView<LocationPageController> {
                       //     ),
                       //   ),
                       // ),
+
                     ],
                   ),
                 ):
@@ -454,6 +466,7 @@ class LocationPage extends GetView<LocationPageController> {
                           child: Text("OTP Verifying Successfully",
                               style: MyTextTheme.largeWCB),
                         ),
+
                       ],
                     ],
                   ),
