@@ -35,7 +35,7 @@ class DashBoardController extends GetxController {
   UserData userData = UserData();
 
 
-  var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
+  var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha','Sunrise','Zawal','Sunset'].obs;
   var currentPrayerIndex = 0.obs;
   var nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
@@ -172,8 +172,6 @@ class DashBoardController extends GetxController {
     String formattedDate = DateFormat('yyyy/MM').format(now);
 
     isLoading.value = true;
-    print("hhhhhhh"+formattedDate);
-
     try {
       Uri uri = Uri.https(
         'api.aladhan.com',
@@ -185,8 +183,6 @@ class DashBoardController extends GetxController {
         },
 
       );
-      print("ff"+latitude.toString());
-      print("zz"+ method.toString());
       final response = await http.get(uri);
       log("API Response: ${response.body}");
       if (response.statusCode == 200) {
@@ -207,7 +203,7 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
-          print("Isha Time: ${extractedData.map((e) => e.timings!.isha).toList()}");
+          //print("Isha Time: ${extractedData.map((e) => e.timings!.isha).toList()}");
 
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
@@ -215,6 +211,10 @@ class DashBoardController extends GetxController {
             convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
+            //-------Zawal and sunset data (25-10-2024) by fai----//
+            convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
           ];
 
           // Update sunset and zawal times
@@ -243,7 +243,7 @@ class DashBoardController extends GetxController {
             },
             'Asr': {
               'start': getExtractedData[0].timings?.asr ?? 'N/A',
-              'end': getExtractedData[0].timings?.maghrib ?? 'N/A'
+              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
             },
             'Maghrib': {
               'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
@@ -251,9 +251,23 @@ class DashBoardController extends GetxController {
             },
             'Isha': {
               'start': getExtractedData[0].timings?.isha ?? 'N/A',
-              'end': '23:59'
+              'end': getExtractedData[0].timings?.imsak ?? 'N/A'
+            },
+            //-----FZ (25-10-2024) update sunrise & subset time----//
+            'Sunrise': {
+              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+              'end': getExtractedData[0].timings?.isha ?? 'N/A'
+            },
+            'Zawal': {
+              'start': getExtractedData[0].timings?.zawal ?? 'N/A',
+              'end': getExtractedData[0].timings?.isha ?? 'N/A'
+            },
+            'Sunset': {
+              'start': getExtractedData[0].timings?.sunset ?? 'N/A',
+              'end': getExtractedData[0].timings?.isha ?? 'N/A'
             }
           };
+          print('jjjjj:$zawalTime');
 
           // Get current time
           String currentTime = DateFormat('HH:mm').format(DateTime.now());
@@ -933,13 +947,13 @@ List isPrayedList = [];
   'end': convertTo12HourFormat(prayerDuration['Isha']?['end'] ?? 'N/A'),
   };
   allPrayerTimes['Zawal'] = {
-  'time': zawalTime.value, // Assuming zawalTime is already set
+  'time': zawalTime.value,
   };
   allPrayerTimes['Sunrise'] = {
   'time': convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
   };
   allPrayerTimes['Sunset'] = {
-  'time': sunsetTime.value, // Assuming sunsetTime is already set
+  'time': sunsetTime.value,
   };
 
   return allPrayerTimes;

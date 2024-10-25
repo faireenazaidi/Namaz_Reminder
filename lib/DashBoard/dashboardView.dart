@@ -176,7 +176,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         Obx(() {
                           double completionPercentage = controller.calculateCompletionPercentage();
                           return CircularPercentIndicator(
-                            animateFromLastPercent: true,
+                            restartAnimation: true,
                             circularStrokeCap: CircularStrokeCap.round,
                             animation: true,
                             animationDuration: 1200,
