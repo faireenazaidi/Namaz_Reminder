@@ -35,7 +35,7 @@ class DashBoardController extends GetxController {
   UserData userData = UserData();
 
 
-  var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha','Sunrise','Zawal','Sunset'].obs;
+  var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha',].obs;
   var currentPrayerIndex = 0.obs;
   var nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
@@ -161,6 +161,20 @@ class DashBoardController extends GetxController {
       return time24;
     }
   }
+  //function to calculate zawal time//
+  // void zawal(sunrise, sunset) {
+  //   print(   sunrise);
+  //   print(sunset);
+  //   DateTime solarNoon = sunrise.add(Duration(
+  //     minutes: (sunset.difference(sunrise).inMinutes ~/ 2),
+  //   ));
+  //   DateTime zawalStart = solarNoon.subtract(Duration(minutes: 5));
+  //   DateTime zawalEnd = solarNoon.add(Duration(minutes: 5));
+  //   // Print the Zawal period
+  //   print("Zawal Time Start: ${zawalStart.hour}:${zawalStart.minute.toString().padLeft(2, '0')}");
+  //   print("Zawal Time End: ${zawalEnd.hour}:${zawalEnd.minute.toString().padLeft(2, '0')}");
+  //
+  // }
 
   Future<void> fetchPrayerTime({DateTime? specificDate}) async {
     final latitude =position!=null? position!.latitude:double.parse(userData.getLocationData!.latitude.toString());
@@ -181,7 +195,6 @@ class DashBoardController extends GetxController {
           'longitude': longitude.toString(),
           'method': method.toString(),
         },
-
       );
       final response = await http.get(uri);
       log("API Response: ${response.body}");
@@ -212,11 +225,10 @@ class DashBoardController extends GetxController {
             convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
             //-------Zawal and sunset data (25-10-2024) by fai----//
-            convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
+            // convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
+            // convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
+            // convertTo12HourFormat(getExtractedData[0].timings?.zawal?? 'N/A'),
           ];
-
           // Update sunset and zawal times
           sunsetTime.value =
               convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A');
@@ -251,23 +263,25 @@ class DashBoardController extends GetxController {
             },
             'Isha': {
               'start': getExtractedData[0].timings?.isha ?? 'N/A',
-              'end': getExtractedData[0].timings?.imsak ?? 'N/A'
+              'end': getExtractedData[0].timings?.midnight ?? 'N/A'
             },
             //-----FZ (25-10-2024) update sunrise & subset time----//
-            'Sunrise': {
-              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              'end': getExtractedData[0].timings?.isha ?? 'N/A'
-            },
-            'Zawal': {
-              'start': getExtractedData[0].timings?.zawal ?? 'N/A',
-              'end': getExtractedData[0].timings?.isha ?? 'N/A'
-            },
-            'Sunset': {
-              'start': getExtractedData[0].timings?.sunset ?? 'N/A',
-              'end': getExtractedData[0].timings?.isha ?? 'N/A'
-            }
+            // 'Sunrise': {
+            //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+            //   'end': getExtractedData[0].timings?.isha ?? 'N/A'
+            // },
+            // 'Sunset': {
+            //   'start': getExtractedData[0].timings?.sunset ?? 'N/A',
+            //   'end': getExtractedData[0].timings?.isha ?? 'N/A'
+            // },
+            // 'Zawal': {
+            //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+            //   'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+            // },
+
           };
           print('jjjjj:$zawalTime');
+          // zawal(getExtractedData[0].timings?.sunrise,getExtractedData[0].timings?.sunset);
 
           // Get current time
           String currentTime = DateFormat('HH:mm').format(DateTime.now());
