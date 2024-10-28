@@ -292,6 +292,7 @@ class DashBoardController extends GetxController {
 
           // Start timer for remaining time
           startRemainingTimeTimer();
+          showNextPrayer();
           update();
         } else {
           print('No data found for current date.');
@@ -526,6 +527,19 @@ class DashBoardController extends GetxController {
       update();
     });
   }
+RxString upcomingPrayerStartTime = ''.obs;
+RxString upcomingPrayerEndTime = ''.obs;
+  void showNextPrayer(){
+    int currentIndex = prayerNames.indexOf(currentPrayer.value);
+
+    // Calculate the next index with wrap-around
+    int nextIndex = (currentIndex + 1) % prayerNames.length;
+    nextPrayer.value = prayerNames[nextIndex];
+    var nextPrayerTimes = prayerDuration[nextPrayer.value]!;
+    upcomingPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
+    upcomingPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+  }
+
   @override
   void onClose() {
     prayerTimer?.cancel();
@@ -676,8 +690,8 @@ class DashBoardController extends GetxController {
 
   // Existing properties and methods
   //for percentage of circular indicator
-
-  double calculateCompletionPercentage() {
+  RxDouble completionPercentage = 0.0.obs;
+  void calculateCompletionPercentage() {
   try {
     if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty) {
       DateTime now = DateTime.now();
@@ -693,23 +707,28 @@ class DashBoardController extends GetxController {
   Duration elapsedDuration = now.difference(startTime);
 
   // Calculate the percentage of completion
-  double percentage = 0.0;
+  // double percentage = 0.0;
+  // double completionPercentage = 0.0;
   if (elapsedDuration.isNegative) {
   // Prayer has not started yet
-  percentage = 0.0;
+  // percentage = 0.0;
+    completionPercentage.value = 0.0;
   } else if (elapsedDuration > totalDuration) {
   // Prayer time is over
-  percentage = 1.0;
-  } else {
-  percentage = elapsedDuration.inSeconds / totalDuration.inSeconds;
+  // percentage = 1.0;
+    completionPercentage.value = 1.0;
+  }
+  else {
+  // percentage = elapsedDuration.inSeconds / totalDuration.inSeconds;
+    completionPercentage.value = elapsedDuration.inSeconds / totalDuration.inSeconds;
   }
 
-  return percentage;
+  // return percentage;
   }
   } catch (e) {
   print('Error calculating completion percentage: $e');
   }
-  return 0.0;
+  // return 0.0;
   }
   RxBool prayedAtMosque = false.obs;
   var hour = 1;

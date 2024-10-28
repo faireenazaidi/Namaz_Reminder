@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
 import '../LocationSelectionPage/locationPageDataModal.dart';
+import '../Routes/approutes.dart';
 import '../Services/user_data.dart';
 
 class ProfileController extends GetxController{
@@ -73,6 +74,7 @@ class ProfileController extends GetxController{
         final userModel = UserModel.fromJson(data['user']);
         await userData.addUserData(userModel);
         showToast(msg: 'Profile Updated',bgColor: Colors.black);
+        Get.offAllNamed(AppRoutes.dashboardRoute);
       }
       else{
 
