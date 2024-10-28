@@ -313,4 +313,60 @@
 // ],
 // ),
 //8858336436
-
+//
+// Expanded(
+// child: Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: ListView.builder(
+// itemCount: dashboardController.upcomingPrayerTimes.length,
+// itemBuilder: (context, index) {
+// String prayerName = dashboardController.upcomingPrayers[index];
+// String startTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['start'] ?? 'N/A';
+// String endTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['end'] ?? 'N/A';
+// String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+// String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+// return Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: Container(
+// decoration: BoxDecoration(
+// color: AppColor.leaderboard,
+// borderRadius: BorderRadius.circular(10),
+// ),
+// child: Padding(
+// padding: const EdgeInsets.all(8.0),
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text(prayerName, style: MyTextTheme.medium),
+// SizedBox(height: 5),
+// Row(
+// children: [
+// Expanded(
+// child: Text('Starts at', style: MyTextTheme.smallGCN),
+// ),
+// Text('Ends at', style: MyTextTheme.smallGCN),
+// ],
+// ),
+// Row(
+// children: [
+// Expanded(
+// child: Text(
+// startTime12,
+// style: MyTextTheme.mediumBCD,
+// ),
+// ),
+// Text(
+// endTime12,
+// style: MyTextTheme.mediumBCD,
+// ),
+// ],
+// ),
+// ],
+// ),
+// ),
+// ),
+// );
+// },
+// ),
+// ),
+// ),
