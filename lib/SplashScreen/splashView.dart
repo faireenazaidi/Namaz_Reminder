@@ -5,8 +5,11 @@ import 'package:namaz_reminders/SplashScreen/splashController.dart';
 import '../Widget/appColor.dart';
 
 class SplashScreen extends GetView<SplashController> {
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    SplashController splashController = Get.find();
     // Handle navigation in the controller or use a Timer here if needed
     // Future.delayed(Duration(seconds: 3), () {
     //   Get.off(() => LocationPage(), transition: Transition.circularReveal);

@@ -6,7 +6,8 @@ import '../LocationSelectionPage/locationPageController.dart';
 class SplashBinding extends Bindings{
   @override
   void dependencies() {
-    Get.put(SplashController());
+    // Get.put(SplashController());
+    Get.lazyPut<SplashController>(() => SplashController());
   }
 
 }

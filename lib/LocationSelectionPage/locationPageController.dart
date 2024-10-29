@@ -26,6 +26,7 @@ class LocationPageController extends GetxController {
 
  RxBool isBottomSheetExpanded = false.obs;
  RxBool isPhoneNumberValid = false.obs;
+ RxInt numberMaxLength = 10.obs;
  RxBool showSecondContainer = false.obs;
  RxBool isOtpFilled = false.obs;
  RxBool isOtpVerified = false.obs;
@@ -114,7 +115,7 @@ class LocationPageController extends GetxController {
   }
 
   void validatePhoneNumber(String phoneNumber) {
-    isPhoneNumberValid.value = phoneNumber.length >= 10;
+    isPhoneNumberValid.value = phoneNumber.trim().length == numberMaxLength.value;
   }
 
   void toggleSecondContainer() {

@@ -176,6 +176,10 @@ class LocationPage extends GetView<LocationPageController> {
                           color: Colors.white,
                           fontSize: 18,
                         ),
+                        onCountryChanged: (val){
+                          print("country change ${val.maxLength}");
+                          controller.numberMaxLength.value=val.maxLength;
+                        },
                         onChanged: (phone) {
                           print(phone.completeNumber);
                         },

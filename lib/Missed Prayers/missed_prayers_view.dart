@@ -164,7 +164,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                       ),
                       SizedBox(height: 10,),
                       Center(child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),)),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
 
 
                        Row(
@@ -831,15 +831,19 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child:!isMissedPrayers? CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null?
-                                                      CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                        ),
-                                                      ):
-                                                      Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    radius: 22,
+                                                    backgroundColor: Colors.yellowAccent,
+                                                    child: CircleAvatar(
+                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null?
+                                                        CircleAvatar(
+                                                          radius: 24, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          ),
+                                                        ):
+                                                        Icon(Icons.person,color: Colors.grey,size: 30,),
+                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    ),
                                                   ):
                                                   InkWell(
                                                     onTap: (){
@@ -899,16 +903,20 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child:!isMissedPrayers? CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                        ),
-                                                      ):const Padding(
-                                                        padding: EdgeInsets.all(8.0),
-                                                        child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                      )
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    radius: 22,
+                                                    backgroundColor: Colors.yellowAccent,
+                                                    child: CircleAvatar(
+                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 24, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          ),
+                                                        ):const Padding(
+                                                          padding: EdgeInsets.all(8.0),
+                                                          child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                                                        )
+                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    ),
                                                   ):
                                                   InkWell(
                                                     onTap: (){
@@ -969,13 +977,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child:!isMissedPrayers? CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                        ),
-                                                      ):const Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    radius: 22,
+                                                    backgroundColor: Colors.yellowAccent,
+                                                    child: CircleAvatar(
+                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 24, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          ),
+                                                        ):const Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    ),
                                                   ):
                                                   InkWell(
                                                     onTap: (){
@@ -1033,13 +1045,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                             child: Column(
                                               children: [
                                                 !isMissedPrayers? CircleAvatar(
-                                                    child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                      radius: 24, // Radius of the circular image
-                                                      backgroundImage: NetworkImage(
-                                                        "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                      ),
-                                                    ):const Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                  // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                  radius: 22,
+                                                  backgroundColor: Colors.yellowAccent,
+                                                  child: CircleAvatar(
+                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                        radius: 24, // Radius of the circular image
+                                                        backgroundImage: NetworkImage(
+                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                        ),
+                                                      ):const Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                  ),
                                                 ):
                                                 InkWell(
                                                   onTap: (){
@@ -1098,13 +1114,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child:!isMissedPrayers? CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                        ),
-                                                      ):const Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    radius: 22,
+                                                    backgroundColor: Colors.yellowAccent,
+                                                    child: CircleAvatar(
+                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 24, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          ),
+                                                        ):const Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                    ),
                                                   ):
                                                   InkWell(
                                                     onTap: (){

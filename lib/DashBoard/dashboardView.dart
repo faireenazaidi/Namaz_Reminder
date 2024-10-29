@@ -441,12 +441,12 @@ class DashBoardView extends GetView<DashBoardController> {
                   //   height: 100,
                   //   // fit: BoxFit.contain,
                   // ),
-                const SizedBox(height: 10),
+                // const SizedBox(height: 10),
                   GetBuilder<DashBoardController>(
                     id: 'leader',
                     builder: (_) {
                       return Visibility(
-                        visible: controller.getLeaderboardList.value != null && controller.getLeaderboardList.value!.rankedFriends.isNotEmpty,
+                        visible: true,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Obx(() {
@@ -530,7 +530,7 @@ class DashBoardView extends GetView<DashBoardController> {
                   // }),
 
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   // GetBuilder<DashBoardController>(
                   //   builder: (_){
                   //     return Column(
@@ -727,12 +727,11 @@ class DashBoardView extends GetView<DashBoardController> {
                   //       ],
                   //     );
                   //   }),
-                  GetBuilder<DashBoardController>(
-                    builder: (_){
+                  Obx((){
                       return Column(
                         children: [
                                   Container(
-                                    padding: EdgeInsets.all(20),
+                                    padding: const EdgeInsets.all(20),
                                     decoration: BoxDecoration(
                                       color: Colors.black87,
                                       image: const DecorationImage(
@@ -747,33 +746,64 @@ class DashBoardView extends GetView<DashBoardController> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(controller.nextPrayer.value,style: MyTextTheme.largeWCB.copyWith(
+                                            Text(controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
                                               fontSize: 20,fontWeight: FontWeight.w600
                                             ),),
-                                            Text("Upcoming Prayer",style: MyTextTheme.mustard2),
+                                            Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
                                           ],
                                         ),
-                                        SizedBox(height: 10,),
+                                        const SizedBox(height: 15,),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white12,
+                                            borderRadius: BorderRadius.circular(30)
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Icon(Icons.timer_outlined,color: Colors.white,),
+                                                  const SizedBox(width: 10,),
+                                                  Row(
+                                                    children: [
+                                                      Text("starts in ",style: MyTextTheme.smallWCN,),
+                                                      Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
+                                                      // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              IconButton(onPressed: (){}, icon: Icon(Icons.volume_up_outlined,color: AppColor.circleIndicator,))
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 15,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('Starts at',style: TextStyle(
-                                                    color: Colors.white
+                                                const Text('Starts at',style: TextStyle(
+                                                    color: Colors.white,fontSize: 11
                                                 )),
-                                                Text(controller.upcomingPrayerStartTime.value,style: TextStyle(
-                                                    color: Colors.white
+                                                Text(controller.upcomingPrayerStartTime.value,style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,fontWeight: FontWeight.w600
                                                 ))
                                               ],
                                             ),
                                             Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text('Starts at',style: TextStyle(
-                                                    color: Colors.white
+                                                const Text('Ends at',style: TextStyle(
+                                                    color: Colors.white,fontSize: 11
                                                 )),
-                                                Text(controller.upcomingPrayerEndTime.value,style: TextStyle(
-                                                    color: Colors.white
+                                                Text(controller.upcomingPrayerEndTime.value,style: const TextStyle(
+                                                    color: Colors.white,
+                                                  fontSize: 14,fontWeight: FontWeight.w600
                                                 ))
                                               ],
                                             ),

@@ -7,7 +7,7 @@ import '../Routes/approutes.dart';
 import '../Services/user_data.dart';
 import '../Widget/location_services.dart';
 
-Position? latAndLong;
+// Position? latAndLong;
 class SplashController extends GetxController {
   final UserData _userData = UserData();
   @override
@@ -35,11 +35,11 @@ class SplashController extends GetxController {
   pageRoute() async {
     // print("UserId${_userData.getUserData!.name.isEmpty}");
     if (_userData.getUserData == null) {
-      Get.toNamed(AppRoutes.locationPageRoute);
+      Get.offNamed(AppRoutes.locationPageRoute);
     } else if (_userData.getUserData!.name.isEmpty) {
-      Get.toNamed(AppRoutes.locationPageRoute);
+      Get.offNamed(AppRoutes.locationPageRoute);
     } else {
-      Get.toNamed(AppRoutes.dashboardRoute);
+      Get.offNamed(AppRoutes.dashboardRoute);
     }
 
   }

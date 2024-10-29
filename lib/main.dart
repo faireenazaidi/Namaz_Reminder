@@ -38,11 +38,11 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessagingService firebaseMessagingService = FirebaseMessagingService();
   await firebaseMessagingService.initializeFirebaseMessaging();
-  await GetStorage.init();
+  // await GetStorage.init();
   await GetStorage.init('user');
   // Get.put(DashBoardController());
-  Get.put(LoginController());
-  Get.put(CustomDrawerController());
+  // Get.put(LoginController());
+  // Get.put(CustomDrawerController());
   runApp(MyApp());
   BackgroundFetch.configure(
     BackgroundFetchConfig(
@@ -402,7 +402,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
-    final userDataController = Get.find<LoginController>();
+    // final userDataController = Get.find<LoginController>();
     return Obx(() {
       return GetMaterialApp(
         theme: ThemeData(

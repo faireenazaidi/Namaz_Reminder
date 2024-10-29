@@ -154,6 +154,9 @@ class DashBoardController extends GetxController {
   @override
   void dispose() {
     scrollController.dispose();
+    remainingTimeTimer!.cancel();
+    prayerTimer!.cancel();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -190,7 +193,7 @@ class DashBoardController extends GetxController {
     getIsPrayed();
     await fetchPrayerTime();
     leaderboard();
-    scrollToHighlightedPrayer();
+    // scrollToHighlightedPrayer();
     updateIslamicDateBasedOnOption(userData.getUserData!.hijriAdj!);
   }
 
@@ -605,23 +608,72 @@ class DashBoardController extends GetxController {
       } else {
         progressPercent.value = 0.0; // Set to 0 if not within the range
       }
-      scrollToHighlightedPrayer();
+      // scrollToHighlightedPrayer();
       update();
     });
   }
 RxString upcomingPrayerStartTime = ''.obs;
 RxString upcomingPrayerEndTime = ''.obs;
-  void showNextPrayer(){
-    int currentIndex = prayerNames.indexOf(currentPrayer.value);
+RxString nextPrayerName = ''.obs;
+  late Timer _timer;
+  Rx<Duration> upcomingRemainingTime = Duration.zero.obs;
 
-    // Calculate the next index with wrap-around
-    int nextIndex = (currentIndex + 1) % prayerNames.length;
-    nextPrayer.value = prayerNames[nextIndex];
-    var nextPrayerTimes = prayerDuration[nextPrayer.value]!;
+  void showNextPrayer(){
+    print("currentPrayer## ${currentPrayer.value}");
+    print("nextPrayer## ${nextPrayer.value}");
+    if(nextPrayer.value.isEmpty){
+      int currentIndex = prayerNames.indexOf(currentPrayer.value);
+      // Calculate the next index with wrap-around
+      int nextIndex = (currentIndex + 1) % prayerNames.length;
+      nextPrayerName.value = prayerNames[nextIndex];
+    }
+    else{
+      int currentIndex = prayerNames.indexOf(nextPrayer.value);
+      nextPrayerName.value = prayerNames[currentIndex];
+    }
+    var nextPrayerTimes = prayerDuration[nextPrayerName.value]!;
+    print("prayerDuration[nextPrayer.value] ${prayerDuration[nextPrayerName.value]!}");
+    print("nextPrayerTimes['start'] ${nextPrayerTimes['start']!}");
     upcomingPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
     upcomingPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+    // _startCountdown(nextPrayerTimes['start']!);
   }
+  void _startCountdown(String nextPrayerStartTime) {
+    print("gggggggggg $nextPrayerStartTime");
+    // Parse the prayer time string
+    List<String> timeParts = nextPrayerStartTime.split(" ")[0].split(":"); // Remove "(IST)" and split time
+    // List<String> timeParts = nextPrayerStartTime.split(":");
+    print("timeParts $timeParts");
+    int prayerHour = int.parse(timeParts[0]);
+    int prayerMinute = int.parse(timeParts[1]);
+    print("prayerHour $prayerHour prayerMinute $prayerMinute");
+    DateTime now = DateTime.now();
+    DateTime prayerTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      prayerHour, // Hour of prayer time
+      prayerMinute,  // Minute of prayer time
+    );
 
+    if (now.isAfter(prayerTime)) {
+      // If the prayer time is past for today, set for next day
+      prayerTime = prayerTime.add(Duration(days: 1));
+    }
+
+    upcomingRemainingTime.value = prayerTime.difference(now);
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      print("upcomingRemainingTime ${upcomingRemainingTime.value}");
+
+      if (upcomingRemainingTime.value.inSeconds > 0) {
+        upcomingRemainingTime.value -= Duration(seconds: 1);
+      } else {
+        _timer.cancel();
+      }
+
+    });
+  }
   @override
   void onClose() {
     prayerTimer?.cancel();
@@ -696,6 +748,7 @@ RxString upcomingPrayerEndTime = ''.obs;
 
     // Restart the timer with new prayer times
     startRemainingTimeTimer(); // Restart timer after switching to next prayer
+    showNextPrayer();
     print('Next prayer2: $nextPrayerName');
   }
   // Future<void> moveToNextPrayer() async {
@@ -853,7 +906,7 @@ RxString upcomingPrayerEndTime = ''.obs;
   bool isGifVisible = false;
   bool isAm = false;
   submitPrayer({String? valDate}) async {
-    print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
+    // print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
     String formattedDate =valDate ?? DateFormat('dd-MM-yyyy').format(date);
     print("formattedDate $formattedDate");
