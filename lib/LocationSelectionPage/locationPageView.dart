@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
-import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:pinput/pinput.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/text_theme.dart';

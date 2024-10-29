@@ -71,11 +71,9 @@ class DashBoardView extends GetView<DashBoardController> {
                         successMessage: controller.address,
                         loadingMessage: 'Getting Current Location...');
                       },
-                      child: Expanded(
-                        child: Text(
-                           controller.address,
-                          style: MyTextTheme.greyNormal,
-                        ),
+                      child: Text(
+                         controller.address,
+                        style: MyTextTheme.greyNormal,
                       ),
                     );
                   }
@@ -729,240 +727,235 @@ class DashBoardView extends GetView<DashBoardController> {
                   //     );
                   //   }),
                   Obx((){
-                      return Column(
-                        children: [
-                                  InkWell(
-                                    onTap: (){
-                                      Get.toNamed(AppRoutes.upcomingRoute);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(20),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black87,
-                                        image: const DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage("assets/jalih.png")
-                                        ),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                 
+                      return InkWell(
+                        onTap: (){
+                          Get.toNamed(AppRoutes.upcomingRoute);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.black87,
+                            image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/jalih.png")
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
 
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
-                                              fontSize: 20,fontWeight: FontWeight.w600
-                                            ),),
-                                            Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 15,),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white12,
-                                            borderRadius: BorderRadius.circular(30)
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  const Icon(Icons.timer_outlined,color: Colors.white,),
-                                                  const SizedBox(width: 10,),
-                                                  Row(
-                                                    children: [
-                                                      Text("starts in ",style: MyTextTheme.smallWCN,),
-                                                      Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
-                                                      // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                              IconButton(onPressed: (){}, icon: Icon(Icons.volume_up_outlined,color: AppColor.circleIndicator,))
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 15,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                const Text('Starts at',style: TextStyle(
-                                                    color: Colors.white,fontSize: 11
-                                                )),
-                                                Text(controller.upcomingPrayerStartTime.value,style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,fontWeight: FontWeight.w600
-                                                ))
-                                              ],
-                                            ),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                const Text('Ends at',style: TextStyle(
-                                                    color: Colors.white,fontSize: 11
-                                                )),
-                                                Text(controller.upcomingPrayerEndTime.value,style: const TextStyle(
-                                                    color: Colors.white,
-                                                  fontSize: 14,fontWeight: FontWeight.w600
-                                                ))
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                        // Positioned block to properly contain ListView.builder
-                                        // Positioned(
-                                        //   top: 60,  // Adjust as necessary
-                                        //   left: 0,
-                                        //   right: 0,
-                                        //   bottom: 0,
-                                        //   child: ListView.builder(
-                                        //     scrollDirection: Axis.horizontal,
-                                        //     controller: controller.scrollController,
-                                        //     itemCount: controller.prayerNames.length,
-                                        //     itemBuilder: (context, index) {
-                                        //       print("ddddddddd "+controller.nextPrayer.value.toString());
-                                        //       print("eeeeeeeee "+controller.currentPrayer.value.toString());
-                                        //       // // Determine if the current item is highlighted (active)
-                                        //       // bool isHighlighted = dashboardController.nextPrayer.value ==
-                                        //       //      dashboardController.prayerNames[index];
-                                        //       bool isHighlighted = false;
-                                        //       if(controller.nextPrayer.value.isEmpty){
-                                        //         int currentPrayerIndex = controller.prayerNames.indexOf(controller.currentPrayer.value);
-                                        //         int nextPrayerIndex = (currentPrayerIndex + 1) % controller.prayerNames.length;
-                                        //         print("NEXT PRAYER INDEX !!@# $nextPrayerIndex");
-                                        //          isHighlighted = nextPrayerIndex == index;
-                                        //       }
-                                        //       else{
-                                        //          isHighlighted = controller.nextPrayer.value == controller.prayerNames[index];
-                                        //          print("NEXT PRAYER INDEX !!@# $isHighlighted");
-                                        //          print("NEXT PRAYER INDEX !!@# ${controller.nextPrayer.value}");
-                                        //       }
-                                        //       return Transform.scale(
-                                        //         scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
-                                        //         child: Opacity(
-                                        //           opacity: isHighlighted ? 1.0 : 0.6,  // Reduce opacity of inactive items
-                                        //           child: Container(
-                                        //             width: 80,
-                                        //             margin: const EdgeInsets.symmetric(horizontal: 8),
-                                        //             // decoration: BoxDecoration(
-                                        //             //   image: DecorationImage(
-                                        //             //     image: const AssetImage('assets/vector.png'),
-                                        //             //     colorFilter: isHighlighted
-                                        //             //         ? null
-                                        //             //         : ColorFilter.mode(
-                                        //             //       Colors.grey.withOpacity(0.3),
-                                        //             //       BlendMode.srcATop,
-                                        //             //     ),
-                                        //             //   ),
-                                        //             //   borderRadius: BorderRadius.circular(10),
-                                        //             //   // border: Border.all(
-                                        //             //   //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
-                                        //             //   //   width: 2,
-                                        //             //   // ),
-                                        //             // ),
-                                        //             child: Stack(
-                                        //               children:[
-                                        //                 SvgPicture.asset("assets/Vec.svg"),
-                                        //               Column(
-                                        //                 mainAxisAlignment: MainAxisAlignment.center,
-                                        //                 children: [
-                                        //                   // const SizedBox(height: 20),
-                                        //                   Text(
-                                        //                     controller.prayerNames[index].toUpperCase(),
-                                        //                     style: TextStyle(
-                                        //                       color: Colors.white,
-                                        //                       fontSize: isHighlighted ? 13 : 13,
-                                        //                     ),
-                                        //                   ),
-                                        //                   const SizedBox(height: 8),
-                                        //                   Center(
-                                        //                     child: Text(
-                                        //                       controller.getPrayerTimes.isEmpty
-                                        //                           ? "Loading"
-                                        //                           : controller.getPrayerTimes[index].toString(),
-                                        //                       style: isHighlighted
-                                        //                           ? MyTextTheme.smallBCN
-                                        //                           : MyTextTheme.smallGCN,
-                                        //                     ),
-                                        //                   )
-                                        //                 ],
-                                        //               ),
-                                        //               ]
-                                        //             ),
-                                        //           ),
-                                        //         ),
-                                        //       );
-                                        //       // return Transform.scale(
-                                        //       //   scale: isHighlighted ? 1.1 : 1.0, // Scale up the active item
-                                        //       //   child: Opacity(
-                                        //       //     opacity: isHighlighted ? 1.0 : 0.5, // Reduce opacity of inactive items
-                                        //       //     child: Container(
-                                        //       //       width: 80,
-                                        //       //       margin: const EdgeInsets.symmetric(horizontal: 8),
-                                        //       //       decoration: BoxDecoration(
-                                        //       //         borderRadius: BorderRadius.circular(10),
-                                        //       //       ),
-                                        //       //       child: Stack(
-                                        //       //         children: [
-                                        //       //           // Load the SVG image in the background
-                                        //       //           SvgPicture.asset(
-                                        //       //             'assets/Vec.svg',height: 40,
-                                        //       //             fit: BoxFit.cover,// Use your SVG image here
-                                        //       //
-                                        //       //             colorFilter: isHighlighted
-                                        //       //                 ? null
-                                        //       //                 : ColorFilter.mode(
-                                        //       //               Colors.grey.withOpacity(0.3),
-                                        //       //               BlendMode.srcATop,
-                                        //       //             ),
-                                        //       //           ),
-                                        //       //           // Place the rest of the content over the SVG image
-                                        //       //           Column(
-                                        //       //             mainAxisAlignment: MainAxisAlignment.center,
-                                        //       //             children: [
-                                        //       //               const SizedBox(height: 20),
-                                        //       //               Text(
-                                        //       //                 dashboardController.prayerNames[index].toUpperCase(),
-                                        //       //                 style: TextStyle(
-                                        //       //                   color: Colors.white,
-                                        //       //                   fontSize: isHighlighted ? 14 : 14,
-                                        //       //                 ),
-                                        //       //               ),
-                                        //       //               const SizedBox(height: 8),
-                                        //       //               Center(
-                                        //       //                 child: Text(
-                                        //       //                   dashboardController.getPrayerTimes.isEmpty
-                                        //       //                       ? "Loading"
-                                        //       //                       : dashboardController.getPrayerTimes[index].toString(),
-                                        //       //                   style: isHighlighted
-                                        //       //                       ? MyTextTheme.smallBCN
-                                        //       //                       : MyTextTheme.smallGCN,
-                                        //       //                 ),
-                                        //       //               ),
-                                        //       //             ],
-                                        //       //           ),
-                                        //       //         ],
-                                        //       //       ),
-                                        //       //     ),
-                                        //       //   ),
-                                        //       // );
-                                        //
-                                        //     },
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
 
-                                    ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
+                                  fontSize: 20,fontWeight: FontWeight.w600
+                                ),),
+                                Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
+                              ],
+                            ),
+                            const SizedBox(height: 15,),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white12,
+                                borderRadius: BorderRadius.circular(30)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.timer_outlined,color: Colors.white,),
+                                      const SizedBox(width: 10,),
+                                      Row(
+                                        children: [
+                                          Text("starts in ",style: MyTextTheme.smallWCN,),
+                                          Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
+                                          // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
+                                        ],
+                                      )
+                                    ],
                                   ),
+                                  IconButton(onPressed: (){}, icon: Icon(Icons.volume_up_outlined,color: AppColor.circleIndicator,))
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 15,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('Starts at',style: TextStyle(
+                                        color: Colors.white,fontSize: 11
+                                    )),
+                                    Text(controller.upcomingPrayerStartTime.value,style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,fontWeight: FontWeight.w600
+                                    ))
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('Ends at',style: TextStyle(
+                                        color: Colors.white,fontSize: 11
+                                    )),
+                                    Text(controller.upcomingPrayerEndTime.value,style: const TextStyle(
+                                        color: Colors.white,
+                                      fontSize: 14,fontWeight: FontWeight.w600
+                                    ))
+                                  ],
+                                ),
+                              ],
+                            )
+                            // Positioned block to properly contain ListView.builder
+                            // Positioned(
+                            //   top: 60,  // Adjust as necessary
+                            //   left: 0,
+                            //   right: 0,
+                            //   bottom: 0,
+                            //   child: ListView.builder(
+                            //     scrollDirection: Axis.horizontal,
+                            //     controller: controller.scrollController,
+                            //     itemCount: controller.prayerNames.length,
+                            //     itemBuilder: (context, index) {
+                            //       print("ddddddddd "+controller.nextPrayer.value.toString());
+                            //       print("eeeeeeeee "+controller.currentPrayer.value.toString());
+                            //       // // Determine if the current item is highlighted (active)
+                            //       // bool isHighlighted = dashboardController.nextPrayer.value ==
+                            //       //      dashboardController.prayerNames[index];
+                            //       bool isHighlighted = false;
+                            //       if(controller.nextPrayer.value.isEmpty){
+                            //         int currentPrayerIndex = controller.prayerNames.indexOf(controller.currentPrayer.value);
+                            //         int nextPrayerIndex = (currentPrayerIndex + 1) % controller.prayerNames.length;
+                            //         print("NEXT PRAYER INDEX !!@# $nextPrayerIndex");
+                            //          isHighlighted = nextPrayerIndex == index;
+                            //       }
+                            //       else{
+                            //          isHighlighted = controller.nextPrayer.value == controller.prayerNames[index];
+                            //          print("NEXT PRAYER INDEX !!@# $isHighlighted");
+                            //          print("NEXT PRAYER INDEX !!@# ${controller.nextPrayer.value}");
+                            //       }
+                            //       return Transform.scale(
+                            //         scale: isHighlighted ? 1.1 : 1.0,  // Scale up the active item
+                            //         child: Opacity(
+                            //           opacity: isHighlighted ? 1.0 : 0.6,  // Reduce opacity of inactive items
+                            //           child: Container(
+                            //             width: 80,
+                            //             margin: const EdgeInsets.symmetric(horizontal: 8),
+                            //             // decoration: BoxDecoration(
+                            //             //   image: DecorationImage(
+                            //             //     image: const AssetImage('assets/vector.png'),
+                            //             //     colorFilter: isHighlighted
+                            //             //         ? null
+                            //             //         : ColorFilter.mode(
+                            //             //       Colors.grey.withOpacity(0.3),
+                            //             //       BlendMode.srcATop,
+                            //             //     ),
+                            //             //   ),
+                            //             //   borderRadius: BorderRadius.circular(10),
+                            //             //   // border: Border.all(
+                            //             //   //   color: isHighlighted ? Colors.orangeAccent : Colors.transparent,
+                            //             //   //   width: 2,
+                            //             //   // ),
+                            //             // ),
+                            //             child: Stack(
+                            //               children:[
+                            //                 SvgPicture.asset("assets/Vec.svg"),
+                            //               Column(
+                            //                 mainAxisAlignment: MainAxisAlignment.center,
+                            //                 children: [
+                            //                   // const SizedBox(height: 20),
+                            //                   Text(
+                            //                     controller.prayerNames[index].toUpperCase(),
+                            //                     style: TextStyle(
+                            //                       color: Colors.white,
+                            //                       fontSize: isHighlighted ? 13 : 13,
+                            //                     ),
+                            //                   ),
+                            //                   const SizedBox(height: 8),
+                            //                   Center(
+                            //                     child: Text(
+                            //                       controller.getPrayerTimes.isEmpty
+                            //                           ? "Loading"
+                            //                           : controller.getPrayerTimes[index].toString(),
+                            //                       style: isHighlighted
+                            //                           ? MyTextTheme.smallBCN
+                            //                           : MyTextTheme.smallGCN,
+                            //                     ),
+                            //                   )
+                            //                 ],
+                            //               ),
+                            //               ]
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       );
+                            //       // return Transform.scale(
+                            //       //   scale: isHighlighted ? 1.1 : 1.0, // Scale up the active item
+                            //       //   child: Opacity(
+                            //       //     opacity: isHighlighted ? 1.0 : 0.5, // Reduce opacity of inactive items
+                            //       //     child: Container(
+                            //       //       width: 80,
+                            //       //       margin: const EdgeInsets.symmetric(horizontal: 8),
+                            //       //       decoration: BoxDecoration(
+                            //       //         borderRadius: BorderRadius.circular(10),
+                            //       //       ),
+                            //       //       child: Stack(
+                            //       //         children: [
+                            //       //           // Load the SVG image in the background
+                            //       //           SvgPicture.asset(
+                            //       //             'assets/Vec.svg',height: 40,
+                            //       //             fit: BoxFit.cover,// Use your SVG image here
+                            //       //
+                            //       //             colorFilter: isHighlighted
+                            //       //                 ? null
+                            //       //                 : ColorFilter.mode(
+                            //       //               Colors.grey.withOpacity(0.3),
+                            //       //               BlendMode.srcATop,
+                            //       //             ),
+                            //       //           ),
+                            //       //           // Place the rest of the content over the SVG image
+                            //       //           Column(
+                            //       //             mainAxisAlignment: MainAxisAlignment.center,
+                            //       //             children: [
+                            //       //               const SizedBox(height: 20),
+                            //       //               Text(
+                            //       //                 dashboardController.prayerNames[index].toUpperCase(),
+                            //       //                 style: TextStyle(
+                            //       //                   color: Colors.white,
+                            //       //                   fontSize: isHighlighted ? 14 : 14,
+                            //       //                 ),
+                            //       //               ),
+                            //       //               const SizedBox(height: 8),
+                            //       //               Center(
+                            //       //                 child: Text(
+                            //       //                   dashboardController.getPrayerTimes.isEmpty
+                            //       //                       ? "Loading"
+                            //       //                       : dashboardController.getPrayerTimes[index].toString(),
+                            //       //                   style: isHighlighted
+                            //       //                       ? MyTextTheme.smallBCN
+                            //       //                       : MyTextTheme.smallGCN,
+                            //       //                 ),
+                            //       //               ),
+                            //       //             ],
+                            //       //           ),
+                            //       //         ],
+                            //       //       ),
+                            //       //     ),
+                            //       //   ),
+                            //       // );
+                            //
+                            //     },
+                            //   ),
+                            // ),
+                          ],
+                        ),
 
-
+                        ),
                       );
                     }),
 
