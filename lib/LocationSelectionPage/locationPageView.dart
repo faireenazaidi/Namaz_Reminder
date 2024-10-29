@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
+import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:pinput/pinput.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
-import '../Widget/myCustomeSd.dart';
 import '../Widget/text_theme.dart';
 
 
@@ -390,7 +390,37 @@ class LocationPage extends GetView<LocationPageController> {
 
 
                           const SizedBox(height: 30),
+                          // PinCodeTextField(
+                          //   keyboardType: TextInputType.number,
+                          //  pinBoxColor: Colors.transparent,
+                          //   pinTextStyle: TextStyle(color: Colors.white),
+                          //   pinBoxBorderWidth: 1.0,
+                          //   pinBoxHeight: 45,
+                          //   pinBoxWidth: 45,
+                          //   maxLength: 6,
+                            // onDone: ,
+                            //
+                            // maxLength: 4,
+                            // pinTheme: PinTheme(
+                            //   inactiveFillColor: AppColor.lightGrey,
+                            //   inactiveColor: AppColor.greyLight,
+                            //   activeColor: AppColor.innerAlignment,
+                            //   activeFillColor: AppColor.primaryColor,
+                            //   shape: PinCodeFieldShape.box,
+                            //   borderRadius: BorderRadius.circular(10),
+                            //   fieldHeight: 50,
+                            //   fieldWidth: 60,
+                            // ),
+                            // cursorColor: Colors.black,
+                            // animationDuration: const Duration(milliseconds: 300),
+                            // enableActiveFill: true,
+                            // keyboardType: TextInputType.number,
+
+                         // ),
+
                           OtpTextField(
+                            clearText: true,
+                            keyboardType: TextInputType.number,
                             cursorColor: AppColor.circleIndicator,
                             autoFocus: false,
                             focusedBorderColor: Colors.white,
@@ -421,6 +451,8 @@ class LocationPage extends GetView<LocationPageController> {
                             controller.otpVerification(verificationOTPCode);
                             }, // end onSubmit
                           ),
+
+
                           const SizedBox(height: 20),
                           Obx(() {
                             return Column(
@@ -1392,6 +1424,7 @@ Column()
     );
   }
 }
+
 
 
 

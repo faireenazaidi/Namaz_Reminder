@@ -258,6 +258,10 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
+          String dhuhrTimeStr=    convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A');
+          DateTime dhuhrTime = DateFormat('HH:mm').parse(dhuhrTimeStr);
+          DateTime zawalTime = dhuhrTime.subtract(Duration(minutes: 10));
+          String formattedZawalTime= DateFormat('hh:mm a').format(zawalTime);
           updatePrayerTimes = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
@@ -278,9 +282,8 @@ class DashBoardController extends GetxController {
             convertTo12HourFormat(
                 getExtractedData[0].timings?.sunrise ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
+             convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
           ];
-
 
           // Update sunset and zawal times
           sunsetTime.value =
@@ -358,8 +361,8 @@ class DashBoardController extends GetxController {
               'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
             },
             'Zawal': {
-              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+              'start': formattedZawalTime,
+              'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
             },
           };
 
@@ -387,107 +390,6 @@ class DashBoardController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
-
-  // Future<void> fetchPrayerTime() async {
-  //   final latitude = position!.latitude;
-  //   final longitude = position!.longitude;
-  //   final method = userData.getUserData!.methodId;
-  //   DateTime now = DateTime.now();
-  //   String formattedDate = DateFormat('yyyy/MM').format(now);
-  //   // final method = 1;
-  //   isLoading.value = true;
-  //   // try {
-  //     Uri uri = Uri.https(
-  //       'api.aladhan.com',
-  //       '/v1/calendar/$formattedDate',
-  //       {
-  //         'latitude': latitude.toString(),
-  //         'longitude': longitude.toString(),
-  //         'method': method.toString(),
-  //       },
-  //     );
-  //     final response = await http.get(uri);
-  //     log("checking response ${response.body}");
-  //
-  //     if (response.statusCode == 200) {
-  //       updateCalendarData = jsonDecode(response.body.toString())["data"];
-  //
-  //       DateTime now = DateTime.now();
-  //       DateFormat formatter = DateFormat('dd MMM yyyy');
-  //       String formattedDate = formatter.format(now);
-  //
-  //       List<CalendarWiseData> extractedData = getCalendarData
-  //           .map((e) => e)
-  //           .where((element) =>
-  //       element.date!.readable.toString() == formattedDate.toString())
-  //           .toList();
-  //       updateExtractedData = extractedData;
-  //
-  //       if (getExtractedData.isNotEmpty) {
-  //         print("bbbbbbbb${extractedData.map((e)=>e.timings!.isha).toList()}");
-  //         updatePrayerTimes = [
-  //           convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
-  //           convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
-  //         ];
-  //         // Update sunset and zawal times
-  //         sunsetTime.value =
-  //             convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A');
-  //         zawalTime.value =
-  //             convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A');
-  //         final hijriDate = getExtractedData[0].date?.hijri;
-  //         islamicDate.value =
-  //         '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
-  //
-  //         // Set prayer start and end time
-  //         updatePrayerDuration = {
-  //           'Fajr': {
-  //             'start': getExtractedData[0].timings?.fajr ?? 'N/A',
-  //             'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-  //           },
-  //           'Free': {
-  //             'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-  //             'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-  //           },
-  //           'Dhuhr': {
-  //             'start': (getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-  //             'end': (getExtractedData[0].timings?.asr ?? 'N/A')
-  //           },
-  //           'Asr': {
-  //             'start': (getExtractedData[0].timings?.asr ?? 'N/A'),
-  //             'end': (getExtractedData[0].timings?.sunset ?? 'N/A')
-  //           },
-  //           'Maghrib': {
-  //             'start': (getExtractedData[0].timings?.maghrib ?? 'N/A'),
-  //             'end': (getExtractedData[0].timings?.isha ?? 'N/A')
-  //           },
-  //           'Isha': {
-  //             'start': (getExtractedData[0].timings?.isha ?? 'N/A'),
-  //             // 'end': (getExtractedData[0].timings?.midnight ?? 'N/A')
-  //             'end': ('23:59')
-  //           }
-  //         };
-  //         // Get current time
-  //         String currentTime = DateFormat('HH:mm').format(DateTime.now());
-  //         currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
-  //         print('current time: $currentTime');
-  //         print('Current Prayer Time: $currentPrayer');
-  //         startRemainingTimeTimer();
-  //         update();
-  //       } else {
-  //         print('Failed to load prayer data');
-  //       }
-  //     }
-  //   // } catch (e) {
-  //   //   print('Error: $e');
-  //   // } finally {
-  //   //   isLoading.value = false;
-  //   // }
-  // }
 
   bool isPrayed = false;
 

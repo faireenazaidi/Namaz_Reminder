@@ -43,6 +43,8 @@ class AppColor {
   static final Color productName = '##F9AD32'.toColor();
   static final Color offerColor = '#1A7984'.toColor();
   static final Color lightmustard = '#FBC86A'.toColor();
+  static final Color lmustard = '##FFF9F1'.toColor();
+
 
 
 
@@ -75,6 +77,8 @@ class AppColor {
   static final Color circleIndicator = '##F9AD32'.toColor();
   static final Color leaderboard = '##F8F9FA'.toColor();
   static final Color blackbg = '##121212CC'.toColor();
+  static final Color highlight = '#FFF3F3'.toColor();
+
 
 
 
