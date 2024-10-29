@@ -8,7 +8,6 @@ import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/renked_friend.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
-import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/DrawerView.dart';
@@ -72,9 +71,11 @@ class DashBoardView extends GetView<DashBoardController> {
                         successMessage: controller.address,
                         loadingMessage: 'Getting Current Location...');
                       },
-                      child: Text(
-                        controller.address,
-                        style: MyTextTheme.greyNormal
+                      child: Expanded(
+                        child: Text(
+                           controller.address,
+                          style: MyTextTheme.greyNormal,
+                        ),
                       ),
                     );
                   }
@@ -730,16 +731,21 @@ class DashBoardView extends GetView<DashBoardController> {
                   Obx((){
                       return Column(
                         children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black87,
-                                      image: const DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage("assets/jalih.png")
+                                  InkWell(
+                                    onTap: (){
+                                      Get.toNamed(AppRoutes.upcomingRoute);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black87,
+                                        image: const DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage("assets/jalih.png")
+                                        ),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
+                                 
 
                                     child: Column(
                                       children: [
@@ -953,10 +959,12 @@ class DashBoardView extends GetView<DashBoardController> {
                                       ],
                                     ),
 
+                                    ),
                                   ),
-                        ],
+
+
                       );
-                    })
+                    }),
 
 
             ]
