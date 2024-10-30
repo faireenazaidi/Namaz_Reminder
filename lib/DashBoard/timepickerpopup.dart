@@ -11,7 +11,9 @@ import 'dashboardController.dart';
 
 class TimePicker extends StatefulWidget {
   final String? date;
-  const TimePicker({super.key, this.date});
+  final bool? isFromMissed;
+  final Future<dynamic> Function()? missedCallBack;
+  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack});
 
   @override
   State<TimePicker> createState() => _TimePickerState();
@@ -255,7 +257,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     print("isAm ${dashBoardController.isAm}");
                     Lottie.asset("assets/Crown.lottie",
                         decoder: customDecoder, height: 60);
-                    dashBoardController.submitPrayer();
+                    dashBoardController.submitPrayer(valDate: widget.date,isFromMissed: widget.isFromMissed,missedCallBack: widget.missedCallBack);
                   },
                 ),
                 // Submit Button

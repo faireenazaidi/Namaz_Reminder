@@ -807,7 +807,7 @@ RxString nextPrayerName = ''.obs;
 
   bool isGifVisible = false;
   bool isAm = false;
-  submitPrayer({String? valDate}) async {
+  submitPrayer({String? valDate,bool? isFromMissed,Future<dynamic> Function()? missedCallBack}) async {
     // print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
     String formattedDate =valDate ?? DateFormat('dd-MM-yyyy').format(date);
@@ -875,22 +875,29 @@ RxString nextPrayerName = ''.obs;
       // print("API RESPONSE: " + data['detail'].toString());
       String responseString = await response.stream.bytesToString();
       // print("Raw API response: $responseString");
+if(isFromMissed!){
+  Get.back();
+  missedCallBack!();
+  Get.snackbar('Prayer Marked', 'Success',backgroundColor: Colors.black,colorText: Colors.white,snackPosition: SnackPosition.BOTTOM);
+}
+else{
+  isPrayed = true;
+  isGifVisible = true;
+  update();
 
-      isPrayed = true;
-      isGifVisible = true;
-      update();
+  Future.delayed(Duration(seconds: 3), () {
 
-      Future.delayed(Duration(seconds: 3), () {
+    isGifVisible = false;
+    update();
+    Get.back();
+  });
+}
 
-          isGifVisible = false;
-          update();
-
-      });
       // Future.delayed(Duration(seconds: 6), () {
       //   Image.asset("assets/popup_Default.gif");
       //
       // });
-      Get.back();
+
       // Get.snackbar('Success', data['detail'].toString(), snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.green);
 
     } catch (e) {

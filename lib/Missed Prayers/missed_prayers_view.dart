@@ -851,7 +851,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return  const TimePicker();
+                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()),);
                                                           },
                                                         );
                                                       }
@@ -924,7 +924,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return  const TimePicker();
+                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -995,7 +995,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return  const TimePicker();
+                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -1044,7 +1044,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
                                             child: Column(
                                               children: [
-                                                !isMissedPrayers? CircleAvatar(
+                                            Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child:!isMissedPrayers? CircleAvatar(
                                                   radius: 22,
                                                   backgroundColor: Colors.yellowAccent,
                                                   child: CircleAvatar(
@@ -1063,7 +1065,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                       showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
-                                                          return  const TimePicker();
+                                                          return  TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
                                                         },
                                                       );
                                                     }
@@ -1087,7 +1089,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                     ),
                                                   ),
-                                                ),
+                                                )),
                                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
                                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                               ],
@@ -1132,7 +1134,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return  const TimePicker();
+                                                            return TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -1285,7 +1287,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                       showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
-                                                          return   TimePicker(date: date);
+                                                          return   TimePicker(date: date,isFromMissed: true,missedCallBack:() =>leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate()),);
                                                         },
                                                       );
                                                     }

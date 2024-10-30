@@ -166,7 +166,7 @@ class DashBoardView extends GetView<DashBoardController> {
                     ),
                   ),
                   SizedBox(
-                    height: 350,
+                    height: 340,
                     width: 350,
                     child: Stack(
                       alignment: Alignment.center,
@@ -181,7 +181,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             animation: false,
                             // animateFromLastPercent: true,
                             animationDuration: 1200,
-                            radius: 140,
+                            radius: 130,
                             lineWidth: 40,
                             widgetIndicator: Container(
                               height: 5,
@@ -320,7 +320,7 @@ class DashBoardView extends GetView<DashBoardController> {
                         ),
 
                         // Conditionally show the "Mark as Prayer" button
-                       controller.isPrayed?Text("Prayed!",style: TextStyle(
+                       controller.isPrayed?Text("",style: TextStyle(
                            color: AppColor.circleIndicator,fontWeight: FontWeight.w600
                        ),):
                        Positioned(
@@ -377,37 +377,25 @@ class DashBoardView extends GetView<DashBoardController> {
                           id: 'lottie',
                           builder: (_) {
                             return Positioned(
-                              top: -30, // Adjust the 'top' value as per your layout
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  // child: Lottie.asset(
-                                  //   "assets/circular.lottie",
-                                  //   // Replace with your new Lottie animation pat
-                                  //   decoder: customDecoder, // Replace with your new Lottie animation path
-                                  //   width: 420,  // Adjust the width and height as per your design
-                                  //   height: 330,
-                                  //
-                                  //   ),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(height: 20,),
-                                      ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                          Colors.blue.withOpacity(0), // The color you want to blend with
-                                          BlendMode.multiply,            // The blend mode
-                                        ),
-                                        child: Lottie.asset(
-                                          "assets/circular.lottie", // Your existing Lottie animation path
-                                          decoder: customDecoder,    // Your custom decoder
-                                          width: 430,                // Adjust width as needed
-                                          height: 350,
-                                          fit: BoxFit.contain,// Adjust height as needed
-
-                                        ),
+                              // top: -30, // Adjust the 'top' value as per your layout
+                                child: Column(
+                                  children: [
+                                    // SizedBox(height: 20,),
+                                    ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        Colors.blue.withOpacity(0), // The color you want to blend with
+                                        BlendMode.multiply,            // The blend mode
                                       ),
-                                    ],
-                                  ),
+                                      child: Lottie.asset(
+                                        "assets/circular.lottie", // Your existing Lottie animation path
+                                        decoder: customDecoder,    // Your custom decoder
+                                        width: 430,                // Adjust width as needed
+                                        height: 330,
+                                        fit: BoxFit.contain,// Adjust height as needed
 
+                                      ),
+                                    ),
+                                  ],
                                 ),
                             );
                           }
@@ -417,12 +405,30 @@ class DashBoardView extends GetView<DashBoardController> {
                           id: 'lottie',
                           builder: (_) {
                             return Positioned(
-                              top: -35, // Adjust the 'top' value as per your layout
+                              // top: -35, // Adjust the 'top' value as per your layout
                               child: Lottie.asset(
-                                "assets/crystal.lottie", // Replace with your new Lottie animation path
+                                "assets/crystal.lottie",
                                 decoder: customDecoder, // Replace with your new Lottie animation path
-                                width: 500,  // Adjust the width and height as per your design
-                                height: 350,
+                                width: 300,  // Adjust the width and height as per your design
+                                height: 190,
+                                 fit: BoxFit.contain,
+
+                            ),
+                          );
+                        }
+                      ),
+                        if(controller.isPrayed)
+                        GetBuilder<DashBoardController>(
+                          id: 'lottie',
+                          builder: (_) {
+                            return Positioned(
+                              // top: -35, // Adjust the 'top' value as per your layout
+                              child: Lottie.asset(
+                                "assets/award.lottie",
+                                repeat: false,
+                                decoder: customDecoder, // Replace with your new Lottie animation path
+                                width: 300,  // Adjust the width and height as per your design
+                                height: 150,
                                  fit: BoxFit.contain,
 
                             ),
@@ -447,7 +453,7 @@ class DashBoardView extends GetView<DashBoardController> {
                       return Visibility(
                         visible: true,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Obx(() {
                             return
                                 Container(
