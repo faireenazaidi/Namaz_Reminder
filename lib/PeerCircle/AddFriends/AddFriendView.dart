@@ -44,14 +44,23 @@ class AddFriendView extends GetView<AddFriendController> {
       body: GetBuilder(
         init: controller,
         builder: (_) {
+          // List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
+          //     .where((user) => user.name?.toLowerCase().contains(controller.searchQuery.toLowerCase()) ?? false)
+          //     .toList();
+          // filteredUsers.sort((a, b) {
+          //   String nameA = a.name?.toLowerCase() ?? '';
+          //   String nameB = b.name?.toLowerCase() ?? '';
+          //   return nameA.compareTo(nameB);
+          // });
           List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
-              .where((user) => user.name?.toLowerCase().contains(controller.searchQuery.toLowerCase()) ?? false)
+              .where((user) {
+                // Check if the search query matches the name or phone number (convert to lowercase for case-insensitivity)
+                final searchQuery = controller.searchQuery.toLowerCase();
+                final nameMatch = user.name?.toLowerCase().contains(searchQuery) ?? false;
+                final phoneMatch = user.mobileNo?.contains(searchQuery) ?? false;
+                return nameMatch || phoneMatch;
+              })
               .toList();
-          filteredUsers.sort((a, b) {
-            String nameA = a.name?.toLowerCase() ?? '';
-            String nameB = b.name?.toLowerCase() ?? '';
-            return nameA.compareTo(nameB);
-          });
 
           return Padding(
             padding: const EdgeInsets.all(12.0),

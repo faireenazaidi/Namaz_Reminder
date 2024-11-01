@@ -4,9 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../../Services/ApiService/api_service.dart';
+import '../peerController.dart';
 import 'AddFriendDataModal.dart';
 
 class AddFriendController extends GetxController {
+  final PeerController peerController = Get.find<PeerController>();
   late RegisteredUserDataModal currentUser;
   var requests = <Person>[].obs;
   var contacts = <Person>[].obs;
@@ -234,8 +236,10 @@ class AddFriendController extends GetxController {
 
     print("fff $data");
 
-    fetchFriendRequests();
+     fetchFriendRequests();
     update();
+   peerController.friendship();
+
   }
 
 

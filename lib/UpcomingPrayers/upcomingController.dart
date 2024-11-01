@@ -6,3 +6,5 @@ class UpcomingController extends GetxController{
 
 
 }
+
+

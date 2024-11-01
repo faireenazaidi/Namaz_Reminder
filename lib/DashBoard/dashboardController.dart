@@ -31,8 +31,11 @@ class DashBoardController extends GetxController {
   RxList<String> avatars = <String>[].obs;
   RxString location = ''.obs;
   var selectedDate = Rx<DateTime>(DateTime.now());
-
+ var isMute= false.obs;
   UserData userData = UserData();
+  void toggle(){
+    isMute.value = !isMute.value;
+  }
 
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
@@ -117,6 +120,20 @@ class DashBoardController extends GetxController {
       curve: Curves.easeInOut,
     );
   }
+  //Sort prayers according to current timing//
+  // void sortPrayers() {
+  //   int currentIndex = upcomingPrayers.indexOf(nextPrayer.value);
+  //
+  //   if (currentIndex != -1) {
+  //     // Reorder prayers so that the list starts from the current prayer
+  //     final reorderedPrayers = [
+  //       ...upcomingPrayers.sublist(currentIndex),
+  //       ...upcomingPrayers.sublist(0, currentIndex),
+  //     ];
+  //     upcomingPrayers.value = reorderedPrayers;
+  //   }
+  // }
+
 
   LocationService _locationService = LocationService();
   Position? position;
