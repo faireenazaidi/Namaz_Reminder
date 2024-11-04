@@ -33,8 +33,10 @@ class DashBoardController extends GetxController {
   var selectedDate = Rx<DateTime>(DateTime.now());
  var isMute= false.obs;
   UserData userData = UserData();
-  void toggle(){
-    isMute.value = !isMute.value;
+  void toggle(String prayerName){
+    userData.toggleSound(prayerName);
+    isMute.value = userData.isSoundEnabled(prayerName);
+    // isMute.value = !isMute.value;
   }
 
 
@@ -163,6 +165,7 @@ class DashBoardController extends GetxController {
   void onInit() async {
     super.onInit();
     highlightCurrentPrayer();
+    userData.initializePrayerSettings();
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   scrollToHighlightedPrayer();
     // });

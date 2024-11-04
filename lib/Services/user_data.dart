@@ -34,6 +34,49 @@ class UserData extends GetxController {
     update(); // Notify listeners of changes
   }
 
+  ///sound
+  // Define default sound settings for all prayers
+  final Map<String, bool> defaultSoundSettings = {
+    'Fajr': true,
+    'Dhuhr': true,
+    'Asr': true,
+    'Maghrib': true,
+    'Isha': true,
+  };
+
+
+  // Initialize settings in GetStorage if not already present or if it's a new day
+  void initializePrayerSettings() {
+    final String today = DateTime.now().toIso8601String().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    final String? storedDate = _storage.read<String>('lastUpdatedDate');
+
+    // Check if settings are stored and if they're from today
+    if (storedDate == null || storedDate != today) {
+      // Store default settings and update last updated date
+      _storage.write('prayerSoundSettings', defaultSoundSettings);
+      _storage.write('lastUpdatedDate', today);
+    }
+  }
+  // void initializePrayerSettings() {
+  //   if (!_storage.hasData('prayerSoundSettings')) {
+  //     _storage.write('prayerSoundSettings', defaultSoundSettings);
+  //   }
+  // }
+
+  // Get sound setting for a specific prayer
+  bool isSoundEnabled(String prayerName) {
+    final settings = _storage.read<Map<String, dynamic>>('prayerSoundSettings');
+    return settings?[prayerName] ?? true;
+  }
+
+  // Toggle sound setting for a specific prayer and update storage
+  void toggleSound(String prayerName) {
+    final settings = _storage.read<Map<String, dynamic>>('prayerSoundSettings');
+    settings?[prayerName] = !(settings?[prayerName] ?? true);
+    _storage.write('prayerSoundSettings', settings);
+  }
+
+
   // Optionally, add a method to clear user data
   Future<void> clearUserData() async {
     await _storage.remove('personModal');

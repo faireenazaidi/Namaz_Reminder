@@ -792,7 +792,10 @@ class DashBoardView extends GetView<DashBoardController> {
                                   // )
                                  InkWell(
                                    onTap: (){
-                                 controller.toggle();
+                                 controller.toggle(controller.nextPrayerName.value);
+                                //  controller.userData.toggleSound(controller.nextPrayerName.value);
+                                // bool isEnable = controller.userData.isSoundEnabled(controller.nextPrayerName.value);
+                                // print("isEnable $isEnable");
                                    },
 
                              child: Obx(() {

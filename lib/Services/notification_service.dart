@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AwesomeNotificationService {
   // Singleton setup
@@ -7,8 +8,11 @@ class AwesomeNotificationService {
   factory AwesomeNotificationService() => _instance;
   AwesomeNotificationService._internal();
 
+
   /// Initialize Awesome Notifications
   Future<void> initialize() async {
+    // Request schedule exact alarm permission for Android 13 and above
+    await _requestExactAlarmPermission();
     AwesomeNotifications().initialize(
       null, // Use the default app icon
       [
@@ -42,6 +46,13 @@ class AwesomeNotificationService {
       ],
       debug: true,
     );
+  }
+
+  /// Request exact alarm permission for Android 13 (API level 33) and above
+  Future<void> _requestExactAlarmPermission() async {
+    if (await Permission.scheduleExactAlarm.isDenied) {
+      await Permission.scheduleExactAlarm.request();
+    }
   }
 
   /// Show Awesome Notification

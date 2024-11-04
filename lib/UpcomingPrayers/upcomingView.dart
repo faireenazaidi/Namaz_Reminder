@@ -463,7 +463,7 @@ class Upcoming extends GetView<UpcomingController> {
                                         Spacer(),
                                         InkWell(
                                           onTap: () {
-                                            dashboardController.toggle();
+                                            dashboardController.toggle(nextPrayer);
                                           },
                                           child: Obx(() {
                                             return SvgPicture.asset(
