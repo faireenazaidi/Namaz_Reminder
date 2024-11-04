@@ -884,7 +884,7 @@ else{
   isPrayed = true;
   isGifVisible = true;
   update();
-
+  leaderboard();
   Future.delayed(Duration(seconds: 3), () {
 
     isGifVisible = false;

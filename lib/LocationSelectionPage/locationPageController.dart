@@ -67,10 +67,10 @@ class LocationPageController extends GetxController {
   RxInt secondsLeft = 60.obs;
    Timer? _timer;
   bool isTimerRunning = true;
- int start = 250; // Timer starts from 5 minutes (300 seconds)
+ int start = 60; // Timer starts from 5 minutes (300 seconds)
  void startTimer() {
    _timer?.cancel(); // Cancel previous timer if any
-     start = 250; // Reset the timer to 5 minutes (300 seconds)
+     start = 60; // Reset the timer to 5 minutes (300 seconds)
      isTimerRunning = true;
      update(['otp']);
    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
