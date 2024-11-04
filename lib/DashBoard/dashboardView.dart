@@ -772,7 +772,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(Icons.timer_outlined,color: Colors.white,),
+                                      SvgPicture.asset('assets/alarm.svg',color: Colors.white,height: 25,),
+
                                       const SizedBox(width: 10,),
                                       Row(
                                         children: [
@@ -783,7 +784,23 @@ class DashBoardView extends GetView<DashBoardController> {
                                       )
                                     ],
                                   ),
-                                  IconButton(onPressed: (){}, icon: Icon(Icons.volume_up_outlined,color: AppColor.circleIndicator,))
+                                  // IconButton(onPressed: (){
+                                  //
+                                  // },
+                                  //
+                                  //     icon: Icon(Icons.volume_up_outlined,color: AppColor.circleIndicator,),
+                                  // )
+                                 InkWell(
+                                   onTap: (){
+                                 controller.toggle();
+                                   },
+
+                             child: Obx(() {
+                               return SvgPicture.asset(controller.isMute.value
+                                   ? 'assets/mute.svg'
+                                   : 'assets/sound.svg',height: 20,);
+                             }),
+                                 )
                                 ],
                               ),
                             ),

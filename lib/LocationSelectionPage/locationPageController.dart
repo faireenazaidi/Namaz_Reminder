@@ -17,6 +17,7 @@ import 'locationPageDataModal.dart';
 
 class LocationPageController extends GetxController {
  final Rx<TextEditingController> phoneController = TextEditingController().obs;
+ final Rx<TextEditingController> otpController = TextEditingController().obs; // OTP TextEditingController for autofill
  final Rx<TextEditingController> nameC = TextEditingController().obs;
  final Rx<TextEditingController> usernameC = TextEditingController().obs;
  final Rx<TextEditingController> mobileNoC = TextEditingController().obs;
@@ -393,3 +394,4 @@ class CalculationMethod {
     );
   }
 }
+//////////////////////////////////

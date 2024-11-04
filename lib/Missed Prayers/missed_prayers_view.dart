@@ -26,169 +26,341 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
       backgroundColor: AppColor.cream,
       body: CustomScrollView(
           slivers: [
+            // SliverAppBar(
+            //   title:  Text("Missed Prayers",style: MyTextTheme.mediumBCD,),
+            //   centerTitle: true,
+            //   pinned: true,
+            //   expandedHeight: 300.0,
+            //   backgroundColor: AppColor.cream,
+            //   leading: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child:
+            //       InkWell(
+            //           onTap: () {
+            //             Get.back();
+            //             // Get.to(
+            //             //       () => DashBoardView(),
+            //             //   transition: Transition.leftToRight,
+            //             //   duration: Duration(milliseconds: 500),
+            //             //   curve: Curves.ease,
+            //             // );
+            //           },
+            //           child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
+            //
+            //
+            //   ),
+            //
+            //   flexibleSpace: FlexibleSpaceBar(
+            //     centerTitle: true,
+            //     background: Padding(
+            //       padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
+            //       child: Column(
+            //         // mainAxisAlignment: MainAxisAlignment.end,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           const SizedBox(height: 80,),
+            //           Obx(() => Row(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               // Daily Button
+            //               GestureDetector(
+            //                 onTap: () => leaderBoardController.updateSelectedTab='Daily',
+            //                 child: Container(
+            //                   decoration: BoxDecoration(
+            //                     color: leaderBoardController.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
+            //                     borderRadius: BorderRadius.circular(15),
+            //                   ),
+            //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            //                   child: Text(
+            //                     'Daily',
+            //                     style: TextStyle(
+            //                       fontSize: 16,
+            //                       fontWeight: FontWeight.bold,
+            //                       color: leaderBoardController.getSelectedTab == 'Daily' ? Colors.white : Colors.black,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //               const SizedBox(width: 10),
+            //               // Weekly Button
+            //               GestureDetector(
+            //                 onTap: () => leaderBoardController.updateSelectedTab ='Weekly',
+            //                 child: Container(
+            //                   decoration: BoxDecoration(
+            //                     color: leaderBoardController.getSelectedTab == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
+            //                     borderRadius: BorderRadius.circular(15),
+            //                   ),
+            //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            //                   child: Text(
+            //                     'Weekly',
+            //                     style: TextStyle(
+            //                       fontSize: 16,
+            //                       fontWeight: FontWeight.bold,
+            //                       color: leaderBoardController.getSelectedTab == 'Weekly' ? Colors.white : Colors.black,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           )),
+            //           const SizedBox(height: 60),
+            //           InkWell(
+            //             onTap: () async {
+            //               DateTime? picked = await showDatePicker(
+            //                 context: context,
+            //                 initialDate: dateController.selectedDate.value,
+            //                 firstDate: DateTime(2020),
+            //                 lastDate: DateTime.now(),
+            //               );
+            //               if (picked != null) {
+            //                 print("picked $picked");
+            //                 dateController.updateSelectedDate(picked);
+            //                 String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+            //                 if(leaderBoardController.getSelectedTab == 'Daily'){
+            //                   leaderBoardController.leaderboard(formattedDate);
+            //                 }
+            //                 else{
+            //                   leaderBoardController.weeklyApi(formattedDate);
+            //                 }
+            //
+            //               }
+            //             },
+            //             child: Row(
+            //               children: [
+            //                SvgPicture.asset("assets/calendar3.svg",height: 15,),
+            //                 const SizedBox(width: 5),
+            //                 Obx(() => Row(
+            //                   children: [
+            //                     Text(
+            //                       DateFormat('EEE,d MMMM yyyy').format(dateController.selectedDate.value),
+            //                       style: const TextStyle(fontSize: 12, color: Colors.black),
+            //                       overflow: TextOverflow.ellipsis,
+            //                     ),
+            //                     Container(
+            //                       width: 1, // Vertical divider width
+            //                       height: 15, // Divider height
+            //                       color: Colors.grey,
+            //                       margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+            //                     ),
+            //
+            //                     Obx(
+            //                           () => Text(
+            //                         dashboardController.islamicDate.value,
+            //                         style: const TextStyle(fontSize: 12, color: Colors.black),
+            //                         overflow: TextOverflow.ellipsis,
+            //                       ),
+            //                     ),
+            //                     // Expanded(
+            //                     //   child: Text(
+            //                     //     dateController.formatHijriDate(dateController.selectedDate.value),
+            //                     //     style: const TextStyle(fontSize: 14, color: Colors.black),
+            //                     //     overflow: TextOverflow.ellipsis,
+            //                     //   ),
+            //                     // ),
+            //                   ],
+            //                 )),
+            //               ],
+            //             ),
+            //           ),
+            //           SizedBox(height: 10,),
+            //           Center(child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),)),
+            //           const SizedBox(height: 15),
+            //
+            //
+            //            Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               CircleAvatar(child: Text("F"),
+            //                 backgroundColor: AppColor.circleIndicator,
+            //               ),
+            //               SizedBox(width: 5,),
+            //               CircleAvatar(child: Text("Z"),
+            //                 backgroundColor: AppColor.circleIndicator,),
+            //               SizedBox(width: 5,),
+            //               CircleAvatar(child: Text("A"),
+            //                 backgroundColor: AppColor.circleIndicator,),
+            //               SizedBox(width: 5,),
+            //               CircleAvatar(child: Text("M"),
+            //                 backgroundColor: AppColor.circleIndicator,),
+            //               SizedBox(width: 5,),
+            //               CircleAvatar(child: Text("I"),
+            //                 backgroundColor: AppColor.circleIndicator,),
+            //             ],
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SliverAppBar(
-              title:  Text("Missed Prayers",style: MyTextTheme.mediumBCD,),
+              title: Text("Missed Prayers", style: MyTextTheme.mediumBCD),
               centerTitle: true,
               pinned: true,
               expandedHeight: 300.0,
               backgroundColor: AppColor.cream,
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:
-                  InkWell(
-                      onTap: () {
-                        Get.back();
-                        // Get.to(
-                        //       () => DashBoardView(),
-                        //   transition: Transition.leftToRight,
-                        //   duration: Duration(milliseconds: 500),
-                        //   curve: Curves.ease,
-                        // );
-                      },
-                      child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
-
-
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+                ),
               ),
-
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                background: Padding(
-                  padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 80,),
-                      Obx(() => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Background image
+                    SvgPicture.asset(
+                        "assets/jali.svg",
+                        fit: BoxFit.cover,
+                        color: AppColor.greyDark
+                    ),
+                    // Overlay with content
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Daily Button
-                          GestureDetector(
-                            onTap: () => leaderBoardController.updateSelectedTab='Daily',
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: leaderBoardController.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              child: Text(
-                                'Daily',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: leaderBoardController.getSelectedTab == 'Daily' ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          // Weekly Button
-                          GestureDetector(
-                            onTap: () => leaderBoardController.updateSelectedTab ='Weekly',
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: leaderBoardController.getSelectedTab == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              child: Text(
-                                'Weekly',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: leaderBoardController.getSelectedTab == 'Weekly' ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                      const SizedBox(height: 60),
-                      InkWell(
-                        onTap: () async {
-                          DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: dateController.selectedDate.value,
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime.now(),
-                          );
-                          if (picked != null) {
-                            print("picked $picked");
-                            dateController.updateSelectedDate(picked);
-                            String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-                            if(leaderBoardController.getSelectedTab == 'Daily'){
-                              leaderBoardController.leaderboard(formattedDate);
-                            }
-                            else{
-                              leaderBoardController.weeklyApi(formattedDate);
-                            }
-
-                          }
-                        },
-                        child: Row(
-                          children: [
-                           SvgPicture.asset("assets/calendar3.svg",height: 15,),
-                            const SizedBox(width: 5),
-                            Obx(() => Row(
-                              children: [
-                                Text(
-                                  DateFormat('EEE,d MMMM yyyy').format(dateController.selectedDate.value),
-                                  style: const TextStyle(fontSize: 12, color: Colors.black),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Container(
-                                  width: 1, // Vertical divider width
-                                  height: 15, // Divider height
-                                  color: Colors.grey,
-                                  margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
-                                ),
-
-                                Obx(
-                                      () => Text(
-                                    dashboardController.islamicDate.value,
-                                    style: const TextStyle(fontSize: 12, color: Colors.black),
-                                    overflow: TextOverflow.ellipsis,
+                          const SizedBox(height: 80),
+                          Obx(() => Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () => leaderBoardController.updateSelectedTab = 'Daily',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: leaderBoardController.selectedTab.value == 'Daily'
+                                        ? AppColor.circleIndicator
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  child: Text(
+                                    'Daily',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: leaderBoardController.getSelectedTab == 'Daily'
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   ),
                                 ),
-                                // Expanded(
-                                //   child: Text(
-                                //     dateController.formatHijriDate(dateController.selectedDate.value),
-                                //     style: const TextStyle(fontSize: 14, color: Colors.black),
-                                //     overflow: TextOverflow.ellipsis,
-                                //   ),
-                                // ),
+                              ),
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: () => leaderBoardController.updateSelectedTab = 'Weekly',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: leaderBoardController.getSelectedTab == 'Weekly'
+                                        ? AppColor.circleIndicator
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  child: Text(
+                                    'Weekly',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: leaderBoardController.getSelectedTab == 'Weekly'
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                          const SizedBox(height: 60),
+                          InkWell(
+                            onTap: () async {
+                              DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: dateController.selectedDate.value,
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime.now(),
+                              );
+                              if (picked != null) {
+                                dateController.updateSelectedDate(picked);
+                                String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+                                if (leaderBoardController.getSelectedTab == 'Daily') {
+                                  leaderBoardController.leaderboard(formattedDate);
+                                } else {
+                                  leaderBoardController.weeklyApi(formattedDate);
+                                }
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset("assets/calendar3.svg", height: 15),
+                                const SizedBox(width: 5),
+                                Obx(() => Row(
+                                  children: [
+                                    Text(
+                                      DateFormat('EEE, d MMMM yyyy')
+                                          .format(dateController.selectedDate.value),
+                                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                                    ),
+                                    Container(
+                                      width: 1,
+                                      height: 15,
+                                      color: Colors.grey,
+                                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                                    ),
+                                    Obx(() => Text(
+                                      dashboardController.islamicDate.value,
+                                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                                    )),
+                                  ],
+                                )),
                               ],
-                            )),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Center(child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),)),
-                      const SizedBox(height: 15),
-
-
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CircleAvatar(child: Text("F"),
-                            backgroundColor: AppColor.circleIndicator,
+                            ),
                           ),
-                          SizedBox(width: 5,),
-                          CircleAvatar(child: Text("Z"),
-                            backgroundColor: AppColor.circleIndicator,),
-                          SizedBox(width: 5,),
-                          CircleAvatar(child: Text("A"),
-                            backgroundColor: AppColor.circleIndicator,),
-                          SizedBox(width: 5,),
-                          CircleAvatar(child: Text("M"),
-                            backgroundColor: AppColor.circleIndicator,),
-                          SizedBox(width: 5,),
-                          CircleAvatar(child: Text("I"),
-                            backgroundColor: AppColor.circleIndicator,),
+                          SizedBox(height: 10),
+                          Center(
+                            child: const Text(
+                              "TODAY'S TIMELINE",
+                              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircleAvatar(
+                                child: Text("F"),
+                                backgroundColor: AppColor.circleIndicator,
+                              ),
+                              SizedBox(width: 5),
+                              CircleAvatar(
+                                child: Text("Z"),
+                                backgroundColor: AppColor.circleIndicator,
+                              ),
+                              SizedBox(width: 5),
+                              CircleAvatar(
+                                child: Text("A"),
+                                backgroundColor: AppColor.circleIndicator,
+                              ),
+                              SizedBox(width: 5),
+                              CircleAvatar(
+                                child: Text("M"),
+                                backgroundColor: AppColor.circleIndicator,
+                              ),
+                              SizedBox(width: 5),
+                              CircleAvatar(
+                                child: Text("I"),
+                                backgroundColor: AppColor.circleIndicator,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/text_theme.dart';
@@ -64,23 +64,23 @@ class LocationPage extends GetView<LocationPageController> {
                 }
               ),
 
-              // Only show the back button when step > 0
-              // if (controller.step.value > 0)
-              //    Positioned(
-              //     top: 40,
-              //     child: IconButton(
-              //       icon: Icon(
-              //         Icons.arrow_back_ios_new_outlined,
-              //         color: Colors.white,
-              //         size: 20,
-              //       ),
-              //       onPressed: () {
-              //           // controller.step.value--;
-              //           // controller.dynamicHeightAllocation();
-              //
-              //       },
-              //     ),
-              //   ),
+            // Only show the back button when step > 0
+            // if (controller.step.value > 0)
+            //    Positioned(
+            //     top: 40,
+            //     child: IconButton(
+            //       icon: Icon(
+            //         Icons.arrow_back_ios_new_outlined,
+            //         color: Colors.white,
+            //         size: 20,
+            //       ),
+            //       onPressed: () {
+            //           // controller.step.value--;
+            //           // controller.dynamicHeightAllocation();
+            //
+            //       },
+            //     ),
+            //   ),
 
 
 
@@ -195,49 +195,49 @@ class LocationPage extends GetView<LocationPageController> {
                           },
                         ),
 
-                        // Container(
-                        //   height: 50,
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(8),
-                        //     border: Border.all(color: Colors.white70), // Border color
-                        //   ),
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.center,
-                        //     children: [
-                        //       Padding(
-                        //         padding: const EdgeInsets.symmetric(horizontal: 4.0), // Reduce padding here
-                        //         child: SvgPicture.asset(
-                        //           "assets/mob.svg",
-                        //           width: 24, // Optional: adjust the icon size if needed
-                        //         ),
-                        //       ),
-                        //       CountryCodePicker(
-                        //         onChanged: (countryCode) {
-                        //           print("Country code selected: ${countryCode.dialCode}");
-                        //         },
-                        //
-                        //         initialSelection: 'IN',
-                        //         favorite: ['+91', 'IN'],
-                        //         showFlag: false,
-                        //         textStyle: TextStyle(color: Colors.white),
-                        //         showFlagDialog: true,
-                        //         showDropDownButton: true,
-                        //       ),
-                        //       Expanded(
-                        //         child: TextField(
-                        //           controller: controller.phoneController.value,
-                        //           keyboardType: TextInputType.phone,
-                        //           style: TextStyle(color: Colors.white),
-                        //           decoration: InputDecoration(
-                        //             hintText: 'Enter phone number',
-                        //             hintStyle: TextStyle(color: Colors.white54),
-                        //             border: InputBorder.none,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
+                      // Container(
+                      //   height: 50,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(8),
+                      //     border: Border.all(color: Colors.white70), // Border color
+                      //   ),
+                      //   child: Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       Padding(
+                      //         padding: const EdgeInsets.symmetric(horizontal: 4.0), // Reduce padding here
+                      //         child: SvgPicture.asset(
+                      //           "assets/mob.svg",
+                      //           width: 24, // Optional: adjust the icon size if needed
+                      //         ),
+                      //       ),
+                      //       CountryCodePicker(
+                      //         onChanged: (countryCode) {
+                      //           print("Country code selected: ${countryCode.dialCode}");
+                      //         },
+                      //
+                      //         initialSelection: 'IN',
+                      //         favorite: ['+91', 'IN'],
+                      //         showFlag: false,
+                      //         textStyle: TextStyle(color: Colors.white),
+                      //         showFlagDialog: true,
+                      //         showDropDownButton: true,
+                      //       ),
+                      //       Expanded(
+                      //         child: TextField(
+                      //           controller: controller.phoneController.value,
+                      //           keyboardType: TextInputType.phone,
+                      //           style: TextStyle(color: Colors.white),
+                      //           decoration: InputDecoration(
+                      //             hintText: 'Enter phone number',
+                      //             hintStyle: TextStyle(color: Colors.white54),
+                      //             border: InputBorder.none,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
                         const SizedBox(height: 20),
                         MyButton(
@@ -262,76 +262,76 @@ class LocationPage extends GetView<LocationPageController> {
                             }
 
 
-                            // if (controller.isPhoneNumberValid.value) {
-                            //   // Proceed with signing in if the phone number is valid
-                            //   await controller.signInWithPhoneNumber();
-                            //   controller.dynamicHeightAllocation();
-                            //   print("Send OTP");
-                            // } else {
-                            //   // If the phone number is invalid or null, show an error or prevent navigation
-                            //   print("Invalid phone number");
-                            //   Get.snackbar('Error', 'Please enter a valid phone number',
-                            //       snackPosition: SnackPosition.TOP);
-                            // }
-                          },
-                        ),
+                          // if (controller.isPhoneNumberValid.value) {
+                          //   // Proceed with signing in if the phone number is valid
+                          //   await controller.signInWithPhoneNumber();
+                          //   controller.dynamicHeightAllocation();
+                          //   print("Send OTP");
+                          // } else {
+                          //   // If the phone number is invalid or null, show an error or prevent navigation
+                          //   print("Invalid phone number");
+                          //   Get.snackbar('Error', 'Please enter a valid phone number',
+                          //       snackPosition: SnackPosition.TOP);
+                          // }
+                        },
+                      ),
 
-                        // const Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: Divider(
-                        //         color: Colors.grey,
-                        //         thickness: 1,
-                        //         indent: 50,
-                        //       ),
-                        //     ),
-                        //     Padding(
-                        //       padding: EdgeInsets.symmetric(horizontal: 10),
-                        //       child: Text(
-                        //         "or",
-                        //         style: TextStyle(color: Colors.grey),
-                        //       ),
-                        //     ),
-                        //     Expanded(
-                        //       child: Divider(
-                        //         color: Colors.grey,
-                        //         thickness: 1,
-                        //         endIndent: 50,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
+                      // const Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Divider(
+                      //         color: Colors.grey,
+                      //         thickness: 1,
+                      //         indent: 50,
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: EdgeInsets.symmetric(horizontal: 10),
+                      //       child: Text(
+                      //         "or",
+                      //         style: TextStyle(color: Colors.grey),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Divider(
+                      //         color: Colors.grey,
+                      //         thickness: 1,
+                      //         endIndent: 50,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
 
-                        // InkWell(
-                        //   onTap: () {
-                        //     showToast(msg: 'Coming Soon');
-                        //     // controller.toggleSecondContainer();
-                        //   },
-                        //   child: Container(
-                        //     height: 50,
-                        //     decoration: BoxDecoration(
-                        //       color: Colors.grey.withOpacity(0.1),
-                        //       borderRadius: BorderRadius.circular(10),
-                        //       border:
-                        //       Border.all(color: AppColor.packageGray),
-                        //     ),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Image.asset("assets/googleLogo.png"),
-                        //         Padding(
-                        //           padding: const EdgeInsets.all(8.0),
-                        //           child: Text("Log in with Google",
-                        //               style: MyTextTheme.smallWCB),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     showToast(msg: 'Coming Soon');
+                      //     // controller.toggleSecondContainer();
+                      //   },
+                      //   child: Container(
+                      //     height: 50,
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.grey.withOpacity(0.1),
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border:
+                      //       Border.all(color: AppColor.packageGray),
+                      //     ),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Image.asset("assets/googleLogo.png"),
+                      //         Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Text("Log in with Google",
+                      //               style: MyTextTheme.smallWCB),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
 
-                      ],
-                    ),
-                  ):
+                    ],
+                  ),
+                ):
 
                   controller.step.value == 1?
                   Padding(
@@ -369,102 +369,112 @@ class LocationPage extends GetView<LocationPageController> {
                                         ),
                                       ),
 
-                                      // Text("Enter the 6-digit verification code sent to the number ending in the last 3 digits ${controller.phoneController.value.text.substring(7)}",
-                                      //               style: MyTextTheme.mustardS),
-                                    ],
-                                  ),
+                                    // Text("Enter the 6-digit verification code sent to the number ending in the last 3 digits ${controller.phoneController.value.text.substring(7)}",
+                                    //               style: MyTextTheme.mustardS),
+                                  ],
                                 ),
-                                // Lottie.asset("assets/otp.lottie",
-                                //     decoder: customDecoder, height: 90),
-                              ],
-                            ),
-                            // Column(
-                            //   children: [
-                            //     Row(
-                            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //       children: [
-                            //         Text("Verifying Your Account",
-                            //             style: MyTextTheme.largeWCB),
-                            //         Lottie.asset("assets/otp.lottie",
-                            //             decoder: customDecoder, height: 80),
-                            //       ],
-                            //     ),
-                            //
-                            //     Row(
-                            //       children: [
-                            //         Text(
-                            //             "Please enter the 6 digit verification code",
-                            //             style: MyTextTheme.mustardS),
-                            //       ],
-                            //     ),
-                            //   ],
-                            // ),
+                              ),
+                              // Lottie.asset("assets/otp.lottie",
+                              //     decoder: customDecoder, height: 90),
+                            ],
+                          ),
+                          // Column(
+                          //   children: [
+                          //     Row(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          //         Text("Verifying Your Account",
+                          //             style: MyTextTheme.largeWCB),
+                          //         Lottie.asset("assets/otp.lottie",
+                          //             decoder: customDecoder, height: 80),
+                          //       ],
+                          //     ),
+                          //
+                          //     Row(
+                          //       children: [
+                          //         Text(
+                          //             "Please enter the 6 digit verification code",
+                          //             style: MyTextTheme.mustardS),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
 
 
 
 
-                            const SizedBox(height: 30),
-                            // PinCodeTextField(
-                            //   keyboardType: TextInputType.number,
-                            //  pinBoxColor: Colors.transparent,
-                            //   pinTextStyle: TextStyle(color: Colors.white),
-                            //   pinBoxBorderWidth: 1.0,
-                            //   pinBoxHeight: 45,
-                            //   pinBoxWidth: 45,
-                            //   maxLength: 6,
-                              // onDone: ,
-                              //
-                              // maxLength: 4,
-                              // pinTheme: PinTheme(
-                              //   inactiveFillColor: AppColor.lightGrey,
-                              //   inactiveColor: AppColor.greyLight,
-                              //   activeColor: AppColor.innerAlignment,
-                              //   activeFillColor: AppColor.primaryColor,
-                              //   shape: PinCodeFieldShape.box,
-                              //   borderRadius: BorderRadius.circular(10),
-                              //   fieldHeight: 50,
-                              //   fieldWidth: 60,
-                              // ),
-                              // cursorColor: Colors.black,
-                              // animationDuration: const Duration(milliseconds: 300),
-                              // enableActiveFill: true,
-                              // keyboardType: TextInputType.number,
+                          const SizedBox(height: 30),
 
-                           // ),
-
-                            OtpTextField(
-                              clearText: true,
-                              keyboardType: TextInputType.number,
-                              cursorColor: AppColor.circleIndicator,
-                              autoFocus: false,
-                              focusedBorderColor: Colors.white,
-                              numberOfFields: 6,
-                              borderColor: const Color(0xFF512DA8),
-                              borderWidth: 1.0,
-                              showFieldAsBox: true,
-                              fieldWidth: 45,
+                          // OtpTextField(
+                          //   keyboardType: TextInputType.number,
+                          //   cursorColor: AppColor.circleIndicator,
+                          //   autoFocus: false,
+                          //   focusedBorderColor: Colors.white,
+                          //   numberOfFields: 6,
+                          //   borderColor: const Color(0xFF512DA8),
+                          //   borderWidth: 1.0,
+                          //   showFieldAsBox: true,
+                          //   fieldWidth: 45,
+                          //   borderRadius: BorderRadius.circular(10),
+                          //   filled: true,
+                          //   fillColor: Colors.grey.withOpacity(0.1),
+                          //   showCursor: true,
+                          //   fieldHeight: 45,
+                          //   inputFormatters: [
+                          //     LengthLimitingTextInputFormatter(1),
+                          //     FilteringTextInputFormatter.digitsOnly,
+                          //   ],
+                          //   textStyle: const TextStyle(color: Colors.white),
+                          //   onCodeChanged: (String code) {
+                          //     // controller.isOtpFilled.value =
+                          //     //     code.length == 6;
+                          //     // if (controller.isOtpFilled.value) {
+                          //     //   controller.verifyOtp(code);
+                          //     // }
+                          //   },
+                          //   onSubmit: (String verificationOTPCode) {
+                          //     // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
+                          //   controller.otpVerification(verificationOTPCode);
+                          //   }, // end onSubmit
+                          // ),
+                          PinCodeTextField(
+                            autoDismissKeyboard: true, //for otp auto fill//
+                            // autofillHints: [AutofillHints.oneTimeCode],
+                            length: 6,
+                            keyboardType: TextInputType.number,
+                            autoFocus: false,
+                            cursorColor: AppColor.circleIndicator,
+                            animationType: AnimationType.scale,
+                            showCursor: true,
+                            pinTheme: PinTheme(
+                              activeBorderWidth: 0,
+                           selectedBorderWidth: 0,
+                              inactiveBorderWidth: 0,
+                              shape: PinCodeFieldShape.box,
                               borderRadius: BorderRadius.circular(10),
-                              filled: true,
-                              fillColor: Colors.grey.withOpacity(0.1),
-                              showCursor: true,
                               fieldHeight: 45,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(1),
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              textStyle: const TextStyle(color: Colors.white),
-                              onCodeChanged: (String code) {
-                                // controller.isOtpFilled.value =
-                                //     code.length == 6;
-                                // if (controller.isOtpFilled.value) {
-                                //   controller.verifyOtp(code);
-                                // }
-                              },
-                              onSubmit: (String verificationOTPCode) {
-                                // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
-                              controller.otpVerification(verificationOTPCode);
-                              }, // end onSubmit
+                              fieldWidth: 45,
+                              activeColor: Colors.white,
+                              inactiveColor:Colors.white,
+                              selectedColor: Colors.white,
+                              selectedFillColor: Colors.grey.withOpacity(0.1),
+                              inactiveFillColor: Colors.grey.withOpacity(0.1),
+                              activeFillColor: Colors.grey.withOpacity(0.1),
                             ),
+                            textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.normal),
+                            enableActiveFill: true,
+                            onChanged: (code) {
+                              // Update state based on input length if necessary
+                              // Example:
+                              // setState(() {
+                              //   isOtpFilled = code.length == 6;
+                              // });
+                            },
+                            onCompleted: (verificationOTPCode) {
+                              print("Completed OTP: $verificationOTPCode");
+                               controller.otpVerification(verificationOTPCode); // Uncomment if using a controller
+                            }, appContext: context,
+                          ),
 
 
                             const SizedBox(height: 20),

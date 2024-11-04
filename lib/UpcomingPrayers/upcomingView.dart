@@ -15,6 +15,8 @@ class Upcoming extends GetView<UpcomingController> {
   Widget build(BuildContext context) {
     final DashBoardController dashboardController = Get.find<DashBoardController>();
     final DateController dateController = Get.put(DateController());
+    final UpcomingController upcomingController = Get.put(UpcomingController());
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -361,10 +363,63 @@ class Upcoming extends GetView<UpcomingController> {
                   //     );
                   //   },
                   // ),
+
+                  // child: Obx(() {
+                  //   return ListView.builder(
+                  //     itemCount: dashboardController.upcomingPrayers.length,
+                  //     itemBuilder: (context, index) {
+                  //       String prayerName = dashboardController.upcomingPrayers[index];
+                  //       String startTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['start'] ?? 'N/A';
+                  //       String endTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['end'] ?? 'N/A';
+                  //       String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+                  //       String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+                  //
+                  //       bool isNextPrayer = (prayerName == dashboardController.nextPrayer.value);
+                  //
+                  //       return Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //             color: isNextPrayer ? AppColor.highlight : AppColor.leaderboard,
+                  //             borderRadius: BorderRadius.circular(10),
+                  //           ),
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.all(8.0),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 Text(prayerName, style: MyTextTheme.medium),
+                  //                 SizedBox(height: 5),
+                  //                 Row(
+                  //                   children: [
+                  //                     Expanded(
+                  //                       child: Text('Starts at', style: MyTextTheme.smallGCN),
+                  //                     ),
+                  //                     Text('Ends at', style: MyTextTheme.smallGCN),
+                  //                   ],
+                  //                 ),
+                  //                 Row(
+                  //                   children: [
+                  //                     Expanded(
+                  //                       child: Text(startTime12, style: MyTextTheme.mediumBCD),
+                  //                     ),
+                  //                     Text(endTime12, style: MyTextTheme.mediumBCD),
+                  //                   ],
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       );
+                  //     },
+                  //   );
+                  // }),
+
+
+
                   child: ListView.builder(
-                    itemCount: dashboardController.upcomingPrayerTimes.length + 1, // Add 1 to count for the upcoming prayer
+                    itemCount: dashboardController.upcomingPrayerTimes.length,
                     itemBuilder: (context, index) {
-                      // Display the upcoming prayer at the top
                       if (index == 0) {
                         String nextPrayer = dashboardController.nextPrayer.value;
                         String startTime24 = dashboardController.upcomingPrayerDuration[nextPrayer]?['start'] ?? 'N/A';
@@ -395,7 +450,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     ),
                                     child: Row(
                                       children: [
-                                        SvgPicture.asset('assets/alarm.svg'),
+                                        const Icon(Icons.timer_outlined),
                                         SizedBox(width: 5),
                                         Text('starts in'),
                                         SizedBox(width: 5),
@@ -406,7 +461,17 @@ class Upcoming extends GetView<UpcomingController> {
                                           );
                                         }),
                                         Spacer(),
-                                        SvgPicture.asset('assets/sound.svg'),
+                                        InkWell(
+                                          onTap: () {
+                                            dashboardController.toggle();
+                                          },
+                                          child: Obx(() {
+                                            return SvgPicture.asset(
+                                              dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
+                                              height: 20,
+                                            );
+                                          }),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -440,9 +505,13 @@ class Upcoming extends GetView<UpcomingController> {
                         );
                       }
 
-                      // For other prayers
                       int prayerIndex = index - 1;
                       String prayerName = dashboardController.upcomingPrayers[prayerIndex];
+
+                      if (prayerName == dashboardController.nextPrayer.value) {
+                        return SizedBox.shrink();
+                      }
+
                       String startTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['start'] ?? 'N/A';
                       String endTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['end'] ?? 'N/A';
                       String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
@@ -491,8 +560,6 @@ class Upcoming extends GetView<UpcomingController> {
                       );
                     },
                   ),
-
-
                 ),
               ),
             ],
@@ -502,3 +569,4 @@ class Upcoming extends GetView<UpcomingController> {
     );
   }
 }
+

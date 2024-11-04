@@ -41,226 +41,392 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
       body:
       CustomScrollView(
         slivers: [
-          Obx(()=>SliverAppBar(
-            title:  Text("Leaderboard",style: MyTextTheme.mediumBCD,),
+          // Obx(()=>SliverAppBar(
+          //   title:  Text("Leaderboard",style: MyTextTheme.mediumBCD,),
+          //   centerTitle: true,
+          //   pinned: true,
+          //    // expandedHeight:350,
+          //   expandedHeight: leaderBoardController.selectedTab.value == 'Weekly' ? 350 : 200,
+          //    // leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6 ,
+          //
+          //   backgroundColor: AppColor.cream,
+          //   leading: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child:
+          //      InkWell(
+          //        onTap: (){
+          //          Get.back();
+          //          // Get.to(
+          //          //       () => DashBoardView(),
+          //          //   transition: Transition.leftToRight,
+          //          //   duration: Duration(milliseconds: 500),
+          //          //   curve: Curves.ease,
+          //          // );
+          //        },
+          //          child: Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 20,)),
+          //
+          //
+          //   ),
+          //
+          //   flexibleSpace: FlexibleSpaceBar(
+          //
+          //     centerTitle: true,
+          //     background: Padding(
+          //       padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
+          //       child: Column(
+          //         // mainAxisAlignment: MainAxisAlignment.end,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           const SizedBox(height: 70,),
+          //           Obx(() => Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               // Daily Button
+          //               GestureDetector(
+          //                 onTap: () =>
+          //                 leaderBoardController.updateSelectedTab ='Daily',
+          //                 child: Container(
+          //                   decoration: BoxDecoration(
+          //                     color: leaderBoardController.getSelectedTab == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
+          //                     borderRadius: BorderRadius.circular(15),
+          //                   ),
+          //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          //                   child: Text(
+          //                     'Daily',
+          //                     style: TextStyle(
+          //                       fontSize: 16,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: leaderBoardController.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //               const SizedBox(width: 10),
+          //               // Weekly Button
+          //               GestureDetector(
+          //                 onTap: () => leaderBoardController.updateSelectedTab = 'Weekly',
+          //                 child: Container(
+          //                   decoration: BoxDecoration(
+          //                     color: leaderBoardController.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
+          //                     borderRadius: BorderRadius.circular(15),
+          //                   ),
+          //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          //                   child: Text(
+          //                     'Weekly',
+          //                     style: TextStyle(
+          //                       fontSize: 16,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: leaderBoardController.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           )),
+          //           const SizedBox(height: 20),
+          //           // leaderBoardController.selectedTab.value == 'Weekly'?MyDateTimeField(
+          //           //     borderColor: AppColor.cream,
+          //           //   hintText: leaderBoardController.selectedDate.value.toString().substring(0,10),
+          //           //   // controller: leaderBoardController.dateC,
+          //           //   // initialValue: leaderBoardController.selectedDate.value.toString().substring(0,10),
+          //           //   onChanged: (val){
+          //           //       if(val!=null){
+          //           //         leaderBoardController.weeklyApi(val.toString());
+          //           //         print("val $val");
+          //           //         print("val ${leaderBoardController.selectedDate.value.toString().substring(0,10)}");
+          //           //       }
+          //           //   },
+          //           //   //   decoration: InputDecoration(
+          //           //   //   fillColor: Colors.transparent,
+          //           //   // ),
+          //           //   ):
+          //           InkWell(
+          //             onTap: () async {
+          //               DateTime? picked = await showDatePicker(
+          //                 context: context,
+          //                 initialDate: dateController.selectedDate.value,
+          //                 firstDate: DateTime(2020),
+          //                 lastDate: DateTime.now(),
+          //
+          //               );
+          //               if (picked != null) {
+          //                 dateController.updateSelectedDate(picked);
+          //                 String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+          //                 print("formattedDate $formattedDate");
+          //                 leaderBoardController.weeklyApi(formattedDate.toString());
+          //                 // leaderBoardController.leaderboard(formattedDate);
+          //               }
+          //             },
+          //             child: Row(
+          //               children: [
+          //                 SvgPicture.asset("assets/calendar3.svg",height: 15,),
+          //                 const SizedBox(width: 5),
+          //                 Obx(() => Row(
+          //                   children: [
+          //                     Text(
+          //                       DateFormat('EEE,d MMMM yyyy').format(dateController.selectedDate.value),
+          //                       style: const TextStyle(fontSize: 12, color: Colors.black),
+          //                       overflow: TextOverflow.ellipsis,
+          //                     ),
+          //                     Container(
+          //                       width: 1, // Vertical divider width
+          //                       height: 15, // Divider height
+          //                       color: Colors.grey,
+          //                       margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+          //                     ),
+          //
+          //                     Obx(
+          //                           () => Text(
+          //                         dashboardController.islamicDate.value,
+          //                         style: const TextStyle(fontSize: 12, color: Colors.black),
+          //                         overflow: TextOverflow.ellipsis,
+          //                       ),
+          //                     ),
+          //                     // Expanded(
+          //                     //   child: Text(
+          //                     //     dateController.formatHijriDate(dateController.selectedDate.value),
+          //                     //     style: const TextStyle(fontSize: 14, color: Colors.black),
+          //                     //     overflow: TextOverflow.ellipsis,
+          //                     //   ),
+          //                     // ),
+          //                   ],
+          //                 )),
+          //               ],
+          //             ),
+          //           ),
+          //           if(leaderBoardController.selectedTab.value != 'Weekly')
+          //           Center(child: Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             // child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+          //           )),
+          //           if(leaderBoardController.selectedTab.value == 'Weekly')
+          //             Obx(() {
+          //               return TopRankedUsers(rankedFriends: leaderBoardController.weeklyRanked.value,);
+          //             }
+          //           ),
+          //           SizedBox(height: 10,),
+          //
+          //           // Obx(()=>Visibility(
+          //           //   visible: leaderBoardController.selectedTab.value == 'Daily',
+          //           //   child:  Row(
+          //           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           //     children: [
+          //           //       CircleAvatar(
+          //           //         radius: 20,
+          //           //         backgroundColor: AppColor.circleIndicator,
+          //           //         child: Text("F",style: MyTextTheme.mediumB,),
+          //           //       ),
+          //           //       CircleAvatar(
+          //           //         backgroundColor: AppColor.circleIndicator,
+          //           //         radius: 20,
+          //           //         child: Text("Z",style: MyTextTheme.mediumB,),
+          //           //       ),
+          //           //       CircleAvatar(
+          //           //         backgroundColor: AppColor.circleIndicator,
+          //           //         radius: 20,
+          //           //         child: Text("A",style: MyTextTheme.mediumB,),
+          //           //       ),
+          //           //       CircleAvatar(
+          //           //         backgroundColor: AppColor.circleIndicator,
+          //           //         radius: 20,
+          //           //         child: Text("M",style: MyTextTheme.mediumB,),
+          //           //       ),
+          //           //       CircleAvatar(
+          //           //         backgroundColor: AppColor.circleIndicator,
+          //           //         radius: 20,
+          //           //         child: Text("I",style: MyTextTheme.mediumB,),
+          //           //       )
+          //           //     ],
+          //           //   ),
+          //           // ),),
+          //           // if(leaderBoardController.selectedTab.value == 'Daily')
+          //           // DailyTopLeaderboard(records:leaderBoardController.getLeaderboardList.value!=null?
+          //           // leaderBoardController.getLeaderboardList.value!.records:[],
+          //           //   ranked: leaderBoardController.getLeaderboardList.value!=null?
+          //           //   leaderBoardController.getLeaderboardList.value!.rankedFriends:[],),
+          //           //
+          //           // Obx(()=>Visibility(
+          //           //   visible: controller.selectedTab.value == 'Weekly',
+          //           //   child: Row(
+          //           //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //           //     children: [
+          //           //       _buildTopUser("assets/bg.jpeg", "Abid Ali", "97%", 2),
+          //           //       _buildTopUser("assets/bg.jpeg", "Amira", "98.5%", 1),
+          //           //       _buildTopUser("assets/bg.jpeg", "Waleed Ahmed", "98%", 3),
+          //           //     ],
+          //           //   ),
+          //           // ),)
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),),
+          Obx(() => SliverAppBar(
+            title: Text(
+              "Leaderboard",
+              style: MyTextTheme.mediumBCD,
+            ),
             centerTitle: true,
             pinned: true,
-             // expandedHeight:350,
             expandedHeight: leaderBoardController.selectedTab.value == 'Weekly' ? 350 : 200,
-             // leaderBoardController.getSelectedTab == 'Daily'?Get.height/3.9:Get.height/2.6 ,
-
             backgroundColor: AppColor.cream,
             leading: Padding(
               padding: const EdgeInsets.all(8.0),
-              child:
-               InkWell(
-                 onTap: (){
-                   Get.back();
-                   // Get.to(
-                   //       () => DashBoardView(),
-                   //   transition: Transition.leftToRight,
-                   //   duration: Duration(milliseconds: 500),
-                   //   curve: Curves.ease,
-                   // );
-                 },
-                   child: Icon(Icons.arrow_back_ios_new, color: Colors.black,size: 20,)),
-
-
-            ),
-
-            flexibleSpace: FlexibleSpaceBar(
-
-              centerTitle: true,
-              background: Padding(
-                padding: const EdgeInsets.all(16.0), // Adjust padding to avoid overflow
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 70,),
-                    Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Daily Button
-                        GestureDetector(
-                          onTap: () =>
-                          leaderBoardController.updateSelectedTab ='Daily',
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: leaderBoardController.getSelectedTab == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            child: Text(
-                              'Daily',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: leaderBoardController.selectedTab.value == 'Daily' ? Colors.white : Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        // Weekly Button
-                        GestureDetector(
-                          onTap: () => leaderBoardController.updateSelectedTab = 'Weekly',
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: leaderBoardController.selectedTab.value == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            child: Text(
-                              'Weekly',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: leaderBoardController.selectedTab.value == 'Weekly' ? Colors.white : Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                    const SizedBox(height: 20),
-                    // leaderBoardController.selectedTab.value == 'Weekly'?MyDateTimeField(
-                    //     borderColor: AppColor.cream,
-                    //   hintText: leaderBoardController.selectedDate.value.toString().substring(0,10),
-                    //   // controller: leaderBoardController.dateC,
-                    //   // initialValue: leaderBoardController.selectedDate.value.toString().substring(0,10),
-                    //   onChanged: (val){
-                    //       if(val!=null){
-                    //         leaderBoardController.weeklyApi(val.toString());
-                    //         print("val $val");
-                    //         print("val ${leaderBoardController.selectedDate.value.toString().substring(0,10)}");
-                    //       }
-                    //   },
-                    //   //   decoration: InputDecoration(
-                    //   //   fillColor: Colors.transparent,
-                    //   // ),
-                    //   ):
-                    InkWell(
-                      onTap: () async {
-                        DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: dateController.selectedDate.value,
-                          firstDate: DateTime(2020),
-                          lastDate: DateTime.now(),
-
-                        );
-                        if (picked != null) {
-                          dateController.updateSelectedDate(picked);
-                          String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-                          print("formattedDate $formattedDate");
-                          leaderBoardController.weeklyApi(formattedDate.toString());
-                          // leaderBoardController.leaderboard(formattedDate);
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/calendar3.svg",height: 15,),
-                          const SizedBox(width: 5),
-                          Obx(() => Row(
-                            children: [
-                              Text(
-                                DateFormat('EEE,d MMMM yyyy').format(dateController.selectedDate.value),
-                                style: const TextStyle(fontSize: 12, color: Colors.black),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Container(
-                                width: 1, // Vertical divider width
-                                height: 15, // Divider height
-                                color: Colors.grey,
-                                margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
-                              ),
-
-                              Obx(
-                                    () => Text(
-                                  dashboardController.islamicDate.value,
-                                  style: const TextStyle(fontSize: 12, color: Colors.black),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              // Expanded(
-                              //   child: Text(
-                              //     dateController.formatHijriDate(dateController.selectedDate.value),
-                              //     style: const TextStyle(fontSize: 14, color: Colors.black),
-                              //     overflow: TextOverflow.ellipsis,
-                              //   ),
-                              // ),
-                            ],
-                          )),
-                        ],
-                      ),
-                    ),
-                    if(leaderBoardController.selectedTab.value != 'Weekly')
-                    Center(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      // child: const Text("TODAY'S TIMELINE",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
-                    )),
-                    if(leaderBoardController.selectedTab.value == 'Weekly')
-                      Obx(() {
-                        return TopRankedUsers(rankedFriends: leaderBoardController.weeklyRanked.value,);
-                      }
-                    ),
-                    SizedBox(height: 10,),
-
-                    // Obx(()=>Visibility(
-                    //   visible: leaderBoardController.selectedTab.value == 'Daily',
-                    //   child:  Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       CircleAvatar(
-                    //         radius: 20,
-                    //         backgroundColor: AppColor.circleIndicator,
-                    //         child: Text("F",style: MyTextTheme.mediumB,),
-                    //       ),
-                    //       CircleAvatar(
-                    //         backgroundColor: AppColor.circleIndicator,
-                    //         radius: 20,
-                    //         child: Text("Z",style: MyTextTheme.mediumB,),
-                    //       ),
-                    //       CircleAvatar(
-                    //         backgroundColor: AppColor.circleIndicator,
-                    //         radius: 20,
-                    //         child: Text("A",style: MyTextTheme.mediumB,),
-                    //       ),
-                    //       CircleAvatar(
-                    //         backgroundColor: AppColor.circleIndicator,
-                    //         radius: 20,
-                    //         child: Text("M",style: MyTextTheme.mediumB,),
-                    //       ),
-                    //       CircleAvatar(
-                    //         backgroundColor: AppColor.circleIndicator,
-                    //         radius: 20,
-                    //         child: Text("I",style: MyTextTheme.mediumB,),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),),
-                    // if(leaderBoardController.selectedTab.value == 'Daily')
-                    // DailyTopLeaderboard(records:leaderBoardController.getLeaderboardList.value!=null?
-                    // leaderBoardController.getLeaderboardList.value!.records:[],
-                    //   ranked: leaderBoardController.getLeaderboardList.value!=null?
-                    //   leaderBoardController.getLeaderboardList.value!.rankedFriends:[],),
-                    //
-                    // Obx(()=>Visibility(
-                    //   visible: controller.selectedTab.value == 'Weekly',
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //     children: [
-                    //       _buildTopUser("assets/bg.jpeg", "Abid Ali", "97%", 2),
-                    //       _buildTopUser("assets/bg.jpeg", "Amira", "98.5%", 1),
-                    //       _buildTopUser("assets/bg.jpeg", "Waleed Ahmed", "98%", 3),
-                    //     ],
-                    //   ),
-                    // ),)
-                  ],
+              child: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.black,
+                  size: 20,
                 ),
               ),
             ),
-          ),),
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // Background Image
+              SvgPicture.asset(
+                    "assets/jali.svg",
+                    fit: BoxFit.cover,
+                 color: AppColor.greyDark
+                  ),
+                  // Adding Padding and other widgets over the background image
+                  Padding(
+                    padding: const EdgeInsets.all(16.0), // Adjust padding as needed
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 70),
+                        Obx(() => Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Daily Button
+                            GestureDetector(
+                              onTap: () =>
+                              leaderBoardController.updateSelectedTab = 'Daily',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: leaderBoardController.getSelectedTab == 'Daily'
+                                      ? AppColor.circleIndicator
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                child: Text(
+                                  'Daily',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: leaderBoardController.selectedTab.value == 'Daily'
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            // Weekly Button
+                            GestureDetector(
+                              onTap: () =>
+                              leaderBoardController.updateSelectedTab = 'Weekly',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: leaderBoardController.selectedTab.value == 'Weekly'
+                                      ? AppColor.circleIndicator
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                child: Text(
+                                  'Weekly',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: leaderBoardController.selectedTab.value == 'Weekly'
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                        const SizedBox(height: 20),
+                        InkWell(
+                          onTap: () async {
+                            DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: dateController.selectedDate.value,
+                              firstDate: DateTime(2020),
+                              lastDate: DateTime.now(),
+                            );
+                            if (picked != null) {
+                              dateController.updateSelectedDate(picked);
+                              String formattedDate =
+                              DateFormat('dd-MM-yyyy').format(picked);
+                              leaderBoardController.weeklyApi(formattedDate.toString());
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset("assets/calendar3.svg", height: 15),
+                              const SizedBox(width: 5),
+                              Obx(() => Row(
+                                children: [
+                                  Text(
+                                    DateFormat('EEE, d MMMM yyyy')
+                                        .format(dateController.selectedDate.value),
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Container(
+                                    width: 1,
+                                    height: 15,
+                                    color: Colors.grey,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                  ),
+                                  Obx(
+                                        () => Text(
+                                      dashboardController.islamicDate.value,
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                            ],
+                          ),
+                        ),
+                        if (leaderBoardController.selectedTab.value != 'Weekly')
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                            ),
+                          ),
+                        if (leaderBoardController.selectedTab.value == 'Weekly')
+                          Obx(() {
+                            return TopRankedUsers(
+                              rankedFriends: leaderBoardController.weeklyRanked.value,
+                            );
+                          }),
+                        SizedBox(height: 10),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          ),
 
 
 
