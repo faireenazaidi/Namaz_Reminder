@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
-import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/text_theme.dart';
@@ -394,38 +393,75 @@ class LocationPage extends GetView<LocationPageController> {
 
                           const SizedBox(height: 30),
 
-                          OtpTextField(
-                            clearText: true,
+                          // OtpTextField(
+                          //   keyboardType: TextInputType.number,
+                          //   cursorColor: AppColor.circleIndicator,
+                          //   autoFocus: false,
+                          //   focusedBorderColor: Colors.white,
+                          //   numberOfFields: 6,
+                          //   borderColor: const Color(0xFF512DA8),
+                          //   borderWidth: 1.0,
+                          //   showFieldAsBox: true,
+                          //   fieldWidth: 45,
+                          //   borderRadius: BorderRadius.circular(10),
+                          //   filled: true,
+                          //   fillColor: Colors.grey.withOpacity(0.1),
+                          //   showCursor: true,
+                          //   fieldHeight: 45,
+                          //   inputFormatters: [
+                          //     LengthLimitingTextInputFormatter(1),
+                          //     FilteringTextInputFormatter.digitsOnly,
+                          //   ],
+                          //   textStyle: const TextStyle(color: Colors.white),
+                          //   onCodeChanged: (String code) {
+                          //     // controller.isOtpFilled.value =
+                          //     //     code.length == 6;
+                          //     // if (controller.isOtpFilled.value) {
+                          //     //   controller.verifyOtp(code);
+                          //     // }
+                          //   },
+                          //   onSubmit: (String verificationOTPCode) {
+                          //     // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
+                          //   controller.otpVerification(verificationOTPCode);
+                          //   }, // end onSubmit
+                          // ),
+                          PinCodeTextField(
+                            autoDismissKeyboard: true, //for otp auto fill//
+                            // autofillHints: [AutofillHints.oneTimeCode],
+                            length: 6,
                             keyboardType: TextInputType.number,
-                            cursorColor: AppColor.circleIndicator,
                             autoFocus: false,
-                            focusedBorderColor: Colors.white,
-                            numberOfFields: 6,
-                            borderColor: const Color(0xFF512DA8),
-                            borderWidth: 1.0,
-                            showFieldAsBox: true,
-                            fieldWidth: 45,
-                            borderRadius: BorderRadius.circular(10),
-                            filled: true,
-                            fillColor: Colors.grey.withOpacity(0.1),
+                            cursorColor: AppColor.circleIndicator,
+                            animationType: AnimationType.scale,
                             showCursor: true,
-                            fieldHeight: 45,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(1),
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            textStyle: const TextStyle(color: Colors.white),
-                            onCodeChanged: (String code) {
-                              // controller.isOtpFilled.value =
-                              //     code.length == 6;
-                              // if (controller.isOtpFilled.value) {
-                              //   controller.verifyOtp(code);
-                              // }
+                            pinTheme: PinTheme(
+                              activeBorderWidth: 0,
+                           selectedBorderWidth: 0,
+                              inactiveBorderWidth: 0,
+                              shape: PinCodeFieldShape.box,
+                              borderRadius: BorderRadius.circular(10),
+                              fieldHeight: 45,
+                              fieldWidth: 45,
+                              activeColor: Colors.white,
+                              inactiveColor:Colors.white,
+                              selectedColor: Colors.white,
+                              selectedFillColor: Colors.grey.withOpacity(0.1),
+                              inactiveFillColor: Colors.grey.withOpacity(0.1),
+                              activeFillColor: Colors.grey.withOpacity(0.1),
+                            ),
+                            textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.normal),
+                            enableActiveFill: true,
+                            onChanged: (code) {
+                              // Update state based on input length if necessary
+                              // Example:
+                              // setState(() {
+                              //   isOtpFilled = code.length == 6;
+                              // });
                             },
-                            onSubmit: (String verificationOTPCode) {
-                              // controller.otpVerifiedWithPhoneNumber(verificationOTPCode);
-                            controller.otpVerification(verificationOTPCode);
-                            }, // end onSubmit
+                            onCompleted: (verificationOTPCode) {
+                              print("Completed OTP: $verificationOTPCode");
+                               controller.otpVerification(verificationOTPCode); // Uncomment if using a controller
+                            }, appContext: context,
                           ),
 
 
@@ -1410,4 +1446,3 @@ Future<LottieComposition?> customDecoder(List<int> bytes) {
             (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'));
   });
 }
-

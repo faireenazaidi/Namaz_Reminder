@@ -418,9 +418,8 @@ class Upcoming extends GetView<UpcomingController> {
 
 
                   child: ListView.builder(
-                    itemCount: dashboardController.upcomingPrayerTimes.length + 1,
+                    itemCount: dashboardController.upcomingPrayerTimes.length,
                     itemBuilder: (context, index) {
-                      // Display the upcoming prayer at the top
                       if (index == 0) {
                         String nextPrayer = dashboardController.nextPrayer.value;
                         String startTime24 = dashboardController.upcomingPrayerDuration[nextPrayer]?['start'] ?? 'N/A';
@@ -451,9 +450,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     ),
                                     child: Row(
                                       children: [
-                                        // SvgPicture.asset('assets/alarm.svg'),
-                                        const Icon(Icons.timer_outlined,),
-
+                                        const Icon(Icons.timer_outlined),
                                         SizedBox(width: 5),
                                         Text('starts in'),
                                         SizedBox(width: 5),
@@ -464,27 +461,18 @@ class Upcoming extends GetView<UpcomingController> {
                                           );
                                         }),
                                         Spacer(),
-
-                                            // InkWell(
-                                            //   onTap: (){},
-                                            //     child: SvgPicture.asset('assets/sound.svg',height: 20,)),
-                                    InkWell(
-                                      onTap: () {
-                                        dashboardController.toggle();
-                                      },
-                                      child: Obx(() {
-                                        return SvgPicture.asset(
-                                          dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
-                                          height: 20,
-                                        );
-                                      }),
-                                    ),
-
-
-
-
-
-                            ],
+                                        InkWell(
+                                          onTap: () {
+                                            dashboardController.toggle();
+                                          },
+                                          child: Obx(() {
+                                            return SvgPicture.asset(
+                                              dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
+                                              height: 20,
+                                            );
+                                          }),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   SizedBox(height: 5),
@@ -517,9 +505,13 @@ class Upcoming extends GetView<UpcomingController> {
                         );
                       }
 
-                      // For other prayers
                       int prayerIndex = index - 1;
                       String prayerName = dashboardController.upcomingPrayers[prayerIndex];
+
+                      if (prayerName == dashboardController.nextPrayer.value) {
+                        return SizedBox.shrink();
+                      }
+
                       String startTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['start'] ?? 'N/A';
                       String endTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['end'] ?? 'N/A';
                       String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
@@ -568,8 +560,6 @@ class Upcoming extends GetView<UpcomingController> {
                       );
                     },
                   ),
-
-
                 ),
               ),
             ],
