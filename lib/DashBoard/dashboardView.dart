@@ -1798,6 +1798,31 @@ class PrayerScoreBar extends StatelessWidget {
             ),
           ],
         ),
+        // Display all users below the bar according to their percentage
+        SizedBox(height: 30), // Space between the bar and user avatars
+        SizedBox(
+          height: 200,
+          child: Stack(
+            children: filteredRecords.map((record) {
+              double percentage = double.parse(record['score'].toString()) ?? 0.0;
+              return Positioned(
+                right: MediaQuery.of(context).size.width * 0.8 * (percentage / 100) - 12,
+                top: 0,
+                child: Column(
+                  children: [
+                    SizedBox(height: 40), // Space to align below the bar
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundImage: record['user']['picture'] != null
+                          ? NetworkImage(record['user']['picture'])
+                          : AssetImage('assets/default-avatar.jpg') as ImageProvider,
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
       ],
     );
   }
