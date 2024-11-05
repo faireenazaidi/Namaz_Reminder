@@ -165,10 +165,10 @@ Future<void> fetchPrayerTimeData() async {
       "timings": {
   "Fajr": "04:51 (IST)",
   "Sunrise": "05:59 (IST)",
-  "Dhuhr": "13:40 (IST)",
-  "Asr": "19:45 (IST)",
+  "Dhuhr": "12:01 (IST)",
+  "Asr": "12:30 (IST)",
   "Sunset": "17:53 (IST)",
-  "Maghrib": "20:20 (IST)",
+  "Maghrib": "12:40 (IST)",
   "Isha": "21:00 (IST)",
   "Imsak": "04:41 (IST)",
   "Midnight": "23:56 (IST)",
@@ -179,7 +179,7 @@ Future<void> fetchPrayerTimeData() async {
   "readable": "01 Oct 2024",
   "timestamp": "1727753461",
   "gregorian": {
-  "date": "04-11-2024",
+  "date": "05-11-2024",
   "format": "DD-MM-YYYY",
   "day": "01",
   "weekday": {
@@ -304,6 +304,7 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
   AwesomeNotificationService().showNotification(title: "inside schedule $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   // Check if the scheduled time is in the future
     AwesomeNotificationService().showNotification(title: "just to hit $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+  print("Attempting to schedule notification for $prayerName at $scheduledTime");
     AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: 5, // Unique ID for each prayer
@@ -319,17 +320,21 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
         customSound: 'resource://raw/important_tone'
       ),
       schedule: NotificationCalendar(
-        year: scheduledTime.year,
-        month: scheduledTime.month,
-        day: scheduledTime.day,
-        hour: scheduledTime.hour,
-        minute: scheduledTime.minute,
+        year: 2024,
+        month: 11,
+        day: 05,
+        hour: 13,
+        minute: 45,
         second: 0,
         millisecond: 0,
         repeats: false,
         preciseAlarm: true,
       ),
-    );
+    ).then((value) {
+      print("Notification scheduled successfully: $value");
+    }).catchError((error) {
+      print("Error scheduling notification: $error");
+    });
 
 }
 

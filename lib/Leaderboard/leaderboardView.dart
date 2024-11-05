@@ -668,7 +668,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             child: Visibility(
                 visible: leaderBoardController.selectedTab.value == 'Weekly',
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.55,
+                  height: MediaQuery.of(context).size.height * 0.57,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(50.0),

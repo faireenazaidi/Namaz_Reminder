@@ -74,7 +74,9 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
         backgroundColor: AppColor.gray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
+          onTap: () {
+            // Navigator.of(context).pop();
+          },
           child: Container(
             width: screenWidth * 0.70,
             padding: EdgeInsets.symmetric(
@@ -195,11 +197,14 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                                 isAm = true;
                               });
                             },
-                            child: Text(
-                              "AM",
-                              style: TextStyle(
-                                color: isAm ? Colors.white: Colors.grey,
-                                fontSize: isAm  ? 20.0 : 16.0,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8.0,8,8,4),
+                              child: Text(
+                                "AM",
+                                style: TextStyle(
+                                  color: isAm ? Colors.white: Colors.grey,
+                                  fontSize: isAm  ? 20.0 : 16.0,
+                                ),
                               ),
                             ),
                           ),
@@ -210,11 +215,14 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                               });
                             },
                             child:
-                            Text(
-                              "PM",
-                              style: TextStyle(
-                                color: !isAm ? Colors.white : Colors.grey,
-                                fontSize: !isAm  ? 20.0 : 16.0,
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8.0,4,8,8),
+                              child: Text(
+                                "PM",
+                                style: TextStyle(
+                                  color: !isAm ? Colors.white : Colors.grey,
+                                  fontSize: !isAm  ? 20.0 : 16.0,
+                                ),
                               ),
                             ),
 
