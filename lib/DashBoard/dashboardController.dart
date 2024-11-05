@@ -5,6 +5,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
@@ -17,6 +18,8 @@ import '../Services/notification_service.dart';
 import '../SplashScreen/splashController.dart';
 import '../Widget/location_services.dart';
 class DashBoardController extends GetxController {
+  final PageController pageController = PageController();
+
   RxString islamicDate = ''.obs;
   RxInt rank = 0.obs;
   RxInt totalPeers = 1.obs;
@@ -27,7 +30,6 @@ class DashBoardController extends GetxController {
   RxString sunsetTime = ''.obs;
   RxString zawalTime = ''.obs;
   RxString nextPrayer = ''.obs;
-
   RxString nextPrayerStartTime = ''.obs;
   RxDouble progressPercent = 0.0.obs;
   RxList<String> avatars = <String>[].obs;
@@ -59,7 +61,7 @@ class DashBoardController extends GetxController {
     'Isha'
   ].obs;
   var currentPrayerIndex = 0.obs;
-  var nextPrayerIndex = 1.obs;
+  RxInt nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
   List calendarData = [].obs;
   List<CalendarWiseData> extractedData = [];
@@ -117,15 +119,38 @@ class DashBoardController extends GetxController {
     upcomingPrayerDuration = val;
     update();
   }
+// Inside your DashboardController
 
+
+  // List<String> getUpcomingPrayers() {
+  //   final now = DateTime.now();
+  //   List<String> filteredPrayers = [];
+  //
+  //   // Always include the next prayer
+  //   String nextPrayerName = nextPrayer.value; // Assuming nextPrayer is already set
+  //   if (nextPrayerName.isNotEmpty && !filteredPrayers.contains(nextPrayerName)) {
+  //     filteredPrayers.add(nextPrayerName);
+  //   }
+  //
+  //   // Add remaining upcoming prayers
+  //   for (var prayer in upcomingPrayers) {
+  //     String? endTime24 = upcomingPrayerDuration[prayer]?['end'];
+  //     if (endTime24 != null) {
+  //       DateTime endDateTime = parseTime(endTime24);
+  //       if (endDateTime.isAfter(now) && !filteredPrayers.contains(prayer)) {
+  //         filteredPrayers.add(prayer);
+  //       }
+  //     }
+  //   }
+  //   return filteredPrayers;
+  // }
 
   final ScrollController scrollController = ScrollController();
-
   void scrollToHighlightedPrayer() {
     int nextPrayerIndex = prayerNames.indexOf(nextPrayer.value);
     scrollController.animateTo(
       nextPrayerIndex * 100.0,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
@@ -178,6 +203,7 @@ class DashBoardController extends GetxController {
   void onInit() async {
     super.onInit();
     highlightCurrentPrayer();
+    //scrollToHighlightedPrayer();
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   scrollToHighlightedPrayer();
@@ -191,6 +217,7 @@ class DashBoardController extends GetxController {
     prayerTimer!.cancel();
     _timer.cancel();
     super.dispose();
+
   }
 
   @override

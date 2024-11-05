@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
@@ -150,12 +151,12 @@ class Upcoming extends GetView<UpcomingController> {
                               left: 0,
                               right: 0,
                               bottom: 0,
-                              // child: ListView.builder(
-                              //   scrollDirection: Axis.horizontal,
-                              //   controller: dashboardController.scrollController,
+                              // child: PageView.builder(
+                              //   controller: dashboardController.pageController,
                               //   itemCount: dashboardController.prayerNames.length,
                               //   itemBuilder: (context, index) {
                               //     bool isHighlighted = false;
+                              //     bool isPassedPrayer = false;
                               //
                               //     // Compare current date with selected date
                               //     bool isCurrentDate = DateFormat('yyyy-MM-dd').format(DateTime.now()) ==
@@ -168,23 +169,33 @@ class Upcoming extends GetView<UpcomingController> {
                               //         int nextPrayerIndex =
                               //             (currentPrayerIndex + 1) % dashboardController.prayerNames.length;
                               //         isHighlighted = nextPrayerIndex == index;
+                              //         isPassedPrayer = index < nextPrayerIndex;
                               //       } else {
                               //         isHighlighted = dashboardController.nextPrayer.value ==
                               //             dashboardController.prayerNames[index];
+                              //         isPassedPrayer = dashboardController.prayerNames.indexOf(dashboardController.nextPrayer.value) > index;
                               //       }
                               //     }
-                              //     print(dashboardController.nextPrayer);
                               //
                               //     return Transform.scale(
                               //       scale: isHighlighted ? 1.1 : 1.0,
                               //       child: Opacity(
                               //         opacity: isHighlighted ? 1.0 : 0.6,
                               //         child: Container(
-                              //           width: 80,
                               //           margin: const EdgeInsets.symmetric(horizontal: 8),
                               //           child: Stack(
                               //             children: [
-                              //               SvgPicture.asset("assets/Vec.svg"),
+                              //               SvgPicture.asset(
+                              //                 "assets/Vec.svg",
+                              //                 colorFilter: isPassedPrayer
+                              //                     ? const ColorFilter.matrix(<double>[
+                              //                   0.2126, 0.7152, 0.072, 0, 0,
+                              //                   0.2126, 0.7152, 0.0722, 0, 0,
+                              //                   0.2126, 0.7152, 0.0722, 0, 0,
+                              //                   0, 0, 0, 1, 0,
+                              //                 ])
+                              //                     : null,
+                              //               ),
                               //               Column(
                               //                 mainAxisAlignment: MainAxisAlignment.center,
                               //                 children: [
@@ -192,7 +203,7 @@ class Upcoming extends GetView<UpcomingController> {
                               //                     dashboardController.prayerNames[index].toUpperCase(),
                               //                     style: TextStyle(
                               //                       color: Colors.white,
-                              //                       fontSize: isHighlighted ? 13 : 13,
+                              //                       fontSize: isHighlighted ? 16 : 14,
                               //                     ),
                               //                   ),
                               //                   const SizedBox(height: 8),
@@ -411,329 +422,383 @@ class Upcoming extends GetView<UpcomingController> {
                   //   );
                   // }),
 
-                  // child: ListView.builder(
-                  //   itemCount: dashboardController.upcomingPrayerTimes.length,
-                  //   itemBuilder: (context, index) {
-                  //     if (index == 0) {
-                  //       String nextPrayer = dashboardController.nextPrayer.value;
-                  //       String startTime24 = dashboardController.upcomingPrayerDuration[nextPrayer]?['start'] ?? 'N/A';
-                  //       String endTime24 = dashboardController.upcomingPrayerDuration[nextPrayer]?['end'] ?? 'N/A';
-                  //       String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
-                  //       String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
                   //
-                  //       return Padding(
-                  //         padding: const EdgeInsets.all(8.0),
-                  //         child: Container(
-                  //           decoration: BoxDecoration(
-                  //             color: AppColor.lmustard,
-                  //             borderRadius: BorderRadius.circular(10),
-                  //           ),
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.all(8.0),
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 Text(controller.nextPrayerName.value,style: MyTextTheme.medium
-                  //
-                  //                 ),
-                  //                 // Text(nextPrayer, style: MyTextTheme.medium),
-                  //                 SizedBox(height: 10),
-                  //                 Container(
-                  //                   width: double.infinity,
-                  //                   padding: const EdgeInsets.all(8.0),
-                  //                   decoration: BoxDecoration(
-                  //                     color: AppColor.packageGray,
-                  //                     borderRadius: BorderRadius.circular(15),
-                  //                   ),
-                  //                   child: Row(
-                  //                     children: [
-                  //                       const Icon(Icons.timer_outlined),
-                  //                       SizedBox(width: 5),
-                  //                       Text('starts in'),
-                  //                       SizedBox(width: 5),
-                  //                       Obx(() {
-                  //                         return Text(
-                  //                           dashboardController.remainingTime.value,
-                  //                           style: MyTextTheme.smallGCN,
-                  //                         );
-                  //                       }),
-                  //                       Spacer(),
-                  //                       InkWell(
-                  //                         onTap: () {
-                  //                           dashboardController.toggle();
-                  //                         },
-                  //                         child: Obx(() {
-                  //                           return SvgPicture.asset(
-                  //                             dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
-                  //                             height: 20,
-                  //                           );
-                  //                         }),
-                  //                       ),
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //                 SizedBox(height: 5),
-                  //                 Row(
-                  //                   children: [
-                  //                     Expanded(
-                  //                       child: Text('Starts at', style: MyTextTheme.smallGCN),
-                  //                     ),
-                  //                     Text('Ends at', style: MyTextTheme.smallGCN),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   children: [
-                  //                     Expanded(
-                  //                       child: Text(controller.upcomingPrayerStartTime.value,style: MyTextTheme.mediumBCD)
-                  //                     ),
-                  //
-                  //                     Text(controller.upcomingPrayerEndTime.value,style: MyTextTheme.mediumBCD)
-                  //                   ],
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       );
-                  //     }
-                  //     int prayerIndex = index - 0;
-                  //     String prayerName = dashboardController.upcomingPrayers[prayerIndex];
-                  //     String startTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['start'] ?? 'N/A';
-                  //     String endTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['end'] ?? 'N/A';
-                  //     String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
-                  //     String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
-                  //
-                  //     return Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Container(
-                  //         decoration: BoxDecoration(
-                  //           color: AppColor.leaderboard,
-                  //           borderRadius: BorderRadius.circular(10),
-                  //         ),
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.all(8.0),
-                  //           child: Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Text(prayerName, style: MyTextTheme.medium),
-                  //               SizedBox(height: 5),
-                  //               Row(
-                  //                 children: [
-                  //                   Expanded(
-                  //                     child: Text('Starts at', style: MyTextTheme.smallGCN),
-                  //                   ),
-                  //                   Text('Ends at', style: MyTextTheme.smallGCN),
-                  //                 ],
-                  //               ),
-                  //               Row(
-                  //                 children: [
-                  //                   Expanded(
-                  //                     child: Text(
-                  //                       startTime12,
-                  //                       style: MyTextTheme.mediumBCD,
-                  //                     ),
-                  //                   ),
-                  //                   Text(
-                  //                     endTime12,
-                  //                     style: MyTextTheme.mediumBCD,
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                  child:ListView.builder(
-                    itemCount: dashboardController.upcomingPrayerTimes.length,
-                    itemBuilder: (context, index) {
-                      // For the first item (next prayer)
-                      if (index == 0) {
-                        String nextPrayer = dashboardController.nextPrayer.value;
-                        String startTime24 = dashboardController.upcomingPrayerDuration[nextPrayer]?['start'] ?? 'N/A';
-                        String endTime24 = dashboardController.upcomingPrayerDuration[nextPrayer]?['end'] ?? 'N/A';
-                        String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
-                        String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+                 // child: ListView.builder(
+                 //    itemCount: dashboardController.upcomingPrayers.length,
+                 //    itemBuilder: (context, index) {
+                 //      var upcomingPrayers = dashboardController.upcomingPrayers;
+                 //      var prayerDurations = dashboardController.upcomingPrayerDuration;
+                 //      String currentTime = DateFormat('HH:mm').format(DateTime.now());
+                 //      List<Map<String, String>> prayerList = upcomingPrayers.map((prayer) {
+                 //        String startTime = prayerDurations[prayer]?['start'] ?? 'N/A';
+                 //        return {
+                 //          'name': prayer,
+                 //          'start': startTime,
+                 //        };
+                 //      }).toList();
+                 //
+                 //      prayerList = prayerList.where((prayer) {
+                 //        return prayer['start']!.compareTo(currentTime) > 0;
+                 //      }).toList();
+                 //
+                 //      prayerList.sort((a, b) {
+                 //        return a['start']!.compareTo(b['start']!);
+                 //      });
+                 //
+                 //      if (index == 0 && prayerList.isNotEmpty) {
+                 //        String nextPrayer = prayerList[0]['name']!;
+                 //        String startTime24 = prayerDurations[nextPrayer]?['start'] ?? 'N/A';
+                 //        String endTime24 = prayerDurations[nextPrayer]?['end'] ?? 'N/A';
+                 //        String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+                 //        String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+                 //
+                 //        return Padding(
+                 //          padding: const EdgeInsets.all(8.0),
+                 //          child: Container(
+                 //            decoration: BoxDecoration(
+                 //              color: AppColor.leaderboard,
+                 //              borderRadius: BorderRadius.circular(10),
+                 //            ),
+                 //            child: Padding(
+                 //              padding: const EdgeInsets.all(8.0),
+                 //              child: Column(
+                 //                crossAxisAlignment: CrossAxisAlignment.start,
+                 //                children: [
+                 //                  Row(
+                 //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 //                    children: [
+                 //                      Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                 //                      InkWell(
+                 //                        onTap: () {},
+                 //                        child: Icon(Icons.more_horiz),
+                 //                      ),
+                 //                    ],
+                 //                  ),
+                 //                  SizedBox(height: 10),
+                 //                  Container(
+                 //                    width: double.infinity,
+                 //                    padding: const EdgeInsets.all(8.0),
+                 //                    decoration: BoxDecoration(
+                 //                      color: AppColor.packageGray,
+                 //                      borderRadius: BorderRadius.circular(15),
+                 //                    ),
+                 //                    child: Row(
+                 //                      children: [
+                 //                        const Icon(Icons.timer_outlined),
+                 //                        SizedBox(width: 5),
+                 //                        Text('starts in'),
+                 //                        SizedBox(width: 5),
+                 //                        Obx(() {
+                 //                          return Text(
+                 //                            dashboardController.remainingTime.value,
+                 //                            style: MyTextTheme.smallGCN,
+                 //                          );
+                 //                        }),
+                 //                        Spacer(),
+                 //                        InkWell(
+                 //                          onTap: () {
+                 //                            dashboardController.toggle();
+                 //                          },
+                 //                          child: Obx(() {
+                 //                            return SvgPicture.asset(
+                 //                              dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
+                 //                              height: 20,
+                 //                            );
+                 //                          }),
+                 //                        ),
+                 //                      ],
+                 //                    ),
+                 //                  ),
+                 //                  SizedBox(height: 5),
+                 //                  Row(
+                 //                    children: [
+                 //                      Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
+                 //                      Text('Ends at', style: MyTextTheme.smallGCN),
+                 //                    ],
+                 //                  ),
+                 //                  Row(
+                 //                    children: [
+                 //                      Expanded(child: Text(startTime12, style: MyTextTheme.mediumBCD)),
+                 //                      Text(endTime12, style: MyTextTheme.mediumBCD),
+                 //                    ],
+                 //                  ),
+                 //                ],
+                 //              ),
+                 //            ),
+                 //          ),
+                 //        );
+                 //      }
+                 //
+                 //      int prayerIndex = index - 1;
+                 //      if (prayerIndex < prayerList.length) {
+                 //        String prayerName = prayerList[prayerIndex]['name']!;
+                 //        String startTime24 = prayerDurations[prayerName]?['start'] ?? 'N/A';
+                 //        String endTime24 = prayerDurations[prayerName]?['end'] ?? 'N/A';
+                 //        String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+                 //        String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+                 //        bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
+                 //        String specialText = isSpecialPrayer ? "Prohibited to pray." : "";
+                 //
+                 //        return Padding(
+                 //          padding: const EdgeInsets.all(8.0),
+                 //          child: Container(
+                 //            decoration: BoxDecoration(
+                 //              color: AppColor.leaderboard,
+                 //              borderRadius: BorderRadius.circular(10),
+                 //            ),
+                 //            child: Padding(
+                 //              padding: const EdgeInsets.all(8.0),
+                 //              child: Column(
+                 //                crossAxisAlignment: CrossAxisAlignment.start,
+                 //                children: [
+                 //                  Row(
+                 //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 //                    children: [
+                 //                      Text(prayerName, style: MyTextTheme.medium),
+                 //                      InkWell(
+                 //                        onTap: () {
+                 //                          dashboardController.toggleMute(prayerName); // Pass the prayer name
+                 //                        },
+                 //                        child: Obx(() {
+                 //                          return SvgPicture.asset(
+                 //                            dashboardController.prayerMuteStates[prayerName] == true
+                 //                                ? 'assets/mute.svg'
+                 //                                : 'assets/sound.svg',
+                 //                            height: 20,
+                 //                          );
+                 //                        }),
+                 //                      ),
+                 //                    ],
+                 //                  ),
+                 //                  if (isSpecialPrayer) ...[
+                 //                    SizedBox(height: 5),
+                 //                    Text(
+                 //                      specialText,
+                 //                      style: MyTextTheme.red,
+                 //                    ),
+                 //                  ],
+                 //                  SizedBox(height: 5),
+                 //                  Row(
+                 //                    children: [
+                 //                      Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
+                 //                      Text('Ends at', style: MyTextTheme.smallGCN),
+                 //                    ],
+                 //                  ),
+                 //                  Row(
+                 //                    children: [
+                 //                      Expanded(
+                 //                        child: Text(
+                 //                          startTime12,
+                 //                          style: MyTextTheme.mediumBCD,
+                 //                        ),
+                 //                      ),
+                 //                      Text(
+                 //                        endTime12,
+                 //                        style: MyTextTheme.mediumBCD,
+                 //                      ),
+                 //                    ],
+                 //                  ),
+                 //                ],
+                 //              ),
+                 //            ),
+                 //          ),
+                 //        );
+                 //      }
+                 //      return SizedBox.shrink();
+                 //    },
+                 //  ),
+           child: ListView.builder(
+          itemCount: dashboardController.upcomingPrayers.length,
+          itemBuilder: (context, index) {
+          var upcomingPrayers = dashboardController.upcomingPrayers;
+          var prayerDurations = dashboardController.upcomingPrayerDuration;
+          String currentTime = DateFormat('HH:mm').format(DateTime.now());
 
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColor.leaderboard,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
-                                      InkWell(
-                                        onTap: (){},
-                                          child: Icon(Icons.more_horiz))
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: AppColor.packageGray,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        const Icon(Icons.timer_outlined),
-                                        SizedBox(width: 5),
-                                        Text('starts in'),
-                                        SizedBox(width: 5),
-                                        Obx(() {
-                                          return Text(
-                                            dashboardController.remainingTime.value,
-                                            style: MyTextTheme.smallGCN,
-                                          );
-                                        }),
-                                        Spacer(),
-                                        InkWell(
-                                          onTap: () {
-                                            dashboardController.toggle();
-                                          },
-                                          child: Obx(() {
-                                            return SvgPicture.asset(
-                                              dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
-                                              height: 20,
-                                            );
-                                          }),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Row(
-                                    children: [
-                                      Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                      Text('Ends at', style: MyTextTheme.smallGCN),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(child: Text(controller.upcomingPrayerStartTime.value, style: MyTextTheme.mediumBCD)),
-                                      Text(controller.upcomingPrayerEndTime.value, style: MyTextTheme.mediumBCD),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
+          // Create a filtered prayer list
+          List<Map<String, String>> prayerList = upcomingPrayers.map((prayer) {
+          String startTime = prayerDurations[prayer]?['start'] ?? 'N/A';
+          return {
+          'name': prayer,
+          'start': startTime,
+          };
+          }).where((prayer) {
+          // Filter to exclude the next prayer name
+          return prayer['name'] != controller.nextPrayerName.value &&
+          prayer['start']!.compareTo(currentTime) > 0;
+          }).toList();
 
-                      // For the rest of the items in the list
-                      int prayerIndex = index - 0;
-                      String prayerName = dashboardController.upcomingPrayers[prayerIndex];
-                      String startTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['start'] ?? 'N/A';
-                      String endTime24 = dashboardController.upcomingPrayerDuration[prayerName]?['end'] ?? 'N/A';
-                      String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
-                      String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+          prayerList.sort((a, b) {
+          return a['start']!.compareTo(b['start']!);
+          });
 
-                      // Check if the prayer is "Sunset," "Sunrise," or "Zawal" and display additional text
-                      bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
-                      String specialText = isSpecialPrayer ? "Prohibited to pray." : "";
+          // Check if we have any prayers left after filtering
+          if (prayerList.isEmpty) return SizedBox.shrink();
 
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColor.leaderboard,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //   children: [
-                                //     Text(prayerName, style: MyTextTheme.medium),
-                                //     InkWell(
-                                //       onTap: (){
-                                //         dashboardController.tog();
-                                //       },
-                                //       child: Obx(() {
-                                //         return SvgPicture.asset(
-                                //           dashboardController.isMuted.value ? 'assets/mute.svg' : 'assets/sound.svg',
-                                //           height: 20,
-                                //         );
-                                //       }),
-                                //     ),
-                                //   ],
-                                // ),
-                              Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(prayerName, style: MyTextTheme.medium),
-                                InkWell(
-                                  onTap: () {
-                                    dashboardController.toggleMute(prayerName); // Pass the prayer name
-                                  },
-                                  child: Obx(() {
-                                    // Use the mute state from the prayerMuteStates map
-                                    return SvgPicture.asset(
-                                      dashboardController.prayerMuteStates[prayerName] == true
-                                          ? 'assets/mute.svg'
-                                          : 'assets/sound.svg',
-                                      height: 20,
-                                    );
-                                  }),
-                                ),
-                              ],
-                            ),
+          if (index == 0) {
+          // This handles the first item (next prayer widget), if needed
+          String nextPrayer = prayerList[0]['name']!;
+          String startTime24 = prayerDurations[nextPrayer]?['start'] ?? 'N/A';
+          String endTime24 = prayerDurations[nextPrayer]?['end'] ?? 'N/A';
+          String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+          String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
 
-                                if (isSpecialPrayer) ...[
-                                  SizedBox(height: 5),
-                                  Text(
-                                    specialText,
-                                    style: MyTextTheme.red, // Customize this text style as needed
-                                  ),
-                                ],
-                                SizedBox(height: 5),
+          return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+          decoration: BoxDecoration(
+          color: AppColor.leaderboard,
+          borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+          InkWell(
+          onTap: () {},
+          child: Icon(Icons.more_horiz),
+          ),
+          ],
+          ),
+          SizedBox(height: 10),
+          Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+          color: AppColor.packageGray,
+          borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+          children: [
+          const Icon(Icons.timer_outlined),
+          SizedBox(width: 5),
+          Text('starts in'),
+          SizedBox(width: 5),
+          Obx(() {
+          return Text(
+          dashboardController.remainingTime.value,
+          style: MyTextTheme.smallGCN,
+          );
+          }),
+          Spacer(),
+          InkWell(
+          onTap: () {
+          dashboardController.toggle();
+          },
+          child: Obx(() {
+          return SvgPicture.asset(
+          dashboardController.isMute.value ? 'assets/mute.svg' : 'assets/sound.svg',
+          height: 20,
+          );
+          }),
+          ),
+          ],
+          ),
+          ),
+          SizedBox(height: 5),
+          Row(
+          children: [
+          Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
+          Text('Ends at', style: MyTextTheme.smallGCN),
+          ],
+          ),
+          Row(
+          children: [
+          Expanded(child: Text(controller.upcomingPrayerStartTime.value, style: MyTextTheme.mediumBCD)),
+          Text(controller.upcomingPrayerEndTime.value, style: MyTextTheme.mediumBCD),
+          ],
+          ),
+          ],
+          ),
+          ),
+          ),
+          );
+          }
 
-                                Row(
-                                  children: [
-                                    Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                    Text('Ends at', style: MyTextTheme.smallGCN),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        startTime12,
-                                        style: MyTextTheme.mediumBCD,
-                                      ),
-                                    ),
-                                    Text(
-                                      endTime12,
-                                      style: MyTextTheme.mediumBCD,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  )
+          int prayerIndex = index - 1;
+          if (prayerIndex < prayerList.length) {
+          String prayerName = prayerList[prayerIndex]['name']!;
+          String startTime24 = prayerDurations[prayerName]?['start'] ?? 'N/A';
+          String endTime24 = prayerDurations[prayerName]?['end'] ?? 'N/A';
+          String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+          String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+          bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
+          String specialText = isSpecialPrayer ? "Prohibited to pray." : "";
 
+          return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+          decoration: BoxDecoration(
+          color: AppColor.leaderboard,
+          borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          Text(prayerName, style: MyTextTheme.medium),
+          InkWell(
+          onTap: () {
+          dashboardController.toggleMute(prayerName); // Pass the prayer name
+          },
+          child: Obx(() {
+          return SvgPicture.asset(
+          dashboardController.prayerMuteStates[prayerName] == true
+          ? 'assets/mute.svg'
+              : 'assets/sound.svg',
+          height: 20,
+          );
+          }),
+          ),
+          ],
+          ),
+          if (isSpecialPrayer) ...[
+          SizedBox(height: 5),
+          Text(
+          specialText,
+          style: MyTextTheme.red,
+          ),
+          ],
+          SizedBox(height: 5),
+          Row(
+          children: [
+          Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
+          Text('Ends at', style: MyTextTheme.smallGCN),
+          ],
+          ),
+          Row(
+          children: [
+          Expanded(
+          child: Text(
+          startTime12,
+          style: MyTextTheme.mediumBCD,
+          ),
+          ),
+          Text(
+          endTime12,
+          style: MyTextTheme.mediumBCD,
+          ),
+          ],
+          ),
+          ],
+          ),
+          ),
+          ),
+          );
+          }
+          return SizedBox.shrink();
+          },
+          ),
 
-                ),
+          ),
               ),
             ],
           );
@@ -742,5 +807,6 @@ class Upcoming extends GetView<UpcomingController> {
     );
   }
 }
+
 
 
