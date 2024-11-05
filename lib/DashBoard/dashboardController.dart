@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
@@ -16,6 +18,8 @@ import '../Services/notification_service.dart';
 import '../SplashScreen/splashController.dart';
 import '../Widget/location_services.dart';
 class DashBoardController extends GetxController {
+  final PageController pageController = PageController();
+
   RxString islamicDate = ''.obs;
   RxInt rank = 0.obs;
   RxInt totalPeers = 1.obs;
@@ -32,27 +36,34 @@ class DashBoardController extends GetxController {
   RxString location = ''.obs;
   var selectedDate = Rx<DateTime>(DateTime.now());
  var isMute= false.obs;
+  var prayerMuteStates = <String, bool>{}.obs; // Map to hold mute states
+
+  var muteStates = <String, RxBool>{}.obs;
   UserData userData = UserData();
   void toggle(String prayerName){
     userData.toggleSound(prayerName);
     isMute.value = userData.isSoundEnabled(prayerName);
     // isMute.value = !isMute.value;
   }
+  void toggleMute(String prayerName) {
+    // Toggle the mute state for the specific prayer
+    prayerMuteStates[prayerName] = !(prayerMuteStates[prayerName] ?? false);
+  }
 
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
   var upcomingPrayers = [
     'Fajr',
+    'Sunrise',
+    'Zawal',
     'Dhuhr',
     'Asr',
-    'Maghrib',
-    'Isha',
-    'Sunrise',
     'Sunset',
-    'Zawal'
+    'Maghrib',
+    'Isha'
   ].obs;
   var currentPrayerIndex = 0.obs;
-  var nextPrayerIndex = 1.obs;
+  RxInt nextPrayerIndex = 1.obs;
   var isLoading = false.obs;
   List calendarData = [].obs;
   List<CalendarWiseData> extractedData = [];
@@ -110,18 +121,47 @@ class DashBoardController extends GetxController {
     upcomingPrayerDuration = val;
     update();
   }
+// Inside your DashboardController
 
+
+  // List<String> getUpcomingPrayers() {
+  //   final now = DateTime.now();
+  //   List<String> filteredPrayers = [];
+  //
+  //   // Always include the next prayer
+  //   String nextPrayerName = nextPrayer.value; // Assuming nextPrayer is already set
+  //   if (nextPrayerName.isNotEmpty && !filteredPrayers.contains(nextPrayerName)) {
+  //     filteredPrayers.add(nextPrayerName);
+  //   }
+  //
+  //   // Add remaining upcoming prayers
+  //   for (var prayer in upcomingPrayers) {
+  //     String? endTime24 = upcomingPrayerDuration[prayer]?['end'];
+  //     if (endTime24 != null) {
+  //       DateTime endDateTime = parseTime(endTime24);
+  //       if (endDateTime.isAfter(now) && !filteredPrayers.contains(prayer)) {
+  //         filteredPrayers.add(prayer);
+  //       }
+  //     }
+  //   }
+  //   return filteredPrayers;
+  // }
 
   final ScrollController scrollController = ScrollController();
-
   void scrollToHighlightedPrayer() {
     int nextPrayerIndex = prayerNames.indexOf(nextPrayer.value);
     scrollController.animateTo(
-      nextPrayerIndex * 80.0,
-      duration: const Duration(milliseconds: 300),
+      nextPrayerIndex * 100.0,
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
+
+
+
+
+
+
   //Sort prayers according to current timing//
   // void sortPrayers() {
   //   int currentIndex = upcomingPrayers.indexOf(nextPrayer.value);
@@ -240,6 +280,30 @@ class DashBoardController extends GetxController {
   //   print("Zawal Time End: ${zawalEnd.hour}:${zawalEnd.minute.toString().padLeft(2, '0')}");
   //
   // }
+  // List<String> get filteredUpcomingPrayers {
+  //   final now = DateTime.now();
+  //   return upcomingPrayers.where((prayerName) {
+  //     String? endTime24 = upcomingPrayerDuration[prayerName]?['end'];
+  //     if (endTime24 == null) return false;
+  //
+  //     DateTime endDateTime = parseTime(endTime24);
+  //     return endDateTime.isAfter(now);
+  //   }).toList();
+  // }
+
+
+  DateTime parseTime(String time24) {
+    final now = DateTime.now();
+
+    // Use a regular expression to extract only the hour and minute parts
+    final match = RegExp(r'^(\d{1,2}):(\d{2})').firstMatch(time24);
+    if (match == null) return now; // Return current time if the format is invalid
+
+    int hour = int.parse(match.group(1)!);
+    int minute = int.parse(match.group(2)!);
+
+    return DateTime(now.year, now.month, now.day, hour, minute);
+  }
 
   Future<void> fetchPrayerTime({DateTime? specificDate}) async {
     final latitude = position != null ? position!.latitude : double.parse(
@@ -289,24 +353,27 @@ class DashBoardController extends GetxController {
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-            convertTo12HourFormat(
-                getExtractedData[0].timings?.maghrib ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
           ];
 
           updateUpcomingPrayers = [
             convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-            convertTo12HourFormat(
-                getExtractedData[0].timings?.maghrib ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
+            convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
             //-------Zawal and sunset data (25-10-2024) by fai----//
-            convertTo12HourFormat(
-                getExtractedData[0].timings?.sunrise ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
-             convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
+
+
           ];
+          print("gggggggggggggg:$prayerNames");
+          print(upcomingPrayers);
+
+
 
           // Update sunset and zawal times
           sunsetTime.value =
@@ -354,9 +421,17 @@ class DashBoardController extends GetxController {
               'start': getExtractedData[0].timings?.fajr ?? 'N/A',
               'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
             },
-            'Free': {
+            // 'Free': {
+            //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+            //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+            // },
+            'Sunrise': {
               'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+            },
+            'Zawal': {
+              'start': formattedZawalTime,
+              'end': convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A')
             },
             'Dhuhr': {
               'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
@@ -365,6 +440,10 @@ class DashBoardController extends GetxController {
             'Asr': {
               'start': getExtractedData[0].timings?.asr ?? 'N/A',
               'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+            },
+            'Sunset': {
+              'start': getExtractedData[0].timings?.sunset ?? 'N/A',
+              'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
             },
             'Maghrib': {
               'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
@@ -375,18 +454,7 @@ class DashBoardController extends GetxController {
               'end': getExtractedData[0].timings?.midnight ?? 'N/A'
             },
             //-----FZ (25-10-2024) update sunrise & subset time----//
-            'Sunrise': {
-              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
-            },
-            'Sunset': {
-              'start': getExtractedData[0].timings?.sunset ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-            },
-            'Zawal': {
-              'start': formattedZawalTime,
-              'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-            },
+
           };
 
           // Get current time

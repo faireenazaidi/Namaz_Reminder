@@ -154,12 +154,12 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
                             Obx(
                                   () => Text(
-                                controller.islamicDate.value, // Show updated Islamic date
-                                style: const TextStyle(fontSize: 12, color: Colors.black),
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                                    controller.islamicDate.value,
+                                    style: const TextStyle(fontSize: 12, color: Colors.black),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                             ),
-
+                        
                           ],
                         ),
                       ],

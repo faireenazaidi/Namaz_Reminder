@@ -137,6 +137,11 @@ class MyTextTheme  {
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
+  static TextStyle red=GoogleFonts.roboto(
+      color: Colors.red,
+      fontSize: 12,
+      fontWeight: FontWeight.w500
+  );
   static TextStyle veryLargeBCB=GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 32,
