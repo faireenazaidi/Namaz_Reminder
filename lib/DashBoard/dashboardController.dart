@@ -896,6 +896,7 @@ RxString nextPrayerName = ''.obs;
   bool isGifVisible = false;
   bool isAm = false;
   submitPrayer({String? valDate,bool? isFromMissed,Future<dynamic> Function()? missedCallBack}) async {
+    Get.back();
     // print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
     String formattedDate =valDate ?? DateFormat('dd-MM-yyyy').format(date);
@@ -964,7 +965,6 @@ RxString nextPrayerName = ''.obs;
       String responseString = await response.stream.bytesToString();
       // print("Raw API response: $responseString");
 if(isFromMissed!){
-  Get.back();
   missedCallBack!();
   Get.snackbar('Prayer Marked', 'Success',backgroundColor: Colors.black,colorText: Colors.white,snackPosition: SnackPosition.BOTTOM);
 }
@@ -977,7 +977,7 @@ else{
 
     isGifVisible = false;
     update();
-    Get.back();
+    // Get.back();
   });
 }
 

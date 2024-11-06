@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -452,54 +453,49 @@ class DashBoardView extends GetView<DashBoardController> {
                     builder: (_) {
                       return Visibility(
                         visible: true,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Obx(() {
-                            return
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: AppColor.leaderboard,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          InkWell(
-                                            onTap: (){
-                                              Get.to(() => LeaderBoardView(),
-                                                transition: Transition.rightToLeft,
-                                                duration: Duration(milliseconds: 500),
-                                                curve: Curves.ease,);
-                                            },
-                                              child: Text("LEADERBOARD",style: MyTextTheme.greyN,)),
-                                          InkWell(
-                                            onTap: (){
-                                              Get.to(() => LeaderBoardView(),
-                                                transition: Transition.rightToLeft,
-                                                duration: Duration(milliseconds: 500),
-                                                curve: Curves.ease,);
-                                            },
-                                              child: SvgPicture.asset("assets/Close.svg"))
-                                        ],
-                                      ),
-                                      RankedFriendsIndicator(
-                                        rankedFriends: controller.getLeaderboardList.value == null
-                                            ? []
-                                            : controller.getLeaderboardList.value!.rankedFriends,
-                                        currentUserId: int.parse(controller.userData.getUserData!.id),
-                                      ),
-                                    ],
-                                  ),
-
-
-                              );
-                            }),
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColor.leaderboard,
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(() => LeaderBoardView(),
+                                        transition: Transition.rightToLeft,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,);
+                                    },
+                                      child: Text("LEADERBOARD",style: MyTextTheme.greyN,)),
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(() => LeaderBoardView(),
+                                        transition: Transition.rightToLeft,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,);
+                                    },
+                                      child: SvgPicture.asset("assets/Close.svg"))
+                                ],
+                              ),
+                              UserRankList()
+                              // RankedFriendsIndicator(
+                              //   rankedFriends: controller.getLeaderboardList.value == null
+                              //       ? []
+                              //       : controller.getLeaderboardList.value!.rankedFriends,
+                              //   currentUserId: int.parse(controller.userData.getUserData!.id),
+                              // ),
+                            ],
+                          ),
+
+
+                                                      ),
                         );
                     }
                   ),
@@ -984,8 +980,8 @@ class DashBoardView extends GetView<DashBoardController> {
                         ),
                       );
                     }),
-
-                  PrayerScoreBar()
+                  // UserRankCarousel(),
+                  // UserRankList()
             ]
         ),
       );}
@@ -1036,795 +1032,1035 @@ class _BlinkingTextWidgetState extends State<BlinkingTextWidget> with SingleTick
 }
 
 
-
-
-class PrayerScoreBar extends StatelessWidget {
-
+class UserRankCarousel extends StatelessWidget {
+  
   final String prayerName;
-  final int userId;
 
-  PrayerScoreBar({this.prayerName='Asr',  this.userId=6});
+  const UserRankCarousel({this.prayerName='Asr'});
 
   @override
   Widget build(BuildContext context) {
     List records= [
-    {
-    "user": {
-    "id": 70,
-    "username": "914",
-    "mobile_no": "6390319914",
-    "name": "Amritash",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784825,
-    "longitude": 80.8715478,
-    "date": "2024-11-05",
-    "prayer_name": "Fajr",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 70,
-    "username": "914",
-    "mobile_no": "6390319914",
-    "name": "Amritash",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784825,
-    "longitude": 80.8715478,
-    "date": "2024-11-05",
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 70,
-    "username": "914",
-    "mobile_no": "6390319914",
-    "name": "Amritash",
-    "picture": null
-    },
-    "user_timestamp": "16:46",
-    "latitude": 26.8784825,
-    "longitude": 80.8715478,
-    "date": "2024-11-05",
-    "prayer_name": "Asr",
-    "score": 100.0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 70,
-    "username": "914",
-    "mobile_no": "6390319914",
-    "name": "Amritash",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784825,
-    "longitude": 80.8715478,
-    "date": "2024-11-05",
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 70,
-    "username": "914",
-    "mobile_no": "6390319914",
-    "name": "Amritash",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784825,
-    "longitude": 80.8715478,
-    "date": "2024-11-05",
-    "prayer_name": "Isha",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 40,
-    "username": "111",
-    "mobile_no": "1111111111",
-    "name": "Demo 111",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784713,
-    "longitude": 80.8715507,
-    "date": "2024-11-05",
-    "prayer_name": "Fajr",
-    "score": 0,
-    "jamat": false,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 40,
-    "username": "111",
-    "mobile_no": "1111111111",
-    "name": "Demo 111",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784713,
-    "longitude": 80.8715507,
-    "date": "2024-11-05",
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "jamat": false,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 40,
-    "username": "111",
-    "mobile_no": "1111111111",
-    "name": "Demo 111",
-    "picture": null
-    },
-    "user_timestamp": "16:47",
-    "latitude": 26.8784713,
-    "longitude": 80.8715507,
-    "date": "2024-11-05",
-    "prayer_name": "Asr",
-    "score": 23.19,
-    "jamat": false,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 40,
-    "username": "111",
-    "mobile_no": "1111111111",
-    "name": "Demo 111",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784713,
-    "longitude": 80.8715507,
-    "date": "2024-11-05",
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "jamat": false,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 40,
-    "username": "111",
-    "mobile_no": "1111111111",
-    "name": "Demo 111",
-    "picture": null
-    },
-    "user_timestamp": null,
-    "latitude": 26.8784713,
-    "longitude": 80.8715507,
-    "date": "2024-11-05",
-    "prayer_name": "Isha",
-    "score": 0,
-    "jamat": false,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 59,
-    "username": "444",
-    "mobile_no": "6332266444",
-    "name": "Testing",
-    "picture": null
-    },
-    "prayer_name": "Fajr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 59,
-    "username": "444",
-    "mobile_no": "6332266444",
-    "name": "Testing",
-    "picture": null
-    },
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 59,
-    "username": "444",
-    "mobile_no": "6332266444",
-    "name": "Testing",
-    "picture": null
-    },
-    "prayer_name": "Asr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 59,
-    "username": "444",
-    "mobile_no": "6332266444",
-    "name": "Testing",
-    "picture": null
-    },
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 59,
-    "username": "444",
-    "mobile_no": "6332266444",
-    "name": "Testing",
-    "picture": null
-    },
-    "prayer_name": "Isha",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 42,
-    "username": "300",
-    "mobile_no": "8840888300",
-    "name": "Israr Khan",
-    "picture": "/media/image_cropper_1726754868996.jpg"
-    },
-    "prayer_name": "Fajr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 42,
-    "username": "300",
-    "mobile_no": "8840888300",
-    "name": "Israr Khan",
-    "picture": "/media/image_cropper_1726754868996.jpg"
-    },
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 42,
-    "username": "300",
-    "mobile_no": "8840888300",
-    "name": "Israr Khan",
-    "picture": "/media/image_cropper_1726754868996.jpg"
-    },
-    "prayer_name": "Asr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 42,
-    "username": "300",
-    "mobile_no": "8840888300",
-    "name": "Israr Khan",
-    "picture": "/media/image_cropper_1726754868996.jpg"
-    },
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 42,
-    "username": "300",
-    "mobile_no": "8840888300",
-    "name": "Israr Khan",
-    "picture": "/media/image_cropper_1726754868996.jpg"
-    },
-    "prayer_name": "Isha",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 6,
-    "username": "447",
-    "mobile_no": "7905216447",
-    "name": "Baqar N",
-    "picture": "/media/image_cropper_1729749137337.jpg"
-    },
-    "user_timestamp": null,
-    "latitude": 37.4219983,
-    "longitude": -122.084,
-    "date": "2024-11-05",
-    "prayer_name": "Fajr",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 6,
-    "username": "447",
-    "mobile_no": "7905216447",
-    "name": "Baqar N",
-    "picture": "/media/image_cropper_1729749137337.jpg"
-    },
-    "user_timestamp": "13:25",
-    "latitude": 37.4219983,
-    "longitude": -122.084,
-    "date": "2024-11-05",
-    "prayer_name": "Dhuhr",
-    "score": 100.0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 6,
-    "username": "447",
-    "mobile_no": "7905216447",
-    "name": "Baqar N",
-    "picture": "/media/image_cropper_1729749137337.jpg"
-    },
-    "user_timestamp": "16:44",
-    "latitude": 37.4219983,
-    "longitude": -122.084,
-    "date": "2024-11-05",
-    "prayer_name": "Asr",
-    "score": 25.36,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 6,
-    "username": "447",
-    "mobile_no": "7905216447",
-    "name": "Baqar N",
-    "picture": "/media/image_cropper_1729749137337.jpg"
-    },
-    "user_timestamp": null,
-    "latitude": 37.4219983,
-    "longitude": -122.084,
-    "date": "2024-11-05",
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 6,
-    "username": "447",
-    "mobile_no": "7905216447",
-    "name": "Baqar N",
-    "picture": "/media/image_cropper_1729749137337.jpg"
-    },
-    "user_timestamp": null,
-    "latitude": 37.4219983,
-    "longitude": -122.084,
-    "date": "2024-11-05",
-    "prayer_name": "Isha",
-    "score": 0,
-    "jamat": true,
-    "times_of_prayer": 5
-    },
-    {
-    "user": {
-    "id": 75,
-    "username": "464",
-    "mobile_no": "3666466464",
-    "name": "helo",
-    "picture": null
-    },
-    "prayer_name": "Fajr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 75,
-    "username": "464",
-    "mobile_no": "3666466464",
-    "name": "helo",
-    "picture": null
-    },
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 75,
-    "username": "464",
-    "mobile_no": "3666466464",
-    "name": "helo",
-    "picture": null
-    },
-    "prayer_name": "Asr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 75,
-    "username": "464",
-    "mobile_no": "3666466464",
-    "name": "helo",
-    "picture": null
-    },
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 75,
-    "username": "464",
-    "mobile_no": "3666466464",
-    "name": "helo",
-    "picture": null
-    },
-    "prayer_name": "Isha",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 109,
-    "username": "534",
-    "mobile_no": "8318215534",
-    "name": "Arshad Test",
-    "picture": null
-    },
-    "prayer_name": "Fajr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 109,
-    "username": "534",
-    "mobile_no": "8318215534",
-    "name": "Arshad Test",
-    "picture": null
-    },
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 109,
-    "username": "534",
-    "mobile_no": "8318215534",
-    "name": "Arshad Test",
-    "picture": null
-    },
-    "prayer_name": "Asr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 109,
-    "username": "534",
-    "mobile_no": "8318215534",
-    "name": "Arshad Test",
-    "picture": null
-    },
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 109,
-    "username": "534",
-    "mobile_no": "8318215534",
-    "name": "Arshad Test",
-    "picture": null
-    },
-    "prayer_name": "Isha",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 53,
-    "username": "303",
-    "mobile_no": "7784928303",
-    "name": "Baqar Naqvi",
-    "picture": "/media/image_cropper_1727453197024.jpg"
-    },
-    "prayer_name": "Fajr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 53,
-    "username": "303",
-    "mobile_no": "7784928303",
-    "name": "Baqar Naqvi",
-    "picture": "/media/image_cropper_1727453197024.jpg"
-    },
-    "prayer_name": "Dhuhr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 53,
-    "username": "303",
-    "mobile_no": "7784928303",
-    "name": "Baqar Naqvi",
-    "picture": "/media/image_cropper_1727453197024.jpg"
-    },
-    "prayer_name": "Asr",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 53,
-    "username": "303",
-    "mobile_no": "7784928303",
-    "name": "Baqar Naqvi",
-    "picture": "/media/image_cropper_1727453197024.jpg"
-    },
-    "prayer_name": "Maghrib",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    },
-    {
-    "user": {
-    "id": 53,
-    "username": "303",
-    "mobile_no": "7784928303",
-    "name": "Baqar Naqvi",
-    "picture": "/media/image_cropper_1727453197024.jpg"
-    },
-    "prayer_name": "Isha",
-    "score": 0,
-    "user_timestamp": null,
-    "jamat": false,
-    "latitude": null,
-    "longitude": null,
-    "date": "2024-11-05",
-    "times_of_prayer": null
-    }
+      {
+        "user": {
+          "id": 70,
+          "username": "914",
+          "mobile_no": "6390319914",
+          "name": "Amritash",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784825,
+        "longitude": 80.8715478,
+        "date": "2024-11-05",
+        "prayer_name": "Fajr",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 70,
+          "username": "914",
+          "mobile_no": "6390319914",
+          "name": "Amritash",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784825,
+        "longitude": 80.8715478,
+        "date": "2024-11-05",
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 70,
+          "username": "914",
+          "mobile_no": "6390319914",
+          "name": "Amritash",
+          "picture": null
+        },
+        "user_timestamp": "16:46",
+        "latitude": 26.8784825,
+        "longitude": 80.8715478,
+        "date": "2024-11-05",
+        "prayer_name": "Asr",
+        "score": 100.0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 70,
+          "username": "914",
+          "mobile_no": "6390319914",
+          "name": "Amritash",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784825,
+        "longitude": 80.8715478,
+        "date": "2024-11-05",
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 70,
+          "username": "914",
+          "mobile_no": "6390319914",
+          "name": "Amritash",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784825,
+        "longitude": 80.8715478,
+        "date": "2024-11-05",
+        "prayer_name": "Isha",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 40,
+          "username": "111",
+          "mobile_no": "1111111111",
+          "name": "Demo 111",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784713,
+        "longitude": 80.8715507,
+        "date": "2024-11-05",
+        "prayer_name": "Fajr",
+        "score": 0,
+        "jamat": false,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 40,
+          "username": "111",
+          "mobile_no": "1111111111",
+          "name": "Demo 111",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784713,
+        "longitude": 80.8715507,
+        "date": "2024-11-05",
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "jamat": false,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 40,
+          "username": "111",
+          "mobile_no": "1111111111",
+          "name": "Demo 111",
+          "picture": null
+        },
+        "user_timestamp": "16:47",
+        "latitude": 26.8784713,
+        "longitude": 80.8715507,
+        "date": "2024-11-05",
+        "prayer_name": "Asr",
+        "score": 23.19,
+        "jamat": false,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 40,
+          "username": "111",
+          "mobile_no": "1111111111",
+          "name": "Demo 111",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784713,
+        "longitude": 80.8715507,
+        "date": "2024-11-05",
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "jamat": false,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 40,
+          "username": "111",
+          "mobile_no": "1111111111",
+          "name": "Demo 111",
+          "picture": null
+        },
+        "user_timestamp": null,
+        "latitude": 26.8784713,
+        "longitude": 80.8715507,
+        "date": "2024-11-05",
+        "prayer_name": "Isha",
+        "score": 0,
+        "jamat": false,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 59,
+          "username": "444",
+          "mobile_no": "6332266444",
+          "name": "Testing",
+          "picture": null
+        },
+        "prayer_name": "Fajr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 59,
+          "username": "444",
+          "mobile_no": "6332266444",
+          "name": "Testing",
+          "picture": null
+        },
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 59,
+          "username": "444",
+          "mobile_no": "6332266444",
+          "name": "Testing",
+          "picture": null
+        },
+        "prayer_name": "Asr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 59,
+          "username": "444",
+          "mobile_no": "6332266444",
+          "name": "Testing",
+          "picture": null
+        },
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 59,
+          "username": "444",
+          "mobile_no": "6332266444",
+          "name": "Testing",
+          "picture": null
+        },
+        "prayer_name": "Isha",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 42,
+          "username": "300",
+          "mobile_no": "8840888300",
+          "name": "Israr Khan",
+          "picture": "/media/image_cropper_1726754868996.jpg"
+        },
+        "prayer_name": "Fajr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 42,
+          "username": "300",
+          "mobile_no": "8840888300",
+          "name": "Israr Khan",
+          "picture": "/media/image_cropper_1726754868996.jpg"
+        },
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 42,
+          "username": "300",
+          "mobile_no": "8840888300",
+          "name": "Israr Khan",
+          "picture": "/media/image_cropper_1726754868996.jpg"
+        },
+        "prayer_name": "Asr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 42,
+          "username": "300",
+          "mobile_no": "8840888300",
+          "name": "Israr Khan",
+          "picture": "/media/image_cropper_1726754868996.jpg"
+        },
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 42,
+          "username": "300",
+          "mobile_no": "8840888300",
+          "name": "Israr Khan",
+          "picture": "/media/image_cropper_1726754868996.jpg"
+        },
+        "prayer_name": "Isha",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 6,
+          "username": "447",
+          "mobile_no": "7905216447",
+          "name": "Baqar N",
+          "picture": "/media/image_cropper_1729749137337.jpg"
+        },
+        "user_timestamp": null,
+        "latitude": 37.4219983,
+        "longitude": -122.084,
+        "date": "2024-11-05",
+        "prayer_name": "Fajr",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 6,
+          "username": "447",
+          "mobile_no": "7905216447",
+          "name": "Baqar N",
+          "picture": "/media/image_cropper_1729749137337.jpg"
+        },
+        "user_timestamp": "13:25",
+        "latitude": 37.4219983,
+        "longitude": -122.084,
+        "date": "2024-11-05",
+        "prayer_name": "Dhuhr",
+        "score": 100.0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 6,
+          "username": "447",
+          "mobile_no": "7905216447",
+          "name": "Baqar N",
+          "picture": "/media/image_cropper_1729749137337.jpg"
+        },
+        "user_timestamp": "16:44",
+        "latitude": 37.4219983,
+        "longitude": -122.084,
+        "date": "2024-11-05",
+        "prayer_name": "Asr",
+        "score": 25.36,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 6,
+          "username": "447",
+          "mobile_no": "7905216447",
+          "name": "Baqar N",
+          "picture": "/media/image_cropper_1729749137337.jpg"
+        },
+        "user_timestamp": null,
+        "latitude": 37.4219983,
+        "longitude": -122.084,
+        "date": "2024-11-05",
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 6,
+          "username": "447",
+          "mobile_no": "7905216447",
+          "name": "Baqar N",
+          "picture": "/media/image_cropper_1729749137337.jpg"
+        },
+        "user_timestamp": null,
+        "latitude": 37.4219983,
+        "longitude": -122.084,
+        "date": "2024-11-05",
+        "prayer_name": "Isha",
+        "score": 0,
+        "jamat": true,
+        "times_of_prayer": 5
+      },
+      {
+        "user": {
+          "id": 75,
+          "username": "464",
+          "mobile_no": "3666466464",
+          "name": "helo",
+          "picture": null
+        },
+        "prayer_name": "Fajr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 75,
+          "username": "464",
+          "mobile_no": "3666466464",
+          "name": "helo",
+          "picture": null
+        },
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 75,
+          "username": "464",
+          "mobile_no": "3666466464",
+          "name": "helo",
+          "picture": null
+        },
+        "prayer_name": "Asr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 75,
+          "username": "464",
+          "mobile_no": "3666466464",
+          "name": "helo",
+          "picture": null
+        },
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 75,
+          "username": "464",
+          "mobile_no": "3666466464",
+          "name": "helo",
+          "picture": null
+        },
+        "prayer_name": "Isha",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 109,
+          "username": "534",
+          "mobile_no": "8318215534",
+          "name": "Arshad Test",
+          "picture": null
+        },
+        "prayer_name": "Fajr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 109,
+          "username": "534",
+          "mobile_no": "8318215534",
+          "name": "Arshad Test",
+          "picture": null
+        },
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 109,
+          "username": "534",
+          "mobile_no": "8318215534",
+          "name": "Arshad Test",
+          "picture": null
+        },
+        "prayer_name": "Asr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 109,
+          "username": "534",
+          "mobile_no": "8318215534",
+          "name": "Arshad Test",
+          "picture": null
+        },
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 109,
+          "username": "534",
+          "mobile_no": "8318215534",
+          "name": "Arshad Test",
+          "picture": null
+        },
+        "prayer_name": "Isha",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 53,
+          "username": "303",
+          "mobile_no": "7784928303",
+          "name": "Baqar Naqvi",
+          "picture": "/media/image_cropper_1727453197024.jpg"
+        },
+        "prayer_name": "Fajr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 53,
+          "username": "303",
+          "mobile_no": "7784928303",
+          "name": "Baqar Naqvi",
+          "picture": "/media/image_cropper_1727453197024.jpg"
+        },
+        "prayer_name": "Dhuhr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 53,
+          "username": "303",
+          "mobile_no": "7784928303",
+          "name": "Baqar Naqvi",
+          "picture": "/media/image_cropper_1727453197024.jpg"
+        },
+        "prayer_name": "Asr",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 53,
+          "username": "303",
+          "mobile_no": "7784928303",
+          "name": "Baqar Naqvi",
+          "picture": "/media/image_cropper_1727453197024.jpg"
+        },
+        "prayer_name": "Maghrib",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      },
+      {
+        "user": {
+          "id": 53,
+          "username": "303",
+          "mobile_no": "7784928303",
+          "name": "Baqar Naqvi",
+          "picture": "/media/image_cropper_1727453197024.jpg"
+        },
+        "prayer_name": "Isha",
+        "score": 0,
+        "user_timestamp": null,
+        "jamat": false,
+        "latitude": null,
+        "longitude": null,
+        "date": "2024-11-05",
+        "times_of_prayer": null
+      }
     ];
-    // Filter and find the user's record for the specified prayer
+    // Filter and sort users by score for the selected prayer
     final filteredRecords = records
         .where((record) => record['prayer_name'] == prayerName)
         .toList();
+    filteredRecords.sort((a, b) => (double.parse(b['score'].toString())).compareTo(double.parse(a['score'].toString())));
 
-    final userRecord = filteredRecords.firstWhere(
-          (record) => record['user']['id'] == userId,
-      orElse: () => {},
-    );
+    return SizedBox(
+      height: 150,
+      child: PageView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: filteredRecords.length,
+        itemBuilder: (context, index) {
+          final user = filteredRecords[index]['user'];
+          final rank = index + 1; // Rank is index + 1 because index starts at 0
+          final scoreChange = filteredRecords[index]['score_change'] ?? 0; // Assume a field `score_change`
+          final totalPeers = filteredRecords.length;
 
-    if (userRecord == null) {
-      return Text('User not found for this prayer');
-    }
-
-    // Calculate user score as a percentage
-    double userPercentage = double.parse(userRecord['score'].toString()) ?? 0.0;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Displaying user's position in text
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
-            'Your Position: ${userPercentage.toInt()}%',
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-          ),
-        ),
-
-        // Score Bar
-        Stack(
-          children: [
-            // Background Bar
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 20,
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: Container(
+              padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
               ),
-            ),
-            // Filled Bar from right to left
-            Positioned(
-              right: 0, // Start filling from the right
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.8 * (userPercentage / 100),
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            // User's Position Indicator
-            Positioned(
-              right: MediaQuery.of(context).size.width * 0.8 * (userPercentage / 100) - 12,
-              top: -5,
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.person, color: Colors.black, size: 24),
-                  Text(
-                    '${userPercentage.toInt()}%',
-                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  // Rank and Score Change
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        rank < 10 ? '0$rank' : '$rank', // Format for 2 digits
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_upward,
+                            color: Colors.green,
+                            size: 16,
+                          ),
+                          Text(
+                            '+$scoreChange',
+                            style: TextStyle(color: Colors.green, fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  // User Information
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user['name'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                    ],
+                  ),
+
+                  // Profile Picture with Badge
+                  SizedBox(
+                    height: 50,
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 28,
+                          backgroundImage: user['picture'] != null
+                              ? NetworkImage(user['picture'])
+                              : AssetImage('assets/default-avatar.jpg') as ImageProvider,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.star,
+                              color: Colors.orange,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-        // Display all users below the bar according to their percentage
-        SizedBox(height: 30), // Space between the bar and user avatars
-        SizedBox(
-          height: 200,
-          child: Stack(
-            children: filteredRecords.map((record) {
-              double percentage = double.parse(record['score'].toString()) ?? 0.0;
-              return Positioned(
-                right: MediaQuery.of(context).size.width * 0.8 * (percentage / 100) - 12,
-                top: 0,
-                child: Column(
+          );
+        },
+      ),
+    );
+  }
+
+  // Helper function to get the ordinal suffix for a number (e.g., "1st", "2nd")
+  String getOrdinalSuffix(int number) {
+    if (number >= 11 && number <= 13) {
+      return 'th';
+    }
+    switch (number % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
+}
+
+
+
+class UserRankList extends StatefulWidget {
+  final String prayerName;
+
+  const UserRankList({Key? key, this.prayerName = 'Asr'}) : super(key: key);
+
+  @override
+  _UserRankListState createState() => _UserRankListState();
+}
+
+class _UserRankListState extends State<UserRankList> {
+  late ScrollController _scrollController;
+  Timer? _timer;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _startAutoScroll();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _startAutoScroll() {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      if (_currentIndex < _filteredRecords.length - 1) {
+        _currentIndex++;
+      } else {
+        _currentIndex = 0; // Reset to start for circular scrolling
+      }
+      _scrollToIndex(_currentIndex);
+    });
+  }
+
+  void _scrollToIndex(int index) {
+    _scrollController.animateTo(
+      index * 80.0, // Assumes each item has a height of around 100
+      duration: Duration(milliseconds: 800),
+      curve: Curves.easeInOutCubicEmphasized,
+    );
+  }
+
+  // Mocked records list
+  List<Map<String, dynamic>> get _records => [
+    // Add your records here...
+    // Example record structure
+    {
+      "user": {
+        "id": 70,
+        "username": "914",
+        "mobile_no": "6390319914",
+        "name": "Amritash",
+        "picture": null
+      },
+      "prayer_name": "Asr",
+      "score": 100.0,
+    },
+    {
+      "user": {
+        "id": 40,
+        "username": "111",
+        "mobile_no": "1111111111",
+        "name": "Demo 111",
+        "picture": null
+      },
+      "prayer_name": "Asr",
+      "score": 23.19,
+    },
+    {
+      "user": {
+        "id": 42,
+        "username": "111",
+        "mobile_no": "1111111111",
+        "name": "Baqar 111",
+        "picture": null
+      },
+      "prayer_name": "Asr",
+      "score": 60.19,
+    },
+    // Add more records...
+  ];
+
+  List<Map<String, dynamic>> get _filteredRecords {
+    final filteredRecords = _records
+        .where((record) => record['prayer_name'] == widget.prayerName)
+        .toList();
+    filteredRecords.sort((a, b) => (double.parse(b['score'].toString()))
+        .compareTo(double.parse(a['score'].toString())));
+    return filteredRecords;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        padding: EdgeInsets.only(top: 10),
+        controller: _scrollController,
+        itemCount: _filteredRecords.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final user = _filteredRecords[index]['user'];
+          final rank = index + 1; // Rank is index + 1 because index starts at 0
+          final totalPeers = _filteredRecords.length;
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Rank display
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40), // Space to align below the bar
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: record['user']['picture'] != null
-                          ? NetworkImage(record['user']['picture'])
-                          : AssetImage('assets/default-avatar.jpg') as ImageProvider,
+                    Text(
+                      rank < 10 ? '0$rank' : '$rank',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
+                // User Information
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user['name'],
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                  ],
+                ),
+                // Profile Picture with Badge
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 28,
+                      backgroundImage: user['picture'] != null
+                          ? NetworkImage(user['picture'])
+                          : AssetImage('assets/default-avatar.jpg') as ImageProvider,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                          size: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
+
+  // Helper function to get the ordinal suffix for a number (e.g., "1st", "2nd")
+  String getOrdinalSuffix(int number) {
+    if (number >= 11 && number <= 13) {
+      return 'th';
+    }
+    switch (number % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
 }
+
+
+
+
+
 
