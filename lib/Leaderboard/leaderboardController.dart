@@ -2,39 +2,81 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hijri/hijri_calendar.dart';
 import 'package:http/http.dart'as http;
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 
+import '../DashBoard/dashboardController.dart';
 import '../Services/user_data.dart';
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
 
   UserData userData = UserData();
+  final DashBoardController dashboardController = Get.find();
+  final currentTime = DateFormat("HH:mm").format(DateTime.now());
 
-  // @override
-  // void onInit() {
-  //   // TODO: implement onInit
-  //   super.onInit();
-  //   DateTime now = DateTime.now();
-  //   String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-  //   print("Date:$formattedDate");
-  // }
 
-  String getFormattedDate() {
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    updateIslamicDateBasedOnOption();
+  }
+  RxString islamicDate = ''.obs;
+  String getFormattedDate({int? daysBefore}) {
     // Get the current date and format it
-    DateTime now = DateTime.now();
+    DateTime now = DateTime.now().subtract(Duration(days: daysBefore??0));
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    print("formattedDate$formattedDate");
     return formattedDate;
   }
 
+  // void getHijriDate(DateTime newDate){
+  //   print("newDate$newDate");
+  //   final hijriNewDate =HijriCalendar.fromDate(newDate);
+  //   islamicDate.value = '${hijriNewDate.hDay} ${hijriNewDate.longMonthName} ${hijriNewDate.hYear}';
+  //   print("islamicDate${newDate}");
+  // }
+  void updateIslamicDateBasedOnOption({DateTime? date}) {
+    DateTime onlyDate  = date??DateTime.now();
+    DateTime baseDate = DateTime(onlyDate.year, onlyDate.month, onlyDate.day);
+    print("base # $baseDate");
+    DateTime newDate;
+
+    switch (userData.getUserData!.hijriAdj!) {
+      case 0:
+        newDate = baseDate;
+        break;
+      case 1:
+        newDate = baseDate.add(Duration(days: 1));
+        break;
+      case 2:
+        newDate = baseDate.add(Duration(days: 2));
+        break;
+      case 3:
+        newDate = baseDate.subtract(Duration(days: 1));
+        break;
+      case 4:
+        newDate = baseDate.subtract(Duration(days: 2));
+        break;
+      default:
+        newDate = baseDate;
+    }
+
+    final hijriNewDate = HijriCalendar.fromDate(newDate); // Convert to Hijri date
+
+    // Update the islamicDate value with the new Hijri date
+    islamicDate.value =
+    '${hijriNewDate.hDay} ${hijriNewDate.longMonthName} ${hijriNewDate.hYear}';
+  }
 
   var selectedDate = DateTime.now().obs;
-  // var selectedTab = 'Daily'.obs;
-
-  void updateSelectedDate(DateTime picked) {
-  selectedDate.value = picked;
+  // Method to update the selected date
+  void updateSelectedDate(DateTime newDate) {
+    selectedDate.value = newDate;
+    updateIslamicDateBasedOnOption(date: newDate);
   }
   RxString selectedTab = 'Daily'.obs;
   String get getSelectedTab => selectedTab.value;

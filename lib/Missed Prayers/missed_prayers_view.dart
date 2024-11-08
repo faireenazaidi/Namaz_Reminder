@@ -17,10 +17,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
   Widget build(BuildContext context) {
 
     LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
-    final DashBoardController dashboardController = Get.put(DashBoardController());
     final DateController dateController = Get.put(DateController());
     leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
-    leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
+    leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate(daysBefore: 1));
     // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.cream,
@@ -229,7 +228,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                onTap: () => leaderBoardController.updateSelectedTab = 'Daily',
+                                onTap: () {
+                                  leaderBoardController.updateSelectedDate(DateTime.now());
+                                  leaderBoardController.updateSelectedTab = 'Daily';
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: leaderBoardController.selectedTab.value == 'Daily'
@@ -252,7 +254,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               ),
                               const SizedBox(width: 10),
                               GestureDetector(
-                                onTap: () => leaderBoardController.updateSelectedTab = 'Weekly',
+                                onTap: () {
+                                  leaderBoardController.updateSelectedDate(DateTime.now());
+                                  leaderBoardController.updateSelectedTab = 'Weekly';
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: leaderBoardController.getSelectedTab == 'Weekly'
@@ -280,12 +285,13 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                             onTap: () async {
                               DateTime? picked = await showDatePicker(
                                 context: context,
-                                initialDate: dateController.selectedDate.value,
+                                initialDate:leaderBoardController.getSelectedTab == 'Daily'?leaderBoardController.selectedDate.value:DateTime.now().subtract(Duration(days: 1)),
                                 firstDate: DateTime(2020),
-                                lastDate: DateTime.now(),
+                                lastDate:leaderBoardController.getSelectedTab == 'Daily'? DateTime.now():DateTime.now().subtract(Duration(days: 1)),
                               );
                               if (picked != null) {
-                                dateController.updateSelectedDate(picked);
+                                leaderBoardController.updateSelectedDate(picked);
+                                // leaderBoardController.updateIslamicDateBasedOnOption(date: picked);
                                 String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
                                 if (leaderBoardController.getSelectedTab == 'Daily') {
                                   leaderBoardController.leaderboard(formattedDate);
@@ -302,7 +308,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   children: [
                                     Text(
                                       DateFormat('EEE, d MMMM yyyy')
-                                          .format(dateController.selectedDate.value),
+                                          .format(leaderBoardController.selectedDate.value),
                                       style: const TextStyle(fontSize: 12, color: Colors.black),
                                     ),
                                     Container(
@@ -312,7 +318,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                       margin: const EdgeInsets.symmetric(horizontal: 10),
                                     ),
                                     Obx(() => Text(
-                                      dashboardController.islamicDate.value,
+                                      leaderBoardController.islamicDate.value,
                                       style: const TextStyle(fontSize: 12, color: Colors.black),
                                     )),
                                   ],
@@ -985,6 +991,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               ),
                               SizedBox(height: 10),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Obx((){
                                     return leaderBoardController.getLeaderboardList.value!=null?
@@ -996,13 +1003,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
                                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.fajr ?? "00:00";
+
+                                          // Compare current time with prayer start time
+                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
                                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
                                             child: Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:!isMissedPrayers? CircleAvatar(
+                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
                                                     radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
@@ -1049,8 +1060,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     ),
                                                   ),
                                                 ),
+                                                if(!shouldShowDash)
                                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
                                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                else
+                                                  const Text('',style: TextStyle(fontSize: 10),)
                                               ],
                                             ),
                                           );
@@ -1068,13 +1082,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
                                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.dhuhr ?? "00:00";
+
+                                          // Compare current time with prayer start time
+                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
                                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
                                             child: Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:!isMissedPrayers? CircleAvatar(
+                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
                                                     radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
@@ -1122,8 +1140,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     ),
                                                   ),
                                                 ),
+                                                if(!shouldShowDash)
                                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
                                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                else
+                                                  const Text('',style: TextStyle(fontSize: 10),)
                                               ],
                                             ),
                                           );
@@ -1142,13 +1163,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
                                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.asr ?? "00:00";
+
+                                          // Compare current time with prayer start time
+                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
                                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
                                             child: Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:!isMissedPrayers? CircleAvatar(
+                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
                                                     radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
@@ -1193,8 +1218,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     ),
                                                   ),
                                                 ),
+                                                if(!shouldShowDash)
                                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
                                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                else
+                                                  const Text('',style: TextStyle(fontSize: 10),)
                                               ],
                                             ),
                                           );
@@ -1212,13 +1240,16 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
                                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.maghrib ?? "00:00";
+                                          // Compare current time with prayer start time
+                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
                                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
                                             child: Column(
                                               children: [
                                             Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child:!isMissedPrayers? CircleAvatar(
+                                            child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
                                                   radius: 22,
                                                   backgroundColor: Colors.yellowAccent,
                                                   child: CircleAvatar(
@@ -1262,8 +1293,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     ),
                                                   ),
                                                 )),
+                                                if(!shouldShowDash)
                                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
                                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                else
+                                                  const Text('',style: TextStyle(fontSize: 10),)
                                               ],
                                             ),
                                           );
@@ -1281,13 +1315,20 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
                                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          // final record = leaderBoardController.getLeaderboardList.value!.records[index];
+                                          // final prayerName = record.prayerName;
+                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.isha ?? "00:00";
+
+                                          // Compare current time with prayer start time
+                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
                                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
                                             child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:!isMissedPrayers? CircleAvatar(
+                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
                                                     radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
@@ -1333,8 +1374,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     ),
                                                   ),
                                                 ),
+                                                if(!shouldShowDash)
                                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
                                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                else
+                                                  const Text('',style: TextStyle(fontSize: 10),)
                                               ],
                                             ),
                                           );

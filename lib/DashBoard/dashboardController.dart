@@ -216,7 +216,7 @@ class DashBoardController extends GetxController {
     scrollController.dispose();
     remainingTimeTimer!.cancel();
     prayerTimer!.cancel();
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -345,6 +345,7 @@ class DashBoardController extends GetxController {
         updateExtractedData = extractedData;
 
         if (getExtractedData.isNotEmpty) {
+          print("kkkkkkkk${getExtractedData[0].timings?.dhuhr}");
           String dhuhrTimeStr=    convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A');
           DateTime dhuhrTime = DateFormat('HH:mm').parse(dhuhrTimeStr);
           DateTime zawalTime = dhuhrTime.subtract(Duration(minutes: 10));
@@ -605,65 +606,148 @@ class DashBoardController extends GetxController {
 RxString upcomingPrayerStartTime = ''.obs;
 RxString upcomingPrayerEndTime = ''.obs;
 RxString nextPrayerName = ''.obs;
-  late Timer _timer;
+  Timer? _timer; // Make _timer nullable
   Rx<Duration> upcomingRemainingTime = Duration.zero.obs;
 
-  void showNextPrayer(){
+  // void showNextPrayer(){
+  //   print("currentPrayer## ${currentPrayer.value}");
+  //   print("nextPrayer## ${nextPrayer.value}");
+  //   if(nextPrayer.value.isEmpty){
+  //     int currentIndex = prayerNames.indexOf(currentPrayer.value);
+  //     // Calculate the next index with wrap-around
+  //     int nextIndex = (currentIndex + 1) % prayerNames.length;
+  //     nextPrayerName.value = prayerNames[nextIndex];
+  //   }
+  //   else{
+  //     int currentIndex = prayerNames.indexOf(nextPrayer.value);
+  //     nextPrayerName.value = prayerNames[currentIndex];
+  //   }
+  //   var nextPrayerTimes = prayerDuration[nextPrayerName.value]!;
+  //   print("prayerDuration[nextPrayer.value] ${prayerDuration[nextPrayerName.value]!}");
+  //   print("nextPrayerTimes['start'] ${nextPrayerTimes['start']!}");
+  //   upcomingPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
+  //   upcomingPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
+  //   // _startCountdown(nextPrayerTimes['start']!);
+  // }
+
+  void showNextPrayer() {
     print("currentPrayer## ${currentPrayer.value}");
     print("nextPrayer## ${nextPrayer.value}");
-    if(nextPrayer.value.isEmpty){
-      int currentIndex = prayerNames.indexOf(currentPrayer.value);
-      // Calculate the next index with wrap-around
-      int nextIndex = (currentIndex + 1) % prayerNames.length;
-      nextPrayerName.value = prayerNames[nextIndex];
+
+    // Check if the current prayer is "Isha" (the last prayer of the day)
+    if (currentPrayer.value == "Isha") {
+      // Fetch Fajr timing for tomorrow using the 'gregorian' date field directly
+      String tomorrowDate = getTomorrowGregorianDate();
+      var nextDayData = calendarData.firstWhere(
+            (element) => element['date']['gregorian']['date'] == tomorrowDate,
+        orElse: () => null,
+      );
+
+      if (nextDayData != null) {
+        nextPrayerName.value = "Fajr";
+        var nextDayFajrTiming = nextDayData['timings']['Fajr'];
+        upcomingPrayerStartTime.value = convertTo12HourFormat(nextDayFajrTiming);
+        upcomingPrayerEndTime.value = convertTo12HourFormat(nextDayData['timings']['Sunrise']); // assuming Sunrise marks Fajr end time
+        // Start the countdown to Fajr
+        _startCountdown(nextDayFajrTiming);
+      }
+    } else {
+      // Continue with the usual next prayer handling
+      if (nextPrayer.value.isEmpty) {
+        int currentIndex = prayerNames.indexOf(currentPrayer.value);
+        int nextIndex = (currentIndex + 1) % prayerNames.length;
+        nextPrayerName.value = prayerNames[nextIndex];
+      } else {
+        int currentIndex = prayerNames.indexOf(nextPrayer.value);
+        nextPrayerName.value = prayerNames[currentIndex];
+      }
+      var nextPrayerTimes = prayerDuration[nextPrayerName.value]!;
+      print("prayerDuration[nextPrayer.value] ${prayerDuration[nextPrayerName.value]!}");
+      print("nextPrayerTimes['start'] ${nextPrayerTimes['start']!}");
+      upcomingPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
+      upcomingPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
     }
-    else{
-      int currentIndex = prayerNames.indexOf(nextPrayer.value);
-      nextPrayerName.value = prayerNames[currentIndex];
-    }
-    var nextPrayerTimes = prayerDuration[nextPrayerName.value]!;
-    print("prayerDuration[nextPrayer.value] ${prayerDuration[nextPrayerName.value]!}");
-    print("nextPrayerTimes['start'] ${nextPrayerTimes['start']!}");
-    upcomingPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
-    upcomingPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
-    // _startCountdown(nextPrayerTimes['start']!);
   }
-  void _startCountdown(String nextPrayerStartTime) {
-    print("gggggggggg $nextPrayerStartTime");
-    // Parse the prayer time string
-    List<String> timeParts = nextPrayerStartTime.split(" ")[0].split(":"); // Remove "(IST)" and split time
-    // List<String> timeParts = nextPrayerStartTime.split(":");
-    print("timeParts $timeParts");
-    int prayerHour = int.parse(timeParts[0]);
-    int prayerMinute = int.parse(timeParts[1]);
-    print("prayerHour $prayerHour prayerMinute $prayerMinute");
+
+  void _startCountdown(String fajrStartTime) {
+    print("fajrStartTime $fajrStartTime");
+    print("upcomingRemainingTime.value1 ${upcomingRemainingTime.value}");
+    // Cancel any existing timer
+    _timer?.cancel();
+    // Remove (IST) from the time string
+    // Remove any text after the time by targeting the first five characters or removing known text patterns
+    String cleanedFajrTime = fajrStartTime.replaceAll(" (IST)", "").trim();
+    print("upcomingRemainingTime.value2 ${upcomingRemainingTime.value}");
+    // Parse Fajr start time into DateTime
     DateTime now = DateTime.now();
-    DateTime prayerTime = DateTime(
+    DateTime fajrDateTime = DateFormat('HH:mm').parse(cleanedFajrTime);
+    DateTime fajrDateTimeFull = DateTime(
       now.year,
       now.month,
-      now.day,
-      prayerHour, // Hour of prayer time
-      prayerMinute,  // Minute of prayer time
+      now.day + 1, // Assuming this is for the next day
+      fajrDateTime.hour,
+      fajrDateTime.minute,
     );
+    print("upcomingRemainingTime.value ${upcomingRemainingTime.value}");
+    Duration difference = fajrDateTimeFull.difference(now);
+    upcomingRemainingTime.value = difference;
+    print("upcomingRemainingTime.value ${upcomingRemainingTime.value}");
 
-    if (now.isAfter(prayerTime)) {
-      // If the prayer time is past for today, set for next day
-      prayerTime = prayerTime.add(Duration(days: 1));
-    }
-
-    upcomingRemainingTime.value = prayerTime.difference(now);
-
+    // Start a timer to count down
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      print("upcomingRemainingTime ${upcomingRemainingTime.value}");
-
-      if (upcomingRemainingTime.value.inSeconds > 0) {
-        upcomingRemainingTime.value -= Duration(seconds: 1);
+      if (upcomingRemainingTime.value.inSeconds <= 0) {
+        print("ggggggggggg");
+        timer.cancel(); // Stop the timer when it reaches zero
       } else {
-        _timer.cancel();
+        upcomingRemainingTime.value -= Duration(seconds: 1); // Update remaining time
+        print("qqqqqqqqqqqq ${upcomingRemainingTime.value}");
       }
-
     });
   }
+
+// Helper function to get tomorrow's date in the same format as the 'gregorian' date field
+  String getTomorrowGregorianDate() {
+    DateTime tomorrow = DateTime.now().add(Duration(days: 1));
+    return DateFormat('dd-MM-yyyy').format(tomorrow);
+  }
+
+
+  // void _startCountdown(String nextPrayerStartTime) {
+  //   print("gggggggggg $nextPrayerStartTime");
+  //   // Parse the prayer time string
+  //   List<String> timeParts = nextPrayerStartTime.split(" ")[0].split(":"); // Remove "(IST)" and split time
+  //   // List<String> timeParts = nextPrayerStartTime.split(":");
+  //   print("timeParts $timeParts");
+  //   int prayerHour = int.parse(timeParts[0]);
+  //   int prayerMinute = int.parse(timeParts[1]);
+  //   print("prayerHour $prayerHour prayerMinute $prayerMinute");
+  //   DateTime now = DateTime.now();
+  //   DateTime prayerTime = DateTime(
+  //     now.year,
+  //     now.month,
+  //     now.day,
+  //     prayerHour, // Hour of prayer time
+  //     prayerMinute,  // Minute of prayer time
+  //   );
+  //
+  //   if (now.isAfter(prayerTime)) {
+  //     // If the prayer time is past for today, set for next day
+  //     prayerTime = prayerTime.add(Duration(days: 1));
+  //   }
+  //
+  //   upcomingRemainingTime.value = prayerTime.difference(now);
+  //
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     print("upcomingRemainingTime ${upcomingRemainingTime.value}");
+  //
+  //     if (upcomingRemainingTime.value.inSeconds > 0) {
+  //       upcomingRemainingTime.value -= Duration(seconds: 1);
+  //     } else {
+  //       _timer.cancel();
+  //     }
+  //
+  //   });
+  // }
   @override
   void onClose() {
     prayerTimer?.cancel();

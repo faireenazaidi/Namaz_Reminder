@@ -15,6 +15,7 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
+import '../Leaderboard/leaderboardDataModal.dart';
 import '../Leaderboard/leaderboardView.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
@@ -453,49 +454,46 @@ class DashBoardView extends GetView<DashBoardController> {
                     builder: (_) {
                       return Visibility(
                         visible: true,
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppColor.leaderboard,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    onTap: (){
-                                      Get.to(() => LeaderBoardView(),
-                                        transition: Transition.rightToLeft,
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.ease,);
-                                    },
-                                      child: Text("LEADERBOARD",style: MyTextTheme.greyN,)),
-                                  InkWell(
-                                    onTap: (){
-                                      Get.to(() => LeaderBoardView(),
-                                        transition: Transition.rightToLeft,
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.ease,);
-                                    },
-                                      child: SvgPicture.asset("assets/Close.svg"))
-                                ],
-                              ),
-                              UserRankList()
-                              // RankedFriendsIndicator(
-                              //   rankedFriends: controller.getLeaderboardList.value == null
-                              //       ? []
-                              //       : controller.getLeaderboardList.value!.rankedFriends,
-                              //   currentUserId: int.parse(controller.userData.getUserData!.id),
-                              // ),
-                            ],
-                          ),
+                        child: InkWell(
+                          onTap: (){
+                            Get.to(() => const LeaderBoardView(),
+                              transition: Transition.rightToLeft,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,);
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.leaderboard,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("LEADERBOARD",style: MyTextTheme.greyN,),
+                                    SvgPicture.asset("assets/Close.svg")
+                                  ],
+                                ),
+                                const SizedBox(height: 12,),
+                                UserRankList(records: controller.getLeaderboardList.value == null
+                                    ? []
+                                    : controller.getLeaderboardList.value!.records, prayerName: controller.currentPrayer.value,),
+                                // RankedFriendsIndicator(
+                                //   rankedFriends: controller.getLeaderboardList.value == null
+                                //       ? []
+                                //       : controller.getLeaderboardList.value!.rankedFriends,
+                                //   currentUserId: int.parse(controller.userData.getUserData!.id),
+                                // ),
+                              ],
+                            ),
 
 
-                                                      ),
+                                                        ),
+                        ),
                         );
                     }
                   ),
@@ -774,7 +772,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                       Row(
                                         children: [
                                           Text("starts in ",style: MyTextTheme.smallWCN,),
-                                          Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
+                                         controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
                                           // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
                                         ],
                                       )
@@ -1860,32 +1858,209 @@ class UserRankCarousel extends StatelessWidget {
 }
 
 
+//
+// class UserRankList extends StatefulWidget {
+//   final List<Record> records; // Accept a list of Record objects
+//   final String prayerName;
+//
+//   const UserRankList({Key? key, required this.prayerName, required this.records}) : super(key: key);
+//
+//   @override
+//   _UserRankListState createState() => _UserRankListState();
+// }
+//
+// class _UserRankListState extends State<UserRankList> {
+//   late ScrollController _scrollController;
+//   Timer? _timer;
+//   int _currentIndex = 0;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _scrollController = ScrollController();
+//     _startAutoScroll();
+//   }
+//
+//   @override
+//   void dispose() {
+//     _timer?.cancel();
+//     _scrollController.dispose();
+//     super.dispose();
+//   }
+//
+//   void _startAutoScroll() {
+//     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+//       if (_currentIndex < _filteredRecords.length - 1) {
+//         _currentIndex++;
+//       } else {
+//         _currentIndex = 0; // Reset to start for circular scrolling
+//       }
+//       _scrollToIndex(_currentIndex);
+//     });
+//   }
+//
+//   void _scrollToIndex(int index) {
+//     _scrollController.animateTo(
+//       index * 72.0, // Assumes each item has a height of around 100
+//       duration: Duration(milliseconds: 500),
+//       curve: Curves.easeInOutCubicEmphasized,
+//     );
+//   }
+//
+//   // Filtered and sorted records based on prayer name
+//   List<Record> get _filteredRecords {
+//     final filteredRecords = widget.records
+//         .where((record) => record.prayerName == widget.prayerName)
+//         .toList();
+//     filteredRecords.sort((a, b) => double.parse(b.score).compareTo(double.parse(a.score)));
+//     return filteredRecords;
+//   }
+//
+//
+//   // List<Map<String, dynamic>> get _filteredRecords {
+//   //   final filteredRecords = _records
+//   //       .where((record) => record['prayer_name'] == widget.prayerName)
+//   //       .toList();
+//   //   filteredRecords.sort((a, b) => (double.parse(b['score'].toString()))
+//   //       .compareTo(double.parse(a['score'].toString())));
+//   //   return filteredRecords;
+//   // }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 80,
+//       child: ListView.builder(
+//         padding: EdgeInsets.only(top: 8),
+//         controller: _scrollController,
+//         itemCount: _filteredRecords.length,
+//         shrinkWrap: true,
+//         itemBuilder: (context, index) {
+//           final record = _filteredRecords[index];
+//           final user = record.user;
+//           final rank = index + 1; // Rank is index + 1 because index starts at 0
+//           final totalPeers = _filteredRecords.length;
+//           // final user = _filteredRecords[index]['user'];
+//           // final rank = index + 1; // Rank is index + 1 because index starts at 0
+//           // final totalPeers = _filteredRecords.length;
+//
+//           return Padding(
+//             padding: const EdgeInsets.symmetric(vertical: 8.0),
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 // Rank display
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       rank < 10 ? '0$rank' : '$rank',
+//                       style: TextStyle(
+//                         fontSize: 24,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 // User Information
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       user.name,
+//                       style: TextStyle(
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                     Text(
+//                       '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
+//                       style: TextStyle(color: Colors.grey, fontSize: 14),
+//                     ),
+//                   ],
+//                 ),
+//                 // Profile Picture with Badge
+//                 Stack(
+//                   children: [
+//                     CircleAvatar(
+//                       radius: 28,
+//                       backgroundImage: user.picture != null
+//                           ? NetworkImage(user.picture!)
+//                           : AssetImage('assets/default-avatar.jpg') as ImageProvider,
+//                     ),
+//                     Positioned(
+//                       bottom: 0,
+//                       right: 0,
+//                       child: Container(
+//                         padding: EdgeInsets.all(4),
+//                         decoration: BoxDecoration(
+//                           color: Colors.white,
+//                           shape: BoxShape.circle,
+//                         ),
+//                         child: Icon(
+//                           Icons.star,
+//                           color: Colors.orange,
+//                           size: 16,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   // Helper function to get the ordinal suffix for a number (e.g., "1st", "2nd")
+//   String getOrdinalSuffix(int number) {
+//     if (number >= 11 && number <= 13) {
+//       return 'th';
+//     }
+//     switch (number % 10) {
+//       case 1:
+//         return 'st';
+//       case 2:
+//         return 'nd';
+//       case 3:
+//         return 'rd';
+//       default:
+//         return 'th';
+//     }
+//   }
+// }
+//
+// import 'dart:async';
+// import 'package:flutter/material.dart';
 
 class UserRankList extends StatefulWidget {
   final String prayerName;
+  final List<Record> records;
 
-  const UserRankList({Key? key, this.prayerName = 'Asr'}) : super(key: key);
+  const UserRankList({Key? key, required this.records, required this.prayerName}) : super(key: key);
 
   @override
   _UserRankListState createState() => _UserRankListState();
 }
 
 class _UserRankListState extends State<UserRankList> {
-  late ScrollController _scrollController;
+  late PageController _pageController;
   Timer? _timer;
   int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
+    _pageController = PageController(viewportFraction: 1.0); // Smaller viewportFraction for stacking effect
     _startAutoScroll();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
-    _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -1894,147 +2069,140 @@ class _UserRankListState extends State<UserRankList> {
       if (_currentIndex < _filteredRecords.length - 1) {
         _currentIndex++;
       } else {
-        _currentIndex = 0; // Reset to start for circular scrolling
+        _currentIndex = 0;
       }
-      _scrollToIndex(_currentIndex);
+      _pageController.animateToPage(
+        _currentIndex,
+        duration: Duration(milliseconds: 700),
+        curve: Curves.easeInOutCubicEmphasized,
+      );
     });
   }
 
-  void _scrollToIndex(int index) {
-    _scrollController.animateTo(
-      index * 80.0, // Assumes each item has a height of around 100
-      duration: Duration(milliseconds: 800),
-      curve: Curves.easeInOutCubicEmphasized,
-    );
-  }
-
-  // Mocked records list
-  List<Map<String, dynamic>> get _records => [
-    // Add your records here...
-    // Example record structure
-    {
-      "user": {
-        "id": 70,
-        "username": "914",
-        "mobile_no": "6390319914",
-        "name": "Amritash",
-        "picture": null
-      },
-      "prayer_name": "Asr",
-      "score": 100.0,
-    },
-    {
-      "user": {
-        "id": 40,
-        "username": "111",
-        "mobile_no": "1111111111",
-        "name": "Demo 111",
-        "picture": null
-      },
-      "prayer_name": "Asr",
-      "score": 23.19,
-    },
-    {
-      "user": {
-        "id": 42,
-        "username": "111",
-        "mobile_no": "1111111111",
-        "name": "Baqar 111",
-        "picture": null
-      },
-      "prayer_name": "Asr",
-      "score": 60.19,
-    },
-    // Add more records...
-  ];
-
-  List<Map<String, dynamic>> get _filteredRecords {
-    final filteredRecords = _records
-        .where((record) => record['prayer_name'] == widget.prayerName)
+  List<Record> get _filteredRecords {
+    final filteredRecords = widget.records
+        .where((record) => record.prayerName == widget.prayerName)
         .toList();
-    filteredRecords.sort((a, b) => (double.parse(b['score'].toString()))
-        .compareTo(double.parse(a['score'].toString())));
+    filteredRecords.sort((a, b) => double.parse(b.score).compareTo(double.parse(a.score)));
     return filteredRecords;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80,
-      child: ListView.builder(
-        padding: EdgeInsets.only(top: 10),
-        controller: _scrollController,
+    return _filteredRecords.isEmpty?const Center(child: Text('No Prayer Time Found',style: TextStyle(
+      color: Colors.grey
+    ),)):SizedBox(
+      height: 70, // Adjust height as needed for better spacing
+      child: PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
         itemCount: _filteredRecords.length,
-        shrinkWrap: true,
         itemBuilder: (context, index) {
-          final user = _filteredRecords[index]['user'];
-          final rank = index + 1; // Rank is index + 1 because index starts at 0
+          final record = _filteredRecords[index];
+          final user = record.user;
+          final rank = index + 1;
           final totalPeers = _filteredRecords.length;
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Rank display
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      rank < 10 ? '0$rank' : '$rank',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+          return AnimatedBuilder(
+            animation: _pageController,
+            builder: (context, child) {
+              // Apply scaling transformation for stacking effect
+              double scale = 1.0;
+              if (_pageController.position.haveDimensions) {
+                double pageOffset = _pageController.page! - index;
+                scale = (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
+              }
+
+              return Transform.scale(
+                scale: scale,
+                alignment: Alignment.topCenter,
+                child: Opacity(
+                  opacity: scale, // Fade effect as the item moves out
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Rank display
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            rank < 10 ? '0$rank' : '$rank',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                // User Information
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      user['name'],
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      // User Information
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.name,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
+                            style: TextStyle(color: Colors.grey, fontSize: 14),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
-                  ],
-                ),
-                // Profile Picture with Badge
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 28,
-                      backgroundImage: user['picture'] != null
-                          ? NetworkImage(user['picture'])
-                          : AssetImage('assets/default-avatar.jpg') as ImageProvider,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.star,
-                          color: Colors.orange,
-                          size: 16,
-                        ),
+                      // Profile Picture with Badge
+                      Stack(
+                        children: [
+                          user.picture != null?  CircleAvatar(
+                            radius: 28,
+                            backgroundImage: NetworkImage("http://182.156.200.177:8011${user.picture!}")
+
+                          ):CircleAvatar(
+                            radius: 28,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.grey,
+                              size: 30,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.orange,
+                                    size: 20,
+                                  ),
+                                  Positioned(
+                                    child: Text(
+                                      '$rank', // Display the rank number
+                                      style: const TextStyle(fontSize: 7,
+                                          color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
@@ -2058,6 +2226,7 @@ class _UserRankListState extends State<UserRankList> {
     }
   }
 }
+
 
 
 

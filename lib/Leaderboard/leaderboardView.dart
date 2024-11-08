@@ -306,8 +306,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           children: [
                             // Daily Button
                             GestureDetector(
-                              onTap: () =>
-                              leaderBoardController.updateSelectedTab = 'Daily',
+                              onTap: () {
+                                leaderBoardController.updateSelectedDate(DateTime.now());
+                                leaderBoardController.updateSelectedTab = 'Daily';
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: leaderBoardController.getSelectedTab == 'Daily'
@@ -332,8 +334,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                             const SizedBox(width: 10),
                             // Weekly Button
                             GestureDetector(
-                              onTap: () =>
-                              leaderBoardController.updateSelectedTab = 'Weekly',
+                              onTap: () {
+                                leaderBoardController.updateSelectedDate(DateTime.now());
+                                leaderBoardController.updateSelectedTab = 'Weekly';
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: leaderBoardController.selectedTab.value == 'Weekly'
@@ -362,12 +366,12 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           onTap: () async {
                             DateTime? picked = await showDatePicker(
                               context: context,
-                              initialDate: dateController.selectedDate.value,
+                              initialDate: leaderBoardController.selectedDate.value,
                               firstDate: DateTime(2020),
                               lastDate: DateTime.now(),
                             );
                             if (picked != null) {
-                              dateController.updateSelectedDate(picked);
+                              leaderBoardController.updateSelectedDate(picked);
                               String formattedDate =
                               DateFormat('dd-MM-yyyy').format(picked);
                               leaderBoardController.weeklyApi(formattedDate.toString());
@@ -381,7 +385,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                 children: [
                                   Text(
                                     DateFormat('EEE, d MMMM yyyy')
-                                        .format(dateController.selectedDate.value),
+                                        .format(leaderBoardController.selectedDate.value),
                                     style: const TextStyle(
                                         fontSize: 12, color: Colors.black),
                                     overflow: TextOverflow.ellipsis,
@@ -395,7 +399,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                   ),
                                   Obx(
                                         () => Text(
-                                      dashboardController.islamicDate.value,
+                                      leaderBoardController.islamicDate.value,
                                       style: const TextStyle(
                                           fontSize: 12, color: Colors.black),
                                       overflow: TextOverflow.ellipsis,
