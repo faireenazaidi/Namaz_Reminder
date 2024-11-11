@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -112,6 +114,51 @@ class Dialogs{
         );
       },
     );
+  }
+  static BuildContext? _dialogContext;
+  static void showLoading(BuildContext context, {String message = "Loading..."}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        _dialogContext = context; // Store the dialog's context
+        return Stack(
+          children: [
+            // Blurred background
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+              child: Container(
+                color: Colors.black.withOpacity(0.3), // Semi-transparent overlay
+              ),
+            ),
+            Center(
+              child: Dialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 15,width: 15,child: CircularProgressIndicator(strokeWidth: 2.0,)),
+                      const SizedBox(width: 20),
+                      Flexible(child: Text(message,style: const TextStyle(fontSize: 12),)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static void hideLoading() {
+    if (_dialogContext != null) {
+      Navigator.of(_dialogContext!, rootNavigator: true).pop();
+      _dialogContext = null; // Reset the context after hiding the dialog
+    }
   }
 
   // static Future<void> showConfirmationDialog({

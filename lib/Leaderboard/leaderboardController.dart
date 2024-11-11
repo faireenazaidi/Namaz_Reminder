@@ -7,7 +7,10 @@ import 'package:http/http.dart'as http;
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 
+import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
+import '../DashBoard/timepickerpopup.dart';
+import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
 import 'leaderboardDataModal.dart';
 
@@ -15,6 +18,7 @@ class LeaderBoardController extends GetxController{
 
   UserData userData = UserData();
   final DashBoardController dashboardController = Get.find();
+  final ApiService apiService = ApiService();
   final currentTime = DateFormat("HH:mm").format(DateTime.now());
 
 
@@ -23,6 +27,13 @@ class LeaderBoardController extends GetxController{
     // TODO: implement onInit
     super.onInit();
     updateIslamicDateBasedOnOption();
+  }
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    leaderboard(getFormattedDate());
+    weeklyApi(getFormattedDate(daysBefore: 1));
+    super.onReady();
   }
   RxString islamicDate = ''.obs;
   String getFormattedDate({int? daysBefore}) {
@@ -193,6 +204,75 @@ String formatDate = getFormattedDate();
       return acc;
     });
   }
+
+  bool isCurrentMonth(String dateString) {
+    DateFormat format = DateFormat("dd-MM-yyyy");
+    DateTime date = format.parse(dateString);
+    DateTime now = DateTime.now();
+    return date.year == now.year && date.month == now.month;
+  }
+
+  DateTime? getPrayerTime(List data,String date, String prayerName) {
+    // Iterate over each entry in the data list
+    for (var entry in data) {
+      // Check if the date matches the given date in 'dd-MM-yyyy' format
+      if (entry["date"]["gregorian"]["date"] == date) {
+        // Retrieve the timing string for the specific prayer, if available
+        String? prayerTime = entry["timings"][prayerName];
+
+        if (prayerTime != null) {
+          // Remove the "(IST)" timezone part and trim any whitespace
+          String timeOnly = prayerTime.split(" ")[0];
+
+          // Combine date and time into a single string in "dd-MM-yyyy HH:mm" format
+          String dateTimeString = "$date $timeOnly";
+
+          // Define the date-time format
+          DateFormat format = DateFormat("dd-MM-yyyy HH:mm");
+
+          // Parse and return the DateTime object
+          return format.parse(dateTimeString);
+        }
+      }
+    }
+    // Return null if no matching date or prayer is found
+    return null;
+  }
+
+  Map missedPrayerTimeData = {};
+
+  Future<void> hitPrayerTimeByDate(String date,String prayerName,BuildContext contexts)async{
+    print("apidate $date");
+    Dialogs.showLoading(contexts,message: 'Please wait, Getting Prayer Time');
+   var data =await apiService.getRequest("timings/$date?latitude=${userData.getLocationData!.latitude}&longitude=${userData.getLocationData!.longitude}&method=${userData.getUserData!.methodId}",customBaseUrl: 'https://api.aladhan.com/v1/');
+   print("data $data");
+   missedPrayerTimeData = data['data'];
+   print("missedPrayerTimeData $missedPrayerTimeData");
+    DateTime? prayerTime = getPrayerTime([missedPrayerTimeData],date,prayerName);
+    Dialogs.hideLoading();
+    if(contexts.mounted){
+      showDialog(
+        context: contexts,
+        builder: (BuildContext context) {
+          return   TimePicker(date: date,isFromMissed: true,missedPrayerTime: prayerTime,
+            missedCallBack:() =>weeklyApi(date),);
+        },
+      );
+    }
+  }
+
+  // String? getPrayerTime(String date, String prayerName) {
+  //   // Iterate over each entry in the data list
+  //   for (var entry in dashboardController.calendarData) {
+  //     // Check if the date matches the given date in 'dd-MM-yyyy' format
+  //     if (entry["date"]["gregorian"]["date"] == date) {
+  //       // Return the timing for the specific prayer if available
+  //       return entry["timings"][prayerName];
+  //     }
+  //   }
+  //   // Return null if no matching date or prayer is found
+  //   return null;
+  // }
 
 
 }

@@ -12,8 +12,9 @@ import 'dashboardController.dart';
 class TimePicker extends StatefulWidget {
   final String? date;
   final bool? isFromMissed;
+  final DateTime? missedPrayerTime;
   final Future<dynamic> Function()? missedCallBack;
-  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack});
+  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack, this.missedPrayerTime});
 
   @override
   State<TimePicker> createState() => _TimePickerState();
@@ -36,7 +37,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
     super.initState();
 
     // Initialize hour and minute to current time
-    final now = DateTime.now();
+    final now = widget.missedPrayerTime??DateTime.now();
     dashBoardController.hour = now.hour % 12; // Convert to 12-hour format
     if (dashBoardController.hour == 0) dashBoardController.hour = 12; // Handle 0 hour case
     dashBoardController.minute = now.minute;

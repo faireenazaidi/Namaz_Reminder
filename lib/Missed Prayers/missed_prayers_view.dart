@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/DashBoard/dashboardView.dart';
-import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
+import 'package:namaz_reminders/Leaderboard/LeaderBoardController.dart';
+import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
@@ -16,10 +17,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
   @override
   Widget build(BuildContext context) {
 
-    LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
+    LeaderBoardController controller = Get.put(LeaderBoardController());
     final DateController dateController = Get.put(DateController());
-    leaderBoardController.leaderboard(leaderBoardController.getFormattedDate());
-    leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate(daysBefore: 1));
+    
     // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.cream,
@@ -63,10 +63,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //             children: [
             //               // Daily Button
             //               GestureDetector(
-            //                 onTap: () => leaderBoardController.updateSelectedTab='Daily',
+            //                 onTap: () => controller.updateSelectedTab='Daily',
             //                 child: Container(
             //                   decoration: BoxDecoration(
-            //                     color: leaderBoardController.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
+            //                     color: controller.selectedTab.value == 'Daily' ? AppColor.circleIndicator : Colors.transparent,
             //                     borderRadius: BorderRadius.circular(15),
             //                   ),
             //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -75,7 +75,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                     style: TextStyle(
             //                       fontSize: 16,
             //                       fontWeight: FontWeight.bold,
-            //                       color: leaderBoardController.getSelectedTab == 'Daily' ? Colors.white : Colors.black,
+            //                       color: controller.getSelectedTab == 'Daily' ? Colors.white : Colors.black,
             //                     ),
             //                   ),
             //                 ),
@@ -83,10 +83,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //               const SizedBox(width: 10),
             //               // Weekly Button
             //               GestureDetector(
-            //                 onTap: () => leaderBoardController.updateSelectedTab ='Weekly',
+            //                 onTap: () => controller.updateSelectedTab ='Weekly',
             //                 child: Container(
             //                   decoration: BoxDecoration(
-            //                     color: leaderBoardController.getSelectedTab == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
+            //                     color: controller.getSelectedTab == 'Weekly' ? AppColor.circleIndicator : Colors.transparent,
             //                     borderRadius: BorderRadius.circular(15),
             //                   ),
             //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -95,7 +95,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                     style: TextStyle(
             //                       fontSize: 16,
             //                       fontWeight: FontWeight.bold,
-            //                       color: leaderBoardController.getSelectedTab == 'Weekly' ? Colors.white : Colors.black,
+            //                       color: controller.getSelectedTab == 'Weekly' ? Colors.white : Colors.black,
             //                     ),
             //                   ),
             //                 ),
@@ -115,11 +115,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                 print("picked $picked");
             //                 dateController.updateSelectedDate(picked);
             //                 String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-            //                 if(leaderBoardController.getSelectedTab == 'Daily'){
-            //                   leaderBoardController.leaderboard(formattedDate);
+            //                 if(controller.getSelectedTab == 'Daily'){
+            //                   controller.leaderboard(formattedDate);
             //                 }
             //                 else{
-            //                   leaderBoardController.weeklyApi(formattedDate);
+            //                   controller.weeklyApi(formattedDate);
             //                 }
             //
             //               }
@@ -203,7 +203,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                   onTap: () {
                     Get.back();
                   },
-                  child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+                  child: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
                 ),
               ),
               flexibleSpace: FlexibleSpaceBar(
@@ -229,12 +229,12 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  leaderBoardController.updateSelectedDate(DateTime.now());
-                                  leaderBoardController.updateSelectedTab = 'Daily';
+                                  controller.updateSelectedDate(DateTime.now());
+                                  controller.updateSelectedTab = 'Daily';
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: leaderBoardController.selectedTab.value == 'Daily'
+                                    color: controller.selectedTab.value == 'Daily'
                                         ? AppColor.circleIndicator
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(15),
@@ -245,7 +245,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: leaderBoardController.getSelectedTab == 'Daily'
+                                      color: controller.getSelectedTab == 'Daily'
                                           ? Colors.white
                                           : Colors.black,
                                     ),
@@ -255,12 +255,12 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               const SizedBox(width: 10),
                               GestureDetector(
                                 onTap: () {
-                                  leaderBoardController.updateSelectedDate(DateTime.now());
-                                  leaderBoardController.updateSelectedTab = 'Weekly';
+                                  controller.updateSelectedDate(DateTime.now());
+                                  controller.updateSelectedTab = 'Weekly';
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: leaderBoardController.getSelectedTab == 'Weekly'
+                                    color: controller.getSelectedTab == 'Weekly'
                                         ? AppColor.circleIndicator
                                         : Colors.transparent,
                                     borderRadius: BorderRadius.circular(15),
@@ -271,7 +271,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: leaderBoardController.getSelectedTab == 'Weekly'
+                                      color: controller.getSelectedTab == 'Weekly'
                                           ? Colors.white
                                           : Colors.black,
                                     ),
@@ -285,18 +285,18 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                             onTap: () async {
                               DateTime? picked = await showDatePicker(
                                 context: context,
-                                initialDate:leaderBoardController.getSelectedTab == 'Daily'?leaderBoardController.selectedDate.value:DateTime.now().subtract(Duration(days: 1)),
+                                initialDate:controller.getSelectedTab == 'Daily'?controller.selectedDate.value:DateTime.now().subtract(Duration(days: 1)),
                                 firstDate: DateTime(2020),
-                                lastDate:leaderBoardController.getSelectedTab == 'Daily'? DateTime.now():DateTime.now().subtract(Duration(days: 1)),
+                                lastDate:controller.getSelectedTab == 'Daily'? DateTime.now():DateTime.now().subtract(Duration(days: 1)),
                               );
                               if (picked != null) {
-                                leaderBoardController.updateSelectedDate(picked);
-                                // leaderBoardController.updateIslamicDateBasedOnOption(date: picked);
+                                controller.updateSelectedDate(picked);
+                                // controller.updateIslamicDateBasedOnOption(date: picked);
                                 String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-                                if (leaderBoardController.getSelectedTab == 'Daily') {
-                                  leaderBoardController.leaderboard(formattedDate);
+                                if (controller.getSelectedTab == 'Daily') {
+                                  controller.leaderboard(formattedDate);
                                 } else {
-                                  leaderBoardController.weeklyApi(formattedDate);
+                                  controller.weeklyApi(formattedDate);
                                 }
                               }
                             },
@@ -308,7 +308,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   children: [
                                     Text(
                                       DateFormat('EEE, d MMMM yyyy')
-                                          .format(leaderBoardController.selectedDate.value),
+                                          .format(controller.selectedDate.value),
                                       style: const TextStyle(fontSize: 12, color: Colors.black),
                                     ),
                                     Container(
@@ -318,7 +318,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                       margin: const EdgeInsets.symmetric(horizontal: 10),
                                     ),
                                     Obx(() => Text(
-                                      leaderBoardController.islamicDate.value,
+                                      controller.islamicDate.value,
                                       style: const TextStyle(fontSize: 12, color: Colors.black),
                                     )),
                                   ],
@@ -326,7 +326,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Center(
                             child: const Text(
                               "TODAY'S TIMELINE",
@@ -374,7 +374,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             // SliverToBoxAdapter(
             //   child: Obx(() {
             //     return Container(
-            //          height:leaderBoardController.selectedTab.value == 'Weekly' ? Get.height: 800,
+            //          height:controller.selectedTab.value == 'Weekly' ? Get.height: 800,
             //         decoration: const BoxDecoration(
             //             borderRadius: BorderRadius.vertical(
             //               top: Radius.circular(50.0),
@@ -396,30 +396,30 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //             ),
             //             // Space between leaderboard and toggle buttons
             //             const SizedBox(height: 20), // Adjust the height as needed
-            //             if(leaderBoardController.selectedTab.value == 'Daily')
+            //             if(controller.selectedTab.value == 'Daily')
             //             Row(
             //               children: [
             //                 Obx((){
-            //                   return leaderBoardController.getLeaderboardList.value!=null?
+            //                   return controller.getLeaderboardList.value!=null?
             //                     Expanded(
             //                       child: ListView.builder(
             //                         physics: const NeverScrollableScrollPhysics(),
             //                         padding: EdgeInsets.zero,
             //                         shrinkWrap: true,
-            //                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                         itemCount: controller.getLeaderboardList.value!.records.length,
             //                         itemBuilder: (context, index) {
-            //                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                           var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
             //                           return Visibility(
-            //                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+            //                             visible: controller.getLeaderboardList.value!.records[index].prayerName == "Fajr",
             //                             child: Column(
             //                               children: [
             //                                 Padding(
             //                                   padding: const EdgeInsets.all(8.0),
             //                                   child:!isMissedPrayers? CircleAvatar(
-            //                                       child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                       child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                         radius: 24, // Radius of the circular image
             //                                         backgroundImage: NetworkImage(
-            //                                           "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                           "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                         ),
             //                                       ):
             //                                       Icon(Icons.person,color: Colors.grey,size: 30,)
@@ -427,7 +427,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                   ):
             //                                   InkWell(
             //                                     onTap: (){
-            //                                       if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                       if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
             //                                         showDialog(
             //                                           context: context,
             //                                           builder: (BuildContext context) {
@@ -446,10 +446,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                         ],
             //                                       ),
             //                                       child: CircleAvatar(
-            //                                           child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                           child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                             radius: 24, // Radius of the circular image
             //                                             backgroundImage: NetworkImage(
-            //                                               "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                               "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                             ),
             //                                           ):const Padding(
             //                                             padding: EdgeInsets.all(8.0),
@@ -460,8 +460,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                     ),
             //                                   ),
             //                                 ),
-            //                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-            //                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                                 controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                                 Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                               ],
             //                             ),
             //                           );
@@ -471,26 +471,26 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                 }),
             //
             //                 Obx((){
-            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                   return controller.getLeaderboardList.value!=null? Expanded(
             //                     child: Expanded(
             //                       child: ListView.builder(
             //                         physics: const NeverScrollableScrollPhysics(),
             //                         padding: EdgeInsets.zero,
             //                         shrinkWrap: true,
-            //                         itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                         itemCount: controller.getLeaderboardList.value!.records.length,
             //                         itemBuilder: (context, index) {
-            //                           var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                           var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
             //                           return Visibility(
-            //                             visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+            //                             visible: controller.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
             //                             child: Column(
             //                               children: [
             //                                 Padding(
             //                                   padding: const EdgeInsets.all(8.0),
             //                                   child:!isMissedPrayers? CircleAvatar(
-            //                                       child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                       child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                         radius: 24, // Radius of the circular image
             //                                         backgroundImage: NetworkImage(
-            //                                           "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                           "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                         ),
             //                                       ):const Padding(
             //                                         padding: EdgeInsets.all(8.0),
@@ -500,7 +500,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                   ):
             //                                   InkWell(
             //                                     onTap: (){
-            //                                       if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                       if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
             //                                         showDialog(
             //                                           context: context,
             //                                           builder: (BuildContext context) {
@@ -519,10 +519,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                         ],
             //                                       ),
             //                                       child: CircleAvatar(
-            //                                           child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                           child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                             radius: 24, // Radius of the circular image
             //                                             backgroundImage: NetworkImage(
-            //                                               "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                               "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                             ),
             //                                           ):const Padding(
             //                                             padding: EdgeInsets.all(8.0),
@@ -533,8 +533,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                     ),
             //                                   ),
             //                                 ),
-            //                                 leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-            //                                 Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                                 controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                                 Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                               ],
             //                             ),
             //                           );
@@ -546,25 +546,25 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //
             //
             //                 Obx((){
-            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                   return controller.getLeaderboardList.value!=null? Expanded(
             //                     child: ListView.builder(
             //                       physics: const NeverScrollableScrollPhysics(),
             //                       padding: EdgeInsets.zero,
             //                       shrinkWrap: true,
-            //                       itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                       itemCount: controller.getLeaderboardList.value!.records.length,
             //                       itemBuilder: (context, index) {
-            //                         var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                         var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
             //                         return Visibility(
-            //                           visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
+            //                           visible: controller.getLeaderboardList.value!.records[index].prayerName == "Asr",
             //                           child: Column(
             //                             children: [
             //                               Padding(
             //                                 padding: const EdgeInsets.all(8.0),
             //                                 child:!isMissedPrayers? CircleAvatar(
-            //                                     child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                     child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                       radius: 24, // Radius of the circular image
             //                                       backgroundImage: NetworkImage(
-            //                                         "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                         "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                       ),
             //                                     ):const Padding(
             //                                       padding: EdgeInsets.all(8.0),
@@ -574,7 +574,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                 ):
             //                                 InkWell(
             //                                   onTap: (){
-            //                                     if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                     if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
             //                                       showDialog(
             //                                         context: context,
             //                                         builder: (BuildContext context) {
@@ -593,10 +593,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                       ],
             //                                     ),
             //                                     child: CircleAvatar(
-            //                                         child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                           radius: 24, // Radius of the circular image
             //                                           backgroundImage: NetworkImage(
-            //                                             "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                             "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                           ),
             //                                         ):const Padding(
             //                                           padding: EdgeInsets.all(8.0),
@@ -607,8 +607,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                   ),
             //                                 ),
             //                               ),
-            //                               leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-            //                               Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                               controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                               Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                             ],
             //                           ),
             //                         );
@@ -618,25 +618,25 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                 }),
             //
             //                 Obx((){
-            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                   return controller.getLeaderboardList.value!=null? Expanded(
             //                     child: ListView.builder(
             //                       physics: const NeverScrollableScrollPhysics(),
             //                       padding: EdgeInsets.zero,
             //                       shrinkWrap: true,
-            //                       itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                       itemCount: controller.getLeaderboardList.value!.records.length,
             //                       itemBuilder: (context, index) {
-            //                         var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                         var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
             //                         return Visibility(
-            //                           visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+            //                           visible: controller.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
             //                           child: Column(
             //                             children: [
             //                               Padding(
             //                                 padding: const EdgeInsets.all(8.0),
             //                                 child:!isMissedPrayers? CircleAvatar(
-            //                                     child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                     child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                       radius: 24, // Radius of the circular image
             //                                       backgroundImage: NetworkImage(
-            //                                         "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                         "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                       ),
             //                                     ):const Padding(
             //                                       padding: EdgeInsets.all(8.0),
@@ -646,7 +646,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                 ):
             //                                 InkWell(
             //                                   onTap: (){
-            //                                     if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                     if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
             //                                       showDialog(
             //                                         context: context,
             //                                         builder: (BuildContext context) {
@@ -665,10 +665,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                       ],
             //                                     ),
             //                                     child: CircleAvatar(
-            //                                         child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                           radius: 24, // Radius of the circular image
             //                                           backgroundImage: NetworkImage(
-            //                                             "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                             "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                           ),
             //                                         ):const Padding(
             //                                           padding: EdgeInsets.all(8.0),
@@ -679,8 +679,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                   ),
             //                                 ),
             //                               ),
-            //                               leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-            //                               Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                               controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                               Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                             ],
             //                           ),
             //                         );
@@ -690,25 +690,25 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                 }),
             //
             //                 Obx((){
-            //                   return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+            //                   return controller.getLeaderboardList.value!=null? Expanded(
             //                     child: ListView.builder(
             //                       physics: const NeverScrollableScrollPhysics(),
             //                       padding: EdgeInsets.zero,
             //                       shrinkWrap: true,
-            //                       itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+            //                       itemCount: controller.getLeaderboardList.value!.records.length,
             //                       itemBuilder: (context, index) {
-            //                         var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
+            //                         var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
             //                         return Visibility(
-            //                           visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
+            //                           visible: controller.getLeaderboardList.value!.records[index].prayerName == "Isha",
             //                           child: Column(
             //                             children: [
             //                               Padding(
             //                                 padding: const EdgeInsets.all(8.0),
             //                                 child:!isMissedPrayers? CircleAvatar(
-            //                                     child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                     child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                       radius: 24, // Radius of the circular image
             //                                       backgroundImage: NetworkImage(
-            //                                         "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                         "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                       ),
             //                                     ):const Padding(
             //                                       padding: EdgeInsets.all(8.0),
@@ -718,7 +718,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                 ):
             //                                 InkWell(
             //                                   onTap: (){
-            //                                     if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+            //                                     if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
             //                                       showDialog(
             //                                         context: context,
             //                                         builder: (BuildContext context) {
@@ -737,10 +737,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                       ],
             //                                     ),
             //                                     child: CircleAvatar(
-            //                                         child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+            //                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
             //                                           radius: 24, // Radius of the circular image
             //                                           backgroundImage: NetworkImage(
-            //                                             "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+            //                                             "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
             //                                           ),
             //                                         ):
             //                                         const Padding(
@@ -752,8 +752,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                   ),
             //                                 ),
             //                               ),
-            //                               leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-            //                               Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+            //                               controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+            //                               Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                             ],
             //                           ),
             //                         );
@@ -764,16 +764,16 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //
             //               ],
             //             ),
-            //             if(leaderBoardController.selectedTab.value =='Weekly')
+            //             if(controller.selectedTab.value =='Weekly')
             //               Obx(() {
             //                   return Expanded(
             //                     child: ListView.builder(
             //                       shrinkWrap: true,
             //                       padding: EdgeInsets.zero,
             //                       physics: const NeverScrollableScrollPhysics(),
-            //                       itemCount: leaderBoardController.weeklyMissedPrayer.keys.length,
+            //                       itemCount: controller.weeklyMissedPrayer.keys.length,
             //                       itemBuilder: (context, index) {
-            //                         final date = leaderBoardController.weeklyMissedPrayer.keys.elementAt(index);
+            //                         final date = controller.weeklyMissedPrayer.keys.elementAt(index);
             //
             //                         return Column(
             //                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -788,16 +788,16 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                             Row(
             //                               crossAxisAlignment: CrossAxisAlignment.start,
             //                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //                               children: leaderBoardController.prayers.map((prayer) {
+            //                               children: controller.prayers.map((prayer) {
             //                                 return Expanded(
             //                                   child: Column(
             //                                     children: [
             //                                       Text(
-            //                                         leaderBoardController.prayerShortNames[prayer]!,
+            //                                         controller.prayerShortNames[prayer]!,
             //                                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             //                                       ),
             //                                       // Display user prayer info under each prayer
-            //                                       ...leaderBoardController.weeklyMissedPrayer[date]!
+            //                                       ...controller.weeklyMissedPrayer[date]!
             //                                           .where((record) => record.prayerName == prayer)
             //                                           .map((record) {
             //                                         return record.userTimestamp != null
@@ -834,14 +834,14 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                                   ),
             //                                                     ),
             //                                                   ),
-            //                                                  record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+            //                                                  record.user.id.toString()==controller.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
             //                                                  Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                                                 ],
             //                                               ),
             //                                             )
             //                                             : InkWell(
             //                                           onTap: (){
-            //                                             if(leaderBoardController.userData.getUserData!.id.toString()==record.user.id.toString()){
+            //                                             if(controller.userData.getUserData!.id.toString()==record.user.id.toString()){
             //                                               showDialog(
             //                                                 context: context,
             //                                                 builder: (BuildContext context) {
@@ -905,7 +905,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             //                                                     ),
             //                                                                                                   ),
             //                                                                                                 ),
-            //                                                     record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+            //                                                     record.user.id.toString()==controller.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
             //                                                     Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
             //                                                   ],
             //                                                 ),
@@ -966,7 +966,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             SliverToBoxAdapter(
               child: Obx(() {
                 return Visibility(
-                    visible: leaderBoardController.selectedTab.value == 'Daily',
+                    visible: controller.selectedTab.value == 'Daily',
                     child: Container(
                       height: Get.height,
                       decoration: const BoxDecoration(
@@ -979,7 +979,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                             children: [
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Container(
                                 width: 100,
                                 height: 8  ,
@@ -989,58 +989,58 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 ),
 
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Obx((){
-                                    return leaderBoardController.getLeaderboardList.value!=null?
+                                    return controller.getLeaderboardList.value!=null?
                                     Expanded(
                                       child: ListView.builder(
                                         // physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
-                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemCount: controller.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
-                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.fajr ?? "00:00";
+                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.fajr ?? "00:00";
 
                                           // Compare current time with prayer start time
-                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
+                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
-                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Fajr",
                                             child: Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
+                                                    radius: 21,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
-                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null?
+                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null?
                                                         CircleAvatar(
-                                                          radius: 24, // Radius of the circular image
+                                                          radius: 22, // Radius of the circular image
                                                           backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                           ),
                                                         ):
-                                                        Icon(Icons.person,color: Colors.grey,size: 30,),
+                                                        const Icon(Icons.person,color: Colors.grey,size: 30,),
                                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                     ),
                                                   ):
                                                   InkWell(
                                                     onTap: (){
-                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()),);
+                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()),);
                                                           },
                                                         );
                                                       }
                                                     },
                                                     child: ColorFiltered(
-                                                      colorFilter: ColorFilter.matrix(
+                                                      colorFilter: const ColorFilter.matrix(
                                                         <double>[
                                                           0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
                                                           0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
@@ -1049,20 +1049,20 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         ],
                                                       ),
                                                       child: CircleAvatar(
-                                                          child:leaderBoardController.getLeaderboardList.value!.records[index].user.name.isNotEmpty? leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
                                                             radius: 24, // Radius of the circular image
                                                             backgroundImage: NetworkImage(
-                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
-                                                          ):Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
+                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 if(!shouldShowDash)
-                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                 else
                                                   const Text('',style: TextStyle(fontSize: 10),)
                                               ],
@@ -1074,32 +1074,32 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   }),
 
                                   Obx((){
-                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                    return controller.getLeaderboardList.value!=null? Expanded(
                                       child: ListView.builder(
                                         physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
-                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemCount: controller.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
-                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.dhuhr ?? "00:00";
+                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.dhuhr ?? "00:00";
 
                                           // Compare current time with prayer start time
-                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
+                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
-                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
                                             child: Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
+                                                    radius: 21,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
-                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 24, // Radius of the circular image
+                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 22, // Radius of the circular image
                                                           backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                           ),
                                                         ):const Padding(
                                                           padding: EdgeInsets.all(8.0),
@@ -1110,11 +1110,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   ):
                                                   InkWell(
                                                     onTap: (){
-                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
+                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -1129,10 +1129,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         ],
                                                       ),
                                                       child: CircleAvatar(
-                                                          child:leaderBoardController.getLeaderboardList.value!.records[index].user.name.isNotEmpty? leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
                                                             radius: 24, // Radius of the circular image
                                                             backgroundImage: NetworkImage(
-                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
                                                           ):const Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
@@ -1141,8 +1141,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   ),
                                                 ),
                                                 if(!shouldShowDash)
-                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                 else
                                                   const Text('',style: TextStyle(fontSize: 10),)
                                               ],
@@ -1155,32 +1155,32 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
 
 
                                   Obx((){
-                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                    return controller.getLeaderboardList.value!=null? Expanded(
                                       child: ListView.builder(
                                         physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
-                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemCount: controller.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
-                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.asr ?? "00:00";
+                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.asr ?? "00:00";
 
                                           // Compare current time with prayer start time
-                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
+                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
-                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Asr",
+                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Asr",
                                             child: Column(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
+                                                    radius: 21,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
-                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 24, // Radius of the circular image
+                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 22, // Radius of the circular image
                                                           backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                           ),
                                                         ):const Icon(Icons.person,color: Colors.grey,size: 30,)
                                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
@@ -1188,11 +1188,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   ):
                                                   InkWell(
                                                     onTap: (){
-                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
+                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -1207,10 +1207,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         ],
                                                       ),
                                                       child: CircleAvatar(
-                                                          child:leaderBoardController.getLeaderboardList.value!.records[index].user.name.isNotEmpty? leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
                                                             radius: 24, // Radius of the circular image
                                                             backgroundImage: NetworkImage(
-                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
                                                           ):const Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
@@ -1219,8 +1219,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   ),
                                                 ),
                                                 if(!shouldShowDash)
-                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                 else
                                                   const Text('',style: TextStyle(fontSize: 10),)
                                               ],
@@ -1232,31 +1232,31 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   }),
 
                                   Obx((){
-                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                    return controller.getLeaderboardList.value!=null? Expanded(
                                       child: ListView.builder(
                                         physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
-                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemCount: controller.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
-                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.maghrib ?? "00:00";
+                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.maghrib ?? "00:00";
                                           // Compare current time with prayer start time
-                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
+                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
-                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
                                             child: Column(
                                               children: [
                                             Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                  radius: 22,
+                                            child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
+                                                  radius: 21,
                                                   backgroundColor: Colors.yellowAccent,
                                                   child: CircleAvatar(
-                                                      child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 24, // Radius of the circular image
+                                                      child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                        radius: 22, // Radius of the circular image
                                                         backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                         ),
                                                       ):const Icon(Icons.person,color: Colors.grey,size: 30,)
                                                     // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
@@ -1264,11 +1264,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                 ):
                                                 InkWell(
                                                   onTap: (){
-                                                    if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                    if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
                                                       showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
-                                                          return  TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
+                                                          return  TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
                                                         },
                                                       );
                                                     }
@@ -1283,10 +1283,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                       ],
                                                     ),
                                                     child: CircleAvatar(
-                                                        child:leaderBoardController.getLeaderboardList.value!.records[index].user.name.isNotEmpty? leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                        child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
                                                           radius: 24, // Radius of the circular image
                                                           backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                           ),
                                                         ):const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
                                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
@@ -1294,8 +1294,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   ),
                                                 )),
                                                 if(!shouldShowDash)
-                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                 else
                                                   const Text('',style: TextStyle(fontSize: 10),)
                                               ],
@@ -1307,35 +1307,35 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   }),
 
                                   Obx((){
-                                    return leaderBoardController.getLeaderboardList.value!=null? Expanded(
+                                    return controller.getLeaderboardList.value!=null? Expanded(
                                       child: ListView.builder(
                                         physics: const NeverScrollableScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
-                                        itemCount: leaderBoardController.getLeaderboardList.value!.records.length,
+                                        itemCount: controller.getLeaderboardList.value!.records.length,
                                         itemBuilder: (context, index) {
-                                          var isMissedPrayers = leaderBoardController.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          // final record = leaderBoardController.getLeaderboardList.value!.records[index];
+                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                          // final record = controller.getLeaderboardList.value!.records[index];
                                           // final prayerName = record.prayerName;
-                                          final prayerStartTime = leaderBoardController.dashboardController.getExtractedData[0].timings?.isha ?? "00:00";
+                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.isha ?? "00:00";
 
                                           // Compare current time with prayer start time
-                                          final shouldShowDash = leaderBoardController.currentTime.compareTo(prayerStartTime) < 0;
+                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
                                           return Visibility(
-                                            visible: leaderBoardController.getLeaderboardList.value!.records[index].prayerName == "Isha",
+                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Isha",
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
+                                                    radius: 21,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
-                                                        child: leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 24, // Radius of the circular image
+                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 22, // Radius of the circular image
                                                           backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                           ),
                                                         ):const Icon(Icons.person,color: Colors.grey,size: 30,)
                                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
@@ -1343,11 +1343,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   ):
                                                   InkWell(
                                                     onTap: (){
-                                                      if(leaderBoardController.userData.getUserData!.id.toString()==leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return TimePicker(isFromMissed: true,missedCallBack: ()=>leaderBoardController.leaderboard(leaderBoardController.getFormattedDate()));
+                                                            return TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -1362,21 +1362,21 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         ],
                                                       ),
                                                       child: CircleAvatar(
-                                                          child:leaderBoardController.getLeaderboardList.value!.records[index].user.name.isNotEmpty? leaderBoardController.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
                                                             radius: 24, // Radius of the circular image
                                                             backgroundImage: NetworkImage(
-                                                              "http://182.156.200.177:8011${leaderBoardController.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
                                                           ):
-                                                          const Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
+                                                          const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 if(!shouldShowDash)
-                                                leaderBoardController.getLeaderboardList.value!.records[index].user.id.toString()==leaderBoardController.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(leaderBoardController.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                 else
                                                   const Text('',style: TextStyle(fontSize: 10),)
                                               ],
@@ -1399,7 +1399,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
             SliverToBoxAdapter(
               child: Obx(() {
                 return Visibility(
-                    visible: leaderBoardController.selectedTab.value == 'Weekly',
+                    visible: controller.selectedTab.value == 'Weekly',
                     child: Container(
                       height:Get.height,
                       decoration: const BoxDecoration(
@@ -1409,7 +1409,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                           color: Colors.white
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.fromLTRB(8.0,8.0,8.0,80),
                         child: Column(
                             children: [
                               const SizedBox(height: 10),
@@ -1427,9 +1427,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                             child: ListView.builder(
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
-                              itemCount: leaderBoardController.weeklyMissedPrayer.keys.length,
+                              itemCount: controller.weeklyMissedPrayer.keys.length,
                               itemBuilder: (context, index) {
-                                final date = leaderBoardController.weeklyMissedPrayer.keys.elementAt(index);
+                                final date = controller.weeklyMissedPrayer.keys.elementAt(index);
 
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1446,16 +1446,16 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: leaderBoardController.prayers.map((prayer) {
+                                      children: controller.prayers.map((prayer) {
                                         return Expanded(
                                           child: Column(
                                             children: [
                                               Text(
-                                                leaderBoardController.prayerShortNames[prayer]!,
+                                                controller.prayerShortNames[prayer]!,
                                                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                               ),
                                               // Display user prayer info under each prayer
-                                              ...leaderBoardController.weeklyMissedPrayer[date]!
+                                              ...controller.weeklyMissedPrayer[date]!
                                                   .where((record) => record.prayerName == prayer)
                                                   .map((record) {
                                                 return record.userTimestamp != null
@@ -1492,20 +1492,47 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                           ),
                                                         ),
                                                       ),
-                                                      record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+                                                      record.user.id.toString()==controller.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
                                                       Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                     ],
                                                   ),
                                                 )
                                                     : InkWell(
-                                                  onTap: (){
-                                                    if(leaderBoardController.userData.getUserData!.id.toString()==record.user.id.toString()){
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext context) {
-                                                          return   TimePicker(date: date,isFromMissed: true,missedCallBack:() =>leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate()),);
-                                                        },
-                                                      );
+                                                  onTap: ()async{
+                                                    print("dateT $date");
+                                                    print("isThisMonth ${record.prayerName}");
+                                                    if(controller.userData.getUserData!.id.toString()==record.user.id.toString()){
+                                                      bool isThisMonth = controller.isCurrentMonth(date);
+                                                      print("isThisMonth $isThisMonth");
+                                                      if(isThisMonth){
+                                                        Dialogs.showLoading(context,message: 'Please wait, Getting Prayer Time');
+                                                        // Use await to make getPrayerTime asynchronous
+                                                        DateTime? prayerTime = await Future.delayed(Duration.zero, () {
+                                                          return controller.getPrayerTime(
+                                                            controller.dashboardController.calendarData,
+                                                            date,
+                                                            record.prayerName,
+                                                          );
+                                                        });
+                                                        // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
+                                                        print("prayerTime $prayerTime");
+                                                        // Hide loading only if the context is still mounted
+                                                        if (context.mounted) {
+                                                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                          Dialogs.hideLoading();
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return   TimePicker(date: date,isFromMissed: true,missedPrayerTime: prayerTime,
+                                                                missedCallBack:() =>controller.weeklyApi(controller.getFormattedDate()),);
+                                                            },
+                                                          );});
+                                                        }
+
+                                                      }
+                                                      else{
+                                                        controller.hitPrayerTimeByDate(date,record.prayerName,context);
+                                                      }
                                                     }
                                                   },
                                                   child: Padding(
@@ -1563,7 +1590,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ),
                                                           ),
                                                         ),
-                                                        record.user.id.toString()==leaderBoardController.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
+                                                        record.user.id.toString()==controller.userData.getUserData!.id? Text('You',style: TextStyle(fontSize: 10),):
                                                         Text(record.user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
                                                       ],
                                                     ),
@@ -1583,7 +1610,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                           );
                         }
                         ),
-                              SizedBox(height: Get.height*0.4,)
+                              SizedBox(height: Get.height/3,)
                             ]
                         ),
                       ),

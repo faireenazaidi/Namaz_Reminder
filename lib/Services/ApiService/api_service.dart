@@ -19,7 +19,7 @@ class ApiService {
     final String baseUrl = customBaseUrl ?? _defaultBaseUrl; // Use customBaseUrl if provided
     try {
       final response = await http.get(Uri.parse('$baseUrl$endpoint'));
-      print("response $response");
+      print("response ${response.statusCode}");
       return _processResponse(response);
     } catch (e) {
       _handleError(e);

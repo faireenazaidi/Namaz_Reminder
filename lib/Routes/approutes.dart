@@ -103,7 +103,7 @@ class AppRoutes {
     GetPage(
       name: missedPrayers,
       page: () =>  const MissedPrayersView(),
-      binding: MissedPrayersBinding(),
+      binding: LeaderBoardBinding(),
     ),
     GetPage(
       name: notifications,

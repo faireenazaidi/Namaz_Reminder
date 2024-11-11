@@ -2035,6 +2035,198 @@ class UserRankCarousel extends StatelessWidget {
 // import 'dart:async';
 // import 'package:flutter/material.dart';
 
+// class UserRankList extends StatefulWidget {
+//   final String prayerName;
+//   final List<Record> records;
+//
+//   const UserRankList({Key? key, required this.records, required this.prayerName}) : super(key: key);
+//
+//   @override
+//   _UserRankListState createState() => _UserRankListState();
+// }
+//
+// class _UserRankListState extends State<UserRankList> {
+//   late PageController _pageController;
+//   Timer? _timer;
+//   int _currentIndex = 0;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _pageController = PageController(viewportFraction: 1.0); // Smaller viewportFraction for stacking effect
+//     _startAutoScroll();
+//   }
+//
+//   @override
+//   void dispose() {
+//     _timer?.cancel();
+//     _pageController.dispose();
+//     super.dispose();
+//   }
+//
+//   void _startAutoScroll() {
+//     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+//       if (_currentIndex < _filteredRecords.length - 1) {
+//         _currentIndex++;
+//       } else {
+//         _currentIndex = 0;
+//       }
+//       _pageController.animateToPage(
+//         _currentIndex,
+//         duration: Duration(milliseconds: 700),
+//         curve: Curves.easeInOutCubicEmphasized,
+//       );
+//     });
+//   }
+//
+//   List<Record> get _filteredRecords {
+//     final filteredRecords = widget.records
+//         .where((record) => record.prayerName == widget.prayerName)
+//         .toList();
+//     filteredRecords.sort((a, b) => double.parse(b.score).compareTo(double.parse(a.score)));
+//     return filteredRecords;
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return _filteredRecords.isEmpty?const Center(child: Text('No Prayer Time Found',style: TextStyle(
+//       color: Colors.grey
+//     ),)):SizedBox(
+//       height: 70, // Adjust height as needed for better spacing
+//       child: PageView.builder(
+//         controller: _pageController,
+//         scrollDirection: Axis.vertical,
+//         itemCount: _filteredRecords.length,
+//         itemBuilder: (context, index) {
+//           final record = _filteredRecords[index];
+//           final user = record.user;
+//           final rank = index + 1;
+//           final totalPeers = _filteredRecords.length;
+//
+//           return AnimatedBuilder(
+//             animation: _pageController,
+//             builder: (context, child) {
+//               // Apply scaling transformation for stacking effect
+//               double scale = 1.0;
+//               if (_pageController.position.haveDimensions) {
+//                 double pageOffset = _pageController.page! - index;
+//                 scale = (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
+//               }
+//
+//               return Transform.scale(
+//                 scale: scale,
+//                 alignment: Alignment.topCenter,
+//                 child: Opacity(
+//                   opacity: scale, // Fade effect as the item moves out
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       // Rank display
+//                       Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(
+//                             rank < 10 ? '0$rank' : '$rank',
+//                             style: TextStyle(
+//                               fontSize: 24,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       // User Information
+//                       Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(
+//                             user.name,
+//                             style: TextStyle(
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                           Text(
+//                             '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
+//                             style: TextStyle(color: Colors.grey, fontSize: 14),
+//                           ),
+//                         ],
+//                       ),
+//                       // Profile Picture with Badge
+//                       Stack(
+//                         children: [
+//                           user.picture != null?  CircleAvatar(
+//                             radius: 28,
+//                             backgroundImage: NetworkImage("http://182.156.200.177:8011${user.picture!}")
+//
+//                           ):CircleAvatar(
+//                             radius: 28,
+//                             backgroundColor: Colors.white,
+//                             child: Icon(
+//                               Icons.person,
+//                               color: Colors.grey,
+//                               size: 30,
+//                             ),
+//                           ),
+//                           Positioned(
+//                             bottom: 0,
+//                             right: 0,
+//                             child: Container(
+//                               padding: EdgeInsets.all(1),
+//                               decoration: BoxDecoration(
+//                                 color: Colors.white,
+//                                 shape: BoxShape.circle,
+//                               ),
+//                               child: Stack(
+//                                 alignment: Alignment.center,
+//                                 children: [
+//                                   Icon(
+//                                     Icons.star,
+//                                     color: Colors.orange,
+//                                     size: 20,
+//                                   ),
+//                                   Positioned(
+//                                     child: Text(
+//                                       '$rank', // Display the rank number
+//                                       style: const TextStyle(fontSize: 7,
+//                                           color: Colors.white, fontWeight: FontWeight.bold),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+//
+//   // Helper function to get the ordinal suffix for a number (e.g., "1st", "2nd")
+//   String getOrdinalSuffix(int number) {
+//     if (number >= 11 && number <= 13) {
+//       return 'th';
+//     }
+//     switch (number % 10) {
+//       case 1:
+//         return 'st';
+//       case 2:
+//         return 'nd';
+//       case 3:
+//         return 'rd';
+//       default:
+//         return 'th';
+//     }
+//   }
+// }
+
 class UserRankList extends StatefulWidget {
   final String prayerName;
   final List<Record> records;
@@ -2049,12 +2241,36 @@ class _UserRankListState extends State<UserRankList> {
   late PageController _pageController;
   Timer? _timer;
   int _currentIndex = 0;
+  late List<Record> _filteredRecords; // Stores filtered and sorted records
+  bool _areAllScoresZero = true; // Checks if all scores are zero for conditional display
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(viewportFraction: 1.0); // Smaller viewportFraction for stacking effect
+    _initializeRecords(); // Filter, sort, and set zero-score flag
     _startAutoScroll();
+  }
+
+  // Check if widget's records or prayer name change, update filtered records if necessary
+  @override
+  void didUpdateWidget(covariant UserRankList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.records != oldWidget.records || widget.prayerName != oldWidget.prayerName) {
+      _initializeRecords();
+    }
+  }
+
+  // Filters and sorts records based on the prayer name and checks if all scores are zero
+  void _initializeRecords() {
+    // Filter records based on the selected prayer name
+    _filteredRecords = widget.records
+        .where((record) => record.prayerName == widget.prayerName)
+        .toList()
+      ..sort((a, b) => double.parse(b.score).compareTo(double.parse(a.score))); // Sort by score descending
+
+    // Check if all scores are zero
+    _areAllScoresZero = _filteredRecords.every((record) => double.parse(record.score) == 0);
   }
 
   @override
@@ -2079,134 +2295,147 @@ class _UserRankListState extends State<UserRankList> {
     });
   }
 
-  List<Record> get _filteredRecords {
-    final filteredRecords = widget.records
-        .where((record) => record.prayerName == widget.prayerName)
-        .toList();
-    filteredRecords.sort((a, b) => double.parse(b.score).compareTo(double.parse(a.score)));
-    return filteredRecords;
-  }
+  // List<Record> get _filteredRecords {
+  //   final filteredRecords = widget.records
+  //       .where((record) => record.prayerName == widget.prayerName)
+  //       .toList();
+  //   filteredRecords.sort((a, b) => double.parse(b.score).compareTo(double.parse(a.score)));
+  //   return filteredRecords;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return _filteredRecords.isEmpty?const Center(child: Text('No Prayer Time Found',style: TextStyle(
-      color: Colors.grey
-    ),)):SizedBox(
-      height: 70, // Adjust height as needed for better spacing
-      child: PageView.builder(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        itemCount: _filteredRecords.length,
-        itemBuilder: (context, index) {
-          final record = _filteredRecords[index];
-          final user = record.user;
-          final rank = index + 1;
-          final totalPeers = _filteredRecords.length;
+    if(_filteredRecords.isEmpty){
+      return const Center(child: Text('No Prayer Time Found',style: TextStyle(
+          color: Colors.grey
+      ),));
+    }
+    else if(_areAllScoresZero){
+      return const Center(
+        child: Text(
+          "No one has marked the Prayer",
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+    else{
+      return SizedBox(
+        height: 70, // Adjust height as needed for better spacing
+        child: PageView.builder(
+          controller: _pageController,
+          scrollDirection: Axis.vertical,
+          itemCount: _filteredRecords.length,
+          itemBuilder: (context, index) {
+            final record = _filteredRecords[index];
+            final user = record.user;
+            final rank = index + 1;
+            final totalPeers = _filteredRecords.length;
 
-          return AnimatedBuilder(
-            animation: _pageController,
-            builder: (context, child) {
-              // Apply scaling transformation for stacking effect
-              double scale = 1.0;
-              if (_pageController.position.haveDimensions) {
-                double pageOffset = _pageController.page! - index;
-                scale = (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
-              }
+            return AnimatedBuilder(
+              animation: _pageController,
+              builder: (context, child) {
+                // Apply scaling transformation for stacking effect
+                double scale = 1.0;
+                if (_pageController.position.haveDimensions) {
+                  double pageOffset = _pageController.page! - index;
+                  scale = (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
+                }
 
-              return Transform.scale(
-                scale: scale,
-                alignment: Alignment.topCenter,
-                child: Opacity(
-                  opacity: scale, // Fade effect as the item moves out
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Rank display
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            rank < 10 ? '0$rank' : '$rank',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // User Information
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.name,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
-                            style: TextStyle(color: Colors.grey, fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      // Profile Picture with Badge
-                      Stack(
-                        children: [
-                          user.picture != null?  CircleAvatar(
-                            radius: 28,
-                            backgroundImage: NetworkImage("http://182.156.200.177:8011${user.picture!}")
-
-                          ):CircleAvatar(
-                            radius: 28,
-                            backgroundColor: Colors.white,
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.grey,
-                              size: 30,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              padding: EdgeInsets.all(1),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
+                return Transform.scale(
+                  scale: scale,
+                  alignment: Alignment.topCenter,
+                  child: Opacity(
+                    opacity: scale, // Fade effect as the item moves out
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Rank display
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              rank < 10 ? '0$rank' : '$rank',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.orange,
-                                    size: 20,
-                                  ),
-                                  Positioned(
-                                    child: Text(
-                                      '$rank', // Display the rank number
-                                      style: const TextStyle(fontSize: 7,
-                                          color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        // User Information
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '$rank${getOrdinalSuffix(rank)} out of $totalPeers people in peers',
+                              style: TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        // Profile Picture with Badge
+                        Stack(
+                          children: [
+                            user.picture != null?  CircleAvatar(
+                                radius: 28,
+                                backgroundImage: NetworkImage("http://182.156.200.177:8011${user.picture!}")
+
+                            ):CircleAvatar(
+                              radius: 28,
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 30,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                padding: EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                      size: 20,
                                     ),
-                                  ),
-                                ],
+                                    Positioned(
+                                      child: Text(
+                                        '$rank', // Display the rank number
+                                        style: const TextStyle(fontSize: 7,
+                                            color: Colors.white, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+                );
+              },
+            );
+          },
+        ),
+      );
+    }
   }
 
   // Helper function to get the ordinal suffix for a number (e.g., "1st", "2nd")
