@@ -51,17 +51,37 @@ class HijriDateView extends GetView<SettingController> {
         // Get the current day mapping
         var day = hijriController.hijriDateAdjustment[index];
 
+        // return ListTile(
+        // title: Text(day['name']),
+        // trailing: hijriController.selectedId == day['id']
+        // ? const Icon(Icons.check, color: Colors.green) // Show checkmark if selected
+        //     : null,
+        // onTap: () {
+        //   hijriController.updateSelectedId(day['id']); // Update the selected ID
+        //   hijriController.registerUser();
+        //   hijriController.selectItem(day['id']);
+        // },
+        // );
         return ListTile(
-        title: Text(day['name']),
-        trailing: hijriController.selectedId == day['id']
-        ? const Icon(Icons.check, color: Colors.green) // Show checkmark if selected
-            : null,
-        onTap: () {
-          hijriController.updateSelectedId(day['id']); // Update the selected ID
-          hijriController.registerUser();
-          hijriController.selectItem(day['id']);
-        },
-        );});
+          title: Text(
+            day['name'],
+            style: TextStyle(
+              fontWeight: hijriController.selectedId == day['id']
+                  ? FontWeight.bold
+                  : FontWeight.normal,
+            ),
+          ),
+          trailing: hijriController.selectedId == day['id']
+              ? const Icon(Icons.check, color: Colors.green)
+              : null,
+          onTap: () {
+            hijriController.updateSelectedId(day['id']);
+            hijriController.registerUser();
+            hijriController.selectItem(day['id']);
+          },
+        );
+
+        });
       }
     ),
               // SizedBox(height: 5),
