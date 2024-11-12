@@ -177,6 +177,7 @@ class DashBoardView extends GetView<DashBoardController> {
                           controller.calculateCompletionPercentage();
                           print("completionPercentage ${controller.completionPercentage}");
                           print("controller.isPrayed ${controller.isPrayed}");
+                          print("controller.nextPrayer ${controller.nextPrayer}");
                           return controller.isPrayed?CircularPercentIndicator(
                             restartAnimation: false,
                             circularStrokeCap: CircularStrokeCap.round,
@@ -265,38 +266,8 @@ class DashBoardView extends GetView<DashBoardController> {
                           child: Obx(() {
                             // Check if there's a current prayer, if not, show the next prayer
                             print("ccccccccccc ${controller.currentPrayer.value}");
-                            if (controller.currentPrayer.value.isEmpty) {
-                              // Show next prayer message with blinking effect
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(height: 50,),
-                                    BlinkingTextWidget(
-                                      text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
-                                      style: MyTextTheme.mustard,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                            else if(controller.currentPrayer.value=='Free'){
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(height: 75,),
-                                    BlinkingTextWidget(
-                                      text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
-                                      style: MyTextTheme.greyNormal,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                            else {
-                              // Show the current prayer timings if available
-                              return  Column(
+                            if (controller.nextPrayer.value.isEmpty) {
+                              return Column(
                                 children: [
                                   SizedBox(height: 35,),
                                   Center(
@@ -316,6 +287,51 @@ class DashBoardView extends GetView<DashBoardController> {
                                     style: MyTextTheme.greyNormal,
                                   ),
                                 ],
+                              );
+                              // Show next prayer message with blinking effect
+
+                            }
+                            // else if(controller.nextPrayer.value.isNotEmpty){
+                            //   return Center(
+                            //     child: Column(
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //         const SizedBox(height: 75,),
+                            //         BlinkingTextWidget(
+                            //           text: "${controller.nextPrayer.value} starts at ${controller.currentPrayerStartTime.value}",
+                            //           style: MyTextTheme.greyNormal,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   );
+                            // }
+                            // else if(controller.currentPrayer.value=='Free'){
+                            //   return Center(
+                            //     child: Column(
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //         const SizedBox(height: 75,),
+                            //         BlinkingTextWidget(
+                            //           text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                            //           style: MyTextTheme.greyNormal,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   );
+                            // }
+                            else {
+                              // Show the current prayer timings if available
+                              return  Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 50,),
+                                    BlinkingTextWidget(
+                                      text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                      style: MyTextTheme.mustard,
+                                    ),
+                                  ],
+                                ),
                               );
                             }
                           }),
