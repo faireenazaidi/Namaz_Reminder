@@ -4,8 +4,8 @@ class FAQController extends GetxController {
   // List of FAQs
   List<Map<String, dynamic>> faqs = [
     {
-      'question': 'What is the purpose of this Islamic app?',
-      'answer': 'This app is designed to help Muslims with their daily spiritual practices by providing access to various Islamic resources, such as Quran readings, prayer times, supplications (duas), and Islamic lectures.',
+      'question': 'What is the purpose of "Prayer o Clock" App ?',
+      'answer': 'The "Prayer o Clock" app is designed to help users stay consistent with their daily prayers by offering timely reminders for each prayer time. It encourages users to build a habit of praying by tracking their streaks, which they can also share with friends for mutual motivation and support. The app fosters a sense of community and accountability, helping users strengthen their prayer routines while connecting with others who share similar goals.',
       'isExpanded': true
     },
     {'question': 'Is the app free to use?', 'answer': 'Yes, the app is free to use.', 'isExpanded': false},

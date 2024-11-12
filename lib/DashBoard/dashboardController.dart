@@ -45,6 +45,8 @@ class DashBoardController extends GetxController {
     isMute.value = userData.isSoundEnabled(prayerName);
     // isMute.value = !isMute.value;
   }
+
+
   void toggleMute(String prayerName) {
     // Toggle the mute state for the specific prayer
     prayerMuteStates[prayerName] = !(prayerMuteStates[prayerName] ?? false);
@@ -148,14 +150,22 @@ class DashBoardController extends GetxController {
   // }
 
   final ScrollController scrollController = ScrollController();
-  void scrollToHighlightedPrayer() {
-    int nextPrayerIndex = prayerNames.indexOf(nextPrayer.value);
-    scrollController.animateTo(
-      nextPrayerIndex * 100.0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-  }
+  // void scrollToHighlightedPrayer() {
+  //   int nextPrayerIndex = prayerNames.indexOf(nextPrayer.value);
+  //   scrollController.animateTo(
+  //     nextPrayerIndex * 100.0,
+  //     duration: const Duration(milliseconds: 500),
+  //     curve: Curves.easeInOut,
+  //   );
+  // }
+  // void scrollToCenter(int index) {
+  //   double targetOffset = (index * 88) - (MediaQuery.of(context).size.width / 2) + 40;
+  //  scrollController.animateTo(
+  //     targetOffset,
+  //     duration: Duration(milliseconds: 300),
+  //     curve: Curves.easeInOut,
+  //   );
+  // }
 
 
 
@@ -364,7 +374,7 @@ class DashBoardController extends GetxController {
             convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
+             convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
             convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
             //-------Zawal and sunset data (25-10-2024) by fai----//
@@ -444,7 +454,7 @@ class DashBoardController extends GetxController {
             },
             'Sunset': {
               'start': getExtractedData[0].timings?.sunset ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+               'end':getExtractedData[0].timings?.sunrise ?? 'N/A'
             },
             'Maghrib': {
               'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
@@ -452,7 +462,9 @@ class DashBoardController extends GetxController {
             },
             'Isha': {
               'start': getExtractedData[0].timings?.isha ?? 'N/A',
-              'end': getExtractedData[0].timings?.midnight ?? 'N/A'
+              'end':   getExtractedData[0].timings?.midnight ?? 'N/A'
+              //'17:50'
+
             },
             //-----FZ (25-10-2024) update sunrise & subset time----//
 
@@ -484,7 +496,6 @@ class DashBoardController extends GetxController {
   }
 
   bool isPrayed = false;
-
   String getCurrentPrayer(Map<String, Map<String, String>> c, String currentTime) {
     String currentPrayer = '';
     String startTime = '';
@@ -1352,6 +1363,7 @@ List isPrayedList = [];
   }
   
 }
+
 
 
 
