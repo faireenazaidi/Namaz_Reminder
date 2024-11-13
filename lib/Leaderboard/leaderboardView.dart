@@ -1226,11 +1226,12 @@ class TopRankedUsers extends StatelessWidget {
         SizedBox(height: 8),
         Text(
           friend['name'].split(' ')[0],
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
         ),
+        // Icon(Icons.brightness_5_rounded),
         Text(
           '${friend['percentage'].toStringAsFixed(2)}%',
-          style: const TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),
         ),
       ],
     );
