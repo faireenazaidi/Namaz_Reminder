@@ -64,7 +64,7 @@ class PrayerRanking extends StatelessWidget {
                               border: Border.all(color: Colors.yellow,), // Yellow border
                             ),
                             child:ranked[index].picture!=null? CircleAvatar(
-                              radius: 24, // Radius of the circular image
+                              radius: 22, // Radius of the circular image
                               backgroundImage: NetworkImage(
                                 "http://182.156.200.177:8011${ranked[index].picture}", // Replace with your image URL
                               ),
@@ -92,7 +92,7 @@ class PrayerRanking extends StatelessWidget {
   // Widget to build prayer circle header
   Widget buildPrayerCircle(String label, Color color,) {
     return CircleAvatar(
-      radius: 20,
+      radius: 22,
       backgroundColor: color,
       child: Text(
         label,
@@ -119,7 +119,7 @@ class PrayerRanking extends StatelessWidget {
                     // border: Border.all(color: Colors.yellow,), // Yellow border
                   ),
                   child: CircleAvatar(
-                    radius: 24, // Radius of the circular image
+                    radius: 22, // Radius of the circular image
                     backgroundImage: NetworkImage(
                       "http://182.156.200.177:8011${user.user.picture}", // Replace with your image URL
                     ),

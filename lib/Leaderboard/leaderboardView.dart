@@ -315,7 +315,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                   color: leaderBoardController.getSelectedTab == 'Daily'
                                       ? AppColor.circleIndicator
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 padding:
                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -323,9 +323,9 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                   'Daily',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: leaderBoardController.selectedTab.value == 'Daily'? FontWeight.w600:FontWeight.normal,
                                     color: leaderBoardController.selectedTab.value == 'Daily'
-                                        ? Colors.white
+                                        ? Colors.black
                                         : Colors.black,
                                   ),
                                 ),
@@ -343,17 +343,18 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                   color: leaderBoardController.selectedTab.value == 'Weekly'
                                       ? AppColor.circleIndicator
                                       : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
+
                                 padding:
                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                                 child: Text(
                                   'Weekly',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: leaderBoardController.selectedTab.value == 'Daily'? FontWeight.normal:FontWeight.w600,
                                     color: leaderBoardController.selectedTab.value == 'Weekly'
-                                        ? Colors.white
+                                        ? Colors.black
                                         : Colors.black,
                                   ),
                                 ),
@@ -431,20 +432,15 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             ),
           ),
           ),
-
-
-
-
-
           SliverToBoxAdapter(
             child: Obx(() {
                 return Visibility(
                   visible: leaderBoardController.selectedTab.value == 'Daily',
                   child: Container(
-                    height: Get.height,
+                    height: Get.height * 0.75,
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(50.0),
+                          top: Radius.circular(40.0),
                         ),
                       color: Colors.white
                     ),
@@ -466,10 +462,14 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           // ElevatedButton(onPressed: (){
                           //   Get.to(()=>PrayerRanking());
                           // }, child: Text('data'))
-                          PrayerRanking(records:leaderBoardController.getLeaderboardList.value!=null?
-                          leaderBoardController.getLeaderboardList.value!.records:[],
-                            ranked: leaderBoardController.getLeaderboardList.value!=null?
-                            leaderBoardController.getLeaderboardList.value!.rankedFriends:[],id: leaderBoardController.userData.getUserData!.id.toString(),),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: PrayerRanking(records:leaderBoardController.getLeaderboardList.value!=null?
+                              leaderBoardController.getLeaderboardList.value!.records:[],
+                                ranked: leaderBoardController.getLeaderboardList.value!=null?
+                                leaderBoardController.getLeaderboardList.value!.rankedFriends:[],id: leaderBoardController.userData.getUserData!.id.toString(),),
+                            ),
+                          ),
 
                            // Padding(
                            //   padding: const EdgeInsets.only(right: 8.0,top: 10),
@@ -666,7 +666,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   )
                 );
                           },),
-                      ),
+          ),
+
 
           Obx(()=>SliverToBoxAdapter(
             child: Visibility(
@@ -675,7 +676,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   height: MediaQuery.of(context).size.height * 0.57,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(50.0),
+                        top: Radius.circular(40.0),
                       ),
                       color: Colors.white
                   ),

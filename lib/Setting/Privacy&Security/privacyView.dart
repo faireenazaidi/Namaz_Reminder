@@ -49,7 +49,8 @@ class PrivacyView extends GetView<SettingController>{
               title: Text('Location',style: MyTextTheme.medium2,),
               subtitle: Text('Allow location access to provide accurate data according to your location.',style: MyTextTheme.smallGCN,),
               value: privacyController.location.value,
-              onChanged: (value) => privacyController.location.value = value,
+              // onChanged: (value) => privacyController.location.value = value,
+              onChanged: (value) => privacyController.toggleLocationAccess(value)
             )
             ),
           ],

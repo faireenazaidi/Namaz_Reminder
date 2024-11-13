@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
 import 'package:namaz_reminders/Setting/FriendRequests/friendRequestView.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriDate.dart';
-import '../DashBoard/dashboardView.dart';
-import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 import 'Privacy&Security/privacyView.dart';

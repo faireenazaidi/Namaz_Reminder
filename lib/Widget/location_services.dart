@@ -73,7 +73,7 @@ class LocationService {
       return "${place.locality}";
     } catch (e) {
       print("Error getting address: $e");
-      return "Unknown location";
+      return "Unknown";
     }
   }
   //
