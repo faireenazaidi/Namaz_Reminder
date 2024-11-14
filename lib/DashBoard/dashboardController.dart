@@ -454,7 +454,7 @@ class DashBoardController extends GetxController {
             },
             'Sunset': {
               'start': getExtractedData[0].timings?.sunset ?? 'N/A',
-              'end':getExtractedData[0].timings?.sunrise ?? 'N/A'
+              // 'end':getExtractedData[0].timings?.sunrise ?? 'N/A'
             },
             'Maghrib': {
               'start': getExtractedData[0].timings?.maghrib ?? 'N/A',

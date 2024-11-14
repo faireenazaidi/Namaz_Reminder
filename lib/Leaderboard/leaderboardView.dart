@@ -313,21 +313,35 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: leaderBoardController.getSelectedTab == 'Daily'
-                                      ? AppColor.circleIndicator
+                                      ? Colors.white60
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 padding:
                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                child: Text(
-                                  'Daily',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: leaderBoardController.selectedTab.value == 'Daily'? FontWeight.w600:FontWeight.normal,
-                                    color: leaderBoardController.selectedTab.value == 'Daily'
-                                        ? Colors.black
-                                        : Colors.black,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 4,
+                                      width: 28,
+                                      decoration: BoxDecoration(
+                                          color: leaderBoardController.selectedTab.value == 'Daily'
+                                              ? AppColor.circleIndicator
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                    ),
+                                    Text(
+                                      'Daily',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: leaderBoardController.selectedTab.value == 'Daily'? FontWeight.w500:FontWeight.normal,
+                                        color: leaderBoardController.selectedTab.value == 'Daily'
+                                            ? Colors.black
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -341,24 +355,39 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: leaderBoardController.selectedTab.value == 'Weekly'
-                                      ? AppColor.circleIndicator
+                                      ? Colors.white60
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
 
                                 padding:
                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                child: Text(
-                                  'Weekly',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: leaderBoardController.selectedTab.value == 'Daily'? FontWeight.normal:FontWeight.w600,
-                                    color: leaderBoardController.selectedTab.value == 'Weekly'
-                                        ? Colors.black
-                                        : Colors.black,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 4,
+                                      width: 28,
+                                      decoration: BoxDecoration(
+                                        color: leaderBoardController.selectedTab.value == 'Weekly'
+                                        ? AppColor.circleIndicator
+                                        : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(5)
+                                      ),
+                                    ),
+                                    Text(
+                                      'Weekly',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: leaderBoardController.selectedTab.value == 'Daily'? FontWeight.normal:FontWeight.w500,
+                                        color: leaderBoardController.selectedTab.value == 'Weekly'
+                                            ? Colors.black
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
+
                             ),
                           ],
                         )),
@@ -673,7 +702,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             child: Visibility(
                 visible: leaderBoardController.selectedTab.value == 'Weekly',
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.57,
+                  height: MediaQuery.of(context).size.height * 0.60,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(40.0),
@@ -1125,7 +1154,7 @@ class TopRankedUsers extends StatelessWidget {
           children: [
             if (rankedFriends.length > 2)
               Transform.rotate(
-                angle: -0.1,
+                angle: -0.2,
                 child: _buildRankCard(rankedFriends[2], 3, Colors.orange),
               ),
             if (rankedFriends.length > 2) const SizedBox(width: 16),
@@ -1134,7 +1163,7 @@ class TopRankedUsers extends StatelessWidget {
             if (rankedFriends.length > 1) const SizedBox(width: 16),
             if (rankedFriends.length > 1)
               Transform.rotate(
-                angle: 0.1,
+                angle: 0.2,
                 child: _buildRankCard(rankedFriends[1], 2, Colors.grey),
               ),
           ],
@@ -1143,98 +1172,164 @@ class TopRankedUsers extends StatelessWidget {
   }
 
   Widget _buildRankCard(Map friend, int rank, Color badgeColor) {
+    // return Column(
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: [
+    //     SizedBox(height: 5,),
+    //     Stack(
+    //       alignment: Alignment.center,
+    //       children: [
+    //         Icon(Icons.star, size: 40, color: badgeColor),
+    //         Positioned(
+    //           child: Text(
+    //             '$rank', // Display the rank number
+    //             style: const TextStyle(
+    //                 color: Colors.white, fontWeight: FontWeight.bold),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     const SizedBox(height: 20),
+    //     Container(
+    //       height: 60,
+    //       width: 60,
+    //       padding: const EdgeInsets.all(1), // Padding around the square image
+    //       decoration: BoxDecoration(
+    //         shape: BoxShape.rectangle, // Change to rectangle for a square shape
+    //         border: Border.all(color: Colors.yellow), // Yellow border
+    //         borderRadius: BorderRadius.circular(8), // Optional: Adds rounded corners
+    //       ),
+    //       child: friend['picture'] != null
+    //           ? ClipRRect(
+    //         borderRadius: BorderRadius.circular(8), // Optional: Rounded corners for the image
+    //         child: Image.network(
+    //           "http://182.156.200.177:8011${friend['picture']}", // Replace with your image URL
+    //           width: 50, // Set width for the square image
+    //           height: 50, // Set height for the square image
+    //           fit: BoxFit.cover, // Crop the image to fit
+    //         ),
+    //       )
+    //           : const Padding(
+    //         padding: EdgeInsets.all(8.0),
+    //         child: Icon(
+    //           Icons.person,
+    //           color: Colors.grey,
+    //           size: 30,
+    //         ),
+    //       ),
+    //     ),
+    //     // Stack(
+    //     //   alignment: Alignment.center,
+    //     //   children: [
+    //     //     Icon(Icons.star, size: 40, color: badgeColor),
+    //     //     Positioned(
+    //     //       child: Text(
+    //     //         '$rank', // Display the rank number
+    //     //         style: const TextStyle(
+    //     //             color: Colors.white, fontWeight: FontWeight.bold),
+    //     //       ),
+    //     //     ),
+    //     //   ],
+    //     // ),
+    //     // Container(
+    //     //   width: 80,
+    //     //   height: 50,
+    //     //   decoration: BoxDecoration(
+    //     //     borderRadius: BorderRadius.circular(10),
+    //     //     border: Border.all(color: badgeColor, width: 3),
+    //     //   ),
+    //     //   child: friend['picture'] != null
+    //     //       ? Image.network(
+    //     //     "http://182.156.200.177:8011${friend['picture']}",
+    //     //     width: 100,
+    //     //     height: 50,
+    //     //     fit: BoxFit.cover,
+    //     //   )
+    //     //       : Container(
+    //     //     width: 100,
+    //     //     height: 50,
+    //     //     color: Colors.grey[300],
+    //     //     child: Icon(Icons.person, size: 40, color: Colors.white),
+    //     //   ),
+    //     // ),
+    //     SizedBox(height: 8),
+    //     Text(
+    //       friend['name'].split(' ')[0],
+    //       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+    //     ),
+    //     // Icon(Icons.brightness_5_rounded),
+    //     Text(
+    //       '${friend['percentage'].toStringAsFixed(2)}%',
+    //       style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),
+    //     ),
+    //   ],
+    // );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(height: 5,),
+        SizedBox(height: 20),
         Stack(
-          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          alignment: Alignment.topCenter,
           children: [
-            Icon(Icons.star, size: 40, color: badgeColor),
+            Container(
+              height: 80,
+              width: 80,
+              padding: const EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(color: Colors.yellow),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: friend['picture'] != null
+                  ? ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  "http://182.156.200.177:8011${friend['picture']}",
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
+              )
+                  : const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.person,
+                  color: Colors.grey,
+                  size: 30,
+                ),
+              ),
+            ),
             Positioned(
-              child: Text(
-                '$rank', // Display the rank number
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+              bottom: -20, // Positioning the star icon above the container
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Icon(Icons.star, size: 40, color: badgeColor),
+                   Icon(Icons.brightness_high_sharp, size: 40, color: badgeColor),
+                  Text(
+                    '$rank', // Display the rank number
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ],
         ),
         const SizedBox(height: 20),
-        Container(
-          height: 60,
-          width: 60,
-          padding: const EdgeInsets.all(1), // Padding around the square image
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle, // Change to rectangle for a square shape
-            border: Border.all(color: Colors.yellow), // Yellow border
-            borderRadius: BorderRadius.circular(8), // Optional: Adds rounded corners
-          ),
-          child: friend['picture'] != null
-              ? ClipRRect(
-            borderRadius: BorderRadius.circular(8), // Optional: Rounded corners for the image
-            child: Image.network(
-              "http://182.156.200.177:8011${friend['picture']}", // Replace with your image URL
-              width: 50, // Set width for the square image
-              height: 50, // Set height for the square image
-              fit: BoxFit.cover, // Crop the image to fit
-            ),
-          )
-              : const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.person,
-              color: Colors.grey,
-              size: 30,
-            ),
-          ),
-        ),
-        // Stack(
-        //   alignment: Alignment.center,
-        //   children: [
-        //     Icon(Icons.star, size: 40, color: badgeColor),
-        //     Positioned(
-        //       child: Text(
-        //         '$rank', // Display the rank number
-        //         style: const TextStyle(
-        //             color: Colors.white, fontWeight: FontWeight.bold),
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // Container(
-        //   width: 80,
-        //   height: 50,
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(10),
-        //     border: Border.all(color: badgeColor, width: 3),
-        //   ),
-        //   child: friend['picture'] != null
-        //       ? Image.network(
-        //     "http://182.156.200.177:8011${friend['picture']}",
-        //     width: 100,
-        //     height: 50,
-        //     fit: BoxFit.cover,
-        //   )
-        //       : Container(
-        //     width: 100,
-        //     height: 50,
-        //     color: Colors.grey[300],
-        //     child: Icon(Icons.person, size: 40, color: Colors.white),
-        //   ),
-        // ),
-        SizedBox(height: 8),
         Text(
           friend['name'].split(' ')[0],
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
         ),
-        // Icon(Icons.brightness_5_rounded),
         Text(
           '${friend['percentage'].toStringAsFixed(2)}%',
-          style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
         ),
       ],
     );
+
+
   }
 }
 
