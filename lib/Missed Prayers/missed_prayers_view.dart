@@ -235,23 +235,39 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: controller.selectedTab.value == 'Daily'
-                                        ? AppColor.circleIndicator
+                                        ? Colors.white60
                                         : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(15),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  child: Text(
-                                    'Daily',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: controller.getSelectedTab == 'Daily'
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
+
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 4,
+                                        width: 28,
+                                        decoration: BoxDecoration(
+                                            color: controller.selectedTab.value == 'Daily'
+                                                ? AppColor.circleIndicator
+                                                : Colors.transparent,
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                      ),
+                                      Text(
+                                        'Daily',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: controller.selectedTab.value == 'Daily'? FontWeight.w500:FontWeight.normal,
+                                          color: controller.getSelectedTab == 'Daily'
+                                              ? Colors.black
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
+
                               const SizedBox(width: 10),
                               GestureDetector(
                                 onTap: () {
@@ -261,20 +277,34 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: controller.getSelectedTab == 'Weekly'
-                                        ? AppColor.circleIndicator
+                                        ? Colors.white60
                                         : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(15),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  child: Text(
-                                    'Weekly',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: controller.getSelectedTab == 'Weekly'
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 4,
+                                        width: 28,
+                                        decoration: BoxDecoration(
+                                            color: controller.selectedTab.value == 'Daily'
+                                                ? Colors.transparent
+                                                : AppColor.circleIndicator,
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                      ),
+                                      Text(
+                                        'Weekly',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: controller.selectedTab.value=='Daily'?FontWeight.normal:FontWeight.w500,
+                                          color: controller.getSelectedTab == 'Weekly'
+                                              ? Colors.black
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -1013,8 +1043,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 21,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                    radius: 22,
+                                                      backgroundColor: Colors.transparent,
+                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                    radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
                                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null?
@@ -1092,8 +1125,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 21,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                    radius: 22,
+                                                      backgroundColor: Colors.transparent,
+                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                    radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
                                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
@@ -1134,7 +1170,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             backgroundImage: NetworkImage(
                                                               "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
-                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
+                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,):CircleAvatar(
+                                                            radius: 22,
+                                                              backgroundColor: Colors.transparent,
+                                                              child: Text('-',style: TextStyle(color: Colors.black45),))
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                       ),
                                                     ),
@@ -1173,8 +1212,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 21,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                    radius: 22,
+                                                      backgroundColor: Colors.transparent,
+                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                    radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
                                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
@@ -1249,8 +1291,14 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                               children: [
                                             Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                  radius: 21,
+                                            child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                              radius: 22,
+                                                backgroundColor: Colors.transparent,
+                                                child: CircleAvatar(
+                                                  radius: 22,
+                                                    backgroundColor: Colors.transparent,
+                                                    child: Text('-')))):!isMissedPrayers? CircleAvatar(
+                                                  radius: 22,
                                                   backgroundColor: Colors.yellowAccent,
                                                   child: CircleAvatar(
                                                       child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
@@ -1328,8 +1376,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: Text('-')):!isMissedPrayers? CircleAvatar(
-                                                    radius: 21,
+                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                    radius: 22,
+                                                      backgroundColor: Colors.transparent,
+                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                    radius: 22,
                                                     backgroundColor: Colors.yellowAccent,
                                                     child: CircleAvatar(
                                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(

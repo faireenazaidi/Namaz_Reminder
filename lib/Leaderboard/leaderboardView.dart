@@ -698,8 +698,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
           ),
 
 
+
           Obx(()=>SliverToBoxAdapter(
-            child: Visibility(
+            child:
+            Visibility(
                 visible: leaderBoardController.selectedTab.value == 'Weekly',
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.60,
@@ -709,9 +711,11 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       ),
                       color: Colors.white
                   ),
-                  child: ListView.builder(itemCount: leaderBoardController.weeklyRanked.length,
+                  child: ListView.builder(
+                      itemCount: leaderBoardController.weeklyRanked.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
                       itemBuilder: (context,index){
                       bool isFound =  leaderBoardController.weeklyRanked[index]['id'].toString()==leaderBoardController.userData.getUserData!.id;
                     return Padding(
@@ -720,8 +724,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       );}),
                 ),
             ),
-          ))
-
+          )),
         ],
       ));
 
@@ -1154,116 +1157,24 @@ class TopRankedUsers extends StatelessWidget {
           children: [
             if (rankedFriends.length > 2)
               Transform.rotate(
-                angle: -0.2,
-                child: _buildRankCard(rankedFriends[2], 3, Colors.orange),
+                angle: -0.25,
+                child: _buildRankCard(rankedFriends[2], 3, 'assets/3medal.svg'),
               ),
             if (rankedFriends.length > 2) const SizedBox(width: 16),
             if (rankedFriends.isNotEmpty)
-              _buildRankCard(rankedFriends[0], 1, Colors.yellow),
+              _buildRankCard(rankedFriends[0], 1,  'assets/1medal.svg'),
             if (rankedFriends.length > 1) const SizedBox(width: 16),
             if (rankedFriends.length > 1)
               Transform.rotate(
-                angle: 0.2,
-                child: _buildRankCard(rankedFriends[1], 2, Colors.grey),
+                angle: 0.25,
+                child: _buildRankCard(rankedFriends[1], 2,  'assets/2medal.svg'),
               ),
           ],
         ),
       );
   }
 
-  Widget _buildRankCard(Map friend, int rank, Color badgeColor) {
-    // return Column(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: [
-    //     SizedBox(height: 5,),
-    //     Stack(
-    //       alignment: Alignment.center,
-    //       children: [
-    //         Icon(Icons.star, size: 40, color: badgeColor),
-    //         Positioned(
-    //           child: Text(
-    //             '$rank', // Display the rank number
-    //             style: const TextStyle(
-    //                 color: Colors.white, fontWeight: FontWeight.bold),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     const SizedBox(height: 20),
-    //     Container(
-    //       height: 60,
-    //       width: 60,
-    //       padding: const EdgeInsets.all(1), // Padding around the square image
-    //       decoration: BoxDecoration(
-    //         shape: BoxShape.rectangle, // Change to rectangle for a square shape
-    //         border: Border.all(color: Colors.yellow), // Yellow border
-    //         borderRadius: BorderRadius.circular(8), // Optional: Adds rounded corners
-    //       ),
-    //       child: friend['picture'] != null
-    //           ? ClipRRect(
-    //         borderRadius: BorderRadius.circular(8), // Optional: Rounded corners for the image
-    //         child: Image.network(
-    //           "http://182.156.200.177:8011${friend['picture']}", // Replace with your image URL
-    //           width: 50, // Set width for the square image
-    //           height: 50, // Set height for the square image
-    //           fit: BoxFit.cover, // Crop the image to fit
-    //         ),
-    //       )
-    //           : const Padding(
-    //         padding: EdgeInsets.all(8.0),
-    //         child: Icon(
-    //           Icons.person,
-    //           color: Colors.grey,
-    //           size: 30,
-    //         ),
-    //       ),
-    //     ),
-    //     // Stack(
-    //     //   alignment: Alignment.center,
-    //     //   children: [
-    //     //     Icon(Icons.star, size: 40, color: badgeColor),
-    //     //     Positioned(
-    //     //       child: Text(
-    //     //         '$rank', // Display the rank number
-    //     //         style: const TextStyle(
-    //     //             color: Colors.white, fontWeight: FontWeight.bold),
-    //     //       ),
-    //     //     ),
-    //     //   ],
-    //     // ),
-    //     // Container(
-    //     //   width: 80,
-    //     //   height: 50,
-    //     //   decoration: BoxDecoration(
-    //     //     borderRadius: BorderRadius.circular(10),
-    //     //     border: Border.all(color: badgeColor, width: 3),
-    //     //   ),
-    //     //   child: friend['picture'] != null
-    //     //       ? Image.network(
-    //     //     "http://182.156.200.177:8011${friend['picture']}",
-    //     //     width: 100,
-    //     //     height: 50,
-    //     //     fit: BoxFit.cover,
-    //     //   )
-    //     //       : Container(
-    //     //     width: 100,
-    //     //     height: 50,
-    //     //     color: Colors.grey[300],
-    //     //     child: Icon(Icons.person, size: 40, color: Colors.white),
-    //     //   ),
-    //     // ),
-    //     SizedBox(height: 8),
-    //     Text(
-    //       friend['name'].split(' ')[0],
-    //       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-    //     ),
-    //     // Icon(Icons.brightness_5_rounded),
-    //     Text(
-    //       '${friend['percentage'].toStringAsFixed(2)}%',
-    //       style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w600),
-    //     ),
-    //   ],
-    // );
+  Widget _buildRankCard(Map friend, int rank, String svgPath) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -1306,12 +1217,12 @@ class TopRankedUsers extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   // Icon(Icons.star, size: 40, color: badgeColor),
-                   Icon(Icons.brightness_high_sharp, size: 40, color: badgeColor),
-                  Text(
-                    '$rank', // Display the rank number
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                 SvgPicture.asset(svgPath,height: 40,width: 40,),
+                  // Text(
+                  //   '$rank', // Display the rank number
+                  //   style: const TextStyle(
+                  //       color: Colors.white, fontWeight: FontWeight.bold),
+                  // ),
                 ],
               ),
             ),
