@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Leaderboard/LeaderBoardController.dart';
 import '../AppManager/dialogs.dart';
-import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
@@ -19,12 +17,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
 
     LeaderBoardController controller = Get.put(LeaderBoardController());
     final DateController dateController = Get.put(DateController());
-    
     // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.cream,
       body: CustomScrollView(
-        physics: NeverScrollableScrollPhysics(),
+       physics: NeverScrollableScrollPhysics(),
           slivers: [
             SliverAppBar(
               title: Text("Missed Prayers", style: MyTextTheme.mediumBCD),
@@ -240,7 +237,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                 return Visibility(
                     visible: controller.selectedTab.value == 'Daily',
                     child: Container(
-                      height: Get.height,
+                     height: Get.height,
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(50.0),
@@ -249,46 +246,49 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                            children: [
-                              const SizedBox(height: 10),
-                              Container(
-                                width: 100,
-                                height: 8  ,
-                                decoration: BoxDecoration(
-                                    color:AppColor.packageGray,
-                                    borderRadius: BorderRadius.circular(10)
+                          child: Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                Container(
+                                  width: 100,
+                                  height: 8  ,
+                                  decoration: BoxDecoration(
+                                      color:AppColor.packageGray,
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
                                 ),
-
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Obx((){
-                                    return controller.getLeaderboardList.value!=null?
-                                    Expanded(
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        itemCount: controller.getLeaderboardList.value!.records.length,
-                                        itemBuilder: (context, index) {
-                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.fajr ?? "00:00";
-                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
-                                          return Visibility(
-                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Fajr",
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
-                                                    radius: 22,
-                                                      backgroundColor: Colors.transparent,
-                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
-                                                    backgroundColor: Colors.yellowAccent,
-                                                    child: CircleAvatar(
+                                const SizedBox(height: 10),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Obx((){
+                                      return controller.getLeaderboardList.value!=null?
+                                      Expanded(
+                                        child: ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemCount: controller.getLeaderboardList.value!.records.length,
+                                          //controller.getLeaderboardList.value?.records.length,
+                                          itemBuilder: (context, index) {
+                                            var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                            final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.fajr ?? "00:00";
+                                            final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
+                                            //checking the length of a listview item///
+                                            print('Items length: ${controller.getLeaderboardList.value!.records.length}');
+                                            //-------------------------------------//
+                                            return Visibility(
+                                              visible: controller.getLeaderboardList.value!.records[index].prayerName == "Fajr",
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                        radius: 24,
+                                                        backgroundColor: Colors.transparent,
+                                                        child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                      radius: 22,
+                                                      backgroundColor: Colors.yellowAccent,
+                                                      child: CircleAvatar(
                                                         child: controller.getLeaderboardList.value!.records[index].user.picture!=null?
                                                         CircleAvatar(
                                                           radius: 22, // Radius of the circular image
@@ -297,6 +297,252 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                           ),
                                                         ):
                                                         const Icon(Icons.person,color: Colors.grey,size: 30,),
+                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                      ),
+                                                    ):
+                                                    InkWell(
+                                                      onTap: (){
+                                                        if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()),);
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      child: ColorFiltered(
+                                                        colorFilter: const ColorFilter.matrix(
+                                                          <double>[
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                            0, 0, 0, 1, 0,               // Alpha channel
+                                                          ],
+                                                        ),
+                                                        child: CircleAvatar(
+                                                            child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                              radius: 24, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ):const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
+                                                          // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  if(!shouldShowDash)
+                                                    controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                    Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                  else
+                                                    const Text('',style: TextStyle(fontSize: 10),)
+                                                ],
+                                              ),
+                                            );
+
+                                          },),
+                                      ):const SizedBox();
+                                    }),
+
+
+                                    Obx((){
+                                      return controller.getLeaderboardList.value!=null?
+                                      Expanded(
+                                        child: ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemCount: controller.getLeaderboardList.value!.records.length,
+                                          itemBuilder: (context, index) {
+                                            var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                            final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.dhuhr ?? "00:00";
+
+                                            // Compare current time with prayer start time
+                                            final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
+                                            return Visibility(
+                                              visible: controller.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                      radius: 24,
+                                                        backgroundColor: Colors.transparent,
+                                                        child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                      radius: 22,
+                                                      backgroundColor: Colors.yellowAccent,
+                                                      child: CircleAvatar(
+                                                          child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                            radius: 22, // Radius of the circular image
+                                                            backgroundImage: NetworkImage(
+                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            ),
+                                                          ):const Padding(
+                                                            padding: EdgeInsets.all(8.0),
+                                                            child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                                                          )
+                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                      ),
+                                                    ):
+                                                    InkWell(
+                                                      onTap: (){
+                                                        if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      child: ColorFiltered(
+                                                        colorFilter: const ColorFilter.matrix(
+                                                          <double>[
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                            0, 0, 0, 1, 0,               // Alpha channel
+                                                          ],
+                                                        ),
+                                                        child: CircleAvatar(
+                                                            child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                              radius: 24, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ):const Icon(Icons.person,color: Colors.grey,size: 30,):CircleAvatar(
+                                                              radius: 22,
+                                                                backgroundColor: Colors.transparent,
+                                                                child: Text('-',style: TextStyle(color: Colors.black45),))
+                                                          // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  if(!shouldShowDash)
+                                                  controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                  Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                  else
+                                                    const Text('',style: TextStyle(fontSize: 10),)
+                                                ],
+                                              ),
+                                            );
+
+                                          },),
+                                      ):const SizedBox();
+                                    }),
+
+
+                                    Obx((){
+                                      return controller.getLeaderboardList.value!=null? Expanded(
+                                        child: ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemCount: controller.getLeaderboardList.value!.records.length,
+                                          itemBuilder: (context, index) {
+                                            var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                            final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.asr ?? "00:00";
+
+                                            // Compare current time with prayer start time
+                                            final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
+                                            return Visibility(
+                                              visible: controller.getLeaderboardList.value!.records[index].prayerName == "Asr",
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                      radius: 24,
+                                                        backgroundColor: Colors.transparent,
+                                                        child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                      radius: 22,
+                                                      backgroundColor: Colors.yellowAccent,
+                                                      child: CircleAvatar(
+                                                          child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                            radius: 22, // Radius of the circular image
+                                                            backgroundImage: NetworkImage(
+                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                            ),
+                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,)
+                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                      ),
+                                                    ):
+                                                    InkWell(
+                                                      onTap: (){
+                                                        if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      child: ColorFiltered(
+                                                        colorFilter: const ColorFilter.matrix(
+                                                          <double>[
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                            0, 0, 0, 1, 0,               // Alpha channel
+                                                          ],
+                                                        ),
+                                                        child: CircleAvatar(
+                                                            child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                              radius: 24, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ):const Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
+                                                          // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  if(!shouldShowDash)
+                                                  controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                  Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                  else
+                                                    const Text('',style: TextStyle(fontSize: 10),)
+                                                ],
+                                              ),
+                                            );
+
+                                          },),
+                                      ):const SizedBox();
+                                    }),
+
+                                    Obx((){
+                                      return controller.getLeaderboardList.value!=null? Expanded(
+                                        child: ListView.builder(
+
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemCount: controller.getLeaderboardList.value!.records.length,
+                                          itemBuilder: (context, index) {
+                                            var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                            final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.maghrib ?? "00:00";
+                                            // Compare current time with prayer start time
+                                            final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
+                                            return Visibility(
+                                              visible: controller.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
+                                              child: Column(
+                                                children: [
+                                              Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                radius: 24,
+                                                  backgroundColor: Colors.transparent,
+                                                  child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                    radius: 22,
+                                                    backgroundColor: Colors.yellowAccent,
+                                                    child: CircleAvatar(
+                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                          radius: 22, // Radius of the circular image
+                                                          backgroundImage: NetworkImage(
+                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                          ),
+                                                        ):const Icon(Icons.person,color: Colors.grey,size: 30,)
                                                       // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                     ),
                                                   ):
@@ -306,7 +552,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext context) {
-                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()),);
+                                                            return  TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
                                                           },
                                                         );
                                                       }
@@ -322,7 +568,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                       ),
                                                       child: CircleAvatar(
                                                           child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                            radius: 24, // Radius of the circular image
+                                                            radius: 22, // Radius of the circular image
                                                             backgroundImage: NetworkImage(
                                                               "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
@@ -330,357 +576,114 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                                if(!shouldShowDash)
-                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                else
-                                                  const Text('',style: TextStyle(fontSize: 10),)
-                                              ],
-                                            ),
-                                          );
+                                                  )),
+                                                  if(!shouldShowDash)
+                                                  controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                  Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                  else
+                                                    const Text('',style: TextStyle(fontSize: 10),)
+                                                ],
+                                              ),
+                                            );
 
-                                        },),
-                                    ):const SizedBox();
-                                  }),
+                                          },),
+                                      ):const SizedBox();
+                                    }),
 
-                                  Obx((){
-                                    return controller.getLeaderboardList.value!=null? Expanded(
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        itemCount: controller.getLeaderboardList.value!.records.length,
-                                        itemBuilder: (context, index) {
-                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.dhuhr ?? "00:00";
+                                    Obx((){
+                                      return controller.getLeaderboardList.value!=null? Expanded(
+                                        child: ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemCount: controller.getLeaderboardList.value!.records.length,
+                                          itemBuilder: (context, index) {
+                                            var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
+                                            // final record = controller.getLeaderboardList.value!.records[index];
+                                            // final prayerName = record.prayerName;
+                                            final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.isha ?? "00:00";
 
-                                          // Compare current time with prayer start time
-                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
-                                          return Visibility(
-                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Dhuhr",
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
-                                                    radius: 22,
-                                                      backgroundColor: Colors.transparent,
-                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
-                                                    backgroundColor: Colors.yellowAccent,
-                                                    child: CircleAvatar(
-                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 22, // Radius of the circular image
-                                                          backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                          ),
-                                                        ):const Padding(
-                                                          padding: EdgeInsets.all(8.0),
-                                                          child: Icon(Icons.person,color: Colors.grey,size: 30,),
-                                                        )
-                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                    ),
-                                                  ):
-                                                  InkWell(
-                                                    onTap: (){
-                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext context) {
-                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
-                                                          },
-                                                        );
-                                                      }
-                                                    },
-                                                    child: ColorFiltered(
-                                                      colorFilter: const ColorFilter.matrix(
-                                                        <double>[
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                          0, 0, 0, 1, 0,               // Alpha channel
-                                                        ],
-                                                      ),
+                                            // Compare current time with prayer start time
+                                            final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
+                                            return Visibility(
+                                              visible: controller.getLeaderboardList.value!.records[index].prayerName == "Isha",
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
+                                                      radius: 24,
+                                                        backgroundColor: Colors.transparent,
+                                                        child: Text('-'))):!isMissedPrayers? CircleAvatar(
+                                                      radius: 22,
+                                                      backgroundColor: Colors.yellowAccent,
                                                       child: CircleAvatar(
-                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                            radius: 24, // Radius of the circular image
+                                                          child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                            radius: 22, // Radius of the circular image
                                                             backgroundImage: NetworkImage(
                                                               "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
                                                             ),
-                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,):CircleAvatar(
-                                                            radius: 22,
-                                                              backgroundColor: Colors.transparent,
-                                                              child: Text('-',style: TextStyle(color: Colors.black45),))
+                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,)
                                                         // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                if(!shouldShowDash)
-                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                else
-                                                  const Text('',style: TextStyle(fontSize: 10),)
-                                              ],
-                                            ),
-                                          );
-
-                                        },),
-                                    ):const SizedBox();
-                                  }),
-
-
-                                  Obx((){
-                                    return controller.getLeaderboardList.value!=null? Expanded(
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        itemCount: controller.getLeaderboardList.value!.records.length,
-                                        itemBuilder: (context, index) {
-                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.asr ?? "00:00";
-
-                                          // Compare current time with prayer start time
-                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
-                                          return Visibility(
-                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Asr",
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
-                                                    radius: 22,
-                                                      backgroundColor: Colors.transparent,
-                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
-                                                    backgroundColor: Colors.yellowAccent,
-                                                    child: CircleAvatar(
-                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 22, // Radius of the circular image
-                                                          backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                          ),
-                                                        ):const Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                    ),
-                                                  ):
-                                                  InkWell(
-                                                    onTap: (){
-                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext context) {
-                                                            return   TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
-                                                          },
-                                                        );
-                                                      }
-                                                    },
-                                                    child: ColorFiltered(
-                                                      colorFilter: const ColorFilter.matrix(
-                                                        <double>[
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                          0, 0, 0, 1, 0,               // Alpha channel
-                                                        ],
-                                                      ),
-                                                      child: CircleAvatar(
-                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                            radius: 24, // Radius of the circular image
-                                                            backgroundImage: NetworkImage(
-                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                            ),
-                                                          ):const Icon(Icons.person,color: Colors.grey,size: 30,):Text('-',style: TextStyle(color: Colors.black45),)
-                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                if(!shouldShowDash)
-                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                else
-                                                  const Text('',style: TextStyle(fontSize: 10),)
-                                              ],
-                                            ),
-                                          );
-
-                                        },),
-                                    ):const SizedBox();
-                                  }),
-
-                                  Obx((){
-                                    return controller.getLeaderboardList.value!=null? Expanded(
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        itemCount: controller.getLeaderboardList.value!.records.length,
-                                        itemBuilder: (context, index) {
-                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.maghrib ?? "00:00";
-                                          // Compare current time with prayer start time
-                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
-                                          return Visibility(
-                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Maghrib",
-                                            child: Column(
-                                              children: [
-                                            Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
-                                              radius: 22,
-                                                backgroundColor: Colors.transparent,
-                                                child: CircleAvatar(
-                                                  radius: 22,
-                                                    backgroundColor: Colors.transparent,
-                                                    child: Text('-')))):!isMissedPrayers? CircleAvatar(
-                                                  radius: 22,
-                                                  backgroundColor: Colors.yellowAccent,
-                                                  child: CircleAvatar(
-                                                      child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                        radius: 22, // Radius of the circular image
-                                                        backgroundImage: NetworkImage(
-                                                          "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                    ):
+                                                    InkWell(
+                                                      onTap: (){
+                                                        if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
+                                                            },
+                                                          );
+                                                        }
+                                                      },
+                                                      child: ColorFiltered(
+                                                        colorFilter: const ColorFilter.matrix(
+                                                          <double>[
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
+                                                            0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
+                                                            0, 0, 0, 1, 0,               // Alpha channel
+                                                          ],
                                                         ),
-                                                      ):const Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                    // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                  ),
-                                                ):
-                                                InkWell(
-                                                  onTap: (){
-                                                    if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext context) {
-                                                          return  TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
-                                                        },
-                                                      );
-                                                    }
-                                                  },
-                                                  child: ColorFiltered(
-                                                    colorFilter: const ColorFilter.matrix(
-                                                      <double>[
-                                                        0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                        0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                        0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                        0, 0, 0, 1, 0,               // Alpha channel
-                                                      ],
-                                                    ),
-                                                    child: CircleAvatar(
-                                                        child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 24, // Radius of the circular image
-                                                          backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                          ),
-                                                        ):const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
-                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                    ),
-                                                  ),
-                                                )),
-                                                if(!shouldShowDash)
-                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                else
-                                                  const Text('',style: TextStyle(fontSize: 10),)
-                                              ],
-                                            ),
-                                          );
-
-                                        },),
-                                    ):const SizedBox();
-                                  }),
-
-                                  Obx((){
-                                    return controller.getLeaderboardList.value!=null? Expanded(
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
-                                        itemCount: controller.getLeaderboardList.value!.records.length,
-                                        itemBuilder: (context, index) {
-                                          var isMissedPrayers = controller.getLeaderboardList.value!.records[index].userTimestamp == null;
-                                          // final record = controller.getLeaderboardList.value!.records[index];
-                                          // final prayerName = record.prayerName;
-                                          final prayerStartTime = controller.dashboardController.getExtractedData[0].timings?.isha ?? "00:00";
-
-                                          // Compare current time with prayer start time
-                                          final shouldShowDash = controller.currentTime.compareTo(prayerStartTime) < 0;
-                                          return Visibility(
-                                            visible: controller.getLeaderboardList.value!.records[index].prayerName == "Isha",
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child:shouldShowDash?const CircleAvatar(radius: 20,backgroundColor: Colors.white70,child: CircleAvatar(
-                                                    radius: 22,
-                                                      backgroundColor: Colors.transparent,
-                                                      child: Text('-'))):!isMissedPrayers? CircleAvatar(
-                                                    radius: 22,
-                                                    backgroundColor: Colors.yellowAccent,
-                                                    child: CircleAvatar(
-                                                        child: controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                          radius: 22, // Radius of the circular image
-                                                          backgroundImage: NetworkImage(
-                                                            "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                          ),
-                                                        ):const Icon(Icons.person,color: Colors.grey,size: 30,)
-                                                      // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
-                                                    ),
-                                                  ):
-                                                  InkWell(
-                                                    onTap: (){
-                                                      if(controller.userData.getUserData!.id.toString()==controller.getLeaderboardList.value!.records[index].user.id.toString()){
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext context) {
-                                                            return TimePicker(isFromMissed: true,missedCallBack: ()=>controller.leaderboard(controller.getFormattedDate()));
-                                                          },
-                                                        );
-                                                      }
-                                                    },
-                                                    child: ColorFiltered(
-                                                      colorFilter: const ColorFilter.matrix(
-                                                        <double>[
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Red channel coefficients
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Green channel coefficients
-                                                          0.2126, 0.7152, 0.0722, 0, 0, // Blue channel coefficients
-                                                          0, 0, 0, 1, 0,               // Alpha channel
-                                                        ],
-                                                      ),
-                                                      child: CircleAvatar(
-                                                          child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
-                                                            radius: 24, // Radius of the circular image
-                                                            backgroundImage: NetworkImage(
-                                                              "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
-                                                            ),
-                                                          ):
-                                                          const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
-                                                        // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                        child: CircleAvatar(
+                                                            child:controller.getLeaderboardList.value!.records[index].user.name.isNotEmpty? controller.getLeaderboardList.value!.records[index].user.picture!=null? CircleAvatar(
+                                                              radius: 24, // Radius of the circular image
+                                                              backgroundImage: NetworkImage(
+                                                                "http://182.156.200.177:8011${controller.getLeaderboardList.value!.records[index].user.picture}", // Replace with your image URL
+                                                              ),
+                                                            ):
+                                                            const Icon(Icons.person,color: Colors.grey,size: 30,):const Text('-',style: TextStyle(color: Colors.black45),)
+                                                          // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                if(!shouldShowDash)
-                                                controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
-                                                Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
-                                                else
-                                                  const Text('',style: TextStyle(fontSize: 10),)
-                                              ],
-                                            ),
-                                          );
+                                                  if(!shouldShowDash)
+                                                  controller.getLeaderboardList.value!.records[index].user.id.toString()==controller.userData.getUserData!.id? const Text('You',style: TextStyle(fontSize: 10),):
+                                                  Text(controller.getLeaderboardList.value!.records[index].user.name.split(' ')[0],style: const TextStyle(fontSize: 10),)
+                                                  else
+                                                    const Text('',style: TextStyle(fontSize: 10),)
+                                                ],
+                                              ),
+                                            );
 
-                                        },),
-                                    ):const SizedBox();
-                                  }),
+                                          },),
+                                      ):const SizedBox();
+                                    }),
 
-                                ],
-                              ),
-                            ]
-                        ),
-                      ),
+                                  ],
+                                ),
+
+                          ]
+                          ),
+
+                      )
                     )
                 );
               },),
+
             ),
             SliverToBoxAdapter(
               child: Obx(() {
@@ -711,6 +714,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                         Obx(() {
                           return Expanded(
                             child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
                               itemCount: controller.weeklyMissedPrayer.keys.length,
@@ -728,7 +732,6 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                       ),
                                     ),
-
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -896,8 +899,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                           );
                         }
                         ),
-                              SizedBox(height: Get.height/3,)
-                            ]
+                              SizedBox(height: Get.height/3,),
+                                ],
+
                         ),
                       ),
                     )

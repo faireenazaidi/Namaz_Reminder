@@ -46,37 +46,37 @@ class SettingView extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 10,),
-                // Search Bar
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: AppColor.searchbarColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    cursorColor: AppColor.circleIndicator,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: "Search for a setting..",
-                      hintStyle: MyTextTheme.mediumCustomGCN,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:  BorderSide(color:AppColor.packageGray,
-                            width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey,
-                            width: 1),
-                      ),
-                    ),
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                ),
+                /// This Searchbar is temporarily hidden///
+                // Container(
+                //   height: 50,
+                //   decoration: BoxDecoration(
+                //     color: AppColor.searchbarColor,
+                //     borderRadius: BorderRadius.circular(10),
+                //   ),
+                //   child: TextField(
+                //     cursorColor: AppColor.circleIndicator,
+                //     decoration: InputDecoration(
+                //       prefixIcon: const Icon(Icons.search),
+                //       hintText: "Search for a setting..",
+                //       hintStyle: MyTextTheme.mediumCustomGCN,
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //         borderSide: const BorderSide(color: Colors.black),
+                //       ),
+                //       enabledBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //         borderSide:  BorderSide(color:AppColor.packageGray,
+                //             width: 2),
+                //       ),
+                //       focusedBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //         borderSide: const BorderSide(color: Colors.grey,
+                //             width: 1),
+                //       ),
+                //     ),
+                //     style: const TextStyle(color: Colors.grey),
+                //   ),
+                // ),
                 SizedBox(height: 10),
                 // Settings List
                 Expanded(
