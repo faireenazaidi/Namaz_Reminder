@@ -40,6 +40,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
       backgroundColor: AppColor.cream,
       body:
       CustomScrollView(
+        physics: NeverScrollableScrollPhysics(),
         slivers: [
           // Obx(()=>SliverAppBar(
           //   title:  Text("Leaderboard",style: MyTextTheme.mediumBCD,),
@@ -493,6 +494,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           // }, child: Text('data'))
                           Expanded(
                             child: SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
                               child: PrayerRanking(records:leaderBoardController.getLeaderboardList.value!=null?
                               leaderBoardController.getLeaderboardList.value!.records:[],
                                 ranked: leaderBoardController.getLeaderboardList.value!=null?
@@ -703,29 +705,32 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
             child:
             Visibility(
                 visible: leaderBoardController.selectedTab.value == 'Weekly',
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.60,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(40.0),
-                      ),
-                      color: Colors.white
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.54,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(40.0),
+                        ),
+                        color: Colors.white
+                    ),
+                    child: ListView.builder(
+                        itemCount: leaderBoardController.weeklyRanked.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context,index){
+                        bool isFound =  leaderBoardController.weeklyRanked[index]['id'].toString()==leaderBoardController.userData.getUserData!.id;
+                      return Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: _buildRankCard(leaderBoardController.weeklyRanked[index],index,isFound),
+                        );}),
                   ),
-                  child: ListView.builder(
-                      itemCount: leaderBoardController.weeklyRanked.length,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context,index){
-                      bool isFound =  leaderBoardController.weeklyRanked[index]['id'].toString()==leaderBoardController.userData.getUserData!.id;
-                    return Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: _buildRankCard(leaderBoardController.weeklyRanked[index],index,isFound),
-                      );}),
                 ),
             ),
           )),
-        ],
+
+    ],
       ));
 
   }
