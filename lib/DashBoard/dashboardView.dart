@@ -174,10 +174,12 @@ class DashBoardView extends GetView<DashBoardController> {
                       alignment: Alignment.center,
                       children: [
                         Obx(() {
-                          controller.calculateCompletionPercentage();
+                          // controller.calculateCompletionPercentage();
                           print("completionPercentage ${controller.completionPercentage}");
                           print("controller.isPrayed ${controller.isPrayed}");
                           print("controller.nextPrayer ${controller.nextPrayer}");
+                          print("controller.nextPrayer ${controller.currentPrayer}");
+                          print("controller.nextPrayer ${controller.currentPrayerStartTime}");
                           return controller.isPrayed?CircularPercentIndicator(
                             restartAnimation: false,
                             circularStrokeCap: CircularStrokeCap.round,
@@ -206,10 +208,10 @@ class DashBoardView extends GetView<DashBoardController> {
                             //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                             // ),
                           ) :CircularPercentIndicator(
-                            restartAnimation: true,
+                            restartAnimation: false,
                             circularStrokeCap: CircularStrokeCap.round,
                             animation: true,
-                            // animateFromLastPercent: true,
+                            animateFromLastPercent: true,
                             animationDuration: 1200,
                             radius: 140,
                             lineWidth: 40,
@@ -226,7 +228,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               ),
                             ),
                             percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
-                            progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
+                            progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.circleIndicator,
                             backgroundColor: Colors.grey.shade300,
                             // center: Text(
                             //   '${(completionPercentage * 100).toStringAsFixed(1)}%',
@@ -281,7 +283,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                   ),
                                 );
                               }
-                              else if(controller.currentPrayer.value=='Free'){
+                              else if(controller.isGapPeriod.value){
                                 return Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -349,6 +351,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
                               onTap: () {
                                 if (!controller.isPrayed) {
+                                  // controller.onPrayerMarked(controller.currentPrayer.value);
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -530,7 +533,7 @@ class DashBoardView extends GetView<DashBoardController> {
                   // }),
 
 
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   // GetBuilder<DashBoardController>(
                   //   builder: (_){
                   //     return Column(
@@ -749,7 +752,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
+                                Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
                                   fontSize: 20,fontWeight: FontWeight.w600
                                 ),),
                                 Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
@@ -812,7 +815,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                     const Text('Starts at',style: TextStyle(
                                         color: Colors.white,fontSize: 11
                                     )),
-                                    Text(controller.upcomingPrayerStartTime.value,style: const TextStyle(
+                                    Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,fontWeight: FontWeight.w600
                                     ))
@@ -824,7 +827,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                     const Text('Ends at',style: TextStyle(
                                         color: Colors.white,fontSize: 11
                                     )),
-                                    Text(controller.upcomingPrayerEndTime.value,style: const TextStyle(
+                                    Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
                                         color: Colors.white,
                                       fontSize: 14,fontWeight: FontWeight.w600
                                     ))

@@ -237,6 +237,7 @@ class DashBoardController extends GetxController {
   }
 
   get() async {
+    print("mydata${userData.getUserData!.toJson()}");
     if (userData.getLocationData == null) {
       print("annnnder");
       print("userData ander ${userData.getLocationData?.toJson()}");
@@ -396,34 +397,71 @@ class DashBoardController extends GetxController {
           '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ??
               "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation
               ?.abbreviated ?? "Abbreviation"}';
-
+print("baqar");
           // Set prayer start and end time
-          updatePrayerDuration = {
-            'Fajr': {
-              'start': getExtractedData[0].timings?.fajr ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-            },
-            'Free': {
-              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-            },
-            'Dhuhr': {
-              'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
-              'end': getExtractedData[0].timings?.asr ?? 'N/A'
-            },
-            'Asr': {
-              'start': getExtractedData[0].timings?.asr ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
-            },
-            'Maghrib': {
-              'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
-              'end': getExtractedData[0].timings?.isha ?? 'N/A'
-            },
-            'Isha': {
-              'start': getExtractedData[0].timings?.isha ?? 'N/A',
-              'end': getExtractedData[0].timings?.midnight ?? 'N/A'
-            },
-          };
+          if(userData.getPrayerDurationForShia.isNotEmpty){
+            print("isNotEmpty ${userData.getPrayerDurationForShia}");
+            updatePrayerDuration = userData.getPrayerDurationForShia;
+          }
+          else{
+            print("isEmpty ${userData.getPrayerDurationForShia}");
+            updatePrayerDuration = userData.getUserData!.fiqh.toString() == '0' // Shia fiqh
+                ? {
+              'Fajr': {
+                'start': getExtractedData[0].timings?.fajr ?? 'N/A',
+                'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+              },
+              // 'Free': {
+              //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+              //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+              // },
+              'Dhuhr': {
+                'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
+                'end': getExtractedData[0].timings?.sunset ?? 'N/A'  // Ends at sunset for Shia Muslims
+              },
+              'Asr': {
+                'start': getExtractedData[0].timings?.asr ?? 'N/A', // Allows Asr start after Dhuhr is prayed
+                'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+              },
+              'Maghrib': {
+                'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
+                'end': getExtractedData[0].timings?.midnight ?? 'N/A' // Ends at midnight for Shia Muslims
+              },
+              'Isha': {
+                'start': getExtractedData[0].timings?.isha ?? 'N/A', // Allows Isha start after Maghrib is prayed
+                'end': getExtractedData[0].timings?.midnight ?? 'N/A'
+              },
+            }
+                : // Sunni fiqh standard times
+            {
+              'Fajr': {
+                'start': getExtractedData[0].timings?.fajr ?? 'N/A',
+                'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+              },
+              // 'Free': {
+              //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+              //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+              // },
+              'Dhuhr': {
+                'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
+                'end': getExtractedData[0].timings?.asr ?? 'N/A'
+              },
+              'Asr': {
+                'start': getExtractedData[0].timings?.asr ?? 'N/A',
+                'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+              },
+              'Maghrib': {
+                'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
+                'end': getExtractedData[0].timings?.isha ?? 'N/A'
+              },
+              'Isha': {
+                'start': getExtractedData[0].timings?.isha ?? 'N/A',
+                'end': getExtractedData[0].timings?.midnight ?? 'N/A'
+              },
+            };
+            userData.savePrayerTimings(prayerDuration);
+          }
+
           print("hhhhhhhh");
           print(prayerDuration);
 
@@ -772,6 +810,7 @@ RxString nextPrayerName = ''.obs;
     super.onClose();
   }
   bool isNotificationSent = false;
+  RxBool isGapPeriod = false.obs;
   // void startRemainingTimeTimer() {
   //   // Check if start and end times are set; if not, attempt to set them
   //   if (currentPrayerStartTime.value.isEmpty || currentPrayerEndTime.value.isEmpty) {
@@ -863,47 +902,100 @@ RxString nextPrayerName = ''.obs;
 
   // Updated startRemainingTimeTimer method with debugging and time formatting
   void startRemainingTimeTimer() {
-    remainingTimeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty) {
-         try {
-          // Current time
-          DateTime now = DateTime.now();
-          // Parse the end time string into a DateTime object
-          DateTime endTime = DateFormat('hh:mm a').parse(currentPrayerEndTime.value);
-          // Combine the end time with today's date to create a full DateTime object
-          endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
-          // Calculate the remaining time
-          Duration remainingDuration = endTime.difference(now);
-          print("endTime $endTime");
-          // Schedule a reminder notification exactly 10 minutes before the current prayer ends
-          // if (remainingDuration.inMinutes == 10 && !isNotificationSent) {
-          //   // Send the notification only once
-          //   AwesomeNotificationService().showNotification(
-          //     title: "Reminder: ${nextPrayer.value}",
-          //     body: "${nextPrayer.value} prayer starts in 10 minutes.",
-          //     channelKey: 'important_channel',
-          //   );
-          //   isNotificationSent = true; // Set the flag to true to prevent further notifications
-          // }
-          // Format and print the remaining time
-          if (remainingDuration.isNegative) {
-            // Reset the flag for the next prayer
-            isNotificationSent = false;
-            // Stop the timer to prevent multiple executions
-            timer.cancel();
+    // Check if start and end times are set; if not, attempt to set them
+    if (currentPrayerStartTime.value.isEmpty || currentPrayerEndTime.value.isEmpty) {
+      print("Prayer times are not set. Attempting to set them.");
+      moveToNextPrayer(); // Ensure this function sets start and end times for the current prayer
+    }
 
-            // End time has passed, move to the next prayer
-            moveToNextPrayer(); // Transition to next prayer
+    remainingTimeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      print("Timer tick... Checking prayer start and end times.");
+
+      // Check again to see if start and end times are now set
+      if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty)  {
+        print("Start and end times are set, proceeding with timer logic.");
+
+        try {
+          DateTime now = DateTime.now();
+
+          // Parse the start and end times for the current prayer
+          DateTime startTime = DateFormat('hh:mm a').parse(currentPrayerStartTime.value);
+          DateTime endTime = DateFormat('hh:mm a').parse(currentPrayerEndTime.value);
+          startTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
+          endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
+
+          print("currentPrayerStartTime ${currentPrayerStartTime.value}");
+          print("currentPrayerEndTime ${currentPrayerEndTime.value}");
+          print("now $now");
+
+          // Check if the current time is in a gap (before the next prayer's start time)
+          if (now.isBefore(startTime)) {
+            print("Currently in a gap period before the next prayer.");
+            // Mark as gap period
+            isGapPeriod.value = true;
+            Duration gapDuration = startTime.difference(now);
+            remainingTime.value = formatDuration(gapDuration);
+
+          } else if (now.isAfter(endTime)) {
+            print("Current prayer has ended, moving to next prayer.");
+            // Reset gap period state
+            isGapPeriod.value = true;
+            // Move to the next prayer
+            moveToNextPrayer();
+
+            // Handle gap before the next prayer if it exists
+            if (nextPrayerStartTime.value.isNotEmpty) {
+              print("Handle gap before the next prayer if it exists");
+              DateTime nextPrayerStart = DateFormat('hh:mm a').parse(nextPrayerStartTime.value);
+              nextPrayerStart = DateTime(now.year, now.month, now.day, nextPrayerStart.hour, nextPrayerStart.minute);
+
+              // Calculate the gap duration until the next prayer
+              Duration gapDuration = nextPrayerStart.difference(now);
+
+              if (gapDuration.isNegative) {
+                print("Next prayer start time has passed, transitioning again.");
+                timer.cancel();
+                moveToNextPrayer();
+              } else {
+                print("Gap until next prayer starts, updating remaining time.");
+                remainingTime.value = formatDuration(gapDuration);
+              }
+            }
           } else {
-            remainingTime.value= formatDuration(remainingDuration);
+            // Inside prayer time
+            isGapPeriod.value = false;
+            // Calculate remaining time for the current prayer duration
+            Duration remainingDuration = endTime.difference(now);
+            print("Time remaining for the current prayer: ${formatDuration(remainingDuration)}");
+            remainingTime.value = formatDuration(remainingDuration);
+
+            // Send a reminder notification 10 minutes before the end time
+            // if (remainingDuration.inMinutes == 10 && !isNotificationSent) {
+            //   AwesomeNotificationService().showNotification(
+            //     title: "Reminder: ${nextPrayer.value}",
+            //     body: "${nextPrayer.value} prayer starts in 10 minutes.",
+            //     channelKey: 'important_channel',
+            //   );
+            //   isNotificationSent = true;
+            // }
+
+            // Check if remaining time is negative to transition to the next prayer
+            if (remainingDuration.isNegative) {
+              isNotificationSent = false;
+              timer.cancel();
+              moveToNextPrayer();
+            }
           }
-          //print("Remaining Time: ${remainingTime.value}");
         } catch (e) {
-          print('Error parsing end time: $e');
+          print('Error parsing prayer time: $e');
         }
+      } else {
+        print("Prayer start or end time is still empty, skipping this tick.");
       }
+      calculateCompletionPercentage();
     });
   }
+
 
   // Function to move to the next prayer
   // void moveToNextPrayer() {
@@ -952,11 +1044,11 @@ RxString nextPrayerName = ''.obs;
     // Convert next prayer start time to DateTime
     // DateTime nextPrayerTime = DateFormat('hh:mm a').parse(nextPrayerTimes['start']!);
 
-      AwesomeNotificationService().showNotification(
-        title: "Reminder: $nextPrayerName",
-        body: "$nextPrayerName prayer started",
-        channelKey: 'important_channel',
-      );
+      // AwesomeNotificationService().showNotification(
+      //   title: "Reminder: $nextPrayerName",
+      //   body: "$nextPrayerName prayer started",
+      //   channelKey: 'important_channel',
+      // );
 
     // Restart the timer with new prayer times
     startRemainingTimeTimer(); // Restart timer after switching to next prayer
@@ -1098,46 +1190,78 @@ RxString nextPrayerName = ''.obs;
   //     completionPercentage.value = 0.0;
   //   }
   // }
-
+  Duration? totalGapDuration; // Define totalGapDuration outside of the Timer to persist across ticks
   void calculateCompletionPercentage() {
-  try {
-    if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty) {
+    try {
       DateTime now = DateTime.now();
-  DateTime startTime = DateFormat('hh:mm a').parse(currentPrayerStartTime.value);
-  DateTime endTime = DateFormat('hh:mm a').parse(currentPrayerEndTime.value);
 
-  // Combine the times with today's date
-  startTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
-  endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
+      // Check if start and end times for the current prayer are set
+      if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty) {
+        // Parse start and end times for the current prayer
+        DateTime startTime = DateFormat('hh:mm a').parse(currentPrayerStartTime.value);
+        DateTime endTime = DateFormat('hh:mm a').parse(currentPrayerEndTime.value);
+        startTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
+        endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
 
-  // Calculate total duration and elapsed duration
-  Duration totalDuration = endTime.difference(startTime);
-  Duration elapsedDuration = now.difference(startTime);
+        // Detect if we are in a gap before the next prayer
+        if (now.isBefore(startTime)) {
+          // We are in a gap period before the next prayer
+          print("Currently in a gap period before the next prayer.");
 
-  // Calculate the percentage of completion
-  // double percentage = 0.0;
-  // double completionPercentage = 0.0;
-  if (elapsedDuration.isNegative) {
-  // Prayer has not started yet
-  // percentage = 0.0;
-    completionPercentage.value = 0.0;
-  } else if (elapsedDuration > totalDuration) {
-  // Prayer time is over
-  // percentage = 1.0;
-    completionPercentage.value = 1.0;
-  }
-  else {
-  // percentage = elapsedDuration.inSeconds / totalDuration.inSeconds;
-    completionPercentage.value = elapsedDuration.inSeconds / totalDuration.inSeconds;
+
+          // Calculate totalGapDuration once, at the start of the gap
+          if (totalGapDuration == null) {
+            totalGapDuration = startTime.difference(now); // gap duration from current time to start of next prayer
+          }
+          // Calculate duration for the gap (time until the prayer starts)
+          Duration gapDuration = startTime.difference(now);
+
+
+
+          // Set progress based on the gap period until the next prayer
+          completionPercentage.value = 1 - (gapDuration.inSeconds / totalGapDuration!.inSeconds);
+
+          print("Gap progress: ${completionPercentage.value}");
+          print("Gap progress: ${completionPercentage.value * 100}%");
+
+        } else if (now.isAfter(endTime)) {
+          // Current prayer has ended, calculate progress for the next prayer
+          print("Current prayer has ended, moving to next prayer.");
+          totalGapDuration = null; // Reset totalGapDuration for the next gap period
+          moveToNextPrayer();
+
+        } else {
+          // We are within the current prayer, calculate progress as before
+          totalGapDuration = null; // Reset totalGapDuration as it's no longer needed in a prayer period
+          Duration totalDuration = endTime.difference(startTime);
+          Duration elapsedDuration = now.difference(startTime);
+
+          if (elapsedDuration.isNegative) {
+            // Prayer has not started yet
+            completionPercentage.value = 0.0;
+          } else if (elapsedDuration > totalDuration) {
+            // Prayer time is over
+            completionPercentage.value = 1.0;
+          } else {
+            // Prayer is ongoing, calculate progress as a fraction
+            completionPercentage.value = elapsedDuration.inSeconds / totalDuration.inSeconds;
+          }
+
+          print("Prayer progresss: ${completionPercentage.value}");
+          print("Prayer progress: ${completionPercentage.value * 100}%");
+        }
+      } else {
+        // Start or end time is missing; reset the progress
+        completionPercentage.value = 0.0;
+        print("Start or end time not set, resetting progress.");
+      }
+    } catch (e) {
+      print('Error calculating completion percentage: $e');
+      // Reset to 0 in case of error to avoid incorrect progress display
+      completionPercentage.value = 0.0;
+    }
   }
 
-  // return percentage;
-  }
-  } catch (e) {
-  print('Error calculating completion percentage: $e');
-  }
-  // return 0.0;
-  }
   RxBool prayedAtMosque = false.obs;
   var hour = 1;
   var minute = 0;
@@ -1221,6 +1345,7 @@ RxString nextPrayerName = ''.obs;
       var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
       request.body = json.encode({
         "user_id": userId,
+        "prayer_name" : currentPrayer.value,
         "mobile_no": mobileNo,
         "latitude": position!=null? position!.latitude:double.parse(userData.getLocationData!.latitude.toString()),
         "longitude": position!=null? position!.longitude:double.parse(userData.getLocationData!.longitude.toString()),
@@ -1259,6 +1384,9 @@ else{
   Future.delayed(Duration(seconds: 3), () {
 
     isGifVisible = false;
+    if(userData.getUserData!.fiqh=='0'){
+      onPrayerMarked(currentPrayer.value);
+    }
     update();
     // Get.back();
   });
@@ -1365,6 +1493,35 @@ List isPrayedList = [];
     // Update the islamicDate value with the new Hijri date
     islamicDate.value =
     '${hijriNewDate.hDay} ${hijriNewDate.longMonthName} ${hijriNewDate.hYear}';
+  }
+
+  // Function to update timings and save to storage upon marking a prayer as prayed
+  void markPrayerAsPrayed(String prayer) {
+    if (userData.getUserData!.fiqh.toString() == '0') { // Only apply for Shia fiqh
+      if (prayer == 'Dhuhr') {
+        // Dhuhr ends now and Asr can start immediately
+        prayerDuration['Dhuhr']!['end'] = DateFormat('HH:mm').format(DateTime.now());
+        prayerDuration['Asr']!['start'] = prayerDuration['Dhuhr']!['end']!;
+        print("Dhuhr marked as prayed. Asr start time updated to ${prayerDuration['Asr']!['start']}");
+      } else if (prayer == 'Maghrib') {
+        // Maghrib ends now and Isha can start immediately
+        prayerDuration['Maghrib']!['end'] = DateFormat('HH:mm').format(DateTime.now());
+        prayerDuration['Isha']!['start'] = prayerDuration['Maghrib']!['end']!;
+        print("Maghrib marked as prayed. Isha start time updated to ${prayerDuration['Isha']!['start']}");
+      }
+
+      // Save the updated prayer timings to storage
+      userData.savePrayerTimings(prayerDuration);
+      // storage.write('prayerDuration', prayerDuration);
+    }
+  }
+
+// Sample usage for marking a prayer as prayed and saving updated times
+  void onPrayerMarked(String prayerName) {
+    markPrayerAsPrayed(prayerName);
+    if(prayerName=='Dhuhr'||prayerName=='Maghrib') {
+      moveToNextPrayer();
+    }
   }
   
 }

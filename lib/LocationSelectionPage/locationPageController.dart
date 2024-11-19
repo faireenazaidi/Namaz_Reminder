@@ -307,7 +307,7 @@ Map selectMethod = {}.obs;
     "mobile_no": phoneController.value.text.toString(),
     "gender": selectedGender.value.toString(),
     // "fiqh": (selectedFiqh.value).toString(),
-    "fiqh": selectMethod['id'].toString()=='7'?'0':'1', //0 for shia 1 for sunni
+    "fiqh": selectMethod['id'].toString()=='7'||selectMethod['id'].toString()=='0'?'0':'1', //0 for shia 1 for sunni
     "times_of_prayer":selectMethod['id'].toString()=='7'? selectedPrayer.value:'5',
      "school_of_thought": selectMethod['id'].toString(),
      "method_name":selectMethod['name'].toString(),

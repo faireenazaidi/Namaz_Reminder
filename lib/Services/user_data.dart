@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 
 import '../LocationSelectionPage/locationPageDataModal.dart';
@@ -24,6 +25,44 @@ class UserData extends GetxController {
     return null;
   }
 
+  // Map<String, Map<String, String>> get getPrayerDurationForShia {
+  //   final data = _storage.read('duration');
+  //   if (data != null) {
+  //     // Casting the retrieved data to Map<String, Map<String, String>>
+  //     return Map<String, Map<String, String>>.from(
+  //       data.map((key, value) => MapEntry(
+  //           key as String, // Cast key to String
+  //           Map<String, String>.from(value as Map) // Cast inner map to Map<String, String>
+  //       )),
+  //     );
+  //   }
+  //   return {};
+  // }
+  /// Retrieve prayer timings for the current day
+  Map<String, Map<String, String>> get getPrayerDurationForShia {
+    final data = _storage.read('duration');
+    if (data != null) {
+      final storedDate = data['date']; // Retrieve stored date
+      final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+      if (storedDate == today) {
+        // Return timings only if the date matches today
+        return Map<String, Map<String, String>>.from(
+          data['duration'].map((key, value) => MapEntry(
+            key as String,
+            Map<String, String>.from(value as Map),
+          )),
+        );
+      } else {
+        // Clear old data if the date has changed
+        _storage.remove('duration');
+      }
+    }
+    return {}; // Return empty map if no data or date mismatch
+  }
+
+
+
   Future<void> addUserData(UserModel personModal) async {
     await _storage.write('personModal', personModal.toJson());
     update(); // Notify listeners of changes
@@ -32,6 +71,20 @@ class UserData extends GetxController {
   Future<void> addLocationData(LocationDataModel location) async {
     await _storage.write('location', location.toJson());
     update(); // Notify listeners of changes
+  }
+  // Future<void> addPrayerDurationForShia(Map<String, Map<String, String>> duration) async {
+  //   await _storage.write('duration', duration);
+  //   update(); // Notify listeners of changes
+  // }
+  /// Save prayer timings for the current day
+  Future<void> savePrayerTimings(Map<String, Map<String, String>> timings) async {
+    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final data = {
+      'date': today,
+      'duration': timings,
+    };
+    await _storage.write('duration', data);
+    update();
   }
 
   ///sound
@@ -93,6 +146,7 @@ class UserData extends GetxController {
     await _storage.remove('personModal');
     await _storage.remove('userToken');
     await _storage.remove('location');
+    await _storage.remove('duration');
     update();
   }
 }

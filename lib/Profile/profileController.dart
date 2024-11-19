@@ -55,7 +55,7 @@ class ProfileController extends GetxController{
         "name": nameC.text.toString(),
         "mobile_no": phoneC.text.toString(),
         "gender": genderC.text,
-        "fiqh": userData.getUserData!.fiqh,
+        "fiqh": schoolOFThought['id'].toString()=='7'||schoolOFThought['id'].toString()=='0'?'0':'1', //0 for shia 1 for sunni,
         "times_of_prayer":selectedPrayer.value==""? userData.getUserData!.timesOfPrayer:selectedPrayer.value,
         "school_of_thought": schoolOFThought['id'],
         "method_name":schoolOFThought['name'],
