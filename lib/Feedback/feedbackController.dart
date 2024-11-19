@@ -14,6 +14,7 @@ class FeedbackController extends GetxController{
   var email = ''.obs;
   var rating = 0.obs;
   var comment = ''.obs;
+  TextEditingController commentController = TextEditingController();
 
   // Check if form is valid
   bool get isFormValid => rating.value > 0;
@@ -66,8 +67,21 @@ class FeedbackController extends GetxController{
     // await userData.addUserData(userModel);
     print("userData ${userData.getUserData?.toJson()}");
     showToast(msg: 'feedback submitted',bgColor: Colors.black);
+    clearForm();
+  }
+  void clearForm() {
+    email.value = '';
+    rating.value = 0;
+    comment.value = '';
+    commentController.clear();  // Clear the TextEditingController
+  }
 
-
+  @override
+  void onClose() {
+    commentController.dispose();  // Dispose the controller when done
+    super.onClose();
   }
 }
+
+
 

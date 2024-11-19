@@ -136,7 +136,9 @@ class FeedbackView extends GetView<FeedbackController>{
                ],
              ),
             SizedBox(height: 10,),
+
              TextField(
+               controller: feedbackController.commentController,
                cursorColor: AppColor.circleIndicator,
                decoration: InputDecoration(
                  hintText: 'Say something here...',
@@ -165,7 +167,7 @@ class FeedbackView extends GetView<FeedbackController>{
                },
              ),
              SizedBox(height: 24),
-            
+
              // Submit button
              Obx(() {
                return ElevatedButton(
@@ -188,3 +190,4 @@ class FeedbackView extends GetView<FeedbackController>{
    );
   }
 }
+

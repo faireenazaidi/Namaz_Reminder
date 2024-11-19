@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/PreNamazAlert/NamzAlertView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
+import '../../AppManager/toast.dart';
 import '../../Routes/approutes.dart';
 import '../../Setting/SettingView.dart';
 import '../../Widget/appColor.dart';
@@ -73,6 +74,7 @@ class NotificationSetting extends StatelessWidget {
                 print("value $value");
                 notificationSettingsController.pauseAll.value = value;
                 notificationSettingsController.registerUser();
+                showToast(msg: 'Settings Updated',bgColor: Colors.black);
               },
             )
             ),
@@ -88,6 +90,8 @@ class NotificationSetting extends StatelessWidget {
               onChanged: (value) {
                 notificationSettingsController.quietMode.value = value;
                 notificationSettingsController.registerUser();
+                showToast(msg: 'Settings Updated',bgColor: Colors.black);
+
               },
             )
             ),
@@ -102,6 +106,8 @@ class NotificationSetting extends StatelessWidget {
               onChanged: (value) {
                 notificationSettingsController.friendRequests.value = value;
                 notificationSettingsController.registerUser();
+                showToast(msg: 'Settings Updated',bgColor: Colors.black);
+
               },
             )
             ),
@@ -116,6 +122,8 @@ class NotificationSetting extends StatelessWidget {
               onChanged: (value) {
                 notificationSettingsController.friendNamazPrayed.value = value;
                 notificationSettingsController.registerUser();
+                showToast(msg: 'Settings Updated',bgColor: Colors.black);
+
               },
             )
             ),

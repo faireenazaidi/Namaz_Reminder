@@ -28,7 +28,7 @@ class NamazAlertView extends GetView<NamazAlertController>{
         leading: InkWell(
           onTap: () {
             // Get.back();
-            Get.to(()=>NotificationSetting());          },
+            Get.back();          },
           child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
       ),

@@ -75,7 +75,7 @@ class NotificationSettingController extends GetxController {
         final userModel = UserModel.fromJson(data['user']);
         await userData.addUserData(userModel);
       print("userData ${userData.getUserData?.toJson()}");
-        showToast(msg: 'settings Updated',bgColor: Colors.black);
+         // showToast(msg: 'settings Updated',bgColor: Colors.black);
 
 
   }
