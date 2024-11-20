@@ -399,11 +399,11 @@ class DashBoardController extends GetxController {
               ?.abbreviated ?? "Abbreviation"}';
 print("baqar");
           // Set prayer start and end time
-          if(userData.getPrayerDurationForShia.isNotEmpty){
-            print("isNotEmpty ${userData.getPrayerDurationForShia}");
-            updatePrayerDuration = userData.getPrayerDurationForShia;
-          }
-          else{
+          // if(userData.getPrayerDurationForShia.isNotEmpty){
+          //   print("isNotEmpty ${userData.getPrayerDurationForShia}");
+          //   updatePrayerDuration = userData.getPrayerDurationForShia;
+          // }
+          // else{
             print("isEmpty ${userData.getPrayerDurationForShia}");
             updatePrayerDuration = userData.getUserData!.fiqh.toString() == '0' // Shia fiqh
                 ? {
@@ -420,7 +420,7 @@ print("baqar");
                 'end': getExtractedData[0].timings?.sunset ?? 'N/A'  // Ends at sunset for Shia Muslims
               },
               'Asr': {
-                'start': getExtractedData[0].timings?.asr ?? 'N/A', // Allows Asr start after Dhuhr is prayed
+                'start': getExtractedData[0].timings?.dhuhr ?? 'N/A', // Allows Asr start after Dhuhr is prayed
                 'end': getExtractedData[0].timings?.sunset ?? 'N/A'
               },
               'Maghrib': {
@@ -428,7 +428,7 @@ print("baqar");
                 'end': getExtractedData[0].timings?.midnight ?? 'N/A' // Ends at midnight for Shia Muslims
               },
               'Isha': {
-                'start': getExtractedData[0].timings?.isha ?? 'N/A', // Allows Isha start after Maghrib is prayed
+                'start': getExtractedData[0].timings?.maghrib ?? 'N/A', // Allows Isha start after Maghrib is prayed
                 'end': getExtractedData[0].timings?.midnight ?? 'N/A'
               },
             }
@@ -459,11 +459,12 @@ print("baqar");
                 'end': getExtractedData[0].timings?.midnight ?? 'N/A'
               },
             };
-            userData.savePrayerTimings(prayerDuration);
-          }
+          //   userData.savePrayerTimings(prayerDuration);
+          // }
 
           print("hhhhhhhh");
-          print(prayerDuration);
+          print("###### $prayerDuration");
+          print("getExtractedData[0].timings?.fajr ${getExtractedData[0].toJson()}");
 
           updateUpcomingPrayerDuration = {
             'Fajr': {
@@ -508,6 +509,7 @@ print("baqar");
 
           };
 
+
           // Get current time
           String currentTime = DateFormat('HH:mm').format(DateTime.now());
           currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
@@ -515,7 +517,46 @@ print("baqar");
           print('Current time: $currentTime');
           print('Current Prayer: $currentPrayer');
 
+          // Check Shia-specific conditions
+          if (userData.getUserData!.fiqh.toString() == '0') {
+            // Check if Dhuhr or Maghrib is prayed
+            bool dhuhrPrayed = isPrayedList.any((item) =>
+            item['prayer_name'] == 'Dhuhr' && item['prayed'] == true);
+            bool asrPrayed = isPrayedList.any((item) =>
+            item['prayer_name'] == 'Asr' && item['prayed'] == true);
+            bool maghribPrayed = isPrayedList.any((item) =>
+            item['prayer_name'] == 'Maghrib' && item['prayed'] == true);
+            bool ishaPrayed = isPrayedList.any((item) =>
+            item['prayer_name'] == 'Isha' && item['prayed'] == true);
+
+            if ((dhuhrPrayed || maghribPrayed)&&(currentPrayer.value=='Dhuhr'||currentPrayer.value=='Maghrib')) {
+              print("Dhuhr or Maghrib is prayed. Moving to the next prayer. ${currentPrayer.value}");
+              // moveToNextPrayer();
+              if(currentPrayer.value=='Dhuhr'){
+                print("+++++++++++");
+                prayerDuration['Dhuhr']!['end'] = DateFormat('HH:mm').format(DateTime.now().subtract(Duration(minutes: 1)));
+                currentPrayer.value = 'Asr';
+                if(!asrPrayed) {
+                  isPrayed = false;
+                }
+                print('prayerDuration: $prayerDuration');
+              }
+              else{
+                if(maghribPrayed){
+                  prayerDuration['Maghrib']!['end'] = DateFormat('HH:mm').format(DateTime.now().subtract(Duration(minutes: 1)));
+                  currentPrayer.value = 'Isha';
+                  if(!ishaPrayed){
+                    isPrayed = false;
+                  }
+                }
+              }
+
+              // return;
+            }
+          }
+          print('prayerDuration: $prayerDuration');
           // Start timer for remaining time
+
           startRemainingTimeTimer();
           showNextPrayer();
           update();

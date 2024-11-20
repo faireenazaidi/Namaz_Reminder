@@ -139,7 +139,7 @@ void _backgroundFetchHandler(String taskId) async {
 // }
 
 Future<void> fetchPrayerTimeData() async {
-  AwesomeNotificationService().showNotification(title: "Enter Api Prayer Time Fetched", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+  // AwesomeNotificationService().showNotification(title: "Enter Api Prayer Time Fetched", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   try {
     // Get today's date
     DateTime now = DateTime.now();
@@ -148,7 +148,7 @@ Future<void> fetchPrayerTimeData() async {
     double latitude = 23.8103;
     double longitude = 90.4125;
     int method = 2; // Replace with the actual prayer calculation method
-    AwesomeNotificationService().showNotification(title: "Api run Prayer Time $todayDate", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+    // AwesomeNotificationService().showNotification(title: "Api run Prayer Time $todayDate", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
     // Uri uri = Uri.https(
     //   'api.aladhan.com',
     //   '/v1/calendar',
@@ -301,9 +301,9 @@ DateTime _convertToDateTime(String timing) {
 
 // Schedule a single notification using Awesome Notifications
 void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
-  AwesomeNotificationService().showNotification(title: "inside schedule $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+  // AwesomeNotificationService().showNotification(title: "inside schedule $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   // Check if the scheduled time is in the future
-    AwesomeNotificationService().showNotification(title: "just to hit $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+  //   AwesomeNotificationService().showNotification(title: "just to hit $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   print("Attempting to schedule notification for $prayerName at $scheduledTime");
     AwesomeNotifications().createNotification(
       content: NotificationContent(
