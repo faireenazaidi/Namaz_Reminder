@@ -99,8 +99,8 @@ class PrayerRanking extends StatelessWidget {
   Widget buildUserList(List<Record>? users) {
     if (users == null || users.isEmpty) {
       return const Expanded(child: CircleAvatar(
-          backgroundColor: Colors.white60,
-        radius: 22,
+          backgroundColor: Colors.transparent,
+        radius: 24,
           child: Text('-')));
     }
     return Expanded(
@@ -144,7 +144,7 @@ class PrayerRanking extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: Colors.white60,
-                  radius: 22,
+                  radius: 24,
                     child: Text('-')),
               ),
             // CircleAvatar(

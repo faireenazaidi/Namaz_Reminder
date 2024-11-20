@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Leaderboard/LeaderBoardController.dart';
 import '../AppManager/dialogs.dart';
-import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
-class MissedPrayersView extends GetView<LeaderBoardController> {
+class MissedPrayersView extends GetView<LeaderBoardController>{
   const MissedPrayersView({super.key});
 
   @override
