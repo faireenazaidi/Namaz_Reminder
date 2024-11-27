@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:namaz_reminders/DashBoard/renked_friend.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -21,8 +20,16 @@ import '../Leaderboard/leaderboardView.dart';
 class DashBoardView extends GetView<DashBoardController> {
   const DashBoardView({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    // Map<String, String> timings =
+    // { "Fajr": "05:31 (IST)",
+    //   "Dhuhr": "15:14 (IST)",
+    //    "Asr": "15:15 (IST)",
+    //    "Maghrib": "15:16 (IST)",
+    //    "Isha": "15:17 (IST)" };
+
     // final DateController dateController = Get.put(DateController());
     // final DashBoardController dashboardController = Get.put(DashBoardController());
     // final List<RankedFriend> rankedFriends = [
@@ -41,7 +48,7 @@ class DashBoardView extends GetView<DashBoardController> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
+          preferredSize:  Size.fromHeight(1.0),
           child: Divider(
             height: 1.0,
             color: AppColor.packageGray,
@@ -86,8 +93,6 @@ class DashBoardView extends GetView<DashBoardController> {
                      Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
 
                    },
-                   // child: CircleAvatar(
-                   //  backgroundImage: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),),
                    child:  Container(
                      width: 40,
                      height: 40,
@@ -126,10 +131,6 @@ class DashBoardView extends GetView<DashBoardController> {
                   :
               Column(
                 children: [
-                  // Divider(
-                  //   color: AppColor.greyLight,
-                  //   thickness: 1,
-                  // ),
                   Padding(
                     padding: const EdgeInsets.all(0.0),
                     child:  Row(
@@ -495,12 +496,22 @@ class DashBoardView extends GetView<DashBoardController> {
                               ],
                             ),
 
-
-                                                        ),
+                          ),
                         ),
                         );
                     }
                   ),
+
+                  // Builder(
+                  //   builder: (context) {
+                  //     return SvgPicture.asset(
+                  //       "assets/gold-star.svg",
+                  //       height: 40,
+                  //       width: 40,
+                  //         color: Color(0xFFFFD700)
+                  //     );
+                  //   },
+                  // ),
 
 
                   // Obx(() {
@@ -531,8 +542,6 @@ class DashBoardView extends GetView<DashBoardController> {
                   //     );
                   //   }
                   // }),
-
-
                   const SizedBox(height: 20),
                   // GetBuilder<DashBoardController>(
                   //   builder: (_){
@@ -745,7 +754,6 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-
 
                         child: Column(
                           children: [
@@ -2414,7 +2422,7 @@ class _UserRankListState extends State<UserRankList> {
                                   children: [
                                     Icon(
                                       Icons.star,
-                                      color: Colors.orange,
+                                      color: AppColor.circleIndicator,
                                       size: 20,
                                     ),
                                     Positioned(

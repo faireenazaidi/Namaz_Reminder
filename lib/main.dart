@@ -139,7 +139,7 @@ void _backgroundFetchHandler(String taskId) async {
 // }
 
 Future<void> fetchPrayerTimeData() async {
-  AwesomeNotificationService().showNotification(title: "Enter Api Prayer Time Fetched", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+  // AwesomeNotificationService().showNotification(title: "Enter Api Prayer Time Fetched", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
   try {
     // Get today's date
     DateTime now = DateTime.now();
@@ -148,7 +148,7 @@ Future<void> fetchPrayerTimeData() async {
     double latitude = 23.8103;
     double longitude = 90.4125;
     int method = 2; // Replace with the actual prayer calculation method
-    AwesomeNotificationService().showNotification(title: "Api run Prayer Time $todayDate", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
+    // AwesomeNotificationService().showNotification(title: "Api run Prayer Time $todayDate", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
     // Uri uri = Uri.https(
     //   'api.aladhan.com',
     //   '/v1/calendar',
@@ -269,25 +269,49 @@ Future<void> fetchPrayerTimeData() async {
 
 // Function to schedule notifications for prayer times
 void schedulePrayerNotifications(Map<String, String> timings) {
-  // List of prayer times to schedule
+  DateTime now = DateTime.now();
+  DateTime endDate = now.add(Duration(days: 7));
   List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-  DateTime now = DateTime.now(); // Get the current date and time
 
   for (String prayer in prayers) {
-    String timing = timings[prayer]!; // Example format: "04:51 (IST)"
-    if (timing != null) {
-      DateTime scheduledTime = _convertToDateTime(timing);
-      // Check if the scheduled time is after the current time
-      if (scheduledTime.isAfter(now)) {
-        // Schedule the notification for the first future prayer time found
-        _scheduleAwesomeNotification(prayer, scheduledTime);
-        break; // Exit the loop after scheduling the notification
+    String timing = timings[prayer]!;
+    DateTime prayerTime = _convertToDateTime(timing);
+
+    // Schedule once per day for the next week
+    while (prayerTime.isBefore(endDate)) {
+      if (prayerTime.isAfter(now)) {
+        _scheduleAwesomeNotification(prayer, prayerTime);
+        print('Scheduled $prayer notification for $prayerTime');
       }
-      // _scheduleAwesomeNotification(prayer, scheduledTime);
+
+      // Move to the next day's prayer time
+      prayerTime = prayerTime.add(Duration(days: 1));
     }
   }
 }
 
+// void schedulePrayerNotifications(Map<String, String> timings) {
+//   // Get the current date and time
+//   DateTime now = DateTime.now();
+//
+//   // List of prayer times to schedule
+//   List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+//
+//   // Schedule notifications for each prayer time
+//   for (String prayer in prayers) {
+//     String timing = timings[prayer]!;
+//     DateTime scheduledTime = _convertToDateTime(timing);
+//
+//     // Calculate the next occurrence of the prayer time
+//     while (scheduledTime.isBefore(now.add(Duration(days: 7)))) {
+//       scheduledTime = scheduledTime.add(Duration(minutes: 10));
+//       print('ffffffffffffff');
+//     }
+//
+//     // Schedule the notification
+//     _scheduleAwesomeNotification(prayer, scheduledTime);
+//   }
+// }
 // Convert time string to DateTime object
 DateTime _convertToDateTime(String timing) {
   // Remove the "(IST)" part and parse the time
@@ -301,41 +325,26 @@ DateTime _convertToDateTime(String timing) {
 
 // Schedule a single notification using Awesome Notifications
 void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
-  AwesomeNotificationService().showNotification(title: "inside schedule $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
-  // Check if the scheduled time is in the future
-  //   AwesomeNotificationService().showNotification(title: "just to hit $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
-  print("Attempting to schedule notification for $prayerName at $scheduledTime");
-    AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: 5, // Unique ID for each prayer
-        channelKey: 'important_channel',
-        title: 'Prayer Time Alert',
-        body: '$prayerName time has arrived',
-        notificationLayout: NotificationLayout.Default,
-        category: NotificationCategory.Alarm,
-        criticalAlert: true,
-        wakeUpScreen: true, // Custom sound
-        displayOnForeground: true,
-        displayOnBackground: true,
-        customSound: 'resource://raw/important_tone'
-      ),
-      schedule: NotificationCalendar(
-        year: 2024,
-        month: 11,
-        day: 05,
-        hour: 13,
-        minute: 45,
-        second: 0,
-        millisecond: 0,
-        repeats: false,
-        preciseAlarm: true,
-      ),
-    ).then((value) {
-      print("Notification scheduled successfully: $value");
-    }).catchError((error) {
-      print("Error scheduling notification: $error");
-    });
+  AwesomeNotifications().createNotification(
 
+    content: NotificationContent(
+      id: prayerName.hashCode + scheduledTime.hashCode,
+      channelKey: 'important_channel',
+      title: '$prayerName Prayer Reminder',
+      body: 'It\'s time for $prayerName prayer!',
+      notificationLayout: NotificationLayout.Default,
+    ),
+    schedule: NotificationCalendar(
+      year: scheduledTime.year,
+      month: scheduledTime.month,
+      day: scheduledTime.day,
+      hour: scheduledTime.hour,
+      minute: scheduledTime.minute,
+      second: 0,
+      millisecond: 0,
+      repeats: false,
+    ),
+  );
 }
 
 // Future<void> fetchPrayerTimeData() async {

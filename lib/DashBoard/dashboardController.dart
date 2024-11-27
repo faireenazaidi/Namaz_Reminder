@@ -11,12 +11,12 @@ import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
-
 import '../DataModels/LoginResponse.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Services/notification_service.dart';
 import '../SplashScreen/splashController.dart';
 import '../Widget/location_services.dart';
+import '../main.dart';
 class DashBoardController extends GetxController {
   final PageController pageController = PageController();
 
@@ -210,12 +210,21 @@ class DashBoardController extends GetxController {
         .toString()}");
     return true;
   }
+  // Map<String, String> timings =
+  // { "Fajr": "05:32 (IST)",
+  //   "Dhuhr": "15:32 (IST)",
+  //   "Asr": "15:15 (IST)",
+  //   "Maghrib": "15:16 (IST)",
+  //   "Isha": "15:17 (IST)" };
 
   @override
   void onInit() async {
     super.onInit();
+    fetchAndSchedulePrayers();
+    // schedulePrayerNotifications(timings);
     highlightCurrentPrayer();
     userData.initializePrayerSettings();
+
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   scrollToHighlightedPrayer();
     // });
@@ -276,6 +285,13 @@ class DashBoardController extends GetxController {
       return time24;
     }
   }
+  Future<void> fetchAndSchedulePrayers() async {
+    try {
+      await fetchPrayerTimeData();
+    } catch (e) {
+      print("Error in fetchAndSchedulePrayers: $e");
+    }
+  }
 
   //function to calculate zawal time//
   // void zawal(sunrise, sunset) {
@@ -301,7 +317,6 @@ class DashBoardController extends GetxController {
   //     return endDateTime.isAfter(now);
   //   }).toList();
   // }
-
 
   DateTime parseTime(String time24) {
     final now = DateTime.now();
@@ -1374,7 +1389,6 @@ RxString nextPrayerName = ''.obs;
       } else if (isAm && hour == 12) {
         hour = 0; // Handle 12 AM as 00:00 in 24-hour format
       }
-
       // Create a DateTime object with the hour and minute
       DateTime time = DateTime(0, 1, 1, hour, minute);
 
@@ -1397,16 +1411,15 @@ RxString nextPrayerName = ''.obs;
       });
       print("URL ${request.url}");
       print("prayer-record ${request.body}");
+      print('heyyyy Fairy');
+      print(upcomingPrayers);
       // print("User ID: $userId");
       // print("Mobile No: $mobileNo");
       // // print("Latitude: $latitude");
       // // print("Longitude: $longitude");
       // print("jamat: $jamatValue");
       // print("time: $hour:$minute");
-
-
       request.headers.addAll(headers);
-
       http.StreamedResponse response = await request.send();
       //print("API RESPONSE: " + await response.stream.bytesToString().toString());
       // var data = jsonDecode(await response.stream.bytesToString());

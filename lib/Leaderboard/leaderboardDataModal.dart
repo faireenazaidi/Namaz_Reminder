@@ -198,6 +198,7 @@ class LeaderboardDataModal {
       'ranked_friends': rankedFriends.map((friend) => friend.toJson()).toList(),
     };
   }
+
 }
 
 class User {
@@ -325,5 +326,6 @@ class RankedFriend {
       'percentage': percentage,
     };
   }
+
 }
 

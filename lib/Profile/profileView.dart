@@ -4,18 +4,20 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:namaz_reminders/DashBoard/dashboardView.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/image_and_video_picker.dart';
 import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
+import '../Leaderboard/LeaderBoardController.dart';
+import '../Leaderboard/leaderboardView.dart';
 import '../Widget/appColor.dart';
-import '../Widget/myCustomeSd.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final ProfileController controller = Get.put(ProfileController());
+  final LeaderBoardController leaderBoardController = Get.put(
+      LeaderBoardController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,10 +75,10 @@ class ProfileView extends GetView<ProfileController> {
                               backgroundImage:controller.profilePhoto.isNotEmpty?Image.file(File(controller.profilePhoto)).image:
                               NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}",),
                               backgroundColor: controller.userData.getUserData!.picture.isEmpty
-                                  ? AppColor.circleIndicator
+                                  ? AppColor.packageGray
                                   : Colors.transparent,
                               child: controller.userData.getUserData!.picture.isEmpty
-                                  ? const Icon(Icons.person, size: 50, color: Colors.white)
+                                  ?  Icon(Icons.person, size: 50, color: AppColor.circleIndicator )
                                   : null,
                             ),
                             // CircleAvatar(
@@ -96,29 +98,41 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       ),
                     ),
+                      // Positioned(
+                      //   bottom: 0,
+                      //   right: 0,
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //       _showImagePickerMenu(context);
+                      //     },
+                      //     child: Container(
+                      //       decoration: BoxDecoration(
+                      //         color: Colors.white, // Background color of the icon
+                      //         shape: BoxShape.circle,
+                      //         border: Border.all(
+                      //           color: AppColor.greyColor,
+                      //           width: 1.0,
+                      //         ),
+                      //       ),
+                      //       padding: EdgeInsets.all(6),
+                      //       child: SvgPicture.asset("assets/cam.svg")
+                      //     ),
+                      //   ),
+                      // ),
                       Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          onTap: () {
-                            _showImagePickerMenu(context);
-                            // Add functionality to pick an image from gallery here
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white, // Background color of the icon
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColor.greyColor,
-                                width: 1.0,
-                              ),
+                        bottom: 60,
+                        right: 2,
+                        child: Stack(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/other-star.svg",
+                              height: 40,
+                              width: 40,
                             ),
-                            padding: EdgeInsets.all(6),
-                            child: SvgPicture.asset("assets/cam.svg")
-                          ),
+                          ],
                         ),
                       ),
-              ]
+                    ]
                   ),
 
                   SizedBox(height: 20),
