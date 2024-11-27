@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-
 // class RankDisplayWidget extends StatelessWidget {
 //
 //
@@ -93,10 +91,7 @@ import 'package:get/get.dart';
 //       percentage: json['percentage'],
 //     );
 //   }
-// }
-
-import 'package:flutter/material.dart';
-
+//
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
 

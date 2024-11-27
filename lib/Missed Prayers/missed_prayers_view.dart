@@ -583,15 +583,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       .picture}", // Replace with your image URL
                                                                 ),
                                                               )
-                                                                  : const Padding(
-                                                                padding: EdgeInsets
-                                                                    .all(8.0),
-                                                                child: Icon(
-                                                                  Icons.person,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  size: 30,),
-                                                              )
+                                                                  : Icon(
+                                                                    Icons.person,
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    size: 30,)
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
                                                         )
@@ -1367,7 +1363,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                         ),
                       ),
                       ]));
-                } else if (controller.selectedTab.value == 'Weekly') {
+                }
+                else if (controller.selectedTab.value == 'Weekly') {
                   return SliverList(
                       delegate: SliverChildListDelegate([
                         Container(

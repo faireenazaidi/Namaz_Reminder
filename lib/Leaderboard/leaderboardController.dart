@@ -152,7 +152,6 @@ String formatDate = getFormattedDate();
 
     var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
 
-
     http.StreamedResponse response = await request.send();
     print("URL ${request.url.toString()}");
 
@@ -177,13 +176,7 @@ String formatDate = getFormattedDate();
     else {
     print(response.reasonPhrase);
     }
-
-
-    // List weeklyList = [];
-    // List get get
-
   }
-
 
   final List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   final Map<String, String> prayerShortNames = {
