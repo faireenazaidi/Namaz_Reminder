@@ -4,12 +4,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
+import 'package:namaz_reminders/SplashScreen/splashView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
+import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
+import 'Services/notification_service.dart';
+import 'Services/user_data.dart';
 import 'firebase_options.dart';
+
 @pragma('vm:entry-point')
 void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
   String taskId = task.taskId;
@@ -31,12 +35,11 @@ void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
 }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
   FirebaseMessagingService firebaseMessagingService = FirebaseMessagingService();
   await firebaseMessagingService.initializeFirebaseMessaging();
   // await GetStorage.init();
   await GetStorage.init('user');
-  Get.put(DashBoardController());
   // Get.put(DashBoardController());
   // Get.put(LoginController());
   // Get.put(CustomDrawerController());
@@ -71,6 +74,9 @@ void _backgroundFetchHandler(String taskId) async {
 
   // Directly simulate a fetch operation and show a notification
   await fetchPrayerTimeData();
+  // _scheduleManualNotification('zohr');
+
+  // Finish the background task
   BackgroundFetch.finish(taskId);
 }
 // This is the headless task that runs when the app is terminated.
@@ -139,8 +145,6 @@ Future<void> fetchPrayerTimeData() async {
     DateTime now = DateTime.now();
     String todayDate = "${now.day.toString().padLeft(2, '0')}-${now.month.toString().padLeft(2, '0')}-${now.year}";
 
-
-
     double latitude = 23.8103;
     double longitude = 90.4125;
     int method = 2; // Replace with the actual prayer calculation method
@@ -159,13 +163,13 @@ Future<void> fetchPrayerTimeData() async {
     List listData = [
     {
       "timings": {
-  "Fajr": "17:51 (IST)",
+  "Fajr": "04:51 (IST)",
   "Sunrise": "05:59 (IST)",
-  "Dhuhr": "18:10 (IST)",
-  "Asr": "18:20 (IST)",
+  "Dhuhr": "12:01 (IST)",
+  "Asr": "12:30 (IST)",
   "Sunset": "17:53 (IST)",
-  "Maghrib": "18:30 (IST)",
-  "Isha": "18:40 (IST)",
+  "Maghrib": "12:40 (IST)",
+  "Isha": "21:00 (IST)",
   "Imsak": "04:41 (IST)",
   "Midnight": "23:56 (IST)",
   "Firstthird": "21:55 (IST)",
@@ -175,15 +179,15 @@ Future<void> fetchPrayerTimeData() async {
   "readable": "01 Oct 2024",
   "timestamp": "1727753461",
   "gregorian": {
-  "date": "29-11-2024",
+  "date": "05-11-2024",
   "format": "DD-MM-YYYY",
   "day": "01",
   "weekday": {
   "en": "Tuesday"
 },
   "month": {
-  "number": 11,
-  "en": "November"
+  "number": 10,
+  "en": "October"
 },
   "year": "2024",
   "designation": {
@@ -246,15 +250,14 @@ Future<void> fetchPrayerTimeData() async {
 }
 }
 },
-  ];
 
+  ];
 
     // Extract today’s prayer timings from your list data
     var todayPrayerData = listData.firstWhere((data) => data['date']['gregorian']['date'] == todayDate, orElse: () => null);
 
     if (todayPrayerData != null) {
       var timings = todayPrayerData['timings'];
-
       schedulePrayerNotifications(timings);
     } else {
       print("No prayer data available for today's date.");
@@ -263,49 +266,8 @@ Future<void> fetchPrayerTimeData() async {
     print('Error fetching prayer time: $e');
   }
 }
-// Function to schedule notifications for prayer times
-// void schedulePrayerNotifications(Map<String, String> timings) {
-//   // List of prayer times to schedule
-//   DateTime now = DateTime.now();
-//   List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-//
-//   for (String prayer in prayers) {
-//     String timing = timings[prayer]!; // Example format: "04:51 (IST)"
-//     if (timing != null) {
-//       DateTime scheduledTime = _convertToDateTime(timing);
-//       // Check if the scheduled time is after the current time
-//       if (scheduledTime.isAfter(now)) {
-//         // Schedule the notification for the first future prayer time found
-//         _scheduleAwesomeNotification(prayer, scheduledTime);
-//         break; // Exit the loop after scheduling the notification
-//       }
-//       // _scheduleAwesomeNotification(prayer, scheduledTime);
-//     }
-//   }
-// }
 
-// void schedulePrayerNotifications(Map<String, String> timings) {
-//   // Get the current date and time
-//   DateTime now = DateTime.now();
-//   DateTime endDate = now.add(Duration(days: 7));
-//   List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-//
-//   for (String prayer in prayers) {
-//     String timing = timings[prayer]!;
-//     DateTime initialTime = _convertToDateTime(timing);
-//
-//     DateTime scheduledTime = initialTime;
-//     while (scheduledTime.isBefore(endDate)) {
-//       if (scheduledTime.isAfter(now)) {
-//         _scheduleAwesomeNotification(prayer, scheduledTime);
-//         print("Gooooood Morning");
-//         print('Scheduling $prayer notification for $scheduledTime');
-//
-//       }
-//       scheduledTime = scheduledTime.add(Duration(seconds: 2));
-//     }
-//   }
-// }
+// Function to schedule notifications for prayer times
 void schedulePrayerNotifications(Map<String, String> timings) {
   DateTime now = DateTime.now();
   DateTime endDate = now.add(Duration(days: 7));
@@ -360,6 +322,7 @@ DateTime _convertToDateTime(String timing) {
   DateTime now = DateTime.now();
   return DateTime(now.year, now.month, now.day, hour, minute);
 }
+
 // Schedule a single notification using Awesome Notifications
 void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
   AwesomeNotifications().createNotification(
@@ -383,56 +346,6 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
     ),
   );
 }
-// Schedule a single notification using Awesome Notifications
-// void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime)
-// {
-//   // AwesomeNotificationService().showNotification(title: "inside schedule $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
-//   // Check if the scheduled time is in the future
-//   //   AwesomeNotificationService().showNotification(title: "just to hit $scheduledTime", body: "UserData().getUserData!.name.toString()", channelKey: 'important_channel');
-//   print("Attempting to schedule notification for $prayerName at $scheduledTime");
-//     AwesomeNotifications().createNotification(
-//       content: NotificationContent(
-//         id: 5, // Unique ID for each prayer
-//         channelKey: 'important_channel',
-//         title: 'Prayer Time Alert',
-//         body: '$prayerName time has arrived',
-//         notificationLayout: NotificationLayout.Default,
-//         category: NotificationCategory.Alarm,
-//         criticalAlert: true,
-//         wakeUpScreen: true, // Custom sound
-//         displayOnForeground: true,
-//         displayOnBackground: true,
-//         customSound: 'resource://raw/important_tone'
-//       ),
-//       // schedule: NotificationCalendar(
-//       //   year: 2024,
-//       //   month: 11,
-//       //   day: 05,
-//       //   hour: 13,
-//       //   minute: 45,
-//       //   second: 0,
-//       //   millisecond: 0,
-//       //   repeats: false,
-//       //   preciseAlarm: true,
-//       // ),
-//       schedule: NotificationCalendar(
-//         year: scheduledTime.year,
-//         month: scheduledTime.month,
-//         day: scheduledTime.day,
-//         hour: scheduledTime.hour,
-//         minute: scheduledTime.minute,
-//         second: scheduledTime.second,
-//         preciseAlarm: true,
-//         repeats: false,
-//       ),
-//     ).then((value) {
-//       print("Notification scheduled successfully: $value");
-//     }).catchError((error) {
-//       print("Error scheduling notification: $error");
-//     });
-//
-//
-// }
 
 // Future<void> fetchPrayerTimeData() async {
 //   try {
@@ -504,6 +417,7 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
 //   Get.put(CustomDrawerController());
 //   runApp( MyApp());
 // }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -534,8 +448,4 @@ class MyApp extends StatelessWidget {
     });
   }
 }
-
-
-
-
 

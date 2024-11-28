@@ -1,4 +1,4 @@
-package com.example.namaz_reminders
+package com.criteriontech.prayeroclock
 
 import io.flutter.embedding.android.FlutterActivity
 
