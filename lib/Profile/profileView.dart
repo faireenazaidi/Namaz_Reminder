@@ -7,17 +7,18 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
+import 'package:namaz_reminders/Widget/MyRank/myweeklyrank.dart';
 import '../AppManager/image_and_video_picker.dart';
 import '../AppManager/toast.dart';
 import '../DataModels/LoginResponse.dart';
 import '../Leaderboard/LeaderBoardController.dart';
-import '../Leaderboard/leaderboardView.dart';
+import '../Widget/MyRank/myRankController.dart';
 import '../Widget/appColor.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final ProfileController controller = Get.put(ProfileController());
-  final LeaderBoardController leaderBoardController = Get.put(
-      LeaderBoardController());
+  final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
+  final MyRankController myRankController = Get.put(MyRankController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,47 +94,69 @@ class ProfileView extends GetView<ProfileController> {
                             //       ? const Icon(Icons.person, size: 25, color: Colors.white)
                             //       : null,
                             // ),
-
                           ],
                         ),
                       ),
                     ),
-                      // Positioned(
-                      //   bottom: 0,
-                      //   right: 0,
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //       _showImagePickerMenu(context);
-                      //     },
-                      //     child: Container(
-                      //       decoration: BoxDecoration(
-                      //         color: Colors.white, // Background color of the icon
-                      //         shape: BoxShape.circle,
-                      //         border: Border.all(
-                      //           color: AppColor.greyColor,
-                      //           width: 1.0,
-                      //         ),
-                      //       ),
-                      //       padding: EdgeInsets.all(6),
-                      //       child: SvgPicture.asset("assets/cam.svg")
-                      //     ),
-                      //   ),
-                      // ),
                       Positioned(
-                        bottom: 60,
-                        right: 2,
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          onTap: () {
+                            _showImagePickerMenu(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white, // Background color of the icon
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColor.greyColor,
+                                width: 1.0,
+                              ),
+                            ),
+                            padding: EdgeInsets.all(6),
+                            child: SvgPicture.asset("assets/cam.svg")
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 65,
+                        left: 70,
                         child: Stack(
                           children: [
-                            SvgPicture.asset(
-                              "assets/other-star.svg",
-                              height: 40,
-                              width: 40,
-                            ),
+                            SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
+                                :myRankController.rank == 2?'assets/silver.svg':
+                            myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 40,),
+                             Positioned(
+                                right: 16,
+                                top: 11,
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: MyRank(
+                                          rankedFriends: leaderBoardController.weeklyRanked,
+                                        textSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+
                           ],
                         ),
                       ),
                     ]
                   ),
+                  // Obx((){
+                  //   return Column(
+                  //     children: [
+                  //       MyRank(
+                  //           rankedFriends: leaderBoardController.weeklyRanked.value,
+                  //       ),
+                  //
+                  //     ],
+                  //   );
+                  // }),
 
                   SizedBox(height: 20),
                   // Padding(

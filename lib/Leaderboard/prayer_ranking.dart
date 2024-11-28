@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import '../DashBoard/dashboardController.dart';
@@ -137,19 +136,20 @@ class PrayerRanking extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
+                            height : 50,
                             padding: const EdgeInsets.all(1),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.yellow,),
+                              border: Border.all(color: AppColor.circleIndicator,),
                             ),
                             child:ranked[index].picture!=null? CircleAvatar(
-                              radius: 22, // Radius of the circular image
+                              radius: 25, // Radius of the circular image
                               backgroundImage: NetworkImage(
                                 "http://182.156.200.177:8011${ranked[index].picture}",
                               ),
-                            ):const Padding(
+                            ): Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                              child: Icon(Icons.person,color: AppColor.circleIndicator,size: 30,),
                             ),
                           ),
                           id==ranked[index].id.toString()?const Text('You',style: TextStyle(fontSize: 12),):Text(ranked[index].name.split(' ')[0],style: const TextStyle(

@@ -14,8 +14,11 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
+import '../Leaderboard/LeaderBoardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Leaderboard/leaderboardView.dart';
+import '../Widget/MyRank/myRankController.dart';
+import '../Widget/MyRank/myweeklyrank.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
   const DashBoardView({super.key});
@@ -23,6 +26,8 @@ class DashBoardView extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
+    final MyRankController myRankController = Get.put(MyRankController());
+    final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
     // Map<String, String> timings =
     // { "Fajr": "05:31 (IST)",
     //   "Dhuhr": "15:14 (IST)",
@@ -60,7 +65,7 @@ class DashBoardView extends GetView<DashBoardController> {
         title: Text("Prayer O'Clock", style: MyTextTheme.largeBN),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(7.0),
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -91,28 +96,67 @@ class DashBoardView extends GetView<DashBoardController> {
                  InkWell(
                    onTap: (){
                      Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
-
                    },
-                   child:  Container(
-                     width: 40,
-                     height: 40,
+                   child:  Stack(
+                     children: [
+                       Container(
+                     width: 50,
+                     height: 50,
                      decoration: BoxDecoration(
                        shape: BoxShape.circle,
-                       image: controller.userData.getUserData!.picture.isNotEmpty
-                           ? DecorationImage(
-                         image: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),
-                         fit: BoxFit.cover,
-                       )
-                           : null,
-                       color: controller.userData.getUserData!.picture.isEmpty
-                           ? AppColor.circleIndicator
-                           : null,
+                       color: AppColor.circleIndicator, // Outer circle color
                      ),
-                     child: controller.userData.getUserData!.picture.isEmpty
-                         ? const Icon(Icons.person, size: 25, color: Colors.white)
-                         : null,
+                         child: Center(
+                           child: Container(
+                             width: 40,
+                             height: 40,
+                             decoration: BoxDecoration(
+                               shape: BoxShape.circle,
+                               image: controller.userData.getUserData!.picture.isNotEmpty
+                                   ? DecorationImage(
+                                 image: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),
+                                 fit: BoxFit.cover,
+                               )
+                                   : null,
+                               color: controller.userData.getUserData!.picture.isEmpty
+                                   ? AppColor.packageGray
+                                   : null,
+                             ),
+                             child: controller.userData.getUserData!.picture.isEmpty
+                                 ?  Icon(Icons.person, size: 20, color: AppColor.circleIndicator)
+                                 : null,
+                           ),
+                         ),
+                       ),
+                       Positioned(
+                         left: 28,
+                         bottom: 20,
+                         child: Stack(
+                           children: [
+                             SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
+                                 :myRankController.rank == 2?'assets/silver.svg':
+                             myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 20,),
+                              Positioned(
+                                right: 8,
+                                bottom: 2,
+                                 child: Column(
+                                   children: [
+                                     Center(
+                                       child: MyRank(
+                                         rankedFriends: leaderBoardController.weeklyRanked,
+                                         textSize: 8,
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                               )
+
+                           ],
+                         ),
+                       )
+                     ]
                    ),
-                 )
+                 ),
               ],
             ),
           ),
@@ -2292,20 +2336,42 @@ class _UserRankListState extends State<UserRankList> {
     super.dispose();
   }
 
+
+
+
+  // void _startAutoScroll() {
+  //   _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+  //     if (_currentIndex < _filteredRecords.length - 1) {
+  //       _currentIndex++;
+  //     } else {
+  //       _currentIndex = 0;
+  //     }
+  //     _pageController.animateToPage(
+  //       _currentIndex,
+  //       duration: Duration(milliseconds: 700),
+  //       curve: Curves.easeInOutCubicEmphasized,
+  //     );
+  //   });
+  // }
   void _startAutoScroll() {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-      if (_currentIndex < _filteredRecords.length - 1) {
-        _currentIndex++;
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (_pageController.hasClients) { // Check if controller is attached
+        if (_currentIndex < _filteredRecords.length - 1) {
+          _currentIndex++;
+        } else {
+          _currentIndex = 0;
+        }
+        _pageController.animateToPage(
+          _currentIndex,
+          duration: const Duration(milliseconds: 700),
+          curve: Curves.easeInOutCubicEmphasized,
+        );
       } else {
-        _currentIndex = 0;
+        timer.cancel(); // Cancel the timer if the controller is not attached
       }
-      _pageController.animateToPage(
-        _currentIndex,
-        duration: Duration(milliseconds: 700),
-        curve: Curves.easeInOutCubicEmphasized,
-      );
     });
   }
+
 
   // List<Record> get _filteredRecords {
   //   final filteredRecords = widget.records
@@ -2348,8 +2414,12 @@ class _UserRankListState extends State<UserRankList> {
               builder: (context, child) {
                 // Apply scaling transformation for stacking effect
                 double scale = 1.0;
-                if (_pageController.position.haveDimensions) {
-                  double pageOffset = _pageController.page! - index;
+                // if (_pageController.position.haveDimensions) {
+                //   double pageOffset = _pageController.page! - index;
+                //   scale = (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
+                // }
+                if (_pageController.hasClients && _pageController.position.haveDimensions) {
+                  double pageOffset = (_pageController.page ?? 0) - index;
                   scale = (1 - (pageOffset.abs() * 0.2)).clamp(0.8, 1.0);
                 }
 
@@ -2400,12 +2470,16 @@ class _UserRankListState extends State<UserRankList> {
                                 backgroundImage: NetworkImage("http://182.156.200.177:8011${user.picture!}")
 
                             ):CircleAvatar(
-                              radius: 28,
-                              backgroundColor: Colors.white,
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.grey,
-                                size: 30,
+                              radius: 29,
+                              backgroundColor: AppColor.circleIndicator,
+                              child: CircleAvatar(
+                                radius: 28,
+                               backgroundColor: AppColor.packageGray,
+                                child: Icon(
+                                  Icons.person,
+                                  color: AppColor.circleIndicator,
+                                  size: 30,
+                                ),
                               ),
                             ),
                             Positioned(
@@ -2420,12 +2494,14 @@ class _UserRankListState extends State<UserRankList> {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: AppColor.circleIndicator,
-                                      size: 20,
-                                    ),
+                                    // Icon(
+                                    //   Icons.star,
+                                    //   color: AppColor.circleIndicator,
+                                    //   size: 20,
+                                    // ),
+                                    SvgPicture.asset('assets/Gold.svg',height: 15,color: AppColor.circleIndicator,),
                                     Positioned(
+                                      bottom: 1,
                                       child: Text(
                                         '$rank', // Display the rank number
                                         style: const TextStyle(fontSize: 7,

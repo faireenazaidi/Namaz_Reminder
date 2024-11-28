@@ -127,6 +127,13 @@ class MyTextTheme  {
       fontSize: 16,
       fontWeight: FontWeight.normal
   );
+  static TextStyle rank=GoogleFonts.aBeeZee(
+      color: AppColor.white,
+      fontSize: 10,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.italic,
+
+  );
   static TextStyle smallWCN=GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 12,

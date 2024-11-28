@@ -6,7 +6,7 @@ import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
-import 'leaderboardController.dart';
+import 'LeaderBoardController.dart';
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardView extends StatefulWidget {
@@ -25,7 +25,6 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       leaderBoardController.leaderboard(
@@ -36,11 +35,6 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
   @override
   Widget build(BuildContext context) {
-    // Instantiate the DateController
-
-    // final LeaderBoardController controller = Get.put(LeaderBoardController());
-    //everytime when i perform hot relaod this condition works otherwise not
-
     return Scaffold(
         backgroundColor: AppColor.cream,
         body: Obx(() {
@@ -1080,7 +1074,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                             children: [
                               SizedBox(height: 10),
                               Container(
-                                width: 100,
+                                width: 110,
                                 height: 8,
                                 decoration: BoxDecoration(
                                   color: AppColor.packageGray,
@@ -1139,7 +1133,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                               children: [
                                 SizedBox(height: 25),
                                 Container(
-                                  width: 100,
+                                  width: 110,
                                   height: 8,
                                   decoration: BoxDecoration(
                                     color: AppColor.packageGray,
@@ -1223,9 +1217,7 @@ Widget _buildUserProgress(String imageUrl, String name, String score, {bool high
     padding: const EdgeInsets.only(left: 10.0,right: 10,top: 20),
     child: Column(
       children: [
-
         const Icon(Icons.star,size: 40,),
-
         Container(
           height: 350,
           decoration: BoxDecoration(
@@ -1271,8 +1263,10 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
       Stack(
         alignment: Alignment.center,
         children: [
-          const Icon(Icons.star, size: 35, color: Colors.grey),
+          // const Icon(Icons.star, size: 35, color: Colors.grey),
+          SvgPicture.asset('assets/other.svg',height: 25,),
           Positioned(
+            bottom: 5,
             child: Text(
               '${index+1}', // Display the rank number here
               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 8),
@@ -1317,10 +1311,10 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
                 height: 60,
                 margin: const EdgeInsets.all(1),
                 decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: AppColor.packageGray,
                     borderRadius: BorderRadius.circular(15)
                 ),
-                child: const Icon(Icons.person, color: Colors.white),
+                child:  Icon(Icons.person, color: AppColor.circleIndicator),
               ),
               const SizedBox(height: 15),
               Text(
@@ -1571,7 +1565,6 @@ class RankingUI extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class TopRankedUsers extends StatelessWidget {
@@ -1596,15 +1589,15 @@ class TopRankedUsers extends StatelessWidget {
   //     "percentage": 10.879714285714286
   //   },
   // ];
-
   const TopRankedUsers({super.key, required this.rankedFriends});
-
   @override
   Widget build(BuildContext context) {
+
     // Sort the list in descending order based on percentage
     if(rankedFriends.isNotEmpty){
       rankedFriends.sort((a, b) => b['percentage'].compareTo(a['percentage']));
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
@@ -1668,11 +1661,11 @@ class TopRankedUsers extends StatelessWidget {
                   width: 80,
                 ),
               )
-                  : const Padding(
+                  :  Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.person,
-                  color: Colors.grey,
+                  color: AppColor.circleIndicator,
                   size: 30,
                 ),
               ),
@@ -1711,5 +1704,6 @@ class TopRankedUsers extends StatelessWidget {
 
   }
 }
+
 
 

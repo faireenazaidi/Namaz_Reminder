@@ -6,7 +6,6 @@ import 'package:namaz_reminders/FAQs/FAQsView.dart';
 import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
 import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
-import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
@@ -15,6 +14,9 @@ import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
+import '../Leaderboard/LeaderBoardController.dart';
+import '../Widget/MyRank/myRankController.dart';
+import '../Widget/MyRank/myweeklyrank.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -22,6 +24,8 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
+    final MyRankController myRankController = Get.put(MyRankController());
+    final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
 
     return Drawer(
       backgroundColor: Colors.white,
@@ -29,7 +33,6 @@ class CustomDrawer extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(5),
               bottomRight:  Radius.circular(5),
-
             )
         ),
         width: 280,
@@ -40,68 +43,101 @@ class CustomDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 20.0,left: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0,),
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
-                              ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
-                              : null,
-                          backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
-                              ? AppColor.circleIndicator
-                              : Colors.transparent,
-                          child: customDrawerController.userData.getUserData!.picture.isEmpty
-                              ? const Icon(Icons.person, size: 25, color: Colors.white)
-                              : null,
-                        ),
-                      ),
-                      const SizedBox(width: 20,),
-                      Expanded(
-                        child: InkWell(
-                          onTap: (){
-                            Get.to(
-                                  () => ProfileView(),
-                              transition: Transition.rightToLeft,
-                              duration: Duration(milliseconds: 550),
-                              curve: Curves.ease,
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10,),
-                              Text(
-                                UserData().getUserData!.name.toString().toUpperCase(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
-                                ),
+                Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 20.0,left: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0,),
+                            child: CircleAvatar(
+                              radius: 31,
+                              backgroundColor: AppColor.circleIndicator,
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
+                                    ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
+                                    : null,
+                                backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
+                                    ? AppColor.packageGray
+                                    : Colors.transparent,
+                                child: customDrawerController.userData.getUserData!.picture.isEmpty
+                                    ?  Icon(Icons.person, size: 25, color: AppColor.circleIndicator)
+                                    : null,
                               ),
-                              SizedBox(height: 5,),
-                              Text(
-                                UserData().getUserData!.mobileNo??'',
-                                style: MyTextTheme.smallGCN,
-                              ),
-                              SizedBox(height: 5,),
-                              Row(
+                            ),
+                          ),
+                          const SizedBox(width: 20,),
+                          Expanded(
+                            child: InkWell(
+                              onTap: (){
+                                Get.to(
+                                      () => ProfileView(),
+                                  transition: Transition.rightToLeft,
+                                  duration: Duration(milliseconds: 550),
+                                  curve: Curves.ease,
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
-                                  Text("Edit Profile",style: MyTextTheme.mustardNn,)
+                                  const SizedBox(height: 10,),
+                                  Text(
+                                    UserData().getUserData!.name.toString().toUpperCase(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      fontFamily: 'Roboto',
+                                    ),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Text(
+                                    UserData().getUserData!.mobileNo??'',
+                                    style: MyTextTheme.smallGCN,
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
+                                      Text("Edit Profile",style: MyTextTheme.mustardNn,)
+                                    ],
+                                  ),
+
                                 ],
                               ),
-
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Positioned(
+                      left: 50,
+                      bottom: 40,
+                      child: Stack(
+                        children: [
+                          SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
+                              :myRankController.rank == 2?'assets/silver.svg':
+                          myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 25,),
+                          Positioned(
+                            right: 9,
+                            bottom: 3,
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: MyRank(
+                                    rankedFriends: leaderBoardController.weeklyRanked,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ]
+
                 ),
                 SizedBox(height: 10,),
                 Divider(

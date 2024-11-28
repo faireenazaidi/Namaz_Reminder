@@ -297,7 +297,6 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                       color: AppColor.packageGray,
                                       borderRadius: BorderRadius.circular(10)
                                   ),
-
                                 ),
                                 const SizedBox(height: 10),
                                 Expanded(
@@ -1692,7 +1691,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                         .split(
                                                                         ' ')[0],
                                                                     style: const TextStyle(
-                                                                        fontSize: 10),)
+                                                                        fontSize: 10),
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                  )
+
                                                                 ],
                                                               ),
                                                             ),
