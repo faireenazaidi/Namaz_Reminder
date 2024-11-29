@@ -347,8 +347,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 radius: 22,
                                                                 backgroundColor: Colors
                                                                     .transparent,
-                                                                child: Text(
-                                                                    '-')))
+                                                                child: Text('-')
+                                                            ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
                                                           radius: 22,
@@ -547,7 +547,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         padding: const EdgeInsets
                                                             .all(8.0),
                                                         child: shouldShowDash
-                                                            ? const CircleAvatar(
+                                                            ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
                                                                 .white70,
@@ -555,13 +555,20 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 radius: 22,
                                                                 backgroundColor: Colors
                                                                     .transparent,
-                                                                child: Text(
-                                                                    '-')))
+                                                                child:  Container(
+                                                                  height: 3,
+                                                                  width: 12,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.grey[400],
+                                                                      borderRadius: BorderRadius.circular(10)
+                                                                  ),
+                                                                )
+                                                                //Text('-')
+                                                            ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
                                                           radius: 22,
-                                                          backgroundColor: Colors
-                                                              .yellowAccent,
+                                                          backgroundColor: AppColor.circleIndicator,
                                                           child: CircleAvatar(
                                                               child: controller
                                                                   .getLeaderboardList
@@ -771,9 +778,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     '-')))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 22,
-                                                          backgroundColor: Colors
-                                                              .yellowAccent,
+                                                          radius: 21,
+                                                          backgroundColor: AppColor.circleIndicator,
                                                           child: CircleAvatar(
                                                               child: controller
                                                                   .getLeaderboardList

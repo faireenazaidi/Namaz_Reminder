@@ -97,65 +97,141 @@ class DashBoardView extends GetView<DashBoardController> {
                    onTap: (){
                      Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
                    },
-                   child:  Stack(
-                     children: [
-                       Container(
-                     width: 50,
-                     height: 50,
-                     decoration: BoxDecoration(
-                       shape: BoxShape.circle,
-                       color: AppColor.circleIndicator, // Outer circle color
-                     ),
-                         child: Center(
-                           child: Container(
-                             width: 40,
-                             height: 40,
+
+                   // child:  Stack(
+                   //   children: [
+                   //     Container(
+                   //   width: 50,
+                   //   height: 50,
+                   //   decoration: BoxDecoration(
+                   //     shape: BoxShape.circle,
+                   //     color: AppColor.circleIndicator, // Outer circle color
+                   //   ),
+                   //       child: Center(
+                   //         child: Container(
+                   //           width: 40,
+                   //           height: 40,
+                   //           decoration: BoxDecoration(
+                   //             shape: BoxShape.circle,
+                   //             image: controller.userData.getUserData!.picture.isNotEmpty
+                   //                 ? DecorationImage(
+                   //               image: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),
+                   //               fit: BoxFit.cover,
+                   //             )
+                   //                 : null,
+                   //             color: controller.userData.getUserData!.picture.isEmpty
+                   //                 ? AppColor.packageGray
+                   //                 : null,
+                   //           ),
+                   //           child: controller.userData.getUserData!.picture.isEmpty
+                   //               ?  Icon(Icons.person, size: 20, color: AppColor.circleIndicator)
+                   //               : null,
+                   //         ),
+                   //       ),
+                   //     ),
+                   //     Positioned(
+                   //       left: 28,
+                   //       bottom: 20,
+                   //       child: Stack(
+                   //         children: [
+                   //           SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
+                   //               :myRankController.rank == 2?'assets/silver.svg':
+                   //           myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 20,),
+                   //            Positioned(
+                   //              right: 8,
+                   //              bottom: 2,
+                   //               child: Column(
+                   //                 children: [
+                   //                   Center(
+                   //                    child: MyRank(
+                   //                         rankedFriends: leaderBoardController.weeklyRanked,
+                   //                         textSize: 8,
+                   //                       )
+                   //                   ),
+                   //                 ],
+                   //               ),
+                   //             )
+                   //         ],
+                   //       ),
+                   //     )
+                   //   ]
+                   // ),
+                 child:  GetBuilder<DashBoardController>(
+                     builder: (controller) {
+                       return Stack(
+                         children: [
+                           Container(
+                             width: 50,
+                             height: 50,
                              decoration: BoxDecoration(
                                shape: BoxShape.circle,
-                               image: controller.userData.getUserData!.picture.isNotEmpty
-                                   ? DecorationImage(
-                                 image: NetworkImage("http://182.156.200.177:8011${controller.userData.getUserData!.picture}"),
-                                 fit: BoxFit.cover,
-                               )
-                                   : null,
-                               color: controller.userData.getUserData!.picture.isEmpty
-                                   ? AppColor.packageGray
-                                   : null,
+                               color: AppColor.circleIndicator, // Outer circle color
                              ),
-                             child: controller.userData.getUserData!.picture.isEmpty
-                                 ?  Icon(Icons.person, size: 20, color: AppColor.circleIndicator)
-                                 : null,
-                           ),
-                         ),
-                       ),
-                       Positioned(
-                         left: 28,
-                         bottom: 20,
-                         child: Stack(
-                           children: [
-                             SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
-                                 :myRankController.rank == 2?'assets/silver.svg':
-                             myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 20,),
-                              Positioned(
-                                right: 8,
-                                bottom: 2,
-                                 child: Column(
-                                   children: [
-                                     Center(
-                                       child: MyRank(
-                                         rankedFriends: leaderBoardController.weeklyRanked,
-                                         textSize: 8,
-                                       ),
+                             child: Center(
+                               child: Container(
+                                 width: 40,
+                                 height: 40,
+                                 decoration: BoxDecoration(
+                                   shape: BoxShape.circle,
+                                   image: controller.userData.getUserData!.picture.isNotEmpty
+                                       ? DecorationImage(
+                                     image: NetworkImage(
+                                       "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
                                      ),
-                                   ],
+                                     fit: BoxFit.cover,
+                                   )
+                                       : null,
+                                   color: controller.userData.getUserData!.picture.isEmpty
+                                       ? AppColor.packageGray
+                                       : null,
                                  ),
-                               )
-
-                           ],
-                         ),
-                       )
-                     ]
+                                 child: controller.userData.getUserData!.picture.isEmpty
+                                     ? Icon(
+                                   Icons.person,
+                                   size: 20,
+                                   color: AppColor.circleIndicator,
+                                 )
+                                     : null,
+                               ),
+                             ),
+                           ),
+                           Positioned(
+                             left: 28,
+                             bottom: 20,
+                             child: Stack(
+                               children: [
+                                 SvgPicture.asset(
+                                   myRankController.rank == 1
+                                       ? 'assets/Gold.svg'
+                                       : myRankController.rank == 2
+                                       ? 'assets/silver.svg'
+                                       : myRankController.rank == 3
+                                       ? 'assets/Bronze.svg'
+                                       : 'assets/other.svg',
+                                   height: 20,
+                                 ),
+                                 Positioned(
+                                   right: 8,
+                                   bottom: 2,
+                                   child: Column(
+                                     children: [
+                                       Center(
+                                         child: MyRank(
+                                           rankedFriends: leaderBoardController.weeklyRanked,
+                                           textSize: 8,
+                                         ),
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ],
+                       );
+                     },
                    ),
+
                  ),
               ],
             ),
