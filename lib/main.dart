@@ -5,14 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
-import 'package:namaz_reminders/SplashScreen/splashView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
-import 'Login/loginController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
-import 'Services/notification_service.dart';
-import 'Services/user_data.dart';
-import 'firebase_options.dart';
+
 
 @pragma('vm:entry-point')
 void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
@@ -285,7 +281,7 @@ void schedulePrayerNotifications(Map<String, String> timings) {
       }
 
       // Move to the next day's prayer time
-      prayerTime = prayerTime.add(Duration(days: 1));
+      prayerTime = prayerTime.add(Duration(days: 2));
     }
   }
 }

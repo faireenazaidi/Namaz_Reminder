@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
-
 import '../Routes/approutes.dart';
 
 class LoginController extends GetxController {
@@ -15,7 +14,6 @@ class LoginController extends GetxController {
 
       if (googleUser == null) {
         print('yessss');
-        // The user canceled the sign-in
         return null;
       }
       print('nooo $googleUser');

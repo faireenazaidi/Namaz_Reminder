@@ -74,7 +74,6 @@ class AppLangView extends GetView<SettingController>{
 
     );
   }
-
 }
 // This method can return different texts for options
 String _getOptionText(int index) {

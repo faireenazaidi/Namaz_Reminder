@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
-
 import '../LocationSelectionPage/locationPageDataModal.dart';
 
 class UserData extends GetxController {

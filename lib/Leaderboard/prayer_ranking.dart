@@ -59,14 +59,7 @@ class PrayerRanking extends StatelessWidget {
           SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // children: [
-            //   buildPrayerCircle('F', AppColor.packageGray,),
-            //   buildPrayerCircle('Z', AppColor.circleIndicator),
-            //   buildPrayerCircle('A', AppColor.circleIndicator),
-            //   buildPrayerCircle('M', AppColor.circleIndicator),
-            //   buildPrayerCircle('I', AppColor.circleIndicator),
-            //   Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,)),
-            //  ],
+
             children: [
               buildPrayerCircle(
                 'F',
@@ -254,10 +247,6 @@ class PrayerRanking extends StatelessWidget {
           )
                   //Text('-')),
             ),
-            // CircleAvatar(
-            //   radius: 24,
-            //   backgroundImage: NetworkImage(getUserAvatarUrl(user.user.id)), // Use user id for avatar URL
-            // ),
             ));
         }).toList(),
       ),

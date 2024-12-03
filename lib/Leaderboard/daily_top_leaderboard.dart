@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../Widget/text_theme.dart';
 import 'leaderboardDataModal.dart';
 
 class DailyTopLeaderboard extends StatelessWidget {
@@ -40,35 +38,6 @@ class DailyTopLeaderboard extends StatelessWidget {
             buildUserList(groupedByPrayer['Asr']),
             buildUserList(groupedByPrayer['Maghrib']),
             buildUserList(groupedByPrayer['Isha']),
-            // Expanded(
-            //   child: ListView.builder(
-            //     padding: const EdgeInsets.only(top: 7),
-            //     physics: const NeverScrollableScrollPhysics(),
-            //     shrinkWrap: true,
-            //     itemCount: ranked.length,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: const EdgeInsets.only(bottom: 14.0),
-            //         child: Container(
-            //           padding: const EdgeInsets.all(1), // Padding around the circular image
-            //           decoration: BoxDecoration(
-            //             shape: BoxShape.circle,
-            //             border: Border.all(color: Colors.yellow,), // Yellow border
-            //           ),
-            //           child:ranked[index].picture!=null? CircleAvatar(
-            //             radius: 24, // Radius of the circular image
-            //             backgroundImage: NetworkImage(
-            //               "http://182.156.200.177:8011${ranked[index].picture}", // Replace with your image URL
-            //             ),
-            //           ):const Padding(
-            //             padding: EdgeInsets.all(8.0),
-            //             child: Icon(Icons.person,color: Colors.grey,size: 30,),
-            //           ),
-            //         ),
-            //       );
-            //
-            //     },),
-            // )
           ],
         ),
       ],
@@ -119,10 +88,6 @@ class DailyTopLeaderboard extends StatelessWidget {
                 child: Icon(Icons.person,color: Colors.grey,size: 30,),
               ),
             ):const SizedBox.shrink(),
-            // CircleAvatar(
-            //   radius: 24,
-            //   backgroundImage: NetworkImage(getUserAvatarUrl(user.user.id)), // Use user id for avatar URL
-            // ),
           );
         }).toList(),
       ),

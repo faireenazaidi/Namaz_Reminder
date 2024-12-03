@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:namaz_reminders/Services/ApiService/api_service.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
-
 import '../AppManager/toast.dart';
 
 class FeedbackController extends GetxController{
@@ -61,10 +59,6 @@ class FeedbackController extends GetxController{
     print("request $apiService");
     final data = request;
     print("registration data $data");
-    // Map<String,dynamic> temp = data['user'];
-    // temp['quitMode'] = quietMode.value;
-    // final userModel = UserModel.fromJson(data['user']);
-    // await userData.addUserData(userModel);
     print("userData ${userData.getUserData?.toJson()}");
     showToast(msg: 'feedback submitted',bgColor: Colors.black);
     clearForm();
@@ -73,12 +67,12 @@ class FeedbackController extends GetxController{
     email.value = '';
     rating.value = 0;
     comment.value = '';
-    commentController.clear();  // Clear the TextEditingController
+    commentController.clear();
   }
 
   @override
   void onClose() {
-    commentController.dispose();  // Dispose the controller when done
+    commentController.dispose();
     super.onClose();
   }
 }

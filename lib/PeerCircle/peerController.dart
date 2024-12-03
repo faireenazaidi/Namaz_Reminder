@@ -45,17 +45,6 @@ class PeerController extends GetxController{
       print(response.reasonPhrase);
     }
   }
-  // friendship() async {
-  //   try {
-  //     final data = await apiService.getRequest('friendships/?user_id=${userData.getUserData!.id.toString()}');
-  //       isLoading.value = false;
-  //     updateFriendRequestList = data['friendships'];
-  //     print("object"+data['friendships'].toString());
-  //     print('Data: $data');
-  //   }
-  //   catch (e) {
-  //     print('Error: $e');  }
-  // }
 
   List friendshipList = [];
 
@@ -117,20 +106,4 @@ class PeerController extends GetxController{
       print('jjjjjjjjjjjjjjjjj');
     }
   }
-  // removeFriend(String friendId) async {
-  //
-  //   Map<String, dynamic> requestBody = {
-  //     "user_id": userData.getUserData!.id.toString(),
-  //     "friend_id": friendId.toString(),
-  //   };
-  //
-  //   try {
-  //     final response = await apiService.postRequest('remove_friend/', requestBody);
-  //     print('Friend removed successfully: $response');
-  //   } catch (e) {
-  //     print('Failed to remove friend: $e');
-  //   }
-  // }
-
-
   }

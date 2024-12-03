@@ -79,7 +79,7 @@ class CustomDrawer extends StatelessWidget {
                                         Get.to(
                                               () => ProfileView(),
                                           transition: Transition.rightToLeft,
-                                          duration: Duration(milliseconds: 550),
+                                          duration: Duration(milliseconds: 400),
                                           curve: Curves.ease,
                                         );
                                       },
@@ -154,7 +154,7 @@ class CustomDrawer extends StatelessWidget {
                     Get.to(
                           () => LeaderBoardView(),
                       transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 0),
+                      duration: Duration(milliseconds: 400),
                       curve: Curves.ease,
                     );
                   },
@@ -173,18 +173,6 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
 
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/icon.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //   title: Text("Leaderboard",style: MyTextTheme.smallBC ,),
-                //
-                //   onTap: () {
-                //     Get.toNamed(AppRoutes.leaderboardRoute);
-                //   },
-                // ),
                 InkWell(
                   onTap: () {
                     Get.to(
@@ -207,24 +195,12 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
 
-
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/missed.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //   title: Text("Missed Prayers",style: MyTextTheme.smallBC ,),
-                //   onTap: () {
-                //     Get.toNamed(AppRoutes.missedPrayers);
-                //   },
-                // ),
                 InkWell(
                   onTap: () {
                     Get.to(
                           () => PeerView(), // Replace with your target widget
                       transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 550),
+                      duration: Duration(milliseconds: 400),
                       curve: Curves.ease,
                     );
                   },
@@ -240,63 +216,16 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10,),
-
-
-
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/pc.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //   title: Text("Peer Circle",style: MyTextTheme.smallBC ,),
-                //   onTap: () {
-                //     Get.toNamed(AppRoutes.peerRoute);
-                //   },
-                // ),
-
                 Divider(
                   color: AppColor.greyLight,
                 ),
-                // SizedBox(height: 10,),
-                // InkWell(
-                //   onTap: () {
-                //     Get.to(
-                //           () => NotificationView(),
-                //       transition: Transition.rightToLeft,
-                //       duration: Duration(milliseconds: 550),
-                //       curve: Curves.ease,
-                //     );
-                //   },
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Row(
-                //       children: [
-                //         SvgPicture.asset( "assets/noti.svg"),
-                //         SizedBox(width: 6,),
-                //         Text("Notifications",style: MyTextTheme.smallBC ,),
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 SizedBox(height: 10,),
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/noti.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //   title: Text("Notifications",style: MyTextTheme.smallBC ,),
-                //   onTap: () {
-                //     Get.toNamed(AppRoutes.notifications);
-                //     },
-                // ),
                 InkWell(
                   onTap: () {
                     Get.to(
                           () => SettingView(), // Replace with your target widget
                       transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 550),
+                      duration: Duration(milliseconds: 400),
                       curve: Curves.ease,
                     );
                   },
@@ -312,37 +241,17 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10,),
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/set.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //   title: Text("Settings",style: MyTextTheme.smallBC ,),
-                //   onTap: () {
-                //     // Fluttertoast.showToast(msg: "Coming Soon");
-                //     Get.toNamed(AppRoutes.settingRoute);
-                //
-                //   },
-                // ),
 
                 Divider(
                   color: AppColor.greyLight,
                 ),
                 SizedBox(height: 10,),
-
-                // _buildListTile(
-                //     context, "F&Q", "assets/fAndQ.png", () {
-                //       Fluttertoast.showToast(msg: "Coming Soon");
-                //
-                // }
-                // ),
                 InkWell(
                   onTap: () {
                     Get.to(
                           () => FAQSView(),
                       transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 550),
+                      duration: Duration(milliseconds: 400),
                       curve: Curves.ease,
                     );
                   },
@@ -358,26 +267,12 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10,),
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/fq.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //
-                //   title: Text("F&Q",style: MyTextTheme.smallBC ,),
-                //   onTap: () {
-                //     // Fluttertoast.showToast(msg: "Coming Soon");
-                //     Get.toNamed(AppRoutes.faqsRoute);
-                //
-                //   },
-                // ),
                 InkWell(
                   onTap: () {
                     Get.to(
                           () => FeedbackView(),
                       transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 550),
+                      duration: Duration(milliseconds: 400),
                       curve: Curves.ease,
                     );
                   },
@@ -393,17 +288,6 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10,),
-                // ListTile(
-                //   leading:  SvgPicture.asset(
-                //       "assets/feed.svg"
-                //   ),
-                //   dense: true,
-                //   visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //   title: Text("Feedback",style: MyTextTheme.smallBC ,),
-                //   onTap: () {
-                //     Get.toNamed(AppRoutes.feedback);
-                //   },
-                // ),
                 InkWell(
                   onTap: (){
                     Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
@@ -426,34 +310,6 @@ class CustomDrawer extends StatelessWidget {
                   ),
                ),
                 SizedBox(height: 10,),
-                // InkWell(
-                //   onTap: (){
-                //     Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
-                //         okPressEvent: ()async{
-                //           await UserData().removeUserData();
-                //           Get.offAllNamed(AppRoutes.locationPageRoute);
-                //         });
-                //
-                //     //Get.toNamed(AppRoutes.locationPageRoute);
-                //   },
-                //
-                //  child:  ListTile(
-                //     leading:  SvgPicture.asset(
-                //         "assets/logout.svg"
-                //     ),
-                //    dense: true, visualDensity: VisualDensity(vertical: -1,horizontal: -4),
-                //
-                //    title: Text("Logout",style: MyTextTheme.smallBC ,),
-                //       onTap: (){
-                //         Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
-                //             okPressEvent: ()async{
-                //               await UserData().removeUserData();
-                //               Get.offAllNamed(AppRoutes.locationPageRoute);
-                //             });
-                //       },
-                //   ),
-                // ),
-
               ],
             ),
           ),

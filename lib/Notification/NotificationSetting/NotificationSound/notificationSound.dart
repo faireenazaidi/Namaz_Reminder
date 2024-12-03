@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
-import '../../../Routes/approutes.dart';
 import '../../../Widget/appColor.dart';
 import '../../../Widget/text_theme.dart';
 import 'notificationSoundController.dart';

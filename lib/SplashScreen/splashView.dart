@@ -10,10 +10,6 @@ class SplashScreen extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     SplashController splashController = Get.find();
-    // Handle navigation in the controller or use a Timer here if needed
-    // Future.delayed(Duration(seconds: 3), () {
-    //   Get.off(() => LocationPage(), transition: Transition.circularReveal);
-    // });
     FocusScope.of(context).unfocus();
     return GestureDetector(
       onTap: (){

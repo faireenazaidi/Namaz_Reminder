@@ -1,17 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:http/http.dart'as http;
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
-
 import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Services/ApiService/api_service.dart';
-import '../Services/user_data.dart';
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
@@ -43,13 +40,6 @@ class LeaderBoardController extends GetxController{
     print("formattedDate$formattedDate");
     return formattedDate;
   }
-
-  // void getHijriDate(DateTime newDate){
-  //   print("newDate$newDate");
-  //   final hijriNewDate =HijriCalendar.fromDate(newDate);
-  //   islamicDate.value = '${hijriNewDate.hDay} ${hijriNewDate.longMonthName} ${hijriNewDate.hYear}';
-  //   print("islamicDate${newDate}");
-  // }
   void updateIslamicDateBasedOnOption({DateTime? date}) {
     DateTime onlyDate  = date??DateTime.now();
     DateTime baseDate = DateTime(onlyDate.year, onlyDate.month, onlyDate.day);
@@ -95,10 +85,6 @@ class LeaderBoardController extends GetxController{
     selectedTab.value = val;
     update();
   }
-  // void updateSelectedTab(String tab) {
-  // selectedTab.value = tab;
-  //
-  // }
 
 
   leaderboard(formattedDate) async{
@@ -130,8 +116,6 @@ String formatDate = getFormattedDate();
   var getLeaderboardList = Rxn<LeaderboardDataModal>();
   // var recordsList = Rxn<Record>();
   List<Record> recordsList = <Record>[].obs;
-  // List<LeaderboardDataModal> get getLeaderboardList => List<LeaderboardDataModal>.from(
-  //     leaderboardList.map((element) => LeaderboardDataModal.fromJson(element)).toList());
   set updateLeaderboardList(val){
     leaderboardList = val;
     update();
@@ -202,7 +186,24 @@ String formatDate = getFormattedDate();
     DateFormat format = DateFormat("dd-MM-yyyy");
     DateTime date = format.parse(dateString);
     DateTime now = DateTime.now();
-    return date.year == now.year && date.month == now.month;
+
+    // Check if the date is from the current month
+    if (date.year == now.year && date.month == now.month) {
+      return true;
+    }
+
+    // If the date is from the previous month, check if we need to return the last 7 days
+    if (date.year == now.year && date.month == now.month - 1) {
+      // Get the last day of the previous month
+      DateTime lastDayOfPreviousMonth = DateTime(now.year, now.month, 0);
+      // Calculate the start of the last 7 days
+      DateTime startOfLastWeek = lastDayOfPreviousMonth.subtract(Duration(days: 6));
+
+      // Check if the date falls within the last 7 days of the previous month
+      return date.isAfter(startOfLastWeek) && date.isBefore(lastDayOfPreviousMonth.add(Duration(days: 1)));
+    }
+
+    return false;
   }
 
   DateTime? getPrayerTime(List data,String date, String prayerName) {
@@ -253,19 +254,4 @@ String formatDate = getFormattedDate();
       );
     }
   }
-
-  // String? getPrayerTime(String date, String prayerName) {
-  //   // Iterate over each entry in the data list
-  //   for (var entry in dashboardController.calendarData) {
-  //     // Check if the date matches the given date in 'dd-MM-yyyy' format
-  //     if (entry["date"]["gregorian"]["date"] == date) {
-  //       // Return the timing for the specific prayer if available
-  //       return entry["timings"][prayerName];
-  //     }
-  //   }
-  //   // Return null if no matching date or prayer is found
-  //   return null;
-  // }
-
-
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Login/loginController.dart';
-import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-
 import '../Widget/myButton.dart';
 import '../Widget/primary_text_field.dart';
 

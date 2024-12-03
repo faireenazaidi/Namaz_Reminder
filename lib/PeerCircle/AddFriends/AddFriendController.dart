@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
@@ -39,10 +38,6 @@ class AddFriendController extends GetxController {
     searchQuery = query;
     update();
   }
-  // void setLoggedInUserId(String userId) {
-  //   loggedInUserId = userId;
-  //   update();
-  // }
 
 
   /// Register USer Method
@@ -66,29 +61,6 @@ class AddFriendController extends GetxController {
       print('Error fetching registered users: $e');
     }
   }
-  // fetchRegisteredUsers() async {
-  //   try {
-  //     final response = await apiService.getRequest('registered-users/');
-  //     print("APIDATA:$response");
-  //
-  //     if (response != null && response['users'] != null) {
-  //       updateRegisteredList = response['users'];
-  //
-  //       int indexValue = getRegisteredUserList.indexWhere(
-  //               (e) => e.userId.toString() == UserData().getUserData!.id.toString()
-  //       );
-  //
-  //       if (indexValue != -1) {
-  //         updateRegisteredList = registeredUserList.removeAt(indexValue);
-  //       }
-  //
-  //       update();
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching registered users: $e');
-  //   }
-  // }
-
 
   List registeredUserList = [];
 

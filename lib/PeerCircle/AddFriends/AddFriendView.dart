@@ -1,11 +1,7 @@
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:namaz_reminders/PeerCircle/peerView.dart';
-import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
-import '../peerController.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
@@ -31,12 +27,6 @@ class AddFriendView extends GetView<AddFriendController> {
         leading: InkWell(
           onTap: () {
             Get.back();
-            // Get.to(
-            //       () => PeerView(),
-            //   transition: Transition.leftToRight,
-            //   duration: Duration(milliseconds: 500),
-            //   curve: Curves.ease,
-            // );
           },
           child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
@@ -44,14 +34,6 @@ class AddFriendView extends GetView<AddFriendController> {
       body: GetBuilder(
         init: controller,
         builder: (_) {
-          // List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
-          //     .where((user) => user.name?.toLowerCase().contains(controller.searchQuery.toLowerCase()) ?? false)
-          //     .toList();
-          // filteredUsers.sort((a, b) {
-          //   String nameA = a.name?.toLowerCase() ?? '';
-          //   String nameB = b.name?.toLowerCase() ?? '';
-          //   return nameA.compareTo(nameB);
-          // });
           List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
               .where((user) {
                 // Check if the search query matches the name or phone number (convert to lowercase for case-insensitivity)
@@ -149,8 +131,6 @@ class AddFriendView extends GetView<AddFriendController> {
                                 : 2, // Show only first 2 if there are more than 2 requests
                             itemBuilder: (context, index) {
                               FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
-                              // RegisteredUserDataModal registeredData = filteredUsers[index];
-                              // print("Item${registeredData.picture}");
                           
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -202,13 +182,6 @@ class AddFriendView extends GetView<AddFriendController> {
                                       children: [
                                         InkWell(
                                           onTap: () async {
-                                            // First API call to accept the friend request
-                                            // bool success = await controller.acceptFriendRequest(friendRequestData);
-                                            //
-                                            // if (success) {
-                                            //   await controller.acceptFriendRequest(friendRequestData);
-                                            //   controller.update();
-                                            // }
                                             await controller.acceptFriendRequest(friendRequestData);
                                             // peerController.friendshipList.toString();
                                           },

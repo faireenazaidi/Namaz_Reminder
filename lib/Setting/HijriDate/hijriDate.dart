@@ -50,18 +50,6 @@ class HijriDateView extends GetView<SettingController> {
         itemBuilder: (context, index) {
         // Get the current day mapping
         var day = hijriController.hijriDateAdjustment[index];
-
-        // return ListTile(
-        // title: Text(day['name']),
-        // trailing: hijriController.selectedId == day['id']
-        // ? const Icon(Icons.check, color: Colors.green) // Show checkmark if selected
-        //     : null,
-        // onTap: () {
-        //   hijriController.updateSelectedId(day['id']); // Update the selected ID
-        //   hijriController.registerUser();
-        //   hijriController.selectItem(day['id']);
-        // },
-        // );
         return ListTile(
           title: Text(
             day['name'],
@@ -84,45 +72,6 @@ class HijriDateView extends GetView<SettingController> {
         });
       }
     ),
-              // SizedBox(height: 5),
-              // for (int i = 0; i < 5; i++)
-              //   GestureDetector(
-              //     onTap: () {
-              //       hijriController.selectItem(i); // Update selection in HijriController
-              //     },
-              //     child: Padding(
-              //       padding: const EdgeInsets.symmetric(vertical: 12.0),
-              //       child: Container(
-              //         width: double.infinity,
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: [
-              //             Obx(() {
-              //               return Text(
-              //                 _getOptionText(i),
-              //                 style: hijriController.selectedIndex.value == i
-              //                     ? MyTextTheme.mediumB2.copyWith(fontWeight: FontWeight.bold)
-              //                     : MyTextTheme.mediumB2,
-              //               );
-              //             }),
-              //             Obx(() {
-              //               return hijriController.selectedIndex.value == i
-              //                   ? Icon(Icons.check, color: Colors.green)
-              //                   : SizedBox();
-              //             }),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // Displaying the updated Hijri date from DashboardController
-              // Obx(
-              //       () => Text(
-              //     dashboardController.islamicDate.value, // Show updated Islamic date
-              //     style: const TextStyle(fontSize: 12, color: Colors.black),
-              //     overflow: TextOverflow.ellipsis,
-              //   ),
-              // ),
             ],
           ),
         ),

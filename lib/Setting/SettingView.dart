@@ -31,12 +31,6 @@ class SettingView extends StatelessWidget {
             leading: InkWell(
               onTap: () {
                 Get.back();
-                // Get.to(
-                //       () => DashBoardView(),
-                //   transition: Transition.leftToRight,
-                //   duration: Duration(milliseconds: 500),
-                //   curve: Curves.ease,
-                // );
               },
               child: const Icon(Icons.arrow_back_ios_new,size: 20,),
             ),
@@ -47,36 +41,6 @@ class SettingView extends StatelessWidget {
               children: [
                 SizedBox(height: 10,),
                 /// This Searchbar is temporarily hidden///
-                // Container(
-                //   height: 50,
-                //   decoration: BoxDecoration(
-                //     color: AppColor.searchbarColor,
-                //     borderRadius: BorderRadius.circular(10),
-                //   ),
-                //   child: TextField(
-                //     cursorColor: AppColor.circleIndicator,
-                //     decoration: InputDecoration(
-                //       prefixIcon: const Icon(Icons.search),
-                //       hintText: "Search for a setting..",
-                //       hintStyle: MyTextTheme.mediumCustomGCN,
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //         borderSide: const BorderSide(color: Colors.black),
-                //       ),
-                //       enabledBorder: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //         borderSide:  BorderSide(color:AppColor.packageGray,
-                //             width: 2),
-                //       ),
-                //       focusedBorder: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //         borderSide: const BorderSide(color: Colors.grey,
-                //             width: 1),
-                //       ),
-                //     ),
-                //     style: const TextStyle(color: Colors.grey),
-                //   ),
-                // ),
                 SizedBox(height: 10),
                 // Settings List
                 Expanded(
@@ -96,15 +60,6 @@ class SettingView extends StatelessWidget {
                         },
                         imagePath:"assets/hijri.svg"
                       ),
-
-                      // buildSettingItem(
-                      //   title: 'Prayer Time Setting',
-                      //   subtitle: '5 times',
-                      //   onTap: () {
-                      //     Get.to(() => PrayTimeView());
-                      //   },
-                      //     imagePath:"assets/prayertime.svg"
-                      // ),
                       buildSettingItem(
                         title: 'Notifications',
                         subtitle: '',
@@ -127,14 +82,6 @@ class SettingView extends StatelessWidget {
                         },
                           imagePath:"assets/frndrqst.svg"
                       ),
-                      // buildSettingItem(
-                      //   title: 'App Language',
-                      //   subtitle: 'English',
-                      //   onTap: () {
-                      //     Get.to(() => AppLangView());
-                      //   },
-                      //     imagePath:"assets/language.svg"
-                      // ),
                       buildSettingItem(
                         title: 'Privacy & Security',
                         subtitle: '',

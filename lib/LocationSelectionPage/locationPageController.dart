@@ -1,16 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:http/http.dart' as http;
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
-import 'package:namaz_reminders/Widget/appColor.dart';
 import '../Services/firebase_services.dart';
 import '../Services/user_data.dart';
 import 'locationPageDataModal.dart';
