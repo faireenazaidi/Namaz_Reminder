@@ -5,403 +5,405 @@ import 'package:namaz_reminders/Widget/appColor.dart';
 
 
 
-class MyTextTheme  {
+class MyTextTheme {
 
-  static TextStyle customLargePCB=GoogleFonts.roboto(
+  static TextStyle customLargePCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 30,
       fontWeight: FontWeight.bold
   );
 
-  static TextStyle veryLargePCB=GoogleFonts.roboto(
+  static TextStyle veryLargePCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 22,
       fontWeight: FontWeight.bold
   );
-  static TextStyle largePCB=GoogleFonts.roboto(
+  static TextStyle largePCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 18,
       fontWeight: FontWeight.bold
   );
-  static TextStyle mediumPCB=GoogleFonts.roboto(
+  static TextStyle mediumPCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 14,
       fontWeight: FontWeight.bold
   );
-  static TextStyle smallPCB=GoogleFonts.roboto(
+  static TextStyle smallPCB = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 12,
       fontWeight: FontWeight.bold
   );
 
-  static TextStyle veryLargePCN=GoogleFonts.roboto(
+  static TextStyle veryLargePCN = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 22,
       fontWeight: FontWeight.normal
   );
 
-  static TextStyle mediumPCN=GoogleFonts.roboto(
+  static TextStyle mediumPCN = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallPCN=GoogleFonts.roboto(
+  static TextStyle smallPCN = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
 
 
-  static TextStyle veryLargeSCB=GoogleFonts.roboto(
+  static TextStyle veryLargeSCB = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 22,
       fontWeight: FontWeight.bold
   );
-  static TextStyle largeSCB=GoogleFonts.roboto(
+  static TextStyle largeSCB = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 18,
       fontWeight: FontWeight.bold
   );
-  static TextStyle mediumSCB=GoogleFonts.roboto(
+  static TextStyle mediumSCB = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 14,
       fontWeight: FontWeight.bold
   );
-  static TextStyle smallSCB=GoogleFonts.roboto(
+  static TextStyle smallSCB = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 12,
       fontWeight: FontWeight.bold
   );
 
-  static TextStyle veryLargeSCN=GoogleFonts.roboto(
+  static TextStyle veryLargeSCN = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 22,
       fontWeight: FontWeight.normal
   );
-  static TextStyle largeSCN=GoogleFonts.roboto(
+  static TextStyle largeSCN = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 18,
       fontWeight: FontWeight.normal
   );
-  static TextStyle mediumSCN=GoogleFonts.roboto(
+  static TextStyle mediumSCN = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallSCN=GoogleFonts.roboto(
+  static TextStyle smallSCN = GoogleFonts.roboto(
       color: AppColor.secondaryColorLight,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle veryLargeWCB=GoogleFonts.roboto(
+  static TextStyle veryLargeWCB = GoogleFonts.roboto(
       color: AppColor.buttonColor,
       fontSize: 22,
       fontWeight: FontWeight.bold
-  );static TextStyle largeWCB=GoogleFonts.roboto(
+  );
+  static TextStyle largeWCB = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 18,
       fontWeight: FontWeight.bold
   );
-  static TextStyle mediumWCB=GoogleFonts.roboto(
+  static TextStyle mediumWCB = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 16,
       fontWeight: FontWeight.w500
   );
-  static TextStyle smallWCB=GoogleFonts.roboto(
+  static TextStyle smallWCB = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 12,
       fontWeight: FontWeight.bold
   );
-  static TextStyle veryLargeWCN=GoogleFonts.roboto(
+  static TextStyle veryLargeWCN = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 26,
       fontWeight: FontWeight.w500
   );
-  static TextStyle largeWCN=GoogleFonts.roboto(
+  static TextStyle largeWCN = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 18,
       fontWeight: FontWeight.normal
   );
-  static TextStyle mediumWCN=GoogleFonts.roboto(
+  static TextStyle mediumWCN = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 16,
       fontWeight: FontWeight.normal
   );
-  static TextStyle rank=GoogleFonts.aBeeZee(
-      color: AppColor.white,
-      fontSize: 10,
-      fontWeight: FontWeight.w500,
-      fontStyle: FontStyle.italic,
+  static TextStyle rank = GoogleFonts.aBeeZee(
+    color: AppColor.white,
+    fontSize: 10,
+    fontWeight: FontWeight.w500,
+    fontStyle: FontStyle.italic,
 
   );
-  static TextStyle smallWCN=GoogleFonts.roboto(
+  static TextStyle smallWCN = GoogleFonts.roboto(
       color: AppColor.white,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallGCN=GoogleFonts.roboto(
+  static TextStyle smallGCN = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle red=GoogleFonts.roboto(
+  static TextStyle red = GoogleFonts.roboto(
       color: Colors.red,
       fontSize: 12,
       fontWeight: FontWeight.w500
   );
-  static TextStyle veryLargeBCB=GoogleFonts.roboto(
+  static TextStyle veryLargeBCB = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 32,
       fontWeight: FontWeight.bold
   );
-  static TextStyle largeBCB=GoogleFonts.roboto(
+  static TextStyle largeBCB = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 18,
       fontWeight: FontWeight.bold
   );
-  static TextStyle mediumBCB=GoogleFonts.roboto(
+  static TextStyle mediumBCB = GoogleFonts.roboto(
       color: AppColor.buttonColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle medium=GoogleFonts.roboto(
+  static TextStyle medium = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 18,
       fontWeight: FontWeight.bold
   );
-  static TextStyle mediumBCG=GoogleFonts.roboto(
+  static TextStyle mediumBCG = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 16,
       fontWeight: FontWeight.normal
   );
-  static TextStyle mediumBCb=GoogleFonts.roboto(
+  static TextStyle mediumBCb = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle mediumBCD=GoogleFonts.roboto(
+  static TextStyle mediumBCD = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.w500
   );
-  static TextStyle mediumBCC=GoogleFonts.roboto(
+  static TextStyle mediumBCC = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.w900
   );
-  static TextStyle smallBCB=GoogleFonts.roboto(
+  static TextStyle smallBCB = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.bold
   );
-  static TextStyle smallBC=GoogleFonts.roboto(
+  static TextStyle smallBC = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.w400
   );
 
-  static TextStyle veryLargeBCN=GoogleFonts.roboto(
+  static TextStyle veryLargeBCN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 22,
       fontWeight: FontWeight.normal
   );
-  static TextStyle largeBCN=GoogleFonts.roboto(
+  static TextStyle largeBCN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 16,
       fontWeight: FontWeight.bold
   );
-  static TextStyle largeBN=GoogleFonts.roboto(
+  static TextStyle largeBN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 20,
       fontWeight: FontWeight.w500
   );
-  static TextStyle mediumBCN=GoogleFonts.roboto(
+  static TextStyle mediumBCN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.w300
   );
-  static TextStyle medium2=GoogleFonts.roboto(
+  static TextStyle medium2 = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 16,
       fontWeight: FontWeight.w400
   );
-  static TextStyle mediumB=GoogleFonts.roboto(
+  static TextStyle mediumB = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.w400
   );
-  static TextStyle mediumB2=GoogleFonts.roboto(
+  static TextStyle mediumB2 = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 16,
       fontWeight: FontWeight.w400
   );
-  static TextStyle mediumGCB=GoogleFonts.roboto(
+  static TextStyle mediumGCB = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle greyNormal=GoogleFonts.roboto(
+  static TextStyle greyNormal = GoogleFonts.roboto(
       color: AppColor.greyDark,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle greyN=GoogleFonts.roboto(
+  static TextStyle greyN = GoogleFonts.roboto(
       color: AppColor.greyDark,
       fontSize: 16,
       fontWeight: FontWeight.w500
   );
-  static TextStyle smallBCN=GoogleFonts.roboto(
+  static TextStyle smallBCN = GoogleFonts.roboto(
       color: AppColor.greyLight,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallCCN=GoogleFonts.roboto(
+  static TextStyle smallCCN = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
 
-  static TextStyle smallGCB=GoogleFonts.roboto(
+  static TextStyle smallGCB = GoogleFonts.roboto(
       color: AppColor.greyDark,
       fontSize: 12,
       fontWeight: FontWeight.bold
   );
 
-  static TextStyle veryLargeGCB=GoogleFonts.roboto(
+  static TextStyle veryLargeGCB = GoogleFonts.roboto(
       color: AppColor.themeColor,
       fontSize: 32,
       fontWeight: FontWeight.bold
   );
 
 
-
   // NEWLY  ADDED Themes
 
 
-  static TextStyle largeCustomBCB=GoogleFonts.roboto(
+  static TextStyle largeCustomBCB = GoogleFonts.roboto(
     color: AppColor.customBlack,
     fontSize: 22,
     fontWeight: FontWeight.bold,
-  );  static TextStyle mediumCustomBCB=GoogleFonts.roboto(
+  );
+  static TextStyle mediumCustomBCB = GoogleFonts.roboto(
     color: AppColor.customBlack,
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle mediumCustomBCN=GoogleFonts.roboto(
+  static TextStyle mediumCustomBCN = GoogleFonts.roboto(
     color: AppColor.customBlack,
     fontSize: 16,
     fontWeight: FontWeight.normal,
-  );  static TextStyle mediumCustomGCN=GoogleFonts.roboto(
+  );
+  static TextStyle mediumCustomGCN = GoogleFonts.roboto(
     color: AppColor.sliderTextGrey,
     fontSize: 16,
     fontWeight: FontWeight.normal,
   );
 
-  static TextStyle smallCustomDGCN=GoogleFonts.roboto(
+  static TextStyle smallCustomDGCN = GoogleFonts.roboto(
     color: AppColor.textDarkGrey,
     fontSize: 12,
     fontWeight: FontWeight.bold,
   );
-  static TextStyle smallCustomBCN=GoogleFonts.roboto(
+  static TextStyle smallCustomBCN = GoogleFonts.roboto(
       color: AppColor.paragraphText,
       fontSize: 13,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallCustomGCN=GoogleFonts.roboto(
+  static TextStyle smallCustomGCN = GoogleFonts.roboto(
       color: AppColor.greyDark,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallButtonWCB=GoogleFonts.roboto(
+  static TextStyle smallButtonWCB = GoogleFonts.roboto(
       color: AppColor.buttonTextWhite,
       fontSize: 15,
       fontWeight: FontWeight.bold
   );
 
-  static TextStyle sellwishlistBCN =GoogleFonts.roboto(
+  static TextStyle sellwishlistBCN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.normal);
 
-  static TextStyle smallWishlistBCN=GoogleFonts.roboto(
+  static TextStyle smallWishlistBCN = GoogleFonts.roboto(
       color: AppColor.offerColor,
       fontSize: 12,
       fontWeight: FontWeight.w500);
-  static TextStyle mediumCartBCN=GoogleFonts.roboto(
+  static TextStyle mediumCartBCN = GoogleFonts.roboto(
       color: AppColor.productName,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallCartBCN=GoogleFonts.roboto(
+  static TextStyle smallCartBCN = GoogleFonts.roboto(
       color: AppColor.offerColor,
       fontSize: 12,
       fontWeight: FontWeight.w500);
 
-  static TextStyle sellCartBCN =GoogleFonts.roboto(
+  static TextStyle sellCartBCN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 14,
       fontWeight: FontWeight.normal);
 
 
   // For Payment Details
-  static TextStyle smallPaymentGCN=GoogleFonts.roboto(
+  static TextStyle smallPaymentGCN = GoogleFonts.roboto(
       color: AppColor.paymentDetailsGrey,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallPaymentBCN=GoogleFonts.roboto(
+  static TextStyle smallPaymentBCN = GoogleFonts.roboto(
       color: AppColor.paymentDetailsBlack,
       fontSize: 13,
       fontWeight: FontWeight.w500
   );
-  static TextStyle mediumTextFieldGCN=GoogleFonts.roboto(
+  static TextStyle mediumTextFieldGCN = GoogleFonts.roboto(
       color: AppColor.labelColor,
       fontSize: 14,
       fontWeight: FontWeight.w500
   );
-  static TextStyle mustard=GoogleFonts.roboto(
+  static TextStyle mustard = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 16,
       fontWeight: FontWeight.bold
   );
 
-  static TextStyle mustardS=GoogleFonts.roboto(
+  static TextStyle mustardS = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle mustardB=GoogleFonts.roboto(
+  static TextStyle mustardB = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 14,
       fontWeight: FontWeight.bold
   );
-  static TextStyle mustard2=GoogleFonts.roboto(
+  static TextStyle mustard2 = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 14,
       fontWeight: FontWeight.w400
   );
-  static TextStyle smallBCn=GoogleFonts.roboto(
+  static TextStyle smallBCn = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle smallN=GoogleFonts.roboto(
+  static TextStyle smallN = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 12,
       fontWeight: FontWeight.w400
   );
-  static TextStyle mustardSN=GoogleFonts.roboto(
+  static TextStyle mustardSN = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
-  static TextStyle mustardN=GoogleFonts.roboto(
+  static TextStyle mustardN = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 16,
       fontWeight: FontWeight.w600
   );
-  static TextStyle mustardNn=GoogleFonts.roboto(
+  static TextStyle mustardNn = GoogleFonts.roboto(
       color: AppColor.circleIndicator,
       fontSize: 12,
       fontWeight: FontWeight.w600

@@ -127,16 +127,16 @@ class DashBoardView extends GetView<DashBoardController> {
                                 bottom: 20,
                                 child: Stack(
                                   children: [
-                                    SvgPicture.asset(
-                                      myRankController.rank == 1
-                                          ? 'assets/Gold.svg'
-                                          : myRankController.rank == 2
-                                          ? 'assets/silver.svg'
-                                          : myRankController.rank == 3
-                                          ? 'assets/Bronze.svg'
-                                          : 'assets/other.svg',
-                                      height: 20,
-                                    ),
+                                       SvgPicture.asset(
+                                        myRankController.rank == 1
+                                            ? 'assets/Gold.svg'
+                                            : myRankController.rank == 2
+                                            ? 'assets/silver.svg'
+                                            : myRankController.rank == 3
+                                            ? 'assets/Bronze.svg'
+                                            : 'assets/other.svg',
+                                        height: 20,
+                                      ),
                                     Positioned(
                                       right: 8,
                                       bottom: 2,
@@ -158,7 +158,6 @@ class DashBoardView extends GetView<DashBoardController> {
                           );
                         },
                       ),
-
                     ),
                   ],
                 ),

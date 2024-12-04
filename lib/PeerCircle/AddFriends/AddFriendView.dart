@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import '../../Routes/approutes.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
@@ -30,6 +31,14 @@ class AddFriendView extends GetView<AddFriendController> {
           },
           child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.toNamed(AppRoutes.inviteRoute);
+            },
+            child: Text("Invite", style: MyTextTheme.mustardN),
+          ),
+        ],
       ),
       body: GetBuilder(
         init: controller,
@@ -262,6 +271,7 @@ class AddFriendView extends GetView<AddFriendController> {
                         print("matchedRequest $matchedRequest");
                         print("registeredData.userId ${registeredData.userId}");
                         print("registeredData.userId ${registeredData.name}");
+                        print("registeredData.userId ${registeredData.mobileNo}");
                         print("Item${registeredData.picture}");
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(5,8,5,8),
@@ -320,7 +330,6 @@ class AddFriendView extends GetView<AddFriendController> {
                                       controller.checkInviteStatus(UserData().getUserData!.id.toString());
 
                                     }
-
                                   },
                                   child:matchedRequest==null?
                                   Container(
@@ -332,7 +341,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                       color: AppColor.circleIndicator,
                                     ),
                                     child:  const Center(
-                                      child: Text("Invite", style: TextStyle(color: Colors.white)),
+                                      child: Text("Request", style: TextStyle(color: Colors.white)),
                                     ),
                                   )
                                       :

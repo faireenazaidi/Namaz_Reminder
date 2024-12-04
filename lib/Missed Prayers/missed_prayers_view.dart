@@ -1628,8 +1628,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                   controller
                                                                       .hitPrayerTimeByDate(
                                                                       date,
-                                                                      record
-                                                                          .prayerName,
+                                                                      record.prayerName,
                                                                       context);
                                                                 }
                                                               }

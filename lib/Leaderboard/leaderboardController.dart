@@ -186,24 +186,7 @@ String formatDate = getFormattedDate();
     DateFormat format = DateFormat("dd-MM-yyyy");
     DateTime date = format.parse(dateString);
     DateTime now = DateTime.now();
-
-    // Check if the date is from the current month
-    if (date.year == now.year && date.month == now.month) {
-      return true;
-    }
-
-    // If the date is from the previous month, check if we need to return the last 7 days
-    if (date.year == now.year && date.month == now.month - 1) {
-      // Get the last day of the previous month
-      DateTime lastDayOfPreviousMonth = DateTime(now.year, now.month, 0);
-      // Calculate the start of the last 7 days
-      DateTime startOfLastWeek = lastDayOfPreviousMonth.subtract(Duration(days: 6));
-
-      // Check if the date falls within the last 7 days of the previous month
-      return date.isAfter(startOfLastWeek) && date.isBefore(lastDayOfPreviousMonth.add(Duration(days: 1)));
-    }
-
-    return false;
+    return date.year == now.year && date.month == now.month;
   }
 
   DateTime? getPrayerTime(List data,String date, String prayerName) {
@@ -248,7 +231,7 @@ String formatDate = getFormattedDate();
       showDialog(
         context: contexts,
         builder: (BuildContext context) {
-          return   TimePicker(date: date,isFromMissed: true,missedPrayerTime: prayerTime,
+          return   TimePicker(date: date, prayerNames: prayerName,isFromMissed: true,missedPrayerTime: prayerTime,
             missedCallBack:() =>weeklyApi(date),);
         },
       );

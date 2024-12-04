@@ -246,7 +246,6 @@ Future<void> fetchPrayerTimeData() async {
 }
 }
 },
-
   ];
 
     // Extract today’s prayer timings from your list data

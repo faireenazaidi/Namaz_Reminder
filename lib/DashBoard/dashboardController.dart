@@ -147,7 +147,7 @@ class DashBoardController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    fetchAndSchedulePrayers();
+    fetchPrayerTimeData();
     highlightCurrentPrayer();
     userData.initializePrayerSettings();
 

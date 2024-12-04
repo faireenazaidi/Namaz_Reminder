@@ -14,6 +14,8 @@ import 'package:namaz_reminders/Notification/notificationBindings.dart';
 import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendBinding.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/InviteFriends/InviteFriendsBindings.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/InviteFriends/InviteFriendsView.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Setting/SettingBinding.dart';
@@ -43,6 +45,7 @@ class AppRoutes {
   static const String settingRoute = '/setting';
   static const String feedback = '/feed';
   static const String faqsRoute = '/faqs';
+  static const String inviteRoute = '/invite';
 
 
 
@@ -119,6 +122,11 @@ class AppRoutes {
       name: faqsRoute,
       page: () => FAQSView(),
       binding: FAQsBindings(),
+    ),
+    GetPage(
+      name: inviteRoute,
+      page: () => InviteView(),
+      binding: InviteBinding(),
     ),
   ];
 }
