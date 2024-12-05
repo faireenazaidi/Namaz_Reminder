@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
@@ -43,30 +47,175 @@ void main() async {
   // Get.put(DashBoardController());
   // Get.put(LoginController());
   // Get.put(CustomDrawerController());
+  await initializeService();
   runApp(MyApp());
-  BackgroundFetch.configure(
-    BackgroundFetchConfig(
-      minimumFetchInterval: 15,
-      startOnBoot: true,
-      forceAlarmManager: true,
-      stopOnTerminate: false,
-      enableHeadless: true,
-      requiresBatteryNotLow: false,
-      requiresCharging: false,
-      requiresStorageNotLow: false,
-      requiresDeviceIdle: false,
-      requiredNetworkType: NetworkType.ANY
-      // requiresNetworkType: NetworkType.NONE,
-    ),
-    _backgroundFetchHandler,
-  ).then((int status) {
-    print('[BackgroundFetch] configure success: $status');
-  }).catchError((e) {
-    print('[BackgroundFetch] configure ERROR: $e');
-  });
+  // BackgroundFetch.configure(
+  //   BackgroundFetchConfig(
+  //     minimumFetchInterval: 15,
+  //     startOnBoot: true,
+  //     forceAlarmManager: true,
+  //     stopOnTerminate: false,
+  //     enableHeadless: true,
+  //     requiresBatteryNotLow: false,
+  //     requiresCharging: false,
+  //     requiresStorageNotLow: false,
+  //     requiresDeviceIdle: false,
+  //     requiredNetworkType: NetworkType.ANY
+  //     // requiresNetworkType: NetworkType.NONE,
+  //   ),
+  //   _backgroundFetchHandler,
+  // ).then((int status) {
+  //   print('[BackgroundFetch] configure success: $status');
+  // }).catchError((e) {
+  //   print('[BackgroundFetch] configure ERROR: $e');
+  // });
 
   // Register the headless task
-  BackgroundFetch.registerHeadlessTask(myBackgroundFetchHeadlessTask);
+  // BackgroundFetch.registerHeadlessTask(myBackgroundFetchHeadlessTask);
+}
+Future<void> initializeService() async {
+  final service = FlutterBackgroundService();
+
+  // Configure the background service for iOS and Android
+  await service.configure(
+    iosConfiguration: IosConfiguration(
+      autoStart: true,        // Automatically start on iOS
+      onForeground: onStart,  // Function to call when the app is in the foreground
+      onBackground: onIosBackground, // Function to call when the app goes to the background
+    ),
+    androidConfiguration: AndroidConfiguration(
+      autoStart: true,        // Automatically start on Android
+      onStart: onStart,       // Function to call when the service starts
+      isForegroundMode: false,  // Run as a background service (not a foreground service)
+      autoStartOnBoot: true,  // Start automatically on boot
+    ),
+  );
+}
+@pragma('vm:entry-point')
+Future<bool> onIosBackground(ServiceInstance service) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();  // Ensure the Flutter engine is initialized
+  return true;
+}
+
+@pragma('vm:entry-point')
+void onStart(ServiceInstance service) async {
+  // This is where the background task will run
+  print("Background service started!");
+  List listData = [
+    {
+      "timings": {
+        "Fajr": "04:51 (IST)",
+        "Sunrise": "05:59 (IST)",
+        "Dhuhr": "12:01 (IST)",
+        "Asr": "12:30 (IST)",
+        "Sunset": "17:53 (IST)",
+        "Maghrib": "12:40 (IST)",
+        "Isha": "21:00 (IST)",
+        "Imsak": "04:41 (IST)",
+        "Midnight": "23:56 (IST)",
+        "Firstthird": "21:55 (IST)",
+        "Lastthird": "01:57 (IST)"
+      },
+      "date": {
+        "readable": "01 Oct 2024",
+        "timestamp": "1727753461",
+        "gregorian": {
+          "date": "05-11-2024",
+          "format": "DD-MM-YYYY",
+          "day": "01",
+          "weekday": {
+            "en": "Tuesday"
+          },
+          "month": {
+            "number": 10,
+            "en": "October"
+          },
+          "year": "2024",
+          "designation": {
+            "abbreviated": "AD",
+            "expanded": "Anno Domini"
+          }
+        },
+        "hijri": {
+          "date": "27-03-1446",
+          "format": "DD-MM-YYYY",
+          "day": "27",
+          "weekday": {
+            "en": "Al Thalaata",
+            "ar": "\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621"
+          },
+          "month": {
+            "number": 3,
+            "en": "Rab\u012b\u02bf al-awwal",
+            "ar": "\u0631\u064e\u0628\u064a\u0639 \u0627\u0644\u0623\u0648\u0651\u0644"
+          },
+          "year": "1446",
+          "designation": {
+            "abbreviated": "AH",
+            "expanded": "Anno Hegirae"
+          },
+          "holidays": []
+        }
+      },
+      "meta": {
+        "latitude": 1.234567,
+        "longitude": 2.34567,
+        "timezone": "Asia\/Kolkata",
+        "method": {
+          "id": 0,
+          "name": "Shia Ithna-Ashari, Leva Institute, Qum",
+          "params": {
+            "Fajr": 16,
+            "Isha": 14,
+            "Maghrib": 4,
+            "Midnight": "JAFARI"
+          },
+          "location": {
+            "latitude": 34.6415764,
+            "longitude": 50.8746035
+          }
+        },
+        "latitudeAdjustmentMethod": "ANGLE_BASED",
+        "midnightMode": "STANDARD",
+        "school": "STANDARD",
+        "offset": {
+          "Imsak": 0,
+          "Fajr": 0,
+          "Sunrise": 0,
+          "Dhuhr": 0,
+          "Asr": 0,
+          "Maghrib": 0,
+          "Sunset": 0,
+          "Isha": 0,
+          "Midnight": 0
+        }
+      }
+    },
+
+  ];
+  DateTime now = DateTime.now();
+  // A simple task that runs every second in the background
+  Timer.periodic(const Duration(seconds: 3), (timer) async {
+    await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: 1,
+            channelKey: 'basic_channel',
+            title: 'Notification with Chronometer and Timeout',
+            body: 'This notification will start with a chronometer and dismiss after 20 seconds',
+            // chronometer: Duration.zero, // Chronometer starts to count at 0 seconds
+            // timeoutAfter: Duration(seconds: 20) // Notification dismisses after 20 seconds
+        )
+    );
+    print("Service is running... ${DateTime.now().second}");
+    // You can replace this with any task, like updating a local database or pushing a notification.
+  });
+
+  // Listen for stop signal to stop the background service
+  service.on("stop").listen((event) {
+    service.stopSelf();  // Stops the background service
+    print("Background service stopped!");
+  });
 }
 // This is the background fetch handler that runs when the app is active or in the background.
 void _backgroundFetchHandler(String taskId) async {

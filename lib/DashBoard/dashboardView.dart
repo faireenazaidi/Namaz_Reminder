@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -90,7 +91,8 @@ class DashBoardView extends GetView<DashBoardController> {
                  SizedBox(width: 8,),
                  InkWell(
                    onTap: (){
-                     Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
+                     startBackgroundService();
+                     // Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
 
                    },
                    child:  Container(
@@ -2471,6 +2473,9 @@ class _UserRankListState extends State<UserRankList> {
 
 
 
-
+void startBackgroundService() {
+  final service = FlutterBackgroundService();
+  service.startService();  // Start the background service
+}
 
 
