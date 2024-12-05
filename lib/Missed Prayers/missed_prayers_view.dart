@@ -297,7 +297,6 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                       color: AppColor.packageGray,
                                       borderRadius: BorderRadius.circular(10)
                                   ),
-
                                 ),
                                 const SizedBox(height: 10),
                                 Expanded(
@@ -340,7 +339,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         padding: const EdgeInsets
                                                             .all(8.0),
                                                         child: shouldShowDash
-                                                            ? const CircleAvatar(
+                                                            ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
                                                                 .white70,
@@ -348,8 +347,16 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 radius: 22,
                                                                 backgroundColor: Colors
                                                                     .transparent,
-                                                                child: Text(
-                                                                    '-')))
+                                                                child: Container(
+                                                              height: 3,
+                                                              width: 12,
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors.grey[400],
+                                                                  borderRadius: BorderRadius.circular(10)
+                                                              ),
+                                                            ),
+                                                                // child: Text('-')
+                                                            ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
                                                           radius: 22,
@@ -548,7 +555,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         padding: const EdgeInsets
                                                             .all(8.0),
                                                         child: shouldShowDash
-                                                            ? const CircleAvatar(
+                                                            ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
                                                                 .white70,
@@ -556,13 +563,20 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 radius: 22,
                                                                 backgroundColor: Colors
                                                                     .transparent,
-                                                                child: Text(
-                                                                    '-')))
+                                                                child:  Container(
+                                                                  height: 3,
+                                                                  width: 12,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.grey[400],
+                                                                      borderRadius: BorderRadius.circular(10)
+                                                                  ),
+                                                                )
+                                                                //Text('-')
+                                                            ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
                                                           radius: 22,
-                                                          backgroundColor: Colors
-                                                              .yellowAccent,
+                                                          backgroundColor: AppColor.circleIndicator,
                                                           child: CircleAvatar(
                                                               child: controller
                                                                   .getLeaderboardList
@@ -760,7 +774,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         padding: const EdgeInsets
                                                             .all(8.0),
                                                         child: shouldShowDash
-                                                            ? const CircleAvatar(
+                                                            ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
                                                                 .white70,
@@ -768,13 +782,21 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 radius: 22,
                                                                 backgroundColor: Colors
                                                                     .transparent,
-                                                                child: Text(
-                                                                    '-')))
+                                                              child: Container(
+                                                                height: 3,
+                                                                width: 12,
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors.grey[400],
+                                                                    borderRadius: BorderRadius.circular(10)
+                                                                ),
+                                                              )
+                                                                // child: Text(
+                                                                //     '-')
+                                                                  ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 22,
-                                                          backgroundColor: Colors
-                                                              .yellowAccent,
+                                                          radius: 21,
+                                                          backgroundColor: AppColor.circleIndicator,
                                                           child: CircleAvatar(
                                                               child: controller
                                                                   .getLeaderboardList
@@ -965,7 +987,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                           padding: const EdgeInsets
                                                               .all(8.0),
                                                           child: shouldShowDash
-                                                              ? const CircleAvatar(
+                                                              ?  CircleAvatar(
                                                               radius: 20,
                                                               backgroundColor: Colors
                                                                   .white70,
@@ -977,8 +999,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       radius: 22,
                                                                       backgroundColor: Colors
                                                                           .transparent,
-                                                                      child: Text(
-                                                                          '-'))))
+                                                                      child: Container(
+                                                                        height: 3,
+                                                                        width: 12,
+                                                                        decoration: BoxDecoration(
+                                                                            color: Colors.grey[400],
+                                                                            borderRadius: BorderRadius.circular(10)
+                                                                        ),
+                                                                      )
+                                                                      // child: Text(
+                                                                      //     '-')
+                                                                  )))
                                                               : !isMissedPrayers
                                                               ? CircleAvatar(
                                                             radius: 22,
@@ -1181,7 +1212,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         padding: const EdgeInsets
                                                             .all(8.0),
                                                         child: shouldShowDash
-                                                            ? const CircleAvatar(
+                                                            ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
                                                                 .white70,
@@ -1189,8 +1220,17 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 radius: 22,
                                                                 backgroundColor: Colors
                                                                     .transparent,
-                                                                child: Text(
-                                                                    '-')))
+                                                                child: Container(
+                                                                  height: 3,
+                                                                  width: 12,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.grey[400],
+                                                                      borderRadius: BorderRadius.circular(10)
+                                                                  ),
+                                                                )
+                                                                // child: Text(
+                                                                //     '-')
+                                                            ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
                                                           radius: 22,
@@ -1314,11 +1354,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                   color: Colors
                                                                       .grey,
                                                                   size: 30,)
-                                                                    : const Text(
-                                                                  '-',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black45),)
+                                                                    :
+                                                                const Text('-', style: TextStyle(color: Colors.black45),)
                                                               // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                             ),
                                                           ),
@@ -1454,7 +1491,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             child: Column(
                                                               children: [
                                                                 Container(
-                                                                  margin: EdgeInsets
+                                                                  margin: const EdgeInsets
                                                                       .all(5),
                                                                   padding: const EdgeInsets
                                                                       .all(1),
@@ -1486,7 +1523,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     ],
                                                                   )
                                                                       : Padding(
-                                                                    padding: EdgeInsets
+                                                                    padding: const EdgeInsets
                                                                         .all(
                                                                         8.0),
                                                                     child: Icon(
@@ -1504,7 +1541,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                         .userData
                                                                         .getUserData!
                                                                         .id
-                                                                    ? Text(
+                                                                    ? const Text(
                                                                   'You',
                                                                   style: TextStyle(
                                                                       fontSize: 10),)
@@ -1574,6 +1611,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                             BuildContext context) {
                                                                           return TimePicker(
                                                                             date: date,
+                                                                            prayerNames: record.prayerName,
                                                                             isFromMissed: true,
                                                                             missedPrayerTime: prayerTime,
                                                                             missedCallBack: () =>
@@ -1590,8 +1628,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                   controller
                                                                       .hitPrayerTimeByDate(
                                                                       date,
-                                                                      record
-                                                                          .prayerName,
+                                                                      record.prayerName,
                                                                       context);
                                                                 }
                                                               }
@@ -1692,7 +1729,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                         .split(
                                                                         ' ')[0],
                                                                     style: const TextStyle(
-                                                                        fontSize: 10),)
+                                                                        fontSize: 10),
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                  )
+
                                                                 ],
                                                               ),
                                                             ),
@@ -1718,7 +1758,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                         )
                       ])
                   );
-                } else {
+                }
+                else {
                   return SliverToBoxAdapter(child: SizedBox.shrink());
                 }
 

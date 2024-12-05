@@ -11,10 +11,11 @@ import 'dashboardController.dart';
 
 class TimePicker extends StatefulWidget {
   final String? date;
+  final String? prayerNames;
   final bool? isFromMissed;
   final DateTime? missedPrayerTime;
   final Future<dynamic> Function()? missedCallBack;
-  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack, this.missedPrayerTime});
+  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack, this.missedPrayerTime, this.prayerNames});
 
   @override
   State<TimePicker> createState() => _TimePickerState();
@@ -161,8 +162,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         itemCount: 5,
                         minValue: 0,
                         maxValue: 59,
-                        // itemWidth: screenWidth * 0.15,
-                        // itemHeight: screenHeight * 0.12,
                         value: dashBoardController.minute,
                         zeroPad: true,
                         infiniteLoop: true,
@@ -170,7 +169,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           setState(() {
                             dashBoardController.minute = value;
                             print("sdss"+dashBoardController.minute.toString());
-
 
                           });
                         },
@@ -266,11 +264,10 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     print("isAm ${dashBoardController.isAm}");
                     Lottie.asset("assets/Crown.lottie",
                         decoder: customDecoder, height: 60);
-                    dashBoardController.submitPrayer(valDate: widget.date,isFromMissed: widget.isFromMissed,missedCallBack: widget.missedCallBack);
+                    dashBoardController.submitPrayer(valDate: widget.date,isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,missedCallBack: widget.missedCallBack);
                   },
                 ),
                 // Submit Button
-
               ],
             ),
           ),

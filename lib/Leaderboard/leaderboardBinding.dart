@@ -4,7 +4,6 @@ import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
 class LeaderBoardBinding extends Bindings{
   @override
   void dependencies() {
-    // Get.put(LeaderBoardController());
     Get.lazyPut<LeaderBoardController>(() => LeaderBoardController());
   }
 

@@ -162,18 +162,6 @@ class PrimaryTextField extends StatelessWidget {
               ),
             ),
           ),
-      // validator: (value) {
-      //   if (validator != null) {
-      //     final validationResult = validator!(value);
-      //     if (validationResult != null) {
-      //       return validationResult;
-      //     }
-      //   }
-      //   if (minLength != null && (value == null || value.length < minLength!)) {
-      //     return 'Minimum length is $minLength characters';
-      //   }
-      //   return null;
-      // },
       validator: validator,
     );
 

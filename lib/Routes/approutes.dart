@@ -9,28 +9,25 @@ import 'package:namaz_reminders/Leaderboard/leaderboardBinding.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageBinding.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
-import 'package:namaz_reminders/Missed%20Prayers/missed_orayers_binding.dart';
 import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
 import 'package:namaz_reminders/Notification/notificationBindings.dart';
 import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendBinding.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendView.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/InviteFriends/InviteFriendsBindings.dart';
+import 'package:namaz_reminders/PeerCircle/AddFriends/InviteFriends/InviteFriendsView.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
-import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Setting/SettingBinding.dart';
 import 'package:namaz_reminders/SplashScreen/splashBinding.dart';
-import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import '../Login/loginBinding.dart';
 import '../Login/loginView.dart';
 import '../PeerCircle/peerBinding.dart';
 import '../Profile/profileBinding.dart';
 import '../Setting/SettingView.dart';
-import '../SplashScreen/splashController.dart';
 import '../SplashScreen/splashView.dart';
 import '../UpcomingPrayers/upcomingBindings.dart';
 import '../UpcomingPrayers/upcomingView.dart';
-import 'package:namaz_reminders/SplashScreen/splashController.dart';
 
 
 class AppRoutes {
@@ -48,6 +45,7 @@ class AppRoutes {
   static const String settingRoute = '/setting';
   static const String feedback = '/feed';
   static const String faqsRoute = '/faqs';
+  static const String inviteRoute = '/invite';
 
 
 
@@ -124,6 +122,11 @@ class AppRoutes {
       name: faqsRoute,
       page: () => FAQSView(),
       binding: FAQsBindings(),
+    ),
+    GetPage(
+      name: inviteRoute,
+      page: () => InviteView(),
+      binding: InviteBinding(),
     ),
   ];
 }

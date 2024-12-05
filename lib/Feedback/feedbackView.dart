@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Feedback/feedbackController.dart';
-import '../DashBoard/dashboardView.dart';
-import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
@@ -28,12 +25,6 @@ class FeedbackView extends GetView<FeedbackController>{
        leading: InkWell(
          onTap: () {
            Get.back();
-           // Get.to(
-           //       () => DashBoardView(),
-           //   transition: Transition.leftToRight,
-           //   duration: Duration(milliseconds: 500),
-           //   curve: Curves.ease,
-           // );
          },
          child: Icon(Icons.arrow_back_ios_new,size: 20,),
        ),

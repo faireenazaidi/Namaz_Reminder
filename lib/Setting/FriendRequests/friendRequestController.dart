@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../AppManager/toast.dart';
 import '../../DataModels/LoginResponse.dart';
 import '../../Services/ApiService/api_service.dart';
@@ -15,7 +14,6 @@ class RequestController extends GetxController {
   void onInit() async{
     await registerUser(isFirst: true);
     selectedIndex.value = userData.getUserData!.frAllow! ==2?1:userData.getUserData!.frAllow!;
-    // selectItem(userData.getUserData!.frAllow!);
     super.onInit();
   }
 

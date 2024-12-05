@@ -1,10 +1,6 @@
-import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/ApiService/api_service.dart';
-
-import '../../AppManager/toast.dart';
 import '../../DataModels/LoginResponse.dart';
 import '../../Services/user_data.dart';
 
@@ -20,7 +16,6 @@ class NotificationSettingController extends GetxController {
     quietMode.value = userData.getUserData!.quitMode!;
     friendRequests.value = userData.getUserData!.friendRequest!;
     friendNamazPrayed.value = userData.getUserData!.friendPrayed!;
-    // quietMode.value = userData.getUserData!.quitMode!;
     print("############ ${quietMode.value}");
     super.onInit();
   }
@@ -70,8 +65,6 @@ class NotificationSettingController extends GetxController {
       print("request $apiService");
       final data = request;
       print("registration data $data");
-      // Map<String,dynamic> temp = data['user'];
-      // temp['quitMode'] = quietMode.value;
         final userModel = UserModel.fromJson(data['user']);
         await userData.addUserData(userModel);
       print("userData ${userData.getUserData?.toJson()}");

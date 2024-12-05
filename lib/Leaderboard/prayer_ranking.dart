@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import '../DashBoard/dashboardController.dart';
@@ -60,14 +59,7 @@ class PrayerRanking extends StatelessWidget {
           SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // children: [
-            //   buildPrayerCircle('F', AppColor.packageGray,),
-            //   buildPrayerCircle('Z', AppColor.circleIndicator),
-            //   buildPrayerCircle('A', AppColor.circleIndicator),
-            //   buildPrayerCircle('M', AppColor.circleIndicator),
-            //   buildPrayerCircle('I', AppColor.circleIndicator),
-            //   Text("Overall",style: MyTextTheme.mediumBCb.copyWith(color: Colors.black,)),
-            //  ],
+
             children: [
               buildPrayerCircle(
                 'F',
@@ -137,19 +129,20 @@ class PrayerRanking extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
+                            height : 50,
                             padding: const EdgeInsets.all(1),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.yellow,),
+                              border: Border.all(color: AppColor.circleIndicator,),
                             ),
                             child:ranked[index].picture!=null? CircleAvatar(
-                              radius: 22, // Radius of the circular image
+                              radius: 25, // Radius of the circular image
                               backgroundImage: NetworkImage(
                                 "http://182.156.200.177:8011${ranked[index].picture}",
                               ),
-                            ):const Padding(
+                            ): Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                              child: Icon(Icons.person,color: AppColor.circleIndicator,size: 30,),
                             ),
                           ),
                           id==ranked[index].id.toString()?const Text('You',style: TextStyle(fontSize: 12),):Text(ranked[index].name.split(' ')[0],style: const TextStyle(
@@ -188,10 +181,20 @@ class PrayerRanking extends StatelessWidget {
 
   Widget buildUserList(List<Record>? users) {
     if (users == null || users.isEmpty) {
-      return const Expanded(child: CircleAvatar(
+      return  Expanded(
+          child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 24,
-          child: Text('-')));
+          child: Container(
+            height: 3,
+            width: 12,
+            decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(10)
+            ),
+          )
+          //Text('-')
+          ));
     }
     return Expanded(
       child: Column(
@@ -229,25 +232,27 @@ class PrayerRanking extends StatelessWidget {
                 id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
               ],
             ):
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                   backgroundColor: Colors.white60,
                   radius: 24,
-                  child: Text('-')),
+                  child: Container(
+                 height: 3,
+          width: 12,
+          decoration: BoxDecoration(
+            color: Colors.grey[400],
+           borderRadius: BorderRadius.circular(10)
+          ),
+          )
+                  //Text('-')),
             ),
-            // CircleAvatar(
-            //   radius: 24,
-            //   backgroundImage: NetworkImage(getUserAvatarUrl(user.user.id)), // Use user id for avatar URL
-            // ),
-          );
+            ));
         }).toList(),
       ),
 
     );
   }
-
   Map<String, List<Record>> groupByPrayer(List<Record> records) {
     Map<String, List<Record>> prayerGroups = {
       'Fajr': [],
@@ -267,7 +272,6 @@ class PrayerRanking extends StatelessWidget {
         }
       }
     }
-
     // Sort each prayer group by score descending
     prayerGroups.forEach((prayer, users) {
       users.sort((a, b) => (double.parse(b.score)).compareTo(double.parse(a.score)));

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/PreNamazAlert/NamzAlertView.dart';
-import 'package:namaz_reminders/UpcomingPrayers/upcomingView.dart';
 import '../../AppManager/toast.dart';
-import '../../Routes/approutes.dart';
-import '../../Setting/SettingView.dart';
 import '../../Widget/appColor.dart';
 import '../../Widget/text_theme.dart';
-import 'NotificationSound/notificationSound.dart';
 import 'notificationSettingController.dart';
 
 
@@ -43,28 +39,6 @@ class NotificationSetting extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Notification Sound//
-            // ListTile(
-            //   title: Text('Notification Sound',style: MyTextTheme.medium2,),
-            //   subtitle: Text('Default (Classic)',style: MyTextTheme.smallGCN,),
-            //   trailing:Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
-            //   onTap: () {
-            //     Get.to(() => NotificationSound());
-            //   },
-            // ),
-            // SizedBox(height: 5,),
-            // //Upcoming Prayers//
-            // ListTile(
-            //   title: Text('Upcoming Prayers',style: MyTextTheme.medium2,),
-            //   subtitle: Text('Default (Call to Prayer)',style: MyTextTheme.smallGCN,),
-            //   trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
-            //   onTap: () {
-            //     Get.to (()=> Upcoming());
-            //
-            //   },
-            // ),
-            // SizedBox(height: 5,),
-            //PAUse//
             Obx(() => SwitchListTile(
               activeTrackColor: AppColor.circleIndicator,
               title: Text('Pause all',style: MyTextTheme.medium2,),

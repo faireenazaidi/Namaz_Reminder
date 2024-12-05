@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:namaz_reminders/Widget/appColor.dart';
 
 
