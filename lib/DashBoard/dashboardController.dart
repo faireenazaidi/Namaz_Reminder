@@ -198,6 +198,7 @@ class DashBoardController extends GetxController {
     leaderboard();
     // scrollToHighlightedPrayer();
     updateIslamicDateBasedOnOption(userData.getUserData!.hijriAdj!);
+    weeklyApi();
   }
 
   String convertTo12HourFormat(String time24) {
@@ -533,7 +534,8 @@ class DashBoardController extends GetxController {
       print("prayer name2 ${prayer['prayer_name']}");
       if (prayer['prayer_name'] == prayerName) {
         print("isPrayed ${prayer['prayer_name']}");
-        return prayer['prayed'];
+        print("lllllllllll${prayer['prayed']}");
+        return prayer['prayed']=='1'?true:false;
       }
     }
     print("out of loop");
@@ -1074,6 +1076,40 @@ List isPrayedList = [];
     markPrayerAsPrayed(prayerName);
     if(prayerName=='Dhuhr'||prayerName=='Maghrib') {
       moveToNextPrayer();
+    }
+  }
+
+  List weeklyRanked = [];
+  weeklyApi() async {
+    // String formatDate = getFormattedDate();
+
+    String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate.value);
+
+    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+
+    http.StreamedResponse response = await request.send();
+    print("URL ${request.url.toString()}");
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString());
+      var data = jsonDecode(await response.stream.bytesToString());
+      // print("weekly baqar ${data['ranked_friends']}");
+      // if(data['ranked_friends'].isNotEmpty){
+      //   // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
+      // }
+      // height.value= sizedBoxHeight(data['ranked_friends']);
+      weeklyRanked = data['ranked_friends'];
+      print("decodeData $data");
+      // updateLeaderboardList = decodeData;
+      // List recordData= data['records'];
+      // recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
+      // print("recordList $recordsList");
+      // weeklyMissedPrayer.value = groupByDate(recordsList);
+      update();
+      print("WeeklyApi data check:$weeklyRanked");
+    }
+    else {
+      print(response.reasonPhrase);
     }
   }
 

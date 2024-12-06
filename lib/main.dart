@@ -43,7 +43,7 @@ void main() async {
   // Get.put(DashBoardController());
   // Get.put(LoginController());
   // Get.put(CustomDrawerController());
-  await initializeService();
+  // await initializeService();
   runApp(MyApp());
   // BackgroundFetch.configure(
   //   BackgroundFetchConfig(

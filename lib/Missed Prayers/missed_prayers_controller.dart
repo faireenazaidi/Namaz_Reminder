@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
+import '../Leaderboard/LeaderBoardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 
 class MissedPrayersController extends GetxController {

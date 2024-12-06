@@ -32,6 +32,20 @@ class LeaderBoardController extends GetxController{
     weeklyApi(getFormattedDate(daysBefore: 1));
     super.onReady();
   }
+  @override
+  void dispose() {
+    Get.delete<LeaderBoardController>();
+    super.dispose();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    Get.delete<LeaderBoardController>();
+    Get.delete<DateController>();
+    super.onClose();
+  }
+
   RxString islamicDate = ''.obs;
   String getFormattedDate({int? daysBefore}) {
     // Get the current date and format it
@@ -237,4 +251,22 @@ String formatDate = getFormattedDate();
       );
     }
   }
+
+
+  void compareDates(DateTime selectedDate) {
+    // Get current date
+    DateTime currentDate = DateTime.now();
+
+    // Strip the time part from both dates
+    selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    currentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
+
+    // Compare the dates
+    if (selectedDate.isAtSameMomentAs(currentDate)) {
+      print("The selected date is the same as the current date.");
+    } else {
+      print("The selected date is not equal to the current date.");
+    }
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:namaz_reminders/Leaderboard/leaderboardController.dart';
+
+import 'LeaderBoardController.dart';
 
 class LeaderBoardBinding extends Bindings{
   @override
