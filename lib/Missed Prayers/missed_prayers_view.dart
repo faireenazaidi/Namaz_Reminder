@@ -15,7 +15,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
   @override
   Widget build(BuildContext context) {
     // LeaderBoardController controller = Get.put(LeaderBoardController());
-    final DateController dateController = Get.put(DateController());
+    // final DateController dateController = Get.put(DateController());
 
     // TODO: implement build
     return Scaffold(
@@ -241,11 +241,14 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               ),
                             ),
                             const SizedBox(height: 10),
-                            const Center(
-                              child: Text(
-                                "TODAY'S TIMELINE",
-                                style: TextStyle(color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
+                             Center(
+                              child: Obx(() {
+                                  return Text(
+                                    controller.getSelectedTab == 'Daily'?"TODAY'S TIMELINE":"Weekly TIMELINE",
+                                    style: const TextStyle(color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  );
+                                }
                               ),
                             ),
                             const SizedBox(height: 15),
@@ -253,28 +256,28 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  child: Text("F"),
                                   backgroundColor: AppColor.circleIndicator,
+                                  child: const Text("F"),
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 CircleAvatar(
-                                  child: Text("Z"),
                                   backgroundColor: AppColor.circleIndicator,
+                                  child: const Text("D"),
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 CircleAvatar(
-                                  child: Text("A"),
                                   backgroundColor: AppColor.circleIndicator,
+                                  child: const Text("A"),
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 CircleAvatar(
-                                  child: Text("M"),
                                   backgroundColor: AppColor.circleIndicator,
+                                  child: const Text("M"),
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 CircleAvatar(
-                                  child: Text("I"),
                                   backgroundColor: AppColor.circleIndicator,
+                                  child: const Text("I"),
                                 ),
                               ],
                             ),
@@ -1923,6 +1926,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                   // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
                                                                   print(
                                                                       "prayerTime $prayerTime");
+                                                                  String startTime = DateFormat("hh:mm a").format(prayerTime!);
+
+                                                                  print(startTime);
                                                                   // Hide loading only if the context is still mounted
                                                                   if (context
                                                                       .mounted) {
@@ -1941,6 +1947,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                             prayerNames: record.prayerName,
                                                                             isFromMissed: true,
                                                                             missedPrayerTime: prayerTime,
+                                                                            startTime: startTime,
                                                                             missedCallBack: () =>
                                                                                 controller
                                                                                     .weeklyApi(

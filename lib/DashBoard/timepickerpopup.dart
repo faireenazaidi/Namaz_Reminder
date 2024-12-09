@@ -12,10 +12,12 @@ import 'dashboardController.dart';
 class TimePicker extends StatefulWidget {
   final String? date;
   final String? prayerNames;
+  final String? startTime;
+  final String? endTime;
   final bool? isFromMissed;
   final DateTime? missedPrayerTime;
   final Future<dynamic> Function()? missedCallBack;
-  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack, this.missedPrayerTime, this.prayerNames});
+  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack, this.missedPrayerTime, this.prayerNames, this.startTime, this.endTime});
 
   @override
   State<TimePicker> createState() => _TimePickerState();

@@ -5,13 +5,16 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
+import 'package:namaz_reminders/prayerTimings.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
+
 
 
 @pragma('vm:entry-point')
@@ -33,6 +36,12 @@ void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
   // Finish the task after completing your work
   BackgroundFetch.finish(taskId);
 }
+
+
+void startBackgroundService() {
+  final service = FlutterBackgroundService();
+  service.startService();  // Start the background service
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -43,7 +52,7 @@ void main() async {
   // Get.put(DashBoardController());
   // Get.put(LoginController());
   // Get.put(CustomDrawerController());
-  // await initializeService();
+  await initializeService();
   runApp(MyApp());
   // BackgroundFetch.configure(
   //   BackgroundFetchConfig(
@@ -96,6 +105,24 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
+  const MethodChannel _channel = MethodChannel('com.criteriontech.prayeroclock/update_widget');
+  Future<void> _updateWidget(String prayerName, String timeLeft,int progress) async {
+    try {
+      await _channel.invokeMethod('updatePrayerWidget', {
+        'prayerName': prayerName,
+        'time': timeLeft,
+        'progress': progress,
+      });
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Widget updated successfully!')),
+      // );
+    } catch (e) {
+      debugPrint("Failed to update widget: $e");
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Failed to update widget!')),
+      // );
+    }
+  }
   // This is where the background task will run
   print("Background service started!");
   List listData = [
@@ -117,7 +144,7 @@ void onStart(ServiceInstance service) async {
         "readable": "01 Oct 2024",
         "timestamp": "1727753461",
         "gregorian": {
-          "date": "05-11-2024",
+          "date": "09-12-2024",
           "format": "DD-MM-YYYY",
           "day": "01",
           "weekday": {
@@ -190,22 +217,66 @@ void onStart(ServiceInstance service) async {
     },
 
   ];
+  // PrayerTimings timings = PrayerTimings(
+  //   fajr: "04:51 (IST)",
+  //   sunrise: "05:59 (IST)",
+  //   dhuhr: "12:01 (IST)",
+  //   asr: "12:30 (IST)",
+  //   sunset: "18:30 (IST)",
+  //   maghrib: "17:15 (IST)",
+  //   isha: "21:00 (IST)",
+  //   imsak: "04:41 (IST)",
+  //   midnight: "23:56 (IST)",
+  //   firstthird: "21:55 (IST)",
+  //   lastthird: "01:57 (IST)",
+  // );
+
+  Timer.periodic(Duration(seconds: 3), (t){
+    DateTime currentTime = DateTime.now();
+    print("t ${t.tick}");
+
+
+    // Calculate the remaining time for the current prayer
+    try {
+      // Get today's timings from the listData based on today's Gregorian date
+      Map<String, dynamic> todayTimings = PrayerDurationCalculator.getTimingsForToday(listData);
+      // Calculate the remaining time and percentage for the current prayer
+      // Get the current prayer based on the time
+      String currentPrayer = PrayerDurationCalculator.getCurrentPrayer(todayTimings, currentTime);
+      Map<String, dynamic> prayerInfo = PrayerDurationCalculator.calculatePrayerTimeInfo(todayTimings, currentPrayer, currentTime);
+
+      print("Time left for $currentPrayer prayer: ${prayerInfo['remainingTime'].inHours} hours and ${prayerInfo['remainingTime'].inMinutes % 60} minutes");
+      print("Percentage of time passed: ${prayerInfo['percentagePassed']}%");
+      print("Percentage of time remaining: ${prayerInfo['percentageRemaining']}%");
+      _updateWidget('Zuhr Prayer', prayerInfo['remainingTime'].toString(),prayerInfo['percentageRemaining']);
+    } catch (e) {
+      print(e);
+    }
+    if (DateTime.now().second >= 58) {
+      // Get the current prayer based on the time
+
+
+      // t.cancel();
+      print('Timer cancelled.');
+    }
+  });
+  print("Service is runnings... ${DateTime.now().second}");
   DateTime now = DateTime.now();
   // A simple task that runs every second in the background
-  Timer.periodic(const Duration(seconds: 3), (timer) async {
-    await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: 1,
-            channelKey: 'basic_channel',
-            title: 'Notification with Chronometer and Timeout',
-            body: 'This notification will start with a chronometer and dismiss after 20 seconds',
-            // chronometer: Duration.zero, // Chronometer starts to count at 0 seconds
-            // timeoutAfter: Duration(seconds: 20) // Notification dismisses after 20 seconds
-        )
-    );
-    print("Service is running... ${DateTime.now().second}");
-    // You can replace this with any task, like updating a local database or pushing a notification.
-  });
+  // Timer.periodic(const Duration(seconds: 3), (timer) async {
+  //   await AwesomeNotifications().createNotification(
+  //       content: NotificationContent(
+  //           id: 1,
+  //           channelKey: 'basic_channel',
+  //           title: 'Notification with Chronometer and Timeout',
+  //           body: 'This notification will start with a chronometer and dismiss after 20 seconds',
+  //           // chronometer: Duration.zero, // Chronometer starts to count at 0 seconds
+  //           // timeoutAfter: Duration(seconds: 20) // Notification dismisses after 20 seconds
+  //       )
+  //   );
+  //   print("Service is running... ${DateTime.now().second}");
+  //   // You can replace this with any task, like updating a local database or pushing a notification.
+  // });
 
   // Listen for stop signal to stop the background service
   service.on("stop").listen((event) {
