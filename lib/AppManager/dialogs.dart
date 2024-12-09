@@ -1,9 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:namaz_reminders/Widget/text_theme.dart';
+import '../DashBoard/dashboardController.dart';
+import '../LocationSelectionPage/locationPageView.dart';
 import '../Widget/appColor.dart';
-
-class Dialogs{
+import '../Widget/myButton.dart';
+class Dialogs {
   static void actionBottomSheet({String? title,required String subTitle,required Function okPressEvent,
     Function? cancelPressEvent,Color? okButtonColor,Color? cancelButtonColor,
     String? cancelButtonName, String? okButtonName}) {
@@ -81,7 +85,8 @@ class Dialogs{
         )
     );
   }
-  static Future<void> showConfirmationDialog({
+
+  static Future<void> showConfirmationDialog( {
     required BuildContext context,
     required Future<bool> Function() onConfirmed,
     VoidCallback? onCancelled,
@@ -98,7 +103,7 @@ class Dialogs{
       context: context,
       barrierDismissible: true, // Prevent dismiss on touch outside while processing
       builder: (BuildContext context) {
-        return _ConfirmationDialog(
+        return ConfirmationDialog(
           onConfirmed: onConfirmed,
           onCancelled: onCancelled,
           initialMessage: initialMessage,
@@ -160,8 +165,7 @@ class Dialogs{
   }
 }
 
-
-class _ConfirmationDialog extends StatefulWidget {
+class ConfirmationDialog extends StatefulWidget {
   final Future<bool> Function() onConfirmed;
   final VoidCallback? onCancelled;
   final String initialMessage;
@@ -173,7 +177,7 @@ class _ConfirmationDialog extends StatefulWidget {
   final bool showCancelButton;
   final Color? confirmButtonColor;
 
-  _ConfirmationDialog({
+  ConfirmationDialog({
     required this.onConfirmed,
     this.onCancelled,
     this.initialMessage = "ARE YOU SURE?",
@@ -187,12 +191,16 @@ class _ConfirmationDialog extends StatefulWidget {
   });
 
   @override
-  State<_ConfirmationDialog> createState() => _ConfirmationDialogState();
+  State<ConfirmationDialog> createState() => ConfirmationDialogState();
 }
 
-class _ConfirmationDialogState extends State<_ConfirmationDialog> {
+class ConfirmationDialogState extends State<ConfirmationDialog> {
+  final DashBoardController dashBoardController = Get.put(DashBoardController());
+
   String message = "";
   bool isProcessing = false;
+  RxString location = ''.obs;
+  TextEditingController locationController = TextEditingController();
 
   @override
   void initState() {
@@ -200,7 +208,7 @@ class _ConfirmationDialogState extends State<_ConfirmationDialog> {
     message = widget.initialMessage;
   }
 
-  void _startProcessing() async {
+  void startProcessing() async {
     setState(() {
       isProcessing = true;
       message =widget.loadingMessage?? "Processing...";
@@ -221,85 +229,181 @@ class _ConfirmationDialogState extends State<_ConfirmationDialog> {
       Navigator.of(context).pop();
     }
   }
-
+  void updateLocation(String newLocation){
+    location.value = newLocation;
+  }
+  void saveLocation() {
+    String newLocation = locationController.text.trim();
+    if (newLocation.isNotEmpty) {
+      updateLocation(newLocation);
+      print("Location updated to: $newLocation");
+    } else {
+      print("Please enter a valid location.");
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.grey, // Dark background
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Container(
-    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        opacity: 9,
-                        image: AssetImage("assets/net.png"),
-                        fit: BoxFit.cover,
-                      ),
-                      color: AppColor.gray,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset(
-              "assets/container.png",
-              width: 40,
-              height: 50,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              message,
-              style: const TextStyle(
-                color: Colors.orange,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (widget.showCancelButton && !isProcessing)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (widget.onCancelled != null) {
-                        widget.onCancelled!();
-                      }
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      widget.cancelButtonText,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                    widget.confirmButtonColor ?? Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: isProcessing ? null : _startProcessing,
-                  child: Text(
-                    widget.confirmButtonText,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    RxDouble containerHeight = 380.0.obs;
+    print(containerHeight);
+     return  GestureDetector(
+       onTap: () {
+         Navigator.of(context).pop();
+       },
+       child: Scaffold(
+         backgroundColor: Colors.transparent,
+         body: Obx((){
+           return   Column(
+             children: [
+               Flexible(
+                 child: Align(
+                   alignment: Alignment.bottomCenter,
+                   child: AnimatedContainer(
+                     duration: const Duration(milliseconds: 1000),
+                     curve: Curves.easeInOut,
+                     height: containerHeight.value,
+                     width: MediaQuery.of(context).size.width,
+                     child: GestureDetector(
+                       onTap: (){},
+                       child: Container(
+                         decoration: BoxDecoration(
+                           image: const DecorationImage(
+                             opacity: 9,
+                             image: AssetImage("assets/net.png"),
+                             fit: BoxFit.cover,
+                           ),
+                           color: AppColor.gray,
+                           borderRadius: const BorderRadius.only(
+                             topLeft: Radius.circular(30),
+                             topRight: Radius.circular(30),
+                           ),
+                         ),
+                         padding: const EdgeInsets.all(20.0),
+                         child: Column(
+                           children: <Widget>[
+                             SizedBox(height: 10,),
+                             Lottie.asset("assets/location.lottie",
+                                 decoder: customDecoder,fit: BoxFit.contain,
+                             height: 100,
+                             width: 100),
+                             const SizedBox(height: 5),
+                             Text(
+                               message,style: MyTextTheme.m,
+                               textAlign: TextAlign.center,
+                             ),
+                             SizedBox(height: 20,),
+                             TextField(
+                               controller: locationController,
+                               cursorColor: AppColor.circleIndicator,
+                               decoration: InputDecoration(
+                                 hintText: "Enter an address",
+                                 suffixIcon: Icon(Icons.search,size: 30,),
+                                 hintStyle: MyTextTheme.mediumCustomGCN,
+                                 fillColor: Colors.white.withOpacity(0.1),
+                                 filled: true,
+                                 border: OutlineInputBorder(
+                                   borderRadius: BorderRadius.circular(10),
+                                   borderSide: const BorderSide(
+                                     color: Colors.white,
+                                   ),
+                                 ),
+                                 enabledBorder: OutlineInputBorder(
+                                   borderRadius: BorderRadius.circular(10),
+                                   borderSide: const BorderSide(
+                                     color: Colors.white,
+                                     width: 1,
+                                   ),
+                                 ),
+                                 focusedBorder: OutlineInputBorder(
+                                   borderRadius: BorderRadius.circular(10),
+                                   borderSide: const BorderSide(
+                                     color: Colors.white,
+                                     width: 1,
+                                   ),
+                                 ),
+                               ),
+                               style: const TextStyle(
+                                 color: Colors.white,
+                               ),
+                             ),
+                             SizedBox(height: 20,),
+                             Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 if (widget.showCancelButton && !isProcessing)
+                                   ElevatedButton(
+                                     style: ElevatedButton.styleFrom(
+                                       backgroundColor: Colors.orange,
+                                       shape: RoundedRectangleBorder(
+                                         borderRadius: BorderRadius.circular(10),
+                                       ),
+                                     ),
+                                     onPressed: () {
+                                       if (widget.onCancelled != null) {
+                                         widget.onCancelled!();
+                                       }
+                                       Navigator.of(context).pop();
+                                     },
+                                     child: Text(
+                                       widget.cancelButtonText,
+                                       style: const TextStyle(color: Colors.white),
+                                     ),
+                                   ),
+                                 SizedBox(height: 40,),
+                                 ElevatedButton(
+                                   style: ElevatedButton.styleFrom(
+                                       backgroundColor:
+                                       widget.confirmButtonColor ?? Colors.grey,
+                                       shape: RoundedRectangleBorder(
+                                         borderRadius: BorderRadius.circular(9),
+                                       ),
+                                       fixedSize: Size(320, 15),
+                                       side: BorderSide(
+                                           color: Colors.white,
+                                           width: 0
+                                       )
+                                   ),
+                                   onPressed: isProcessing ? null : startProcessing,
+                                   child:  Row(
+                                     children: [
+                                       Icon(Icons.location_on_sharp,color: Colors.grey,),
+                                       Padding(
+                                         padding: const EdgeInsets.all(8.0),
+                                         child: Text(
+                                           widget.confirmButtonText,
+                                           style: const TextStyle(color: Colors.white),
+                                         ),
+                                       ),
+                                       SizedBox(width: 50,),
+
+                                       Icon(Icons.arrow_forward_ios,color: Colors.white,size: 20,)
+                                     ],),
+                                 ),
+
+                               ],),
+                         MyButton(
+                         height: 50,
+                         borderRadius: 10,
+                         title: "Save",
+                         color: AppColor.circleIndicator,
+                         onPressed: () {
+                           saveLocation();
+                           Get.back();
+
+                         },
+                       ),
+                             ],
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
+             ],
+           );
+         },
+              )
+
+       ),
+     );
+   }
 }

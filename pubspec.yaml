@@ -75,6 +75,7 @@ dependencies:
   permission_handler: ^10.2.0
   contacts_service: ^0.6.3
   carousel_slider: ^5.0.0
+  share_plus: ^10.1.2
 
 
 dev_dependencies:

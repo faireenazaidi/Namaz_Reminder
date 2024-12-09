@@ -55,26 +55,26 @@ class Upcoming extends GetView<UpcomingController> {
             children: [
               SvgPicture.asset("assets/loc.svg"),
               const SizedBox(width: 4),
-              InkWell(
-                onTap: () {
-                  Dialogs.showConfirmationDialog(
-                    context: context,
-                    onConfirmed: () async {
-                      return dashboardController.changeLocation();
-                    },
-                    showCancelButton: false,
-                    initialMessage: 'Change Location',
-                    confirmButtonText: 'Get Current Location',
-                    confirmButtonColor: AppColor.buttonColor,
-                    successMessage: dashboardController.address,
-                    loadingMessage: 'Getting Current Location...',
-                  );
-                },
-                child: Text(
-                  dashboardController.address,
-                  style: MyTextTheme.greyNormal,
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     Dialogs.showConfirmationDialog(
+              //       context: context,
+              //       onConfirmed: () async {
+              //         return dashboardController.changeLocation();
+              //       },
+              //       showCancelButton: false,
+              //       initialMessage: 'Change Location',
+              //       confirmButtonText: 'Get Current Location',
+              //       confirmButtonColor: AppColor.buttonColor,
+              //       successMessage: dashboardController.address,
+              //       loadingMessage: 'Getting Current Location...',
+              //     );
+              //   },
+              //   child: Text(
+              //     dashboardController.address,
+              //     style: MyTextTheme.greyNormal,
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(

@@ -408,6 +408,11 @@ class MyTextTheme {
       fontSize: 12,
       fontWeight: FontWeight.w600
   );
+  static TextStyle m = GoogleFonts.roboto(
+      color: AppColor.circleIndicator,
+      fontSize: 16,
+      fontWeight: FontWeight.normal
+  );
 
 }
 
