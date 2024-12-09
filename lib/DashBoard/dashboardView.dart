@@ -27,7 +27,7 @@ class DashBoardView extends GetView<DashBoardController> {
   @override
   Widget build(BuildContext context) {
     final MyRankController myRankController = Get.put(MyRankController());
-    final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
+    // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
     Future<LottieComposition?> customDecoder(List<int> bytes) {
       return LottieComposition.decodeZip(bytes, filePicker: (files) {
         return files.firstWhereOrNull(
@@ -172,7 +172,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                         children: [
                                           Center(
                                             child: MyRank(
-                                              rankedFriends: leaderBoardController.weeklyRanked,
+                                              rankedFriends: controller.weeklyRanked,
                                               textSize: 8,
                                             ),
                                           ),

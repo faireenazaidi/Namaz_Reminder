@@ -17,36 +17,46 @@ class PrayerRanking extends StatelessWidget {
   Widget build(BuildContext context) {
     final DashBoardController dashBoardController = Get.put(DashBoardController());
 
+    DateTime fajrStartTime = DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Fajr']?['start'] ?? '');
     DateTime fajrEndTime = DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Fajr']?['end'] ?? '');
-    String currentTimeStr = DateFormat("hh:mm a").format(DateTime.now());
-    DateTime currentTime = DateFormat("hh:mm a").parse(currentTimeStr);
+    String currentTimeStr = DateFormat("HH:mm").format(DateTime.now());
+    // print('currentTimeStr: $currentTimeStr');
+    DateTime currentTime = DateFormat("HH:mm").parse(currentTimeStr);
 
     // FZ Extracting Dhuhr end time
     String DhuhrEndTimeStr = dashBoardController.prayerDuration['Dhuhr']?['end'] ?? '';
-    DateTime DhuhrEndTime = DateFormat("HH:mm").parse(DhuhrEndTimeStr);
+    DateTime dhuhrEndTime = DateFormat("HH:mm").parse(DhuhrEndTimeStr);
+    DateTime dhuhrStartTime = DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Dhuhr']?['start'] ?? '');
+    // print('dhuhrStartTime end time: $dhuhrEndTime');
+    // print('dhuhrStartTime end time: $currentTime');
 
     // FZ Extracting Asr end time
-    String AsrEndTimeStr = dashBoardController.prayerDuration['Asr']?['end']??'';
-    DateTime AsrEndTime =  DateFormat("HH:mm").parse(DhuhrEndTimeStr);
+    String asrEndTimeStr = dashBoardController.prayerDuration['Asr']?['end']??'';
+    DateTime asrEndTime =  DateFormat("HH:mm").parse(asrEndTimeStr);
+    DateTime asrStartTime =  DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Asr']?['start']??'');
 
     //Extracting Maghrib end time
     String MaghribEndTimeStr = dashBoardController.prayerDuration['Maghrib']?['end']??'';
-    DateTime MaghribEndTime =  DateFormat("HH:mm").parse(MaghribEndTimeStr);
+    DateTime maghribEndTime =  DateFormat("HH:mm").parse(MaghribEndTimeStr);
+    DateTime maghribStartTime =  DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Maghrib']?['start']??'');
 
     //Extracting Isha end time
     String IshaEndTimeStr = dashBoardController.prayerDuration['Isha']?['end']??'';
-    DateTime IshaEndTime =  DateFormat("HH:mm").parse(IshaEndTimeStr);
+    DateTime ishaEndTime =  DateFormat("HH:mm").parse(IshaEndTimeStr);
+    DateTime ishaStartTime =  DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Isha']?['start']??'');
 
 
 
 
 
 
-    print('Fajr end time: $fajrEndTime');
-
-    print(currentTime);
-    print(dashBoardController.currentPrayerStartTime.value);
-    print(dashBoardController.nextPrayer.value);
+    // print('Fajr end time: $fajrEndTime');
+    //
+    // print(currentTime);
+    // print(dashBoardController.currentPrayerStartTime.value);
+    // print(dashBoardController.nextPrayer.value);
+    // print(dashBoardController.prayerDuration);
+    // print(dhuhrEndTime);
 
 
 
@@ -63,39 +73,49 @@ class PrayerRanking extends StatelessWidget {
             children: [
               buildPrayerCircle(
                 'F',
-                dashBoardController.currentPrayer.value == 'Fajr'
-                    ? AppColor.circleIndicator
-                    : ( fajrEndTime.isBefore(currentTime)
-                    ? Colors.redAccent
-                    : AppColor.packageGray),
+                currentTime.isBefore(fajrStartTime)
+                    ? AppColor.packageGray  // Prayer has not started yet
+                    : currentTime.isAfter(fajrEndTime)
+                    ? Colors.redAccent  // Prayer time has passed
+                    : AppColor.circleIndicator,
               ),
 
               buildPrayerCircle(
-                'Z',
-                dashBoardController.currentPrayer == 'Dhuhr'
-                    ? AppColor.circleIndicator
-                    : ( DhuhrEndTime.isBefore(currentTime)
-                    ? Colors.redAccent
-                    : AppColor.packageGray),
+                'D',
+                currentTime.isBefore(dhuhrStartTime)
+                    ? AppColor.packageGray  // Prayer has not started yet
+                    : currentTime.isAfter(dhuhrEndTime)
+                    ? Colors.redAccent  // Prayer time has passed
+                    : AppColor.circleIndicator,  // Prayer is ongoing
+                      // : AppColor.packageGray
+                    // : ( DhuhrEndTime.isBefore(currentTime)
+                    // ? Colors.redAccent
+                    // : AppColor.packageGray),
 
               ),
               buildPrayerCircle(
                   'A',
-                  dashBoardController.currentPrayer.value == 'Asr' ?
-                  AppColor.circleIndicator : (AsrEndTime.isBefore(currentTime)
-                      ?Colors.redAccent:AppColor.packageGray)
+                currentTime.isBefore(asrStartTime)
+                    ? AppColor.packageGray  // Prayer has not started yet
+                    : currentTime.isAfter(asrEndTime)
+                    ? Colors.redAccent  // Prayer time has passed
+                    : AppColor.circleIndicator,
               ),
               buildPrayerCircle(
                   'M',
-                  dashBoardController.currentPrayer.value == 'Maghrib' ?
-                  AppColor.circleIndicator : (MaghribEndTime.isBefore(currentTime)
-                      ?Colors.redAccent:AppColor.packageGray)
+                currentTime.isBefore(maghribStartTime)
+                    ? AppColor.packageGray  // Prayer has not started yet
+                    : currentTime.isAfter(maghribEndTime)
+                    ? Colors.redAccent  // Prayer time has passed
+                    : AppColor.circleIndicator,
               ),
               buildPrayerCircle(
                   'I',
-                  dashBoardController.currentPrayer.value == 'Isha' ?
-                  AppColor.circleIndicator : (IshaEndTime.isBefore(currentTime)
-                      ?Colors.redAccent:AppColor.packageGray)
+                currentTime.isBefore(ishaStartTime)
+                    ? AppColor.packageGray  // Prayer has not started yet
+                    : currentTime.isAfter(ishaEndTime)
+                    ? Colors.redAccent  // Prayer time has passed
+                    : AppColor.circleIndicator,
               ),
               Text(
                 "Overall",

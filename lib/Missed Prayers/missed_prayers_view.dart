@@ -14,14 +14,14 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
 
   @override
   Widget build(BuildContext context) {
-    LeaderBoardController controller = Get.put(LeaderBoardController());
+    // LeaderBoardController controller = Get.put(LeaderBoardController());
     final DateController dateController = Get.put(DateController());
 
     // TODO: implement build
     return Scaffold(
         backgroundColor: AppColor.cream,
         body: CustomScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               SliverAppBar(
                 title: Text("Missed Prayers", style: MyTextTheme.mediumBCD),
@@ -169,31 +169,37 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 )),
                             const SizedBox(height: 60),
                             InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               onTap: () async {
-                                DateTime? picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: controller.getSelectedTab ==
-                                      'Daily'
-                                      ? controller.selectedDate.value
-                                      : DateTime.now().subtract(
-                                      Duration(days: 1)),
-                                  firstDate: DateTime(2020),
-                                  lastDate: controller.getSelectedTab == 'Daily'
-                                      ? DateTime.now()
-                                      : DateTime.now().subtract(
-                                      Duration(days: 1)),
-                                );
-                                if (picked != null) {
-                                  controller.updateSelectedDate(picked);
-                                  // controller.updateIslamicDateBasedOnOption(date: picked);
-                                  String formattedDate = DateFormat(
-                                      'dd-MM-yyyy').format(picked);
-                                  if (controller.getSelectedTab == 'Daily') {
-                                    controller.leaderboard(formattedDate);
-                                  } else {
-                                    controller.weeklyApi(formattedDate);
+                                if(controller.getSelectedTab == 'Weekly'){
+                                  DateTime? picked = await showDatePicker(
+                                    context: context,
+                                    initialDate: controller.getSelectedTab ==
+                                        'Daily'
+                                        ? controller.selectedDate.value
+                                        : DateTime.now().subtract(
+                                        Duration(days: 1)),
+                                    firstDate: DateTime(2020),
+                                    lastDate: controller.getSelectedTab == 'Daily'
+                                        ? DateTime.now()
+                                        : DateTime.now().subtract(
+                                        Duration(days: 1)),
+                                  );
+                                  if (picked != null) {
+                                    controller.updateSelectedDate(picked);
+                                    print("sssssssssss${controller.selectedDate}");
+                                    // controller.updateIslamicDateBasedOnOption(date: picked);
+                                    String formattedDate = DateFormat(
+                                        'dd-MM-yyyy').format(picked);
+                                    if (controller.getSelectedTab == 'Daily') {
+                                      controller.leaderboard(formattedDate);
+                                    } else {
+                                      controller.weeklyApi(formattedDate);
+                                    }
                                   }
                                 }
+
                               },
                               child: Row(
                                 children: [
@@ -201,12 +207,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                       "assets/calendar3.svg", height: 15),
                                   const SizedBox(width: 5),
                                   Obx(() =>
-                                      Row(
+                                  controller
+                                      .getSelectedTab == 'Daily'? Row(
                                         children: [
                                           Text(
-                                            DateFormat('EEE, d MMMM yyyy')
-                                                .format(
-                                                controller.selectedDate.value),
+                                            DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value),
                                             style: const TextStyle(fontSize: 12,
                                                 color: Colors.black),
                                           ),
@@ -225,13 +230,19 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     color: Colors.black),
                                               )),
                                         ],
-                                      )),
+                                      ):
+                                  Text(
+                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 7)))}",
+                                    style: const TextStyle(fontSize: 12,
+                                        color: Colors.black),
+                                  )
+                                  ),
                                 ],
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Center(
-                              child: const Text(
+                            const Center(
+                              child: Text(
                                 "TODAY'S TIMELINE",
                                 style: TextStyle(color: Colors.grey,
                                     fontWeight: FontWeight.bold),
@@ -393,7 +404,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         )
                                                             :
                                                         InkWell(
-                                                          onTap: () {
+                                                          onTap: () async {
                                                             if (controller
                                                                 .userData
                                                                 .getUserData!.id
@@ -404,19 +415,82 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     .records[index]
                                                                     .user.id
                                                                     .toString()) {
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (
-                                                                    BuildContext context) {
-                                                                  return TimePicker(
-                                                                    isFromMissed: true,
-                                                                    missedCallBack: () =>
-                                                                        controller
-                                                                            .leaderboard(
+                                                              Dialogs.showLoading(context);
+                                                              // Parse the string into a DateTime object
+                                                              DateTime parsedDate = DateTime.parse(controller
+                                                                  .getLeaderboardList
+                                                                  .value!
+                                                                  .records[index].date);
+
+                                                              // Format the date in 'dd-MM-yyyy' format
+                                                              String formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+                                                              DateTime? prayerTime = await Future
+                                                                  .delayed(
+                                                                  Duration
+                                                                      .zero, () {
+                                                                return controller
+                                                                    .getPrayerTime(
+                                                                  controller
+                                                                      .dashboardController
+                                                                      .calendarData,
+                                                                  formattedDate,
+                                                                  controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].prayerName,
+                                                                );
+                                                              });
+                                                              // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
+                                                              print(
+                                                                  "prayerTime ${controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].date}");
+                                                              print(
+                                                                  "prayerTime $prayerTime");
+                                                              // Hide loading only if the context is still mounted
+                                                              if (context
+                                                                  .mounted) {
+                                                                WidgetsBinding
+                                                                    .instance
+                                                                    .addPostFrameCallback((
+                                                                    _) {
+                                                                  Dialogs
+                                                                      .hideLoading();
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    builder: (
+                                                                        BuildContext context) {
+                                                                      return TimePicker(
+                                                                        date: formattedDate,
+                                                                        prayerNames: controller
+                                                                            .getLeaderboardList
+                                                                            .value!
+                                                                            .records[index].prayerName,
+                                                                        isFromMissed: true,
+                                                                        missedPrayerTime: prayerTime,
+                                                                        missedCallBack: () =>
                                                                             controller
-                                                                                .getFormattedDate()),);
-                                                                },
-                                                              );
+                                                                                .leaderboard(
+                                                                                controller
+                                                                                    .getFormattedDate()),);
+                                                                    },
+                                                                  );
+                                                                });
+                                                              }
+                                                              // showDialog(
+                                                              //   context: context,
+                                                              //   builder: (
+                                                              //       BuildContext context) {
+                                                              //     return TimePicker(
+                                                              //       isFromMissed: true,
+                                                              //       missedCallBack: () =>
+                                                              //           controller
+                                                              //               .leaderboard(
+                                                              //               controller
+                                                              //                   .getFormattedDate()),);
+                                                              //   },
+                                                              // );
                                                             }
                                                           },
                                                           child: ColorFiltered(
@@ -526,7 +600,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                             child: ListView.builder(
                                               padding: EdgeInsets.zero,
                                               shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
+                                              physics: const NeverScrollableScrollPhysics(),
                                               itemCount: controller
                                                   .getLeaderboardList.value!
                                                   .records.length,
@@ -607,7 +681,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         )
                                                             :
                                                         InkWell(
-                                                          onTap: () {
+                                                          onTap: () async {
                                                             if (controller
                                                                 .userData
                                                                 .getUserData!.id
@@ -618,19 +692,82 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     .records[index]
                                                                     .user.id
                                                                     .toString()) {
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (
-                                                                    BuildContext context) {
-                                                                  return TimePicker(
-                                                                      isFromMissed: true,
-                                                                      missedCallBack: () =>
-                                                                          controller
-                                                                              .leaderboard(
-                                                                              controller
-                                                                                  .getFormattedDate()));
-                                                                },
-                                                              );
+                                                              Dialogs.showLoading(context);
+                                                              // Parse the string into a DateTime object
+                                                              DateTime parsedDate = DateTime.parse(controller
+                                                                  .getLeaderboardList
+                                                                  .value!
+                                                                  .records[index].date);
+
+                                                              // Format the date in 'dd-MM-yyyy' format
+                                                              String formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+                                                              DateTime? prayerTime = await Future
+                                                                  .delayed(
+                                                                  Duration
+                                                                      .zero, () {
+                                                                return controller
+                                                                    .getPrayerTime(
+                                                                  controller
+                                                                      .dashboardController
+                                                                      .calendarData,
+                                                                  formattedDate,
+                                                                  controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].prayerName,
+                                                                );
+                                                              });
+                                                              // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
+                                                              print(
+                                                                  "prayerTime ${controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].date}");
+                                                              print(
+                                                                  "prayerTime $prayerTime");
+                                                              // Hide loading only if the context is still mounted
+                                                              if (context
+                                                                  .mounted) {
+                                                                WidgetsBinding
+                                                                    .instance
+                                                                    .addPostFrameCallback((
+                                                                    _) {
+                                                                  Dialogs
+                                                                      .hideLoading();
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    builder: (
+                                                                        BuildContext context) {
+                                                                      return TimePicker(
+                                                                        date: formattedDate,
+                                                                        prayerNames: controller
+                                                                            .getLeaderboardList
+                                                                            .value!
+                                                                            .records[index].prayerName,
+                                                                        isFromMissed: true,
+                                                                        missedPrayerTime: prayerTime,
+                                                                        missedCallBack: () =>
+                                                                            controller
+                                                                                .leaderboard(
+                                                                                controller
+                                                                                    .getFormattedDate()),);
+                                                                    },
+                                                                  );
+                                                                });
+                                                              }
+                                                              // showDialog(
+                                                              //   context: context,
+                                                              //   builder: (
+                                                              //       BuildContext context) {
+                                                              //     return TimePicker(
+                                                              //       isFromMissed: true,
+                                                              //       missedCallBack: () =>
+                                                              //           controller
+                                                              //               .leaderboard(
+                                                              //               controller
+                                                              //                   .getFormattedDate()),);
+                                                              //   },
+                                                              // );
                                                             }
                                                           },
                                                           child: ColorFiltered(
@@ -827,7 +964,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         )
                                                             :
                                                         InkWell(
-                                                          onTap: () {
+                                                          onTap: () async {
                                                             if (controller
                                                                 .userData
                                                                 .getUserData!.id
@@ -838,19 +975,82 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     .records[index]
                                                                     .user.id
                                                                     .toString()) {
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (
-                                                                    BuildContext context) {
-                                                                  return TimePicker(
-                                                                      isFromMissed: true,
-                                                                      missedCallBack: () =>
-                                                                          controller
-                                                                              .leaderboard(
-                                                                              controller
-                                                                                  .getFormattedDate()));
-                                                                },
-                                                              );
+                                                              Dialogs.showLoading(context);
+                                                              // Parse the string into a DateTime object
+                                                              DateTime parsedDate = DateTime.parse(controller
+                                                                  .getLeaderboardList
+                                                                  .value!
+                                                                  .records[index].date);
+
+                                                              // Format the date in 'dd-MM-yyyy' format
+                                                              String formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+                                                              DateTime? prayerTime = await Future
+                                                                  .delayed(
+                                                                  Duration
+                                                                      .zero, () {
+                                                                return controller
+                                                                    .getPrayerTime(
+                                                                  controller
+                                                                      .dashboardController
+                                                                      .calendarData,
+                                                                  formattedDate,
+                                                                  controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].prayerName,
+                                                                );
+                                                              });
+                                                              // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
+                                                              print(
+                                                                  "prayerTime ${controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].date}");
+                                                              print(
+                                                                  "prayerTime $prayerTime");
+                                                              // Hide loading only if the context is still mounted
+                                                              if (context
+                                                                  .mounted) {
+                                                                WidgetsBinding
+                                                                    .instance
+                                                                    .addPostFrameCallback((
+                                                                    _) {
+                                                                  Dialogs
+                                                                      .hideLoading();
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    builder: (
+                                                                        BuildContext context) {
+                                                                      return TimePicker(
+                                                                        date: formattedDate,
+                                                                        prayerNames: controller
+                                                                            .getLeaderboardList
+                                                                            .value!
+                                                                            .records[index].prayerName,
+                                                                        isFromMissed: true,
+                                                                        missedPrayerTime: prayerTime,
+                                                                        missedCallBack: () =>
+                                                                            controller
+                                                                                .leaderboard(
+                                                                                controller
+                                                                                    .getFormattedDate()),);
+                                                                    },
+                                                                  );
+                                                                });
+                                                              }
+                                                              // showDialog(
+                                                              //   context: context,
+                                                              //   builder: (
+                                                              //       BuildContext context) {
+                                                              //     return TimePicker(
+                                                              //       isFromMissed: true,
+                                                              //       missedCallBack: () =>
+                                                              //           controller
+                                                              //               .leaderboard(
+                                                              //               controller
+                                                              //                   .getFormattedDate()),);
+                                                              //   },
+                                                              // );
                                                             }
                                                           },
                                                           child: ColorFiltered(
@@ -972,6 +1172,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                     .dashboardController
                                                     .getExtractedData[0].timings
                                                     ?.maghrib ?? "00:00";
+
                                                 // Compare current time with prayer start time
                                                 final shouldShowDash = controller
                                                     .currentTime.compareTo(
@@ -1045,7 +1246,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                           )
                                                               :
                                                           InkWell(
-                                                            onTap: () {
+                                                            onTap: () async {
                                                               if (controller
                                                                   .userData
                                                                   .getUserData!
@@ -1057,19 +1258,82 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       .records[index]
                                                                       .user.id
                                                                       .toString()) {
-                                                                showDialog(
-                                                                  context: context,
-                                                                  builder: (
-                                                                      BuildContext context) {
-                                                                    return TimePicker(
-                                                                        isFromMissed: true,
-                                                                        missedCallBack: () =>
-                                                                            controller
-                                                                                .leaderboard(
-                                                                                controller
-                                                                                    .getFormattedDate()));
-                                                                  },
-                                                                );
+                                                                Dialogs.showLoading(context);
+                                                                // Parse the string into a DateTime object
+                                                                DateTime parsedDate = DateTime.parse(controller
+                                                                    .getLeaderboardList
+                                                                    .value!
+                                                                    .records[index].date);
+
+                                                                // Format the date in 'dd-MM-yyyy' format
+                                                                String formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+                                                                DateTime? prayerTime = await Future
+                                                                    .delayed(
+                                                                    Duration
+                                                                        .zero, () {
+                                                                  return controller
+                                                                      .getPrayerTime(
+                                                                    controller
+                                                                        .dashboardController
+                                                                        .calendarData,
+                                                                    formattedDate,
+                                                                    controller
+                                                                        .getLeaderboardList
+                                                                        .value!
+                                                                        .records[index].prayerName,
+                                                                  );
+                                                                });
+                                                                // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
+                                                                print(
+                                                                    "prayerTime ${controller
+                                                                        .getLeaderboardList
+                                                                        .value!
+                                                                        .records[index].date}");
+                                                                print(
+                                                                    "prayerTime $prayerTime");
+                                                                // Hide loading only if the context is still mounted
+                                                                if (context
+                                                                    .mounted) {
+                                                                  WidgetsBinding
+                                                                      .instance
+                                                                      .addPostFrameCallback((
+                                                                      _) {
+                                                                    Dialogs
+                                                                        .hideLoading();
+                                                                    showDialog(
+                                                                      context: context,
+                                                                      builder: (
+                                                                          BuildContext context) {
+                                                                        return TimePicker(
+                                                                          date: formattedDate,
+                                                                          prayerNames: controller
+                                                                              .getLeaderboardList
+                                                                              .value!
+                                                                              .records[index].prayerName,
+                                                                          isFromMissed: true,
+                                                                          missedPrayerTime: prayerTime,
+                                                                          missedCallBack: () =>
+                                                                              controller
+                                                                                  .leaderboard(
+                                                                                  controller
+                                                                                      .getFormattedDate()),);
+                                                                      },
+                                                                    );
+                                                                  });
+                                                                }
+                                                                // showDialog(
+                                                                //   context: context,
+                                                                //   builder: (
+                                                                //       BuildContext context) {
+                                                                //     return TimePicker(
+                                                                //       isFromMissed: true,
+                                                                //       missedCallBack: () =>
+                                                                //           controller
+                                                                //               .leaderboard(
+                                                                //               controller
+                                                                //                   .getFormattedDate()),);
+                                                                //   },
+                                                                // );
                                                               }
                                                             },
                                                             child: ColorFiltered(
@@ -1266,7 +1530,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                         )
                                                             :
                                                         InkWell(
-                                                          onTap: () {
+                                                          onTap: () async {
                                                             if (controller
                                                                 .userData
                                                                 .getUserData!.id
@@ -1277,19 +1541,82 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     .records[index]
                                                                     .user.id
                                                                     .toString()) {
-                                                              showDialog(
-                                                                context: context,
-                                                                builder: (
-                                                                    BuildContext context) {
-                                                                  return TimePicker(
-                                                                      isFromMissed: true,
-                                                                      missedCallBack: () =>
-                                                                          controller
-                                                                              .leaderboard(
-                                                                              controller
-                                                                                  .getFormattedDate()));
-                                                                },
-                                                              );
+                                                              Dialogs.showLoading(context);
+                                                              // Parse the string into a DateTime object
+                                                              DateTime parsedDate = DateTime.parse(controller
+                                                                  .getLeaderboardList
+                                                                  .value!
+                                                                  .records[index].date);
+
+                                                              // Format the date in 'dd-MM-yyyy' format
+                                                              String formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+                                                              DateTime? prayerTime = await Future
+                                                                  .delayed(
+                                                                  Duration
+                                                                      .zero, () {
+                                                                return controller
+                                                                    .getPrayerTime(
+                                                                  controller
+                                                                      .dashboardController
+                                                                      .calendarData,
+                                                                  formattedDate,
+                                                                  controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].prayerName,
+                                                                );
+                                                              });
+                                                              // DateTime? prayerTime = controller.getPrayerTime(controller.dashboardController.calendarData,date,record.prayerName);
+                                                              print(
+                                                                  "prayerTime ${controller
+                                                                      .getLeaderboardList
+                                                                      .value!
+                                                                      .records[index].date}");
+                                                              print(
+                                                                  "prayerTime $prayerTime");
+                                                              // Hide loading only if the context is still mounted
+                                                              if (context
+                                                                  .mounted) {
+                                                                WidgetsBinding
+                                                                    .instance
+                                                                    .addPostFrameCallback((
+                                                                    _) {
+                                                                  Dialogs
+                                                                      .hideLoading();
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    builder: (
+                                                                        BuildContext context) {
+                                                                      return TimePicker(
+                                                                        date: formattedDate,
+                                                                        prayerNames: controller
+                                                                            .getLeaderboardList
+                                                                            .value!
+                                                                            .records[index].prayerName,
+                                                                        isFromMissed: true,
+                                                                        missedPrayerTime: prayerTime,
+                                                                        missedCallBack: () =>
+                                                                            controller
+                                                                                .leaderboard(
+                                                                                controller
+                                                                                    .getFormattedDate()),);
+                                                                    },
+                                                                  );
+                                                                });
+                                                              }
+                                                              // showDialog(
+                                                              //   context: context,
+                                                              //   builder: (
+                                                              //       BuildContext context) {
+                                                              //     return TimePicker(
+                                                              //       isFromMissed: true,
+                                                              //       missedCallBack: () =>
+                                                              //           controller
+                                                              //               .leaderboard(
+                                                              //               controller
+                                                              //                   .getFormattedDate()),);
+                                                              //   },
+                                                              // );
                                                             }
                                                           },
                                                           child: ColorFiltered(

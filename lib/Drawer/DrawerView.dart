@@ -15,7 +15,6 @@ import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
-import '../Leaderboard/LeaderBoardController.dart';
 import '../Widget/MyRank/myRankController.dart';
 import '../Widget/MyRank/myweeklyrank.dart';
 
@@ -25,8 +24,9 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
+    final DashBoardController dashBoardController = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
-    final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
+    // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
 
     return Drawer(
       backgroundColor: Colors.white,
@@ -130,7 +130,7 @@ class CustomDrawer extends StatelessWidget {
                                       children: [
                                         Center(
                                           child: MyRank(
-                                            rankedFriends: leaderBoardController.weeklyRanked,
+                                            rankedFriends: dashBoardController.weeklyRanked,
                                           ),
                                         ),
                                       ],
@@ -175,12 +175,13 @@ class CustomDrawer extends StatelessWidget {
 
                 InkWell(
                   onTap: () {
-                    Get.to(
-                          () => MissedPrayersView(),
-                        transition: Transition.rightToLeft,
-                        duration: Duration(milliseconds: 550),
-                        curve: Curves.ease,
-                    );
+                    Get.toNamed(AppRoutes.missedPrayers);
+                    // Get.to(
+                    //       () => MissedPrayersView(),
+                    //     transition: Transition.rightToLeft,
+                    //     duration: Duration(milliseconds: 550),
+                    //     curve: Curves.ease,
+                    // );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

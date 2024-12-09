@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk:  3.4.4
+  sdk:  3.5.1
 
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -75,7 +75,7 @@ dependencies:
   permission_handler: ^10.2.0
   contacts_service: ^0.6.3
   carousel_slider: ^5.0.0
-  share_plus: ^10.1.2
+  flutter_background_service: ^5.0.10
 
 
 dev_dependencies:

@@ -244,7 +244,7 @@ class Record {
   final String date;
   final String prayerName;
   final String score;
-  final bool jamat;
+  final String jamat;
   final String timesOfPrayer;
 
   Record({
@@ -269,7 +269,7 @@ class Record {
       date: json['date'],
       prayerName: json['prayer_name'],
       score: json['score'].toString(),
-      jamat: json['jamat']??false,
+      jamat: json['jamat']??'0',
       timesOfPrayer: (json['times_of_prayer']??'').toString(),
     );
   }

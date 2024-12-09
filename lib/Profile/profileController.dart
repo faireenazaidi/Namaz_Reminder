@@ -114,6 +114,7 @@ class ProfileController extends GetxController{
     var request = http.Request(
         'GET', Uri.parse('http://182.156.200.177:8011/adhanapi/methods/'));
     http.StreamedResponse response = await request.send();
+    print("statusCode ${response.statusCode}");
     if (response.statusCode == 200) {
       // print(await response.stream.bytesToString());
       var data = jsonDecode(await response.stream.bytesToString());
