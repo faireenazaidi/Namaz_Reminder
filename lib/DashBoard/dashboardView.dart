@@ -14,7 +14,6 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
-import '../Leaderboard/LeaderBoardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Leaderboard/leaderboardView.dart';
 import '../Widget/MyRank/myRankController.dart';
@@ -61,28 +60,9 @@ class DashBoardView extends GetView<DashBoardController> {
                     GetBuilder<DashBoardController>(
                         id: 'add',
                         builder: (_) {
-                          return InkWell(
+                          return
+                            InkWell(
                             onTap: (){
-                              // showCustomBottomSheet2(
-                              //   context: context,
-                              //   onConfirmed: ()async
-                              //   {
-                              //      controller.changeLocation();
-                              //   },
-                              //   message: 'Change Location',
-                              //   successMessage: controller.address,
-                              //   confirmButtonText: "Get Current Location'",
-                              //   cancelButtonText: "Cancel",
-                              //   confirmButtonColor: AppColor.buttonColor,
-                              //   showCancelButton: false,
-                              //   loadingMessage: 'Getting Current Location...',
-                              //   // onConfirmed: () {
-                              //   //   controller.changeLocation();
-                              //   // },
-                              //   onCancelled: () {
-                              //     // Handle cancellation action
-                              //   },
-                              // );
                               Dialogs.showConfirmationDialog(
                               context: context,
                               onConfirmed: ()async{
@@ -95,13 +75,23 @@ class DashBoardView extends GetView<DashBoardController> {
                                   successMessage: controller.address,
                                   loadingMessage: 'Getting Current Location...');
                             },
-                            child: Text(
-                              controller.address,
-                              style: MyTextTheme.greyNormal,
-                            ),
-                            // child:
-                            //    Text(controller.location.value)
-                            //
+                            child:
+                            // Text(
+                            //   locationController.text.isNotEmpty
+                            //       ? locationController.text
+                            //       : controller.address,
+                            //   style: MyTextTheme.greyNormal,
+                            // ),
+                            Obx((){
+                              return   Text(
+                                locationController.value.text.isNotEmpty
+                                    ? (locationController.value.text.length > 10
+                                    ? '${locationController.value.text.substring(0, 10)}...'
+                                    : locationController.value.text)
+                                    : controller.address,
+                                style: MyTextTheme.greyNormal,
+                              );
+                            })
 
                           );
                         }
@@ -251,11 +241,11 @@ class DashBoardView extends GetView<DashBoardController> {
                       children: [
                         Obx(() {
                           // controller.calculateCompletionPercentage();
-                          print("completionPercentage ${controller.completionPercentage}");
-                          print("controller.isPrayed ${controller.isPrayed}");
-                          print("controller.nextPrayer ${controller.nextPrayer}");
-                          print("controller.nextPrayer ${controller.currentPrayer}");
-                          print("controller.nextPrayer ${controller.currentPrayerStartTime}");
+                          // print("completionPercentage ${controller.completionPercentage}");
+                          // print("controller.isPrayed ${controller.isPrayed}");
+                          // print("controller.nextPrayer ${controller.nextPrayer}");
+                          // print("controller.nextPrayer ${controller.currentPrayer}");
+                          // print("controller.nextPrayer ${controller.currentPrayerStartTime}");
                           return controller.isPrayed?CircularPercentIndicator(
                             restartAnimation: false,
                             circularStrokeCap: CircularStrokeCap.round,
@@ -335,7 +325,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             top: 70,
                             child: Obx(() {
                               // Check if there's a current prayer, if not, show the next prayer
-                              print("ccccccccccc ${controller.currentPrayer.value}");
+                              //print("ccccccccccc ${controller.currentPrayer.value}");
                               if (controller.currentPrayer.value.isEmpty) {
                                 // Show next prayer message with blinking effect
                                 return Center(

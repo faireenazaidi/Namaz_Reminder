@@ -70,11 +70,15 @@ class Upcoming extends GetView<UpcomingController> {
               //       loadingMessage: 'Getting Current Location...',
               //     );
               //   },
-              //   child: Text(
-              //     dashboardController.address,
-              //     style: MyTextTheme.greyNormal,
-              //   ),
-              // ),
+              Text(
+                locationController.value.text.isNotEmpty
+                    ? (locationController.value.text.length > 10
+                    ? '${locationController.value.text.substring(0, 10)}...'
+                    : locationController.value.text)
+                    : dashboardController.address,
+                style: MyTextTheme.greyNormal,
+              ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(

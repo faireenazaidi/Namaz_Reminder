@@ -12,7 +12,7 @@ class MyRankController extends GetxController {
     rank.value = sortedFriends.indexWhere(
           (element) => element['id'].toString() == userData.getUserData!.id.toString(),
     ) + 1;
-    print('hhhhhhhhh');
+   print('hhhhhhhhh');
     print(rank.value);
   }
 }

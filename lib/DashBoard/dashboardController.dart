@@ -139,6 +139,7 @@ class DashBoardController extends GetxController {
         latitude: position!.latitude.toString(),
         longitude: position!.longitude.toString(),
         address: address);
+    print("Address "+address.toString());
     userData.addLocationData(locationData);
     print("new uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude
         .toString()}");
@@ -709,11 +710,11 @@ RxString nextPrayerName = ''.obs;
     }
 
     remainingTimeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      print("Timer tick... Checking prayer start and end times.");
+      //print("Timer tick... Checking prayer start and end times.");
 
       // Check again to see if start and end times are now set
       if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty)  {
-        print("Start and end times are set, proceeding with timer logic.");
+        //print("Start and end times are set, proceeding with timer logic.");
 
         try {
           DateTime now = DateTime.now();
@@ -724,9 +725,9 @@ RxString nextPrayerName = ''.obs;
           startTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
           endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
 
-          print("currentPrayerStartTime ${currentPrayerStartTime.value}");
-          print("currentPrayerEndTime ${currentPrayerEndTime.value}");
-          print("now $now");
+          // print("currentPrayerStartTime ${currentPrayerStartTime.value}");
+          // print("currentPrayerEndTime ${currentPrayerEndTime.value}");
+          // print("now $now");
 
           // Check if the current time is in a gap (before the next prayer's start time)
           if (now.isBefore(startTime)) {
@@ -766,7 +767,7 @@ RxString nextPrayerName = ''.obs;
             isGapPeriod.value = false;
             // Calculate remaining time for the current prayer duration
             Duration remainingDuration = endTime.difference(now);
-            print("Time remaining for the current prayer: ${formatDuration(remainingDuration)}");
+            //print("Time remaining for the current prayer: ${formatDuration(remainingDuration)}");
             remainingTime.value = formatDuration(remainingDuration);
 
             // Check if remaining time is negative to transition to the next prayer
@@ -868,8 +869,8 @@ RxString nextPrayerName = ''.obs;
             completionPercentage.value = elapsedDuration.inSeconds / totalDuration.inSeconds;
           }
 
-          print("Prayer progresss: ${completionPercentage.value}");
-          print("Prayer progress: ${completionPercentage.value * 100}%");
+          // print("Prayer progresss: ${completionPercentage.value}");
+          // print("Prayer progress: ${completionPercentage.value * 100}%");
         }
       } else {
         // Start or end time is missing; reset the progress
