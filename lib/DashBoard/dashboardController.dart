@@ -889,7 +889,8 @@ RxString nextPrayerName = ''.obs;
   var minute = 0;
   bool isGifVisible = false;
   bool isAm = false;
-  submitPrayer({String? valDate,bool? isFromMissed,Future<dynamic> Function()? missedCallBack, String? prayerNames}) async {
+  submitPrayer({String? valDate,bool? isFromMissed,Future<dynamic> Function()? missedCallBack, String? prayerNames,String? startTime,
+  String? endTime}) async {
     Get.back();
     // print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
@@ -913,6 +914,7 @@ RxString nextPrayerName = ''.obs;
       String formattedTime = DateFormat('HH:mm').format(time);
 
       print("formattedTime $formattedTime"); // Output will be in 24-hour format, like 18:32 or 06:32
+      // isTimeWithinRange();
 
       var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
       request.body = json.encode({
@@ -933,7 +935,7 @@ RxString nextPrayerName = ''.obs;
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       String responseString = await response.stream.bytesToString();
-      // print("Raw API response: $responseString");
+      print("Raw API response: $responseString");
 if(isFromMissed!){
   missedCallBack!();
   Get.snackbar('Prayer Marked', 'Success',backgroundColor: Colors.black,colorText: Colors.white,snackPosition: SnackPosition.BOTTOM);
@@ -1113,7 +1115,42 @@ List isPrayedList = [];
       print(response.reasonPhrase);
     }
   }
+  // Function to check if current time (tap event) is within range
+  bool isTimeWithinRange(String startTime,String endTime,String tapTime) {
+    // Get current time
+    DateTime now = DateTime.now();
 
+    // Parse the start and end times
+    DateTime start = _parseTime(startTime, now);
+    DateTime end = _parseTime(endTime, now);
+    print("xxxx $start");
+    print("xxxx $end");
+
+    // Parse the tap time (in 24-hour format)
+    DateTime tapEventTime = _parse24HourTime(tapTime, now);
+    print("xxxx $tapEventTime");
+
+    // Check if the tap event time is within or equal to the range
+    return (tapEventTime.isAfter(start) || tapEventTime.isAtSameMomentAs(start)) &&
+        (tapEventTime.isBefore(end) || tapEventTime.isAtSameMomentAs(end));
+  }
+  // Function to parse a time string (12-hour format) into a DateTime object
+  DateTime _parseTime(String timeStr, DateTime now) {
+    final format = DateFormat("hh:mm a"); // Hour-Minute AM/PM format
+    DateTime parsedTime = format.parse(timeStr);
+
+    // Set the date of the parsed time to today
+    return DateTime(now.year, now.month, now.day, parsedTime.hour, parsedTime.minute);
+  }
+
+  // Function to parse a 24-hour time string into a DateTime object
+  DateTime _parse24HourTime(String timeStr, DateTime now) {
+    final format = DateFormat("HH:mm"); // 24-hour format
+    DateTime parsedTime = format.parse(timeStr);
+
+    // Set the date of the parsed time to today
+    return DateTime(now.year, now.month, now.day, parsedTime.hour, parsedTime.minute);
+  }
 }
 
 
