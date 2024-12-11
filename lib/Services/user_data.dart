@@ -128,6 +128,21 @@ class UserData extends GetxController {
     _storage.write('prayerSoundSettings', settings);
   }
 
+  // Method to save the list data directly into GetStorage
+  Future<void> savePrayerMonthTime(List listData) async {
+    await _storage.write('prayerTimingsData', listData);
+    update();  // Notify listeners of changes
+  }
+
+  // Method to retrieve the saved list data
+  List<Map<String, dynamic>> get getPrayerTimingsData {
+    final data = _storage.read('prayerTimingsData');
+    if (data != null) {
+      return List<Map<String, dynamic>>.from(data);
+    }
+    return [];
+  }
+
 
   // Optionally, add a method to clear user data
   Future<void> clearUserData() async {

@@ -332,11 +332,11 @@ class DashBoardController extends GetxController {
               },
               'Maghrib': {
                 'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
-                'end': getExtractedData[0].timings?.midnight ?? 'N/A' // Ends at midnight for Shia Muslims
+                'end': '23:58 (IST)' // Ends at midnight for Shia Muslims
               },
               'Isha': {
                 'start': getExtractedData[0].timings?.maghrib ?? 'N/A', // Allows Isha start after Maghrib is prayed
-                'end': getExtractedData[0].timings?.midnight ?? 'N/A'
+                'end': '23:58 (IST)'
               },
             }
                 : // Sunni fiqh standard times
@@ -467,6 +467,8 @@ class DashBoardController extends GetxController {
           startRemainingTimeTimer();
           showNextPrayer();
           update();
+          // await userData.savePrayerMonthTime(calendarData);
+          // startBackgroundService();
         } else {
           print('No data found for current date.');
         }
@@ -480,6 +482,7 @@ class DashBoardController extends GetxController {
       isLoading.value = false;
     }
   }
+
 
   bool isPrayed = false;
   String getCurrentPrayer(Map<String, Map<String, String>> c, String currentTime) {

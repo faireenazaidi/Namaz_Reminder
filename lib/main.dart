@@ -42,6 +42,19 @@ void startBackgroundService() {
   final service = FlutterBackgroundService();
   service.startService();  // Start the background service
 }
+// This method will call the platform channel to update the widget on the home screen
+Future<void> updateWidget(String prayerName, String timeLeft, int progress) async {
+  const MethodChannel _channel = MethodChannel('com.criteriontech.prayeroclock/update_widget');
+  try {
+    await _channel.invokeMethod('updatePrayerWidget', {
+      'prayerName': prayerName,
+      'time': timeLeft,
+      'progress': progress,
+    });
+  } catch (e) {
+    print("Failed to update widget: $e");
+  }
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -52,7 +65,21 @@ void main() async {
   // Get.put(DashBoardController());
   // Get.put(LoginController());
   // Get.put(CustomDrawerController());
-  await initializeService();
+  // await initializeService();
+  // // Listen to background service data using the new method
+  // final service = FlutterBackgroundService();
+  //
+  // service.on("sendPrayerData").listen((event) {
+  //   if (event != null) {
+  //     String prayerName = event["prayerName"];
+  //     String timeLeft = event["timeLeft"];
+  //     int progress = event["progress"];
+  //
+  //     // Call the method channel to update the widget
+  //     updateWidget(prayerName, timeLeft, progress);
+  //   }
+  // });
+  // startBackgroundService();
   runApp(MyApp());
   // BackgroundFetch.configure(
   //   BackgroundFetchConfig(
@@ -84,14 +111,14 @@ Future<void> initializeService() async {
   // Configure the background service for iOS and Android
   await service.configure(
     iosConfiguration: IosConfiguration(
-      autoStart: true,        // Automatically start on iOS
+      autoStart: false,        // Automatically start on iOS
       onForeground: onStart,  // Function to call when the app is in the foreground
       onBackground: onIosBackground, // Function to call when the app goes to the background
     ),
     androidConfiguration: AndroidConfiguration(
-      autoStart: true,        // Automatically start on Android
+      autoStart: false,        // Automatically start on Android
       onStart: onStart,       // Function to call when the service starts
-      isForegroundMode: false,  // Run as a background service (not a foreground service)
+      isForegroundMode: true,  // Run as a background service (not a foreground service)
       autoStartOnBoot: true,  // Start automatically on boot
     ),
   );
@@ -106,23 +133,23 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   const MethodChannel _channel = MethodChannel('com.criteriontech.prayeroclock/update_widget');
-  Future<void> _updateWidget(String prayerName, String timeLeft,int progress) async {
-    try {
-      await _channel.invokeMethod('updatePrayerWidget', {
-        'prayerName': prayerName,
-        'time': timeLeft,
-        'progress': progress,
-      });
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Widget updated successfully!')),
-      // );
-    } catch (e) {
-      debugPrint("Failed to update widget: $e");
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Failed to update widget!')),
-      // );
-    }
-  }
+  // Future<void> _updateWidget(String prayerName, String timeLeft,int progress) async {
+  //   try {
+  //     await _channel.invokeMethod('updatePrayerWidget', {
+  //       'prayerName': prayerName,
+  //       'time': timeLeft,
+  //       'progress': progress,
+  //     });
+  //     // ScaffoldMessenger.of(context).showSnackBar(
+  //     //   const SnackBar(content: Text('Widget updated successfully!')),
+  //     // );
+  //   } catch (e) {
+  //     debugPrint("Failed to update widget: $e");
+  //     // ScaffoldMessenger.of(context).showSnackBar(
+  //     //   const SnackBar(content: Text('Failed to update widget!')),
+  //     // );
+  //   }
+  // }
   // This is where the background task will run
   print("Background service started!");
   List listData = [
@@ -130,10 +157,10 @@ void onStart(ServiceInstance service) async {
       "timings": {
         "Fajr": "04:51 (IST)",
         "Sunrise": "05:59 (IST)",
-        "Dhuhr": "12:01 (IST)",
-        "Asr": "12:30 (IST)",
-        "Sunset": "17:53 (IST)",
-        "Maghrib": "12:40 (IST)",
+        "Dhuhr": "12:00 (IST)",
+        "Asr": "15:00 (IST)",
+        "Sunset": "15:53 (IST)",
+        "Maghrib": "16:40 (IST)",
         "Isha": "21:00 (IST)",
         "Imsak": "04:41 (IST)",
         "Midnight": "23:56 (IST)",
@@ -144,7 +171,7 @@ void onStart(ServiceInstance service) async {
         "readable": "01 Oct 2024",
         "timestamp": "1727753461",
         "gregorian": {
-          "date": "09-12-2024",
+          "date": "11-12-2024",
           "format": "DD-MM-YYYY",
           "day": "01",
           "weekday": {
@@ -243,12 +270,47 @@ void onStart(ServiceInstance service) async {
       // Calculate the remaining time and percentage for the current prayer
       // Get the current prayer based on the time
       String currentPrayer = PrayerDurationCalculator.getCurrentPrayer(todayTimings, currentTime);
-      Map<String, dynamic> prayerInfo = PrayerDurationCalculator.calculatePrayerTimeInfo(todayTimings, currentPrayer, currentTime);
+      print('Remaining time currentPrayer: $currentPrayer');
+      if (currentPrayer == 'No prayer ongoing') {
+        // Get upcoming prayer
+        var upcomingPrayerInfo = PrayerDurationCalculator.getUpcomingPrayer(todayTimings, currentTime);
+        print('Upcoming prayer: ${upcomingPrayerInfo['upcomingPrayer']}');
+        print('Remaining time for upcoming prayer: ${upcomingPrayerInfo['remainingTime']}');
+        print('Remaining percentageRemaining for upcoming prayer: ${upcomingPrayerInfo['percentageRemaining']}');
+        service.invoke("sendPrayerData", {
+          "prayerName": "Upcoming Prayer ${upcomingPrayerInfo['upcomingPrayer']}",
+          "timeLeft": "${upcomingPrayerInfo['remainingTime']}",
+          "progress": upcomingPrayerInfo['percentageRemaining'],
+        });
 
-      print("Time left for $currentPrayer prayer: ${prayerInfo['remainingTime'].inHours} hours and ${prayerInfo['remainingTime'].inMinutes % 60} minutes");
-      print("Percentage of time passed: ${prayerInfo['percentagePassed']}%");
-      print("Percentage of time remaining: ${prayerInfo['percentageRemaining']}%");
-      _updateWidget('Zuhr Prayer', prayerInfo['remainingTime'].toString(),prayerInfo['percentageRemaining']);
+      } else {
+        // Calculate remaining time and percentage for the current prayer
+        var prayerInfo = PrayerDurationCalculator.calculatePrayerTimeInfo(todayTimings, currentPrayer, currentTime);
+        print('Remaining time currentPrayer: $currentPrayer');
+        print('Remaining time: ${prayerInfo['remainingTime']}');
+        print('Percentage remaining: ${prayerInfo['percentageRemaining']}');
+        service.invoke("sendPrayerData", {
+          "prayerName": "Current Prayer $currentPrayer",
+          "timeLeft": "${prayerInfo['remainingTime'].inHours} hours and ${prayerInfo['remainingTime'].inMinutes % 60} minutes",
+          "progress": prayerInfo['percentageRemaining'],
+        });
+      }
+      // Map<String, dynamic> prayerInfo = PrayerDurationCalculator.calculatePrayerTimeInfo(todayTimings, currentPrayer, currentTime);
+      //
+      // print("Time left for $currentPrayer prayer: ${prayerInfo['remainingTime'].inHours} hours and ${prayerInfo['remainingTime'].inMinutes % 60} minutes");
+      // print("Percentage of time passed: ${prayerInfo['percentagePassed']}%");
+      // print("Percentage of time remaining: ${prayerInfo['percentageRemaining']}%");
+      // _updateWidget('Zuhr Prayer', prayerInfo['remainingTime'].toString(),prayerInfo['percentageRemaining']);
+      // Example logic to calculate prayer times
+      String prayerName = "Zuhr Prayer";
+      String timeLeft = "01:30:00";  // Example time left
+      int progress = 70;  // Example progress
+      // Sending data to the main isolate
+      // service.invoke("sendPrayerData", {
+      //   "prayerName": currentPrayer,
+      //   "timeLeft": "${prayerInfo['remainingTime'].inHours} hours and ${prayerInfo['remainingTime'].inMinutes} minutes",
+      //   "progress": prayerInfo['percentageRemaining'],
+      // });
     } catch (e) {
       print(e);
     }

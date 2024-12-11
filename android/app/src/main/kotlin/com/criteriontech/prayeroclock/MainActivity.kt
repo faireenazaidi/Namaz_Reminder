@@ -9,7 +9,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.criteriontech.prayer_o_clock/update_widget"
+    private val CHANNEL = "com.criteriontech.prayeroclock/update_widget"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -31,7 +31,7 @@ class MainActivity : FlutterActivity() {
 
     private fun updatePrayerWidget(prayerName: String, time: String, progress: Int) {
         val views = RemoteViews(packageName, R.layout.widget_layout)
-        views.setTextViewText(R.id.title, "Left for $prayerName")
+        views.setTextViewText(R.id.title, "$prayerName")
         views.setTextViewText(R.id.time, time)
         views.setProgressBar(R.id.progress_bar, 100, progress, false)  // Update progress dynamically
 
