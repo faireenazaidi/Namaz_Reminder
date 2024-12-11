@@ -294,6 +294,7 @@ class CustomDrawer extends StatelessWidget {
                     Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
                         okPressEvent: ()async{
                           await UserData().removeUserData();
+                          dashBoardController.locationController.value.clear;
                           Get.offAllNamed(AppRoutes.locationPageRoute);
                         });
 

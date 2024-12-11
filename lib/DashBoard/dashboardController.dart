@@ -15,6 +15,7 @@ import '../Widget/location_services.dart';
 import '../main.dart';
 class DashBoardController extends GetxController {
   final PageController pageController = PageController();
+  Rx<TextEditingController> locationController = TextEditingController().obs;
 
   RxString islamicDate = ''.obs;
   RxInt rank = 0.obs;
@@ -30,10 +31,10 @@ class DashBoardController extends GetxController {
   RxDouble progressPercent = 0.0.obs;
   RxList<String> avatars = <String>[].obs;
   RxString location = ''.obs;
+
   var selectedDate = Rx<DateTime>(DateTime.now());
  var isMute= false.obs;
   var prayerMuteStates = <String, bool>{}.obs; // Map to hold mute states
-
   var muteStates = <String, RxBool>{}.obs;
   UserData userData = UserData();
   void toggle(String prayerName){
@@ -75,8 +76,10 @@ class DashBoardController extends GetxController {
   Timer? prayerTimer;
   Timer? remainingTimeTimer;
 
+  RxString locationName = "".obs;
   void updateLocation(String newLocation) {
     location.value = newLocation;
+    locationName.value = location.value;
   }
 
   set updateExtractedData(List<CalendarWiseData> data) {
@@ -160,6 +163,7 @@ class DashBoardController extends GetxController {
     remainingTimeTimer!.cancel();
     prayerTimer!.cancel();
     _timer?.cancel();
+    locationController.value.dispose();
     super.dispose();
   }
 

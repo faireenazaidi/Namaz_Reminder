@@ -12,7 +12,7 @@ import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
 String constantGoogleKey = "AIzaSyAPscPVLVlvdE4nB-Z-wgOUQfwkPZckgBU";
-Rx<TextEditingController> locationController = TextEditingController().obs;
+// Rx<TextEditingController> locationController = TextEditingController().obs;
 
 class Dialogs {
   static void actionBottomSheet({String? title,required String subTitle,required Function okPressEvent,
@@ -207,10 +207,13 @@ class ConfirmationDialog extends StatefulWidget {
 
 class ConfirmationDialogState extends State<ConfirmationDialog> {
   final DashBoardController dashBoardController = Get.put(DashBoardController());
+
   String message = "";
   bool isProcessing = false;
   RxString location = ''.obs;
-
+  bool isManualSelection = false;
+  RxString isEnable = "".obs;
+  RxString longitude = "".obs;
 
 
   @override
@@ -219,7 +222,6 @@ class ConfirmationDialogState extends State<ConfirmationDialog> {
     message = widget.initialMessage;
     locationPlace();
   }
-
   void startProcessing() async {
     setState(() {
       isProcessing = true;
@@ -240,13 +242,12 @@ class ConfirmationDialogState extends State<ConfirmationDialog> {
 
   void updateLocation(String newLocation) {
     location.value = newLocation;
-    setState(() {
-
-    });
+    dashBoardController.locationController.value.text = newLocation;
+    dashBoardController.update();
   }
   //
   void saveLocation() {
-    String newLocation = locationController.value.text.trim();
+    String newLocation = dashBoardController.locationController.value.text.trim();
     if (newLocation.isNotEmpty) {
       updateLocation(newLocation);
       print("Location updated to: $newLocation");
@@ -257,7 +258,7 @@ class ConfirmationDialogState extends State<ConfirmationDialog> {
 
 
 locationPlace(){
-    print("Address "+locationController.value.text.toString());
+    print("Address "+dashBoardController.locationController.value.text.toString());
 }
 
   @override
@@ -314,65 +315,67 @@ locationPlace(){
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 20),
-                            SingleChildScrollView(
-                              child: GooglePlaceAutoCompleteTextField(
-                                inputDecoration: InputDecoration(
-                                  border: InputBorder.none,
-                                 hintText: "Enter an address",
-                                  hintStyle: MyTextTheme.greyN,
+                            GooglePlaceAutoCompleteTextField(
+                              inputDecoration: InputDecoration(
+                                border: InputBorder.none,
+                               hintText: "Enter an address",
+                                hintStyle: MyTextTheme.greyN,
+                              ),
+                              textStyle: MyTextTheme.locationT,
+                              textEditingController: dashBoardController.locationController.value,
+                              googleAPIKey: constantGoogleKey,
+                              boxDecoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1
                                 ),
-                                textStyle: MyTextTheme.greyNormal,
-                                textEditingController: locationController.value,
-                                googleAPIKey: constantGoogleKey,
-                                boxDecoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1
-                                  ),
-                                ),
-                                debounceTime: 800,
-                                countries: ["in","fr"],
-                                isLatLngRequired:true,
-                                getPlaceDetailWithLatLng: (Prediction prediction) {
-                                  // this method will return latlng with place detail
-                                  print("placeDetails" + prediction.lng.toString());
-                                }, // this callback is called when isLatLngRequired is true
-                                itemClick: (Prediction prediction) {
-                                  locationController.value.text=prediction.description!;
-                                  locationController.value.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description!.length));
-                                  // String selectedLocation = prediction.description!;
-                                  // print("Location saved: $selectedLocation");
-                                  // if (prediction.lat != null && prediction.lng != null) {
-                                  //  String latitude = prediction.lat!;
-                                  //  String longitude = prediction.lng!;
-                                  //  print("Location Coordinates: Lat: $latitude, Lng: $longitude");
-                                  //  }
-                                  //  Navigator.pop(context);
-                                    },
-                                // if we want to make custom list item builder
-                                itemBuilder: (context, index, Prediction prediction) {
-                                  return Container(
+                              ),
+                              debounceTime: 800,
+                              countries: ["in","fr"],
+                              isLatLngRequired:true,
+                              getPlaceDetailWithLatLng: (Prediction prediction) {
+                                // this method will return latlng with place detail
+                                print("placeDetails" + prediction.lng.toString());
+                                 longitude.value = prediction.lng.toString();
+                              },
+                              itemClick: (Prediction prediction) {
+                                dashBoardController.locationController.value.text=prediction.description!;
+                                dashBoardController.locationController.value.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description!.length));
+                                // String selectedLocation = prediction.description!;
+                                // print("Location saved: $selectedLocation");
+                                // if (prediction.lat != null && prediction.lng != null) {
+                                //  String latitude = prediction.lat!;
+                                //  String longitude = prediction.lng!;
+                                //  print("Location Coordinates: Lat: $latitude, Lng: $longitude");
+                                //  }
+                                //  Navigator.pop(context);
+                                isManualSelection = true;
+                                  },
+                              itemBuilder: (context, index, Prediction prediction) {
+                                return
+                                  Container(
+                                    color: Colors.white,
                                     padding: const EdgeInsets.all(10),
                                     child: Row(
                                       children: [
                                         const Icon(Icons.location_on),
-                                        const SizedBox(
-                                          width: 7,
+                                        const SizedBox(width: 7),
+                                        Expanded(
+                                          child: Text("${prediction.description ?? ""}"),
                                         ),
-                                        Expanded(child: Text("${prediction.description??""}"))
                                       ],
                                     ),
                                   );
-                                },
-                                // if you want to add seperator between list items
-                                seperatedBuilder: const Divider(),
-                                isCrossBtnShown: true,
-                                containerHorizontalPadding: 10,
-                                placeType: PlaceType.geocode,
+                              },
+                              seperatedBuilder: const Divider(color: Colors.grey,
                               ),
+                              isCrossBtnShown: true,
+                              containerHorizontalPadding: 10,
+                              placeType: PlaceType.geocode,
                             ),
+
                               const SizedBox(height: 20),
                               if (widget.showCancelButton && !isProcessing)
                                 ElevatedButton(
@@ -404,12 +407,11 @@ locationPlace(){
                                       )
                                     ),
                                   ),
-                                  // onPressed: isProcessing ? null : startProcessing,
                                   onPressed: isProcessing
                                       ? null
                                       : () {
-                                    startProcessing(); // Start processing the address logic
-                                    locationController.value.clear(); // Clear the TextField after processing
+                                    startProcessing();
+                                    dashBoardController.locationController.value.clear();
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -429,19 +431,20 @@ locationPlace(){
                                 height: 50,
                                 borderRadius: 10,
                                 title: "Save",
-                                color: AppColor.circleIndicator,
+                                color: longitude.value.isNotEmpty
+                                    ? AppColor.circleIndicator
+                                    : AppColor.greyColor,
                                 onPressed: () {
-                                  String newLocation = locationController.value.text.trim();
-                                  if (newLocation.isNotEmpty) {
-                                    updateLocation(newLocation); // Save and update location
-                                    Get.back(); // Close the dialog
-
-                                  } else {
-                                    print("Please enter a valid location.");
-                                  }
+                                  String newLocation = dashBoardController.locationController.value.text.trim();
+                                 // if (newLocation.isNotEmpty && isManualSelection)
+                                     if ( isManualSelection)
+                                    {
+                                    dashBoardController.updateLocation(newLocation);
+                                    // updateLocation(newLocation);
+                                    Get.back();
+                                  } null;
                                 },
                               ),
-
                             ],
                           ),
                         ),

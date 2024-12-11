@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
@@ -71,10 +70,10 @@ class Upcoming extends GetView<UpcomingController> {
               //     );
               //   },
               Text(
-                locationController.value.text.isNotEmpty
-                    ? (locationController.value.text.length > 10
-                    ? '${locationController.value.text.substring(0, 10)}...'
-                    : locationController.value.text)
+                dashboardController.locationController.value.text.isNotEmpty
+                    ? (dashboardController.locationController.value.text.length > 10
+                    ? '${dashboardController.locationController.value.text.substring(0, 10)}...'
+                    : dashboardController.locationController.value.text)
                     : dashboardController.address,
                 style: MyTextTheme.greyNormal,
               ),
