@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -25,6 +28,8 @@ class InviteController extends GetxController {
           'Permission Denied',
           'You denied the permission. Please enable contact access in settings.',
           snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.black,
+          colorText: Colors.white
         );
       }
     } else if (status.isPermanentlyDenied) {
@@ -32,6 +37,8 @@ class InviteController extends GetxController {
         'Permission Required',
         'Please enable contact access in your device settings.',
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black,
+          colorText: Colors.white
       );
       await openAppSettings();
     }

@@ -14,7 +14,6 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
-import '../Leaderboard/LeaderBoardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Leaderboard/leaderboardView.dart';
 import '../Widget/MyRank/myRankController.dart';
@@ -27,6 +26,7 @@ class DashBoardView extends GetView<DashBoardController> {
   @override
   Widget build(BuildContext context) {
     final MyRankController myRankController = Get.put(MyRankController());
+
     // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
     Future<LottieComposition?> customDecoder(List<int> bytes) {
       return LottieComposition.decodeZip(bytes, filePicker: (files) {
@@ -48,7 +48,8 @@ class DashBoardView extends GetView<DashBoardController> {
             toolbarHeight: 55,
             backgroundColor: Colors.transparent,
             titleSpacing: 0,
-            title: Text("Prayer O'Clock", style: MyTextTheme.largeBN),
+            title: Expanded(
+                child: Text("Prayer O'Clock", style: MyTextTheme.largeBN)),
             actions: [
               Padding(
                 padding: const EdgeInsets.all(7.0),
@@ -61,20 +62,39 @@ class DashBoardView extends GetView<DashBoardController> {
                     GetBuilder<DashBoardController>(
                         id: 'add',
                         builder: (_) {
-                          return InkWell(
+                          return
+                            InkWell(
                             onTap: (){
-                              Dialogs.showConfirmationDialog(context: context, onConfirmed: ()async{
+                              Dialogs.showConfirmationDialog(
+                              context: context,
+                              onConfirmed: ()async{
                                 return controller.changeLocation();
-                              },showCancelButton: false,
-                                  initialMessage: 'Change Location',confirmButtonText: 'Get Current Location',
-                                  confirmButtonColor: AppColor.buttonColor,
+                              },
+                              showCancelButton: false,
+                                  initialMessage: 'Change Location',
+                                  confirmButtonText: 'Use Current Location',
+                                  confirmButtonColor: Colors.white.withOpacity(0.1),
                                   successMessage: controller.address,
                                   loadingMessage: 'Getting Current Location...');
                             },
-                            child: Text(
-                              controller.address,
-                              style: MyTextTheme.greyNormal,
-                            ),
+                            child:
+                            // Text(
+                            //   locationController.text.isNotEmpty
+                            //       ? locationController.text
+                            //       : controller.address,
+                            //   style: MyTextTheme.greyNormal,
+                            // ),
+                            Obx((){
+                              return  Text(
+                                controller.locationName.value.isNotEmpty
+                                    ? (controller.locationName.value.length > 8
+                                    ? '${controller.locationName.value.substring(0, 8)}...'
+                                    : controller.locationName.value)
+                                    : controller.address,
+
+                              );
+                            })
+
                           );
                         }
                     ),
@@ -165,8 +185,6 @@ class DashBoardView extends GetView<DashBoardController> {
             ],
           ),
 
-
-
       drawer: const CustomDrawer(),
       body: SingleChildScrollView(
         child: GetBuilder<DashBoardController>(
@@ -225,11 +243,11 @@ class DashBoardView extends GetView<DashBoardController> {
                       children: [
                         Obx(() {
                           // controller.calculateCompletionPercentage();
-                          print("completionPercentage ${controller.completionPercentage}");
-                          print("controller.isPrayed ${controller.isPrayed}");
-                          print("controller.nextPrayer ${controller.nextPrayer}");
-                          print("controller.nextPrayer ${controller.currentPrayer}");
-                          print("controller.nextPrayer ${controller.currentPrayerStartTime}");
+                          // print("completionPercentage ${controller.completionPercentage}");
+                          // print("controller.isPrayed ${controller.isPrayed}");
+                          // print("controller.nextPrayer ${controller.nextPrayer}");
+                          // print("controller.nextPrayer ${controller.currentPrayer}");
+                          // print("controller.nextPrayer ${controller.currentPrayerStartTime}");
                           return controller.isPrayed?CircularPercentIndicator(
                             restartAnimation: false,
                             circularStrokeCap: CircularStrokeCap.round,
@@ -309,7 +327,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             top: 70,
                             child: Obx(() {
                               // Check if there's a current prayer, if not, show the next prayer
-                              print("ccccccccccc ${controller.currentPrayer.value}");
+                              //print("ccccccccccc ${controller.currentPrayer.value}");
                               if (controller.currentPrayer.value.isEmpty) {
                                 // Show next prayer message with blinking effect
                                 return Center(
@@ -471,7 +489,8 @@ class DashBoardView extends GetView<DashBoardController> {
                             return Positioned(
                               // top: -35, // Adjust the 'top' value as per your layout
                               child: Lottie.asset(
-                                "assets/award.lottie",
+                                // "assets/award.lottie",
+                                "assets/shield.lottie",
                                 repeat: false,
                                 decoder: customDecoder, // Replace with your new Lottie animation path
                                 width: 300,  // Adjust the width and height as per your design
@@ -638,8 +657,142 @@ class DashBoardView extends GetView<DashBoardController> {
       );}
   ))
     );
-}}
-
+}
+  // showCustomBottomSheet2({
+  //   required BuildContext context,
+  //   required String message,
+  //   required String confirmButtonText,
+  //   String? cancelButtonText,
+  //   Color? confirmButtonColor,
+  //   bool showCancelButton = true,
+  //   VoidCallback? onConfirmed,
+  //   VoidCallback? onCancelled,
+  //   bool isProcessing = false,
+  //   required String loadingMessage, required String successMessage,
+  // }) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.circular(50)
+  //     ),
+  //     backgroundColor: Colors.transparent,
+  //     builder: (BuildContext context) {
+  //       return Container(
+  //         height: 380,
+  //         padding: const EdgeInsets.all(20.0),
+  //         decoration: BoxDecoration(
+  //           image: const DecorationImage(
+  //             opacity: 0.9,
+  //             image: AssetImage("assets/net.png"),
+  //             fit: BoxFit.cover,
+  //           ),
+  //           color: AppColor.gray,
+  //           borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+  //         ),
+  //         child: Column(
+  //           // mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             SizedBox(height: 50,),
+  //             Image.asset(
+  //               "assets/container.png",
+  //               width: 40,
+  //               height: 50,
+  //             ),
+  //             const SizedBox(height: 10),
+  //             Text(
+  //               message,
+  //              style: MyTextTheme.mustardN,
+  //               textAlign: TextAlign.center,
+  //             ),
+  //             const SizedBox(height: 40),
+  //             TextField(
+  //               //controller: controller.nameC.value,
+  //               cursorColor: AppColor.circleIndicator,
+  //               decoration: InputDecoration(
+  //                 suffixIcon: Icon(Icons.search),
+  //                 hintText: "Enter an address",
+  //                 hintStyle: MyTextTheme.mediumCustomGCN,
+  //                 // prefixIcon: Image.asset("asset/profile.png"),
+  //                 fillColor: Colors.white.withOpacity(0.1),
+  //                 filled: true,
+  //                 border: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.circular(10),
+  //                   borderSide: const BorderSide(
+  //                     color: Colors.white,
+  //                   ),
+  //                 ),
+  //                 enabledBorder: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.circular(10),
+  //                   borderSide: const BorderSide(
+  //                     color: Colors.white,
+  //                     width: 1,
+  //                   ),
+  //                 ),
+  //                 focusedBorder: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.circular(10),
+  //                   borderSide: const BorderSide(
+  //                     color: Colors.white,
+  //                     width: 1,
+  //                   ),
+  //                 ),
+  //               ),
+  //               style: const TextStyle(
+  //                 color: Colors.white,
+  //               ),
+  //             ),
+  //             SizedBox(
+  //               height: 20,
+  //             ),
+  //
+  //             // TextField(
+  //             //   //controller: controller.nameC.value,
+  //             //   cursorColor: AppColor.circleIndicator,
+  //             //   decoration: InputDecoration(
+  //             //     prefixIcon: Icon(Icons.location_on),
+  //             //     hintText: "Use Current Location",
+  //             //     suffixIcon:  InkWell(
+  //             //       onTap: (){
+  //             //       },
+  //             //         child: Icon(Icons.arrow_forward_ios,color: Colors.white,size: 20,)
+  //             //
+  //             //     ),
+  //             //     hintStyle: MyTextTheme.mediumCustomGCN,
+  //             //     // prefixIcon: Image.asset("asset/profile.png"),
+  //             //     fillColor: Colors.white.withOpacity(0.1),
+  //             //     filled: true,
+  //             //     border: OutlineInputBorder(
+  //             //       borderRadius: BorderRadius.circular(10),
+  //             //       borderSide: const BorderSide(
+  //             //         color: Colors.white,
+  //             //       ),
+  //             //     ),
+  //             //     enabledBorder: OutlineInputBorder(
+  //             //       borderRadius: BorderRadius.circular(10),
+  //             //       borderSide: const BorderSide(
+  //             //         color: Colors.white,
+  //             //         width: 1,
+  //             //       ),
+  //             //     ),
+  //             //     focusedBorder: OutlineInputBorder(
+  //             //       borderRadius: BorderRadius.circular(10),
+  //             //       borderSide: const BorderSide(
+  //             //         color: Colors.white,
+  //             //         width: 1,
+  //             //       ),
+  //             //     ),
+  //             //   ),
+  //             //   style: const TextStyle(
+  //             //     color: Colors.white,
+  //             //   ),
+  //             // ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+}
 class BlinkingTextWidget extends StatefulWidget {
   final String text;
   final TextStyle style;
@@ -684,7 +837,7 @@ class _BlinkingTextWidgetState extends State<BlinkingTextWidget> with SingleTick
 
 
 class UserRankCarousel extends StatelessWidget {
-  
+
   final String prayerName;
 
   const UserRankCarousel({this.prayerName='Asr'});
@@ -1735,11 +1888,8 @@ class _UserRankListState extends State<UserRankList> {
         return 'th';
     }
   }
+
+
 }
-
-
-
-
-
 
 

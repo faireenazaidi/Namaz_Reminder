@@ -15,6 +15,7 @@ import '../Widget/location_services.dart';
 import '../main.dart';
 class DashBoardController extends GetxController {
   final PageController pageController = PageController();
+  Rx<TextEditingController> locationController = TextEditingController().obs;
 
   RxString islamicDate = ''.obs;
   RxInt rank = 0.obs;
@@ -30,10 +31,10 @@ class DashBoardController extends GetxController {
   RxDouble progressPercent = 0.0.obs;
   RxList<String> avatars = <String>[].obs;
   RxString location = ''.obs;
+
   var selectedDate = Rx<DateTime>(DateTime.now());
  var isMute= false.obs;
   var prayerMuteStates = <String, bool>{}.obs; // Map to hold mute states
-
   var muteStates = <String, RxBool>{}.obs;
   UserData userData = UserData();
   void toggle(String prayerName){
@@ -75,8 +76,10 @@ class DashBoardController extends GetxController {
   Timer? prayerTimer;
   Timer? remainingTimeTimer;
 
+  RxString locationName = "".obs;
   void updateLocation(String newLocation) {
     location.value = newLocation;
+    locationName.value = location.value;
   }
 
   set updateExtractedData(List<CalendarWiseData> data) {
@@ -139,6 +142,7 @@ class DashBoardController extends GetxController {
         latitude: position!.latitude.toString(),
         longitude: position!.longitude.toString(),
         address: address);
+    print("Address "+address.toString());
     userData.addLocationData(locationData);
     print("new uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude
         .toString()}");
@@ -159,6 +163,7 @@ class DashBoardController extends GetxController {
     remainingTimeTimer!.cancel();
     prayerTimer!.cancel();
     _timer?.cancel();
+    locationController.value.dispose();
     super.dispose();
   }
 
@@ -712,11 +717,11 @@ RxString nextPrayerName = ''.obs;
     }
 
     remainingTimeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      print("Timer tick... Checking prayer start and end times.");
+      //print("Timer tick... Checking prayer start and end times.");
 
       // Check again to see if start and end times are now set
       if (currentPrayerStartTime.value.isNotEmpty && currentPrayerEndTime.value.isNotEmpty)  {
-        print("Start and end times are set, proceeding with timer logic.");
+        //print("Start and end times are set, proceeding with timer logic.");
 
         try {
           DateTime now = DateTime.now();
@@ -727,9 +732,9 @@ RxString nextPrayerName = ''.obs;
           startTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
           endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
 
-          print("currentPrayerStartTime ${currentPrayerStartTime.value}");
-          print("currentPrayerEndTime ${currentPrayerEndTime.value}");
-          print("now $now");
+          // print("currentPrayerStartTime ${currentPrayerStartTime.value}");
+          // print("currentPrayerEndTime ${currentPrayerEndTime.value}");
+          // print("now $now");
 
           // Check if the current time is in a gap (before the next prayer's start time)
           if (now.isBefore(startTime)) {
@@ -769,7 +774,7 @@ RxString nextPrayerName = ''.obs;
             isGapPeriod.value = false;
             // Calculate remaining time for the current prayer duration
             Duration remainingDuration = endTime.difference(now);
-            print("Time remaining for the current prayer: ${formatDuration(remainingDuration)}");
+            //print("Time remaining for the current prayer: ${formatDuration(remainingDuration)}");
             remainingTime.value = formatDuration(remainingDuration);
 
             // Check if remaining time is negative to transition to the next prayer
@@ -871,8 +876,8 @@ RxString nextPrayerName = ''.obs;
             completionPercentage.value = elapsedDuration.inSeconds / totalDuration.inSeconds;
           }
 
-          print("Prayer progresss: ${completionPercentage.value}");
-          print("Prayer progress: ${completionPercentage.value * 100}%");
+          // print("Prayer progresss: ${completionPercentage.value}");
+          // print("Prayer progress: ${completionPercentage.value * 100}%");
         }
       } else {
         // Start or end time is missing; reset the progress

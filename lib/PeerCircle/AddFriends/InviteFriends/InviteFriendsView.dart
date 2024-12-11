@@ -1,9 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendController.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../Widget/appColor.dart';
 import '../../../Widget/text_theme.dart';
+import '../AddFriendController.dart';
 import 'InviteFriendsController.dart';
 
 class InviteView extends GetView<InviteController> {
@@ -12,6 +13,7 @@ class InviteView extends GetView<InviteController> {
   @override
   Widget build(BuildContext context) {
     final AddFriendController addFriendController = Get.find<AddFriendController>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,17 +36,21 @@ class InviteView extends GetView<InviteController> {
       ),
       body: Obx(
             () {
-              final validContacts = controller.contacts.where((contact) {
-                final hasName = contact.displayName?.isNotEmpty ?? false;
-                final hasNumber = contact.phones?.isNotEmpty ?? false;
-                final registeredNumbers = addFriendController.registeredUsers.map((user) => user.phoneNumber).whereType<String>();
-                final isRegistered = contact.phones?.any((phone) =>
-                    registeredNumbers.contains(phone.value)) ?? false;
-                return (hasName || hasNumber) && !isRegistered;
-              }).toList();
+          final registeredNumbers = addFriendController.registeredUsers
+              .map((user) => user.phoneNumber)
+              .whereType<String>()
+              .toSet();
 
+          final validContacts = controller.contacts.where((contact) {
+            final hasName = contact.displayName?.isNotEmpty ?? false;
+            final hasNumber = contact.phones?.isNotEmpty ?? false;
+            final isRegistered = contact.phones?.any(
+                  (phone) => registeredNumbers.contains(phone.value),
+            ) ?? false;
+            return (hasName || hasNumber) && !isRegistered;
+          }).toList();
 
-              if (validContacts.isEmpty) {
+          if (validContacts.isEmpty) {
             return const Center(
               child: Text(
                 "No contacts available to invite",
@@ -52,13 +58,15 @@ class InviteView extends GetView<InviteController> {
               ),
             );
           }
-          return validContacts.isEmpty
-              ? const Center(child: Text("No valid contacts found"))
-              :
-          ListView.builder(
+
+          return ListView.builder(
             itemCount: validContacts.length,
             itemBuilder: (context, index) {
               Contact contact = validContacts[index];
+              final phoneNumber = contact.phones?.isNotEmpty == true
+                  ? contact.phones!.first.value!.replaceAll(RegExp(r'\s+'), '')
+                  : "";
+
               return ListTile(
                 title: Text(contact.displayName ?? "No Name"),
                 subtitle: contact.phones?.isNotEmpty ?? false
@@ -73,15 +81,20 @@ class InviteView extends GetView<InviteController> {
                 ),
                 trailing: TextButton(
                   onPressed: () {
-                    // Get.snackbar(
-                    //   'Invite Sent',
-                    //   'Invitation sent to ${contact.displayName ?? "this contact"}',
-                    //   snackPosition: SnackPosition.BOTTOM,
-                    // );
+                    if (phoneNumber.isNotEmpty) {
+                      final inviteMessage = "Hi ${contact.displayName ?? "Friend"}, join us on our amazing app! Here's the link: [Insert App Link]";
+                      Share.share(inviteMessage);
+                    } else {
+                      Get.snackbar(
+                        'Error',
+                        'This contact does not have a valid phone number.',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
                   },
-                  child:  Text(
+                  child: Text(
                     'Invite',
-                    style: MyTextTheme.mustardN.copyWith(fontWeight:FontWeight.normal),
+                    style: MyTextTheme.mustardN.copyWith(fontWeight: FontWeight.normal),
                   ),
                 ),
               );

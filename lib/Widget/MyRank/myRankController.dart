@@ -1,3 +1,4 @@
+
 import 'package:get/get.dart';
 import '../../Services/user_data.dart';
 
@@ -15,4 +16,5 @@ class MyRankController extends GetxController {
     print('hhhhhhhhh');
     print(rank.value);
   }
+
 }

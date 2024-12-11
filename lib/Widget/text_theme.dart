@@ -128,6 +128,12 @@ class MyTextTheme {
       fontSize: 16,
       fontWeight: FontWeight.normal
   );
+  static TextStyle locationT = GoogleFonts.roboto(
+      color: AppColor.white,
+      fontSize: 14,
+      fontWeight: FontWeight.normal
+  );
+
   static TextStyle rank = GoogleFonts.aBeeZee(
     color: AppColor.white,
     fontSize: 10,
@@ -407,6 +413,11 @@ class MyTextTheme {
       color: AppColor.circleIndicator,
       fontSize: 12,
       fontWeight: FontWeight.w600
+  );
+  static TextStyle m = GoogleFonts.roboto(
+      color: AppColor.circleIndicator,
+      fontSize: 16,
+      fontWeight: FontWeight.normal
   );
 
 }

@@ -242,11 +242,11 @@ class PrayerRanking extends StatelessWidget {
                   padding: EdgeInsets.all(1),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.grey,),
+                    border: Border.all(color: AppColor.circleIndicator,),
                   ),
-                  child:const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.person,color: Colors.grey,size: 30,),
+                    child: Icon(Icons.person,color: AppColor.circleIndicator,size: 30,),
                   ),
                 ),
                 id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
