@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
 import 'package:namaz_reminders/Setting/FriendRequests/friendRequestView.dart';
+import 'package:namaz_reminders/Setting/HijriDate/hijriController.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriDate.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
@@ -12,92 +13,95 @@ import 'SettingController.dart';
 class SettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final HijriController hijriController = Get.put(HijriController());
     return GetBuilder<SettingController>(
       init: SettingController(),
       builder: (controller) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
+        return SafeArea(
+          top: true,
+          child: Scaffold(
             backgroundColor: Colors.white,
-            centerTitle: true,
-            title: Text('Settings', style: MyTextTheme.mediumBCD),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(1.0),
-              child: Divider(
-                height: 1.5,
-                color: AppColor.packageGray,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              title: Text('Settings', style: MyTextTheme.mediumBCD),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Divider(
+                  height: 1.5,
+                  color: AppColor.packageGray,
+                ),
+              ),
+              leading: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: const Icon(Icons.arrow_back_ios_new,size: 20,),
               ),
             ),
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: const Icon(Icons.arrow_back_ios_new,size: 20,),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                SizedBox(height: 10,),
-                /// This Searchbar is temporarily hidden///
-                SizedBox(height: 10),
-                // Settings List
-                Expanded(
-                  child: ListView(
-                    children: [
-                      buildSettingItem(
-                        title: 'Hijri Date Adjustment',
-                        subtitle: 'One day ahead',
-                        onTap: () {
-                          Get.to(
-                                () => HijriDateView(),
-                            transition: Transition.leftToRight,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
+            body: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 10,),
+                  /// This Searchbar is temporarily hidden///
+                  SizedBox(height: 10),
+                  // Settings List
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        buildSettingItem(
+                          title: 'Hijri Date Adjustment',
+                          subtitle:hijriController.getCurrentSubtitle(),
+                          onTap: () {
+                            Get.to(
+                                  () => HijriDateView(),
+                              transition: Transition.leftToRight,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                          },
+                          imagePath:"assets/hijri.svg"
+                        ),
+                        buildSettingItem(
+                          title: 'Notifications',
+                          subtitle: '',
+                          onTap: () {
+                            Get.to(() => NotificationSetting(),
+                              transition: Transition.leftToRight,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,);
+                          },
+                            imagePath:"assets/notifi.svg"
+                        ),
+                        buildSettingItem(
+                          title: 'Friend Request',
+                          subtitle: 'Manage who can send you joining request',
+                          onTap: () {
+                            Get.to(() => RequestView(),
+                              transition: Transition.leftToRight,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,);
+                          },
+                            imagePath:"assets/frndrqst.svg"
+                        ),
+                        buildSettingItem(
+                          title: 'Privacy & Security',
+                          subtitle: '',
+                          onTap: () {
+                            Get.to(() => PrivacyView(),
+                              transition: Transition.leftToRight,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,);
+                          },
+                            imagePath:"assets/privacy.svg"
+                        ),
 
-                        },
-                        imagePath:"assets/hijri.svg"
-                      ),
-                      buildSettingItem(
-                        title: 'Notifications',
-                        subtitle: '',
-                        onTap: () {
-                          Get.to(() => NotificationSetting(),
-                            transition: Transition.leftToRight,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,);
-                        },
-                          imagePath:"assets/notifi.svg"
-                      ),
-                      buildSettingItem(
-                        title: 'Friend Request',
-                        subtitle: 'Manage who can send you joining request',
-                        onTap: () {
-                          Get.to(() => RequestView(),
-                            transition: Transition.leftToRight,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,);
-                        },
-                          imagePath:"assets/frndrqst.svg"
-                      ),
-                      buildSettingItem(
-                        title: 'Privacy & Security',
-                        subtitle: '',
-                        onTap: () {
-                          Get.to(() => PrivacyView(),
-                            transition: Transition.leftToRight,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,);
-                        },
-                          imagePath:"assets/privacy.svg"
-                      ),
-
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

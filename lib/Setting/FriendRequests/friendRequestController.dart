@@ -64,7 +64,7 @@ class RequestController extends GetxController {
     await userData.addUserData(userModel);
     print("userData ${userData.getUserData?.toJson()}");
     if(!isFirst){
-      showToast(msg: 'settings Updated',bgColor: Colors.black);
+      showToast(msg: 'Settings Updated',bgColor: Colors.black);
     }
 
 

@@ -62,6 +62,7 @@ class DashBoardController extends GetxController {
     'Maghrib',
     'Isha'
   ].obs;
+
   var currentPrayerIndex = 0.obs;
   RxInt nextPrayerIndex = 1.obs;
   var isLoading = false.obs;

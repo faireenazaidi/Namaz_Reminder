@@ -10,68 +10,70 @@ class NamazAlertView extends GetView<NamazAlertController>{
 
 
     // TODO: implement build
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text('Pre Namaz Alert', style: MyTextTheme.mediumBCD),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Divider(
-            height: 1.5,
-            color: AppColor.packageGray,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text('Pre Namaz Alert', style: MyTextTheme.mediumBCD),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Divider(
+              height: 1.5,
+              color: AppColor.packageGray,
+            ),
+          ),
+          leading: InkWell(
+            onTap: () {
+              // Get.back();
+              Get.back();          },
+            child: const Icon(Icons.arrow_back_ios_new,size: 20,),
           ),
         ),
-        leading: InkWell(
-          onTap: () {
-            // Get.back();
-            Get.back();          },
-          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 5),
-              for (int i = 0; i < 5; i++)
-                GestureDetector(
-                  onTap: () {
-                    namazAlertController.selectItem(i);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: Container(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Obx(() {
-                            return Text(
-                              _getOptionText(i), // Get the appropriate text
-                              style: namazAlertController.selectedIndex.value == i
-                                  ? MyTextTheme.mediumB2.copyWith(fontWeight: FontWeight.bold)
-                                  : MyTextTheme.mediumB2,
-                            );
-                          }),
-                          Obx(() {
-                            return namazAlertController.selectedIndex.value == i
-                                ? Icon(Icons.check, color: Colors.green)
-                                : SizedBox();
-                          }),
-                        ],
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 5),
+                for (int i = 0; i < 5; i++)
+                  GestureDetector(
+                    onTap: () {
+                      namazAlertController.selectItem(i);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Container(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Obx(() {
+                              return Text(
+                                _getOptionText(i), // Get the appropriate text
+                                style: namazAlertController.selectedIndex.value == i
+                                    ? MyTextTheme.mediumB2.copyWith(fontWeight: FontWeight.bold)
+                                    : MyTextTheme.mediumB2,
+                              );
+                            }),
+                            Obx(() {
+                              return namazAlertController.selectedIndex.value == i
+                                  ? Icon(Icons.check, color: Colors.green)
+                                  : SizedBox();
+                            }),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
+      
+      
       ),
-
-
     );
   }
 
