@@ -505,42 +505,39 @@ class DashBoardView extends GetView<DashBoardController> {
                   GetBuilder<DashBoardController>(
                     id: 'leader',
                     builder: (_) {
-                      return Visibility(
-                        visible: true,
-                        child: InkWell(
-                          onTap: (){
-                            Get.to(() => const LeaderBoardView(),
-                              transition: Transition.circularReveal,
-                              duration: Duration(milliseconds: 400),
-                              curve: Curves.ease,);
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: AppColor.leaderboard,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("LEADERBOARD",style: MyTextTheme.greyN,),
-                                    SvgPicture.asset("assets/Close.svg")
-                                  ],
-                                ),
-                                const SizedBox(height: 12,),
-                                UserRankList(records: controller.getLeaderboardList.value == null
-                                    ? []
-                                    : controller.getLeaderboardList.value!.records, prayerName: controller.currentPrayer.value,),
-                              ],
-                            ),
-
+                      return InkWell(
+                        onTap: (){
+                          Get.to(() => const LeaderBoardView(),
+                            transition: Transition.circularReveal,
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.ease,);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColor.leaderboard,
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("LEADERBOARD",style: MyTextTheme.greyN,),
+                                  SvgPicture.asset("assets/Close.svg")
+                                ],
+                              ),
+                              const SizedBox(height: 12,),
+                              UserRankList(records: controller.getLeaderboardList.value == null
+                                  ? []
+                                  : controller.getLeaderboardList.value!.records, prayerName: controller.trackMarkPrayer,),
+                            ],
+                          ),
+
                         ),
-                        );
+                      );
                     }
                   ),
                   const SizedBox(height: 20),
