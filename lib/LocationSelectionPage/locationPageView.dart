@@ -242,7 +242,7 @@ class LocationPage extends GetView<LocationPageController> {
                             },
                             onCompleted: (verificationOTPCode) {
                               print("Completed OTP: $verificationOTPCode");
-                              controller.otpVerification(verificationOTPCode); // Uncomment if using a controller
+                              controller.otpVerification(verificationOTPCode,context); // Uncomment if using a controller
                             }, appContext: context,
                           ),
 
@@ -288,7 +288,7 @@ class LocationPage extends GetView<LocationPageController> {
                                                 TextSpan(
                                                     text: "Resend OTP ",
                                                     style:controller.isTimerRunning? MyTextTheme
-                                                        .mediumBCb:MyTextTheme.mediumWCB),
+                                                        .mediumBCb:MyTextTheme.mustardB),
                                                 TextSpan(
                                                     text: "in ",
                                                     style:

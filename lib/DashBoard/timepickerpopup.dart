@@ -266,7 +266,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     print("isAm ${dashBoardController.isAm}");
                     Lottie.asset("assets/Crown.lottie",
                         decoder: customDecoder, height: 60);
-                    dashBoardController.submitPrayer(valDate: widget.date,isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,missedCallBack: widget.missedCallBack);
+                    dashBoardController.submitPrayer(valDate: widget.date,isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,missedCallBack: widget.missedCallBack, context: context);
                   },
                 ),
                 // Submit Button

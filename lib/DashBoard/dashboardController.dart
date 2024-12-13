@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import '../AppManager/dialogs.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 import '../DataModels/LoginResponse.dart';
@@ -77,9 +78,12 @@ class DashBoardController extends GetxController {
   Timer? remainingTimeTimer;
 
   RxString locationName = "".obs;
-  void updateLocation(String newLocation) {
-    location.value = newLocation;
-    locationName.value = location.value;
+  void updateLocation(LocationDataModel location) {
+    updateAddress = location.address.toString();
+    userData.addLocationData(location);
+    fetchPrayerTime();
+    // location.value = newLocation;
+    // locationName.value = location.value;
   }
 
   set updateExtractedData(List<CalendarWiseData> data) {
@@ -146,6 +150,7 @@ class DashBoardController extends GetxController {
     userData.addLocationData(locationData);
     print("new uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude
         .toString()}");
+    fetchPrayerTime();
     return true;
   }
   @override
@@ -237,13 +242,15 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> fetchPrayerTime({DateTime? specificDate}) async {
-    final latitude = position != null ? position!.latitude : double.parse(
-        userData.getLocationData!.latitude.toString());
-    final longitude = position != null ? position!.longitude : double.parse(
-        userData.getLocationData!.longitude.toString());
+    final latitude = userData.getLocationData != null ?double.parse(
+        userData.getLocationData!.latitude.toString()): position!.latitude;
+    final longitude = userData.getLocationData != null ? double.parse(
+        userData.getLocationData!.longitude.toString()) : position!.longitude;
     final method = userData.getUserData!.methodId;
     DateTime now = specificDate ?? DateTime.now();
     String formattedDate = DateFormat('yyyy/MM').format(now);
+    print("bull $latitude");
+    print("bull $longitude");
 
     isLoading.value = true;
     try {
@@ -368,7 +375,7 @@ class DashBoardController extends GetxController {
               },
               'Isha': {
                 'start': getExtractedData[0].timings?.isha ?? 'N/A',
-                'end': getExtractedData[0].timings?.midnight ?? 'N/A'
+                'end': '23:58 (IST)'
               },
             };
           //   userData.savePrayerTimings(prayerDuration);
@@ -434,12 +441,16 @@ class DashBoardController extends GetxController {
             // Check if Dhuhr or Maghrib is prayed
             bool dhuhrPrayed = isPrayedList.any((item) =>
             item['prayer_name'] == 'Dhuhr' && item['prayed'] == true);
+            print("dhuhrPrayed $dhuhrPrayed");
             bool asrPrayed = isPrayedList.any((item) =>
             item['prayer_name'] == 'Asr' && item['prayed'] == true);
+            print("asrPrayed $asrPrayed");
             bool maghribPrayed = isPrayedList.any((item) =>
             item['prayer_name'] == 'Maghrib' && item['prayed'] == true);
             bool ishaPrayed = isPrayedList.any((item) =>
             item['prayer_name'] == 'Isha' && item['prayed'] == true);
+            print("maghribPrayed$maghribPrayed");
+            print("maghribPrayed$ishaPrayed");
 
             if ((dhuhrPrayed || maghribPrayed)&&(currentPrayer.value=='Dhuhr'||currentPrayer.value=='Maghrib')) {
               print("Dhuhr or Maghrib is prayed. Moving to the next prayer. ${currentPrayer.value}");
@@ -450,8 +461,11 @@ class DashBoardController extends GetxController {
                 currentPrayer.value = 'Asr';
                 if(!asrPrayed) {
                   isPrayed = false;
+                }else{
+                  isPrayed = asrPrayed;
                 }
                 print('prayerDuration: $prayerDuration');
+                print('isPrayed: $isPrayed');
               }
               else{
                 if(maghribPrayed){
@@ -543,7 +557,7 @@ class DashBoardController extends GetxController {
       if (prayer['prayer_name'] == prayerName) {
         print("isPrayed ${prayer['prayer_name']}");
         print("lllllllllll${prayer['prayed']}");
-        return prayer['prayed']=='1'?true:false;
+        return prayer['prayed'];
       }
     }
     print("out of loop");
@@ -897,8 +911,9 @@ RxString nextPrayerName = ''.obs;
   bool isGifVisible = false;
   bool isAm = false;
   submitPrayer({String? valDate,bool? isFromMissed,Future<dynamic> Function()? missedCallBack, String? prayerNames,String? startTime,
-  String? endTime}) async {
+  String? endTime,required BuildContext context}) async {
     Get.back();
+    Dialogs.showLoading(context,message: 'loading...');
     // print("quad: ${latAndLong?.latitude}   ${latAndLong?.longitude}");
     DateTime date = DateTime.now();
     String formattedDate =valDate ?? DateFormat('dd-MM-yyyy').format(date);
@@ -943,6 +958,7 @@ RxString nextPrayerName = ''.obs;
       http.StreamedResponse response = await request.send();
       String responseString = await response.stream.bytesToString();
       print("Raw API response: $responseString");
+      Dialogs.hideLoading();
 if(isFromMissed!){
   missedCallBack!();
   Get.snackbar('Prayer Marked', 'Success',backgroundColor: Colors.black,colorText: Colors.white,snackPosition: SnackPosition.BOTTOM);
@@ -992,7 +1008,7 @@ List isPrayedList = [];
       print(decodeData);
       // updateLeaderboardList = decodeData['records'];
       updateIsPrayedList(decodeData['records']);
-      print("@@@@@@@@@@@@ $isPrayedList");
+      log("@@@@@@@@@@@@ $isPrayedList");
     }
     else {
       print(response.reasonPhrase);

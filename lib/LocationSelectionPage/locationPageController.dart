@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
+import '../AppManager/dialogs.dart';
 import '../Services/firebase_services.dart';
 import '../Services/user_data.dart';
 import 'locationPageDataModal.dart';
@@ -245,7 +246,8 @@ Map selectMethod = {}.obs;
 
   /// Otp verification
 
-  otpVerification(verificationOTPCode) async {
+  otpVerification(verificationOTPCode,context) async {
+    Dialogs.showLoading(context,message: 'Validating');
     var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim(),
       'token':FirebaseMessagingService().getToken()};
 
@@ -257,6 +259,7 @@ Map selectMethod = {}.obs;
 
 
     otpData = jsonDecode(request.body);
+    Dialogs.hideLoading();
     if (otpData['response_code'].toString() == "1") {
       final userModel = UserModel.fromJson(otpData['response_data']['user']);
       if(otpData['response_data']['detail'].toString()!='Invalid or expired OTP'){

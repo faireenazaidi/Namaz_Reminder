@@ -28,8 +28,8 @@ class SplashScreen extends GetView<SplashController> {
 
             // Center widget or title
             Center(
-              child: SvgPicture.asset(
-                "assets/title.svg",
+              child: Image.asset(
+                "assets/ic_launcher.png",
                 fit: BoxFit.contain,
               ),
             ),

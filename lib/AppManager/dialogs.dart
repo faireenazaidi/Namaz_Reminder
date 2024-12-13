@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import '../DashBoard/dashboardController.dart';
+import '../DataModels/LoginResponse.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
@@ -214,6 +215,7 @@ class ConfirmationDialogState extends State<ConfirmationDialog> {
   bool isManualSelection = false;
   RxString isEnable = "".obs;
   RxString longitude = "".obs;
+  late LocationDataModel locationData;
 
 
   @override
@@ -338,7 +340,11 @@ locationPlace(){
                               getPlaceDetailWithLatLng: (Prediction prediction) {
                                 // this method will return latlng with place detail
                                 print("placeDetails" + prediction.lng.toString());
-                                 longitude.value = prediction.lng.toString();
+                                locationData = LocationDataModel(
+                                    latitude: prediction.lat.toString(),
+                                    longitude: prediction.lng.toString(),
+                                    address: prediction.description);
+                                 longitude.value = prediction.toString();
                               },
                               itemClick: (Prediction prediction) {
                                 dashBoardController.locationController.value.text=prediction.description!;
@@ -439,9 +445,10 @@ locationPlace(){
                                  // if (newLocation.isNotEmpty && isManualSelection)
                                      if ( isManualSelection)
                                     {
-                                    dashBoardController.updateLocation(newLocation);
+                                      Get.back();
+                                    dashBoardController.updateLocation(locationData);
                                     // updateLocation(newLocation);
-                                    Get.back();
+
                                   } null;
                                 },
                               ),

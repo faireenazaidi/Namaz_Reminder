@@ -25,6 +25,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
+    final DashBoardController controller = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
 
     // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
@@ -39,7 +40,7 @@ class DashBoardView extends GetView<DashBoardController> {
       appBar:
           AppBar(
             bottom: PreferredSize(
-              preferredSize:  Size.fromHeight(1.0),
+              preferredSize:  const Size.fromHeight(1.0),
               child: Divider(
                 height: 1.0,
                 color: AppColor.packageGray,
@@ -48,8 +49,7 @@ class DashBoardView extends GetView<DashBoardController> {
             toolbarHeight: 55,
             backgroundColor: Colors.transparent,
             titleSpacing: 0,
-            title: Expanded(
-                child: Text("Prayer O'Clock", style: MyTextTheme.largeBN)),
+            title: Text("Prayer O'Clock", style: MyTextTheme.largeBN),
             actions: [
               Padding(
                 padding: const EdgeInsets.all(7.0),
@@ -74,26 +74,23 @@ class DashBoardView extends GetView<DashBoardController> {
                                   initialMessage: 'Change Location',
                                   confirmButtonText: 'Use Current Location',
                                   confirmButtonColor: Colors.white.withOpacity(0.1),
-                                  successMessage: controller.address,
+                                  successMessage: "Location Updated",
                                   loadingMessage: 'Getting Current Location...');
                             },
                             child:
-                            // Text(
-                            //   locationController.text.isNotEmpty
-                            //       ? locationController.text
-                            //       : controller.address,
-                            //   style: MyTextTheme.greyNormal,
-                            // ),
-                            Obx((){
-                              return  Text(
-                                controller.locationName.value.isNotEmpty
-                                    ? (controller.locationName.value.length > 8
-                                    ? '${controller.locationName.value.substring(0, 8)}...'
-                                    : controller.locationName.value)
-                                    : controller.address,
+                            Text(
+                               controller.address.split(',')[0].toString(),
+                              style: MyTextTheme.greyNormal,
+                            ),
+                             // Text(
+                             //    controller.locationName.value.isNotEmpty
+                             //        ? (controller.locationName.value.length > 8
+                             //        ? '${controller.locationName.value.substring(0, 8)}...'
+                             //        : controller.locationName.value)
+                             //        : controller.address,
+                             //
+                             //  )
 
-                              );
-                            })
 
                           );
                         }
