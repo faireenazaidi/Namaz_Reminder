@@ -482,10 +482,12 @@ class LocationPage extends GetView<LocationPageController> {
                                   Container(
                                     height: 250,
                                     child: ListView.builder(
-                                      physics: AlwaysScrollableScrollPhysics(
+                                      physics: const AlwaysScrollableScrollPhysics(
                                           parent: BouncingScrollPhysics()
                                       ),
-                                      itemCount: controller.getCalculationList.length,
+                                      itemCount: controller.getCalculationList
+                                          .where((item) => item.name != null)
+                                             .length,
                                       shrinkWrap: true,padding: EdgeInsets.zero,
                                       itemBuilder: (context, index) {
                                         print("Checkdata${controller.getCalculationList.length}");
@@ -502,9 +504,9 @@ class LocationPage extends GetView<LocationPageController> {
                                                 }
                                                 print("object1"+controller.calculationList[index]['isChecked'].toString());
                                               });
-
                                       },),
                                   ),
+
 
                                   const SizedBox(
                                     height: 20,

@@ -11,68 +11,70 @@ class HijriDateView extends GetView<SettingController> {
   Widget build(BuildContext context) {
     final HijriController hijriController = Get.put(HijriController());
     final DashBoardController dashboardController = Get.put(DashBoardController());
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    print("kkk");
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text('Hijri Date Adjustment', style: MyTextTheme.mediumBCD),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Divider(
-            height: 1.5,
-            color: AppColor.packageGray,
-          ),
-        ),
-        leading: InkWell(
-          onTap: () {
-            Get.back(
-              //     () => SettingView(),
-              // transition: Transition.rightToLeft,
-              // duration: Duration(milliseconds: 500),
-              // curve: Curves.ease,
-            );
-          },
-          child: const Icon(Icons.arrow_back_ios_new, size: 20),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-    GetBuilder<HijriController>(
-      builder: (_) {
-        return ListView.builder(
-          shrinkWrap: true,
-        itemCount: hijriController.hijriDateAdjustment.length,
-        itemBuilder: (context, index) {
-        // Get the current day mapping
-        var day = hijriController.hijriDateAdjustment[index];
-        return ListTile(
-          title: Text(
-            day['name'],
-            style: TextStyle(
-              fontWeight: hijriController.selectedId == day['id']
-                  ? FontWeight.bold
-                  : FontWeight.normal,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text('Hijri Date Adjustment', style: MyTextTheme.mediumBCD),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Divider(
+              height: 1.5,
+              color: AppColor.packageGray,
             ),
           ),
-          trailing: hijriController.selectedId == day['id']
-              ? const Icon(Icons.check, color: Colors.green)
-              : null,
-          onTap: () {
-            hijriController.updateSelectedId(day['id']);
-            hijriController.registerUser();
-            hijriController.selectItem(day['id']);
-          },
-        );
-
-        });
-      }
-    ),
-            ],
+          leading: InkWell(
+            onTap: () {
+              Get.back(
+                //     () => SettingView(),
+                // transition: Transition.rightToLeft,
+                // duration: Duration(milliseconds: 500),
+                // curve: Curves.ease,
+              );
+            },
+            child: const Icon(Icons.arrow_back_ios_new, size: 20),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+      GetBuilder<HijriController>(
+        builder: (_) {
+          return ListView.builder(
+            shrinkWrap: true,
+          itemCount: hijriController.hijriDateAdjustment.length,
+          itemBuilder: (context, index) {
+          // Get the current day mapping
+          var day = hijriController.hijriDateAdjustment[index];
+          return ListTile(
+            title: Text(
+              day['name'],
+              style: TextStyle(
+                fontWeight: hijriController.selectedId == day['id']
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+              ),
+            ),
+            trailing: hijriController.selectedId == day['id']
+                ? const Icon(Icons.check, color: Colors.green)
+                : null,
+            onTap: () {
+              hijriController.updateSelectedId(day['id']);
+              hijriController.registerUser();
+              hijriController.selectItem(day['id']);
+            },
+          );
+      
+          });
+        }
+      ),
+              ],
+            ),
           ),
         ),
       ),

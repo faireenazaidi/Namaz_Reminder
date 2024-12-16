@@ -32,14 +32,22 @@ class HijriController extends GetxController {
   ];
 
 
+
   void selectItem(int id) {
     // selectedIndex.value = index;
-
+    updateSelectedId(id);
     // Get DashBoardController and update Islamic date
     final DashBoardController dashboardController = Get.find<DashBoardController>();
     dashboardController.updateIslamicDateBasedOnOption(id); // Update Hijri date in DashboardController
   }
 
+  String getCurrentSubtitle() {
+    final selectedAdjustment = hijriDateAdjustment.firstWhere(
+          (element) => element['id'] == selectedId,
+      orElse: () => {'name': 'None'},
+    );
+    return selectedAdjustment['name'];
+  }
 
   registerUser({bool isFirst=false}) async {
 
@@ -82,7 +90,7 @@ class HijriController extends GetxController {
     await userData.addUserData(userModel);
     print("userData ${userData.getUserData?.toJson()}");
     if(!isFirst){
-      showToast(msg: 'settings Updated',bgColor: Colors.black);
+      showToast(msg: 'Settings Updated',bgColor: Colors.black);
     }
   }
 }

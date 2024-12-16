@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
+import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
@@ -54,30 +55,26 @@ class Upcoming extends GetView<UpcomingController> {
             children: [
               SvgPicture.asset("assets/loc.svg"),
               const SizedBox(width: 4),
-              // InkWell(
-              //   onTap: () {
-              //     Dialogs.showConfirmationDialog(
-              //       context: context,
-              //       onConfirmed: () async {
-              //         return dashboardController.changeLocation();
-              //       },
-              //       showCancelButton: false,
-              //       initialMessage: 'Change Location',
-              //       confirmButtonText: 'Get Current Location',
-              //       confirmButtonColor: AppColor.buttonColor,
-              //       successMessage: dashboardController.address,
-              //       loadingMessage: 'Getting Current Location...',
-              //     );
-              //   },
-              Text(
-                dashboardController.locationController.value.text.isNotEmpty
-                    ? (dashboardController.locationController.value.text.length > 10
-                    ? '${dashboardController.locationController.value.text.substring(0, 10)}...'
-                    : dashboardController.locationController.value.text)
-                    : dashboardController.address,
-                style: MyTextTheme.greyNormal,
+              InkWell(
+                onTap: () {
+                  Dialogs.showConfirmationDialog(
+                    context: context,
+                    onConfirmed: () async {
+                      return dashboardController.changeLocation();
+                    },
+                    showCancelButton: false,
+                    initialMessage: 'Change Location',
+                    confirmButtonText: 'Get Current Location',
+                    confirmButtonColor: AppColor.buttonColor,
+                    successMessage: dashboardController.address,
+                    loadingMessage: 'Getting Current Location...',
+                  );
+                },
+                child: Text(
+                  dashboardController.address,
+                  style: MyTextTheme.greyNormal,
+                ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
@@ -174,8 +171,82 @@ class Upcoming extends GetView<UpcomingController> {
                               left: 0,
                               right: 0,
                               bottom: 0,
+                              // child: PageView.builder(
+                              //   controller: dashboardController.pageController,
+                              //   itemCount: dashboardController.prayerNames.length,
+                              //   itemBuilder: (context, index) {
+                              //     bool isHighlighted = false;
+                              //     bool isPassedPrayer = false;
+                              //
+                              //     // Compare current date with selected date
+                              //     bool isCurrentDate = DateFormat('yyyy-MM-dd').format(DateTime.now()) ==
+                              //         DateFormat('yyyy-MM-dd').format(dateController.selectedDate.value);
+                              //
+                              //     if (isCurrentDate) {
+                              //       if (dashboardController.nextPrayer.value.isEmpty) {
+                              //         int currentPrayerIndex =
+                              //         dashboardController.prayerNames.indexOf(dashboardController.currentPrayer.value);
+                              //         int nextPrayerIndex =
+                              //             (currentPrayerIndex + 1) % dashboardController.prayerNames.length;
+                              //         isHighlighted = nextPrayerIndex == index;
+                              //         isPassedPrayer = index < nextPrayerIndex;
+                              //       } else {
+                              //         isHighlighted = dashboardController.nextPrayer.value ==
+                              //             dashboardController.prayerNames[index];
+                              //         isPassedPrayer = dashboardController.prayerNames.indexOf(dashboardController.nextPrayer.value) > index;
+                              //       }
+                              //     }
+                              //
+                              //     return Transform.scale(
+                              //       scale: isHighlighted ? 1.1 : 1.0,
+                              //       child: Opacity(
+                              //         opacity: isHighlighted ? 1.0 : 0.6,
+                              //         child: Container(
+                              //           margin: const EdgeInsets.symmetric(horizontal: 8),
+                              //           child: Stack(
+                              //             children: [
+                              //               SvgPicture.asset(
+                              //                 "assets/Vec.svg",
+                              //                 colorFilter: isPassedPrayer
+                              //                     ? const ColorFilter.matrix(<double>[
+                              //                   0.2126, 0.7152, 0.072, 0, 0,
+                              //                   0.2126, 0.7152, 0.0722, 0, 0,
+                              //                   0.2126, 0.7152, 0.0722, 0, 0,
+                              //                   0, 0, 0, 1, 0,
+                              //                 ])
+                              //                     : null,
+                              //               ),
+                              //               Column(
+                              //                 mainAxisAlignment: MainAxisAlignment.center,
+                              //                 children: [
+                              //                   Text(
+                              //                     dashboardController.prayerNames[index].toUpperCase(),
+                              //                     style: TextStyle(
+                              //                       color: Colors.white,
+                              //                       fontSize: isHighlighted ? 16 : 14,
+                              //                     ),
+                              //                   ),
+                              //                   const SizedBox(height: 8),
+                              //                   Center(
+                              //                     child: Text(
+                              //                       dashboardController.getPrayerTimes.isEmpty
+                              //                           ? "Loading"
+                              //                           : dashboardController.getPrayerTimes[index].toString(),
+                              //                       style: isHighlighted
+                              //                           ? MyTextTheme.smallBCN
+                              //                           : MyTextTheme.smallGCN,
+                              //                     ),
+                              //                   )
+                              //                 ],
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              // ),
                               child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
                                 controller: dashboardController.scrollController,
                                 itemCount: dashboardController.prayerNames.length,
@@ -237,8 +308,7 @@ class Upcoming extends GetView<UpcomingController> {
                                                 ),
                                                 const SizedBox(height: 8),
                                                 Center(
-                                                  child:
-                                                  Text(
+                                                  child: Text(
                                                     dashboardController.getPrayerTimes.isEmpty
                                                         ? "Loading"
                                                         : dashboardController.getPrayerTimes[index].toString(),
@@ -247,11 +317,8 @@ class Upcoming extends GetView<UpcomingController> {
                                                         : MyTextTheme.smallGCN,
                                                   ),
                                                 )
-
-
-
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -265,7 +332,6 @@ class Upcoming extends GetView<UpcomingController> {
                       ),
                     ),
                   ],
-
                 ),
               ),
               Expanded(
@@ -277,8 +343,7 @@ class Upcoming extends GetView<UpcomingController> {
                       var upcomingPrayers = dashboardController.upcomingPrayers;
                       var prayerDurations = dashboardController.upcomingPrayerDuration;
                       String currentTime = DateFormat('HH:mm').format(DateTime.now());
-                      String ishaEndTime = prayerDurations['Isha']?['end'] ?? '23:59';
-
+                      String ishaEndTime = prayerDurations['Isha']?['start'] ?? '23:59';
                       List<Map<String, String>> prayerList = upcomingPrayers.map((prayer) {
                         String startTime = prayerDurations[prayer]?['start'] ?? 'N/A';
                         return {
@@ -305,7 +370,6 @@ class Upcoming extends GetView<UpcomingController> {
                           String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
                           String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
 
-
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -321,10 +385,11 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        // Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
-                                        Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.medium.copyWith(
-                                            fontSize: 20,fontWeight: FontWeight.w500
-                                        ),),
+                                        Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Icon(Icons.more_horiz),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(height: 10),
@@ -375,7 +440,6 @@ class Upcoming extends GetView<UpcomingController> {
                                         ),
                                         Text(controller.upcomingPrayerEndTime.value,
                                             style: MyTextTheme.mediumBCD),
-
                                       ],
                                     ),
                                   ],
@@ -396,13 +460,11 @@ class Upcoming extends GetView<UpcomingController> {
                         bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
                         bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
 
-                        String specialText = isSpecialPrayer ? "Prohibited to pray." : "";
-                        // bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
-                        bool isHighlighted = (isSpecialPrayer == currentTime);
+                        String specialText = isSpecialPrayer ? "Prohibited to pray" : "";
+                        bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
 
                         return Padding(
                           padding: EdgeInsets.all(8.0),
-
                           child: Container(
                             decoration: BoxDecoration(
                               color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
@@ -447,7 +509,7 @@ class Upcoming extends GetView<UpcomingController> {
                                       Expanded(
                                         child: Text(startTime12, style: MyTextTheme.mediumBCD),
                                       ),
-                                      if (!sun)
+                                      if (!isSpecialPrayer)
                                         Text(endTime12, style: MyTextTheme.mediumBCD),
                                     ],
                                   ),
@@ -460,7 +522,6 @@ class Upcoming extends GetView<UpcomingController> {
                       return SizedBox.shrink();
                     },
                   ),
-
                 ),
               ),
             ],
