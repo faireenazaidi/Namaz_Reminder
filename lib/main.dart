@@ -37,6 +37,11 @@ void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
   BackgroundFetch.finish(taskId);
 }
 
+void stopBackgroundService() {
+  final service = FlutterBackgroundService();
+  service.invoke("stop");
+}
+
 
 void startBackgroundService() {
   final service = FlutterBackgroundService();
@@ -268,6 +273,7 @@ print("aaa${userData.getPrayerTimingsData}");
     try {
       // Get today's timings from the listData based on today's Gregorian date
       Map<String, dynamic> todayTimings = PrayerDurationCalculator.getTimingsForToday(userData.getPrayerTimingsData);
+      print("todayTimings$todayTimings");
       // Calculate the remaining time and percentage for the current prayer
       // Get the current prayer based on the time
       String currentPrayer = PrayerDurationCalculator.getCurrentPrayer(todayTimings, currentTime);
@@ -280,7 +286,7 @@ print("aaa${userData.getPrayerTimingsData}");
         print('Remaining percentageRemaining for upcoming prayer: ${upcomingPrayerInfo['percentageRemaining']}');
         service.invoke("sendPrayerData", {
           "prayerName": "Upcoming Prayer ${upcomingPrayerInfo['upcomingPrayer']}",
-          "timeLeft": "${upcomingPrayerInfo['remainingTime']}",
+          "timeLeft": "${upcomingPrayerInfo['remainingTime'].inHours} hours and ${upcomingPrayerInfo['remainingTime'].inMinutes % 60} minutes",
           "progress": upcomingPrayerInfo['percentageRemaining'],
         });
 
@@ -315,16 +321,16 @@ print("aaa${userData.getPrayerTimingsData}");
     } catch (e) {
       print(e);
     }
-    if (DateTime.now().second >= 58) {
-      // Get the current prayer based on the time
-
-
-      // t.cancel();
-      print('Timer cancelled.');
-    }
+    // if (DateTime.now().second >= 58) {
+    //   // Get the current prayer based on the time
+    //
+    //
+    //   // t.cancel();
+    //   print('Timer cancelled.');
+    // }
   });
   print("Service is runnings... ${DateTime.now().second}");
-  DateTime now = DateTime.now();
+  // DateTime now = DateTime.now();
   // A simple task that runs every second in the background
   // Timer.periodic(const Duration(seconds: 3), (timer) async {
   //   await AwesomeNotifications().createNotification(

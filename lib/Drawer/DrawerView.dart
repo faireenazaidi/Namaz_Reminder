@@ -17,6 +17,7 @@ import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
 import '../Widget/MyRank/myRankController.dart';
 import '../Widget/MyRank/myweeklyrank.dart';
+import '../main.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -297,6 +298,7 @@ class CustomDrawer extends StatelessWidget {
                           okPressEvent: ()async{
                             await UserData().removeUserData();
                             dashBoardController.locationController.value.clear;
+                            stopBackgroundService();
                             Get.offAllNamed(AppRoutes.locationPageRoute);
                           });
 

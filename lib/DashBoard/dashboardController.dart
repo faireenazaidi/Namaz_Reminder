@@ -157,6 +157,7 @@ class DashBoardController extends GetxController {
     return true;
   }
   void clearTimingFromStorage()async{
+    stopBackgroundService();
    await userData.clearPrayerTimings();
    fetchPrayerTime();
   }
@@ -515,8 +516,11 @@ class DashBoardController extends GetxController {
       startRemainingTimeTimer();
       showNextPrayer();
       update();
-      await userData.savePrayerMonthTime(calendarData);
-      startBackgroundService();
+      if(userData.getPrayerTimingsData.isEmpty){
+        print("ullu");
+        await userData.savePrayerMonthTime(calendarData);
+        startBackgroundService();
+      }
     } else {
       print('No data found for current date.');
     }
