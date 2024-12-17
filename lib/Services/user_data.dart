@@ -135,12 +135,15 @@ class UserData extends GetxController {
   }
 
   // Method to retrieve the saved list data
-  List<Map<String, dynamic>> get getPrayerTimingsData {
+  List get getPrayerTimingsData {
     final data = _storage.read('prayerTimingsData');
     if (data != null) {
       return List<Map<String, dynamic>>.from(data);
     }
     return [];
+  }
+  Future<void> clearPrayerTimings()async{
+    await _storage.remove('prayerTimingsData');
   }
 
 
@@ -161,6 +164,7 @@ class UserData extends GetxController {
     await _storage.remove('userToken');
     await _storage.remove('location');
     await _storage.remove('duration');
+    await _storage.remove('prayerTimingsData');
     update();
   }
 }

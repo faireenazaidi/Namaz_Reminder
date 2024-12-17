@@ -32,6 +32,7 @@ class DashBoardController extends GetxController {
   RxDouble progressPercent = 0.0.obs;
   RxList<String> avatars = <String>[].obs;
   RxString location = ''.obs;
+  String trackMarkPrayer = '';
 
   var selectedDate = Rx<DateTime>(DateTime.now());
  var isMute= false.obs;
@@ -82,7 +83,8 @@ class DashBoardController extends GetxController {
   void updateLocation(LocationDataModel location) {
     updateAddress = location.address.toString();
     userData.addLocationData(location);
-    fetchPrayerTime();
+    clearTimingFromStorage();
+    // fetchPrayerTime();
     // location.value = newLocation;
     // locationName.value = location.value;
   }
@@ -151,9 +153,15 @@ class DashBoardController extends GetxController {
     userData.addLocationData(locationData);
     print("new uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude
         .toString()}");
-    fetchPrayerTime();
+    clearTimingFromStorage();
     return true;
   }
+  void clearTimingFromStorage()async{
+    stopBackgroundService();
+   await userData.clearPrayerTimings();
+   fetchPrayerTime();
+  }
+
   @override
   void onInit() async {
     super.onInit();
@@ -204,7 +212,7 @@ class DashBoardController extends GetxController {
     }
     print("address $address");
     print("lat ${userData.getLocationData!.latitude}");
-    getIsPrayed();
+    await getIsPrayed();
     await fetchPrayerTime();
     leaderboard();
     // scrollToHighlightedPrayer();
@@ -243,13 +251,15 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> fetchPrayerTime({DateTime? specificDate}) async {
+    DateTime now = specificDate ?? DateTime.now();
+    if(userData.getPrayerTimingsData.isEmpty){
     final latitude = userData.getLocationData != null ?double.parse(
         userData.getLocationData!.latitude.toString()): position!.latitude;
     final longitude = userData.getLocationData != null ? double.parse(
         userData.getLocationData!.longitude.toString()) : position!.longitude;
     final method = userData.getUserData!.methodId;
-    DateTime now = specificDate ?? DateTime.now();
-    String formattedDate = DateFormat('yyyy/MM').format(now);
+
+    String formattedDates = DateFormat('yyyy/MM').format(now);
     print("bull $latitude");
     print("bull $longitude");
 
@@ -257,7 +267,7 @@ class DashBoardController extends GetxController {
     try {
       Uri uri = Uri.https(
         'api.aladhan.com',
-        '/v1/calendar/$formattedDate',
+        '/v1/calendar/$formattedDates',
         {
           'latitude': latitude.toString(),
           'longitude': longitude.toString(),
@@ -270,229 +280,9 @@ class DashBoardController extends GetxController {
         // Decode the data
         updateCalendarData = jsonDecode(response.body.toString())["data"];
 
-        // DateTime now = DateTime.now();
-        DateTime now = specificDate ?? DateTime.now();
-        DateFormat formatter = DateFormat('dd MMM yyyy');
-        String formattedDate = formatter.format(now);
 
-        // Extract current day's data
-        List<CalendarWiseData> extractedData = getCalendarData
-            .map((e) => e)
-            .where((element) =>
-        element.date!.readable.toString() == formattedDate.toString())
-            .toList();
-        updateExtractedData = extractedData;
-
-        if (getExtractedData.isNotEmpty) {
-          print("kkkkkkkk${getExtractedData[0].timings?.dhuhr}");
-          String dhuhrTimeStr=    convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A');
-          DateTime dhuhrTime = DateFormat('HH:mm').parse(dhuhrTimeStr);
-          DateTime zawalTime = dhuhrTime.subtract(Duration(minutes: 10));
-          String formattedZawalTime= DateFormat('hh:mm a').format(zawalTime);
-          updatePrayerTimes = [
-            convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
-          ];
-
-          updateUpcomingPrayers = [
-            convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
-             convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
-            convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
-            //-------Zawal and sunset data (25-10-2024) by fai----//
-
-
-          ];
-          print("gggggggggggggg:$prayerNames");
-          print(upcomingPrayers);
-
-          sunsetTime.value =
-              convertTo12HourFormat(
-                  getExtractedData[0].timings?.sunset ?? 'N/A');
-
-          final hijriDate = getExtractedData[0].date?.hijri;
-          islamicDate.value =
-          '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ??
-              "Month"} ${hijriDate?.year ?? "Year"}';
-              // ' ${hijriDate?.designation
-              // ?.abbreviated ?? "Abbreviation"}';
-             print("baqar");
-            print("isEmpty ${userData.getPrayerDurationForShia}");
-            updatePrayerDuration = userData.getUserData!.fiqh.toString() == '0' // Shia fiqh
-                ? {
-              'Fajr': {
-                'start': getExtractedData[0].timings?.fajr ?? 'N/A',
-                'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-              },
-              // 'Free': {
-              //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-              // },
-              'Dhuhr': {
-                'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
-                'end': getExtractedData[0].timings?.sunset ?? 'N/A'  // Ends at sunset for Shia Muslims
-              },
-              'Asr': {
-                'start': getExtractedData[0].timings?.dhuhr ?? 'N/A', // Allows Asr start after Dhuhr is prayed
-                'end': getExtractedData[0].timings?.sunset ?? 'N/A'
-              },
-              'Maghrib': {
-                'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
-                'end': '23:58 (IST)' // Ends at midnight for Shia Muslims
-              },
-              'Isha': {
-                'start': getExtractedData[0].timings?.maghrib ?? 'N/A', // Allows Isha start after Maghrib is prayed
-                'end': '23:58 (IST)'
-              },
-            }
-                : // Sunni fiqh standard times
-            {
-              'Fajr': {
-                'start': getExtractedData[0].timings?.fajr ?? 'N/A',
-                'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-              },
-              // 'Free': {
-              //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-              // },
-              'Dhuhr': {
-                'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
-                'end': getExtractedData[0].timings?.asr ?? 'N/A'
-              },
-              'Asr': {
-                'start': getExtractedData[0].timings?.asr ?? 'N/A',
-                'end': getExtractedData[0].timings?.sunset ?? 'N/A'
-              },
-              'Maghrib': {
-                'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
-                'end': getExtractedData[0].timings?.isha ?? 'N/A'
-              },
-              'Isha': {
-                'start': getExtractedData[0].timings?.isha ?? 'N/A',
-                'end': '23:58 (IST)'
-              },
-            };
-          //   userData.savePrayerTimings(prayerDuration);
-          // }
-
-          print("hhhhhhhh");
-          print("###### $prayerDuration");
-          print("getExtractedData[0].timings?.fajr ${getExtractedData[0].toJson()}");
-
-          updateUpcomingPrayerDuration = {
-            'Fajr': {
-              'start': getExtractedData[0].timings?.fajr ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
-            },
-            // 'Free': {
-            //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-            //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
-            // },
-            'Sunrise': {
-              'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
-            },
-            'Zawal': {
-              'start': formattedZawalTime,
-              'end': convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A')
-            },
-            'Dhuhr': {
-              'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
-              'end': getExtractedData[0].timings?.asr ?? 'N/A'
-            },
-            'Asr': {
-              'start': getExtractedData[0].timings?.asr ?? 'N/A',
-              'end': getExtractedData[0].timings?.sunset ?? 'N/A'
-            },
-            'Sunset': {
-              'start': getExtractedData[0].timings?.sunset ?? 'N/A',
-              // 'end':getExtractedData[0].timings?.sunrise ?? 'N/A'
-            },
-            'Maghrib': {
-              'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
-              'end': getExtractedData[0].timings?.isha ?? 'N/A'
-            },
-            'Isha': {
-              'start': getExtractedData[0].timings?.isha ?? 'N/A',
-              'end':   getExtractedData[0].timings?.midnight ?? 'N/A'
-              //'17:50'
-
-            },
-            //-----FZ (25-10-2024) update sunrise & subset time----//
-
-          };
-
-
-          // Get current time
-          String currentTime = DateFormat('HH:mm').format(DateTime.now());
-          currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
-
-          print('Current time: $currentTime');
-          print('Current Prayer: $currentPrayer');
-
-          // Check Shia-specific conditions
-          if (userData.getUserData!.fiqh.toString() == '0') {
-            // Check if Dhuhr or Maghrib is prayed
-            bool dhuhrPrayed = isPrayedList.any((item) =>
-            item['prayer_name'] == 'Dhuhr' && item['prayed'] == true);
-            print("dhuhrPrayed $dhuhrPrayed");
-            bool asrPrayed = isPrayedList.any((item) =>
-            item['prayer_name'] == 'Asr' && item['prayed'] == true);
-            print("asrPrayed $asrPrayed");
-            bool maghribPrayed = isPrayedList.any((item) =>
-            item['prayer_name'] == 'Maghrib' && item['prayed'] == true);
-            bool ishaPrayed = isPrayedList.any((item) =>
-            item['prayer_name'] == 'Isha' && item['prayed'] == true);
-            print("maghribPrayed$maghribPrayed");
-            print("maghribPrayed$ishaPrayed");
-
-            if ((dhuhrPrayed || maghribPrayed)&&(currentPrayer.value=='Dhuhr'||currentPrayer.value=='Maghrib')) {
-              print("Dhuhr or Maghrib is prayed. Moving to the next prayer. ${currentPrayer.value}");
-              // moveToNextPrayer();
-              if(currentPrayer.value=='Dhuhr'){
-                print("+++++++++++");
-                prayerDuration['Dhuhr']!['end'] = DateFormat('HH:mm').format(DateTime.now().subtract(Duration(minutes: 1)));
-                currentPrayer.value = 'Asr';
-                if(!asrPrayed) {
-                  isPrayed = false;
-                }else{
-                  isPrayed = asrPrayed;
-                }
-                print('prayerDuration: $prayerDuration');
-                print('isPrayed: $isPrayed');
-              }
-              else{
-                if(maghribPrayed){
-                  prayerDuration['Maghrib']!['end'] = DateFormat('HH:mm').format(DateTime.now().subtract(Duration(minutes: 1)));
-                  currentPrayer.value = 'Isha';
-                  if(!ishaPrayed){
-                    isPrayed = false;
-                  }
-                }
-              }
-
-              // return;
-            }
-          }
-          print('prayerDuration: $prayerDuration');
-          // Start timer for remaining time
-
-          startRemainingTimeTimer();
-          showNextPrayer();
-          update();
-          // await userData.savePrayerMonthTime(calendarData);
-          // startBackgroundService();
-        } else {
-          print('No data found for current date.');
-        }
       } else {
+        updateCalendarData = [];
         print(
             'Error fetching prayer times. Status Code: ${response.statusCode}');
       }
@@ -500,6 +290,239 @@ class DashBoardController extends GetxController {
       print('Error: $e');
     } finally {
       isLoading.value = false;
+    }
+    }else{
+      updateCalendarData = userData.getPrayerTimingsData;
+      print("not empty $calendarData");
+    }
+    // DateTime now = DateTime.now();
+    // DateTime now = specificDate ?? DateTime.now();
+    DateFormat formatter = DateFormat('dd MMM yyyy');
+    String formattedDate = formatter.format(now);
+
+    // Extract current day's data
+    List<CalendarWiseData> extractedData = getCalendarData
+        .map((e) => e)
+        .where((element) =>
+    element.date!.readable.toString() == formattedDate.toString())
+        .toList();
+    updateExtractedData = extractedData;
+
+    if (getExtractedData.isNotEmpty) {
+      print("kkkkkkkk${getExtractedData[0].timings?.dhuhr}");
+      String dhuhrTimeStr=    convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A');
+      DateTime dhuhrTime = DateFormat('HH:mm').parse(dhuhrTimeStr);
+      DateTime zawalTime = dhuhrTime.subtract(Duration(minutes: 10));
+      String formattedZawalTime= DateFormat('hh:mm a').format(zawalTime);
+      updatePrayerTimes = [
+        convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
+      ];
+
+      updateUpcomingPrayers = [
+        convertTo12HourFormat(getExtractedData[0].timings?.fajr ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.sunrise ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.zawal ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.asr ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.sunset ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.maghrib ?? 'N/A'),
+        convertTo12HourFormat(getExtractedData[0].timings?.isha ?? 'N/A'),
+        //-------Zawal and sunset data (25-10-2024) by fai----//
+
+
+      ];
+      print("gggggggggggggg:$prayerNames");
+      print(upcomingPrayers);
+
+      sunsetTime.value =
+          convertTo12HourFormat(
+              getExtractedData[0].timings?.sunset ?? 'N/A');
+
+      final hijriDate = getExtractedData[0].date?.hijri;
+      islamicDate.value =
+      '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ??
+          "Month"} ${hijriDate?.year ?? "Year"}';
+      // ' ${hijriDate?.designation
+      // ?.abbreviated ?? "Abbreviation"}';
+      print("baqar");
+      print("isEmpty ${userData.getPrayerDurationForShia}");
+      updatePrayerDuration = userData.getUserData!.fiqh.toString() == '0' // Shia fiqh
+          ? {
+        'Fajr': {
+          'start': getExtractedData[0].timings?.fajr ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+        },
+        // 'Free': {
+        //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+        //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+        // },
+        'Dhuhr': {
+          'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunset ?? 'N/A'  // Ends at sunset for Shia Muslims
+        },
+        'Asr': {
+          'start': getExtractedData[0].timings?.dhuhr ?? 'N/A', // Allows Asr start after Dhuhr is prayed
+          'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+        },
+        'Maghrib': {
+          'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
+          'end': '23:58 (IST)' // Ends at midnight for Shia Muslims
+        },
+        'Isha': {
+          'start': getExtractedData[0].timings?.maghrib ?? 'N/A', // Allows Isha start after Maghrib is prayed
+          'end': '23:58 (IST)'
+        },
+      }
+          : // Sunni fiqh standard times
+      {
+        'Fajr': {
+          'start': getExtractedData[0].timings?.fajr ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+        },
+        // 'Free': {
+        //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+        //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+        // },
+        'Dhuhr': {
+          'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
+          'end': getExtractedData[0].timings?.asr ?? 'N/A'
+        },
+        'Asr': {
+          'start': getExtractedData[0].timings?.asr ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+        },
+        'Maghrib': {
+          'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
+          'end': getExtractedData[0].timings?.isha ?? 'N/A'
+        },
+        'Isha': {
+          'start': getExtractedData[0].timings?.isha ?? 'N/A',
+          'end': '23:58 (IST)'
+        },
+      };
+      //   userData.savePrayerTimings(prayerDuration);
+      // }
+
+      print("hhhhhhhh");
+      print("###### $prayerDuration");
+      print("getExtractedData[0].timings?.fajr ${getExtractedData[0].toJson()}");
+
+      updateUpcomingPrayerDuration = {
+        'Fajr': {
+          'start': getExtractedData[0].timings?.fajr ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunrise ?? 'N/A'
+        },
+        // 'Free': {
+        //   'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+        //   'end': getExtractedData[0].timings?.dhuhr ?? 'N/A'
+        // },
+        'Sunrise': {
+          'start': getExtractedData[0].timings?.sunrise ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+        },
+        'Zawal': {
+          'start': formattedZawalTime,
+          'end': convertTo12HourFormat(getExtractedData[0].timings?.dhuhr ?? 'N/A')
+        },
+        'Dhuhr': {
+          'start': getExtractedData[0].timings?.dhuhr ?? 'N/A',
+          'end': getExtractedData[0].timings?.asr ?? 'N/A'
+        },
+        'Asr': {
+          'start': getExtractedData[0].timings?.asr ?? 'N/A',
+          'end': getExtractedData[0].timings?.sunset ?? 'N/A'
+        },
+        'Sunset': {
+          'start': getExtractedData[0].timings?.sunset ?? 'N/A',
+          // 'end':getExtractedData[0].timings?.sunrise ?? 'N/A'
+        },
+        'Maghrib': {
+          'start': getExtractedData[0].timings?.maghrib ?? 'N/A',
+          'end': getExtractedData[0].timings?.isha ?? 'N/A'
+        },
+        'Isha': {
+          'start': getExtractedData[0].timings?.isha ?? 'N/A',
+          'end':   getExtractedData[0].timings?.midnight ?? 'N/A'
+          //'17:50'
+
+        },
+        //-----FZ (25-10-2024) update sunrise & subset time----//
+
+      };
+
+
+      // Get current time
+      String currentTime = DateFormat('HH:mm').format(DateTime.now());
+      currentPrayer.value = getCurrentPrayer(prayerDuration, currentTime);
+
+      print('Current time: $currentTime');
+      print('Current Prayer: $currentPrayer');
+      trackMarkPrayer = currentPrayer.value;
+
+      // Check Shia-specific conditions
+      if (userData.getUserData!.fiqh.toString() == '0') {
+        // Check if Dhuhr or Maghrib is prayed
+        bool dhuhrPrayed = isPrayedList.any((item) =>
+        item['prayer_name'] == 'Dhuhr' && item['prayed'] == true);
+        print("dhuhrPrayed $dhuhrPrayed");
+        bool asrPrayed = isPrayedList.any((item) =>
+        item['prayer_name'] == 'Asr' && item['prayed'] == true);
+        print("asrPrayed $asrPrayed");
+        bool maghribPrayed = isPrayedList.any((item) =>
+        item['prayer_name'] == 'Maghrib' && item['prayed'] == true);
+        bool ishaPrayed = isPrayedList.any((item) =>
+        item['prayer_name'] == 'Isha' && item['prayed'] == true);
+        print("maghribPrayed$maghribPrayed");
+        print("maghribPrayed$ishaPrayed");
+        if ((dhuhrPrayed || maghribPrayed)&&(currentPrayer.value=='Dhuhr'||currentPrayer.value=='Maghrib')) {
+          print("Dhuhr or Maghrib is prayed. Moving to the next prayer. ${currentPrayer.value}");
+          // moveToNextPrayer();
+          if(currentPrayer.value=='Dhuhr'){
+            print("+++++++++++");
+            prayerDuration['Dhuhr']!['end'] = DateFormat('HH:mm').format(DateTime.now().subtract(Duration(minutes: 1)));
+            currentPrayer.value = 'Asr';
+            if(!asrPrayed) {
+              isPrayed = false;
+            }else{
+              trackMarkPrayer = currentPrayer.value;
+              isPrayed = asrPrayed;
+            }
+            print('prayerDuration: $prayerDuration');
+            print('isPrayed: $isPrayed');
+          }
+          else{
+            if(maghribPrayed){
+              prayerDuration['Maghrib']!['end'] = DateFormat('HH:mm').format(DateTime.now().subtract(Duration(minutes: 1)));
+              currentPrayer.value = 'Isha';
+              if(!ishaPrayed){
+                isPrayed = false;
+              }
+              else{
+                trackMarkPrayer = currentPrayer.value;
+              }
+            }
+          }
+
+          // return;
+        }
+      }
+      print('prayerDuration: $prayerDuration');
+      // Start timer for remaining time
+
+      startRemainingTimeTimer();
+      showNextPrayer();
+      update();
+      if(userData.getPrayerTimingsData.isEmpty){
+        print("ullu");
+        await userData.savePrayerMonthTime(calendarData);
+        startBackgroundService();
+      }
+    } else {
+      print('No data found for current date.');
     }
   }
 
@@ -718,7 +741,7 @@ RxString nextPrayerName = ''.obs;
   void onClose() {
     prayerTimer?.cancel();
     remainingTimeTimer?.cancel();
-
+    _timer?.cancel();
     super.onClose();
   }
   bool isNotificationSent = false;
@@ -941,14 +964,14 @@ RxString nextPrayerName = ''.obs;
 
       var request = http.Request('POST', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
       request.body = json.encode({
-        "user_id": userId,
+        "user_id": int.parse(userId),
         "prayer_name" : prayerNames??currentPrayer.value,
-        "mobile_no": mobileNo,
-        "latitude": position!=null? position!.latitude:double.parse(userData.getLocationData!.latitude.toString()),
-        "longitude": position!=null? position!.longitude:double.parse(userData.getLocationData!.longitude.toString()),
+        "mobile_no": int.parse(mobileNo),
+        "latitude": position!=null? position!.latitude.toString():userData.getLocationData!.latitude.toString(),
+        "longitude": position!=null? position!.longitude.toString():userData.getLocationData!.longitude.toString(),
         "timestamp":formattedTime, //"$hour:$minute",
-        "jamat": prayedAtMosque.value.toString(),
-        "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
+        "jamat": prayedAtMosque.value,
+        // "times_of_prayer": userData.getUserData!.timesOfPrayer.toString(),
         'prayed':true
       });
       print("URL ${request.url}");
@@ -968,6 +991,7 @@ else{
   isPrayed = true;
   isGifVisible = true;
   update();
+  trackMarkPrayer = currentPrayer.value;
   leaderboard();
   Future.delayed(Duration(seconds: 3), () {
 

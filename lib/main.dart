@@ -13,6 +13,7 @@ import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/prayerTimings.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
+import 'Services/user_data.dart';
 
 
 
@@ -34,6 +35,11 @@ void myBackgroundFetchHeadlessTask(HeadlessTask task) async {
 
   // Finish the task after completing your work
   BackgroundFetch.finish(taskId);
+}
+
+void stopBackgroundService() {
+  final service = FlutterBackgroundService();
+  service.invoke("stop");
 }
 
 
@@ -64,20 +70,20 @@ void main() async {
   // Get.put(DashBoardController());
   // Get.put(LoginController());
   // Get.put(CustomDrawerController());
-  // await initializeService();
-  // // Listen to background service data using the new method
-  // final service = FlutterBackgroundService();
-  //
-  // service.on("sendPrayerData").listen((event) {
-  //   if (event != null) {
-  //     String prayerName = event["prayerName"];
-  //     String timeLeft = event["timeLeft"];
-  //     int progress = event["progress"];
-  //
-  //     // Call the method channel to update the widget
-  //     updateWidget(prayerName, timeLeft, progress);
-  //   }
-  // });
+  await initializeService();
+  // Listen to background service data using the new method
+  final service = FlutterBackgroundService();
+
+  service.on("sendPrayerData").listen((event) {
+    if (event != null) {
+      String prayerName = event["prayerName"];
+      String timeLeft = event["timeLeft"];
+      int progress = event["progress"];
+
+      // Call the method channel to update the widget
+      updateWidget(prayerName, timeLeft, progress);
+    }
+  });
   // startBackgroundService();
   runApp(MyApp());
   // BackgroundFetch.configure(
@@ -256,16 +262,18 @@ void onStart(ServiceInstance service) async {
   //   firstthird: "21:55 (IST)",
   //   lastthird: "01:57 (IST)",
   // );
-
-  Timer.periodic(Duration(seconds: 3), (t){
+UserData userData = UserData();
+  Timer.periodic(Duration(seconds: 5), (t){
     DateTime currentTime = DateTime.now();
     print("t ${t.tick}");
 
+print("aaa${userData.getPrayerTimingsData}");
 
     // Calculate the remaining time for the current prayer
     try {
       // Get today's timings from the listData based on today's Gregorian date
-      Map<String, dynamic> todayTimings = PrayerDurationCalculator.getTimingsForToday(listData);
+      Map<String, dynamic> todayTimings = PrayerDurationCalculator.getTimingsForToday(userData.getPrayerTimingsData);
+      print("todayTimings$todayTimings");
       // Calculate the remaining time and percentage for the current prayer
       // Get the current prayer based on the time
       String currentPrayer = PrayerDurationCalculator.getCurrentPrayer(todayTimings, currentTime);
@@ -278,7 +286,7 @@ void onStart(ServiceInstance service) async {
         print('Remaining percentageRemaining for upcoming prayer: ${upcomingPrayerInfo['percentageRemaining']}');
         service.invoke("sendPrayerData", {
           "prayerName": "Upcoming Prayer ${upcomingPrayerInfo['upcomingPrayer']}",
-          "timeLeft": "${upcomingPrayerInfo['remainingTime']}",
+          "timeLeft": "${upcomingPrayerInfo['remainingTime'].inHours} hours and ${upcomingPrayerInfo['remainingTime'].inMinutes % 60} minutes",
           "progress": upcomingPrayerInfo['percentageRemaining'],
         });
 
@@ -313,16 +321,16 @@ void onStart(ServiceInstance service) async {
     } catch (e) {
       print(e);
     }
-    if (DateTime.now().second >= 58) {
-      // Get the current prayer based on the time
-
-
-      // t.cancel();
-      print('Timer cancelled.');
-    }
+    // if (DateTime.now().second >= 58) {
+    //   // Get the current prayer based on the time
+    //
+    //
+    //   // t.cancel();
+    //   print('Timer cancelled.');
+    // }
   });
   print("Service is runnings... ${DateTime.now().second}");
-  DateTime now = DateTime.now();
+  // DateTime now = DateTime.now();
   // A simple task that runs every second in the background
   // Timer.periodic(const Duration(seconds: 3), (timer) async {
   //   await AwesomeNotifications().createNotification(
