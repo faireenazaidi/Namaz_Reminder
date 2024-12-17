@@ -50,9 +50,22 @@ class SettingView extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        buildSettingItem(
+                        // buildSettingItem(
+                        //   title: 'Hijri Date Adjustment',
+                        //   subtitle:hijriController.getCurrentSubtitle(),
+                        //   onTap: () {
+                        //     Get.to(
+                        //           () => HijriDateView(),
+                        //       transition: Transition.leftToRight,
+                        //       duration: Duration(milliseconds: 500),
+                        //       curve: Curves.ease,
+                        //     );
+                        //   },
+                        //   imagePath:"assets/hijri.svg"
+                        // ),
+                        Obx(() => buildSettingItem(
                           title: 'Hijri Date Adjustment',
-                          subtitle:hijriController.getCurrentSubtitle(),
+                          subtitle: hijriController.getCurrentSubtitle(),
                           onTap: () {
                             Get.to(
                                   () => HijriDateView(),
@@ -61,8 +74,9 @@ class SettingView extends StatelessWidget {
                               curve: Curves.ease,
                             );
                           },
-                          imagePath:"assets/hijri.svg"
-                        ),
+                          imagePath: "assets/hijri.svg",
+                        )),
+
                         buildSettingItem(
                           title: 'Notifications',
                           subtitle: '',
@@ -137,7 +151,7 @@ class SettingView extends StatelessWidget {
           subtitle: subtitle != null && subtitle.isNotEmpty
               ? Text(subtitle, style: TextStyle(color: Colors.grey,fontSize: 14))
               : null,
-          trailing: SizedBox(
+          trailing: const SizedBox(
             width: 5,
               child: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black)),
           onTap: onTap,
