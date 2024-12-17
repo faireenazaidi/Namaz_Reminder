@@ -75,8 +75,8 @@ class SettingView extends StatelessWidget {
                             );
                           },
                           imagePath: "assets/hijri.svg",
-                        )),
-
+                        )
+                        ),
                         buildSettingItem(
                           title: 'Notifications',
                           subtitle: '',
