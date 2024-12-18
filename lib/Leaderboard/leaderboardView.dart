@@ -362,7 +362,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         height: MediaQuery
                             .of(context)
                             .size
-                            .height * 0.56,
+                            .height * 0.54,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(40.0),
@@ -412,7 +412,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       ),
                     ]),
                   );
-                } else {
+                }
+                else {
                   return SliverToBoxAdapter(child: SizedBox.shrink());
                 }
               })
@@ -499,15 +500,29 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
   double percentage = double.parse(friend['percentage'].toStringAsFixed(2));
   print("percentage $percentage");
   // double percentage = friend['percentage'];
-
+// Determine the SVG asset based on the rank
+  String rankSvg;
+  switch (index) {
+    case 0:
+      rankSvg = 'assets/Gold.svg'; // for 1st rank
+      break;
+    case 1:
+      rankSvg = 'assets/silver.svg'; // for 2nd rank
+      break;
+    case 2:
+      rankSvg = 'assets/Bronze.svg'; // for 3rd rank
+      break;
+    default:
+      rankSvg = 'assets/other.svg'; // Default  for other ranks
+  }
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Stack(
         alignment: Alignment.center,
         children: [
-          // const Icon(Icons.star, size: 35, color: Colors.grey),
-          SvgPicture.asset('assets/other.svg',height: 25,),
+          // SvgPicture.asset('assets/other.svg',height: 25,),
+          SvgPicture.asset(rankSvg,height: 25,),
           Positioned(
             bottom: 5,
             child: Text(

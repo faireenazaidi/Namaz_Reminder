@@ -79,7 +79,7 @@ class SettingView extends StatelessWidget {
                         ),
                         buildSettingItem(
                           title: 'Notifications',
-                          subtitle: '',
+                          subtitle: 'Manage your notification preferences.',
                           onTap: () {
                             Get.to(() => NotificationSetting(),
                               transition: Transition.leftToRight,
@@ -101,7 +101,7 @@ class SettingView extends StatelessWidget {
                         ),
                         buildSettingItem(
                           title: 'Privacy & Security',
-                          subtitle: '',
+                          subtitle: 'Manage your privacy and security settings.',
                           onTap: () {
                             Get.to(() => PrivacyView(),
                               transition: Transition.leftToRight,

@@ -50,39 +50,37 @@ class FeedbackView extends GetView<FeedbackController>{
                SizedBox(
                  height: 10,
                ),
-      
                TextFormField(
-                 cursorColor: AppColor.circleIndicator,
-                 decoration:  InputDecoration(
-                   focusedBorder: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(10),
-                     borderSide: const BorderSide(
-                       color: Colors.grey,
-                       width: 1.5,
+                 controller: feedbackController.emailController,
+                   cursorColor: AppColor.circleIndicator,
+                   decoration:  InputDecoration(
+                     focusedBorder: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(10),
+                       borderSide: const BorderSide(
+                         color: Colors.grey,
+                         width: 1.5,
+                       ),
                      ),
-                   ),
-                   enabled: true,
-                   enabledBorder:  OutlineInputBorder(
-                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                     borderSide: BorderSide(color:AppColor.packageGray,width: 1.5),
-                   ),
-                   hintText: 'Enter your email address',
+                     enabled: true,
+                     enabledBorder:  OutlineInputBorder(
+                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                       borderSide: BorderSide(color:AppColor.packageGray,width: 1.5),
+                     ),
+                     hintText: 'Enter your email address',
                      hintStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.w400),
                      border: OutlineInputBorder(
                          borderRadius: BorderRadius.circular(10)),
-                     ),
-      
-                 onChanged: (value) {
-                   feedbackController.setEmail(value);
-                 },
-                 keyboardType: TextInputType.emailAddress,
-                 autofillHints: const [AutofillHints.email],
-                 validator: (value) =>
-                 value != null && value.isNotEmpty
-                     ? null
-                     : 'Required',
-               ),
-      
+                   ),
+                   onChanged: (value) {
+                     feedbackController.setEmail(value);
+                   },
+                   keyboardType: TextInputType.emailAddress,
+                   autofillHints: const [AutofillHints.email],
+                   validator: (value) =>
+                   value != null && value.isNotEmpty
+                       ? null
+                       : 'Required',
+                 ),
                SizedBox(height: 16),
                // Rating scale
                Text('On a scale of 1-5 how likely you are to recommend this tool to someone you know?',style: TextStyle(color: AppColor.greyDark),),
@@ -163,7 +161,6 @@ class FeedbackView extends GetView<FeedbackController>{
                // Submit button
                Obx(() {
                  return ElevatedButton(
-      
                    onPressed: feedbackController.isFormValid ? feedbackController.submitFeedback : null,
                    style: ElevatedButton.styleFrom(
                      backgroundColor: feedbackController.isFormValid ? AppColor.circleIndicator: AppColor.greyColor, // Button color

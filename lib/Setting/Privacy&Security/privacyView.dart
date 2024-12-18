@@ -10,7 +10,6 @@ class PrivacyView extends GetView<SettingController>{
   Widget build(BuildContext context) {
     final PrivacyController privacyController = Get.put(PrivacyController());
 
-
     // TODO: implement build
     return SafeArea(
       child: Scaffold(

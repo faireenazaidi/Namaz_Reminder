@@ -250,13 +250,13 @@ class AddFriendView extends GetView<AddFriendController> {
                       Text("SUGGESTIONS", style: MyTextTheme.greyNormal),
                     ],
                   ),
-                  if (filteredUsers.isEmpty)
+
+            if (filteredUsers.isEmpty)
                     Expanded(
                       child: Center(
                         child: Text(
-                          "No friend found.",
+                          "No Suggestions.",
                           style: MyTextTheme.mediumGCB
-
                         ),
                       ),
                     ),

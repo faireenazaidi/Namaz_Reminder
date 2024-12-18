@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/LeaderBoardController.dart';
 import '../AppManager/dialogs.dart';
 import '../DashBoard/timepickerpopup.dart';
-import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
@@ -232,11 +231,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         ],
                                       ):
                                   Text(
-                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 7)))}",
+                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 1)))} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 7)))}",
                                     style: const TextStyle(fontSize: 12,
                                         color: Colors.black),
                                   )
-                                  ),
+                            )
                                 ],
                               ),
                             ),
@@ -373,10 +372,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 22,
+                                                          radius: 20.8,
                                                           backgroundColor: Colors
                                                               .yellowAccent,
                                                           child: CircleAvatar(
+                                                            backgroundColor: Colors.white,
                                                             child: controller
                                                                 .getLeaderboardList
                                                                 .value!
@@ -397,10 +397,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               ),
                                                             )
                                                                 :
-                                                            const Icon(
+                                                             Icon(
                                                               Icons.person,
-                                                              color: Colors
-                                                                  .grey,
+                                                              color: AppColor.circleIndicator,
                                                               size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
@@ -652,9 +651,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 22,
-                                                          backgroundColor: AppColor.circleIndicator,
+                                                          radius: 20.8,
+                                                          backgroundColor: Colors.yellowAccent,
                                                           child: CircleAvatar(
+                                                            backgroundColor: Colors.white,
                                                               child: controller
                                                                   .getLeaderboardList
                                                                   .value!
@@ -675,10 +675,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 ),
                                                               )
                                                                   : Icon(
-                                                                    Icons.person,
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    size: 30,)
+                                                                Icons.person,
+                                                                color: AppColor.circleIndicator,
+                                                                size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
                                                         )
@@ -935,9 +934,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                   ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 21,
-                                                          backgroundColor: AppColor.circleIndicator,
+                                                          radius: 20.8,
+                                                          backgroundColor: Colors.yellowAccent,
                                                           child: CircleAvatar(
+                                                            backgroundColor: Colors.white,
                                                               child: controller
                                                                   .getLeaderboardList
                                                                   .value!
@@ -957,11 +957,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       .picture}", // Replace with your image URL
                                                                 ),
                                                               )
-                                                                  : const Icon(
+                                                                  : Icon(
                                                                 Icons.person,
-                                                                color: Colors
-                                                                    .grey,
-                                                                size: 30,)
+                                                                color: AppColor.circleIndicator,
+                                                                size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
                                                         )
@@ -1216,10 +1215,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                   )))
                                                               : !isMissedPrayers
                                                               ? CircleAvatar(
-                                                            radius: 22,
+                                                            radius: 20.8,
                                                             backgroundColor: Colors
                                                                 .yellowAccent,
                                                             child: CircleAvatar(
+                                                              backgroundColor: Colors.white,
                                                                 child: controller
                                                                     .getLeaderboardList
                                                                     .value!
@@ -1239,11 +1239,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                         .picture}", // Replace with your image URL
                                                                   ),
                                                                 )
-                                                                    : const Icon(
+                                                                    : Icon(
                                                                   Icons.person,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  size: 30,)
+                                                                  color: AppColor.circleIndicator,
+                                                                  size: 30,),
                                                               // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                             ),
                                                           )
@@ -1500,10 +1499,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 22,
+                                                          radius: 20.8,
                                                           backgroundColor: Colors
                                                               .yellowAccent,
                                                           child: CircleAvatar(
+                                                            backgroundColor: Colors.white,
                                                               child: controller
                                                                   .getLeaderboardList
                                                                   .value!
@@ -1523,11 +1523,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       .picture}", // Replace with your image URL
                                                                 ),
                                                               )
-                                                                  : const Icon(
+                                                                  : Icon(
                                                                 Icons.person,
-                                                                color: Colors
-                                                                    .grey,
-                                                                size: 30,)
+                                                                color: AppColor.circleIndicator,
+                                                                size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
                                                         )

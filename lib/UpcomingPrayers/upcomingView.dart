@@ -385,7 +385,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                         Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
                                         InkWell(
                                           onTap: () {},
                                           child: Icon(Icons.more_horiz),
@@ -464,59 +464,61 @@ class Upcoming extends GetView<UpcomingController> {
                         bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
 
                         return Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(prayerName, style: MyTextTheme.medium),
-                                      if (!isSpecialPrayer)
-                                        InkWell(
-                                          onTap: () {
-                                            dashboardController.toggleMute(prayerName);
-                                          },
-                                          child: Obx(() => SvgPicture.asset(
-                                            dashboardController.prayerMuteStates[prayerName] == true
-                                                ? 'assets/mute.svg'
-                                                : 'assets/sound.svg',
-                                            height: 20,
-                                          )),
-                                        ),
-                                    ],
-                                  ),
-                                  if (isSpecialPrayer) ...[
-                                    SizedBox(height: 5),
-                                    Text(specialText, style: MyTextTheme.red),
-                                  ],
-                                  SizedBox(height: 5),
-                                  Row(
-                                    children: [
-                                      Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                      if (!sun) Text('Ends at', style: MyTextTheme.smallGCN),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(startTime12, style: MyTextTheme.mediumBCD),
-                                      ),
-                                      if (!isSpecialPrayer)
-                                        Text(endTime12, style: MyTextTheme.mediumBCD),
-                                    ],
-                                  ),
-                                ],
+                            padding: EdgeInsets.all(8.0),
+                            child: controller.nextPrayerName.value != prayerName?
+                            Container(
+                              decoration: BoxDecoration(
+                                color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                          ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(prayerName, style: MyTextTheme.medium),
+                                        if (!isSpecialPrayer)
+                                          InkWell(
+                                            onTap: () {
+                                              dashboardController.toggleMute(prayerName);
+                                            },
+                                            child: Obx(() => SvgPicture.asset(
+                                              dashboardController.prayerMuteStates[prayerName] == true
+                                                  ? 'assets/mute.svg'
+                                                  : 'assets/sound.svg',
+                                              height: 20,
+                                            )),
+                                          ),
+                                      ],
+                                    ),
+                                    if (isSpecialPrayer) ...[
+                                      SizedBox(height: 5),
+                                      Text(specialText, style: MyTextTheme.red),
+                                    ],
+                                    SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
+                                        if (!sun) Text('Ends at', style: MyTextTheme.smallGCN),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(startTime12, style: MyTextTheme.mediumBCD),
+                                        ),
+                                        if (!isSpecialPrayer)
+                                          Text(endTime12, style: MyTextTheme.mediumBCD),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ):
+                           null
                         );
                       }
                       return SizedBox.shrink();

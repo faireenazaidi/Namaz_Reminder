@@ -11,7 +11,6 @@ class HijriDateView extends GetView<SettingController> {
   Widget build(BuildContext context) {
     final HijriController hijriController = Get.put(HijriController());
     final DashBoardController dashboardController = Get.put(DashBoardController());
-    print("kkk");
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -51,23 +50,25 @@ class HijriDateView extends GetView<SettingController> {
           itemBuilder: (context, index) {
           // Get the current day mapping
           var day = hijriController.hijriDateAdjustment[index];
-          return ListTile(
-            title: Text(
-              day['name'],
-              style: TextStyle(
-                fontWeight: hijriController.selectedId == day['id']
-                    ? FontWeight.bold
-                    : FontWeight.normal,
+          return Obx(()=>
+             ListTile(
+              title: Text(
+                day['name'],
+                style: TextStyle(
+                  fontWeight: hijriController.selectedId.value == day['id']
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                ),
               ),
+              trailing: hijriController.selectedId.value == day['id']
+                  ? const Icon(Icons.check, color: Colors.green)
+                  : null,
+              onTap: () {
+                hijriController.updateSelectedId(day['id']);
+                hijriController.registerUser();
+                hijriController.selectItem(day['id']);
+              },
             ),
-            trailing: hijriController.selectedId == day['id']
-                ? const Icon(Icons.check, color: Colors.green)
-                : null,
-            onTap: () {
-              hijriController.updateSelectedId(day['id']);
-              hijriController.registerUser();
-              hijriController.selectItem(day['id']);
-            },
           );
       
           });

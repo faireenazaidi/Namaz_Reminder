@@ -4,11 +4,13 @@ import 'package:namaz_reminders/Notification/NotificationSetting/PreNamazAlert/N
 import '../../AppManager/toast.dart';
 import '../../Widget/appColor.dart';
 import '../../Widget/text_theme.dart';
+import 'PreNamazAlert/NamazAlertController.dart';
 import 'notificationSettingController.dart';
 
 
 class NotificationSetting extends StatelessWidget {
   final NotificationSettingController notificationSettingsController = Get.put(NotificationSettingController());
+  final NamazAlertController namazAlertController = Get.put(NamazAlertController());
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,8 @@ class NotificationSetting extends StatelessWidget {
       
               //Requests//
               Obx(() => SwitchListTile(
-                activeTrackColor: AppColor.circleIndicator,              title: Text('Friend requests',style: MyTextTheme.medium2,),
+                activeTrackColor: AppColor.circleIndicator,
+                title: Text('Friend requests',style: MyTextTheme.medium2,),
                 subtitle: Text('Notify when someone sends you a joining request',style: MyTextTheme.smallGCN,),
                 value: notificationSettingsController.friendRequests.value,
                 onChanged: (value) {
@@ -93,6 +96,7 @@ class NotificationSetting extends StatelessWidget {
               Obx(() => SwitchListTile(
                 activeTrackColor: AppColor.circleIndicator,
                 title: Text('Friend Namaz Prayed',style: MyTextTheme.medium2,),
+                subtitle:  Text('Get notified when your friend complete their prayers.',style: MyTextTheme.smallGCN,),
                 value: notificationSettingsController.friendNamazPrayed.value,
                 onChanged: (value) {
                   notificationSettingsController.friendNamazPrayed.value = value;
@@ -106,13 +110,15 @@ class NotificationSetting extends StatelessWidget {
               SizedBox(height: 5,),
       
               //Namaz Alert//
-              ListTile(
-                title: Text('Pre Namaz Alert',style: MyTextTheme.medium2,),
-                subtitle: Text('15 min ago',style: MyTextTheme.smallGCN,),
-                trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
-                onTap: () {
-                Get.to(()=>NamazAlertView());
-                },
+              Obx(()=>
+                 ListTile(
+                  title: Text('Pre Namaz Alert',style: MyTextTheme.medium2,),
+                  subtitle: Text(namazAlertController.getCurrentSubtitle(),style: TextStyle(color: Colors.grey),),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
+                  onTap: () {
+                  Get.to(()=>NamazAlertView());
+                  },
+                ),
               ),
             ],
           ),

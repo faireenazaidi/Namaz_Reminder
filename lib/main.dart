@@ -8,12 +8,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:namaz_reminders/DataConnection.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/prayerTimings.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
 import 'Services/user_data.dart';
+import 'Setting/Privacy&Security/PrivacyController.dart';
 
 
 
@@ -85,6 +87,7 @@ void main() async {
     }
   });
   // startBackgroundService();
+  Get.put(PrivacyController());
   runApp(MyApp());
   // BackgroundFetch.configure(
   //   BackgroundFetchConfig(
@@ -730,6 +733,6 @@ class MyApp extends StatelessWidget {
         // home: SplashScreen(),
       );
     });
+
   }
 }
-
