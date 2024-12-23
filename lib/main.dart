@@ -707,10 +707,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     // final userDataController = Get.find<LoginController>();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: AppColor.cream, // Background color of the status bar
+      statusBarIconBrightness: Brightness.dark, // Dark icons for light background
+      statusBarBrightness: Brightness.light, // Adjust for iOS
+    ));
     return Obx(() {
       return GetMaterialApp(
         theme: ThemeData(
             appBarTheme:AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
             surfaceTintColor: AppColor.lightmustard
             ),
             useMaterial3: true),

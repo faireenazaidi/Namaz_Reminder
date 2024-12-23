@@ -51,6 +51,12 @@ class DashBoardController extends GetxController {
     prayerMuteStates[prayerName] = !(prayerMuteStates[prayerName] ?? false);
   }
 
+  Future<void> onRefresh() async {
+    await get();
+    // Simulate a network call or refresh logic
+
+  }
+
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
   var upcomingPrayers = [

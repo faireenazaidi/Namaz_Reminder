@@ -411,17 +411,17 @@ class Upcoming extends GetView<UpcomingController> {
                                             style: MyTextTheme.smallGCN,
                                           )),
                                           Spacer(),
-                                          InkWell(
-                                            onTap: () {
-                                              dashboardController.toggle('Asr');
-                                            },
-                                            child: Obx(() => SvgPicture.asset(
-                                              dashboardController.isMute.value
-                                                  ? 'assets/mute.svg'
-                                                  : 'assets/sound.svg',
-                                              height: 20,
-                                            )),
-                                          ),
+                                          // InkWell(
+                                          //   onTap: () {
+                                          //     dashboardController.toggle('Asr');
+                                          //   },
+                                          //   child: Obx(() => SvgPicture.asset(
+                                          //     dashboardController.isMute.value
+                                          //         ? 'assets/mute.svg'
+                                          //         : 'assets/sound.svg',
+                                          //     height: 20,
+                                          //   )),
+                                          // ),
                                         ],
                                       ),
                                     ),
@@ -479,18 +479,18 @@ class Upcoming extends GetView<UpcomingController> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(prayerName, style: MyTextTheme.medium),
-                                      if (!isSpecialPrayer)
-                                        InkWell(
-                                          onTap: () {
-                                            dashboardController.toggleMute(prayerName);
-                                          },
-                                          child: Obx(() => SvgPicture.asset(
-                                            dashboardController.prayerMuteStates[prayerName] == true
-                                                ? 'assets/mute.svg'
-                                                : 'assets/sound.svg',
-                                            height: 20,
-                                          )),
-                                        ),
+                                      // if (!isSpecialPrayer)
+                                      //   InkWell(
+                                      //     onTap: () {
+                                      //       dashboardController.toggleMute(prayerName);
+                                      //     },
+                                      //     child: Obx(() => SvgPicture.asset(
+                                      //       dashboardController.prayerMuteStates[prayerName] == true
+                                      //           ? 'assets/mute.svg'
+                                      //           : 'assets/sound.svg',
+                                      //       height: 20,
+                                      //     )),
+                                      //   ),
                                     ],
                                   ),
                                   if (isSpecialPrayer) ...[

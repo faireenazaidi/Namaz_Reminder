@@ -73,6 +73,7 @@ class ProfileController extends GetxController{
       if(request.statusCode==200){
         final userModel = UserModel.fromJson(data['user']);
         await userData.addUserData(userModel);
+        await userData.clearPrayerTimings();
         showToast(msg: 'Profile Updated',bgColor: Colors.black);
         Get.offAllNamed(AppRoutes.dashboardRoute);
       }
