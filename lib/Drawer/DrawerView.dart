@@ -324,7 +324,7 @@ print(customDrawerController.missedPrayersCount.toString(),);
               ],
             ),
           ),
-        ));
+        )));
   }
 
   // Function to create the ListTiles with reduced padding, small and bold text
