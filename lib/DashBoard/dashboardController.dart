@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -35,10 +36,12 @@ class DashBoardController extends GetxController {
   String trackMarkPrayer = '';
 
   var selectedDate = Rx<DateTime>(DateTime.now());
- var isMute= false.obs;
-  var prayerMuteStates = <String, bool>{}.obs; // Map to hold mute states
+  var isMute= false.obs;
+  // final AudioPlayer audioPlayer = AudioPlayer();
+  var prayerMuteStates = <String, bool>{}.obs;
   var muteStates = <String, RxBool>{}.obs;
   UserData userData = UserData();
+  //
   void toggle(String prayerName){
     userData.toggleSound(prayerName);
     isMute.value = userData.isSoundEnabled(prayerName);
@@ -50,6 +53,7 @@ class DashBoardController extends GetxController {
     // Toggle the mute state for the specific prayer
     prayerMuteStates[prayerName] = !(prayerMuteStates[prayerName] ?? false);
   }
+
 
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
@@ -178,6 +182,7 @@ class DashBoardController extends GetxController {
     prayerTimer!.cancel();
     _timer?.cancel();
     locationController.value.dispose();
+    // audioPlayer.dispose();
     super.dispose();
   }
 

@@ -59,19 +59,19 @@ class NotificationSetting extends StatelessWidget {
               SizedBox(height: 5,),
       
               //Quiet Mode//
-              Obx(() => SwitchListTile(
-                activeTrackColor: AppColor.circleIndicator,
-                title: Text('Quiet mode',style: MyTextTheme.medium2,),
-                subtitle: Text('Automatically mute notifications at night or whenever you need to focus.',style: MyTextTheme.smallGCN,),
-                value: notificationSettingsController.quietMode.value,
-                onChanged: (value) {
-                  notificationSettingsController.quietMode.value = value;
-                  notificationSettingsController.registerUser();
-                  showToast(msg: 'Settings Updated',bgColor: Colors.black);
-      
-                },
-              )
-              ),
+              // Obx(() => SwitchListTile(
+              //   activeTrackColor: AppColor.circleIndicator,
+              //   title: Text('Quiet mode',style: MyTextTheme.medium2,),
+              //   subtitle: Text('Automatically mute notifications at night or whenever you need to focus.',style: MyTextTheme.smallGCN,),
+              //   value: notificationSettingsController.quietMode.value,
+              //   onChanged: (value) {
+              //     notificationSettingsController.quietMode.value = value;
+              //     notificationSettingsController.registerUser();
+              //     showToast(msg: 'Settings Updated',bgColor: Colors.black);
+              //
+              //   },
+              // )
+              // ),
       
               SizedBox(height: 5,),
       

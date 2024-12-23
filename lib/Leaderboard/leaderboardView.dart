@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
+import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_controller.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
@@ -22,7 +23,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
   final LeaderBoardController leaderBoardController = Get.put(
       LeaderBoardController());
   final DateController dateController = Get.put(DateController());
-
+  final MissedPrayersController missedPrayersController = Get.put(MissedPrayersController());
   @override
   void initState() {
     super.initState();
@@ -231,46 +232,86 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                           formattedDate.toString());
                                     }
                                   },
-                                  child: Row(
+                                  //child:
+                                  // Row(
+                                  //   children: [
+                                  //     SvgPicture.asset(
+                                  //         "assets/calendar3.svg", height: 15),
+                                  //     const SizedBox(width: 5),
+                                  //     Obx(() =>
+                                  //         Row(
+                                  //           children: [
+                                  //             Text(
+                                  //               DateFormat('EEE, d MMMM yyyy')
+                                  //                   .format(
+                                  //                   leaderBoardController
+                                  //                       .selectedDate.value),
+                                  //               style: const TextStyle(
+                                  //                   fontSize: 12,
+                                  //                   color: Colors.black),
+                                  //               overflow: TextOverflow.ellipsis,
+                                  //             ),
+                                  //             Container(
+                                  //               width: 1,
+                                  //               height: 15,
+                                  //               color: Colors.grey,
+                                  //               margin: const EdgeInsets
+                                  //                   .symmetric(
+                                  //                   horizontal: 10),
+                                  //             ),
+                                  //             Obx(
+                                  //                   () =>
+                                  //                   Text(
+                                  //                     leaderBoardController
+                                  //                         .islamicDate.value,
+                                  //                     style: const TextStyle(
+                                  //                         fontSize: 12,
+                                  //                         color: Colors.black),
+                                  //                     overflow: TextOverflow
+                                  //                         .ellipsis,
+                                  //                   ),
+                                  //             ),
+                                  //           ],
+                                  //         )),
+                                  //   ],
+                                  // ),
+                                child:   Row(
                                     children: [
                                       SvgPicture.asset(
                                           "assets/calendar3.svg", height: 15),
                                       const SizedBox(width: 5),
                                       Obx(() =>
-                                          Row(
-                                            children: [
+                                      leaderBoardController
+                                          .getSelectedTab == 'Daily'? Row(
+                                        children: [
+                                          Text(
+                                            DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value),
+                                            style: const TextStyle(fontSize: 12,
+                                                color: Colors.black),
+                                          ),
+                                          Container(
+                                            width: 1,
+                                            height: 15,
+                                            color: Colors.grey,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                          ),
+                                          Obx(() =>
                                               Text(
-                                                DateFormat('EEE, d MMMM yyyy')
-                                                    .format(
-                                                    leaderBoardController
-                                                        .selectedDate.value),
+                                                leaderBoardController.islamicDate.value,
                                                 style: const TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.black),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Container(
-                                                width: 1,
-                                                height: 15,
-                                                color: Colors.grey,
-                                                margin: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 10),
-                                              ),
-                                              Obx(
-                                                    () =>
-                                                    Text(
-                                                      leaderBoardController
-                                                          .islamicDate.value,
-                                                      style: const TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.black),
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                    ),
-                                              ),
-                                            ],
-                                          )),
+                                              )),
+                                        ],
+                                      ):
+                                      Text(
+                                        "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value)} - "
+                                            "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 7)))}",
+                                        style: const TextStyle(fontSize: 12,
+                                            color: Colors.black),
+                                      )
+                                      )
                                     ],
                                   ),
                                 ),

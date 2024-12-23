@@ -36,621 +36,622 @@ class DashBoardView extends GetView<DashBoardController> {
                 (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'));
       });
     }
-    return SafeArea(
-      child: DoubleBack(
-        message: "Press again to exit!",
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar:
-              AppBar(
-                bottom: PreferredSize(
-                  preferredSize:  const Size.fromHeight(1.0),
-                  child: Divider(
-                    height: 1.0,
-                    color: AppColor.packageGray,
-                  ),
-                ),
-                toolbarHeight: 55,
-                backgroundColor: Colors.transparent,
-                titleSpacing: 0,
-                title: Text("Prayer O'Clock", style: MyTextTheme.largeBN),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(7.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                            "assets/loc.svg"
-                        ),
-                        const SizedBox(width: 4),
-                        GetBuilder<DashBoardController>(
-                            id: 'add',
-                            builder: (_) {
-                              return
-                                InkWell(
-                                onTap: (){
-                                  Dialogs.showConfirmationDialog(
-                                  context: context,
-                                  onConfirmed: ()async{
-                                    return controller.changeLocation();
-                                  },
-                                  showCancelButton: false,
-                                      initialMessage: 'Change Location',
-                                      confirmButtonText: 'Use Current Location',
-                                      confirmButtonColor: Colors.white.withOpacity(0.1),
-                                      successMessage: "Location Updated",
-                                      loadingMessage: 'Getting Current Location...');
-                                },
-                                child:
-                                Text(
-                                   controller.address.split(',')[0].toString(),
-                                  style: MyTextTheme.greyNormal,
-                                ),
-
-
-
-                              );
-                            }
-                        ),
-                        SizedBox(width: 8,),
-                        InkWell(
-                          onTap: (){
-                            Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
-                          },
-                          child:  GetBuilder<DashBoardController>(
-                            builder: (controller) {
-                              return Stack(
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppColor.circleIndicator, // Outer circle color
-                                    ),
-                                    child: Center(
-                                      child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: controller.userData.getUserData!.picture.isNotEmpty
-                                              ? DecorationImage(
-                                            image: NetworkImage(
-                                              "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
-                                            ),
-                                            fit: BoxFit.cover,
-                                          )
-                                              : null,
-                                          color: controller.userData.getUserData!.picture.isEmpty
-                                              ? AppColor.packageGray
-                                              : null,
-                                        ),
-                                        child: controller.userData.getUserData!.picture.isEmpty
-                                            ? Icon(
-                                          Icons.person,
-                                          size: 20,
-                                          color: AppColor.circleIndicator,
-                                        )
-                                            : null,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 28,
-                                    bottom: 20,
-                                    child: Stack(
-                                      children: [
-                                           SvgPicture.asset(
-                                            myRankController.rank == 1
-                                                ? 'assets/Gold.svg'
-                                                : myRankController.rank == 2
-                                                ? 'assets/silver.svg'
-                                                : myRankController.rank == 3
-                                                ? 'assets/Bronze.svg'
-                                                : 'assets/other.svg',
-                                            height: 20,
-                                          ),
-                                        Positioned(
-                                          right: 8,
-                                          bottom: 2,
-                                          child: Column(
-                                            children: [
-                                              Center(
-                                                child: MyRank(
-                                                  rankedFriends: controller.weeklyRanked,
-                                                  textSize: 8,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+    return DoubleBack(
+      message: "Press again to exit!",
+      child: Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar:
+                AppBar(
+                  bottom: PreferredSize(
+                    preferredSize:  const Size.fromHeight(1.0),
+                    child: Divider(
+                      height: 1.0,
+                      color: AppColor.packageGray,
                     ),
                   ),
-                ],
-              ),
-
-          drawer: const CustomDrawer(),
-          body: GetBuilder<DashBoardController>(
-            builder: (_) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: controller.isGifVisible
-                    ? Center(
-                      child: Image.asset(
-                                        alignment: Alignment.center,
-                                        "assets/popup_Default.gif",
+                  toolbarHeight: 55,
+                  backgroundColor: Colors.transparent,
+                  titleSpacing: 0,
+                  title: Text("Prayer O'Clock", style: MyTextTheme.largeBN),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                              "assets/loc.svg"
+                          ),
+                          const SizedBox(width: 4),
+                          GetBuilder<DashBoardController>(
+                              id: 'add',
+                              builder: (_) {
+                                return
+                                  InkWell(
+                                  onTap: (){
+                                    Dialogs.showConfirmationDialog(
+                                    context: context,
+                                    onConfirmed: ()async{
+                                      return controller.changeLocation();
+                                    },
+                                    showCancelButton: false,
+                                        initialMessage: 'Change Location',
+                                        confirmButtonText: 'Use Current Location',
+                                        confirmButtonColor: Colors.white.withOpacity(0.1),
+                                        successMessage: "Location Updated",
+                                        loadingMessage: 'Getting Current Location...');
+                                  },
+                                  child:
+                                  Text(
+                                     controller.address.split(',')[0].toString(),
+                                    style: MyTextTheme.greyNormal,
+                                  ),
+                                );
+                              }
+                          ),
+                          SizedBox(width: 8,),
+                          InkWell(
+                            onTap: (){
+                              Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
+                            },
+                            child:  GetBuilder<DashBoardController>(
+                              builder: (controller) {
+                                return Stack(
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColor.circleIndicator, // Outer circle color
                                       ),
-                    )
-                    :
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child:  Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:  SvgPicture.asset(
-                                  "assets/calendar3.svg"
-                              ),
+                                      child: Center(
+                                        child: Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: controller.userData.getUserData!.picture.isNotEmpty
+                                                ? DecorationImage(
+                                              image: NetworkImage(
+                                                "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
+                                              ),
+                                              fit: BoxFit.cover,
+                                            )
+                                                : null,
+                                            color: controller.userData.getUserData!.picture.isEmpty
+                                                ? AppColor.packageGray
+                                                : null,
+                                          ),
+                                          child: controller.userData.getUserData!.picture.isEmpty
+                                              ? Icon(
+                                            Icons.person,
+                                            size: 20,
+                                            color: AppColor.circleIndicator,
+                                          )
+                                              : null,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 28,
+                                      bottom: 20,
+                                      child: Stack(
+                                        children: [
+                                             SvgPicture.asset(
+                                                myRankController.rank == 1
+                                                    ? 'assets/Gold.svg'
+                                                    : myRankController.rank == 2
+                                                    ? 'assets/silver.svg'
+                                                    : myRankController.rank == 3
+                                                    ? 'assets/Bronze.svg'
+                                                    : 'assets/other.svg',
+                                                height: 20,
+                                             ),
+
+                                          Positioned(
+                                            right: 8,
+                                            bottom: 2,
+                                            child: Column(
+                                              children: [
+                                                Center(
+                                                  child: MyRank(
+                                                    rankedFriends: controller.weeklyRanked,
+                                                    textSize: 8,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
-                                  style: const TextStyle(fontSize: 12, color: Colors.black),
-                                  overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+            drawer: const CustomDrawer(),
+            body: GetBuilder<DashBoardController>(
+              builder: (_) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: controller.isGifVisible
+                      ? Center(
+                        child: Image.asset(
+                                          alignment: Alignment.center,
+                                          "assets/popup_Default.gif",
+                                        ),
+                      )
+                      :
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child:  Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child:  SvgPicture.asset(
+                                    "assets/calendar3.svg"
                                 ),
-                                Container(
-                                  width: 1, // Vertical divider width
-                                  height: 15, // Divider height
-                                  color: Colors.grey,
-                                  margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
-                                ),
-                                Obx(
-                                      () => Text(
-                                    controller.islamicDate.value,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
                                     style: const TextStyle(fontSize: 12, color: Colors.black),
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
+                                  Container(
+                                    width: 1, // Vertical divider width
+                                    height: 15, // Divider height
+                                    color: Colors.grey,
+                                    margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
+                                  ),
+                                  Obx(
+                                        () => Text(
+                                      controller.islamicDate.value,
+                                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
 
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 340,
-                        width: 350,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Obx(() {
-                              // controller.calculateCompletionPercentage();
-                              // print("completionPercentage ${controller.completionPercentage}");
-                              // print("controller.isPrayed ${controller.isPrayed}");
-                              // print("controller.nextPrayer ${controller.nextPrayer}");
-                              // print("controller.nextPrayer ${controller.currentPrayer}");
-                              // print("controller.nextPrayer ${controller.currentPrayerStartTime}");
-                              return controller.isPrayed?CircularPercentIndicator(
-                                restartAnimation: false,
-                                circularStrokeCap: CircularStrokeCap.round,
-                                animation: false,
-                                // animateFromLastPercent: true,
-                                animationDuration: 1200,
-                                radius: 130,
-                                lineWidth: 40,
-                                widgetIndicator: Container(
-                                  height: 5,
-                                  width: 5,
-                                  alignment: Alignment.center,
-                                  child: Lottie.asset(
-                                    "assets/Star.lottie",
-                                    fit: BoxFit.contain,
-                                    width: 80,
-                                    height: 80,
-                                    decoder: customDecoder,
+                        SizedBox(
+                          height: 340,
+                          width: 350,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Obx(() {
+                                // controller.calculateCompletionPercentage();
+                                // print("completionPercentage ${controller.completionPercentage}");
+                                // print("controller.isPrayed ${controller.isPrayed}");
+                                // print("controller.nextPrayer ${controller.nextPrayer}");
+                                // print("controller.nextPrayer ${controller.currentPrayer}");
+                                // print("controller.nextPrayer ${controller.currentPrayerStartTime}");
+                                return controller.isPrayed?CircularPercentIndicator(
+                                  restartAnimation: false,
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  animation: false,
+                                  // animateFromLastPercent: true,
+                                  animationDuration: 1200,
+                                  radius: 130,
+                                  lineWidth: 40,
+                                  widgetIndicator: Container(
+                                    height: 5,
+                                    width: 5,
+                                    alignment: Alignment.center,
+                                    child: Lottie.asset(
+                                      "assets/Star.lottie",
+                                      fit: BoxFit.contain,
+                                      width: 80,
+                                      height: 80,
+                                      decoder: customDecoder,
+                                    ),
                                   ),
-                                ),
-                                percent:0.0,
-                                progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
-                                backgroundColor: AppColor.circleIndicator,
-                              ) :CircularPercentIndicator(
-                                restartAnimation: false,
-                                circularStrokeCap: CircularStrokeCap.round,
-                                animation: true,
-                                animateFromLastPercent: true,
-                                animationDuration: 1200,
-                                radius: 140,
-                                lineWidth: 40,
-                                widgetIndicator: Container(
-                                  height: 5,
-                                  width: 5,
-                                  alignment: Alignment.center,
-                                  child: Lottie.asset(
-                                    "assets/Star.lottie",
-                                    fit: BoxFit.contain,
-                                    width: 80,
-                                    height: 80,
-                                    decoder: customDecoder,
+                                  percent:0.0,
+                                  progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
+                                  backgroundColor: AppColor.circleIndicator,
+                                ) :CircularPercentIndicator(
+                                  restartAnimation: false,
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  animation: true,
+                                  animateFromLastPercent: true,
+                                  animationDuration: 1200,
+                                  radius: 140,
+                                  lineWidth: 40,
+                                  widgetIndicator: Container(
+                                    height: 5,
+                                    width: 5,
+                                    alignment: Alignment.center,
+                                    child: Lottie.asset(
+                                      "assets/Star.lottie",
+                                      fit: BoxFit.contain,
+                                      width: 80,
+                                      height: 80,
+                                      decoder: customDecoder,
+                                    ),
                                   ),
-                                ),
-                                percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
-                                progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.circleIndicator,
-                                backgroundColor: Colors.grey.shade300,
-                              );
-                            }),
-                          //   Obx(() {
-                          //     double completionPercentage = controller.calculateCompletionPercentage();
-                          //     // Circle center and radius
-                          //     double radius = 100;
-                          //     // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                          //     double angle = 2 * pi * completionPercentage;
-                          //     // Convert percentage to radians
-                          //
-                          //   // Calculate x and y positions based on angle
-                          //   double x = radius * cos(angle);
-                          //   double y = radius * sin(angle);
-                          //
-                          //   return Positioned(
-                          //     left: radius + x - 120,
-                          //     // Offset to center the crown on the circle
-                          //     top: radius - y - 100,
-                          //     // Offset to center the crown on the circle
-                          //     child: CircleAvatar(
-                          //       radius: 15,
-                          //       backgroundColor: Colors.white,
-                          //       child:     Lottie.asset("assets/Star.lottie",
-                          //           decoder: customDecoder, height: 1000),
-                          //     ),
-                          //
-                          //   );
-                          // }),
-                            if(!controller.isPrayed)
-                              Positioned(
-                                top: 70,
-                                child: Obx(() {
-                                  // Check if there's a current prayer, if not, show the next prayer
-                                  //print("ccccccccccc ${controller.currentPrayer.value}");
-                                  if (controller.currentPrayer.value.isEmpty) {
-                                    // Show next prayer message with blinking effect
-                                    return Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                  percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
+                                  progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.circleIndicator,
+                                  backgroundColor: Colors.grey.shade300,
+                                );
+                              }),
+                            //   Obx(() {
+                            //     double completionPercentage = controller.calculateCompletionPercentage();
+                            //     // Circle center and radius
+                            //     double radius = 100;
+                            //     // Radius of the circle (adjust based on CircularPercentIndicator radius)
+                            //     double angle = 2 * pi * completionPercentage;
+                            //     // Convert percentage to radians
+                            //
+                            //   // Calculate x and y positions based on angle
+                            //   double x = radius * cos(angle);
+                            //   double y = radius * sin(angle);
+                            //
+                            //   return Positioned(
+                            //     left: radius + x - 120,
+                            //     // Offset to center the crown on the circle
+                            //     top: radius - y - 100,
+                            //     // Offset to center the crown on the circle
+                            //     child: CircleAvatar(
+                            //       radius: 15,
+                            //       backgroundColor: Colors.white,
+                            //       child:     Lottie.asset("assets/Star.lottie",
+                            //           decoder: customDecoder, height: 1000),
+                            //     ),
+                            //
+                            //   );
+                            // }),
+                              if(!controller.isPrayed)
+                                Positioned(
+                                  top: 70,
+                                  child: Obx(() {
+                                    // Check if there's a current prayer, if not, show the next prayer
+                                    //print("ccccccccccc ${controller.currentPrayer.value}");
+                                    if (controller.currentPrayer.value.isEmpty) {
+                                      // Show next prayer message with blinking effect
+                                      return Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(height: 50,),
+                                            BlinkingTextWidget(
+                                              text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                              style: MyTextTheme.mustard,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                    else if(controller.isGapPeriod.value){
+                                      return Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(height: 75,),
+                                            BlinkingTextWidget(
+                                              text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                              style: MyTextTheme.greyNormal,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                    else {
+                                      // Show the current prayer timings if available
+                                      return  Column(
                                         children: [
-                                          const SizedBox(height: 50,),
-                                          BlinkingTextWidget(
-                                            text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
-                                            style: MyTextTheme.mustard,
+                                          SizedBox(height: 35,),
+                                          Center(
+                                            child: Text(
+                                              '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
+                                              style: MyTextTheme.smallBCn,
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                  else if(controller.isGapPeriod.value){
-                                    return Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const SizedBox(height: 75,),
-                                          BlinkingTextWidget(
-                                            text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            controller.remainingTime.value,
+                                            style: MyTextTheme.largeCustomBCB,
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "Left for ${controller.currentPrayer.value} Prayer",
                                             style: MyTextTheme.greyNormal,
                                           ),
                                         ],
-                                      ),
-                                    );
-                                  }
-                                  else {
-                                    // Show the current prayer timings if available
-                                    return  Column(
-                                      children: [
-                                        SizedBox(height: 35,),
-                                        Center(
-                                          child: Text(
-                                            '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
-                                            style: MyTextTheme.smallBCn,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          controller.remainingTime.value,
-                                          style: MyTextTheme.largeCustomBCB,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "Left for ${controller.currentPrayer.value} Prayer",
-                                          style: MyTextTheme.greyNormal,
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                }),
-                              ),
-
-                            // Conditionally show the "Mark as Prayer" button
-                           controller.isPrayed?Text("",style: TextStyle(
-                               color: AppColor.circleIndicator,fontWeight: FontWeight.w600
-                           ),):
-                           Positioned(
-                              bottom: 120,
-                              child: Obx(() {
-                                DateTime now = DateTime.now();
-                                DateTime nextPrayerTime;
-
-                                try {
-                                  nextPrayerTime = DateFormat('hh:mm a').parse(controller.nextPrayerStartTime.value);
-                                  nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
-                                } catch (e) {
-                                  nextPrayerTime = DateTime.now().subtract(const Duration(days: 1));
-                                }
-
-                                bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
-
-                                return isBeforeNextPrayer
-                                    ? const SizedBox.shrink() // Hide the button
-                                    : InkWell(
-                                  child:controller.isPrayed? Text("Prayed!",style: TextStyle(
-                                      color: AppColor.circleIndicator,fontWeight: FontWeight.w600
-                                  ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
-                                  onTap: () {
-                                    if (!controller.isPrayed) {
-                                      // controller.onPrayerMarked(controller.currentPrayer.value);
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return GestureDetector(
-                                            onTap: () => Navigator.of(context).pop(),
-                                            child: Stack(
-                                              children: [
-                                                // Apply blur to the background
-                                                BackdropFilter(
-                                                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                                                  child: Container(
-                                                    color: Colors.black.withOpacity(0.5), // Optional dark overlay
-                                                  ),
-                                                ),
-                                                 TimePicker()
-                                              ],
-                                            ),
-                                          );
-                                        },
                                       );
                                     }
-                                  },
+                                  }),
+                                ),
 
-                                );
-                              }),
-                            ),
-                            if(controller.isPrayed)
-                            GetBuilder<DashBoardController>(
-                              id: 'lottie',
-                              builder: (_) {
-                                return Positioned(
-                                    child: Column(
-                                      children: [
-                                        // SizedBox(height: 20,),
-                                        ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            Colors.blue.withOpacity(0), // The color you want to blend with
-                                            BlendMode.multiply,            // The blend mode
-                                          ),
-                                          child: Lottie.asset(
-                                            "assets/circular.lottie", // Your existing Lottie animation path
-                                            decoder: customDecoder,    // Your custom decoder
-                                            width: 430,                // Adjust width as needed
-                                            height: 330,
-                                            fit: BoxFit.contain,// Adjust height as needed
+                              // Conditionally show the "Mark as Prayer" button
+                             controller.isPrayed?Text("",style: TextStyle(
+                                 color: AppColor.circleIndicator,fontWeight: FontWeight.w600
+                             ),):
+                             Positioned(
+                                bottom: 120,
+                                child: Obx(() {
+                                  DateTime now = DateTime.now();
+                                  DateTime nextPrayerTime;
 
+                                  try {
+                                    nextPrayerTime = DateFormat('hh:mm a').parse(controller.nextPrayerStartTime.value);
+                                    nextPrayerTime = DateTime(now.year, now.month, now.day, nextPrayerTime.hour, nextPrayerTime.minute);
+                                  } catch (e) {
+                                    nextPrayerTime = DateTime.now().subtract(const Duration(days: 1));
+                                  }
+
+                                  bool isBeforeNextPrayer = now.isBefore(nextPrayerTime);
+
+                                  return isBeforeNextPrayer
+                                      ? const SizedBox.shrink() // Hide the button
+                                      : InkWell(
+                                    child:controller.isPrayed? Text("Prayed!",style: TextStyle(
+                                        color: AppColor.circleIndicator,fontWeight: FontWeight.w600
+                                    ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
+                                    onTap: () {
+                                      if (!controller.isPrayed) {
+                                        // controller.onPrayerMarked(controller.currentPrayer.value);
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return GestureDetector(
+                                              onTap: () => Navigator.of(context).pop(),
+                                              child: Stack(
+                                                children: [
+                                                  // Apply blur to the background
+                                                  BackdropFilter(
+                                                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                                                    child: Container(
+                                                      color: Colors.black.withOpacity(0.5), // Optional dark overlay
+                                                    ),
+                                                  ),
+                                                   TimePicker()
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
+                                    },
+
+                                  );
+                                }),
+                              ),
+                              if(controller.isPrayed)
+                              GetBuilder<DashBoardController>(
+                                id: 'lottie',
+                                builder: (_) {
+                                  return Positioned(
+                                      child: Column(
+                                        children: [
+                                          // SizedBox(height: 20,),
+                                          ColorFiltered(
+                                            colorFilter: ColorFilter.mode(
+                                              Colors.blue.withOpacity(0), // The color you want to blend with
+                                              BlendMode.multiply,            // The blend mode
+                                            ),
+                                            child: Lottie.asset(
+                                              "assets/circular.lottie", // Your existing Lottie animation path
+                                              decoder: customDecoder,    // Your custom decoder
+                                              width: 430,                // Adjust width as needed
+                                              height: 330,
+                                              fit: BoxFit.contain,// Adjust height as needed
+
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                        ],
+                                      ),
+                                  );
+                                }
+                              ),
+                              if(controller.isPrayed)
+                              GetBuilder<DashBoardController>(
+                                id: 'lottie',
+                                builder: (_) {
+                                  return Positioned(
+                                    // top: -35, // Adjust the 'top' value as per your layout
+                                    child: Lottie.asset(
+                                      "assets/crystal.lottie",
+                                      decoder: customDecoder, // Replace with your new Lottie animation path
+                                      width: 300,  // Adjust the width and height as per your design
+                                      height: 190,
+                                       fit: BoxFit.contain,
+
+                                  ),
                                 );
                               }
                             ),
-                            if(controller.isPrayed)
-                            GetBuilder<DashBoardController>(
-                              id: 'lottie',
-                              builder: (_) {
-                                return Positioned(
-                                  // top: -35, // Adjust the 'top' value as per your layout
-                                  child: Lottie.asset(
-                                    "assets/crystal.lottie",
-                                    decoder: customDecoder, // Replace with your new Lottie animation path
-                                    width: 300,  // Adjust the width and height as per your design
-                                    height: 190,
-                                     fit: BoxFit.contain,
+                              if(controller.isPrayed)
+                              GetBuilder<DashBoardController>(
+                                id: 'lottie',
+                                builder: (_) {
+                                  return Positioned(
+                                    // top: -35, // Adjust the 'top' value as per your layout
+                                    child: Lottie.asset(
+                                      // "assets/award.lottie",
+                                      "assets/shield.lottie",
+                                      repeat: false,
+                                      decoder: customDecoder, // Replace with your new Lottie animation path
+                                      width: 300,  // Adjust the width and height as per your design
+                                      height: 150,
+                                       fit: BoxFit.contain,
 
+                                  ),
+                                );
+                              }
+                            ),
+
+
+                          ],
+                        )),
+                        GetBuilder<DashBoardController>(
+                          id: 'leader',
+                          builder: (_) {
+                            return InkWell(
+                              onTap: (){
+                                Get.to(() => const LeaderBoardView(),
+                                  transition: Transition.circularReveal,
+                                  duration: Duration(milliseconds: 400),
+                                  curve: Curves.ease,);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: AppColor.leaderboard,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              );
-                            }
-                          ),
-                            if(controller.isPrayed)
-                            GetBuilder<DashBoardController>(
-                              id: 'lottie',
-                              builder: (_) {
-                                return Positioned(
-                                  // top: -35, // Adjust the 'top' value as per your layout
-                                  child: Lottie.asset(
-                                    // "assets/award.lottie",
-                                    "assets/shield.lottie",
-                                    repeat: false,
-                                    decoder: customDecoder, // Replace with your new Lottie animation path
-                                    width: 300,  // Adjust the width and height as per your design
-                                    height: 150,
-                                     fit: BoxFit.contain,
-
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("LEADERBOARD",style: MyTextTheme.greyN,),
+                                        SvgPicture.asset("assets/Close.svg")
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    UserRankList(records: controller.getLeaderboardList.value == null
+                                        ? []
+                                        : controller.getLeaderboardList.value!.records, prayerName: controller.trackMarkPrayer,),
+                                  ],
                                 ),
-                              );
-                            }
-                          ),
 
-
-                        ],
-                      )),
-                      GetBuilder<DashBoardController>(
-                        id: 'leader',
-                        builder: (_) {
-                          return InkWell(
-                            onTap: (){
-                              Get.to(() => const LeaderBoardView(),
-                                transition: Transition.circularReveal,
-                                duration: Duration(milliseconds: 400),
-                                curve: Curves.ease,);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: AppColor.leaderboard,
-                                borderRadius: BorderRadius.circular(10),
                               ),
+                            );
+                          }
+                        ),
+                        const SizedBox(height: 20),
+
+                        Obx((){
+                            return InkWell(
+                              onTap: (){
+                                Get.toNamed(AppRoutes.upcomingRoute);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  image: const DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage("assets/jalih.png")
+                                  ),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("LEADERBOARD",style: MyTextTheme.greyN,),
-                                      SvgPicture.asset("assets/Close.svg")
+                                      Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
+                                        fontSize: 20,fontWeight: FontWeight.w600
+                                      ),),
+                                      Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
                                     ],
                                   ),
-                                  const SizedBox(height: 12,),
-                                  UserRankList(records: controller.getLeaderboardList.value == null
-                                      ? []
-                                      : controller.getLeaderboardList.value!.records, prayerName: controller.trackMarkPrayer,),
+                                  const SizedBox(height: 15,),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white12,
+                                      borderRadius: BorderRadius.circular(30)
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset('assets/alarm.svg',color: Colors.white,height: 25,),
+
+                                            const SizedBox(width: 10,),
+                                            Row(
+                                              children: [
+                                                Text("starts in ",style: MyTextTheme.smallWCN,),
+                                               controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
+                                                // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+
+                                       InkWell(
+                                         onTap: (){
+                                       controller.toggle(controller.nextPrayerName.value);
+                                         },
+
+                                   child: Obx(() {
+                                     return SvgPicture.asset(controller.isMute.value
+                                         ? 'assets/mute.svg'
+                                         : 'assets/sound.svg',height: 20,);
+                                   }),
+                                       )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 15,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text('Starts at',style: TextStyle(
+                                              color: Colors.white,fontSize: 11
+                                          )),
+                                          Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,fontWeight: FontWeight.w600
+                                          ))
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text('Ends at',style: TextStyle(
+                                              color: Colors.white,fontSize: 11
+                                          )),
+                                          Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
+                                              color: Colors.white,
+                                            fontSize: 14,fontWeight: FontWeight.w600
+                                          ))
+                                        ],
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
 
-                            ),
-                          );
-                        }
-                      ),
-                      const SizedBox(height: 20),
-
-                      Obx((){
-                          return InkWell(
-                            onTap: (){
-                              Get.toNamed(AppRoutes.upcomingRoute);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.black87,
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage("assets/jalih.png")
-                                ),
-                                borderRadius: BorderRadius.circular(15),
                               ),
-
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
-                                      fontSize: 20,fontWeight: FontWeight.w600
-                                    ),),
-                                    Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
-                                  ],
-                                ),
-                                const SizedBox(height: 15,),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white12,
-                                    borderRadius: BorderRadius.circular(30)
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset('assets/alarm.svg',color: Colors.white,height: 25,),
-
-                                          const SizedBox(width: 10,),
-                                          Row(
-                                            children: [
-                                              Text("starts in ",style: MyTextTheme.smallWCN,),
-                                             controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
-                                              // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-
-                                     InkWell(
-                                       onTap: (){
-                                     controller.toggle(controller.nextPrayerName.value);
-                                       },
-
-                                 child: Obx(() {
-                                   return SvgPicture.asset(controller.isMute.value
-                                       ? 'assets/mute.svg'
-                                       : 'assets/sound.svg',height: 20,);
-                                 }),
-                                     )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 15,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text('Starts at',style: TextStyle(
-                                            color: Colors.white,fontSize: 11
-                                        )),
-                                        Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,fontWeight: FontWeight.w600
-                                        ))
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text('Ends at',style: TextStyle(
-                                            color: Colors.white,fontSize: 11
-                                        )),
-                                        Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
-                                            color: Colors.white,
-                                          fontSize: 14,fontWeight: FontWeight.w600
-                                        ))
-                                      ],
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-
-                            ),
-                          );
-                        }),
-                      // UserRankCarousel(),
-                      // UserRankList()
-                            ]
-                        ),
-                ),
-                );}
-            )
+                            );
+                          }),
+                        // UserRankCarousel(),
+                        // UserRankList()
+                              ]
+                          ),
+                  ),
+                  );}
+              )
+          ),
         ),
       ),
     );

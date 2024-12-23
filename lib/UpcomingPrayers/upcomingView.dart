@@ -50,48 +50,64 @@ class Upcoming extends GetView<UpcomingController> {
           },
           child: Icon(Icons.arrow_back_ios, size: 20),
         ),
-        actions: [
-          Row(
-            children: [
-              SvgPicture.asset("assets/loc.svg"),
-              const SizedBox(width: 4),
-              InkWell(
-                onTap: () {
-                  Dialogs.showConfirmationDialog(
-                    context: context,
-                    onConfirmed: () async {
-                      return dashboardController.changeLocation();
-                    },
-                    showCancelButton: false,
-                    initialMessage: 'Change Location',
-                    confirmButtonText: 'Get Current Location',
-                    confirmButtonColor: AppColor.buttonColor,
-                    successMessage: dashboardController.address,
-                    loadingMessage: 'Getting Current Location...',
-                  );
-                },
-                child: Text(
+        actions:  [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                SvgPicture.asset("assets/loc.svg"),
+                const SizedBox(width: 4),
+                Text(
                   dashboardController.address,
                   style: MyTextTheme.greyNormal,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    Get.to(
-                          () => SettingView(),
-                      transition: Transition.rightToLeft,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                  },
-                  child: SvgPicture.asset("assets/gear.svg"),
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          )
         ],
+        // actions: [
+        //   Row(
+        //     children: [
+        //       SvgPicture.asset("assets/loc.svg"),
+        //       const SizedBox(width: 4),
+        //       InkWell(
+        //         onTap: () {
+        //           Dialogs.showConfirmationDialog(
+        //             context: context,
+        //             onConfirmed: () async {
+        //               return dashboardController.changeLocation();
+        //             },
+        //             showCancelButton: false,
+        //             initialMessage: 'Change Location',
+        //             confirmButtonText: 'Get Current Location',
+        //             confirmButtonColor: AppColor.buttonColor,
+        //             successMessage: dashboardController.address,
+        //             loadingMessage: 'Getting Current Location...',
+        //           );
+        //         },
+        //         child: Text(
+        //           dashboardController.address,
+        //           style: MyTextTheme.greyNormal,
+        //         ),
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: InkWell(
+        //           onTap: () {
+        //             Get.to(
+        //                   () => SettingView(),
+        //               transition: Transition.rightToLeft,
+        //               duration: Duration(milliseconds: 500),
+        //               curve: Curves.ease,
+        //             );
+        //           },
+        //           child: SvgPicture.asset("assets/gear.svg"),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ],
+
       ),
       body: GetBuilder(
         init: dashboardController,
@@ -385,7 +401,8 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                         Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                          Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                        //Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
                                           child: Icon(Icons.more_horiz),

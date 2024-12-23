@@ -200,7 +200,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 }
 
                               },
-                              child: Row(
+                              child:
+                              Row(
                                 children: [
                                   SvgPicture.asset(
                                       "assets/calendar3.svg", height: 15),
@@ -231,7 +232,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         ],
                                       ):
                                   Text(
-                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 1)))} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 7)))}",
+                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 7)))}",
                                     style: const TextStyle(fontSize: 12,
                                         color: Colors.black),
                                   )

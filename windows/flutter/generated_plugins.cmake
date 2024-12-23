@@ -3,8 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  audioplayers_windows
   awesome_notifications
-  connectivity_plus
+  connectivity_plus_windows
   file_selector_windows
   firebase_auth
   firebase_core
