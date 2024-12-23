@@ -16,13 +16,15 @@ class LocationPage extends GetView<LocationPageController> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
           Icon(Icons.abc,color: Colors.red,),
           // Background image
           Container(
-            height: 650,
+            height: screenHeight * 0.9,
+            // height: 650,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 opacity: 10,

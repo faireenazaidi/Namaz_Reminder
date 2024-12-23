@@ -7,11 +7,9 @@ import 'friendRequestController.dart';
 
 class RequestView extends GetView<SettingController>{
   const RequestView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final RequestController requestController = Get.put(RequestController());
-
 
     // TODO: implement build
     return SafeArea(

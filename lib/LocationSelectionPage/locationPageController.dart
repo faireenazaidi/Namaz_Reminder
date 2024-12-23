@@ -247,7 +247,7 @@ Map selectMethod = {}.obs;
   /// Otp verification
 
   otpVerification(verificationOTPCode,context) async {
-    Dialogs.showLoading(context,message: 'Validating');
+    Dialogs.showLoading(context,message: 'Verifying your OTP');
     var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim(),
       'token':FirebaseMessagingService().getToken()};
 

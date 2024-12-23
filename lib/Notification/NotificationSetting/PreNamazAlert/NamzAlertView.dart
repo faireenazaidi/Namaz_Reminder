@@ -31,48 +31,88 @@ class NamazAlertView extends GetView<NamazAlertController>{
             child: const Icon(Icons.arrow_back_ios_new,size: 20,),
           ),
         ),
-        body: Padding(
+        // body: Padding(
+        //   padding: const EdgeInsets.all(16.0),
+        //   child: SingleChildScrollView(
+        //     child: Column(
+        //       children: [
+        //         SizedBox(height: 5),
+        //         for (int i = 0; i < 5; i++)
+        //           GestureDetector(
+        //             onTap: () {
+        //               namazAlertController.selectItem(i);
+        //             },
+        //             child: Padding(
+        //               padding: const EdgeInsets.symmetric(vertical: 12.0),
+        //               child: Container(
+        //                 width: double.infinity,
+        //                 child: Row(
+        //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                   children: [
+        //                     Obx(() {
+        //                       return Text(
+        //                         _getOptionText(i), // Get the appropriate text
+        //                         style: namazAlertController.selectedId.value == i
+        //                             ? MyTextTheme.mediumB2.copyWith(fontWeight: FontWeight.bold)
+        //                             : MyTextTheme.mediumB2,
+        //                       );
+        //                     }),
+        //                     Obx(() {
+        //                       return namazAlertController.selectedId.value == i
+        //                           ? Icon(Icons.check, color: Colors.green)
+        //                           : SizedBox();
+        //                     }),
+        //                   ],
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+       body:  Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 5),
-                for (int i = 0; i < 5; i++)
-                  GestureDetector(
-                    onTap: () {
-                      namazAlertController.selectItem(i);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Container(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Obx(() {
-                              return Text(
-                                _getOptionText(i), // Get the appropriate text
-                                style: namazAlertController.selectedIndex.value == i
-                                    ? MyTextTheme.mediumB2.copyWith(fontWeight: FontWeight.bold)
-                                    : MyTextTheme.mediumB2,
-                              );
-                            }),
-                            Obx(() {
-                              return namazAlertController.selectedIndex.value == i
-                                  ? Icon(Icons.check, color: Colors.green)
-                                  : SizedBox();
-                            }),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                GetBuilder<NamazAlertController>(
+                    builder: (_) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: namazAlertController.preNamazAlert.length,
+                          itemBuilder: (context, index) {
+                            // Get the current day mapping
+                            var day = namazAlertController.preNamazAlert[index];
+                            return Obx(()=>
+                                ListTile(
+                                  title: Text(
+                                    day['name'],
+                                    style: TextStyle(
+                                      fontWeight: namazAlertController.selectedId.value == day['id']
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                  trailing: namazAlertController.selectedId.value == day['id']
+                                      ? const Icon(Icons.check, color: Colors.green)
+                                      : null,
+                                  onTap: () {
+                                    namazAlertController.updateSelectedId(day['id']);
+                                    namazAlertController.selectItem(day['id']);
+                                  },
+                                ),
+                            );
+
+                          });
+                    }
+                ),
               ],
             ),
           ),
         ),
       
-      
+
       ),
     );
   }

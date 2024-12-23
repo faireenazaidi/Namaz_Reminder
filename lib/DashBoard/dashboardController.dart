@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -35,10 +36,12 @@ class DashBoardController extends GetxController {
   String trackMarkPrayer = '';
 
   var selectedDate = Rx<DateTime>(DateTime.now());
- var isMute= false.obs;
-  var prayerMuteStates = <String, bool>{}.obs; // Map to hold mute states
+  var isMute= false.obs;
+  // final AudioPlayer audioPlayer = AudioPlayer();
+  var prayerMuteStates = <String, bool>{}.obs;
   var muteStates = <String, RxBool>{}.obs;
   UserData userData = UserData();
+  //
   void toggle(String prayerName){
     userData.toggleSound(prayerName);
     isMute.value = userData.isSoundEnabled(prayerName);
@@ -56,6 +59,7 @@ class DashBoardController extends GetxController {
     // Simulate a network call or refresh logic
 
   }
+
 
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
@@ -184,6 +188,7 @@ class DashBoardController extends GetxController {
     prayerTimer!.cancel();
     _timer?.cancel();
     locationController.value.dispose();
+    // audioPlayer.dispose();
     super.dispose();
   }
 
@@ -696,6 +701,8 @@ RxString nextPrayerName = ''.obs;
       var nextPrayerTimes = prayerDuration[nextPrayerName.value]!;
       print("prayerDuration[nextPrayer.value] ${prayerDuration[nextPrayerName.value]!}");
       print("nextPrayerTimes['start'] ${nextPrayerTimes['start']!}");
+      print("Next Prayer Name");
+      print(nextPrayerName);
       upcomingPrayerStartTime.value = convertTo12HourFormat(nextPrayerTimes['start']!);
       upcomingPrayerEndTime.value = convertTo12HourFormat(nextPrayerTimes['end']!);
     }
@@ -1027,7 +1034,8 @@ List isPrayedList = [];
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
 
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=${userData.getUserData!.id.toString()}'));
+    var request = http.Request('GET',
+        Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=${userData.getUserData!.id.toString()}'));
 
 
     http.StreamedResponse response = await request.send();

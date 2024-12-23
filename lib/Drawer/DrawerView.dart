@@ -6,7 +6,6 @@ import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/FAQs/FAQsView.dart';
 import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
-import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
@@ -27,87 +26,90 @@ class CustomDrawer extends StatelessWidget {
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
     final DashBoardController dashBoardController = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
-    // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
 
-    return Drawer(
-      backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(5),
-              bottomRight:  Radius.circular(5),
-            )
-        ),
-        width: 280,
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                GetBuilder<DashBoardController>(
-                    builder: (controller){
-                      return  Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(top: 20.0,left: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15.0,),
-                                    child: CircleAvatar(
-                                      radius: 31,
-                                      backgroundColor: AppColor.circleIndicator,
+    print("hlooooo");
+print(customDrawerController.missedPrayersCount.toString(),);
+    return SafeArea(
+      top: true,
+      child: Drawer(
+        backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(5),
+                bottomRight:  Radius.circular(5),
+              )
+          ),
+          width: 280,
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  GetBuilder<DashBoardController>(
+                      builder: (controller){
+                        return  Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(top: 20.0,left: 10),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15.0,),
                                       child: CircleAvatar(
-                                        radius: 30,
-                                        backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
-                                            ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
-                                            : null,
-                                        backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
-                                            ? AppColor.packageGray
-                                            : Colors.transparent,
-                                        child: customDrawerController.userData.getUserData!.picture.isEmpty
-                                            ?  Icon(Icons.person, size: 25, color: AppColor.circleIndicator)
-                                            : null,
+                                        radius: 31,
+                                        backgroundColor: AppColor.circleIndicator,
+                                        child: CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
+                                              ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
+                                              : null,
+                                          backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
+                                              ? AppColor.packageGray
+                                              : Colors.transparent,
+                                          child: customDrawerController.userData.getUserData!.picture.isEmpty
+                                              ?  Icon(Icons.person, size: 25, color: AppColor.circleIndicator)
+                                              : null,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 20,),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: (){
-                                        Get.to(
-                                              () => ProfileView(),
-                                          transition: Transition.rightToLeft,
-                                          duration: Duration(milliseconds: 400),
-                                          curve: Curves.ease,
-                                        );
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 10,),
-                                          Text(
-                                            UserData().getUserData!.name.toString().toUpperCase(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              fontFamily: 'Roboto',
+                                    const SizedBox(width: 20,),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: (){
+                                          Get.to(
+                                                () => ProfileView(),
+                                            transition: Transition.rightToLeft,
+                                            duration: Duration(milliseconds: 400),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(height: 10,),
+                                            Text(
+                                              UserData().getUserData!.name.toString().toUpperCase(),
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                                fontFamily: 'Roboto',
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Text(
-                                            UserData().getUserData!.mobileNo??'',
-                                            style: MyTextTheme.smallGCN,
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Row(
-                                            children: [
-                                              Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
-                                              Text("Edit Profile",style: MyTextTheme.mustardNn,)
-                                            ],
-                                          ),
+                                            SizedBox(height: 5,),
+                                            Text(
+                                              UserData().getUserData!.mobileNo??'',
+                                              style: MyTextTheme.smallGCN,
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
+                                                Text("Edit Profile",style: MyTextTheme.mustardNn,)
+                                              ],
+                                            ),
 
                                         ],
                                       ),

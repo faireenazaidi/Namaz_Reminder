@@ -128,53 +128,56 @@ class PrayerRanking extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buildUserList(groupedByPrayer['Fajr']),
-              buildUserList(groupedByPrayer['Dhuhr']),
-              buildUserList(groupedByPrayer['Asr']),
-              buildUserList(groupedByPrayer['Maghrib']),
-              buildUserList(groupedByPrayer['Isha']),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(top: 7),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: ranked.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 14.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height : 50,
-                            padding: const EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: AppColor.circleIndicator,),
-                            ),
-                            child:ranked[index].picture!=null? CircleAvatar(
-                              radius: 25, // Radius of the circular image
-                              backgroundImage: NetworkImage(
-                                "http://182.156.200.177:8011${ranked[index].picture}",
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildUserList(groupedByPrayer['Fajr']),
+                buildUserList(groupedByPrayer['Dhuhr']),
+                buildUserList(groupedByPrayer['Asr']),
+                buildUserList(groupedByPrayer['Maghrib']),
+                buildUserList(groupedByPrayer['Isha']),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(top: 7),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: ranked.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 14.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              height : 45,
+                              padding: const EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: AppColor.circleIndicator,),
                               ),
-                            ): Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.person,color: AppColor.circleIndicator,size: 30,),
+                              child:ranked[index].picture!=null? CircleAvatar(
+                                radius: 25, // Radius of the circular image
+                                backgroundImage: NetworkImage(
+                                  "http://182.156.200.177:8011${ranked[index].picture}",
+                                ),
+                              ): Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(Icons.person,color: AppColor.circleIndicator,size: 25,),
+                              ),
                             ),
-                          ),
-                          id==ranked[index].id.toString()?const Text('You',style: TextStyle(fontSize: 12),):Text(ranked[index].name.split(' ')[0],style: const TextStyle(
-                              fontSize: 12
-                          ),)
-                        ],
-                      ),
-                    );
+                            id==ranked[index].id.toString()?const Text('You',style: TextStyle(fontSize: 12),):Text(ranked[index].name.split(' ')[0],style: const TextStyle(
+                                fontSize: 12
+                            ),)
+                          ],
+                        ),
+                      );
 
-                  },),
-              )
-            ],
+                    },),
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -204,7 +207,7 @@ class PrayerRanking extends StatelessWidget {
       return  Expanded(
           child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 24,
+          radius: 20,
           child: Container(
             height: 3,
             width: 12,
@@ -239,6 +242,7 @@ class PrayerRanking extends StatelessWidget {
             ):Column(
               children: [
                 Container(
+                  height: 45,
                   padding: EdgeInsets.all(1),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -246,28 +250,26 @@ class PrayerRanking extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.person,color: AppColor.circleIndicator,size: 30,),
+                    child: Icon(Icons.person,color: AppColor.circleIndicator,size: 25,),
                   ),
                 ),
                 id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
               ],
             ):
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                  backgroundColor: Colors.white60,
-                  radius: 24,
-                  child: Container(
-                 height: 3,
-          width: 12,
-          decoration: BoxDecoration(
-            color: Colors.grey[400],
-           borderRadius: BorderRadius.circular(10)
-          ),
-          )
-                  //Text('-')),
-            ),
-            ));
+            CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 25,
+                child: Container(
+               height: 3,
+                      width: 12,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                       borderRadius: BorderRadius.circular(10)
+                      ),
+                      )
+                //Text('-')),
+                        )
+          );
         }).toList(),
       ),
 

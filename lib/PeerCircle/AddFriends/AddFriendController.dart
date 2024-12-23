@@ -46,6 +46,7 @@ class AddFriendController extends GetxController {
 
     try {
       final response = await http.get(url);
+      isLoading.value = false;
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         print("APIDATA:$data");

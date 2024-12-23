@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/prayer_ranking.dart';
+import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_controller.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
@@ -22,7 +23,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
   final LeaderBoardController leaderBoardController = Get.put(
       LeaderBoardController());
   final DateController dateController = Get.put(DateController());
-
+  final MissedPrayersController missedPrayersController = Get.put(MissedPrayersController());
   @override
   void initState() {
     super.initState();
@@ -35,13 +36,15 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: AppColor.cream,
-        body: Obx(() {
-          return CustomScrollView(
-            physics: leaderBoardController.selectedTab.value == 'Weekly'
-                ? AlwaysScrollableScrollPhysics()
-                : NeverScrollableScrollPhysics(),
+        body:
+          CustomScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            // physics: leaderBoardController.selectedTab.value == 'Weekly'
+            //     ? NeverScrollableScrollPhysics()
+            //     : NeverScrollableScrollPhysics(),
             slivers: [
               Obx(() =>
                   SliverAppBar(
@@ -231,46 +234,86 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                           formattedDate.toString());
                                     }
                                   },
-                                  child: Row(
+                                  //child:
+                                  // Row(
+                                  //   children: [
+                                  //     SvgPicture.asset(
+                                  //         "assets/calendar3.svg", height: 15),
+                                  //     const SizedBox(width: 5),
+                                  //     Obx(() =>
+                                  //         Row(
+                                  //           children: [
+                                  //             Text(
+                                  //               DateFormat('EEE, d MMMM yyyy')
+                                  //                   .format(
+                                  //                   leaderBoardController
+                                  //                       .selectedDate.value),
+                                  //               style: const TextStyle(
+                                  //                   fontSize: 12,
+                                  //                   color: Colors.black),
+                                  //               overflow: TextOverflow.ellipsis,
+                                  //             ),
+                                  //             Container(
+                                  //               width: 1,
+                                  //               height: 15,
+                                  //               color: Colors.grey,
+                                  //               margin: const EdgeInsets
+                                  //                   .symmetric(
+                                  //                   horizontal: 10),
+                                  //             ),
+                                  //             Obx(
+                                  //                   () =>
+                                  //                   Text(
+                                  //                     leaderBoardController
+                                  //                         .islamicDate.value,
+                                  //                     style: const TextStyle(
+                                  //                         fontSize: 12,
+                                  //                         color: Colors.black),
+                                  //                     overflow: TextOverflow
+                                  //                         .ellipsis,
+                                  //                   ),
+                                  //             ),
+                                  //           ],
+                                  //         )),
+                                  //   ],
+                                  // ),
+                                child:   Row(
                                     children: [
                                       SvgPicture.asset(
                                           "assets/calendar3.svg", height: 15),
                                       const SizedBox(width: 5),
                                       Obx(() =>
-                                          Row(
-                                            children: [
+                                      leaderBoardController
+                                          .getSelectedTab == 'Daily'? Row(
+                                        children: [
+                                          Text(
+                                            DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value),
+                                            style: const TextStyle(fontSize: 12,
+                                                color: Colors.black),
+                                          ),
+                                          Container(
+                                            width: 1,
+                                            height: 15,
+                                            color: Colors.grey,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                          ),
+                                          Obx(() =>
                                               Text(
-                                                DateFormat('EEE, d MMMM yyyy')
-                                                    .format(
-                                                    leaderBoardController
-                                                        .selectedDate.value),
+                                                leaderBoardController.islamicDate.value,
                                                 style: const TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.black),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Container(
-                                                width: 1,
-                                                height: 15,
-                                                color: Colors.grey,
-                                                margin: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 10),
-                                              ),
-                                              Obx(
-                                                    () =>
-                                                    Text(
-                                                      leaderBoardController
-                                                          .islamicDate.value,
-                                                      style: const TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.black),
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                    ),
-                                              ),
-                                            ],
-                                          )),
+                                              )),
+                                        ],
+                                      ):
+                                      Text(
+                                        "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value)} - "
+                                            "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 7)))}",
+                                        style: const TextStyle(fontSize: 12,
+                                            color: Colors.black),
+                                      )
+                                      )
                                     ],
                                   ),
                                 ),
@@ -355,71 +398,130 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     ]),
                   );
                 }
+                // else if (leaderBoardController.selectedTab.value == 'Weekly') {
+                //   return SliverList(
+                //     delegate: SliverChildListDelegate([
+                //       Container(
+                //         height: Get.height * 0.5,
+                //         decoration: const BoxDecoration(
+                //           borderRadius: BorderRadius.vertical(
+                //             top: Radius.circular(40.0),
+                //           ),
+                //           color: Colors.white,
+                //         ),
+                //         child: Stack(
+                //           children: [
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 SizedBox(height: 25),
+                //                 Container(
+                //                   width: 110,
+                //                   height: 8,
+                //                   decoration: BoxDecoration(
+                //                     color: AppColor.packageGray,
+                //                     borderRadius: BorderRadius.circular(10),
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //             Positioned.fill(
+                //               child: ListView.builder(
+                //                 itemCount: leaderBoardController.weeklyRanked
+                //                     .length,
+                //                 shrinkWrap: true,
+                //                 scrollDirection: Axis.horizontal,
+                //                 itemBuilder: (context, index) {
+                //                   bool isFound = leaderBoardController
+                //                       .weeklyRanked[index]['id'].toString() ==
+                //                       leaderBoardController.userData
+                //                           .getUserData!
+                //                           .id;
+                //                   return Padding(
+                //                     padding: const EdgeInsets.only(left: 10.0),
+                //                     child: _buildRankCard(
+                //                         leaderBoardController
+                //                             .weeklyRanked[index],
+                //                         index, isFound),
+                //                   );
+                //                 },
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ]),
+                //   );
+                // }
                 else if (leaderBoardController.selectedTab.value == 'Weekly') {
                   return SliverList(
                     delegate: SliverChildListDelegate([
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.56,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(40.0),
+                      AspectRatio(
+                        aspectRatio: 3/3.5,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(40.0),
+                            ),
+                            color: Colors.white,
                           ),
-                          color: Colors.white,
-                        ),
-                        child: Stack(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 25),
-                                Container(
-                                  width: 110,
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    color: AppColor.packageGray,
-                                    borderRadius: BorderRadius.circular(10),
+                          child: Stack(
+                            children: [
+                              // Top indicator (small rounded rectangle)
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Container(
+                                    width: 110,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.packageGray,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Positioned.fill(
-                              child: ListView.builder(
-                                itemCount: leaderBoardController.weeklyRanked
-                                    .length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  bool isFound = leaderBoardController
-                                      .weeklyRanked[index]['id'].toString() ==
-                                      leaderBoardController.userData
-                                          .getUserData!
-                                          .id;
-                                  return Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: _buildRankCard(
-                                        leaderBoardController
-                                            .weeklyRanked[index],
-                                        index, isFound),
-                                  );
-                                },
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                top: 0.0,
+                                bottom: Get.height*0.02,
+                                left: 0.0,
+                                right: 0.0,
+                                child: ListView.builder(
+                                  itemCount: leaderBoardController.weeklyRanked.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    bool isFound = leaderBoardController.weeklyRanked[index]
+                                    ['id']
+                                        .toString() ==
+                                        leaderBoardController.userData.getUserData!.id;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 10.0),
+                                      child: _buildRankCard(
+                                        leaderBoardController.weeklyRanked[index],
+                                        index,
+                                        isFound,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ]),
                   );
-                } else {
+                }
+                else {
                   return SliverToBoxAdapter(child: SizedBox.shrink());
                 }
               })
 
             ],
-          );
-        }
+
+
         ));
   }
 
@@ -499,15 +601,29 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
   double percentage = double.parse(friend['percentage'].toStringAsFixed(2));
   print("percentage $percentage");
   // double percentage = friend['percentage'];
-
+// Determine the SVG asset based on the rank
+  String rankSvg;
+  switch (index) {
+    case 0:
+      rankSvg = 'assets/Gold.svg'; // for 1st rank
+      break;
+    case 1:
+      rankSvg = 'assets/silver.svg'; // for 2nd rank
+      break;
+    case 2:
+      rankSvg = 'assets/Bronze.svg'; // for 3rd rank
+      break;
+    default:
+      rankSvg = 'assets/other.svg'; // Default  for other ranks
+  }
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Stack(
         alignment: Alignment.center,
         children: [
-          // const Icon(Icons.star, size: 35, color: Colors.grey),
-          SvgPicture.asset('assets/other.svg',height: 25,),
+          // SvgPicture.asset('assets/other.svg',height: 25,),
+          SvgPicture.asset(rankSvg,height: 25,),
           Positioned(
             bottom: 5,
             child: Text(

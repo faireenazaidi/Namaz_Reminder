@@ -87,7 +87,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
               horizontal: screenWidth * 0.04,
               vertical: screenHeight * 0.02,
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/blacknet.png'),
                 fit: BoxFit.cover,

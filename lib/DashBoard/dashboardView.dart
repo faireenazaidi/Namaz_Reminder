@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -35,152 +37,152 @@ class DashBoardView extends GetView<DashBoardController> {
                 (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'));
       });
     }
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar:
-          AppBar(
-            bottom: PreferredSize(
-              preferredSize:  const Size.fromHeight(1.0),
-              child: Divider(
-                height: 1.0,
-                color: AppColor.packageGray,
-              ),
-            ),
-            toolbarHeight: 55,
-            backgroundColor: Colors.transparent,
-            titleSpacing: 0,
-            title: Text("Prayer O'Clock", style: MyTextTheme.mediumBN),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(7.0),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                        "assets/loc.svg"
-                    ),
-                    const SizedBox(width: 4),
-                    GetBuilder<DashBoardController>(
-                        id: 'add',
-                        builder: (_) {
-                          return
-                            InkWell(
-                            onTap: (){
-                              Dialogs.showConfirmationDialog(
-                              context: context,
-                              onConfirmed: ()async{
-                                return controller.changeLocation();
-                              },
-                              showCancelButton: false,
-                                  initialMessage: 'Change Location',
-                                  confirmButtonText: 'Use Current Location',
-                                  confirmButtonColor: Colors.white.withOpacity(0.1),
-                                  successMessage: "Location Updated",
-                                  loadingMessage: 'Getting Current Location...');
-                            },
-                            child:
-                            Text(
-                               controller.address.split(',')[0].toString(),
-                              style: MyTextTheme.greyNormal,
-                            ),
-                             // Text(
-                             //    controller.locationName.value.isNotEmpty
-                             //        ? (controller.locationName.value.length > 8
-                             //        ? '${controller.locationName.value.substring(0, 8)}...'
-                             //        : controller.locationName.value)
-                             //        : controller.address,
-                             //
-                             //  )
-
-
-                          );
-                        }
-                    ),
-                    SizedBox(width: 8,),
-                    InkWell(
-                      onTap: (){
-                        Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
-                      },
-                      child:  GetBuilder<DashBoardController>(
-                        builder: (controller) {
-                          return Stack(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColor.circleIndicator, // Outer circle color
+    return DoubleBack(
+      message: "Press again to exit!",
+      child: Container(
+        color: Colors.white,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+                bottom: PreferredSize(
+                  preferredSize:  const Size.fromHeight(1.0),
+                  child: Divider(
+                    height: 1.0,
+                    color: AppColor.packageGray,
+                  ),
+                ),
+                toolbarHeight: 55,
+                backgroundColor: Colors.transparent,
+                titleSpacing: 0,
+                title: Text("Prayer O'Clock",
+                  style: MyTextTheme.largeBN,
+                  overflow: TextOverflow.ellipsis,),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                            "assets/loc.svg"
+                        ),
+                        const SizedBox(width: 4),
+                        GetBuilder<DashBoardController>(
+                            id: 'add',
+                            builder: (_) {
+                              return
+                                InkWell(
+                                onTap: (){
+                                  Dialogs.showConfirmationDialog(
+                                  context: context,
+                                  onConfirmed: ()async{
+                                    return controller.changeLocation();
+                                  },
+                                  showCancelButton: false,
+                                      initialMessage: 'Change Location',
+                                      confirmButtonText: 'Use Current Location',
+                                      confirmButtonColor: Colors.white.withOpacity(0.1),
+                                      successMessage: "Location Updated",
+                                      loadingMessage: 'Getting Current Location...');
+                                },
+                                child:
+                                Text(
+                                   controller.address.split(',')[0].toString(),
+                                  style: MyTextTheme.greyNormal,
                                 ),
-                                child: Center(
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
+                                // Text(
+                                //   controller.address.split(' ').take(1).join(' ') + '...',
+                                //   style: MyTextTheme.greyNormal,
+                                // ),
+                                );
+                            }
+                        ),
+                        SizedBox(width: 8,),
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed(AppRoutes.leaderboardRoute,arguments: {'selectedTab': 'weekly'});
+                          },
+                          child:  GetBuilder<DashBoardController>(
+                            builder: (controller) {
+                              return Stack(
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      image: controller.userData.getUserData!.picture.isNotEmpty
-                                          ? DecorationImage(
-                                        image: NetworkImage(
-                                          "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
-                                        ),
-                                        fit: BoxFit.cover,
-                                      )
-                                          : null,
-                                      color: controller.userData.getUserData!.picture.isEmpty
-                                          ? AppColor.packageGray
-                                          : null,
+                                      color: AppColor.circleIndicator, // Outer circle color
                                     ),
-                                    child: controller.userData.getUserData!.picture.isEmpty
-                                        ? Icon(
-                                      Icons.person,
-                                      size: 20,
-                                      color: AppColor.circleIndicator,
-                                    )
-                                        : null,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 28,
-                                bottom: 20,
-                                child: Stack(
-                                  children: [
-                                       SvgPicture.asset(
-                                        myRankController.rank == 1
-                                            ? 'assets/Gold.svg'
-                                            : myRankController.rank == 2
-                                            ? 'assets/silver.svg'
-                                            : myRankController.rank == 3
-                                            ? 'assets/Bronze.svg'
-                                            : 'assets/other.svg',
-                                        height: 20,
-                                      ),
-                                    Positioned(
-                                      right: 8,
-                                      bottom: 2,
-                                      child: Column(
-                                        children: [
-                                          Center(
-                                            child: MyRank(
-                                              rankedFriends: controller.weeklyRanked,
-                                              textSize: 8,
+                                    child: Center(
+                                      child: Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: controller.userData.getUserData!.picture.isNotEmpty
+                                              ? DecorationImage(
+                                            image: NetworkImage(
+                                              "http://182.156.200.177:8011${controller.userData.getUserData!.picture}",
                                             ),
-                                          ),
-                                        ],
+                                            fit: BoxFit.cover,
+                                          )
+                                              : null,
+                                          color: controller.userData.getUserData!.picture.isEmpty
+                                              ? AppColor.packageGray
+                                              : null,
+                                        ),
+                                        child: controller.userData.getUserData!.picture.isEmpty
+                                            ? Icon(
+                                          Icons.person,
+                                          size: 20,
+                                          color: AppColor.circleIndicator,
+                                        )
+                                            : null,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                                  ),
+                                  Positioned(
+                                    left: 28,
+                                    bottom: 20,
+                                    child: Stack(
+                                      children: [
+                                           SvgPicture.asset(
+                                              myRankController.rank == 1
+                                                  ? 'assets/Gold.svg'
+                                                  : myRankController.rank == 2
+                                                  ? 'assets/silver.svg'
+                                                  : myRankController.rank == 3
+                                                  ? 'assets/Bronze.svg'
+                                                  : 'assets/other.svg',
+                                              height: 20,
+                                           ),
+
+                                        Positioned(
+                                          right: 8,
+                                          bottom: 2,
+                                          child: Column(
+                                            children: [
+                                              Center(
+                                                child: MyRank(
+                                                  rankedFriends: controller.weeklyRanked,
+                                                  textSize: 8,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
 
       drawer: const CustomDrawer(),
       body: RefreshIndicator(color: AppColor.black,
@@ -1737,7 +1739,7 @@ class _UserRankListState extends State<UserRankList> {
   @override
   Widget build(BuildContext context) {
     if(_filteredRecords.isEmpty){
-      return const Center(child: Text('No Prayer Time Found',style: TextStyle(
+      return const Center(child: Text('Prayer timings not available yet.',style: TextStyle(
           color: Colors.grey
       ),));
     }

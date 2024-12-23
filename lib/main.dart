@@ -2,18 +2,24 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:background_fetch/background_fetch.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:namaz_reminders/AppManager/toast.dart';
+import 'package:namaz_reminders/DataConnection.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
+import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:namaz_reminders/prayerTimings.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
 import 'Services/user_data.dart';
+import 'Setting/Privacy&Security/PrivacyController.dart';
 
 
 
@@ -60,20 +66,77 @@ Future<void> updateWidget(String prayerName, String timeLeft, int progress) asyn
     print("Failed to update widget: $e");
   }
 }
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   FirebaseMessagingService firebaseMessagingService = FirebaseMessagingService();
+//   await firebaseMessagingService.initializeFirebaseMessaging();
+//   // await GetStorage.init();
+//   await GetStorage.init('user');
+//   // Get.put(DashBoardController());
+//   // Get.put(LoginController());
+//   // Get.put(CustomDrawerController());
+//   await initializeService();
+//   // Listen to background service data using the new method
+//   final service = FlutterBackgroundService();
+//
+//   service.on("sendPrayerData").listen((event) {
+//     if (event != null) {
+//       String prayerName = event["prayerName"];
+//       String timeLeft = event["timeLeft"];
+//       int progress = event["progress"];
+//
+//       // Call the method channel to update the widget
+//       updateWidget(prayerName, timeLeft, progress);
+//     }
+//   });
+//   // startBackgroundService();
+//   Get.put(PrivacyController());
+//   runApp(MyApp());
+//
+//
+//
+//
+//   // BackgroundFetch.configure(
+//   //   BackgroundFetchConfig(
+//   //     minimumFetchInterval: 15,
+//   //     startOnBoot: true,
+//   //     forceAlarmManager: true,
+//   //     stopOnTerminate: false,
+//   //     enableHeadless: true,
+//   //     requiresBatteryNotLow: false,
+//   //     requiresCharging: false,
+//   //     requiresStorageNotLow: false,
+//   //     requiresDeviceIdle: false,
+//   //     requiredNetworkType: NetworkType.ANY
+//   //     // requiresNetworkType: NetworkType.NONE,
+//   //   ),
+//   //   _backgroundFetchHandler,
+//   // ).then((int status) {
+//   //   print('[BackgroundFetch] configure success: $status');
+//   // }).catchError((e) {
+//   //   print('[BackgroundFetch] configure ERROR: $e');
+//   // });
+//
+//   // Register the headless task
+//   // BackgroundFetch.registerHeadlessTask(myBackgroundFetchHeadlessTask);
+// }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Initialize Firebase Messaging
   FirebaseMessagingService firebaseMessagingService = FirebaseMessagingService();
   await firebaseMessagingService.initializeFirebaseMessaging();
-  // await GetStorage.init();
-  await GetStorage.init('user');
-  // Get.put(DashBoardController());
-  // Get.put(LoginController());
-  // Get.put(CustomDrawerController());
-  await initializeService();
-  // Listen to background service data using the new method
-  final service = FlutterBackgroundService();
 
+  // Initialize GetStorage
+  await GetStorage.init('user');
+
+  // Initialize other services
+  await initializeService();
+
+  // Listen to background service data
+  final service = FlutterBackgroundService();
   service.on("sendPrayerData").listen((event) {
     if (event != null) {
       String prayerName = event["prayerName"];
@@ -84,32 +147,86 @@ void main() async {
       updateWidget(prayerName, timeLeft, progress);
     }
   });
-  // startBackgroundService();
-  runApp(MyApp());
-  // BackgroundFetch.configure(
-  //   BackgroundFetchConfig(
-  //     minimumFetchInterval: 15,
-  //     startOnBoot: true,
-  //     forceAlarmManager: true,
-  //     stopOnTerminate: false,
-  //     enableHeadless: true,
-  //     requiresBatteryNotLow: false,
-  //     requiresCharging: false,
-  //     requiresStorageNotLow: false,
-  //     requiresDeviceIdle: false,
-  //     requiredNetworkType: NetworkType.ANY
-  //     // requiresNetworkType: NetworkType.NONE,
-  //   ),
-  //   _backgroundFetchHandler,
-  // ).then((int status) {
-  //   print('[BackgroundFetch] configure success: $status');
-  // }).catchError((e) {
-  //   print('[BackgroundFetch] configure ERROR: $e');
-  // });
 
-  // Register the headless task
-  // BackgroundFetch.registerHeadlessTask(myBackgroundFetchHeadlessTask);
+  // Initialize PrivacyController
+  Get.put(PrivacyController());
+
+  // Check initial connectivity
+  ConnectivityResult connectivityResult = await Connectivity().checkConnectivity();
+  _handleConnectivityChange(connectivityResult);
+
+  // Listen for connectivity changes
+  Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    _handleConnectivityChange(result);
+  });
+
+  runApp(MyApp());
 }
+
+// void _handleConnectivityChange(ConnectivityResult result) {
+//   if (result == ConnectivityResult.none)
+//   {
+//     showToast(msg: "Retry",bgColor: Colors.red);
+//     print("No internet connection");
+//   }
+// }
+void _handleConnectivityChange(ConnectivityResult result) {
+  if (result == ConnectivityResult.none) {
+    Get.showSnackbar(
+      const GetSnackBar(
+        snackPosition: SnackPosition.BOTTOM,
+        message: "No Internet Connection",
+        duration: Duration(days: 1),
+      ),
+    );
+    print("No internet connection");
+  } else {
+    // Dismiss the snackbar when the internet is restored
+    if (Get.isSnackbarOpen) {
+      Get.closeAllSnackbars();
+    }
+    print("Internet connection restored");
+  }
+}
+
+
+// void _showRetryCancelDialog() {
+//   Get.dialog(
+//     AlertDialog(
+//       title: Text("No Internet Connection",style: MyTextTheme.locationT,),
+//       content: Text("Please check your connection and try again."),
+//       actions: [
+//         // TextButton(
+//         //   onPressed: () {
+//         //     Get.back(); // Close the dialog
+//         //     _retryConnection(); // Retry logic
+//         //   },
+//         //   child: Text("Retry"),
+//         // ),
+//         TextButton(
+//           onPressed: () {
+//             Get.back(); // Close the dialog
+//           },
+//           child: Text("Ok"),
+//         ),
+//       ],
+//     ),
+//     barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+//   );
+// }
+
+// void _retryConnection() {
+//
+//   Get.snackbar(
+//     "Info",
+//     "Please connect to the internet and try again.",
+//     backgroundColor: Colors.blue,
+//     colorText: Colors.white,
+//   );
+//   // Implement retry logic, e.g., recheck connectivity or perform a network request
+//   print("Retrying connection...");
+// }
+
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
 
@@ -705,6 +822,7 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     // final userDataController = Get.find<LoginController>();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -736,6 +854,6 @@ class MyApp extends StatelessWidget {
         // home: SplashScreen(),
       );
     });
+
   }
 }
-

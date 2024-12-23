@@ -13,7 +13,7 @@ class FeedbackController extends GetxController{
   var rating = 0.obs;
   var comment = ''.obs;
   TextEditingController commentController = TextEditingController();
-
+  TextEditingController emailController = TextEditingController();
   // Check if form is valid
   bool get isFormValid => rating.value > 0;
 
@@ -31,7 +31,6 @@ class FeedbackController extends GetxController{
 
   void submitFeedback() {
     if (rating!='0') {
-      // Handle feedback submission logic here
       registerUser();
     }
   }
@@ -60,7 +59,7 @@ class FeedbackController extends GetxController{
     final data = request;
     print("registration data $data");
     print("userData ${userData.getUserData?.toJson()}");
-    showToast(msg: 'feedback submitted',bgColor: Colors.black);
+    showToast(msg: 'Feedback Submitted',bgColor: Colors.black);
     clearForm();
   }
   void clearForm() {
@@ -68,11 +67,13 @@ class FeedbackController extends GetxController{
     rating.value = 0;
     comment.value = '';
     commentController.clear();
+    emailController.clear();
   }
 
   @override
   void onClose() {
     commentController.dispose();
+    emailController.dispose();
     super.onClose();
   }
 }

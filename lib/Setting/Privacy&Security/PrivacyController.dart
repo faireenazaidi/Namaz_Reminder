@@ -10,9 +10,15 @@ class PrivacyController extends GetxController {
     checkLocationStatus();
   }
 
+  // Future<void> checkLocationStatus() async {
+  //   bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
+  //   location.value = isLocationEnabled;
+  // }
   Future<void> checkLocationStatus() async {
     bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
-    location.value = isLocationEnabled;
+    if (!isLocationEnabled) {
+      location.value = false; // Respect user's choice
+    }
   }
 
   Future<void> toggleLocationAccess(bool isEnabled) async {
@@ -26,9 +32,7 @@ class PrivacyController extends GetxController {
         location.value = false;
       }
     } else {
-      // Logic to handle location off state if needed
       location.value = false;
     }
   }
 }
-
