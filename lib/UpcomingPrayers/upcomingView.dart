@@ -32,7 +32,35 @@ class Upcoming extends GetView<UpcomingController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Upcoming Prayers", style: MyTextTheme.mediumBCD),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                "Upcoming Prayers",
+                style: MyTextTheme.mediumBCD,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Spacer(),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset("assets/loc.svg"),
+                    Flexible(
+                      child:     Text(
+                        dashboardController.address.split(',')[0].toString(),
+                        style: MyTextTheme.greyNormal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
@@ -50,65 +78,8 @@ class Upcoming extends GetView<UpcomingController> {
           },
           child: Icon(Icons.arrow_back_ios, size: 20),
         ),
-        actions:  [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                SvgPicture.asset("assets/loc.svg"),
-                const SizedBox(width: 4),
-                Text(
-                  dashboardController.address,
-                  style: MyTextTheme.greyNormal,
-                ),
-              ],
-            ),
-          )
-        ],
-        // actions: [
-        //   Row(
-        //     children: [
-        //       SvgPicture.asset("assets/loc.svg"),
-        //       const SizedBox(width: 4),
-        //       InkWell(
-        //         onTap: () {
-        //           Dialogs.showConfirmationDialog(
-        //             context: context,
-        //             onConfirmed: () async {
-        //               return dashboardController.changeLocation();
-        //             },
-        //             showCancelButton: false,
-        //             initialMessage: 'Change Location',
-        //             confirmButtonText: 'Get Current Location',
-        //             confirmButtonColor: AppColor.buttonColor,
-        //             successMessage: dashboardController.address,
-        //             loadingMessage: 'Getting Current Location...',
-        //           );
-        //         },
-        //         child: Text(
-        //           dashboardController.address,
-        //           style: MyTextTheme.greyNormal,
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(8.0),
-        //         child: InkWell(
-        //           onTap: () {
-        //             Get.to(
-        //                   () => SettingView(),
-        //               transition: Transition.rightToLeft,
-        //               duration: Duration(milliseconds: 500),
-        //               curve: Curves.ease,
-        //             );
-        //           },
-        //           child: SvgPicture.asset("assets/gear.svg"),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ],
-
       ),
+
       body: GetBuilder(
         init: dashboardController,
         builder: (controller) {
@@ -428,17 +399,17 @@ class Upcoming extends GetView<UpcomingController> {
                                             style: MyTextTheme.smallGCN,
                                           )),
                                           Spacer(),
-                                          InkWell(
-                                            onTap: () {
-                                              dashboardController.toggle('Asr');
-                                            },
-                                            child: Obx(() => SvgPicture.asset(
-                                              dashboardController.isMute.value
-                                                  ? 'assets/mute.svg'
-                                                  : 'assets/sound.svg',
-                                              height: 20,
-                                            )),
-                                          ),
+                                          // InkWell(
+                                          //   onTap: () {
+                                          //     dashboardController.toggle('Asr');
+                                          //   },
+                                          //   child: Obx(() => SvgPicture.asset(
+                                          //     dashboardController.isMute.value
+                                          //         ? 'assets/mute.svg'
+                                          //         : 'assets/sound.svg',
+                                          //     height: 20,
+                                          //   )),
+                                          // ),
                                         ],
                                       ),
                                     ),
@@ -497,18 +468,18 @@ class Upcoming extends GetView<UpcomingController> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(prayerName, style: MyTextTheme.medium),
-                                        if (!isSpecialPrayer)
-                                          InkWell(
-                                            onTap: () {
-                                              dashboardController.toggleMute(prayerName);
-                                            },
-                                            child: Obx(() => SvgPicture.asset(
-                                              dashboardController.prayerMuteStates[prayerName] == true
-                                                  ? 'assets/mute.svg'
-                                                  : 'assets/sound.svg',
-                                              height: 20,
-                                            )),
-                                          ),
+                                        // if (!isSpecialPrayer)
+                                        //   InkWell(
+                                        //     onTap: () {
+                                        //       dashboardController.toggleMute(prayerName);
+                                        //     },
+                                        //     child: Obx(() => SvgPicture.asset(
+                                        //       dashboardController.prayerMuteStates[prayerName] == true
+                                        //           ? 'assets/mute.svg'
+                                        //           : 'assets/sound.svg',
+                                        //       height: 20,
+                                        //     )),
+                                        //   ),
                                       ],
                                     ),
                                     if (isSpecialPrayer) ...[

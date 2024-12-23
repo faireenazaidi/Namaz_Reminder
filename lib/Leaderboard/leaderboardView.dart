@@ -36,13 +36,15 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: AppColor.cream,
-        body: Obx(() {
-          return CustomScrollView(
-            physics: leaderBoardController.selectedTab.value == 'Weekly'
-                ? AlwaysScrollableScrollPhysics()
-                : NeverScrollableScrollPhysics(),
+        body:
+          CustomScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            // physics: leaderBoardController.selectedTab.value == 'Weekly'
+            //     ? NeverScrollableScrollPhysics()
+            //     : NeverScrollableScrollPhysics(),
             slivers: [
               Obx(() =>
                   SliverAppBar(
@@ -396,59 +398,117 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     ]),
                   );
                 }
+                // else if (leaderBoardController.selectedTab.value == 'Weekly') {
+                //   return SliverList(
+                //     delegate: SliverChildListDelegate([
+                //       Container(
+                //         height: Get.height * 0.5,
+                //         decoration: const BoxDecoration(
+                //           borderRadius: BorderRadius.vertical(
+                //             top: Radius.circular(40.0),
+                //           ),
+                //           color: Colors.white,
+                //         ),
+                //         child: Stack(
+                //           children: [
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 SizedBox(height: 25),
+                //                 Container(
+                //                   width: 110,
+                //                   height: 8,
+                //                   decoration: BoxDecoration(
+                //                     color: AppColor.packageGray,
+                //                     borderRadius: BorderRadius.circular(10),
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //             Positioned.fill(
+                //               child: ListView.builder(
+                //                 itemCount: leaderBoardController.weeklyRanked
+                //                     .length,
+                //                 shrinkWrap: true,
+                //                 scrollDirection: Axis.horizontal,
+                //                 itemBuilder: (context, index) {
+                //                   bool isFound = leaderBoardController
+                //                       .weeklyRanked[index]['id'].toString() ==
+                //                       leaderBoardController.userData
+                //                           .getUserData!
+                //                           .id;
+                //                   return Padding(
+                //                     padding: const EdgeInsets.only(left: 10.0),
+                //                     child: _buildRankCard(
+                //                         leaderBoardController
+                //                             .weeklyRanked[index],
+                //                         index, isFound),
+                //                   );
+                //                 },
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ]),
+                //   );
+                // }
                 else if (leaderBoardController.selectedTab.value == 'Weekly') {
                   return SliverList(
                     delegate: SliverChildListDelegate([
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.54,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(40.0),
+                      AspectRatio(
+                        aspectRatio: 3/3.5,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(40.0),
+                            ),
+                            color: Colors.white,
                           ),
-                          color: Colors.white,
-                        ),
-                        child: Stack(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 25),
-                                Container(
-                                  width: 110,
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    color: AppColor.packageGray,
-                                    borderRadius: BorderRadius.circular(10),
+                          child: Stack(
+                            children: [
+                              // Top indicator (small rounded rectangle)
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Container(
+                                    width: 110,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.packageGray,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Positioned.fill(
-                              child: ListView.builder(
-                                itemCount: leaderBoardController.weeklyRanked
-                                    .length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  bool isFound = leaderBoardController
-                                      .weeklyRanked[index]['id'].toString() ==
-                                      leaderBoardController.userData
-                                          .getUserData!
-                                          .id;
-                                  return Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: _buildRankCard(
-                                        leaderBoardController
-                                            .weeklyRanked[index],
-                                        index, isFound),
-                                  );
-                                },
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                top: 0.0,
+                                bottom: Get.height*0.02,
+                                left: 0.0,
+                                right: 0.0,
+                                child: ListView.builder(
+                                  itemCount: leaderBoardController.weeklyRanked.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    bool isFound = leaderBoardController.weeklyRanked[index]
+                                    ['id']
+                                        .toString() ==
+                                        leaderBoardController.userData.getUserData!.id;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 10.0),
+                                      child: _buildRankCard(
+                                        leaderBoardController.weeklyRanked[index],
+                                        index,
+                                        isFound,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ]),
@@ -460,8 +520,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
               })
 
             ],
-          );
-        }
+
+
         ));
   }
 

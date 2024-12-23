@@ -6,7 +6,6 @@ import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/FAQs/FAQsView.dart';
 import 'package:namaz_reminders/Feedback/feedbackView.dart';
 import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
-import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_view.dart';
 import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
@@ -24,11 +23,13 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
     final DashBoardController dashBoardController = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
-    // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
 
+    print("hlooooo");
+print(customDrawerController.missedPrayersCount.toString(),);
     return SafeArea(
       top: true,
       child: Drawer(
@@ -175,30 +176,46 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10,),
-
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.missedPrayers);
-                      // Get.to(
-                      //       () => MissedPrayersView(),
-                      //     transition: Transition.rightToLeft,
-                      //     duration: Duration(milliseconds: 550),
-                      //     curve: Curves.ease,
-                      // );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset( "assets/missed.svg"),
-                          SizedBox(width: 6,),
-                          Text("Missed Prayers",style: MyTextTheme.smallBC ,),
-                        ],
-                      ),
+            InkWell(
+              onTap: () {
+                Get.toNamed(AppRoutes.missedPrayers);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SvgPicture.asset("assets/missed.svg"),
+                    SizedBox(width: 6),
+                    Text(
+                      "Missed Prayers",
+                      style: MyTextTheme.smallBC,
                     ),
-                  ),
-                  SizedBox(height: 10,),
+                      Spacer(),
 
+                      // Display missed prayers count dynamically
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+
+                        child: Obx(()=>
+                          Text(
+                            customDrawerController.missedPrayersCount.value.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+                  SizedBox(height: 10,),
                   InkWell(
                     onTap: () {
                       Get.to(
@@ -212,9 +229,33 @@ class CustomDrawer extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          SvgPicture.asset( "assets/pc.svg"),
-                          SizedBox(width: 6,),
-                          Text("Peer Circle",style: MyTextTheme.smallBC ,),
+                          SvgPicture.asset("assets/pc.svg"),
+                          SizedBox(width: 6),
+                          Text(
+                            "Peer Circle",
+                            style: MyTextTheme.smallBC,
+                          ),
+                          Spacer(),
+                          Obx(
+                                () => customDrawerController.pending.value == 0
+                                ? SizedBox()
+                                : Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                customDrawerController.pending.value.toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+
                         ],
                       ),
                     ),
