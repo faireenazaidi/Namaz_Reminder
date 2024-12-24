@@ -16,6 +16,8 @@ class NotificationSettingController extends GetxController {
     quietMode.value = userData.getUserData!.quitMode!;
     friendRequests.value = userData.getUserData!.friendRequest!;
     friendNamazPrayed.value = userData.getUserData!.friendPrayed!;
+    preNamazAlertId = userData.getUserData!.preNamazAlert!;
+    preNamazAlertName.value=getCurrentSubtitle();
     print("############ ${quietMode.value}");
     super.onInit();
   }
@@ -24,6 +26,8 @@ class NotificationSettingController extends GetxController {
   var quietMode = false.obs;
   var friendRequests = false.obs;
   var friendNamazPrayed = false.obs;
+  String preNamazAlertId = '';
+  RxString preNamazAlertName = ''.obs;
 
 
   registerUser({bool isFirst=false}) async {
@@ -57,7 +61,8 @@ class NotificationSettingController extends GetxController {
         "notification_off":pauseAll.value,
         "fr_noti":friendRequests.value,
         "fn_mark_noti":friendNamazPrayed.value,
-        "quiet_mode":quietMode.value
+        "quiet_mode":quietMode.value,
+        "namaz_alert":preNamazAlertId
 
       };
       print("registration body $body");
@@ -71,5 +76,28 @@ class NotificationSettingController extends GetxController {
          // showToast(msg: 'settings Updated',bgColor: Colors.black);
 
 
+  }
+
+  void updateSelectedId(String id) {
+    preNamazAlertId = id;
+    update(['alert']);
+    preNamazAlertName.value=getCurrentSubtitle();
+    registerUser();
+  }
+  List<Map<String, dynamic>> preNamazAlertList = [
+    {"id": '4', "name": "15 minutes ago"},
+    {"id": '3', "name": "10 minutes ago"},
+    {"id": '2', "name": "5 minutes ago"},
+    {"id": '1', "name": "On Time Alert"},
+    {"id": '0', "name": "No Alert"},
+  ];
+  String getCurrentSubtitle() {
+    // Find the entry matching the current selectedId
+    final selectedOption = preNamazAlertList.firstWhere(
+          (option) => option['id'] == preNamazAlertId,
+      orElse: () => {"id": null, "name": "No Alert"},
+    );
+
+    return selectedOption['name']; // Return the name of the matched option
   }
 }

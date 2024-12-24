@@ -351,7 +351,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                       children: [
                                         const SizedBox(height: 75,),
                                         BlinkingTextWidget(
-                                          text: "${controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                          text: "${controller.nextPrayer.value.isEmpty?controller.currentPrayer.value:controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
                                           style: MyTextTheme.greyNormal,
                                         ),
                                       ],

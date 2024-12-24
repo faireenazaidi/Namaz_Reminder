@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Widget/appColor.dart';
 import '../../../Widget/text_theme.dart';
+import '../notificationSettingController.dart';
 import 'NamazAlertController.dart';
 
-class NamazAlertView extends GetView<NamazAlertController>{
+class NamazAlertView extends GetView<NotificationSettingController>{
+  @override
   Widget build(BuildContext context) {
-    final NamazAlertController namazAlertController = Get.put(NamazAlertController());
+
 
 
     // TODO: implement build
@@ -76,33 +78,34 @@ class NamazAlertView extends GetView<NamazAlertController>{
           child: SingleChildScrollView(
             child: Column(
               children: [
-                GetBuilder<NamazAlertController>(
+                GetBuilder<NotificationSettingController>(
+                  id: 'alert',
                     builder: (_) {
                       return ListView.builder(
                           shrinkWrap: true,
-                          itemCount: namazAlertController.preNamazAlert.length,
+                          itemCount: controller.preNamazAlertList.length,
                           itemBuilder: (context, index) {
                             // Get the current day mapping
-                            var day = namazAlertController.preNamazAlert[index];
-                            return Obx(()=>
+                            var day = controller.preNamazAlertList[index];
+                            return
                                 ListTile(
                                   title: Text(
                                     day['name'],
                                     style: TextStyle(
-                                      fontWeight: namazAlertController.selectedId.value == day['id']
+                                      fontWeight: controller.preNamazAlertId == day['id']
                                           ? FontWeight.bold
                                           : FontWeight.normal,
                                     ),
                                   ),
-                                  trailing: namazAlertController.selectedId.value == day['id']
+                                  trailing: controller.preNamazAlertId == day['id']
                                       ? const Icon(Icons.check, color: Colors.green)
                                       : null,
                                   onTap: () {
-                                    namazAlertController.updateSelectedId(day['id']);
-                                    namazAlertController.selectItem(day['id']);
+                                    controller.updateSelectedId(day['id']);
+                                    // namazAlertController.selectItem(day['id']);
                                   },
-                                ),
-                            );
+                                );
+
 
                           });
                     }
