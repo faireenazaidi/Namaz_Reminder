@@ -190,7 +190,6 @@ class AddFriendController extends GetxController {
     }
   }
   ///ACCEPT REQUEST
-
   acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
     var headers = {
       'Content-Type': 'application/json'

@@ -187,7 +187,6 @@ class AddFriendView extends GetView<AddFriendController> {
                                           ),
                                         ),
                                       ),
-
                                       // Accept and Decline Buttons
                                       Row(
                                         children: [

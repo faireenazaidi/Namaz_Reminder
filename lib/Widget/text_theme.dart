@@ -161,6 +161,11 @@ class MyTextTheme {
       fontSize: 32,
       fontWeight: FontWeight.bold
   );
+  static TextStyle B = GoogleFonts.roboto(
+      color: AppColor.black,
+      fontSize: 24,
+      fontWeight: FontWeight.bold
+  );
   static TextStyle largeBCB = GoogleFonts.roboto(
       color: AppColor.black,
       fontSize: 18,
@@ -250,6 +255,11 @@ class MyTextTheme {
   static TextStyle mediumGCB = GoogleFonts.roboto(
       color: AppColor.greyColor,
       fontSize: 14,
+      fontWeight: FontWeight.normal
+  );
+  static TextStyle mg = GoogleFonts.roboto(
+      color: AppColor.black,
+      fontSize: 16,
       fontWeight: FontWeight.normal
   );
   static TextStyle greyNormal = GoogleFonts.roboto(
