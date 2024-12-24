@@ -132,14 +132,14 @@ class NotificationView extends StatelessWidget {
             onTap: () {
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios_new,size: 20,),
+            child: const Icon(Icons.arrow_back_ios_new,size: 20,),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Get.to(() => NotificationSetting (),
                   transition: Transition.rightToLeft,
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.ease,);
 
               },
@@ -157,7 +157,7 @@ class NotificationView extends StatelessWidget {
         return isAllEmpty
             ?  Column(
               children: [
-                SizedBox(height: 100,),
+                const SizedBox(height: 100,),
                 Image.asset("assets/notifi.gif",),
                 Text("No notifications yet",style: MyTextTheme.B,),
                 Text("Your notification will appear here\n once you received them.",style: MyTextTheme.mediumBCb,)
@@ -178,7 +178,7 @@ class NotificationView extends StatelessWidget {
   }
 
   Widget buildCategory(String title, List<dynamic> notifications) {
-    if (notifications.isEmpty) return SizedBox.shrink();
+    if (notifications.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,23 +251,23 @@ class NotificationView extends StatelessWidget {
             onPressed: () => print('Decline action'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
-              minimumSize: Size(70, 30),
+              minimumSize: const Size(70, 30),
             ),
-            child: Text('Decline', style: TextStyle(fontSize: 12)),
+            child: const Text('Decline', style: TextStyle(fontSize: 12)),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () => print('Accept action'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
-              minimumSize: Size(70, 30),
+              minimumSize: const Size(70, 30),
             ),
-            child: Text('Accept', style: TextStyle(fontSize: 12)),
+            child: const Text('Accept', style: TextStyle(fontSize: 12)),
           ),
         ],
       );
     }
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
   String _timeAgo(DateTime date) {
     final Duration diff = DateTime.now().difference(date);
