@@ -528,7 +528,7 @@ class DashBoardController extends GetxController {
       showNextPrayer();
       update();
       if(userData.getPrayerTimingsData.isEmpty){
-        print("ullu");
+        print("is saved prayer time");
         await userData.savePrayerMonthTime(calendarData);
         startBackgroundService();
       }
@@ -998,7 +998,7 @@ RxString nextPrayerName = ''.obs;
       Dialogs.hideLoading();
 if(isFromMissed!){
   missedCallBack!();
-  Get.snackbar('Prayer Marked', 'Success',backgroundColor: Colors.black,colorText: Colors.white,snackPosition: SnackPosition.BOTTOM);
+  Get.snackbar('Prayer Marked', 'Success',backgroundColor: Colors.black,colorText: Colors.white,snackPosition: SnackPosition.BOTTOM,duration: const Duration(seconds: 1));
 }
 else{
   isPrayed = true;

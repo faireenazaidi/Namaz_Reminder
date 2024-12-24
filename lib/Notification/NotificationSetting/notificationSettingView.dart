@@ -10,7 +10,7 @@ import 'notificationSettingController.dart';
 
 class NotificationSetting extends StatelessWidget {
   final NotificationSettingController notificationSettingsController = Get.put(NotificationSettingController());
-  final NamazAlertController namazAlertController = Get.put(NamazAlertController());
+  // final NamazAlertController namazAlertController = Get.put(NamazAlertController());
 
   @override
   Widget build(BuildContext context) {
@@ -110,16 +110,19 @@ class NotificationSetting extends StatelessWidget {
               SizedBox(height: 5,),
       
               //Namaz Alert//
-              Obx(()=>
+
                  ListTile(
                   title: Text('Pre Namaz Alert',style: MyTextTheme.medium2,),
-                  subtitle: Text(namazAlertController.getCurrentSubtitle(),style: TextStyle(color: Colors.grey),),
+                  subtitle: Obx(() {
+                      return Text('${notificationSettingsController.preNamazAlertName.value}',style: TextStyle(color: Colors.grey),);
+                    }
+                  ),
                   trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
                   onTap: () {
                   Get.to(()=>NamazAlertView());
                   },
                 ),
-              ),
+
             ],
           ),
         ),

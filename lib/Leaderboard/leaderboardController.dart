@@ -246,7 +246,10 @@ String formatDate = getFormattedDate();
         context: contexts,
         builder: (BuildContext context) {
           return   TimePicker(date: date, prayerNames: prayerName,isFromMissed: true,missedPrayerTime: prayerTime,
-            missedCallBack:() =>weeklyApi(date),);
+            missedCallBack:() {
+              updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date));
+              return weeklyApi(date);
+            },);
         },
       );
     }

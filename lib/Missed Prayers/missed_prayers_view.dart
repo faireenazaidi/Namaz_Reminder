@@ -126,7 +126,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     GestureDetector(
                                       onTap: () {
                                         controller.updateSelectedDate(
-                                            DateTime.now());
+                                            DateTime.now().subtract(Duration(days: 1)));
                                         controller.updateSelectedTab = 'Weekly';
                                       },
                                       child: Container(
@@ -242,7 +242,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         ],
                                       ):
                                   Text(
-                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(Duration(days: 7)))}",
+                                    "${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(const Duration(days: 6)))}",
                                     style: const TextStyle(fontSize: 12,
                                         color: Colors.black),
                                   )
@@ -1959,11 +1959,12 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                             isFromMissed: true,
                                                                             missedPrayerTime: prayerTime,
                                                                             startTime: startTime,
-                                                                            missedCallBack: () =>
-                                                                                controller
+                                                                            missedCallBack: () {
+                                                                              controller.updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date));
+                                                                              return controller
                                                                                     .weeklyApi(
-                                                                                    controller
-                                                                                        .getFormattedDate()),);
+                                                                                    date);
+                                                                            },);
                                                                         },
                                                                       );
                                                                     });
