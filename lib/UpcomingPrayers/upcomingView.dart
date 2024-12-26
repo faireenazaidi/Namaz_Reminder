@@ -34,12 +34,10 @@ class Upcoming extends GetView<UpcomingController> {
       appBar: AppBar(
         title: Row(
           children: [
-            Expanded(
-              child: Text(
-                "Upcoming Prayers",
-                style: MyTextTheme.mediumBCD,
-                overflow: TextOverflow.ellipsis,
-              ),
+            Text(
+              "Upcoming Prayers",
+              style: MyTextTheme.mediumBCD,
+              overflow: TextOverflow.ellipsis,
             ),
             Spacer(),
             Flexible(
@@ -50,7 +48,7 @@ class Upcoming extends GetView<UpcomingController> {
                   children: [
                     SvgPicture.asset("assets/loc.svg"),
                     Flexible(
-                      child:     Text(
+                      child: Text(
                         dashboardController.address.split(',')[0].toString(),
                         style: MyTextTheme.greyNormal,
                       ),
@@ -372,8 +370,8 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                          Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
-                                        //Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
+                                           Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                       // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
                                           child: Icon(Icons.more_horiz),

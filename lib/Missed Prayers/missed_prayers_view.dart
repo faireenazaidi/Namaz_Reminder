@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/LeaderBoardController.dart';
 import '../AppManager/dialogs.dart';
 import '../DashBoard/timepickerpopup.dart';
+import '../Drawer/drawerController.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 
@@ -15,6 +16,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
   Widget build(BuildContext context) {
     // LeaderBoardController controller = Get.put(LeaderBoardController());
     // final DateController dateController = Get.put(DateController());
+    final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
     // TODO: implement build
     return Scaffold(
@@ -30,8 +32,16 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                 backgroundColor: AppColor.cream,
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
+                  // child: InkWell(
+                  //   onTap: () async {
+                  //     Get.back();
+                  //     await customDrawerController.missedPrayersCount.value.toString();
+                  //   },
+                  //   child: const Icon(
+                  //       Icons.arrow_back_ios_new, color: Colors.black),
+                  // ),
                   child: InkWell(
-                    onTap: () {
+                    onTap: ()  {
                       Get.back();
                     },
                     child: const Icon(
@@ -1054,6 +1064,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               //                   .getFormattedDate()),);
                                                               //   },
                                                               // );
+
                                                             }
                                                           },
                                                           child: ColorFiltered(

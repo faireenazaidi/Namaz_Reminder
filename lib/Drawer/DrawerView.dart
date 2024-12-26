@@ -3,14 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
-import 'package:namaz_reminders/FAQs/FAQsView.dart';
-import 'package:namaz_reminders/Feedback/feedbackView.dart';
-import 'package:namaz_reminders/Leaderboard/leaderboardView.dart';
-import 'package:namaz_reminders/PeerCircle/peerView.dart';
 import 'package:namaz_reminders/Profile/profileView.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
-import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
@@ -28,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
     final MyRankController myRankController = Get.put(MyRankController());
 
     print("hlooooo");
-print(customDrawerController.missedPrayersCount.toString(),);
+    print(customDrawerController.missedPrayersCount.toString(),);
     return SafeArea(
       top: true,
       child: Drawer(
@@ -176,56 +171,109 @@ print(customDrawerController.missedPrayersCount.toString(),);
                   ),
                 ),
                 SizedBox(height: 10,),
-
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.missedPrayers);
-                    // Get.to(
-                    //       () => MissedPrayersView(),
-                    //     transition: Transition.rightToLeft,
-                    //     duration: Duration(milliseconds: 550),
-                    //     curve: Curves.ease,
-                    // );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/missed.svg"),
-                        SizedBox(width: 6,),
-                        Text("Missed Prayers",style: MyTextTheme.smallBC ,),
-                      ],
+                   Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: (){
+                          Get.toNamed(AppRoutes.missedPrayers);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset("assets/missed.svg"),
+                            SizedBox(width: 6),
+                            Text(
+                              "Missed Prayers",
+                              style: MyTextTheme.smallBC,
+                            ),
+                          Spacer(),
+                            Obx((){
+                              if (customDrawerController.missedPrayersCount.value == 0) {
+                                return SizedBox();
+                              }
+                              return  Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  customDrawerController.missedPrayersCount.value.toString(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            })
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 10,),
 
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.peerRoute);
-                    // Get.to(
-                    //       () => PeerView(), // Replace with your target widget
-                    //   transition: Transition.rightToLeft,
-                    //   duration: Duration(milliseconds: 400),
-                    //   curve: Curves.ease,
-                    // );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/pc.svg"),
-                        SizedBox(width: 6,),
-                        Text("Peer Circle",style: MyTextTheme.smallBC ,),
-                      ],
+
+                  SizedBox(height: 10,),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.peerRoute);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset("assets/pc.svg"),
+                            SizedBox(width: 6),
+                            Text(
+                              "Peer Circle",
+                              style: MyTextTheme.smallBC,
+                            ),
+                            Spacer(),
+                           Obx((){
+                             if (customDrawerController.pending.value == 0) {
+                               return SizedBox();
+                             }
+                             return  Container(
+                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                               decoration: BoxDecoration(
+                                 color: Colors.red,
+                                 borderRadius: BorderRadius.circular(12),
+                               ),
+                               child: Text(
+                                 customDrawerController.pending.value.toString(),
+                                 style: TextStyle(
+                                   color: Colors.white,
+                                   fontSize: 12,
+                                   fontWeight: FontWeight.bold,
+                                 ),
+                               ),
+                             );
+                           })
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+
                 SizedBox(height: 10,),
                 Divider(
                   color: AppColor.greyLight,
                 ),
                 SizedBox(height: 10,),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.notifications);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset( "assets/notifi.svg"),
+                          SizedBox(width: 6,),
+                          Text("Notifications",style: MyTextTheme.smallBC ,),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
                 InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.settingRoute);

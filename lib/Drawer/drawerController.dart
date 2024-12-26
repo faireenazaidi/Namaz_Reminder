@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../DashBoard/dashboardController.dart';
 import '../Services/user_data.dart';
 
 class CustomDrawerController extends GetxController {
+  final DashBoardController dashBoardController = Get.put(DashBoardController());
   var userName = 'Mansoor Khan'.obs;
   var email = 'mailto:mansoor.k@gmail.com'.obs;
   var notificationCount = 2.obs;
@@ -39,7 +41,8 @@ class CustomDrawerController extends GetxController {
   Future<void> fetchMissedPrayersCount() async {
     try {
       final response = await http.get(
-        Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=229&prayername=isha'),
+       // Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=229&prayername=isha'),
+        Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${dashBoardController.currentPrayer}'),
       );
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
