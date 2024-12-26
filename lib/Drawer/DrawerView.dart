@@ -269,7 +269,7 @@ print(customDrawerController.missedPrayersCount.toString(),);
                       children: [
                         SvgPicture.asset( "assets/fq.svg"),
                         SizedBox(width: 6,),
-                        Text("F&Q",style: MyTextTheme.smallBC ,),
+                        Text("FAQs",style: MyTextTheme.smallBC ,),
                       ],
                     ),
                   ),
