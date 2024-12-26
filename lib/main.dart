@@ -415,7 +415,7 @@ print("aaa${userData.getPrayerTimingsData}");
         print('Percentage remaining: ${prayerInfo['percentageRemaining']}');
         service.invoke("sendPrayerData", {
           "prayerName": "Current Prayer $currentPrayer",
-          "timeLeft": "${prayerInfo['remainingTime'].inHours} hours and ${prayerInfo['remainingTime'].inMinutes % 60} minutes",
+          "timeLeft": "${prayerInfo['remainingTime'].inHours} hours ${prayerInfo['remainingTime'].inMinutes % 60} minutes",
           "progress": prayerInfo['percentageRemaining'],
         });
       }
@@ -823,15 +823,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+    // final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     // final userDataController = Get.find<LoginController>();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: AppColor.cream, // Background color of the status bar
       statusBarIconBrightness: Brightness.dark, // Dark icons for light background
       statusBarBrightness: Brightness.light, // Adjust for iOS
     ));
-    return Obx(() {
-      return GetMaterialApp(
+    return  GetMaterialApp(
         theme: ThemeData(
             appBarTheme:AppBarTheme(
                 systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -848,12 +847,13 @@ class MyApp extends StatelessWidget {
         //     : Locale(userDataController.getLangCode),  // Use stored language code
         fallbackLocale: const Locale('en', 'US'),  // Fallback language if not available
         darkTheme: ThemeData.dark(),
-        themeMode: customDrawerController.isDarkMode.value
-            ? ThemeMode.dark
-            : ThemeMode.light,
+        themeMode: ThemeMode.light,
+        // themeMode: customDrawerController.isDarkMode.value
+        //     ? ThemeMode.dark
+        //     : ThemeMode.light,
         // home: SplashScreen(),
       );
-    });
+
 
   }
 }

@@ -18,7 +18,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
+    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     final DashBoardController dashBoardController = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
 

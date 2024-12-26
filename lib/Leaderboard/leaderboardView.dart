@@ -387,7 +387,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                         : [],
                                     id: leaderBoardController.userData
                                         .getUserData!
-                                        .id.toString(),
+                                        .id.toString(), controller: leaderBoardController,
                                   ),
                                 ),
                               ),
