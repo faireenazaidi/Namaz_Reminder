@@ -128,6 +128,7 @@ class UserData extends GetxController {
     _storage.write('prayerSoundSettings', settings);
   }
 
+
   // Method to save the list data directly into GetStorage
   Future<void> savePrayerMonthTime(List listData) async {
     await _storage.write('prayerTimingsData', listData);
@@ -165,6 +166,7 @@ class UserData extends GetxController {
     await _storage.remove('location');
     await _storage.remove('duration');
     await _storage.remove('prayerTimingsData');
+
     update();
   }
 }

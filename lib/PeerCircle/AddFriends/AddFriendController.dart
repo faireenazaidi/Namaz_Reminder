@@ -108,6 +108,7 @@ class AddFriendController extends GetxController {
     friendRequestList = val;
     update();
   }
+
   void removeFriends(int index){
     friendRequestList.removeAt(index);
     update();

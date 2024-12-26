@@ -12,8 +12,8 @@ class CustomDrawerController extends GetxController {
   var leaderboardCount = 5.obs;
   var isDarkMode = false.obs;
   var selectedIndex = (-1).obs;
-  var missedPrayersCount = 0.obs;
-  var pending = 0.obs;
+  final missedPrayersCount = RxInt(0);
+  final pending = RxInt(0);
 
   UserData userData = UserData();
 
@@ -44,8 +44,10 @@ class CustomDrawerController extends GetxController {
        // Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=229&prayername=isha'),
         Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${dashBoardController.currentPrayer}'),
       );
+      // 7905216447
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
+        print("Status"+response.statusCode.toString());
         int totalMissedPrayers = data['total_missed_prayers'] ?? 0;
         missedPrayersCount.value = totalMissedPrayers;
         print('Total Missed Prayers: ${missedPrayersCount.value}');
@@ -66,4 +68,10 @@ class CustomDrawerController extends GetxController {
     print("CustomDrawerController initialized");
     fetchMissedPrayersCount();
   }
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
+
 }

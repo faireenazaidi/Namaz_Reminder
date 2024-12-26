@@ -352,6 +352,9 @@ class CustomDrawer extends StatelessWidget {
                           await UserData().removeUserData();
                           dashBoardController.locationController.value.clear;
                           stopBackgroundService();
+                          // customDrawerController.missedPrayersCount.value=0;
+                          // customDrawerController.pending.value=0;
+
                           Get.offAllNamed(AppRoutes.locationPageRoute);
                         });
 
