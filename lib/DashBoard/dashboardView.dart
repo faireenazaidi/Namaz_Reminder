@@ -28,8 +28,6 @@ class DashBoardView extends GetView<DashBoardController> {
   Widget build(BuildContext context) {
     final DashBoardController controller = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
-
-    // final LeaderBoardController leaderBoardController = Get.put(LeaderBoardController());
     Future<LottieComposition?> customDecoder(List<int> bytes) {
       return LottieComposition.decodeZip(bytes, filePicker: (files) {
         return files.firstWhereOrNull(
@@ -85,7 +83,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                 },
                                 child:
                                 Text(
-                                   controller.address.split(',')[0].toString(),
+                                  controller.address.split(' ')[0].toString(),
                                   style: MyTextTheme.greyNormal,
                                 ),
                                 // Text(

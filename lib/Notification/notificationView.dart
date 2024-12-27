@@ -98,25 +98,17 @@
 //       ],
 //     );
 //   }}
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendController.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
-import '../PeerCircle/peerController.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 import 'NotificationSetting/notificationSettingView.dart';
 import 'notificationController.dart';
 
-class NotificationView extends StatelessWidget {
-  final NotificationController controller = Get.put(NotificationController());
-  final PeerController peerController = Get.put(PeerController());
-  final AddFriendController addFriendController = Get.put(AddFriendController());
+class NotificationView extends  GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context) {
@@ -263,8 +255,6 @@ class NotificationView extends StatelessWidget {
                         // ),
                         ElevatedButton(
                           onPressed: () async {
-
-
                             try {
                               await controller.acceptFriendRequest(friendRequestData);
                               print('success');

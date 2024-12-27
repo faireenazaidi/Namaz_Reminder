@@ -308,8 +308,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                         ],
                                       ):
                                       Text(
-                                        "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value)} - "
-                                            "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 7)))}",
+                                        " ${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(const Duration(days: 6)))} - ${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(const Duration(days: 1)))} ",
                                         style: const TextStyle(fontSize: 12,
                                             color: Colors.black),
                                       )
@@ -457,7 +456,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   return SliverList(
                     delegate: SliverChildListDelegate([
                       AspectRatio(
-                        aspectRatio: 3/3.5,
+                        aspectRatio: 3/3.69,
                         child: Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.vertical(
@@ -518,10 +517,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   return SliverToBoxAdapter(child: SizedBox.shrink());
                 }
               })
-
             ],
-
-
         ));
   }
 

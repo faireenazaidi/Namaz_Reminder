@@ -40,21 +40,17 @@ class Upcoming extends GetView<UpcomingController> {
               overflow: TextOverflow.ellipsis,
             ),
             Spacer(),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset("assets/loc.svg"),
-                    Flexible(
-                      child: Text(
-                        dashboardController.address.split(',')[0].toString(),
-                        style: MyTextTheme.greyNormal,
-                      ),
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset("assets/loc.svg"),
+                  Text(
+                    dashboardController.address.split(' ')[0].toString(),
+                    style: MyTextTheme.greyNormal,
+                  ),
+                ],
               ),
             ),
           ],
@@ -71,7 +67,6 @@ class Upcoming extends GetView<UpcomingController> {
         backgroundColor: Colors.white,
         leading: InkWell(
           onTap: () {
-            dashboardController.fetchPrayerTime();
             Get.back();
           },
           child: Icon(Icons.arrow_back_ios, size: 20),
