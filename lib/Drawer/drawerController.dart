@@ -41,13 +41,15 @@ class CustomDrawerController extends GetxController {
   Future<void> fetchMissedPrayersCount() async {
     try {
       final response = await http.get(
-       // Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=229&prayername=isha'),
-        Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${dashBoardController.currentPrayer}'),
+       Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=6'),
+      //  Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${dashBoardController.currentPrayer}'),
       );
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
+        print('Responsess: ${response.statusCode}');
         int totalMissedPrayers = data['total_missed_prayers'] ?? 0;
         missedPrayersCount.value = totalMissedPrayers;
+
         print('Total Missed Prayers: ${missedPrayersCount.value}');
         int totalPending = data['total_pending'] ?? 0;
         pending.value = totalPending;
