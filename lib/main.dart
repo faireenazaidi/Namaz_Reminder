@@ -171,8 +171,40 @@ void main() async {
 //     print("No internet connection");
 //   }
 // }
+// void _handleConnectivityChange(ConnectivityResult result) {
+//   if (result == ConnectivityResult.none) {
+//     Get.showSnackbar(
+//       const GetSnackBar(
+//         snackPosition: SnackPosition.BOTTOM,
+//         message: "No Internet Connection",
+//         duration: Duration(days: 1),
+//       ),
+//     );
+//
+//     print("No internet connection");
+//   } else {
+//
+//     if (Get.isSnackbarOpen) {
+//       Get.closeAllSnackbars();
+//     }
+//      }
+//     print("Internet connection restored");
+//   }
 void _handleConnectivityChange(ConnectivityResult result) {
   if (result == ConnectivityResult.none) {
+    // Show a dialog when the connection is lost
+    Get.defaultDialog(
+      title: "Connection Lost",
+      middleText: "You have lost your internet connection.",
+      onConfirm: () {
+        Get.back();
+      },
+      confirm: TextButton(
+        onPressed: () => Get.back(),
+        child: Text("OK"),
+      ),
+    );
+
     Get.showSnackbar(
       const GetSnackBar(
         snackPosition: SnackPosition.BOTTOM,
@@ -183,16 +215,41 @@ void _handleConnectivityChange(ConnectivityResult result) {
 
     print("No internet connection");
   } else {
-
+    // Close all snackbars if they are open
     if (Get.isSnackbarOpen) {
       Get.closeAllSnackbars();
     }
-     }
     print("Internet connection restored");
+    // Optionally, you can call the API again here if needed
+    // await yourApiCall();
   }
+}
 
-
-
+// void _handleConnectivityChange(ConnectivityResult result) {
+//   if (result == ConnectivityResult.none) {
+//     // Show a snackbar when the connection is lost
+//     if (!Get.isSnackbarOpen) {
+//       Get.showSnackbar(
+//         GetSnackBar(
+//           snackPosition: SnackPosition.BOTTOM,
+//           message: "No Internet Connection",
+//           isDismissible: false, // Prevents the snackbar from being dismissed
+//           duration: Duration(days: 1), // Set a long duration
+//         ),
+//       );
+//     }
+//     print("No internet connection");
+//   } else {
+//     // Close the snackbar when the connection is restored
+//     if (Get.isSnackbarOpen) {
+//       Get.closeAllSnackbars();
+//     }
+//     print("Internet connection restored");
+//
+//     // Optionally, you can call the API again here if needed
+//     // await yourApiCall();
+//   }
+// }
 // void _showRetryCancelDialog() {
 //   Get.dialog(
 //     AlertDialog(

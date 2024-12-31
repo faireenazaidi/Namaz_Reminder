@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -222,31 +223,78 @@ class DashBoardController extends GetxController {
 
   }
 
+  // get() async {
+  //   print("mydata${userData.getUserData!.toJson()}");
+  //   if (userData.getLocationData == null) {
+  //     print("annnnder");
+  //     print("userData ander ${userData.getLocationData?.toJson()}");
+  //     position = await _locationService.getCurrentLocation();
+  //     print("llllllllll${position!.latitude.toString()}");
+  //     print("llllllllllll${position!.longitude.toString()}");
+  //     updateAddress =
+  //     await _locationService.getAddressFromCoordinates(position!);
+  //     final locationData = LocationDataModel(
+  //         latitude: position!.latitude.toString(),
+  //         longitude: position!.longitude.toString(),
+  //         address: address);
+  //     userData.addLocationData(locationData);
+  //     print("uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude
+  //         .toString()}");
+  //   }
+  //   else {
+  //     print("baaaaaaahar");
+  //     print("userData bahar ${userData.getLocationData?.toJson()}");
+  //     updateAddress = userData.getLocationData!.address!;
+  //   }
+  //   print("address $address");
+  //   print("lat ${userData.getLocationData!.latitude}");
+  //   await getIsPrayed();
+  //   await fetchPrayerTime();
+  //   leaderboard();
+  //   // scrollToHighlightedPrayer();
+  //   updateIslamicDateBasedOnOption(userData.getUserData!.hijriAdj!);
+  //   weeklyApi();
+  // }
   get() async {
+    // Check connectivity before proceeding
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      // Show snackbar if there is no internet connection
+      Get.showSnackbar(
+        const GetSnackBar(
+          snackPosition: SnackPosition.BOTTOM,
+          message: "No Internet Connection",
+          duration: Duration(days: 1),
+        ),
+      );
+      return; // Exit the method if there is no connection
+    }
+
     print("mydata${userData.getUserData!.toJson()}");
     if (userData.getLocationData == null) {
-      print("annnnder");
-      print("userData ander ${userData.getLocationData?.toJson()}");
-      position = await _locationService.getCurrentLocation();
-      print("llllllllll${position!.latitude.toString()}");
-      print("llllllllllll${position!.longitude.toString()}");
-      updateAddress =
-      await _locationService.getAddressFromCoordinates(position!);
-      final locationData = LocationDataModel(
-          latitude: position!.latitude.toString(),
-          longitude: position!.longitude.toString(),
-          address: address);
-      userData.addLocationData(locationData);
-      print("uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude
-          .toString()}");
-    }
-    else {
-      print("baaaaaaahar");
-      print("userData bahar ${userData.getLocationData?.toJson()}");
-      updateAddress = userData.getLocationData!.address!;
+    print("annnnder");
+    print("userData ander ${userData.getLocationData?.toJson()}");
+    position = await _locationService.getCurrentLocation();
+    print("llllllllll${position!.latitude.toString()}");
+    print("llllllllllll${position!.longitude.toString()}");
+    updateAddress =
+    await _locationService.getAddressFromCoordinates(position!);
+    final locationData = LocationDataModel(
+    latitude: position!.latitude.toString(),
+    longitude: position!.longitude.toString(),
+        address: address// Make sure to use the correct variable
+    );
+    userData.addLocationData(locationData);
+    print("uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude.toString()}");
+    } else {
+    print("baaaaaaahar");
+    print("userData bahar ${userData.getLocationData?.toJson()}");
+    updateAddress = userData.getLocationData!.address!;
     }
     print("address $address");
     print("lat ${userData.getLocationData!.latitude}");
+
+    // Proceed with API calls
     await getIsPrayed();
     await fetchPrayerTime();
     leaderboard();
@@ -254,7 +302,56 @@ class DashBoardController extends GetxController {
     updateIslamicDateBasedOnOption(userData.getUserData!.hijriAdj!);
     weeklyApi();
   }
-
+  // get() async {
+  //   // Check connectivity before proceeding
+  //   var connectivityResult = await (Connectivity().checkConnectivity());
+  //   if (connectivityResult == ConnectivityResult.none) {
+  //     // Show snackbar if there is no internet connection
+  //     if (!Get.isSnackbarOpen) {
+  //       Get.showSnackbar(
+  //         GetSnackBar(
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           message: "No Internet Connection",
+  //           isDismissible: false, // Prevents the snackbar from being dismissed
+  //           duration: Duration(days: 1), // Set a long duration
+  //         ),
+  //       );
+  //     }
+  //     return; // Exit the method if there is no connection
+  //   }
+  //
+  //   print("mydata${userData.getUserData!.toJson()}");
+  //   if (userData.getLocationData == null) {
+  //   print("annnnder");
+  //   print("userData ander ${userData.getLocationData?.toJson()}");
+  //   position = await _locationService.getCurrentLocation();
+  //   print("llllllllll${position!.latitude.toString()}");
+  //   print("llllllllllll${position!.longitude.toString()}");
+  //   updateAddress =
+  //   await _locationService.getAddressFromCoordinates(position!);
+  //   final locationData = LocationDataModel(
+  //   latitude: position!.latitude.toString(),
+  //   longitude: position!.longitude.toString(),
+  //   address: address, // Make sure to use the correct variable
+  //   );
+  //   userData.addLocationData(locationData);
+  //   print("uuuuuuuuuuuuuuuuuuu${userData.getLocationData!.latitude.toString()}");
+  //   } else {
+  //   print("baaaaaaahar");
+  //   print("userData bahar ${userData.getLocationData?.toJson()}");
+  //   updateAddress = userData.getLocationData!.address!;
+  //   }
+  //   print("address $address");
+  //   print("lat ${userData.getLocationData!.latitude}");
+  //
+  //   // Proceed with API calls
+  //   await getIsPrayed();
+  //   await fetchPrayerTime();
+  //   leaderboard();
+  //   // scrollToHighlightedPrayer();
+  //   updateIslamicDateBasedOnOption(userData.getUserData!.hijriAdj!);
+  //   weeklyApi();
+  // }
   String convertTo12HourFormat(String time24) {
     try {
       DateTime parsedTime = DateFormat('HH:mm').parse(time24);

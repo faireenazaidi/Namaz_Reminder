@@ -1528,7 +1528,6 @@ class UserRankCarousel extends StatelessWidget {
         .where((record) => record['prayer_name'] == prayerName)
         .toList();
     filteredRecords.sort((a, b) => (double.parse(b['score'].toString())).compareTo(double.parse(a['score'].toString())));
-
     return SizedBox(
       height: 150,
       child: PageView.builder(
