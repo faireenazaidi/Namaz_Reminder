@@ -121,14 +121,14 @@ class FirebaseMessagingService {
   static Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Handling background message: ${message.notification?.title}');
     // Determine notification type and channel
-    String channelKey = _getChannelKeyFromMessage(message);
-
-    // Show notification
-    await AwesomeNotificationService().showNotification(
-      title: message.notification?.title,
-      body: message.notification?.body,
-      channelKey: channelKey,
-    );
+    // String channelKey = _getChannelKeyFromMessage(message);
+    //
+    // // Show notification
+    // await AwesomeNotificationService().showNotification(
+    //   title: message.notification?.title,
+    //   body: message.notification?.body,
+    //   channelKey: channelKey,
+    // );
     // Handle background notification logic here
   }
   /// Helper method to determine channel key from message data

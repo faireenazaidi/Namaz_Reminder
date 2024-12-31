@@ -226,11 +226,11 @@ class Hijri {
   Hijri.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     format = json['format'];
-    day = json['day'];
+    day = json['day'].toString();
     hijriWeekday =
     json['weekday'] != null ? new HijriWeekday.fromJson(json['weekday']) : null;
     month = json['month'] != null ? new Month.fromJson(json['month']) : null;
-    year = json['year'];
+    year = json['year'].toString();
     designation = json['designation'] != null
         ? new Designation.fromJson(json['designation'])
         : null;

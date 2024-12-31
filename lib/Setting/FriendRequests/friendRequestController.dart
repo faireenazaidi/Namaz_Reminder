@@ -29,7 +29,7 @@ class RequestController extends GetxController {
     if (!isFirst) {
       frAllowValue = selectedIndex.value == 0
           ? 0
-          : (selectedIndex.value == 1 ? 2 : 1); // Explicit mapping
+          : 1; // Explicit mapping
     }
 
     // Construct request body

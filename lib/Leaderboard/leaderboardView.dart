@@ -24,19 +24,20 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
       LeaderBoardController());
   final DateController dateController = Get.put(DateController());
   final MissedPrayersController missedPrayersController = Get.put(MissedPrayersController());
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      leaderBoardController.leaderboard(
-          leaderBoardController.getFormattedDate());
-      leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     // leaderBoardController.leaderboard(
+  //     //     leaderBoardController.getFormattedDate());
+  //     // leaderBoardController.weeklyApi(leaderBoardController.getFormattedDate());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height*0.093;
+    print("screenHeight $screenHeight");
     return Scaffold(
         backgroundColor: AppColor.cream,
         body:
@@ -55,7 +56,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     centerTitle: true,
                     pinned: true,
                     expandedHeight: leaderBoardController.selectedTab.value ==
-                        'Weekly' ? 350 : 200,
+                        'Weekly' ? MediaQuery.of(context).size.height*0.411 : 200,
                     backgroundColor: AppColor.cream,
                     leading: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -83,12 +84,12 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           ),
                           // Adding Padding and other widgets over the background image
                           Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             // Adjust padding as needed
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(height: 70),
+                                const SizedBox(height: 80),
                                 Obx(() =>
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment
@@ -156,9 +157,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                         // Weekly Button
                                         GestureDetector(
                                           onTap: () {
-                                            leaderBoardController
-                                                .updateSelectedDate(
-                                                DateTime.now());
+                                            leaderBoardController.updateSelectedDate(
+                                                DateTime.now().subtract(Duration(days: 1)));
                                             leaderBoardController
                                                 .updateSelectedTab = 'Weekly';
                                           },
@@ -220,10 +220,17 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                   onTap: () async {
                                     DateTime? picked = await showDatePicker(
                                       context: context,
-                                      initialDate: leaderBoardController
-                                          .selectedDate.value,
+                                      initialDate: leaderBoardController.getSelectedTab ==
+                                          'Daily'
+                                          ? leaderBoardController.selectedDate.value
+                                          : DateTime.now().subtract(
+                                          const Duration(days: 1)),
                                       firstDate: DateTime(2020),
-                                      lastDate: DateTime.now(),
+                                      lastDate: leaderBoardController.getSelectedTab ==
+                                          'Daily'
+                                          ? leaderBoardController.selectedDate.value
+                                          : DateTime.now().subtract(
+                                          const Duration(days: 1)),
                                     );
                                     if (picked != null) {
                                       leaderBoardController.updateSelectedDate(
@@ -308,7 +315,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                         ],
                                       ):
                                       Text(
-                                        " ${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(const Duration(days: 6)))} - ${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(const Duration(days: 1)))} ",
+                                        "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value)} - "
+                                            "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 7)))}",
                                         style: const TextStyle(fontSize: 12,
                                             color: Colors.black),
                                       )
@@ -316,13 +324,13 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                     ],
                                   ),
                                 ),
-                                if (leaderBoardController.selectedTab.value !=
-                                    'Weekly')
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                    ),
-                                  ),
+                                // if (leaderBoardController.selectedTab.value !=
+                                //     'Weekly')
+                                //   Center(
+                                //     child: Padding(
+                                //       padding: const EdgeInsets.all(8.0),
+                                //     ),
+                                //   ),
                                 if (leaderBoardController.selectedTab.value ==
                                     'Weekly')
                                   Obx(() {
@@ -331,7 +339,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                           .weeklyRanked.value,
                                     );
                                   }),
-                                SizedBox(height: 10),
+                                // SizedBox(height: 100),
                               ],
                             ),
                           ),
@@ -455,59 +463,56 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                 else if (leaderBoardController.selectedTab.value == 'Weekly') {
                   return SliverList(
                     delegate: SliverChildListDelegate([
-                      AspectRatio(
-                        aspectRatio: 3/3.69,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(40.0),
-                            ),
-                            color: Colors.white,
+                      Container(height: Get.height* 0.57,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(40.0),
                           ),
-                          child: Stack(
-                            children: [
-                              // Top indicator (small rounded rectangle)
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Container(
-                                    width: 110,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: AppColor.packageGray,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                          color: Colors.white,
+                        ),
+                        child: Stack(
+                          children: [
+                            // Top indicator (small rounded rectangle)
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Container(
+                                  width: 110,
+                                  height: 8,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.packageGray,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                top: 0.0,
-                                bottom: Get.height*0.02,
-                                left: 0.0,
-                                right: 0.0,
-                                child: ListView.builder(
-                                  itemCount: leaderBoardController.weeklyRanked.length,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    bool isFound = leaderBoardController.weeklyRanked[index]
-                                    ['id']
-                                        .toString() ==
-                                        leaderBoardController.userData.getUserData!.id;
-                                    return Padding(
-                                      padding: const EdgeInsets.only(left: 10.0),
-                                      child: _buildRankCard(
-                                        leaderBoardController.weeklyRanked[index],
-                                        index,
-                                        isFound,
-                                      ),
-                                    );
-                                  },
-                                ),
+                            ),
+                            Positioned(
+                              top: 0.0,
+                              bottom: Get.height*0.02,
+                              left: 0.0,
+                              right: 0.0,
+                              child: ListView.builder(
+                                itemCount: leaderBoardController.weeklyRanked.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  bool isFound = leaderBoardController.weeklyRanked[index]
+                                  ['id']
+                                      .toString() ==
+                                      leaderBoardController.userData.getUserData!.id;
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: _buildRankCard(
+                                      leaderBoardController.weeklyRanked[index],
+                                      index,
+                                      isFound,
+                                    ),
+                                  );
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ]),
@@ -517,7 +522,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   return SliverToBoxAdapter(child: SizedBox.shrink());
                 }
               })
+
             ],
+
+
         ));
   }
 
@@ -594,8 +602,14 @@ Widget _buildUserProgress(String imageUrl, String name, String score, {bool high
 }
 
 Widget _buildRankCard(Map friend,int index,bool isHighlight) {
+  double containerHeight = Get.height * 0.5; // Half the screen height
+  double maxBarHeight = containerHeight - 100; // Subtract extra space for padding and other elements
   double percentage = double.parse(friend['percentage'].toStringAsFixed(2));
+  double barHeight = (percentage / 100) * maxBarHeight; // Adjust height based on percentage
+  barHeight = barHeight.clamp(10.0, maxBarHeight); // Ensure a minimum bar height of 50
   print("percentage $percentage");
+  print("barHeight $barHeight");
+
   // double percentage = friend['percentage'];
 // Determine the SVG asset based on the rank
   String rankSvg;
@@ -634,7 +648,7 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 800),
           curve: Curves.easeIn,
-          height: percentage * 5 + 110, // Dynamic height based on percentage
+          height: barHeight+100, // Dynamic height based on percentage
           width: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -827,8 +841,9 @@ class TopRankedUsers extends StatelessWidget {
   }
 
   Widget _buildRankCard(Map friend, int rank, String svgPath) {
-    double height = rank ==1? 90:80;
-    double width = rank ==1? 90:80;
+    
+    double height = rank ==1? Get.height*0.084:Get.height*0.072;
+    double width = rank ==1? Get.width*0.212:Get.width*0.19;
     double h = rank ==1? 15:35;
     Color clr = rank == 1 ? AppColor.amberColor : (rank==2)?Colors.blueGrey:Colors.deepOrangeAccent;
 
@@ -870,12 +885,12 @@ class TopRankedUsers extends StatelessWidget {
             ),
 
             Positioned(
-              bottom: -18,
+              bottom: -15,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   // Icon(Icons.star, size: 40, color: badgeColor),
-                  SvgPicture.asset(svgPath,height: 40,width: 40,),
+                  SvgPicture.asset(svgPath,height: Get.height*0.03,width: Get.height*0.03,),
                 ],
               ),
             ),
@@ -885,11 +900,11 @@ class TopRankedUsers extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           friend['name'].split(' ')[0],
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         Text(
           '${friend['percentage'].toStringAsFixed(2)}%',
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
         ),
       ],
     );

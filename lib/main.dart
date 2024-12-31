@@ -462,8 +462,8 @@ print("aaa${userData.getPrayerTimingsData}");
         print('Remaining time for upcoming prayer: ${upcomingPrayerInfo['remainingTime']}');
         print('Remaining percentageRemaining for upcoming prayer: ${upcomingPrayerInfo['percentageRemaining']}');
         service.invoke("sendPrayerData", {
-          "prayerName": "Upcoming Prayer ${upcomingPrayerInfo['upcomingPrayer']}",
-          "timeLeft": "${upcomingPrayerInfo['remainingTime'].inHours} hours and ${upcomingPrayerInfo['remainingTime'].inMinutes % 60} minutes",
+          "prayerName": "${upcomingPrayerInfo['upcomingPrayer']} starts in",
+          "timeLeft": "${upcomingPrayerInfo['remainingTime'].inHours} h ${upcomingPrayerInfo['remainingTime'].inMinutes % 60} m",
           "progress": upcomingPrayerInfo['percentageRemaining'],
         });
 
@@ -474,7 +474,7 @@ print("aaa${userData.getPrayerTimingsData}");
         print('Remaining time: ${prayerInfo['remainingTime']}');
         print('Percentage remaining: ${prayerInfo['percentageRemaining']}');
         service.invoke("sendPrayerData", {
-          "prayerName": "Current Prayer $currentPrayer",
+          "prayerName": "Left for $currentPrayer Prayer",
           "timeLeft": "${prayerInfo['remainingTime'].inHours} hours ${prayerInfo['remainingTime'].inMinutes % 60} minutes",
           "progress": prayerInfo['percentageRemaining'],
         });
