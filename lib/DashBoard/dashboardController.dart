@@ -14,6 +14,7 @@ import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 import '../DataModels/LoginResponse.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
+import '../Services/ApiService/api_service.dart';
 import '../Widget/location_services.dart';
 import '../main.dart';
 class DashBoardController extends GetxController {
@@ -83,7 +84,6 @@ class DashBoardController extends GetxController {
   List<CalendarWiseData> extractedData = [];
   List prayerTimes = [].obs;
   List upcomingPrayerTimes = [].obs;
-
   Map<String, Map<String, String>> prayerDuration = {};
   Map<String, Map<String, String>> upcomingPrayerDuration = {};
 
@@ -408,6 +408,7 @@ class DashBoardController extends GetxController {
       );
       final response = await http.get(uri);
       log("API Response: ${response.body}");
+      //print("formatted:"+formattedDates);
       if (response.statusCode == 200) {
         // Decode the data
         updateCalendarData = jsonDecode(response.body.toString())["data"];
@@ -419,6 +420,7 @@ class DashBoardController extends GetxController {
             'Error fetching prayer times. Status Code: ${response.statusCode}');
       }
     } catch (e) {
+      print("kekej");
       print('Error: $e');
     } finally {
       isLoading.value = false;
@@ -1140,6 +1142,7 @@ else{
 
 
     } catch (e) {
+
       print('Error: $e');
     }
   }
@@ -1177,30 +1180,40 @@ List isPrayedList = [];
   }
 
   Rxn<LeaderboardDataModal>  getLeaderboardList = Rxn<LeaderboardDataModal>();
-  leaderboard() async{
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
-
-
-    http.StreamedResponse response = await request.send();
-    print(request.url);
-
-    if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
-      var decodeData = jsonDecode(await response.stream.bytesToString());
-      print("decodeData $decodeData");
-      // updateLeaderboardList = decodeData;
-      getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
-      print("getLeaderboardList $getLeaderboardList");
-      // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
+  // leaderboard() async{
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+  //   var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+  //   http.StreamedResponse response = await request.send();
+  //   print(request.url);
+  //
+  //   if (response.statusCode == 200) {
+  //     // print(await response.stream.bytesToString());
+  //     var decodeData = jsonDecode(await response.stream.bytesToString());
+  //     print("decodeData $decodeData");
+  //     // updateLeaderboardList = decodeData;
+  //     getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
+  //     print("getLeaderboardList $getLeaderboardList");
+  //     // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
+  //     update(['leader']);
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
+  leaderboard() async {
+    try {
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+      String endpoint = 'prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate';
+      final response = await ApiService().getRequest(endpoint);
+      print("hhhkd");
+      print("Response Data: $response");
+      getLeaderboardList.value = LeaderboardDataModal.fromJson(response);
       update(['leader']);
+    } catch (e) {
+      print("Error occurred in leaderboard API call: $e");
     }
-    else {
-      print(response.reasonPhrase);
-    }
-
   }
   void updateIslamicDateBasedOnOption(int id) {
     final hijriDate = getExtractedData[0].date?.hijri;
@@ -1266,38 +1279,50 @@ List isPrayedList = [];
   }
 
   List weeklyRanked = [];
+  // weeklyApi() async {
+  //   // String formatDate = getFormattedDate();
+  //   String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate.value);
+  //   var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+  //   http.StreamedResponse response = await request.send();
+  //   print("URL ${request.url.toString()}");
+  //
+  //   if (response.statusCode == 200) {
+  //     // print(await response.stream.bytesToString());
+  //     var data = jsonDecode(await response.stream.bytesToString());
+  //     // print("weekly baqar ${data['ranked_friends']}");
+  //     // if(data['ranked_friends'].isNotEmpty){
+  //     //   // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
+  //     // }
+  //     // height.value= sizedBoxHeight(data['ranked_friends']);
+  //     weeklyRanked = data['ranked_friends'];
+  //     print("decodeData $data");
+  //     // updateLeaderboardList = decodeData;
+  //     // List recordData= data['records'];
+  //     // recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
+  //     // print("recordList $recordsList");
+  //     // weeklyMissedPrayer.value = groupByDate(recordsList);
+  //     update();
+  //     print("WeeklyApi data check:$weeklyRanked");
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
   weeklyApi() async {
-    // String formatDate = getFormattedDate();
-
-    String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate.value);
-
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
-
-    http.StreamedResponse response = await request.send();
-    print("URL ${request.url.toString()}");
-
-    if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
-      var data = jsonDecode(await response.stream.bytesToString());
-      // print("weekly baqar ${data['ranked_friends']}");
-      // if(data['ranked_friends'].isNotEmpty){
-      //   // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
-      // }
-      // height.value= sizedBoxHeight(data['ranked_friends']);
-      weeklyRanked = data['ranked_friends'];
-      print("decodeData $data");
-      // updateLeaderboardList = decodeData;
-      // List recordData= data['records'];
-      // recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
-      // print("recordList $recordsList");
-      // weeklyMissedPrayer.value = groupByDate(recordsList);
+    try {
+        String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate.value);
+      String endpoint = 'friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate';
+      final response = await ApiService().getRequest(endpoint);
+      print("hju");
+      print("Response Data: $response");
+        weeklyRanked = response['ranked_friends'];
       update();
-      print("WeeklyApi data check:$weeklyRanked");
-    }
-    else {
-      print(response.reasonPhrase);
+      print("weekly data check: $weeklyRanked");
+    } catch (e) {
+      print("Error occurred in Weekly API call: $e");
     }
   }
+
   // Function to check if current time (tap event) is within range
   bool isTimeWithinRange(String startTime,String endTime,String tapTime) {
     // Get current time

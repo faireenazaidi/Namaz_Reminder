@@ -196,13 +196,13 @@ void _handleConnectivityChange(ConnectivityResult result) {
     Get.defaultDialog(
       title: "Connection Lost",
       middleText: "You have lost your internet connection.",
-      onConfirm: () {
-        Get.back();
-      },
-      confirm: TextButton(
-        onPressed: () => Get.back(),
-        child: Text("OK"),
-      ),
+      // onConfirm: () {
+      //   Get.back();
+      // },
+     cancel: TextButton(
+         onPressed: (){
+           Get.back();
+         }, child: Text("OK"))
     );
 
     Get.showSnackbar(

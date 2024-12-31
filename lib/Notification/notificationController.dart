@@ -83,6 +83,7 @@ class NotificationController extends GetxController {
   }
   // Fetch notifications from API
   Future<void> fetchNotifications() async {
+    // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
     final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
     final response = await http.get(url);
     isLoading.value = false;
@@ -153,16 +154,6 @@ class NotificationController extends GetxController {
   //   friendRequestList = val;
   //   update();
   // }
-
-
-
-
-
-
-
-
-
-
   ///ACCEPT REQUEST
   // acceptFriendRequest(String id) async {
   //   var headers = {
@@ -200,19 +191,16 @@ class NotificationController extends GetxController {
   //     print("Unexpected response: $data");
   //   }
   // }
-  acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
+  acceptFriendRequest(int id) async {
     var headers = {
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST', Uri.parse(
         'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
-
     // Log the request data
-    print("Sending Request ID: ${friendRequestData.id}");
     print("Sending User ID: ${userData.getUserData!.id}");
-
     request.body = json.encode({
-      "request_id": friendRequestData.id.toString(),
+      "request_id": id,
       "user_id": userData.getUserData!.id.toString(),
     });
     request.headers.addAll(headers);
@@ -232,26 +220,10 @@ class NotificationController extends GetxController {
       print("Error: ${response.reasonPhrase}");
     }
   }
+
+
   ///DECLINE REQUEST
-  // declineRequest(String id) async {
-  //   var headers = {
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request('POST', Uri.parse(
-  //       'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
-  //
-  //   request.body = json.encode({
-  //     "user_id": userData.getUserData!.id.toString(),
-  //     "request_id": id.toString(),
-  //   });
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   var data = jsonDecode(await response.stream.bytesToString());
-  //   print("aaaaaaaaaa $data");
-  // }
-  declineRequest(FriendRequestDataModal friendRequestData) async {
+  declineRequest(int id) async {
     var headers = {
       'Content-Type': 'application/json'
     };
@@ -259,7 +231,7 @@ class NotificationController extends GetxController {
         'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
     request.body = json.encode({
       "user_id": userData.getUserData!.id.toString(),
-      "request_id": friendRequestData.id.toString(),
+      "request_id":id,
     });
     request.headers.addAll(headers);
 
@@ -275,6 +247,61 @@ class NotificationController extends GetxController {
       // Optionally, update the UI or state here
     } else {
       print("Error: ${response.reasonPhrase}");
+    }
+  }
+
+  ///Remove Accepted and decline rqwst from view
+
+  // Future<void> removeNotification(int id, String type) async {
+  //   var headers = {'Content-Type': 'application/json'};
+  //   var request = http.Request(
+  //     'POST',
+  //     Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/'),
+  //   );
+  //
+  //   request.body = json.encode({
+  //     "id": id,
+  //     "type": "friend_request",
+  //   });
+  //   request.headers.addAll(headers);
+  //
+  //   http.StreamedResponse response = await request.send();
+  //   String responseBody = await response.stream.bytesToString();
+  //
+  //   // Log the response
+  //   print("Remove Notification Response Status: ${response.statusCode}");
+  //   print("Remove Notification Response Body: $responseBody");
+  //
+  //   if (response.statusCode == 200) {
+  //     print("Notification removed successfully.");
+  //   } else {
+  //     print("Failed to remove notification: ${response.reasonPhrase}");
+  //   }
+  // }
+  Future<void> removeNotification(int notificationId, String type,bool isRead ) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+      'DELETE',
+      Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/'), // Adjust the endpoint as needed
+    );
+
+    request.body = json.encode({
+      "id": notificationId,
+      "type": "friend_request",
+      "is_read": isRead,
+    });
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      if (response.statusCode == 200) {
+        print("Notification removed successfully.");
+      } else {
+        print("Failed to remove notification: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 }

@@ -323,6 +323,9 @@ class Upcoming extends GetView<UpcomingController> {
                       var upcomingPrayers = dashboardController.upcomingPrayers;
                       var prayerDurations = dashboardController.upcomingPrayerDuration;
                       String currentTime = DateFormat('HH:mm').format(DateTime.now());
+                      print("lengthhh");
+                      print( dashboardController.upcomingPrayerDuration);
+                      print(controller.prayerNames[1]);
                       String ishaEndTime = prayerDurations['Isha']?['start'] ?? '23:59';
                       List<Map<String, String>> prayerList = upcomingPrayers.map((prayer) {
                         String startTime = prayerDurations[prayer]?['start'] ?? 'N/A';
@@ -365,7 +368,8 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                           Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                       Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                     // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.medium),
                                        // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
@@ -416,10 +420,14 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text(controller.upcomingPrayerStartTime.value,
+                                          child: Text(
+                                            //  controller.upcomingPrayerStartTime.value,
+                                      controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
                                               style: MyTextTheme.mediumBCD),
                                         ),
-                                        Text(controller.upcomingPrayerEndTime.value,
+                                        Text(
+                                           // controller.upcomingPrayerEndTime.value,
+                                            controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,
                                             style: MyTextTheme.mediumBCD),
                                       ],
                                     ),
@@ -446,7 +454,8 @@ class Upcoming extends GetView<UpcomingController> {
 
                         return Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: controller.nextPrayerName.value != prayerName?
+                            child:
+                            controller.nextPrayerName.value != prayerName?
                             Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,

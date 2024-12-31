@@ -233,7 +233,6 @@ class AddFriendController extends GetxController {
     var data = jsonDecode(await response.stream.bytesToString());
     print("aaaaaaaaaa $data");
   }
-
 }
 ///////////////////
 

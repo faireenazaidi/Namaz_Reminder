@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:namaz_reminders/DataModels/LoginResponse.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
 import '../AppManager/dialogs.dart';
+import '../Services/ApiService/api_service.dart';
 import '../Services/firebase_services.dart';
 import '../Services/user_data.dart';
 import 'locationPageDataModal.dart';
@@ -162,27 +163,41 @@ class LocationPageController extends GetxController {
   }
 
 
+ // calculationMethode() async {
+ //    print("calculation method running");
+ //  var request = http.Request(
+ //      'GET', Uri.parse('http://182.156.200.177:8011/adhanapi/methods/'));
+ //
+ //
+ //  http.StreamedResponse response = await request.send();
+ //
+ //  if (response.statusCode == 200) {
+ //   // print(await response.stream.bytesToString());
+ //   var data = jsonDecode(await response.stream.bytesToString());
+ //
+ //   updateCalculationList = data;
+ //   print("getData${getCalculationList.toList()}");
+ //   checkData();
+ //
+ //  }
+ //  else {
+ //   print(response.reasonPhrase);
+ //  }
+ // }
  calculationMethode() async {
-    print("calculation method running");
-  var request = http.Request(
-      'GET', Uri.parse('http://182.156.200.177:8011/adhanapi/methods/'));
-
-
-  http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200) {
-   // print(await response.stream.bytesToString());
-   var data = jsonDecode(await response.stream.bytesToString());
-
-   updateCalculationList = data;
-   print("getData${getCalculationList.toList()}");
-   checkData();
-
-  }
-  else {
-   print(response.reasonPhrase);
-  }
+   try {
+     String endpoint = 'methods/';
+     final response = await ApiService().getRequest(endpoint);
+     print("ffd");
+     print("Response Data: $response");
+     updateCalculationList = response;
+     print("getData${getCalculationList.toList()}");
+     checkData();
+   } catch (e) {
+     print("Error occurred in Calculation Method API call: $e");
+   }
  }
+
  RxInt  isChecked=0.obs;
  List calculationList = [];
  List<CalculationDataModal> get getCalculationList => List<CalculationDataModal>.from(
@@ -233,100 +248,205 @@ Map selectMethod = {}.obs;
   var otp = '';
 
   var response = {};
-  login(String phoneNumber) async {
-    startTimer();
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {"mobile_no": phoneNumber};
-    http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/login/'), body: jsonEncode(body), headers: headers);
-    print("@@@ REQUEST DATA ${request.body}");
-    response = jsonDecode(request.body);
-    print("ffff ${response['is_registered']}");
-    otp = response['response_data']['otp'].toString();
-  }
+  // login(String phoneNumber) async {
+  //   startTimer();
+  //   Map<String, String> headers = {'Content-Type': 'application/json'};
+  //   Map<String, dynamic> body = {"mobile_no": phoneNumber};
+  //   http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/login/'), body: jsonEncode(body), headers: headers);
+  //   print("@@@ REQUEST DATA ${request.body}");
+  //   response = jsonDecode(request.body);
+  //   print("ffff ${response['is_registered']}");
+  //   otp = response['response_data']['otp'].toString();
+  // }
+ login(String phoneNumber) async {
+   try {
+     startTimer();
+     Map<String, dynamic> body = {"mobile_no": phoneNumber};
+     String endpoint = 'login/';
+     final response = await ApiService().postRequest(endpoint,body);
+     print("@@@ Request  Data: $response");
+     this.response=response;
+     print("user Registration Status ${response['is_registered']}");
+     otp = response['response_data']['otp'].toString();
+     print("OTP:"+otp);
+
+   } catch (e) {
+     print("Error occured during login: $e");
+   }
+ }
+
 
   /// Otp verification
 
-  otpVerification(verificationOTPCode,context) async {
-    Dialogs.showLoading(context,message: 'Verifying your OTP');
-    var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim(),
-      'token':FirebaseMessagingService().getToken()};
+  // otpVerification(verificationOTPCode,context) async {
+  //   Dialogs.showLoading(context,message: 'Verifying your OTP');
+  //   var body = {"mobile_no": phoneController.value.text.toString().trim(), "otp": verificationOTPCode.toString().trim(),
+  //     'token':FirebaseMessagingService().getToken()};
+  //
+  //   print("phoneNumber ${phoneController.value.text}");
+  //   print("phoneNumber______________ ${body}");
+  //
+  //   http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/verify/'), body: body, );
+  //   print("verify otp api data ${request.body}");
+  //   otpData = jsonDecode(request.body);
+  //   Dialogs.hideLoading();
+  //   if (otpData['response_code'].toString() == "1") {
+  //     final userModel = UserModel.fromJson(otpData['response_data']['user']);
+  //     if(otpData['response_data']['detail'].toString()!='Invalid or expired OTP'){
+  //       if(response['response_data']['is_registered'].toString()=='0'){
+  //         dynamicHeightAllocation();
+  //         await userData.addUserData(userModel);
+  //       }else{
+  //         if(otpData['response_data']['user']['name']==null||otpData['response_data']['user']['name']==''){
+  //           dynamicHeightAllocation();
+  //           await userData.addUserData(userModel);
+  //         }
+  //         else{
+  //           await userData.addUserData(userModel);
+  //           // step.value = 0;
+  //           print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+  //           // updateLoginResponse(jsonDecode(otpData['response_data']['user']));
+  //           Get.offAllNamed(AppRoutes.dashboardRoute);
+  //         }
+  //       }
+  //     }
+  //     print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+  //   } else {
+  //     print("ddddd ${otpData['detail']}");
+  //     Get.snackbar('Error!', 'Invalid OTP',
+  //     snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);    }
+  // }
+ Future<void> otpVerification(String verificationOTPCode, BuildContext context) async {
+   try {
+     Dialogs.showLoading(context, message: 'Verifying your OTP');
+     var body = {
+       "mobile_no": phoneController.value.text.trim(),
+       "otp": verificationOTPCode.trim(),
+       "token": FirebaseMessagingService().getToken(),
+     };
+     print("Request Body: $body");
+     String endpoint = 'verify/';
+     final response = await ApiService().postRequest(endpoint, body);
+     Dialogs.hideLoading();
+     if (response['response_code'].toString() == "1") {
+       final userModel = UserModel.fromJson(response['response_data']['user']);
+       if (response['response_data']['detail'].toString() != 'Invalid or expired OTP') {
+         if (response['response_data']['is_registered'].toString() == '0') {
+           dynamicHeightAllocation();
+           await userData.addUserData(userModel);
+         } else {
+           if (response['response_data']['user']['name'] == null ||
+               response['response_data']['user']['name'] == '') {
+             dynamicHeightAllocation();
+             await userData.addUserData(userModel);
+           } else {
+             await userData.addUserData(userModel);
+             print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+             Get.offAllNamed(AppRoutes.dashboardRoute);
+           }
+         }
+       }
 
-    print("phoneNumber ${phoneController.value.text}");
-    print("phoneNumber______________ ${body}");
-
-    http.Response request = await http.post(Uri.parse('http://182.156.200.177:8011/adhanapi/verify/'), body: body, );
-    print("verify otp api data ${request.body}");
-
-
-    otpData = jsonDecode(request.body);
-    Dialogs.hideLoading();
-    if (otpData['response_code'].toString() == "1") {
-      final userModel = UserModel.fromJson(otpData['response_data']['user']);
-      if(otpData['response_data']['detail'].toString()!='Invalid or expired OTP'){
-        if(response['response_data']['is_registered'].toString()=='0'){
-          dynamicHeightAllocation();
-          await userData.addUserData(userModel);
-        }else{
-          if(otpData['response_data']['user']['name']==null||otpData['response_data']['user']['name']==''){
-            dynamicHeightAllocation();
-            await userData.addUserData(userModel);
-          }
-          else{
-            await userData.addUserData(userModel);
-            // step.value = 0;
-            print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
-            // updateLoginResponse(jsonDecode(otpData['response_data']['user']));
-            Get.offAllNamed(AppRoutes.dashboardRoute);
-          }
-        }
-      }
-      print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
-
-
-
-    } else {
-      print("ddddd ${otpData['detail']}");
-      Get.snackbar('Error!', 'Invalid OTP',
-      snackPosition: SnackPosition.TOP,colorText: Colors.white,backgroundColor: Colors.black);    }
-  }
-
+       print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+     } else {
+       // Show error snackbar
+       Get.snackbar(
+         'Error!',
+         'Invalid OTP',
+         snackPosition: SnackPosition.TOP,
+         colorText: Colors.white,
+         backgroundColor: Colors.black,
+       );
+     }
+   } catch (e) {
+     // Handle errors gracefully
+     Dialogs.hideLoading();
+     print("Error occurred during OTP verification: $e");
+     Get.snackbar(
+       'Error!',
+       'Something went wrong. Please try again.',
+       snackPosition: SnackPosition.TOP,
+       colorText: Colors.white,
+       backgroundColor: Colors.black,
+     );
+   }
+ }
  var otpData = {};
 
   /// Method to register use
+  //
+  // registerUser() async {
+  //  Map<String,String> headers = {
+  //   'Content-Type': 'application/json'
+  //  };
+  //  Map<String,dynamic> body = {
+  //    "user_id": userData.getUserData?.id.toString(),
+  //   "username": "${nameC.value.text.toString().toLowerCase().split(' ')[0]}${phoneController.value.text.toString().substring(phoneController.value.text.toString().length - 4)}",
+  //   "name": nameC.value.text.toString(),
+  //   "mobile_no": phoneController.value.text.toString(),
+  //   "gender": selectedGender.value.toString(),
+  //   // "fiqh": (selectedFiqh.value).toString(),
+  //   "fiqh": selectMethod['id'].toString()=='7'||selectMethod['id'].toString()=='0'?'0':'1', //0 for shia 1 for sunni
+  //   "times_of_prayer":selectMethod['id'].toString()=='7'? selectedPrayer.value:'5',
+  //    "school_of_thought": selectMethod['id'].toString(),
+  //    "method_name":selectMethod['name'].toString(),
+  //    "method_id":selectMethod['id'].toString()
+  //  };
+  //  print("registration body $body");
+  //  http.Response request  = await http.put(Uri.parse('http://182.156.200.177:8011/adhanapi/update-user/'),body:jsonEncode(body), headers:headers);
+  //  final data = jsonDecode(request.body);
+  //  print("registration data $data");
+  //  if(request.statusCode==200){
+  //    final userModel = UserModel.fromJson(data['user']);
+  //    await userData.addUserData(userModel);
+  //    // step.value=0;
+  //    Get.offAllNamed(AppRoutes.dashboardRoute);
+  //    print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+  //  }
+  //  else{
+  //  }
+  //  print("user register data ${request.body}");
+  // }
 
-  registerUser() async {
-   Map<String,String> headers = {
-    'Content-Type': 'application/json'
-   };
-   Map<String,dynamic> body = {
-     "user_id": userData.getUserData?.id.toString(),
-    "username": "${nameC.value.text.toString().toLowerCase().split(' ')[0]}${phoneController.value.text.toString().substring(phoneController.value.text.toString().length - 4)}",
-    "name": nameC.value.text.toString(),
-    "mobile_no": phoneController.value.text.toString(),
-    "gender": selectedGender.value.toString(),
-    // "fiqh": (selectedFiqh.value).toString(),
-    "fiqh": selectMethod['id'].toString()=='7'||selectMethod['id'].toString()=='0'?'0':'1', //0 for shia 1 for sunni
-    "times_of_prayer":selectMethod['id'].toString()=='7'? selectedPrayer.value:'5',
-     "school_of_thought": selectMethod['id'].toString(),
-     "method_name":selectMethod['name'].toString(),
-     "method_id":selectMethod['id'].toString()
-   };
-   print("registration body $body");
-   http.Response request  = await http.put(Uri.parse('http://182.156.200.177:8011/adhanapi/update-user/'),body:jsonEncode(body), headers:headers);
-   final data = jsonDecode(request.body);
-   print("registration data $data");
-   if(request.statusCode==200){
-     final userModel = UserModel.fromJson(data['user']);
-     await userData.addUserData(userModel);
-     // step.value=0;
-     Get.offAllNamed(AppRoutes.dashboardRoute);
-     print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+ Future<void> registerUser() async {
+   try {
+     // Prepare the request body
+     Map<String, dynamic> body = {
+       "user_id": userData.getUserData?.id.toString(),
+       "username": "${nameC.value.text.toLowerCase().split(' ')[0]}${phoneController.value.text.substring(phoneController.value.text.length - 4)}",
+       "name": nameC.value.text,
+       "mobile_no": phoneController.value.text,
+       "gender": selectedGender.value.toString(),
+       "fiqh": selectMethod['id'].toString() == '7' || selectMethod['id'].toString() == '0' ? '0' : '1', // 0 for Shia, 1 for Sunni
+       "times_of_prayer": selectMethod['id'].toString() == '7' ? selectedPrayer.value : '5',
+       "school_of_thought": selectMethod['id'].toString(),
+       "method_name": selectMethod['name'].toString(),
+       "method_id": selectMethod['id'].toString(),
+     };
+     print("Registration Body: $body");
+     String endpoint = 'update-user/';
+     final response = await ApiService().putRequest(endpoint, body);
+     print("Registration Response: $response");
+     // Process the response
+     if (response != null) {
+       final userModel = UserModel.fromJson(response['user']);
+       await userData.addUserData(userModel);
+       Get.offAllNamed(AppRoutes.dashboardRoute);
+       print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
+     } else {
+       print("Failed to register user. Response: $response");
+     }
+   } catch (e) {
+     print("Error occurred during user registration: $e");
+     Get.snackbar(
+       'Error!',
+       'Failed to register user. Please try again.',
+       snackPosition: SnackPosition.TOP,
+       colorText: Colors.white,
+       backgroundColor: Colors.black,
+     );
    }
-   else{
-
-   }
-   print("user register data ${request.body}");
-  }
+ }
 
  ///Firebase.
  static final FirebaseAuth _auth = FirebaseAuth.instance;
