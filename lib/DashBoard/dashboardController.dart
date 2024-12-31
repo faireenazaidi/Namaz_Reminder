@@ -672,10 +672,10 @@ RxString nextPrayerName = ''.obs;
       String tomorrowDate = getTomorrowGregorianDate();
       var nextDayData = calendarData.firstWhere(
             (element) => element['date']['gregorian']['date'] == tomorrowDate,
-        orElse: () => null,
+        orElse: () => <String, dynamic>{},
       );
 
-      if (nextDayData != null) {
+      if (nextDayData.isNotEmpty) {
         nextPrayerName.value = "Fajr";
         var nextDayFajrTiming = nextDayData['timings']['Fajr'];
         upcomingPrayerStartTime.value = convertTo12HourFormat(nextDayFajrTiming);
