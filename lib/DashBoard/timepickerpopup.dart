@@ -17,14 +17,21 @@ class TimePicker extends StatefulWidget {
   final bool? isFromMissed;
   final DateTime? missedPrayerTime;
   final Future<dynamic> Function()? missedCallBack;
-  const TimePicker({super.key, this.date, this.isFromMissed = false, this.missedCallBack, this.missedPrayerTime, this.prayerNames, this.startTime, this.endTime});
+  const TimePicker({
+    super.key, this.date,
+    this.isFromMissed = false,
+    this.missedCallBack,
+    this.missedPrayerTime,
+    this.prayerNames,
+    this.startTime,
+    this.endTime});
 
   @override
   State<TimePicker> createState() => _TimePickerState();
 }
 
 class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateMixin {
-
+  final DashBoardController controller = Get.find();
 
   bool isAm = true;
 
@@ -124,7 +131,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         maxValue: 12,
                         // itemWidth: screenWidth * 0.15,
                         // itemHeight: screenHeight * 0.12,
-                        value: dashBoardController.hour,
+                   value: dashBoardController.hour,
                         haptics: false,
                         zeroPad: true,
                         infiniteLoop: true, // Prevent going forward
@@ -288,4 +295,26 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
     },
   );
 }
-
+// void initializePickerValues() {
+//   // Parse the start time string (assumes format like "5:30 AM" or "5:30 PM")
+//   String startTime = controller.currentPrayerStartTime.value; // e.g., "5:30 AM"
+//   String endTime = controller.currentPrayerEndTime.value; // e.g., "6:45 PM"
+//
+//   List<String> startParts = startTime.split(' ');
+//   String startAmPm = startParts[1]; // "AM" or "PM"
+//   List<String> startTimeParts = startParts[0].split(':');
+//   int startHour = int.parse(startTimeParts[0]);
+//   int startMinute = int.parse(startTimeParts[1]);
+//
+//   // Adjust hour to 12-hour format
+//   if (startAmPm == "PM" && startHour != 12) {
+//     startHour += 12; // Convert PM hour to 24-hour format
+//   } else if (startAmPm == "AM" && startHour == 12) {
+//     startHour = 0; // Midnight adjustment
+//   }
+//
+//   // Set controller values
+//   controller.hour = startHour % 12 == 0 ? 12 : startHour % 12; // Convert back to 12-hour format
+//   controller.minute = startMinute;
+//   controller.isAm = startHour < 12; // Determine AM/PM based on 24-hour hour value
+// }

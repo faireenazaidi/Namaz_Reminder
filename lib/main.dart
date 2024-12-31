@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart';
 import 'package:namaz_reminders/AppManager/toast.dart';
 import 'package:namaz_reminders/DataConnection.dart';
 import 'package:namaz_reminders/Drawer/drawerController.dart';
@@ -179,15 +180,17 @@ void _handleConnectivityChange(ConnectivityResult result) {
         duration: Duration(days: 1),
       ),
     );
+
     print("No internet connection");
   } else {
-    // Dismiss the snackbar when the internet is restored
+
     if (Get.isSnackbarOpen) {
       Get.closeAllSnackbars();
     }
+     }
     print("Internet connection restored");
   }
-}
+
 
 
 // void _showRetryCancelDialog() {

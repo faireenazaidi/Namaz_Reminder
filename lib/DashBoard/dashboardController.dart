@@ -34,7 +34,8 @@ class DashBoardController extends GetxController {
   RxList<String> avatars = <String>[].obs;
   RxString location = ''.obs;
   String trackMarkPrayer = '';
-
+  var missedPrayersCount = 0.obs;
+  var pending = 0.obs;
   var selectedDate = Rx<DateTime>(DateTime.now());
   var isMute= false.obs;
   // final AudioPlayer audioPlayer = AudioPlayer();
@@ -171,6 +172,29 @@ class DashBoardController extends GetxController {
    await userData.clearPrayerTimings();
    fetchPrayerTime();
   }
+  Future<void> fetchMissedPrayersCount() async {
+    try {
+      final response = await http.get(
+        // Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=6&prayername=isha'),
+        Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${currentPrayer}')
+
+      );
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        int totalMissedPrayers = data['total_missed_prayers'] ?? 0;
+        missedPrayersCount.value = totalMissedPrayers;
+
+        print('Total Missed Prayers: ${missedPrayersCount.value}');
+        int totalPending = data['total_pending'] ?? 0;
+        pending.value = totalPending;
+        print('Pending: ${pending.value}');
+      } else {
+        print('Failed to fetch total missed prayers: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching total missed prayers: $e');
+    }
+  }
 
   @override
   void onInit() async {
@@ -178,7 +202,7 @@ class DashBoardController extends GetxController {
     fetchPrayerTimeData();
     highlightCurrentPrayer();
     userData.initializePrayerSettings();
-
+    fetchMissedPrayersCount();
   }
 
   @override
@@ -191,11 +215,11 @@ class DashBoardController extends GetxController {
     // audioPlayer.dispose();
     super.dispose();
   }
-
   @override
   void onReady() {
     super.onReady();
     get();
+
   }
 
   get() async {
@@ -783,8 +807,8 @@ RxString nextPrayerName = ''.obs;
           startTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
           endTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
 
-          // print("currentPrayerStartTime ${currentPrayerStartTime.value}");
-          // print("currentPrayerEndTime ${currentPrayerEndTime.value}");
+          print("currentPrayerStartTime ${currentPrayerStartTime.value}");
+          print("currentPrayerEndTime ${currentPrayerEndTime.value}");
           // print("now $now");
 
           // Check if the current time is in a gap (before the next prayer's start time)
@@ -1185,12 +1209,12 @@ List isPrayedList = [];
     // Parse the start and end times
     DateTime start = _parseTime(startTime, now);
     DateTime end = _parseTime(endTime, now);
-    print("xxxx $start");
-    print("xxxx $end");
+    print("00 $start");
+    print("00 $end");
 
     // Parse the tap time (in 24-hour format)
     DateTime tapEventTime = _parse24HourTime(tapTime, now);
-    print("xxxx $tapEventTime");
+    print("00 $tapEventTime");
 
     // Check if the tap event time is within or equal to the range
     return (tapEventTime.isAfter(start) || tapEventTime.isAtSameMomentAs(start)) &&

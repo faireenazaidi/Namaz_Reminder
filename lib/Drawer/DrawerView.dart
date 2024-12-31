@@ -23,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
     final MyRankController myRankController = Get.put(MyRankController());
 
     print("hlooooo");
-    print(customDrawerController.missedPrayersCount.toString(),);
+    print(dashBoardController.missedPrayersCount.toString(),);
     return SafeArea(
       top: true,
       child: Drawer(
@@ -187,7 +187,7 @@ class CustomDrawer extends StatelessWidget {
                             ),
                           Spacer(),
                             Obx((){
-                              if (customDrawerController.missedPrayersCount.value == 0) {
+                              if (dashBoardController.missedPrayersCount.value == 0) {
                                 return SizedBox();
                               }
                               return  Container(
@@ -197,7 +197,7 @@ class CustomDrawer extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  customDrawerController.missedPrayersCount.value.toString(),
+                                  dashBoardController.missedPrayersCount.value.toString(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -229,7 +229,7 @@ class CustomDrawer extends StatelessWidget {
                             ),
                             Spacer(),
                            Obx((){
-                             if (customDrawerController.pending.value == 0) {
+                             if (dashBoardController.pending.value == 0) {
                                return SizedBox();
                              }
                              return  Container(
@@ -239,7 +239,7 @@ class CustomDrawer extends StatelessWidget {
                                  borderRadius: BorderRadius.circular(12),
                                ),
                                child: Text(
-                                 customDrawerController.pending.value.toString(),
+                                 dashBoardController.pending.value.toString(),
                                  style: TextStyle(
                                    color: Colors.white,
                                    fontSize: 12,
