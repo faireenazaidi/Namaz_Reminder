@@ -455,7 +455,7 @@ class Upcoming extends GetView<UpcomingController> {
                         return Padding(
                             padding: EdgeInsets.all(8.0),
                             child:
-                            controller.currentPrayer.value != prayerName?
+                            controller.nextPrayerName != prayerName?
                             Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,

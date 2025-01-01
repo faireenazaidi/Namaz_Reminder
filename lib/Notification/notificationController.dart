@@ -49,6 +49,7 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
 import '../PeerCircle/peerController.dart';
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
@@ -64,10 +65,16 @@ class NotificationController extends GetxController {
   var isLoading = true.obs;
   UserData userData = UserData();
   final apiService = ApiService();
+
   // Getters
   List get notifications => _notifications;
+  // List<NotificationDataModal> get getNotifications => List<NotificationDataModal>.from(_notifications.map((e) => NotificationDataModal.fromJson(e)).toList());
+
+
   List get todayNotifications => _todayNotifications;
+
   List get yesterdayNotifications => _yesterdayNotifications;
+
   List get last7DaysNotifications => _last7DaysNotifications;
 
   // Setter for notifications
@@ -75,11 +82,13 @@ class NotificationController extends GetxController {
     _notifications.value = value;
     _categorizeNotifications(); // Automatically categorize when setting new data
   }
+
   @override
   void onInit() {
     super.onInit();
     fetchNotifications();
   }
+
   // Fetch notifications from API
   Future<void> fetchNotifications() async {
     // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
@@ -87,10 +96,10 @@ class NotificationController extends GetxController {
     final response = await http.get(url);
     isLoading.value = false;
     if (response.statusCode == 200) {
-      print('API Response: ${response.body}');
+      print('ResponseAPI : ${response.body}');
 
       final data = jsonDecode(response.body);
-      print("api rssss"+data.toString());
+      print("api rssss" + data.toString());
 
       // Sort by date in descending order before setting notifications
       data.sort((a, b) {
@@ -105,6 +114,7 @@ class NotificationController extends GetxController {
       // Get.snackbar('Error', 'Failed to load notifications');
     }
   }
+
   String buildFullImageUrl(String? imagePath) {
     const String baseUrl = "http://182.156.200.177:8011";
     if (imagePath == null || imagePath.startsWith('http')) {
@@ -190,121 +200,157 @@ class NotificationController extends GetxController {
   //     print("Unexpected response: $data");
   //   }
   // }
-  Future<void> acceptFriendRequest(int requestId) async {
+  acceptFriendRequest(NotificationDataModal notificationData) async {
     var headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
-
-    // Construct the request body
-    var requestBody = json.encode({
-      "sender_id": requestId,
-      "user_id": userData.getUserData!.id.toString(), // Ensure you have the user ID
-    });
-
-    // Make the POST request
     try {
-      final response = await http.post(
-        Uri.parse('http://182.156.200.177:8011/adhanapi/accept-friend-request/'),
-        headers: headers,
-        body: requestBody,
-      );
+      var request = http.Request('POST', Uri.parse(
+          'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
+      request.body = json.encode({
+        "request_id": notificationData.userId.toString(),
+        "user_id": userData.getUserData!.id.toString(),
+      });
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
 
-      // Check the response status
-      if (response.statusCode == 200) {
-        // Successfully accepted the friend request
-        var responseData = jsonDecode(response.body);
-        print("Friend request accepted: $responseData");
-        // Optionally, update the UI or state here
-      } else {
-        // Handle error response
-        print("Failed to accept friend request: ${response.reasonPhrase}");
+      if(response.statusCode==200){
+      var data = jsonDecode(await response.stream.bytesToString());
+       print("Friend Request Accepted $data");
+       notificationData.readStatus;
+      _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
+       update();
+     }
+      else {
+        print("Failed to remove notification: ${response.reasonPhrase}");
       }
-    } catch (e) {
-      print("Error accepting friend request: $e");
+    }
+    catch(ex){
+      print("Error: $ex");
     }
   }
-}
-
-
   ///DECLINE REQUEST
-  // declineRequest(int id) async {
-  //   var headers = {
-  //     'Content-Type': 'application/json'
-  //   };
-  //   var request = http.Request('POST', Uri.parse(
-  //       'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
-  //   request.body = json.encode({
-  //     "user_id": userData.getUserData!.id.toString(),
-  //     "request_id":id,
-  //   });
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //   String responseBody = await response.stream.bytesToString();
-  //
-  //   print("Response Status: ${response.statusCode}");
-  //   print("Response Body: $responseBody");
-  //
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(responseBody);
-  //     print("Decoded Data: $data");
-  //     // Optionally, update the UI or state here
-  //   } else {
-  //     print("Error: ${response.reasonPhrase}");
-  //   }
-  // }
-
+  declineRequest(NotificationDataModal notificationData) async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    try{
+    var request = http.Request('POST', Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
+    request.body = json.encode({
+      "user_id": userData.getUserData!.id.toString(),
+      "request_id": notificationData.userId.toString(),
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if(response.statusCode==200) {
+      var data = jsonDecode(await response.stream.bytesToString());
+      print("Friend Request Decline $data");
+      notificationData.readStatus = true;
+      _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
+    }
+  }
+    catch(ex) {
+      print("Error: $ex");
+    }
+  }
   ///Remove Accepted and decline rqwst from view
 
-  // Future<void> removeNotification(int id, String type) async {
-  //   var headers = {'Content-Type': 'application/json'};
-  //   var request = http.Request(
-  //     'POST',
-  //     Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/'),
-  //   );
-  //
-  //   request.body = json.encode({
-  //     "id": id,
-  //     "type": "friend_request",
-  //   });
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //   String responseBody = await response.stream.bytesToString();
-  //
-  //   // Log the response
-  //   print("Remove Notification Response Status: ${response.statusCode}");
-  //   print("Remove Notification Response Body: $responseBody");
-  //
-  //   if (response.statusCode == 200) {
-  //     print("Notification removed successfully.");
-  //   } else {
-  //     print("Failed to remove notification: ${response.reasonPhrase}");
-  //   }
-  // }
-  Future<void> removeNotification(int notificationId, String type, bool isRead) async {
+  Future<void> removeNotification(int id, String type) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
-      'DELETE',
+      'POST',
       Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/'),
     );
 
     request.body = json.encode({
-      "id": notificationId,
-      "type": type,
-      "is_read": isRead,
+      "id": id,
+      "type": "friend_request",
     });
     request.headers.addAll(headers);
 
-    try {
-      http.StreamedResponse response = await request.send();
-      String responseBody = await response.stream.bytesToString();
-      if (response.statusCode == 200) {
-        print("Notification removed successfully.");
-      } else {
-        print("Failed to remove notification: ${response.reasonPhrase}");
-      }
-    } catch (e) {
-      print("Error: $e");
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+
+    // Log the response
+    print("Remove Notification Response Status: ${response.statusCode}");
+    print("Remove Notification Response Body: $responseBody");
+
+    if (response.statusCode == 200) {
+      print("Notification removed successfully.");
+    } else {
+      print("Failed to remove notification: ${response.reasonPhrase}");
     }
   }
+  // Future<void> readNotificationMessage(NotificationDataModal notificationData) async {
+  //   var headers = {'Content-Type': 'application/json'};
+  //   final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+  //
+  //
+  //   var request = http.Request('PUT', Uri.parse(url.toString()));
+  //   request.body = json.encode({
+  //     "id": notificationData.notificationId,
+  //     "type": "friend_request_acc",
+  //     "is_read":notificationData.readStatus,
+  //   });
+  //   request.headers.addAll(headers);
+  //
+  //   http.StreamedResponse response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //     print(await response.stream.bytesToString());
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  //
+  //   // // Create the body for the request
+  //   // final requestBody = json.encode({
+  //   //   "id": notificationData.notificationId,
+  //   //   "type": "friend_request_acc",
+  //   //   "is_read": notificationData.readStatus,
+  //   // });
+  //   //
+  //   // try {
+  //   //   final response = await http.put(
+  //   //     url,
+  //   //     headers: headers,
+  //   //     body: requestBody,
+  //   //   );
+  //
+  //   //   if (response.statusCode == 200) {
+  //   //
+  //   //     print("Notification removed successfully.");
+  //   //   } else {
+  //   //     print("Failed to remove notification: ${response.reasonPhrase}");
+  //   //   }
+  //   // } catch (e) {
+  //   //   print("Error: $e");
+  //   // }
+  // }
+
+
+  readNotificationMessage(String notificationId) async{
+    print("NotificationId"+notificationId);
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('PUT', Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/'));
+    request.body = json.encode({
+      "id": notificationId,
+      "type": "friend_request_acc",
+      "is_read": false
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
+  }
+}

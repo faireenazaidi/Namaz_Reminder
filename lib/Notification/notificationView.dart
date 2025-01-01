@@ -111,7 +111,10 @@ import 'notificationController.dart';
 class NotificationView extends  GetView<NotificationController> {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,) {
+    NotificationDataModal notificationData = NotificationDataModal(
+      // Add other properties as needed
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -147,38 +150,35 @@ class NotificationView extends  GetView<NotificationController> {
         ],
       ),
       body:
-
       Obx(() {
-        // Check if all categories are empty
-        bool isAllEmpty = controller.todayNotifications.isEmpty &&
-            controller.yesterdayNotifications.isEmpty &&
-            controller.last7DaysNotifications.isEmpty;
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
+      // Check if all categories are empty
+      if (controller.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      }
+      bool isAllEmpty = controller.todayNotifications.isEmpty &&
+          controller.yesterdayNotifications.isEmpty &&
+          controller.last7DaysNotifications.isEmpty;
 
-        return isAllEmpty
-            ?  Column(
-          children: [
-            const SizedBox(height: 100,),
-            Image.asset("assets/notifi.gif",),
-            Text("No notifications yet",style: MyTextTheme.B,),
-            Text("Your notification will appear here\n once you received them.",style: MyTextTheme.mediumBCb,)
-          ],
-        )
-
-            : ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: [
-            buildCategory('Today', controller.todayNotifications),
-            buildCategory('Yesterday', controller.yesterdayNotifications),
-            buildCategory('Last 7 Days', controller.last7DaysNotifications)
-          ],
-        );
-      }),
+      return isAllEmpty
+          ?  Column(
+        children: [
+          const SizedBox(height: 100,),
+          Image.asset("assets/notifi.gif",),
+          Text("No notifications yet",style: MyTextTheme.B,),
+          Text("Your notification will appear here\n once you received them.",style: MyTextTheme.mediumBCb,)
+        ],
+      )
+          : ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        children: [
+          buildCategory('Today', controller.todayNotifications),
+          buildCategory('Yesterday', controller.yesterdayNotifications),
+          buildCategory('Last 7 Days', controller.last7DaysNotifications)
+        ],
+      );
+              }),
     );
   }
-
   Widget buildCategory(String title, List<dynamic> notifications) {
     if (notifications.isEmpty) return const SizedBox.shrink();
 
@@ -195,123 +195,270 @@ class NotificationView extends  GetView<NotificationController> {
         ),
 
         // List of notifications
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: notifications.length,
-          itemBuilder: (context, index) {
-            var notification = notifications[index];
-            var notificationDate = DateTime.parse(notification['created_at']);
-            FriendRequestDataModal friendRequestData = FriendRequestDataModal(
-              id: notification['sender_id'],
-            );
-            // Notification tile
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-              child: Column(
-                children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    leading: CircleAvatar(
-                      radius: 22,
-                      backgroundImage: notification['sender_image'] != null &&
-                          notification['sender_image'].isNotEmpty
-                          ? NetworkImage(
-                        controller.buildFullImageUrl(notification['sender_image']),
-                      )
-                          : null,
-                      backgroundColor: notification['sender_image'] == null ||
-                          notification['sender_image'].isEmpty
-                          ? AppColor.circleIndicator
-                          : null,
-                      child: notification['sender_image'] == null ||
-                          notification['sender_image'].isEmpty
-                          ? const Icon(Icons.person, size: 20, color: Colors.white)
-                          : null,
-                    ),
-                    title: Text(
-                      notification['message'],
-                      style: MyTextTheme.smallBCn,
-                    ),
-                    subtitle: Text(
-                      _timeAgo(notificationDate),
-                      style: const TextStyle(color: Colors.grey, fontSize: 12),
-                    ),
+        // ListView.builder(
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   shrinkWrap: true,
+        //   itemCount: notifications.length,
+        //   itemBuilder: (context, index) {
+        //     var notification = notifications[index];
+        //     var notificationDate = DateTime.parse(notification['created_at']);
+        //     NotificationDataModal notificationData = NotificationDataModal(
+        //       userId: notification['request_id']?.toString(),
+        //       // Add other properties as needed
+        //     );
+        //     // Notification tile
+        //     return Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+        //       child: Column(
+        //         children: [
+        //           ListTile(
+        //             contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+        //             leading: CircleAvatar(
+        //               radius: 22,
+        //               backgroundImage: notification['sender_image'] != null &&
+        //                   notification['sender_image'].isNotEmpty
+        //                   ? NetworkImage(
+        //                 controller.buildFullImageUrl(notification['sender_image']),
+        //               )
+        //                   : null,
+        //               backgroundColor: notification['sender_image'] == null ||
+        //                   notification['sender_image'].isEmpty
+        //                   ? AppColor.circleIndicator
+        //                   : null,
+        //               child: notification['sender_image'] == null ||
+        //                   notification['sender_image'].isEmpty
+        //                   ? const Icon(Icons.person, size: 20, color: Colors.white)
+        //                   : null,
+        //             ),
+        //             title: Text(
+        //               notification['message'],
+        //               style: MyTextTheme.smallBCn,
+        //             ),
+        //             subtitle: Text(
+        //               _timeAgo(notificationDate),
+        //               style: const TextStyle(color: Colors.grey, fontSize: 12),
+        //             ),
+        //           ),
+        //
+        //           // Action buttons for friend requests
+        //          // if (notification['type'] == 'friend_request')
+        //          //    Visibility(
+        //          //      visible:  notification['type']=='friend_request_acc',
+        //          //      child: Row(
+        //          //        mainAxisAlignment: MainAxisAlignment.center,
+        //          //        children: [
+        //          //          ElevatedButton(
+        //          //            onPressed: () async {
+        //          //              try {
+        //          //                // Accept the friend request
+        //          //                await controller.acceptFriendRequest(notificationData);
+        //          //                await controller.readNotificationMessage(notificationData) ;
+        //          //             //   await controller.removeNotification(notificationData);
+        //          //
+        //          //                print('Friend request accepted and notification removed successfully.');
+        //          //              } catch (e) {
+        //          //                print('Error: $e');
+        //          //              }
+        //          //            },
+        //          //            style: ElevatedButton.styleFrom(
+        //          //              backgroundColor: AppColor.circleIndicator,
+        //          //              minimumSize: const Size(70, 30),
+        //          //            ),
+        //          //            child: const Text(
+        //          //              'Accept',
+        //          //              style: TextStyle(fontSize: 12, color: Colors.white),
+        //          //            ),
+        //          //          ),
+        //          //
+        //          //          const SizedBox(width: 8),
+        //          //          ElevatedButton(
+        //          //            onPressed: () async {
+        //          //              await controller.declineRequest(notificationData);
+        //          //              controller.update();
+        //          //            },
+        //          //            style: ElevatedButton.styleFrom(
+        //          //              backgroundColor: AppColor.circleIndicator,
+        //          //              minimumSize: const Size(70, 30),
+        //          //            ),
+        //          //            child: const Text('Decline', style: TextStyle(fontSize: 12, color: Colors.white)),
+        //          //          ),
+        //          //        ],
+        //          //      ),
+        //          //    ),
+        //           Visibility(
+        //             visible: notification['type'] == 'friend_request',
+        //             child: Row(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 ElevatedButton(
+        //                   onPressed: () async {
+        //                     try {
+        //                       await controller.acceptFriendRequest(notificationData);
+        //                       notification['type'] = 'friend_request_acc';
+        //
+        //
+        //                       print('Friend request accepted and buttons hidden successfully.');
+        //                     } catch (e) {
+        //                       print('Error: $e');
+        //                     }
+        //                   },
+        //                   style: ElevatedButton.styleFrom(
+        //                     backgroundColor: AppColor.circleIndicator,
+        //                     minimumSize: const Size(70, 30),
+        //                   ),
+        //                   child: const Text(
+        //                     'Accept',
+        //                     style: TextStyle(fontSize: 12, color: Colors.white),
+        //                   ),
+        //                 ),
+        //                 const SizedBox(width: 8),
+        //                 ElevatedButton(
+        //                   onPressed: () async {
+        //                     try {
+        //                       await controller.declineRequest(notificationData);
+        //
+        //                       notification['type'] = 'friend_request_declined';
+        //
+        //                       print('Friend request declined and buttons hidden successfully.');
+        //                     } catch (e) {
+        //                       print('Error: $e');
+        //                     }
+        //                   },
+        //                   style: ElevatedButton.styleFrom(
+        //                     backgroundColor: AppColor.circleIndicator,
+        //                     minimumSize: const Size(70, 30),
+        //                   ),
+        //                   child: const Text(
+        //                     'Decline',
+        //                     style: TextStyle(fontSize: 12, color: Colors.white),
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     );
+        //   },
+        // ),
+        GetBuilder<NotificationController>(
+          builder: (controller) {
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: controller.notifications.length,
+              itemBuilder: (context, index) {
+                var notification = controller.notifications[index];
+                var notificationDate = DateTime.parse(notification['created_at']);
+                NotificationDataModal notificationData = NotificationDataModal(
+                  userId: notification['request_id']?.toString(),
+                  // Add other properties as needed
+                );
+
+                // Notification tile
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: (notification['is_read'] as bool?) == true
+                            ? Colors.red[200]
+                            : Colors.grey.shade100,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          leading: CircleAvatar(
+                            radius: 22,
+                            backgroundImage: notification['sender_image'] != null &&
+                                notification['sender_image'].isNotEmpty
+                                ? NetworkImage(
+                              controller.buildFullImageUrl(notification['sender_image']),
+                            )
+                                : null,
+                            backgroundColor: notification['sender_image'] == null ||
+                                notification['sender_image'].isEmpty
+                                ? AppColor.circleIndicator
+                                : null,
+                            child: notification['sender_image'] == null ||
+                                notification['sender_image'].isEmpty
+                                ? const Icon(Icons.person, size: 20, color: Colors.white)
+                                : null,
+                          ),
+                          title: Text(
+                            notification['message'],
+                            style: MyTextTheme.smallBCn,
+                          ),
+                          subtitle: Text(
+                            _timeAgo(notificationDate),
+                            style: const TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ),
+                      ),
+
+                      // Action buttons for friend requests
+                      Visibility(
+                        visible: notification['type'] == 'friend_request',
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  await controller.acceptFriendRequest(notificationData);
+                                  // Update the type and refresh UI
+                                  notification['type'] = 'friend_request_acc';
+                                   controller.update();
+                                  await controller.readNotificationMessage(controller.notifications[index]['id'].toString());
+                                  print("sssssssssssssss "+controller.notifications[index]['id'].toString());
+                                  print('Friend request accepted and buttons hidden successfully.');
+                                } catch (e) {
+                                  print('Error: $e');
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.circleIndicator,
+                                minimumSize: const Size(70, 30),
+                              ),
+                              child: const Text(
+                                'Accept',
+                                style: TextStyle(fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  await controller.declineRequest(notificationData);
+                                  // Update the type and refresh UI
+                                  notification['type'] = 'friend_request_declined';
+                                  controller.update();
+                                  await controller.readNotificationMessage(controller.notifications[index]['id'].toString());
+                                  print("sssssssssssssss "+controller.notifications[index]['id'].toString());
+                                  print('Friend request declined and buttons hidden successfully.');
+                                } catch (e) {
+                                  print('Error: $e');
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.circleIndicator,
+                                minimumSize: const Size(70, 30),
+                              ),
+                              child: const Text(
+                                'Decline',
+                                style: TextStyle(fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-
-                  // Action buttons for friend requests
-                  if (notification['type'] == 'friend_request')
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // ElevatedButton(
-                        //   onPressed: () async {
-                        //     try {
-                        //       // Replace with actual IDs
-                        //
-                        //       String type ="friend_request";
-                        //
-                        //       // Accept the friend request
-                        //       await controller.acceptFriendRequest(notification['id']);
-                        //       // Remove the notification
-                        //   //  await controller.removeNotification(notification['id'],type,isRead);
-                        //       print('Friend request accepted and notification removed successfully.');
-                        //     } catch (e) {
-                        //       print('Error: $e');
-                        //     }
-                        //   },
-                        //   style: ElevatedButton.styleFrom(
-                        //     backgroundColor: AppColor.circleIndicator,
-                        //     minimumSize: const Size(70, 30),
-                        //   ),
-                        //   child: const Text(
-                        //     'Accept',
-                        //     style: TextStyle(fontSize: 12, color: Colors.white),
-                        //   ),
-                        // ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            try {
-                              // Accept the friend request
-                              await controller.acceptFriendRequest(notification['id']);
-
-                              // Remove the notification after accepting
-                             // await controller.removeNotification(notification['id'], "friend_request", true);
-
-                              print('Friend request accepted and notification removed successfully.');
-                            } catch (e) {
-                              print('Error: $e');
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.circleIndicator,
-                            minimumSize: const Size(70, 30),
-                          ),
-                          child: const Text(
-                            'Accept',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          ),
-                        ),
-
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () async {
-                          //  await controller.declineRequest(notification);
-                            controller.update();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.circleIndicator,
-                            minimumSize: const Size(70, 30),
-                          ),
-                          child: const Text('Decline', style: TextStyle(fontSize: 12, color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
+                );
+              },
             );
           },
         ),
+
+
       ],
     );
   }
