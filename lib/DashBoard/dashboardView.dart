@@ -34,6 +34,8 @@ class DashBoardView extends GetView<DashBoardController> {
                 (f) => f.name.startsWith('animations/') && f.name.endsWith('.json'));
       });
     }
+    print(controller.upcomingPrayerStartTime);
+    print("jjj");
     return DoubleBack(
       message: "Press again to exit!",
       child: Container(

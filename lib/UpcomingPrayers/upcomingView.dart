@@ -368,8 +368,8 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                       Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
-                                     // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.medium),
+                                      // Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                      Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.medium),
                                        // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
@@ -455,7 +455,7 @@ class Upcoming extends GetView<UpcomingController> {
                         return Padding(
                             padding: EdgeInsets.all(8.0),
                             child:
-                            controller.nextPrayerName.value != prayerName?
+                            controller.currentPrayer.value != prayerName?
                             Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
@@ -469,7 +469,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(prayerName, style: MyTextTheme.medium),
+                                      Text(prayerName, style: MyTextTheme.medium),
                                         // if (!isSpecialPrayer)
                                         //   InkWell(
                                         //     onTap: () {
@@ -492,7 +492,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       children: [
                                         Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                        if (!sun) Text('Ends at', style: MyTextTheme.smallGCN),
+                                        if (!isSpecialPrayer) Text('Ends at', style: MyTextTheme.smallGCN),
                                       ],
                                     ),
                                     Row(

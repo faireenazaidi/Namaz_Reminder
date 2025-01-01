@@ -49,7 +49,6 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
 import '../PeerCircle/peerController.dart';
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
@@ -191,64 +190,69 @@ class NotificationController extends GetxController {
   //     print("Unexpected response: $data");
   //   }
   // }
-  acceptFriendRequest(int id) async {
+  Future<void> acceptFriendRequest(int requestId) async {
     var headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
-    var request = http.Request('POST', Uri.parse(
-        'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
-    // Log the request data
-    print("Sending User ID: ${userData.getUserData!.id}");
-    request.body = json.encode({
-      "request_id": id,
-      "user_id": userData.getUserData!.id.toString(),
+
+    // Construct the request body
+    var requestBody = json.encode({
+      "sender_id": requestId,
+      "user_id": userData.getUserData!.id.toString(), // Ensure you have the user ID
     });
-    request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-    String responseBody = await response.stream.bytesToString();
+    // Make the POST request
+    try {
+      final response = await http.post(
+        Uri.parse('http://182.156.200.177:8011/adhanapi/accept-friend-request/'),
+        headers: headers,
+        body: requestBody,
+      );
 
-    // Log the response
-    print("Response Status: ${response.statusCode}");
-    print("Response Body: $responseBody");
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(responseBody);
-      print("Decoded Data: $data");
-      // Optionally, update the UI or state here
-    } else {
-      print("Error: ${response.reasonPhrase}");
+      // Check the response status
+      if (response.statusCode == 200) {
+        // Successfully accepted the friend request
+        var responseData = jsonDecode(response.body);
+        print("Friend request accepted: $responseData");
+        // Optionally, update the UI or state here
+      } else {
+        // Handle error response
+        print("Failed to accept friend request: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      print("Error accepting friend request: $e");
     }
   }
+}
 
 
   ///DECLINE REQUEST
-  declineRequest(int id) async {
-    var headers = {
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse(
-        'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
-    request.body = json.encode({
-      "user_id": userData.getUserData!.id.toString(),
-      "request_id":id,
-    });
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-    String responseBody = await response.stream.bytesToString();
-
-    print("Response Status: ${response.statusCode}");
-    print("Response Body: $responseBody");
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(responseBody);
-      print("Decoded Data: $data");
-      // Optionally, update the UI or state here
-    } else {
-      print("Error: ${response.reasonPhrase}");
-    }
-  }
+  // declineRequest(int id) async {
+  //   var headers = {
+  //     'Content-Type': 'application/json'
+  //   };
+  //   var request = http.Request('POST', Uri.parse(
+  //       'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
+  //   request.body = json.encode({
+  //     "user_id": userData.getUserData!.id.toString(),
+  //     "request_id":id,
+  //   });
+  //   request.headers.addAll(headers);
+  //
+  //   http.StreamedResponse response = await request.send();
+  //   String responseBody = await response.stream.bytesToString();
+  //
+  //   print("Response Status: ${response.statusCode}");
+  //   print("Response Body: $responseBody");
+  //
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(responseBody);
+  //     print("Decoded Data: $data");
+  //     // Optionally, update the UI or state here
+  //   } else {
+  //     print("Error: ${response.reasonPhrase}");
+  //   }
+  // }
 
   ///Remove Accepted and decline rqwst from view
 
@@ -278,16 +282,16 @@ class NotificationController extends GetxController {
   //     print("Failed to remove notification: ${response.reasonPhrase}");
   //   }
   // }
-  Future<void> removeNotification(int notificationId, String type,bool isRead ) async {
+  Future<void> removeNotification(int notificationId, String type, bool isRead) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
       'DELETE',
-      Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/'), // Adjust the endpoint as needed
+      Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/'),
     );
 
     request.body = json.encode({
       "id": notificationId,
-      "type": "friend_request",
+      "type": type,
       "is_read": isRead,
     });
     request.headers.addAll(headers);
@@ -304,4 +308,3 @@ class NotificationController extends GetxController {
       print("Error: $e");
     }
   }
-}

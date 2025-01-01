@@ -110,8 +110,6 @@ import 'notificationController.dart';
 
 class NotificationView extends  GetView<NotificationController> {
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,17 +244,40 @@ class NotificationView extends  GetView<NotificationController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // ElevatedButton(
+                        //   onPressed: () async {
+                        //     try {
+                        //       // Replace with actual IDs
+                        //
+                        //       String type ="friend_request";
+                        //
+                        //       // Accept the friend request
+                        //       await controller.acceptFriendRequest(notification['id']);
+                        //       // Remove the notification
+                        //   //  await controller.removeNotification(notification['id'],type,isRead);
+                        //       print('Friend request accepted and notification removed successfully.');
+                        //     } catch (e) {
+                        //       print('Error: $e');
+                        //     }
+                        //   },
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: AppColor.circleIndicator,
+                        //     minimumSize: const Size(70, 30),
+                        //   ),
+                        //   child: const Text(
+                        //     'Accept',
+                        //     style: TextStyle(fontSize: 12, color: Colors.white),
+                        //   ),
+                        // ),
                         ElevatedButton(
                           onPressed: () async {
                             try {
-                              // Replace with actual IDs
-
-                              String type ="friend_request";
-
                               // Accept the friend request
                               await controller.acceptFriendRequest(notification['id']);
-                              // Remove the notification
-                          //  await controller.removeNotification(notification['id'],type,isRead);
+
+                              // Remove the notification after accepting
+                             // await controller.removeNotification(notification['id'], "friend_request", true);
+
                               print('Friend request accepted and notification removed successfully.');
                             } catch (e) {
                               print('Error: $e');
@@ -275,7 +296,7 @@ class NotificationView extends  GetView<NotificationController> {
                         const SizedBox(width: 8),
                         ElevatedButton(
                           onPressed: () async {
-                            await controller.declineRequest(notification);
+                          //  await controller.declineRequest(notification);
                             controller.update();
                           },
                           style: ElevatedButton.styleFrom(
