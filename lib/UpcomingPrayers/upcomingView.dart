@@ -368,7 +368,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                      // Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
+                                       //Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
                                       Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.medium),
                                        // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
@@ -455,7 +455,8 @@ class Upcoming extends GetView<UpcomingController> {
                         return Padding(
                             padding: EdgeInsets.all(8.0),
                             child:
-                            controller.nextPrayerName != prayerName?
+                           //controller.nextPrayerName != prayerName?
+                           prayerName != controller.nextPrayerName?
                             Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
@@ -508,7 +509,8 @@ class Upcoming extends GetView<UpcomingController> {
                                 ),
                               ),
                             ):
-                           null
+                                 null,
+
                         );
                       }
                       return SizedBox.shrink();

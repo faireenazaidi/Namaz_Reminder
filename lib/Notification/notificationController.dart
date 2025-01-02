@@ -80,7 +80,7 @@ class NotificationController extends GetxController {
   // Setter for notifications
   set notifications(List value) {
     _notifications.value = value;
-    _categorizeNotifications(); // Automatically categorize when setting new data
+    _categorizeNotifications();
   }
 
   @override
@@ -114,6 +114,16 @@ class NotificationController extends GetxController {
       // Get.snackbar('Error', 'Failed to load notifications');
     }
   }
+
+  // Method to mark notification as read
+  void markAsRead(String notificationId) {
+  var notification = notifications.firstWhere((n) => n['id'] == notificationId);
+  if (notification != null) {
+  notification['is_read'] = true;
+  update();
+  }
+  }
+
 
   String buildFullImageUrl(String? imagePath) {
     const String baseUrl = "http://182.156.200.177:8011";
