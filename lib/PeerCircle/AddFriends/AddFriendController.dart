@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../../Services/ApiService/api_service.dart';
 import '../peerController.dart';
@@ -8,6 +9,8 @@ import 'AddFriendDataModal.dart';
 
 class AddFriendController extends GetxController {
   final PeerController peerController = Get.find<PeerController>();
+  final DashBoardController dashBoardController = Get.find<DashBoardController>();
+
   late RegisteredUserDataModal currentUser;
   var requests = <Person>[].obs;
   var contacts = <Person>[].obs;
@@ -211,7 +214,7 @@ class AddFriendController extends GetxController {
      fetchFriendRequests();
     update();
    peerController.friendship();
-
+    dashBoardController.fetchMissedPrayersCount();
   }
 
 

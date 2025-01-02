@@ -415,7 +415,7 @@ class PrayerRanking extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: CircleAvatar(
-                    radius: 22,
+                    radius: 20,
                     backgroundImage: NetworkImage(
                       "http://182.156.200.177:8011${user.user.picture}",
                     ),

@@ -1,6 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:namaz_reminders/DashBoard/dashboardController.dart';
+import 'package:namaz_reminders/Notification/notificationController.dart';
+import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../../Routes/approutes.dart';
 import 'AddFriendController.dart';
@@ -14,6 +17,8 @@ class AddFriendView extends GetView<AddFriendController> {
 
   @override
   Widget build(BuildContext context) {
+    final NotificationController notificationController = Get.put(NotificationController());
+    final DashBoardController dashBoardController = Get.find<DashBoardController>();
 
     String capitalizeFirstLetter(String name) {
       if (name.isEmpty) return name;
@@ -193,7 +198,9 @@ class AddFriendView extends GetView<AddFriendController> {
                                           InkWell(
                                             onTap: () async {
                                               await controller.acceptFriendRequest(friendRequestData);
+                                              await notificationController.readNotificationMessage(notificationController.notifications[index]['id'].toString());
                                               // peerController.friendshipList.toString();
+                                              await  dashBoardController.pending.value.toString();
                                             },
                                             child: Container(
                                               height: MediaQuery.of(context).size.height * 0.04,

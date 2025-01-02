@@ -116,13 +116,13 @@ class NotificationController extends GetxController {
   }
 
   // Method to mark notification as read
-  void markAsRead(String notificationId) {
-  var notification = notifications.firstWhere((n) => n['id'] == notificationId);
-  if (notification != null) {
-  notification['is_read'] = true;
-  update();
-  }
-  }
+  // void markAsRead(String notificationId) {
+  // var notification = notifications.firstWhere((n) => n['id'] == notificationId);
+  // if (notification != null) {
+  // notification['is_read'] = true;
+  // update();
+  // }
+  // }
 
 
   String buildFullImageUrl(String? imagePath) {

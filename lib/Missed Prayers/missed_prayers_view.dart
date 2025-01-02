@@ -1964,6 +1964,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                               return controller
                                                                                     .weeklyApi(
                                                                                     date);
+
                                                                             },);
                                                                         },
                                                                       );
@@ -1976,6 +1977,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       date,
                                                                       record.prayerName,
                                                                       context);
+
                                                                 }
                                                               }
                                                             },

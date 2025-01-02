@@ -370,8 +370,8 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(controller.nextPrayer.value, style: MyTextTheme.medium),
-                                        // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
+                                        //Text(controller.nextPrayer.value, style: MyTextTheme.medium),
+                                        Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
                                           child: Icon(Icons.more_horiz),
@@ -450,11 +450,12 @@ class Upcoming extends GetView<UpcomingController> {
 
                         String specialText = isSpecialPrayer ? "Prohibited to pray" : "";
                         bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
-                        print("IIII"+controller.nextPrayer.value);
+                        print("IIII"+controller.currentPrayer.value);
+
 
                         return Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: controller.nextPrayer.value != prayerName?
+                            child: controller.nextPrayerName.value != prayerName?
                             Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,

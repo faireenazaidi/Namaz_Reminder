@@ -170,10 +170,13 @@ String formatDate = getFormattedDate();
       weeklyMissedPrayer.value = groupByDate(recordsList);
       update();
       print("WeeklyApi data check:$weeklyRanked");
+      // dashboardController.missedPrayersCount.value;
+      // update();
     }
     else {
     print(response.reasonPhrase);
     }
+
   }
 
   final List<String> prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
@@ -253,6 +256,7 @@ String formatDate = getFormattedDate();
         },
       );
     }
+
   }
 
 
