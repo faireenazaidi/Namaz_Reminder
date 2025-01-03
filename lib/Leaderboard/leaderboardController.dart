@@ -48,7 +48,6 @@ class LeaderBoardController extends GetxController{
 
   RxString islamicDate = ''.obs;
   String getFormattedDate({int? daysBefore}) {
-    // Get the current date and format it
     DateTime now = DateTime.now().subtract(Duration(days: daysBefore??0));
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
     print("formattedDate$formattedDate");
@@ -101,28 +100,50 @@ class LeaderBoardController extends GetxController{
   }
 
 
-  leaderboard(formattedDate) async{
-    print(getFormattedDate);
-String formatDate = getFormattedDate();
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+  // leaderboard(formattedDate) async{
+  //   print("kjosd");
+  //   print(getFormattedDate);
+  //   String formatDate = getFormattedDate();
+  //   var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response-friend/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+  //
+  //   http.StreamedResponse response = await request.send();
+  //   print(request.url);
+  //
+  //   if (response.statusCode == 200) {
+  //    // print(await response.stream.bytesToString());
+  //     var decodeData = jsonDecode(await response.stream.bytesToString());
+  //     print("decodeData $decodeData");
+  //     // updateLeaderboardList = decodeData;
+  //     getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
+  //     print("getLeaderboardList $getLeaderboardList");
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
+    leaderboard(formattedDate) async {
+    try {
+      print("Fetching leaderboard data...");
+      final userId = userData.getUserData!.id;
+      final endpoint = 'prayer-response-friend/?user_id=$userId&date=$formattedDate';
 
+      // Fetch data using ApiService
+      final response = await ApiService().getRequest(endpoint);
 
-    http.StreamedResponse response = await request.send();
-    print(request.url);
-
-    if (response.statusCode == 200) {
-     // print(await response.stream.bytesToString());
-      var decodeData = jsonDecode(await response.stream.bytesToString());
-      print("decodeData $decodeData");
-      // updateLeaderboardList = decodeData;
-      getLeaderboardList.value= LeaderboardDataModal.fromJson(decodeData);
-      print("getLeaderboardList $getLeaderboardList");
-      // print("@@@@@@@@@@@@ "+getLeaderboardList.toString());
+      // Handle response and update leaderboard data
+      if (response != null) {
+        print("Response: $response");
+        getLeaderboardList.value = LeaderboardDataModal.fromJson(response);
+        recordsList.clear();
+        if (getLeaderboardList.value?.records != null) {
+          recordsList.addAll(getLeaderboardList.value!.records!);
+        print("eeeeee $response");
+        }
+        print("Updated leaderboard list: $recordsList");
+      }
+    } catch (e) {
+      print("Error fetching leaderboard data: $e");
     }
-    else {
-      print(response.reasonPhrase);
-    }
-
   }
 
   Map<String,dynamic> leaderboardList = {};
@@ -145,34 +166,64 @@ String formatDate = getFormattedDate();
     return double.parse(val[0]['percentage'].toStringAsFixed(2));
   }
 
+  // weeklyApi(String formattedDate) async {
+  //   String formatDate = getFormattedDate();
+  //   var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+  //
+  //   http.StreamedResponse response = await request.send();
+  //   print("URL ${request.url.toString()}");
+  //
+  //   if (response.statusCode == 200) {
+  //    // print(await response.stream.bytesToString());
+  //     var data = jsonDecode(await response.stream.bytesToString());
+  //     print("weekly baqar ${data['ranked_friends']}");
+  //     if(data['ranked_friends'].isNotEmpty){
+  //       // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
+  //     }
+  //     height.value= sizedBoxHeight(data['ranked_friends']);
+  //     weeklyRanked.value = data['ranked_friends'];
+  //     print("decodeData $data");
+  //     // updateLeaderboardList = decodeData;
+  //     List recordData= data['records'];
+  //     recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
+  //     print("recordList $recordsList");
+  //     weeklyMissedPrayer.value = groupByDate(recordsList);
+  //     update();
+  //     print("WeeklyApi data check:$weeklyRanked");
+  //     // dashboardController.missedPrayersCount.value;
+  //     // update();
+  //   }
+  //   else {
+  //   print(response.reasonPhrase);
+  //   }
+  // }
   weeklyApi(String formattedDate) async {
-    String formatDate = getFormattedDate();
+    try {
+      print("Fetching weekly API data...");
+      final userId = userData.getUserData!.id;
+      final endpoint = 'friend-weekly-prayer-response/?user_id=$userId&date=$formattedDate';
+      final response = await ApiService().getRequest(endpoint);
 
-    var request = http.Request('GET', Uri.parse('http://182.156.200.177:8011/adhanapi/friend-weekly-prayer-response/?user_id=${userData.getUserData!.id}&date=$formattedDate'));
+      if (response != null) {
+        print("Response: $response");
+        // Parse and handle the ranked friends
+        if (response['ranked_friends'].isNotEmpty) {
+          height.value = sizedBoxHeight(response['ranked_friends']);
+          weeklyRanked.value = response['ranked_friends'];
+          print("Weekly ranked friends: ${weeklyRanked.value}");
+        }
+        // Parse and handle the records
+        List recordData = response['records'];
+        recordsList = recordData.map((e) => Record.fromJson(e)).toList();
+        print("Parsed records list: $recordsList");
 
-    http.StreamedResponse response = await request.send();
-    print("URL ${request.url.toString()}");
-
-    if (response.statusCode == 200) {
-     // print(await response.stream.bytesToString());
-      var data = jsonDecode(await response.stream.bytesToString());
-      print("weekly baqar ${data['ranked_friends']}");
-      if(data['ranked_friends'].isNotEmpty){
-        // height.value= double.parse(data['ranked_friends'][0]['percentage'].toStringAsFixed(2));
+        // Process grouped missed prayers
+        weeklyMissedPrayer.value = groupByDate(recordsList);
+        update();
+        print("Weekly missed prayers: ${weeklyMissedPrayer.value}");
       }
-      height.value= sizedBoxHeight(data['ranked_friends']);
-      weeklyRanked.value = data['ranked_friends'];
-      print("decodeData $data");
-      // updateLeaderboardList = decodeData;
-      List recordData= data['records'];
-      recordsList= recordData.map((e)=>Record.fromJson(e)).toList();
-      print("recordList $recordsList");
-      weeklyMissedPrayer.value = groupByDate(recordsList);
-      update();
-      print("WeeklyApi data check:$weeklyRanked");
-    }
-    else {
-    print(response.reasonPhrase);
+    } catch (e) {
+      print("Error fetching weekly API data: $e");
     }
   }
 
@@ -232,28 +283,90 @@ String formatDate = getFormattedDate();
 
   Map missedPrayerTimeData = {};
 
-  Future<void> hitPrayerTimeByDate(String date,String prayerName,BuildContext contexts)async{
-    print("apidate $date");
-    Dialogs.showLoading(contexts,message: 'Please wait, Getting Prayer Time');
-   var data =await apiService.getRequest("timings/$date?latitude=${userData.getLocationData!.latitude}&longitude=${userData.getLocationData!.longitude}&method=${userData.getUserData!.methodId}",customBaseUrl: 'https://api.aladhan.com/v1/');
-   print("data $data");
-   missedPrayerTimeData = data['data'];
-   print("missedPrayerTimeData $missedPrayerTimeData");
-    DateTime? prayerTime = getPrayerTime([missedPrayerTimeData],date,prayerName);
-    Dialogs.hideLoading();
-    if(contexts.mounted){
-      showDialog(
-        context: contexts,
-        builder: (BuildContext context) {
-          return   TimePicker(date: date, prayerNames: prayerName,isFromMissed: true,missedPrayerTime: prayerTime,
-            missedCallBack:() {
-              updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date));
-              return weeklyApi(date);
-            },);
-        },
+  // Future<void> hitPrayerTimeByDate(String date,String prayerName,BuildContext contexts)async{
+  //   print("apidate $date");
+  //   Dialogs.showLoading(contexts,message: 'Please wait, Getting Prayer Time');
+  //  var data =await apiService.getRequest("timings/$date?latitude=${userData.getLocationData!.latitude}&longitude=${userData.getLocationData!.longitude}&method=${userData.getUserData!.methodId}",customBaseUrl: 'https://api.aladhan.com/v1/');
+  //  print("data $data");
+  //  missedPrayerTimeData = data['data'];
+  //  print("missedPrayerTimeData $missedPrayerTimeData");
+  //   DateTime? prayerTime = getPrayerTime([missedPrayerTimeData],date,prayerName);
+  //   Dialogs.hideLoading();
+  //   if(contexts.mounted){
+  //     showDialog(
+  //       context: contexts,
+  //       builder: (BuildContext context) {
+  //         return   TimePicker(date: date, prayerNames: prayerName,isFromMissed: true,missedPrayerTime: prayerTime,
+  //           missedCallBack:() {
+  //             updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date));
+  //             return weeklyApi(date);
+  //           },);
+  //       },
+  //     );
+  //   }
+  // }
+  Future<void> hitPrayerTimeByDate(String date, String prayerName, BuildContext contexts) async {
+    try {
+      print("API request for date: $date");
+
+      // Show loading dialog
+      Dialogs.showLoading(contexts, message: 'Please wait, Getting Prayer Time');
+
+      // Construct API request
+      final latitude = userData.getLocationData?.latitude ?? 0.0;
+      final longitude = userData.getLocationData?.longitude ?? 0.0;
+      final methodId = userData.getUserData?.methodId ?? 1;
+      final endpoint = "timings/$date?latitude=$latitude&longitude=$longitude&method=$methodId";
+
+      // Fetch prayer time data
+      var response = await apiService.getRequest(
+        endpoint,
+        customBaseUrl: 'https://api.aladhan.com/v1/',
       );
+      print("API response: $response");
+
+      // Process data
+      if (response != null && response['data'] != null) {
+        missedPrayerTimeData = response['data'];
+        print("Missed Prayer Time Data: $missedPrayerTimeData");
+
+        // Get the specific prayer time
+        DateTime? prayerTime = getPrayerTime([missedPrayerTimeData], date, prayerName);
+
+        // Hide loading dialog
+        Dialogs.hideLoading();
+
+        // Check if context is still valid before showing dialog
+        if (contexts.mounted) {
+          showDialog(
+            context: contexts,
+            builder: (BuildContext context) {
+              return TimePicker(
+                date: date,
+                prayerNames: prayerName,
+                isFromMissed: true,
+                missedPrayerTime: prayerTime,
+                missedCallBack: () {
+                  updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date));
+                  return weeklyApi(date);
+                },
+              );
+            },
+          );
+        }
+      } else {
+        throw Exception("Failed to fetch prayer time data.");
+      }
+    } catch (e) {
+      // Handle errors
+      print("Error fetching prayer time: $e");
+      Dialogs.hideLoading();
+      // if (contexts.mounted) {
+      //   GetSnackBar(context, message: 'Failed to retrieve prayer times. Please try again.');
+      // }
     }
   }
+
 
 
   void compareDates(DateTime selectedDate) {

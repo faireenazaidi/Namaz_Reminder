@@ -21,8 +21,6 @@ class CustomDrawer extends StatelessWidget {
     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     final DashBoardController dashBoardController = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
-
-    print("hlooooo");
     print(dashBoardController.missedPrayersCount.toString(),);
     return SafeArea(
       top: true,
@@ -197,11 +195,8 @@ class CustomDrawer extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  dashBoardController.missedPrayersCount.value.toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                                  (dashBoardController.missedPrayersCount.value - 1).toString(),
+                                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               );
@@ -235,7 +230,7 @@ class CustomDrawer extends StatelessWidget {
                              return  Container(
                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                decoration: BoxDecoration(
-                                 color: Colors.red,
+                                 color: AppColor.circleIndicator,
                                  borderRadius: BorderRadius.circular(12),
                                ),
                                child: Text(
@@ -246,6 +241,7 @@ class CustomDrawer extends StatelessWidget {
                                    fontWeight: FontWeight.bold,
                                  ),
                                ),
+
                              );
                            })
                           ],

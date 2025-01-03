@@ -250,3 +250,52 @@ class User {
   }
 }
 
+class NotificationDataModal {
+  String? notificationId;
+  String? userId;
+  String? title;
+  String? message;
+  String? category;
+  DateTime? createdAt;
+  bool? readStatus;
+  String? actionUrl;
+
+  NotificationDataModal({
+    this.notificationId,
+    this.userId,
+    this.title,
+    this.message,
+    this.category,
+    this.createdAt,
+    this.readStatus,
+    this.actionUrl,
+  });
+
+  factory NotificationDataModal.fromJson(Map<String, dynamic> json) {
+    return NotificationDataModal(
+      notificationId: json['id'] as String?,
+      userId: json['user_id'] as String?,
+      title: json['title'] as String?,
+      message: json['message'] as String?,
+      category: json['type'] as String?,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      readStatus: json['is_read'] as bool?,
+      actionUrl: json['sender_image'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': notificationId,
+      'user_id': userId,
+      'title': title,
+      'message': message,
+      'type': category,
+      'created_at': createdAt?.toIso8601String(),
+      'is_read': readStatus,
+      'sender_image': actionUrl,
+    };
+  }
+}

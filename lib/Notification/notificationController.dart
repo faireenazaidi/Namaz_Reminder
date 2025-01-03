@@ -1,54 +1,6 @@
-// import 'package:get/get.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// import '../Services/user_data.dart';
-// import 'notificationDataModal.dart';
-//
-// class NotificationController extends GetxController {
-//   var notificationsToday = <NotificationItem>[].obs;
-//   var notificationsYesterday = <NotificationItem>[].obs;
-//   var notificationsLast7Days = <NotificationItem>[].obs;
-//   UserData userData = UserData();
-//
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     fetchNotifications();
-//   }
-//
-//   void fetchNotifications() async {
-//     final url =
-//         'http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/';
-//     print('API URL: $url');
-//
-//     try {
-//       final response = await http.get(Uri.parse(url));
-//       if (response.statusCode == 200) {
-//         print('API Response: ${response.body}');
-//         final data = jsonDecode(response.body);
-//         print("api rssss"+data.toString());
-//         print(notificationsToday);
-//         for (var item in data) {
-//           final notification = NotificationItem.fromJson(item);
-//           if (notification.category == "Today") {
-//             notificationsToday.add(notification);
-//           } else if (notification.category == "Yesterday") {
-//             notificationsYesterday.add(notification);
-//           } else if (notification.category == "Last7Days") {
-//             notificationsLast7Days.add(notification);
-//           }
-//         }
-//       } else {
-//         print('Failed to fetch notifications. Status Code: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Error fetching notifications: $e');
-//     }
-//   }
-// }
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../DashBoard/dashboardController.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
 import '../PeerCircle/peerController.dart';
 import '../Services/ApiService/api_service.dart';
@@ -56,6 +8,7 @@ import '../Services/user_data.dart';
 
 class NotificationController extends GetxController {
   final PeerController peerController = Get.put(PeerController());
+  final DashBoardController dashBoardController = Get.find<DashBoardController>();
 
   // Private variables
   final RxList _notifications = [].obs;
@@ -65,6 +18,7 @@ class NotificationController extends GetxController {
   var isLoading = true.obs;
   UserData userData = UserData();
   final apiService = ApiService();
+
   // Getters
   List get notifications => _notifications;
   List get todayNotifications => _todayNotifications;
@@ -74,37 +28,65 @@ class NotificationController extends GetxController {
   // Setter for notifications
   set notifications(List value) {
     _notifications.value = value;
-    _categorizeNotifications(); // Automatically categorize when setting new data
+    _categorizeNotifications();
   }
+
   @override
   void onInit() {
     super.onInit();
     fetchNotifications();
   }
+
   // Fetch notifications from API
+  // Future<void> fetchNotifications() async {
+  //   // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+  //   final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+  //   final response = await http.get(url);
+  //   isLoading.value = false;
+  //   if (response.statusCode == 200) {
+  //     print('ResponseAPI : ${response.body}');
+  //
+  //     final data = jsonDecode(response.body);
+  //     print("api rssss" + data.toString());
+  //
+  //     // Sort by date in descending order before setting notifications
+  //     data.sort((a, b) {
+  //       var dateA = DateTime.parse(a['created_at']);
+  //       var dateB = DateTime.parse(b['created_at']);
+  //       return dateB.compareTo(dateA);
+  //     });
+  //     // Update the notifications using the setter
+  //     notifications = data;
+  //   } else {
+  //     // Get.snackbar('Error', 'Failed to load notifications');
+  //   }
+  // }
+
   Future<void> fetchNotifications() async {
-    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
-    final response = await http.get(url);
-    isLoading.value = false;
-    if (response.statusCode == 200) {
-      print('API Response: ${response.body}');
+    isLoading.value = true;
+    try {
+      // Call the ApiService to fetch data
+      final data = await ApiService().getRequest(
+        'user_notifications/${userData.getUserData?.id}/',
+      );
+      print("APII Res: $data");
 
-      final data = jsonDecode(response.body);
-      print("api rssss"+data.toString());
-
-      // Sort by date in descending order before setting notifications
+      // Sort notifications by date in descending order
       data.sort((a, b) {
-        var dateA = DateTime.parse(a['created_at']);
-        var dateB = DateTime.parse(b['created_at']);
+        DateTime dateA = DateTime.parse(a['created_at']);
+        DateTime dateB = DateTime.parse(b['created_at']);
         return dateB.compareTo(dateA);
       });
-
-      // Update the notifications using the setter
+      // Update notifications list
       notifications = data;
-    } else {
-      // Get.snackbar('Error', 'Failed to load notifications');
+    } catch (e) {
+      print('Error while fetching notifications: $e');
+      //   Get.snackbar('Error', 'Failed to load notifications.');
+    } finally {
+      isLoading.value = false; // Stop loading
     }
   }
+
   String buildFullImageUrl(String? imagePath) {
     const String baseUrl = "http://182.156.200.177:8011";
     if (imagePath == null || imagePath.startsWith('http')) {
@@ -153,128 +135,145 @@ class NotificationController extends GetxController {
   //   friendRequestList = val;
   //   update();
   // }
-
-
-
-
-
-
-
-
-
-
   ///ACCEPT REQUEST
-  // acceptFriendRequest(String id) async {
+  // acceptFriendRequest(NotificationDataModal notificationData) async {
   //   var headers = {
   //     'Content-Type': 'application/json'
   //   };
-  //   var request = http.Request(
-  //       'POST', Uri.parse('http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
+  //   try {
+  //     var request = http.Request('POST', Uri.parse(
+  //         'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
+  //     request.body = json.encode({
+  //       "request_id": notificationData.userId.toString(),
+  //       "user_id": userData.getUserData!.id.toString(),
+  //     });
+  //     request.headers.addAll(headers);
+  //     http.StreamedResponse response = await request.send();
   //
-  //   String userId = userData.getUserData?.id.toString() ?? "";
-  //   //print("Sending Request ID: $id");
-  //   print("Sending User ID: $userId");
-  //
-  //   // if (id.isEmpty || userId.isEmpty) {
-  //   //   print("Invalid data: requestId or userId is empty");
-  //   //   return;
-  //   // }
-  //
-  //   request.body = json.encode({
-  //     "request_id":  id.toString(),
-  //     "user_id": userId,
-  //   });
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   var data = jsonDecode(await response.stream.bytesToString());
-  //   print("Decoded Data: $data");
-  //
-  //   if (response.statusCode == 200) {
-  //     print("Friend request accepted successfully.");
-  //     update();
-  //     peerController.friendship(); // Update the friend list
-  //   } else {
-  //     print("Unexpected response: $data");
+  //     if(response.statusCode==200){
+  //     var data = jsonDecode(await response.stream.bytesToString());
+  //      print("Friend Request Accepted $data");
+  //      notificationData.readStatus;
+  //     _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
+  //      update();
+  //    }
+  //     else {
+  //       print("Failed to remove notification: ${response.reasonPhrase}");
+  //     }
+  //   }
+  //   catch(ex){
+  //     print("Error: $ex");
   //   }
   // }
-  acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
-    var headers = {
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse(
-        'http://182.156.200.177:8011/adhanapi/accept-friend-request/'));
+  Future<void> acceptFriendRequest(NotificationDataModal notificationData) async {
+    try {
+      final body = {
+        "request_id": notificationData.userId.toString(),
+        "user_id": userData.getUserData!.id.toString(),
+      };
+      final response = await ApiService().postRequest(
+        'accept-friend-request/',
+        body,
+      );
+      print("Friend Request Acceptedd: $response");
 
-    // Log the request data
-    print("Sending Request ID: ${friendRequestData.id}");
-    print("Sending User ID: ${userData.getUserData!.id}");
-
-    request.body = json.encode({
-      "request_id": friendRequestData.id.toString(),
-      "user_id": userData.getUserData!.id.toString(),
-    });
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-    String responseBody = await response.stream.bytesToString();
-
-    // Log the response
-    print("Response Status: ${response.statusCode}");
-    print("Response Body: $responseBody");
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(responseBody);
-      print("Decoded Data: $data");
-      // Optionally, update the UI or state here
-    } else {
-      print("Error: ${response.reasonPhrase}");
+      _notifications.removeWhere(
+            (notification) => notification['id'] == notificationData.notificationId,
+      );
+      update();
+    } catch (ex) {
+      print("Error accepting friend request: $ex");
     }
+    dashBoardController.fetchMissedPrayersCount();
   }
+
   ///DECLINE REQUEST
-  // declineRequest(String id) async {
+  // declineRequest(NotificationDataModal notificationData) async {
   //   var headers = {
   //     'Content-Type': 'application/json'
   //   };
-  //   var request = http.Request('POST', Uri.parse(
-  //       'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
-  //
+  //   try{
+  //     var request = http.Request('POST', Uri.parse(
+  //         'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
+  //     request.body = json.encode({
+  //       "user_id": userData.getUserData!.id.toString(),
+  //       "request_id": notificationData.userId.toString(),
+  //     });
+  //     request.headers.addAll(headers);
+  //     http.StreamedResponse response = await request.send();
+  //     if(response.statusCode==200) {
+  //       var data = jsonDecode(await response.stream.bytesToString());
+  //       print("Friend Request Decline $data");
+  //       notificationData.readStatus = true;
+  //       _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
+  //     }
+  //   }
+  //   catch(ex) {
+  //     print("Error: $ex");
+  //   }
+  // }
+
+  declineRequest(NotificationDataModal notificationData) async {
+    try {
+      final body = {
+        "user_id": userData.getUserData!.id.toString(),
+        "request_id": notificationData.userId.toString(),
+      };
+      final response = await ApiService().postRequest(
+        'reject-friend-request/',
+        body,
+      );
+      print("Friend Rejected: $response");
+      notificationData.readStatus = true;
+      _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
+    }
+      catch (e){
+        print("Error: $e");
+    }
+    dashBoardController.fetchMissedPrayersCount();
+  }
+
+  ///Remove Accepted and decline rqwst from view
+
+  // readNotificationMessage(String notificationId) async{
+  //   print("NotificationId"+notificationId);
+  //   var headers = {
+  //     'Content-Type': 'application/json'
+  //   };
+  //   var request = http.Request('PUT', Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/'));
   //   request.body = json.encode({
-  //     "user_id": userData.getUserData!.id.toString(),
-  //     "request_id": id.toString(),
+  //     "id": notificationId,
+  //     "type": "friend_request_acc",
+  //     "is_read": false
   //   });
   //   request.headers.addAll(headers);
   //
   //   http.StreamedResponse response = await request.send();
   //
-  //   var data = jsonDecode(await response.stream.bytesToString());
-  //   print("aaaaaaaaaa $data");
+  //   if (response.statusCode == 200) {
+  //     print(await response.stream.bytesToString());
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
   // }
-  declineRequest(FriendRequestDataModal friendRequestData) async {
-    var headers = {
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse(
-        'http://182.156.200.177:8011/adhanapi/reject-friend-request/'));
-    request.body = json.encode({
-      "user_id": userData.getUserData!.id.toString(),
-      "request_id": friendRequestData.id.toString(),
-    });
-    request.headers.addAll(headers);
+  Future<void> readNotificationMessage(String notificationId) async {
+    try {
+      final body = {
+        "id": notificationId,
+        "type": "friend_request_acc",
+        "is_read": false,
+      };
 
-    http.StreamedResponse response = await request.send();
-    String responseBody = await response.stream.bytesToString();
+      final response = await ApiService().putRequest(
+        'user_notifications/${userData.getUserData!.id}/',
+        body,
+      );
 
-    print("Response Status: ${response.statusCode}");
-    print("Response Body: $responseBody");
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(responseBody);
-      print("Decoded Data: $data");
-      // Optionally, update the UI or state here
-    } else {
-      print("Error: ${response.reasonPhrase}");
+      print("Notification marked as read: $response");
+    } catch (ex) {
+      print("Error marking notification as read: $ex");
     }
   }
+
 }

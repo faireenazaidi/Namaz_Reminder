@@ -40,17 +40,21 @@ class Upcoming extends GetView<UpcomingController> {
               overflow: TextOverflow.ellipsis,
             ),
             Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset("assets/loc.svg"),
-                  Text(
-                    dashboardController.address.split(' ')[0].toString(),
-                    style: MyTextTheme.greyNormal,
-                  ),
-                ],
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset("assets/loc.svg"),
+                    Flexible(
+                      child: Text(
+                        dashboardController.address.split(',')[0].toString(),
+                        style: MyTextTheme.greyNormal,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -67,6 +71,7 @@ class Upcoming extends GetView<UpcomingController> {
         backgroundColor: Colors.white,
         leading: InkWell(
           onTap: () {
+            dashboardController.fetchPrayerTime();
             Get.back();
           },
           child: Icon(Icons.arrow_back_ios, size: 20),
@@ -365,8 +370,8 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                           Text(controller.nextPrayerName.value, style: MyTextTheme.medium),
-                                       // Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
+                                        Text(controller.nextPrayer.value, style: MyTextTheme.medium),
+                                        //Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
                                           child: Icon(Icons.more_horiz),
@@ -416,11 +421,14 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text(controller.upcomingPrayerStartTime.value,
-                                              style: MyTextTheme.mediumBCD),
+                                          child:
+                                          Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
+                                              style: MyTextTheme.mediumBCD
+                                          )
                                         ),
-                                        Text(controller.upcomingPrayerEndTime.value,
-                                            style: MyTextTheme.mediumBCD),
+                                        Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,
+                                            style: MyTextTheme.mediumBCD
+                                        )
                                       ],
                                     ),
                                   ],
@@ -430,7 +438,6 @@ class Upcoming extends GetView<UpcomingController> {
                           );
                         });
                       }
-
                       int prayerIndex = index - 1;
                       if (prayerIndex < prayerList.length) {
                         String prayerName = prayerList[prayerIndex]['name']!;
@@ -439,14 +446,16 @@ class Upcoming extends GetView<UpcomingController> {
                         String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
                         String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
                         bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
-                        bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
+                        //bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
 
                         String specialText = isSpecialPrayer ? "Prohibited to pray" : "";
                         bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
+                        print("IIII"+controller.currentPrayer.value);
+
 
                         return Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: controller.nextPrayerName.value != prayerName?
+                            child: controller.nextPrayer.value != prayerName?
                             Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
@@ -483,7 +492,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       children: [
                                         Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                        if (!sun) Text('Ends at', style: MyTextTheme.smallGCN),
+                                        if (!isSpecialPrayer) Text('Ends at', style: MyTextTheme.smallGCN),
                                       ],
                                     ),
                                     Row(
@@ -499,7 +508,7 @@ class Upcoming extends GetView<UpcomingController> {
                                 ),
                               ),
                             ):
-                           null
+                            null
                         );
                       }
                       return SizedBox.shrink();
@@ -514,4 +523,5 @@ class Upcoming extends GetView<UpcomingController> {
     );
   }
 }
+
 
