@@ -15,7 +15,10 @@ import 'package:http/http.dart' as http;
 import '../DataModels/LoginResponse.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Services/ApiService/api_service.dart';
+import '../Widget/appColor.dart';
 import '../Widget/location_services.dart';
+import '../Widget/myButton.dart';
+import '../Widget/no_internet.dart';
 import '../main.dart';
 class DashBoardController extends GetxController {
   final PageController pageController = PageController();
@@ -267,18 +270,18 @@ class DashBoardController extends GetxController {
   // }
   get() async {
     // Check connectivity before proceeding
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      // Show snackbar if there is no internet connection
-      Get.showSnackbar(
-        const GetSnackBar(
-          snackPosition: SnackPosition.BOTTOM,
-          message: "No Internet Connection",
-          duration: Duration(days: 1),
-        ),
-      );
-      return; // Exit the method if there is no connection
-    }
+    // var connectivityResult = await (Connectivity().checkConnectivity());
+    // if (connectivityResult == ConnectivityResult.none) {
+    //   // Show snackbar if there is no internet connection
+    //   Get.showSnackbar(
+    //     const GetSnackBar(
+    //       snackPosition: SnackPosition.BOTTOM,
+    //       message: "No Internet Connection",
+    //       duration: Duration(days: 1),
+    //     ),
+    //   );
+    //   return; // Exit the method if there is no connection
+    // }
 
     print("mydata${userData.getUserData!.toJson()}");
     if (userData.getLocationData == null) {
@@ -1248,27 +1251,37 @@ List isPrayedList = [];
     update();
   }
   Future<void> getIsPrayed() async{
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    try {
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('dd-MM-yyyy').format(now);
 
-    var request = http.Request('GET',
-        Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=${userData.getUserData!.id.toString()}'));
+      var request = await ApiService().getRequest(
+          'prayer-response/$formattedDate/?user_id=${userData.getUserData!.id
+              .toString()}');
+      // var request = http.Request('GET',
+      //     Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-response/$formattedDate/?user_id=${userData.getUserData!.id.toString()}'));
 
 
-    http.StreamedResponse response = await request.send();
-    print(request.url);
-
-    if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
-      var decodeData = jsonDecode(await response.stream.bytesToString());
-      print(decodeData);
-      // updateLeaderboardList = decodeData['records'];
-      updateIsPrayedList(decodeData['records']);
-      log("@@@@@@@@@@@@ $isPrayedList");
+      // http.StreamedResponse response = await request.send();
+      print("responseBaqar $request");
+      updateIsPrayedList(request['records']);
     }
-    else {
-      print(response.reasonPhrase);
+    catch(e){
+      print("eeee $e");
+      final context = navigatorKey.currentContext!;
+      Dialogs.showCustomBottomSheet(context: context, content: NoInternet(message: '$e', onRetry: get,),);
     }
+    // if (response.statusCode == 200) {
+    //   // print(await response.stream.bytesToString());
+    //   var decodeData = jsonDecode(await response.stream.bytesToString());
+    //   print(decodeData);
+    //   // updateLeaderboardList = decodeData['records'];
+    //   updateIsPrayedList(decodeData['records']);
+    //   log("@@@@@@@@@@@@ $isPrayedList");
+    // }
+    // else {
+    //   print(response.reasonPhrase);
+    // }
 
   }
 

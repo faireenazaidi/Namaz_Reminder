@@ -185,23 +185,21 @@ class Dialogs {
   static void showCustomBottomSheet({
     required BuildContext context,
     required Widget content,
-    bool isScrollable = false, // Option to enable or disable scrolling
   }) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // Allows dynamic height based on content
-      backgroundColor: Colors.transparent, // Makes the bottom sheet background transparent
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Material(
-          color: Colors.transparent, // Makes the background transparent
+          color: Colors.transparent,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                // margin: const EdgeInsets.symmetric(horizontal: 16.0), // Add margin for responsiveness
                 decoration: BoxDecoration(
-                  color: AppColor.gray, // Replace with your background color
+                  color: AppColor.gray,
                   image: const DecorationImage(
                     image: AssetImage("assets/net.png"),
                     fit: BoxFit.cover,
@@ -226,10 +224,10 @@ class Dialogs {
               ),
               // Close Button
               Positioned(
-                top: -50, // Position slightly above the top border
+                top: -50,
                 right: 15,
                 child: GestureDetector(
-                  onTap: () => Navigator.of(context).pop(), // Close bottom sheet on tap
+                  onTap: () => Navigator.of(context).pop(),
                   child: Container(
                     width: 40,
                     height: 40,
