@@ -94,6 +94,98 @@ class Dialogs {
     );
   }
 
+  static void showCustomDialog({required BuildContext context, required Widget content}) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true, // Allows closing by tapping outside
+      barrierLabel: "CustomDialog", // Optional label
+      barrierColor: Colors.black54, // Background overlay color
+      transitionDuration: const Duration(milliseconds: 300), // Duration of the animation
+      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+        return Center( // Ensures the dialog is centered
+          child: Material(
+            color: Colors.transparent, // Makes the dialog background transparent
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  // width: MediaQuery.sizeOf(context).width,
+                  margin: const EdgeInsets.symmetric(horizontal: 16.0), // Add margin for responsiveness
+                  decoration: BoxDecoration(
+                    color: AppColor.gray, // Replace with your background color
+                    image: const DecorationImage(
+                      image: AssetImage("assets/net.png"),
+                      fit: BoxFit.cover,
+                      opacity: 0.9, // Adjust opacity
+                    ),
+                    borderRadius: BorderRadius.circular(16.0), // Rounded corners
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        offset: Offset(0, 4), // Subtle shadow
+                      ),
+                    ],
+                  ),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: content,
+                    ),
+                  ),
+                ),
+                // Cross Button
+                Positioned(
+                  top: -50, // Position slightly above the dialog
+                  right: 15,
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pop(), // Close dialog on tap
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 4,
+                            offset: Offset(2, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        // Combines fade and scale animations
+        final fadeIn = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+        return FadeTransition(
+          opacity: fadeIn,
+          child: ScaleTransition(
+            scale: fadeIn,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+
+
+
+
+
   static Future<void> showConfirmationDialog( {
     required BuildContext context,
     required Future<bool> Function() onConfirmed,

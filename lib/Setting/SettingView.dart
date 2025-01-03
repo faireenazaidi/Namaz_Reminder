@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingView.dart';
 import 'package:namaz_reminders/Setting/FriendRequests/friendRequestView.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriController.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriDate.dart';
+import '../AppManager/dialogs.dart';
+import '../AppManager/toast.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 import 'Privacy&Security/privacyView.dart';
@@ -110,6 +113,106 @@ class SettingView extends StatelessWidget {
                           },
                             imagePath:"assets/privacy.svg"
                         ),
+                        // buildSettingItem(
+                        //   title: 'Program Access & Permissions',
+                        //   subtitle: 'Make sure permissions are enabled',
+                        //   onTap: () {
+                        //     Dialogs.showCustomDialog(context: context, content: Column(
+                        //       children: [
+                        //         Text('To get Prayer updates in home screen widgets without any problem, make sure that all the following are enabled.',
+                        //         style: TextStyle(color: Colors.white60,fontSize: 10),textAlign: TextAlign.center,),
+                        //         SizedBox(height: 20,),
+                        //         TextButton(
+                        //           onPressed: (){
+                        //             Get.back();
+                        //
+                        //             const platform = MethodChannel('com.criteriontech.prayeroclock/update_widget');
+                        //
+                        //             Future<void> checkBatteryOptimizationStatus() async {
+                        //               try {
+                        //                 final bool? isDisabled = await platform.invokeMethod('disableBatteryOptimization');
+                        //
+                        //                 if (isDisabled == true) {
+                        //                   print("Battery optimization is already disabled.");
+                        //                   showToast(msg: 'Battery optimization is already disabled.');
+                        //                 } else if (isDisabled == false) {
+                        //                   print("Battery optimization request sent to settings.");
+                        //                 } else {
+                        //                   print("Battery optimization status is not applicable for this device.");
+                        //                 }
+                        //               } on PlatformException catch (e) {
+                        //                 print("Failed to check battery optimization: ${e.message}");
+                        //               }
+                        //             }
+                        //             checkBatteryOptimizationStatus();
+                        //
+                        //           },
+                        //           child: Row(
+                        //             children: [
+                        //               Container(
+                        //                 width: 25,
+                        //                 height: 25,
+                        //                 alignment: Alignment.center,
+                        //                 decoration: const BoxDecoration(
+                        //                   color: Colors.white70,
+                        //                   shape: BoxShape.circle,
+                        //                 ),
+                        //                 child: const Text('1')
+                        //               ),
+                        //               SizedBox(width: 15,),
+                        //               Expanded(
+                        //                 child: Text('Disable Battery Optimization',style: TextStyle(
+                        //                   color: Colors.white70
+                        //                 ),),
+                        //               ),
+                        //               Icon(Icons.arrow_forward,color: Colors.white70,)
+                        //             ],
+                        //           ),
+                        //         ),
+                        //         SizedBox(height: 20,),
+                        //         TextButton(
+                        //           onPressed: (){
+                        //             const platform = MethodChannel('com.criteriontech.prayeroclock/update_widget');
+                        //             Future<void> enableAutostart() async {
+                        //               try {
+                        //                 final String? result = await platform.invokeMethod('enableAutostart');
+                        //                 if (result == "success") {
+                        //                   showToast(msg: 'Redirected to autostart settings.');
+                        //                 }
+                        //               } on PlatformException catch (e) {
+                        //                 print("Failed to enable autostart: ${e.message}");
+                        //                 showToast(msg: 'Failed to open autostart settings.');
+                        //               }
+                        //             }
+                        //             enableAutostart();
+                        //           },
+                        //           child: Row(
+                        //             children: [
+                        //               Container(
+                        //                   width: 25,
+                        //                   height: 25,
+                        //                   alignment: Alignment.center,
+                        //                   decoration: const BoxDecoration(
+                        //                     color: Colors.white70,
+                        //                     shape: BoxShape.circle,
+                        //                   ),
+                        //                   child: const Text('2')
+                        //               ),
+                        //               SizedBox(width: 15,),
+                        //               Expanded(
+                        //                 child: Text('Enable Autostart',style: TextStyle(
+                        //                     color: Colors.white70
+                        //                 ),),
+                        //               ),
+                        //               Icon(Icons.arrow_forward,color: Colors.white70,)
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ));
+                        //   },
+                        //     imagePath:"assets/privacy.svg"
+                        // ),
 
                       ],
                     ),
