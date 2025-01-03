@@ -9,14 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart';
-import 'package:namaz_reminders/AppManager/toast.dart';
-import 'package:namaz_reminders/DataConnection.dart';
-import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
-import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:namaz_reminders/prayerTimings.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
 import 'Services/user_data.dart';
@@ -499,7 +493,7 @@ print("aaa${userData.getPrayerTimingsData}");
     }
     // if (DateTime.now().second >= 58) {
     //   // Get the current prayer based on the time
-    //
+
     //
     //   // t.cancel();
     //   print('Timer cancelled.');

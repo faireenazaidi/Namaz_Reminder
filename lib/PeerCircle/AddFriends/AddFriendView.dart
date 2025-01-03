@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Notification/notificationController.dart';
-import 'package:namaz_reminders/Notification/notificationView.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../../Routes/approutes.dart';
 import 'AddFriendController.dart';
 import 'AddFriendDataModal.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-import 'SeeAll.dart';
 
 class AddFriendView extends GetView<AddFriendController> {
   const AddFriendView({super.key});
