@@ -316,7 +316,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                       ):
                                       Text(
                                         "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value)} - "
-                                            "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 7)))}",
+                                            "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 6)))}",
                                         style: const TextStyle(fontSize: 12,
                                             color: Colors.black),
                                       )
@@ -603,10 +603,10 @@ Widget _buildUserProgress(String imageUrl, String name, String score, {bool high
 
 Widget _buildRankCard(Map friend,int index,bool isHighlight) {
   double containerHeight = Get.height * 0.5; // Half the screen height
-  double maxBarHeight = containerHeight - 100; // Subtract extra space for padding and other elements
+  double maxBarHeight = containerHeight - 140; // Subtract extra space for padding and other elements
   double percentage = double.parse(friend['percentage'].toStringAsFixed(2));
   double barHeight = (percentage / 100) * maxBarHeight; // Adjust height based on percentage
-  barHeight = barHeight.clamp(10.0, maxBarHeight); // Ensure a minimum bar height of 50
+  barHeight = barHeight.clamp(1.0, maxBarHeight); // Ensure a minimum bar height of 50
   print("percentage $percentage");
   print("barHeight $barHeight");
 
