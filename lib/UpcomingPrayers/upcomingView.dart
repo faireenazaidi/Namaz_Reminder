@@ -446,7 +446,7 @@ class Upcoming extends GetView<UpcomingController> {
                         String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
                         String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
                         bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
-                        bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
+                        //bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
 
                         String specialText = isSpecialPrayer ? "Prohibited to pray" : "";
                         bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
@@ -492,7 +492,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       children: [
                                         Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                        if (!sun) Text('Ends at', style: MyTextTheme.smallGCN),
+                                        if (!isSpecialPrayer) Text('Ends at', style: MyTextTheme.smallGCN),
                                       ],
                                     ),
                                     Row(
