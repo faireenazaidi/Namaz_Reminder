@@ -192,18 +192,18 @@ void main() async {
 //   }
 void _handleConnectivityChange(ConnectivityResult result) {
   if (result == ConnectivityResult.none) {
-    // Show a dialog when the connection is lost
-    Get.defaultDialog(
-      title: "Connection Lost",
-      middleText: "You have lost your internet connection.",
-      // onConfirm: () {
-      //   Get.back();
-      // },
-     cancel: TextButton(
-         onPressed: (){
-           Get.back();
-         }, child: Text("OK"))
-    );
+  //   // Show a dialog when the connection is lost
+  //   Get.defaultDialog(
+  //     title: "Connection Lost",
+  //     middleText: "You have lost your internet connection.",
+  //     // onConfirm: () {
+  //     //   Get.back();
+  //     // },
+  //    cancel: TextButton(
+  //        onPressed: (){
+  //          Get.back();
+  //        }, child: Text("OK"))
+  //   );
 
     Get.showSnackbar(
       const GetSnackBar(
@@ -216,9 +216,8 @@ void _handleConnectivityChange(ConnectivityResult result) {
     print("No internet connection");
   } else {
     // Close all snackbars if they are open
-    if (Get.isSnackbarOpen) {
-      Get.closeAllSnackbars();
-    }
+
+
     print("Internet connection restored");
     // Optionally, you can call the API again here if needed
     // await yourApiCall();

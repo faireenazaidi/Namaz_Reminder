@@ -119,7 +119,7 @@ class SeeAll extends GetView<AddFriendController>{
                              decoration: BoxDecoration(
                                border: Border.all(color: AppColor.white),
                                borderRadius: BorderRadius.circular(10),
-                               color: AppColor.greyDark,
+                               color: AppColor.greyColor,
                              ),
                              child: const Center(
                                child: Text("Decline", style: TextStyle(color: Colors.white)),

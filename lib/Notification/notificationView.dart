@@ -335,7 +335,7 @@ class NotificationView extends  GetView<NotificationController> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.circleIndicator,
+                                backgroundColor: AppColor.greyColor,
                                 minimumSize: const Size(70, 30),
                               ),
                               child: const Text(
