@@ -493,7 +493,7 @@ print("aaa${userData.getPrayerTimingsData}");
     }
     // if (DateTime.now().second >= 58) {
     //   // Get the current prayer based on the time
-    //
+
     //
     //   // t.cancel();
     //   print('Timer cancelled.');

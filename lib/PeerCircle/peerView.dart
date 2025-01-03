@@ -245,197 +245,383 @@ class PeerView extends GetView<PeerController> {
                   );
                 },
               ),
+              Divider(color: Colors.grey[300], thickness: 1),
+              SizedBox(height: 15,),
 
 
+              // Expanded(
+              //   child: GetBuilder<PeerController>(
+              //       builder: (_) {
+              //         if (peerController.isLoading.value) {
+              //           return Center(child: CircularProgressIndicator());
+              //         }
+              //
+              //         if (peerController.filteredFriendsList.isEmpty) {
+              //           return Center(child: Text('No friends found'));
+              //         }
+              //
+              //         return ListView.builder(
+              //           itemCount: peerController.filteredFriendsList.length,
+              //           itemBuilder: (context, index) {
+              //             Friendship friend = peerController
+              //                 .filteredFriendsList[index];
+              //             return Column(
+              //               children: [
+              //                 Row(
+              //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                   children: [
+              //                     Row(
+              //                       children: [
+              //
+              //                         Container(
+              //                           width: 35,
+              //                           height: 40,
+              //                           decoration: BoxDecoration(
+              //                             shape: BoxShape.circle,
+              //                             image: friend.user2.picture != null &&
+              //                                 friend.user2.picture!.isNotEmpty
+              //                                 ? DecorationImage(
+              //                               image: NetworkImage(
+              //                                   "http://182.156.200.177:8011${friend
+              //                                       .user2.picture}"),
+              //                               fit: BoxFit.cover,
+              //                             )
+              //                                 : null,
+              //                             color: friend.user2.picture == null ||
+              //                                 friend.user2.picture!.isEmpty
+              //                                 ? AppColor.circleIndicator
+              //                                 : null,
+              //                           ),
+              //                           child: friend.user2.picture == null ||
+              //                               friend.user2.picture!.isEmpty
+              //                               ? const Icon(Icons.person, size: 20,
+              //                               color: Colors.white)
+              //                               : null,
+              //                         ),
+              //
+              //                         Padding(
+              //                           padding: const EdgeInsets.only(
+              //                               left: 12.0, top: 12),
+              //                           child: Column(
+              //                             crossAxisAlignment: CrossAxisAlignment
+              //                                 .start,
+              //                             children: [
+              //                               Text(
+              //                                 friend.user2.name.toString(),
+              //                                 style: MyTextTheme.mediumGCB
+              //                                     .copyWith(
+              //                                   fontSize: 14,
+              //                                   color: Colors.black,
+              //                                   fontWeight: FontWeight.bold,
+              //                                 ),
+              //                               ),
+              //                               Text(
+              //                                 friend.user2.username.toString(),
+              //                                 style: MyTextTheme.smallGCB,
+              //                               ),
+              //                             ],
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     // Trailing TextButton for Remove
+              //                     TextButton(
+              //                       onPressed: () {
+              //                         showDialog(
+              //                           context: context,
+              //                           builder: (BuildContext context) {
+              //                             return Dialog(
+              //                               backgroundColor: Colors.black,
+              //                               child: Column(
+              //                                 mainAxisSize: MainAxisSize.min,
+              //                                 children: [
+              //                                   const SizedBox(height: 20),
+              //                                   Image.asset(
+              //                                     "assets/container.png",
+              //                                     width: 40,
+              //                                     height: 50,
+              //                                   ),
+              //                                   const SizedBox(height: 16),
+              //                                   Text("ARE YOU SURE?",
+              //                                       style: MyTextTheme.mustard),
+              //                                   const SizedBox(height: 16),
+              //                                   Padding(
+              //                                     padding: const EdgeInsets.all(
+              //                                         8.0),
+              //                                     child: Row(
+              //                                       mainAxisAlignment: MainAxisAlignment
+              //                                           .center,
+              //                                       children: [
+              //                                         Container(
+              //                                           decoration: BoxDecoration(
+              //                                             color: AppColor
+              //                                                 .circleIndicator,
+              //                                             borderRadius: BorderRadius
+              //                                                 .circular(10),
+              //                                           ),
+              //                                           child: TextButton(
+              //                                             onPressed: () {
+              //                                               Navigator.of(context)
+              //                                                   .pop();
+              //                                             },
+              //                                             child: const Text(
+              //                                               'No, Go Back',
+              //                                               style: TextStyle(
+              //                                                   color: Colors
+              //                                                       .white),
+              //                                             ),
+              //                                             style: TextButton
+              //                                                 .styleFrom(
+              //                                               padding: const EdgeInsets
+              //                                                   .symmetric(
+              //                                                   horizontal: 10,
+              //                                                   vertical: 5),
+              //                                             ),
+              //                                           ),
+              //                                         ),
+              //                                         const SizedBox(width: 16),
+              //                                         Container(
+              //                                           decoration: BoxDecoration(
+              //                                             color: Colors.grey,
+              //                                             borderRadius: BorderRadius
+              //                                                 .circular(10),
+              //                                           ),
+              //                                           child: TextButton(
+              //                                             onPressed: () async {
+              //                                               await peerController
+              //                                                   .removeFriend(
+              //                                                   friend.user2.id
+              //                                                       .toString());
+              //                                               peerController
+              //                                                   .filteredFriendsList
+              //                                                   .removeAt(index);
+              //                                               peerController.update();
+              //                                               Get.back();
+              //                                             },
+              //                                             child: const Text(
+              //                                               'Yes, Remove',
+              //                                               style: TextStyle(
+              //                                                   color: Colors
+              //                                                       .white),
+              //                                             ),
+              //                                             style: TextButton
+              //                                                 .styleFrom(
+              //                                               padding: const EdgeInsets
+              //                                                   .symmetric(
+              //                                                   horizontal: 10,
+              //                                                   vertical: 5),
+              //                                             ),
+              //                                           ),
+              //                                         ),
+              //
+              //
+              //                                       ],
+              //                                     ),
+              //                                   ),
+              //                                   const SizedBox(height: 20),
+              //                                 ],
+              //                               ),
+              //                             );
+              //                           },
+              //                         );
+              //                       },
+              //                       child: Text('Remove', style: TextStyle(
+              //                           color: AppColor.circleIndicator)),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ],
+              //             );
+              //           },
+              //         );
+              //
+              //
+              //       }),
+              // ),
               Expanded(
-                child: GetBuilder<PeerController>(
-                    builder: (_) {
-                      if (peerController.isLoading.value) {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                      if (peerController.filteredFriendsList.isEmpty) {
-                        return Center(child: Text('No friends found'));
-                      }
+                    Text(
+                      "FRIENDS",
+                      style: MyTextTheme.greyNormal,
+                    ),
 
-                      return ListView.builder(
-                        itemCount: peerController.filteredFriendsList.length,
-                        itemBuilder: (context, index) {
-                          Friendship friend = peerController
-                              .filteredFriendsList[index];
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
+                    // Friend list below the title
+                    Expanded(
+                      child: GetBuilder<PeerController>(builder: (_) {
+                        if (peerController.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
 
-                                      Container(
-                                        width: 35,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: friend.user2.picture != null &&
-                                              friend.user2.picture!.isNotEmpty
-                                              ? DecorationImage(
-                                            image: NetworkImage(
-                                                "http://182.156.200.177:8011${friend
-                                                    .user2.picture}"),
-                                            fit: BoxFit.cover,
-                                          )
-                                              : null,
-                                          color: friend.user2.picture == null ||
-                                              friend.user2.picture!.isEmpty
-                                              ? AppColor.circleIndicator
-                                              : null,
-                                        ),
-                                        child: friend.user2.picture == null ||
-                                            friend.user2.picture!.isEmpty
-                                            ? const Icon(Icons.person, size: 20,
-                                            color: Colors.white)
-                                            : null,
-                                      ),
+                        if (peerController.filteredFriendsList.isEmpty) {
+                          return Center(child: Text('No friends found'));
+                        }
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 12.0, top: 12),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
-                                          children: [
-                                            Text(
-                                              friend.user2.name.toString(),
-                                              style: MyTextTheme.mediumGCB
-                                                  .copyWith(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
+                        return ListView.builder(
+                          itemCount: peerController.filteredFriendsList.length,
+                          itemBuilder: (context, index) {
+                            Friendship friend = peerController.filteredFriendsList[index];
+                            return Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 35,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: friend.user2.picture != null &&
+                                                friend.user2.picture!.isNotEmpty
+                                                ? DecorationImage(
+                                              image: NetworkImage(
+                                                "http://182.156.200.177:8011${friend.user2.picture}",
                                               ),
-                                            ),
-                                            Text(
-                                              friend.user2.username.toString(),
-                                              style: MyTextTheme.smallGCB,
-                                            ),
-                                          ],
+                                              fit: BoxFit.cover,
+                                            )
+                                                : null,
+                                            color: friend.user2.picture == null ||
+                                                friend.user2.picture!.isEmpty
+                                                ? AppColor.circleIndicator
+                                                : null,
+                                          ),
+                                          child: friend.user2.picture == null ||
+                                              friend.user2.picture!.isEmpty
+                                              ? const Icon(Icons.person,
+                                              size: 20, color: Colors.white)
+                                              : null,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Trailing TextButton for Remove
-                                  TextButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            backgroundColor: Colors.black,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const SizedBox(height: 20),
-                                                Image.asset(
-                                                  "assets/container.png",
-                                                  width: 40,
-                                                  height: 50,
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 12.0, top: 12),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                friend.user2.name.toString(),
+                                                style: MyTextTheme.mediumGCB.copyWith(
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                                const SizedBox(height: 16),
-                                                Text("ARE YOU SURE?",
-                                                    style: MyTextTheme.mustard),
-                                                const SizedBox(height: 16),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                          color: AppColor
-                                                              .circleIndicator,
-                                                          borderRadius: BorderRadius
-                                                              .circular(10),
-                                                        ),
-                                                        child: TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(context)
-                                                                .pop();
-                                                          },
-                                                          child: const Text(
-                                                            'No, Go Back',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                          style: TextButton
-                                                              .styleFrom(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 10,
-                                                                vertical: 5),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 16),
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.grey,
-                                                          borderRadius: BorderRadius
-                                                              .circular(10),
-                                                        ),
-                                                        child: TextButton(
-                                                          onPressed: () async {
-                                                            await peerController
-                                                                .removeFriend(
-                                                                friend.user2.id
-                                                                    .toString());
-                                                            peerController
-                                                                .filteredFriendsList
-                                                                .removeAt(index);
-                                                            peerController.update();
-                                                            Get.back();
-                                                          },
-                                                          child: const Text(
-                                                            'Yes, Remove',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                          style: TextButton
-                                                              .styleFrom(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 10,
-                                                                vertical: 5),
-                                                          ),
-                                                        ),
-                                                      ),
-
-
-                                                    ],
+                                              ),
+                                              Text(
+                                                friend.user2.username.toString(),
+                                                style: MyTextTheme.smallGCB,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              backgroundColor: Colors.black,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(height: 20),
+                                                  Image.asset(
+                                                    "assets/container.png",
+                                                    width: 40,
+                                                    height: 50,
                                                   ),
-                                                ),
-                                                const SizedBox(height: 20),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: Text('Remove', style: TextStyle(
-                                        color: AppColor.circleIndicator)),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                                                  const SizedBox(height: 16),
+                                                  Text("ARE YOU SURE?",
+                                                      style: MyTextTheme.mustard),
+                                                  const SizedBox(height: 16),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                            color:
+                                                            AppColor.circleIndicator,
+                                                            borderRadius:
+                                                            BorderRadius.circular(10),
+                                                          ),
+                                                          child: TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                            child: const Text(
+                                                              'No, Go Back',
+                                                              style: TextStyle(
+                                                                  color: Colors.white),
+                                                            ),
+                                                            style: TextButton.styleFrom(
+                                                              padding:
+                                                              const EdgeInsets.symmetric(
+                                                                  horizontal: 10,
+                                                                  vertical: 5),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 16),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.grey,
+                                                            borderRadius:
+                                                            BorderRadius.circular(10),
+                                                          ),
+                                                          child: TextButton(
+                                                            onPressed: () async {
+                                                              await peerController.removeFriend(
+                                                                  friend.user2.id.toString());
+                                                              peerController.filteredFriendsList
+                                                                  .removeAt(index);
+                                                              peerController.update();
+                                                              Get.back();
+                                                            },
+                                                            child: const Text(
+                                                              'Yes, Remove',
+                                                              style: TextStyle(
+                                                                  color: Colors.white),
+                                                            ),
+                                                            style: TextButton.styleFrom(
+                                                              padding:
+                                                              const EdgeInsets.symmetric(
+                                                                  horizontal: 10,
+                                                                  vertical: 5),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 20),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text('Remove',
+                                          style: TextStyle(
+                                              color: AppColor.circleIndicator)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              )
 
-
-                    }),
-              ),
             ],
           ),
         )
@@ -443,3 +629,4 @@ class PeerView extends GetView<PeerController> {
     );
   }
 }
+
