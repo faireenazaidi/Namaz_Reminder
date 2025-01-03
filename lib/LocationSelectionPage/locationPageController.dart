@@ -326,6 +326,7 @@ Map selectMethod = {}.obs;
      print("Request Body: $body");
      String endpoint = 'verify/';
      final response = await ApiService().postRequest(endpoint, body);
+     print("vvvvvvvvvvvvv");
      Dialogs.hideLoading();
      if (response['response_code'].toString() == "1") {
        final userModel = UserModel.fromJson(response['response_data']['user']);
@@ -349,13 +350,13 @@ Map selectMethod = {}.obs;
        print("USERDATA: ${userData.getUserData!.mobileNo.toString()}");
      } else {
        // Show error snackbar
-       Get.snackbar(
-         'Error!',
-         'Invalid OTP',
-         snackPosition: SnackPosition.TOP,
-         colorText: Colors.white,
-         backgroundColor: Colors.black,
-       );
+       // Get.snackbar(
+       //   'Error!',
+       //   'Invalid OTP',
+       //   snackPosition: SnackPosition.TOP,
+       //   colorText: Colors.white,
+       //   backgroundColor: Colors.black,
+       // );
      }
    } catch (e) {
      // Handle errors gracefully
@@ -363,7 +364,7 @@ Map selectMethod = {}.obs;
      print("Error occurred during OTP verification: $e");
      Get.snackbar(
        'Error!',
-       'Something went wrong. Please try again.',
+       '$e',
        snackPosition: SnackPosition.TOP,
        colorText: Colors.white,
        backgroundColor: Colors.black,

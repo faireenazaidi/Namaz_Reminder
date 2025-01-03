@@ -11,6 +11,7 @@ import '../DashBoard/dashboardController.dart';
 import '../DataModels/LoginResponse.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
+import '../main.dart';
 
 String constantGoogleKey = "AIzaSyAPscPVLVlvdE4nB-Z-wgOUQfwkPZckgBU";
 // Rx<TextEditingController> locationController = TextEditingController().obs;
@@ -181,6 +182,82 @@ class Dialogs {
     );
   }
 
+  static void showCustomBottomSheet({
+    required BuildContext context,
+    required Widget content,
+    bool isScrollable = false, // Option to enable or disable scrolling
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allows dynamic height based on content
+      backgroundColor: Colors.transparent, // Makes the bottom sheet background transparent
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent, // Makes the background transparent
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                // margin: const EdgeInsets.symmetric(horizontal: 16.0), // Add margin for responsiveness
+                decoration: BoxDecoration(
+                  color: AppColor.gray, // Replace with your background color
+                  image: const DecorationImage(
+                    image: AssetImage("assets/net.png"),
+                    fit: BoxFit.cover,
+                    opacity: 0.9, // Adjust opacity
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16.0),
+                    topRight: Radius.circular(16.0),
+                  ), // Rounded corners for top
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, -4), // Subtle shadow at the top
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: content,
+                ),
+              ),
+              // Close Button
+              Positioned(
+                top: -50, // Position slightly above the top border
+                right: 15,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(), // Close bottom sheet on tap
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
 
 
@@ -218,13 +295,17 @@ class Dialogs {
       },
     );
   }
-  static BuildContext? _dialogContext;
+  static bool _isDialogVisible = false; // Track dialog visibility
+
   static void showLoading(BuildContext context, {String message = "Loading..."}) {
+    if (_isDialogVisible) return; // Prevent multiple dialogs from being shown
+
+    _isDialogVisible = true;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        _dialogContext = context; // Store the dialog's context
         return Stack(
           children: [
             // Blurred background
@@ -243,9 +324,9 @@ class Dialogs {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 15,width: 15,child: CircularProgressIndicator(strokeWidth: 2.0,)),
+                      const SizedBox(height: 15, width: 15, child: CircularProgressIndicator(strokeWidth: 2.0)),
                       const SizedBox(width: 20),
-                      Flexible(child: Text(message,style: const TextStyle(fontSize: 12),)),
+                      Flexible(child: Text(message, style: const TextStyle(fontSize: 12))),
                     ],
                   ),
                 ),
@@ -258,9 +339,14 @@ class Dialogs {
   }
 
   static void hideLoading() {
-    if (_dialogContext != null) {
-      Navigator.of(_dialogContext!, rootNavigator: true).pop();
-      _dialogContext = null; // Reset the context after hiding the dialog
+    if (_isDialogVisible) {
+      _isDialogVisible = false;
+      try {
+        // Use `Navigator.of` safely and dismiss the dialog
+        Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
+      } catch (e) {
+        print("Error while hiding dialog: $e");
+      }
     }
   }
 }

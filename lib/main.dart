@@ -878,6 +878,7 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
 //   Get.put(CustomDrawerController());
 //   runApp( MyApp());
 // }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   @override
@@ -891,6 +892,7 @@ class MyApp extends StatelessWidget {
       statusBarBrightness: Brightness.light, // Adjust for iOS
     ));
     return  GetMaterialApp(
+      navigatorKey: navigatorKey,
         theme: ThemeData(
             appBarTheme:AppBarTheme(
                 systemOverlayStyle: SystemUiOverlayStyle.dark,
