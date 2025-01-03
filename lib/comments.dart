@@ -1,54 +1,157 @@
-// Container(
-// child: Image.asset(
-// "assets/notifi.gif",
-// )
+// GetBuilder<AddFriendController>(
+// init: addFriendController,
+// builder: (controller) {
+// return Visibility(
+// visible: controller.getFriendRequestList.isNotEmpty,
+// child: Column(
+// children: [
+// // Header Row with "REQUESTS" and optional "SEE ALL"
+// Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: [
+// Text(
+// "REQUESTS",
+// style: MyTextTheme.greyNormal,
+// ),
+// // Show "SEE ALL" only if requests are more than 2
+// Visibility(
+// visible: controller.getFriendRequestList.length > 2,
+// child: InkWell(
+// onTap: () {
+// Get.to(
+// () => SeeAll(),
+// transition: Transition.rightToLeft,
+// duration: const Duration(milliseconds: 500),
+// curve: Curves.ease,
 // );
+// },
+// child: Text(
+// "SEE ALL",
+// style: MyTextTheme.greyNormal,
+// ),
+// ),
+// ),
+// ],
+// ),
+// const SizedBox(height: 5),
+// // Show ListView if request count <= 2, otherwise show only first 2 in this list
+// ListView.builder(
+// shrinkWrap: true,
+// itemCount: controller.getFriendRequestList.length <= 2
+// ? controller.getFriendRequestList.length
+//     : 2, // Show only first 2 if there are more than 2 requests
+// itemBuilder: (context, index) {
+// FriendRequestDataModal friendRequestData = controller.getFriendRequestList[index];
 //
-// Future<void> fetchMissedPrayersCount() async {
-//   try {
-//     final requestUrl = 'http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${currentPrayer}';
-//     print('Request URL: $requestUrl');
+// return Row(
+// children: [
+// // Profile Picture
+// Container(
+// width: 35,
+// height: 40,
+// decoration: BoxDecoration(
+// shape: BoxShape.circle,
+// image: friendRequestData.picture != null &&
+// friendRequestData.picture!.isNotEmpty
+// ? DecorationImage(
+// image: NetworkImage(
+// "http://182.156.200.177:8011${friendRequestData.picture}"),
+// fit: BoxFit.cover,
+// )
+//     : null,
+// color: friendRequestData.picture == null ||
+// friendRequestData.picture!.isEmpty
+// ? AppColor.circleIndicator
+//     : null,
+// ),
+// child: friendRequestData.picture == null ||
+// friendRequestData.picture!.isEmpty
+// ? const Icon(Icons.person,
+// size: 20, color: Colors.white)
+//     : null,
+// ),
 //
-//     final response = await http.get(Uri.parse(requestUrl));
-//
-//     if (response.statusCode == 200) {
-//       print('Raw API Response: ${response.body}');
-//       var data = jsonDecode(response.body);
-//       print('Parsed JSON: $data');
-//
-//       missedPrayersCount.value = data['total_missed_prayers'] ?? 0;
-//       print('Total Missed Prayers: ${missedPrayersCount.value}');
-//
-//       if (data.containsKey('pending_requests')) {
-//         pending.value = data['pending_requests'];
-//       } else {
-//         print('Key "total_pending" does not exist in the response.');
-//         pending.value = 0; // Fallback value
-//       }
-//       print('Pending Value: ${pending.value}');
-//     } else {
-//       print('Failed to fetch data. Status Code: ${response.statusCode}');
-//     }
-//   } catch (e) {
-//     print('Error fetching missed prayers count: $e');
-//   }
-// }
-// void markPrayerAsPrayed(String prayer) {
-//   if (userData.getUserData!.fiqh.toString() == '0') { // Only apply for Shia fiqh
-//     if (prayer == 'Dhuhr') {
-//       // Dhuhr ends now and Asr can start immediately
-//       prayerDuration['Dhuhr']!['end'] = DateFormat('HH:mm').format(DateTime.now());
-//       prayerDuration['Asr']!['start'] = prayerDuration['Dhuhr']!['end']!;
-//       print("Dhuhr marked as prayed. Asr start time updated to ${prayerDuration['Asr']!['start']}");
-//     } else if (prayer == 'Maghrib') {
-//       // Maghrib ends now and Isha can start immediately
-//       prayerDuration['Maghrib']!['end'] = DateFormat('HH:mm').format(DateTime.now());
-//       prayerDuration['Isha']!['start'] = prayerDuration['Maghrib']!['end']!;
-//       print("Maghrib marked as prayed. Isha start time updated to ${prayerDuration['Isha']!['start']}");
-//     }
-//
-//     // Save the updated prayer timings to storage
-//     userData.savePrayerTimings(prayerDuration);
-//     // storage.write('prayerDuration', prayerDuration);
-//   }
-// }
+// // User Details
+// Expanded(
+// child: Padding(
+// padding: const EdgeInsets.only(left: 12.0),
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text(
+// friendRequestData.name.toString(),
+// style: MyTextTheme.mediumGCB.copyWith(
+// fontSize: 16,
+// color: Colors.black,
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// ],
+// ),
+// ),
+// ),
+// // Accept and Decline Buttons
+// Row(
+// children: [
+// InkWell(
+// onTap: () async {
+// await controller.acceptFriendRequest(
+// friendRequestData);
+// await notificationController
+//     .readNotificationMessage(
+// notificationController.notifications[index]
+// ['id']
+//     .toString());
+// await dashBoardController.pending.value
+//     .toString();
+// },
+// child: Container(
+// height: MediaQuery.of(context).size.height * 0.04,
+// width: MediaQuery.of(context).size.width * 0.2,
+// decoration: BoxDecoration(
+// border: Border.all(color: AppColor.white),
+// borderRadius: BorderRadius.circular(10),
+// color: AppColor.circleIndicator,
+// ),
+// child: const Center(
+// child: Text(
+// "Accept",
+// style: TextStyle(color: Colors.white),
+// ),
+// ),
+// ),
+// ),
+// const SizedBox(width: 5),
+// InkWell(
+// onTap: () async {
+// await controller.declineRequest(friendRequestData);
+// controller.friendRequestList.removeAt(index);
+// controller.update();
+// },
+// child: Container(
+// height: MediaQuery.of(context).size.height * 0.04,
+// width: MediaQuery.of(context).size.width * 0.2,
+// decoration: BoxDecoration(
+// border: Border.all(color: AppColor.white),
+// borderRadius: BorderRadius.circular(10),
+// color: AppColor.greyColor,
+// ),
+// child: const Center(
+// child: Text(
+// "Decline",
+// style: TextStyle(color: Colors.white),
+// ),
+// ),
+// ),
+// ),
+// ],
+// ),
+// ],
+// );
+// },
+// ),
+// ],
+// ),
+// );
+// },
+// ),

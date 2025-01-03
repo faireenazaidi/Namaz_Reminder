@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:namaz_reminders/Setting/SettingView.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
-import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Widget/appColor.dart';
@@ -352,8 +350,8 @@ class Upcoming extends GetView<UpcomingController> {
                           String nextPrayer = prayerList[0]['name']!;
                           String startTime24 = prayerDurations[nextPrayer]?['start'] ?? 'N/A';
                           String endTime24 = prayerDurations[nextPrayer]?['end'] ?? 'N/A';
-                          String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
-                          String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+                          // String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
+                          // String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
 
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
