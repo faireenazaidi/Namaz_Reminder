@@ -206,6 +206,7 @@ class DashBoardController extends GetxController {
       }
     } catch (e) {
       print('Error fetching missed prayers count: $e');
+
     }
   }
 

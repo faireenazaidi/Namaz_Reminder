@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Services/ApiService/api_service.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import '../AppManager/dialogs.dart';
 import '../AppManager/toast.dart';
+import '../Widget/no_internet.dart';
+import '../main.dart';
 
 class FeedbackController extends GetxController{
 
@@ -36,6 +39,7 @@ class FeedbackController extends GetxController{
   }
 
   registerUser() async {
+    try{
     var body ={
       "user_id": userData.getUserData?.id.toString(),
       "username": userData.getUserData?.username.toString(),
@@ -61,6 +65,15 @@ class FeedbackController extends GetxController{
     print("userData ${userData.getUserData?.toJson()}");
     showToast(msg: 'Feedback Submitted',bgColor: Colors.black);
     clearForm();
+  }
+  catch(e){
+    print('$e');
+    final context = navigatorKey.currentContext!;
+    Dialogs.showCustomBottomSheet(context: context,
+      content: NoInternet(message: '$e',
+          onRetry: (){}),);
+  }
+
   }
   void clearForm() {
     email.value = '';

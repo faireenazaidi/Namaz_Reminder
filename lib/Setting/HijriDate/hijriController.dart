@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../../AppManager/dialogs.dart';
 import '../../AppManager/toast.dart';
 import '../../DashBoard/dashboardController.dart';
 import '../../DataModels/LoginResponse.dart';
 import '../../Services/ApiService/api_service.dart';
 import '../../Services/user_data.dart';
+import '../../Widget/no_internet.dart';
+import '../../main.dart';
 //
 // class HijriController extends GetxController {
 //   UserData userData = UserData();
@@ -178,6 +181,13 @@ class HijriController extends GetxController {
       }
     } catch (e) {
       print("Error in registration: $e");
+      print('$e');
+      final context = navigatorKey.currentContext!;
+      Dialogs.showCustomBottomSheet(context: context,
+        content: NoInternet(message: '$e',
+            onRetry: (){registerUser(isFirst: true);
+            updateSelectedId(userData.getUserData?.hijriAdj ?? 0);
+            selectItem(selectedId.value);}),);
     }
   }
 }

@@ -189,7 +189,6 @@ class ProfileController extends GetxController{
   Future<void> _updateProfilePhoto(String filePath) async {
     updateProfilePhoto(filePath);
 
-
     var headers = {
       'Cookie': 'csrftoken=yQZryaCTtTmYrYdjA6ZZSxgbPfJJlNft',
     };

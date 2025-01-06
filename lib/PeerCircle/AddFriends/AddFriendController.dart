@@ -3,7 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import '../../AppManager/dialogs.dart';
 import '../../Services/ApiService/api_service.dart';
+import '../../Widget/no_internet.dart';
+import '../../main.dart';
 import '../peerController.dart';
 import 'AddFriendDataModal.dart';
 
@@ -34,8 +37,6 @@ class AddFriendController extends GetxController {
     fetchRegisteredUsers();
     fetchFriendRequests();
     // filteredUserList.value = getRegisteredUserList;
-
-
   }
   void updateSearchQuery(String query) {
     searchQuery = query;
@@ -61,8 +62,12 @@ class AddFriendController extends GetxController {
       } else {
         print('Failed to fetch registered users: ${response.statusCode}');
       }
-    } catch (e) {
+    }
+    catch (e) {
       print('Error fetching registered users: $e');
+      print('$e');
+      final context = navigatorKey.currentContext!;
+      Dialogs.showCustomBottomSheet(context: context, content: NoInternet(message: '$e', onRetry:  (){} ),);
     }
   }
 

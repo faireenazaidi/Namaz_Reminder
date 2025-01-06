@@ -199,13 +199,13 @@ void _handleConnectivityChange(ConnectivityResult result) {
   //        }, child: Text("OK"))
   //   );
 
-    Get.showSnackbar(
-      const GetSnackBar(
-        snackPosition: SnackPosition.BOTTOM,
-        message: "No Internet Connection",
-        duration: Duration(days: 1),
-      ),
-    );
+    // Get.showSnackbar(
+    //   const GetSnackBar(
+    //     snackPosition: SnackPosition.BOTTOM,
+    //     message: "No Internet Connection",
+    //     duration: Duration(days: 1),
+    //   ),
+    // );
 
     print("No internet connection");
   } else {

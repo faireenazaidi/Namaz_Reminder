@@ -1,13 +1,15 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
 import '../PeerCircle/peerController.dart';
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
+import '../Widget/no_internet.dart';
+import '../main.dart';
 
 class NotificationController extends GetxController {
-  final PeerController peerController = Get.put(PeerController());
   final DashBoardController dashBoardController = Get.find<DashBoardController>();
 
   // Private variables
@@ -81,7 +83,11 @@ class NotificationController extends GetxController {
       notifications = data;
     } catch (e) {
       print('Error while fetching notifications: $e');
-      //   Get.snackbar('Error', 'Failed to load notifications.');
+      print('$e');
+      final context = navigatorKey.currentContext!;
+      Dialogs.showCustomBottomSheet(context: context,
+        content: NoInternet(message: '$e',
+            onRetry: (){}),);
     } finally {
       isLoading.value = false; // Stop loading
     }

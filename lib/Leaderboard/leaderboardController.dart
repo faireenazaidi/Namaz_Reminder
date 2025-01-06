@@ -9,6 +9,8 @@ import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Services/ApiService/api_service.dart';
+import '../Widget/no_internet.dart';
+import '../main.dart';
 import 'leaderboardDataModal.dart';
 
 class LeaderBoardController extends GetxController{
@@ -143,6 +145,7 @@ class LeaderBoardController extends GetxController{
       }
     } catch (e) {
       print("Error fetching leaderboard data: $e");
+
     }
   }
 
@@ -224,6 +227,11 @@ class LeaderBoardController extends GetxController{
       }
     } catch (e) {
       print("Error fetching weekly API data: $e");
+      print('$e');
+      final context = navigatorKey.currentContext!;
+      Dialogs.showCustomBottomSheet(context: context,
+        content: NoInternet(message: '$e',
+            onRetry: (){ updateIslamicDateBasedOnOption();}),);
     }
   }
 

@@ -155,3 +155,40 @@
 // );
 // },
 // ),
+
+//
+// child: TextField(
+// controller: searchController,
+// onChanged: (value) {
+// // Update the search text in the controller as the user types
+// peerController.setSearchText(value);
+// },
+// cursorColor: AppColor.circleIndicator,
+// decoration: InputDecoration(
+// prefixIcon: const Icon(Icons.search),
+// hintText: "Search Username..",
+// hintStyle: MyTextTheme.mediumCustomGCN,
+// border: OutlineInputBorder(
+// borderRadius: BorderRadius.circular(10),
+// borderSide: const BorderSide(color: Colors.black),
+// ),
+// enabledBorder: OutlineInputBorder(
+// borderRadius: BorderRadius.circular(10),
+// borderSide: const BorderSide(color: Colors.grey, width: 1),
+// ),
+// focusedBorder: OutlineInputBorder(
+// borderRadius: BorderRadius.circular(10),
+// borderSide: const BorderSide(color: Colors.grey, width: 1),
+// ),
+// // Add the suffix icon for clearing the text
+// suffixIcon: IconButton(
+// icon: const Icon(Icons.cancel, color: Colors.grey),
+// onPressed: () {
+// // Clear the text field and update the controller
+// searchController.clear();
+// peerController.setSearchText(''); // Clear the search text in the controller
+// },
+// ),
+// ),
+// style: const TextStyle(color: Colors.grey),
+// ),
