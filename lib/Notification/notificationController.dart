@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../AppManager/dialogs.dart';
@@ -39,59 +41,106 @@ class NotificationController extends GetxController {
     fetchNotifications();
   }
 
-  // Fetch notifications from API
+ // Fetch notifications from API
+ //  Future<void> fetchNotifications() async {
+ //    // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+ //    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+ //    final response = await http.get(url);
+ //    isLoading.value = false;
+ //    if (response.statusCode == 200) {
+ //      print('ResponseAPI : ${response.body}');
+ //
+ //      final data = jsonDecode(response.body);
+ //      print("api rssss" + data.toString());
+ //
+ //      // Sort by date in descending order before setting notifications
+ //      data.sort((a, b) {
+ //        var dateA = DateTime.parse(a['created_at']);
+ //        var dateB = DateTime.parse(b['created_at']);
+ //        return dateB.compareTo(dateA);
+ //      });
+ //      // Update the notifications using the setter
+ //      notifications = data;
+ //    } else {
+ //      // Get.snackbar('Error', 'Failed to load notifications');
+ //    }
+ //  }
+
   // Future<void> fetchNotifications() async {
-  //   // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
-  //   final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
-  //   final response = await http.get(url);
-  //   isLoading.value = false;
-  //   if (response.statusCode == 200) {
-  //     print('ResponseAPI : ${response.body}');
-  //
-  //     final data = jsonDecode(response.body);
-  //     print("api rssss" + data.toString());
-  //
-  //     // Sort by date in descending order before setting notifications
+  //   isLoading.value = true;
+  //   try {
+  //     // Call the ApiService to fetch data
+  //     final data = await ApiService().getRequest(
+  //       'user_notifications/${userData.getUserData?.id}/',
+  //     );
+  //     print("APIIRes: $data");
+  //     // Sort notifications by date in descending order
   //     data.sort((a, b) {
-  //       var dateA = DateTime.parse(a['created_at']);
-  //       var dateB = DateTime.parse(b['created_at']);
+  //       DateTime dateA = DateTime.parse(a['created_at']);
+  //       DateTime dateB = DateTime.parse(b['created_at']);
   //       return dateB.compareTo(dateA);
   //     });
-  //     // Update the notifications using the setter
+  //     // Update notifications list
   //     notifications = data;
-  //   } else {
-  //     // Get.snackbar('Error', 'Failed to load notifications');
+  //   } catch (e) {
+  //     print('Error while fetching notifications: $e');
+  //     print('$e');
+  //     final context = navigatorKey.currentContext!;
+  //     Dialogs.showCustomBottomSheet(context: context,
+  //       content: NoInternet(message: '$e',
+  //           onRetry: (){}),);
+  //   } finally {
+  //     isLoading.value = false; // Stop loading
   //   }
   // }
-
-  Future<void> fetchNotifications() async {
+  Future<void> fetchNotifications() async  {
     isLoading.value = true;
     try {
-      // Call the ApiService to fetch data
       final data = await ApiService().getRequest(
         'user_notifications/${userData.getUserData?.id}/',
       );
-      print("APII Res: $data");
-
-      // Sort notifications by date in descending order
+      print("APIIRes: $data");
       data.sort((a, b) {
         DateTime dateA = DateTime.parse(a['created_at']);
         DateTime dateB = DateTime.parse(b['created_at']);
+
         return dateB.compareTo(dateA);
+
       });
-      // Update notifications list
-      notifications = data;
-    } catch (e) {
+      if (data.isNotEmpty) {
+        DateTime latestDate = DateTime.parse(data.first['created_at']).toLocal();
+        notifications = data.where((notification) {
+          DateTime notificationDate = DateTime.parse(notification['created_at']).toLocal();
+          return notificationDate.year == latestDate.year &&
+              notificationDate.month == latestDate.month &&
+              notificationDate.day == latestDate.day;
+        }).toList();
+
+        notifications = notifications.toSet().toList();
+        print(notifications);
+      }
+      else
+      {
+        notifications = [];
+      }
+    }
+    catch (e)
+    {
       print('Error while fetching notifications: $e');
-      print('$e');
       final context = navigatorKey.currentContext!;
-      Dialogs.showCustomBottomSheet(context: context,
-        content: NoInternet(message: '$e',
-            onRetry: (){}),);
-    } finally {
-      isLoading.value = false; // Stop loading
+      Dialogs.showCustomBottomSheet(
+        context: context,
+        content: NoInternet(
+          message: '$e',
+          onRetry: () {},
+        ),
+      );
+    }
+    finally {
+      isLoading.value = false;
     }
   }
+
 
   String buildFullImageUrl(String? imagePath) {
     const String baseUrl = "http://182.156.200.177:8011";

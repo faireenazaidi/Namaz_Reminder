@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
@@ -66,8 +67,8 @@ class AddFriendController extends GetxController {
     catch (e) {
       print('Error fetching registered users: $e');
       print('$e');
-      final context = navigatorKey.currentContext!;
-      Dialogs.showCustomBottomSheet(context: context, content: NoInternet(message: '$e', onRetry:  (){} ),);
+      // final context = navigatorKey.currentContext!;
+      // Dialogs.showCustomBottomSheet(context: context, content: NoInternet(message: '$e', onRetry:  (){} ),);
     }
   }
 

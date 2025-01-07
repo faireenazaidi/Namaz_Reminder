@@ -192,3 +192,216 @@
 // ),
 // style: const TextStyle(color: Colors.grey),
 // ),
+//////////////////
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:namaz_reminders/Setting/HijriDate/hijriController.dart';
+// import 'package:namaz_reminders/Setting/SettingController.dart';
+// import '../../AppManager/dialogs.dart';
+// import '../../DashBoard/dashboardController.dart';
+// import '../../Widget/appColor.dart';
+// import '../../Widget/text_theme.dart';
+//
+// class HijriDateView extends GetView<SettingController> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final HijriController hijriController = Get.put(HijriController());
+//     final DashBoardController dashboardController = Get.put(DashBoardController());
+//     return SafeArea(
+//       child: Scaffold(
+//         backgroundColor: Colors.white,
+//         appBar: AppBar(
+//           backgroundColor: Colors.white,
+//           centerTitle: true,
+//           title: Text('Hijri Date Adjustment', style: MyTextTheme.mediumBCD),
+//           bottom: PreferredSize(
+//             preferredSize: const Size.fromHeight(1.0),
+//             child: Divider(
+//               height: 1.5,
+//               color: AppColor.packageGray,
+//             ),
+//           ),
+//           leading: InkWell(
+//             onTap: () {
+//               Get.back(
+//                 //     () => SettingView(),
+//                 // transition: Transition.rightToLeft,
+//                 // duration: Duration(milliseconds: 500),
+//                 // curve: Curves.ease,
+//               );
+//             },
+//             child: const Icon(Icons.arrow_back_ios_new, size: 20),
+//           ),
+//         ),
+//         body:
+//             Column(
+//               children: [
+//                 ElevatedButton(
+//                     onPressed: (){
+//                       Dialogs.showCustomDialog(
+//                         context: context,
+//                         content: Column(
+//                           mainAxisSize: MainAxisSize.min, // Use min size to fit content
+//                           children: [
+//                             Text(
+//                               'This is a custom dialog',
+//                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//                             ),
+//                             SizedBox(height: 20),
+//                             Text(
+//                               'You can put any widget here.',
+//                               textAlign: TextAlign.center,
+//                             ),
+//                             SizedBox(height: 20),
+//                             ElevatedButton(
+//                               onPressed: () {
+//                                 // Close the dialog
+//                                 Navigator.of(context).pop();
+//                               },
+//                               child: Text('Close'),
+//                             ),
+//                           ],
+//                         ),
+//                       );
+//                     },
+//                     child: Text("hloooo")
+//                 )
+//
+//               ],
+//             )
+//
+//
+//
+//       ),
+//     );
+//   }
+// }
+
+//
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import '../../AppManager/dialogs.dart';
+// import '../../Widget/appColor.dart';
+// import '../../Widget/text_theme.dart';
+// import '../SettingController.dart';
+//
+// class HijriDateView extends  GetView<SettingController>  {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         centerTitle: true,
+//         title: Text('Hijri Date Adjustment', style: MyTextTheme.mediumBCD),
+//         bottom: PreferredSize(
+//           preferredSize: const Size.fromHeight(1.0),
+//           child: Divider(
+//             height: 1.5,
+//             color: AppColor.packageGray,
+//           ),
+//         ),
+//         leading: InkWell(
+//           onTap: () {
+//             Get.back(
+//               //     () => SettingView(),
+//               // transition: Transition.rightToLeft,
+//               // duration: Duration(milliseconds: 500),
+//               // curve: Curves.ease,
+//             );
+//           },
+//           child: const Icon(Icons.arrow_back_ios_new, size: 20),
+//         ),
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () {
+//             Dialogs.showCustomDialog(
+//               context: context,
+//               content: IncrementDecrementDialog(),
+//             );
+//           },
+//           child: Text('Adjust Hijri Date'),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class IncrementDecrementDialog extends StatefulWidget {
+//   @override
+//   _IncrementDecrementDialogState createState() => _IncrementDecrementDialogState();
+// }
+//
+// class _IncrementDecrementDialogState extends State<IncrementDecrementDialog> {
+//   int _counter = 0;
+//
+//   void _increment() {
+//     setState(() {
+//       if (_counter < 2)
+//         _counter++;
+//     });
+//   }
+//
+//   void _decrement() {
+//     setState(() {
+//       if (_counter > -2) {
+//         _counter--;
+//       }
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisSize: MainAxisSize.min, // Use min size to fit content
+//       children: [
+//         Text(
+//           'Adjust Hijri Date',
+//           style: MyTextTheme.mustardN,
+//         ),
+//         SizedBox(height: 20),
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Container(
+//               decoration: BoxDecoration(
+//                   color: AppColor.circleIndicator,
+//                   borderRadius: BorderRadius.circular(15)
+//               ),
+//               child: IconButton(
+//                 icon: const Icon(Icons.remove,color: Colors.white,),
+//                 onPressed: _decrement,
+//               ),
+//             ),
+//             SizedBox(width: 20),
+//             Text(
+//                 '$_counter',
+//                 style: MyTextTheme.mediumWCB
+//             ),
+//             SizedBox(width: 20),
+//             Container(
+//               decoration: BoxDecoration(
+//                   color: AppColor.circleIndicator,
+//                   borderRadius: BorderRadius.circular(15)
+//               ),
+//               child: IconButton(
+//                 icon: Icon(Icons.add,color: Colors.white,),
+//                 onPressed: _increment,
+//
+//               ),
+//             ),
+//           ],
+//         ),
+//         SizedBox(height: 20),
+//         // ElevatedButton(
+//         //   onPressed: () {
+//         //     // Close the dialog
+//         //     Navigator.of(context).pop();
+//         //   },
+//         //   child: Text('Close'),
+//         // ),
+//       ],
+//     );
+//   }
+// }

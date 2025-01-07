@@ -27,7 +27,7 @@ class NotificationSound extends GetView<NotificationSoundController>{
         leading: InkWell(
           onTap: () {
             // Get.back();
-            Get.to(()=>NotificationSetting());
+           // Get.to(()=>NotificationSetting());
           },
           child: const Icon(Icons.arrow_back_ios_new,size: 20,),
         ),

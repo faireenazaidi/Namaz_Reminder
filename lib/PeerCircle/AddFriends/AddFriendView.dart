@@ -17,6 +17,7 @@ class AddFriendView extends GetView<AddFriendController> {
   Widget build(BuildContext context) {
     final NotificationController notificationController = Get.put(NotificationController());
     final DashBoardController dashBoardController = Get.find<DashBoardController>();
+    final TextEditingController searchController = TextEditingController();
 
     String capitalizeFirstLetter(String name) {
       if (name.isEmpty) return name;
@@ -65,6 +66,7 @@ class AddFriendView extends GetView<AddFriendController> {
                   SizedBox(
                     height: 50,
                     child: TextField(
+                      controller: searchController,
                       onChanged: (value) {
                         controller.updateSearchQuery(value);
                       },
@@ -92,6 +94,13 @@ class AddFriendView extends GetView<AddFriendController> {
                             color: Colors.grey,
                             width: 1,
                           ),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.cancel, color: Colors.grey),
+                          onPressed: () {
+                            searchController.clear();
+                            controller.updateSearchQuery("");
+                          },
                         ),
                       ),
                       style: const TextStyle(

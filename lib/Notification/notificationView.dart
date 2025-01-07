@@ -38,10 +38,10 @@ class NotificationView extends  GetView<NotificationController> {
         actions: [
           TextButton(
             onPressed: () {
-              Get.to(() => NotificationSetting (),
-                transition: Transition.rightToLeft,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.ease,);
+              // Get.to(() => NotificationSetting (),
+              //   transition: Transition.rightToLeft,
+              //   duration: const Duration(milliseconds: 500),
+              //   curve: Curves.ease,);
 
             },
             child:SvgPicture.asset(

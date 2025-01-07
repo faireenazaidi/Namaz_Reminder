@@ -26,6 +26,8 @@ class RequestController extends GetxController {
     await registerUser();
   }
 
+
+
   Future<void> registerUser({bool isFirst = false}) async {
     // Map fr_allow values properly based on selectedIndex
     int? frAllowValue;

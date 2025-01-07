@@ -214,7 +214,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             children: [
                               Text(
                                 DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
-                                style: const TextStyle(fontSize: 12, color: Colors.black),
+                                style: const TextStyle(fontSize: 13.5, color: Colors.black),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Container(
@@ -226,7 +226,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               Obx(
                                     () => Text(
                                   controller.islamicDate.value,
-                                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                                  style: const TextStyle(fontSize: 13.5, color: Colors.black),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),

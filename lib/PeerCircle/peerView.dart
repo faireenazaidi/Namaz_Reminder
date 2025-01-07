@@ -60,32 +60,66 @@ class PeerView extends GetView<PeerController> {
               const SizedBox(height: 20),
               SizedBox(
                 height: 50,
-                child: TextField(
-                  controller: searchController,
-                  onChanged: (value) {
-                    // Update the search text in the controller as the user types
-                    peerController.setSearchText(value);
-                  },
-                  cursorColor: AppColor.circleIndicator,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: "Search Username..",
-                    hintStyle: MyTextTheme.mediumCustomGCN,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.grey, width: 1),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.grey, width: 1),
-                    ),
-                  ),
-                  style: const TextStyle(color: Colors.grey),
-                ),
+                   child: TextField(
+                     controller: searchController,
+                     onChanged: (value) {
+                       peerController.setSearchText(value);
+                     },
+                     cursorColor: AppColor.circleIndicator,
+                     decoration: InputDecoration(
+                       prefixIcon: const Icon(Icons.search),
+                       hintText: "Search Username..",
+                       hintStyle: MyTextTheme.mediumCustomGCN,
+                       border: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(10),
+                         borderSide: const BorderSide(color: Colors.black),
+                       ),
+                       enabledBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(10),
+                         borderSide: const BorderSide(color: Colors.grey, width: 1),
+                       ),
+                       focusedBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(10),
+                         borderSide: const BorderSide(color: Colors.grey, width: 1),
+                       ),
+                       suffixIcon: IconButton(
+                         icon: const Icon(Icons.cancel, color: Colors.grey),
+                         onPressed: () {
+                           searchController.clear();
+                           peerController.setSearchText('');
+                         },
+                       ),
+                     ),
+                     style: const TextStyle(color: Colors.grey),
+                   ),
+
+                // child: TextField(
+                //   controller: searchController,
+                //   onChanged: (value) {
+                //     // Update the search text in the controller as the user types
+                //     peerController.setSearchText(value);
+                //   },
+                //   cursorColor: AppColor.circleIndicator,
+                //   decoration: InputDecoration(
+                //     prefixIcon: const Icon(Icons.search),
+                //     hintText: "Search Username..",
+                //     hintStyle: MyTextTheme.mediumCustomGCN,
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //       borderSide: const BorderSide(color: Colors.black),
+                //     ),
+                //     enabledBorder: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //       borderSide: const BorderSide(color: Colors.grey, width: 1),
+                //     ),
+                //     focusedBorder: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //       borderSide: const BorderSide(color: Colors.grey, width: 1),
+                //     ),
+                //   ),
+                //   style: const TextStyle(color: Colors.grey),
+                // ),
+
               ),
               const SizedBox(height: 15),
               GetBuilder(
@@ -240,12 +274,13 @@ class PeerView extends GetView<PeerController> {
                             );
                           },
                         ),
+                        Divider(color: Colors.grey[300], thickness: 1),
                       ],
                     ),
                   );
                 },
               ),
-              Divider(color: Colors.grey[300], thickness: 1),
+
               SizedBox(height: 15,),
 
 

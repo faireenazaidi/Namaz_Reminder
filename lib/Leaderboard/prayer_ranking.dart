@@ -442,7 +442,7 @@ class PrayerRanking extends StatelessWidget {
             ):
             CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: 25,
+                radius: 30,
                 child: Container(
                height: 3,
                       width: 12,

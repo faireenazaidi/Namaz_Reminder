@@ -115,7 +115,7 @@ class Dialogs {
                   decoration: BoxDecoration(
                     color: AppColor.gray, // Replace with your background color
                     image: const DecorationImage(
-                      image: AssetImage("assets/net.png"),
+                      image: AssetImage("assets/blacknet.png"),
                       fit: BoxFit.cover,
                       opacity: 0.9, // Adjust opacity
                     ),

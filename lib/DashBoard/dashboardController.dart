@@ -496,8 +496,7 @@ class DashBoardController extends GetxController {
       islamicDate.value =
       '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ??
           "Month"} ${hijriDate?.year ?? "Year"}';
-      // ' ${hijriDate?.designation
-      // ?.abbreviated ?? "Abbreviation"}';
+       ' ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
       print("baqar");
       print("isEmpty ${userData.getPrayerDurationForShia}");
       updatePrayerDuration = userData.getUserData!.fiqh.toString() == '0' // Shia fiqh
@@ -1325,7 +1324,7 @@ List isPrayedList = [];
   void updateIslamicDateBasedOnOption(int id) {
     final hijriDate = getExtractedData[0].date?.hijri;
     DateTime onlyDate  = DateTime.now();
-    DateTime baseDate = DateTime(onlyDate.year, onlyDate.month, onlyDate.day);
+    DateTime baseDate = DateTime(onlyDate.year, onlyDate.month, onlyDate.day,);
     print("base # $baseDate");
     DateTime newDate;
 
