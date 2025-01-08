@@ -67,7 +67,7 @@ class PeerView extends GetView<PeerController> {
                      },
                      cursorColor: AppColor.circleIndicator,
                      decoration: InputDecoration(
-                       prefixIcon: const Icon(Icons.search),
+                       prefixIcon:  Icon(Icons.search,),
                        hintText: "Search Username..",
                        hintStyle: MyTextTheme.mediumCustomGCN,
                        border: OutlineInputBorder(

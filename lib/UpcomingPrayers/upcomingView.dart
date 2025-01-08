@@ -368,7 +368,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                     //   Text(controller.nextPrayer.value, style: MyTextTheme.medium),
+                                      //  Text(controller.nextPrayer.value, style: MyTextTheme.medium),
                                         Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},

@@ -182,12 +182,12 @@ class HijriController extends GetxController {
     } catch (e) {
       print("Error in registration: $e");
       print('$e');
-      final context = navigatorKey.currentContext!;
+     /* final context = navigatorKey.currentContext!;
       Dialogs.showCustomBottomSheet(context: context,
         content: NoInternet(message: '$e',
             onRetry: (){registerUser(isFirst: true);
             updateSelectedId(userData.getUserData?.hijriAdj ?? 0);
-            selectItem(selectedId.value);}),);
+            selectItem(selectedId.value);}),);*/
     }
   }
 }

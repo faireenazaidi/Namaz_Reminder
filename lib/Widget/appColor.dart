@@ -16,7 +16,7 @@ class AppColor {
   static final cream=("##F3EAD2").toColor();
 
   static final Color gray = '#101010'.toColor();
-
+  static final Color lightGray = '#1A1A1A'.toColor();
   static const white=Colors.white;
   static Color black=("#000000").toColor();
   static Color g=("#d9d9d9").toColor();

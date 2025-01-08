@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../AppManager/dialogs.dart';
@@ -74,6 +75,9 @@ class NotificationController extends GetxController {
   //       'user_notifications/${userData.getUserData?.id}/',
   //     );
   //     print("APIIRes: $data");
+  //     debugPrint("APIIRes: $data", wrapWidth: 1024);
+  //     print("jdjsdd");
+  //
   //     // Sort notifications by date in descending order
   //     data.sort((a, b) {
   //       DateTime dateA = DateTime.parse(a['created_at']);
@@ -85,47 +89,43 @@ class NotificationController extends GetxController {
   //   } catch (e) {
   //     print('Error while fetching notifications: $e');
   //     print('$e');
-  //     final context = navigatorKey.currentContext!;
-  //     Dialogs.showCustomBottomSheet(context: context,
-  //       content: NoInternet(message: '$e',
-  //           onRetry: (){}),);
-  //   } finally {
-  //     isLoading.value = false; // Stop loading
+  //
+  //   }
+  //   finally {
+  //     isLoading.value = false;
   //   }
   // }
-  Future<void> fetchNotifications() async  {
+  Future<void> fetchNotifications() async {
     isLoading.value = true;
     try {
+      // Call the ApiService to fetch data
       final data = await ApiService().getRequest(
         'user_notifications/${userData.getUserData?.id}/',
       );
-      print("APIIRes: $data");
+
+      debugPrint("APIIRes: $data", wrapWidth: 1024);
+
+      // Sort notifications by date in descending order
       data.sort((a, b) {
         DateTime dateA = DateTime.parse(a['created_at']);
         DateTime dateB = DateTime.parse(b['created_at']);
-
         return dateB.compareTo(dateA);
-
       });
-      if (data.isNotEmpty) {
-        DateTime latestDate = DateTime.parse(data.first['created_at']).toLocal();
-        notifications = data.where((notification) {
-          DateTime notificationDate = DateTime.parse(notification['created_at']).toLocal();
-          return notificationDate.year == latestDate.year &&
-              notificationDate.month == latestDate.month &&
-              notificationDate.day == latestDate.day;
-        }).toList();
 
-        notifications = notifications.toSet().toList();
-        print(notifications);
+      // Create a Map to store the latest notifications by message
+      Map<String, Map<String, dynamic>> uniqueNotifications = {};
+      for (var notification in data) {
+        String message = notification['message'];
+        if (!uniqueNotifications.containsKey(message)) {
+          uniqueNotifications[message] = notification;
+        }
       }
-      else
-      {
-        notifications = [];
-      }
-    }
-    catch (e)
-    {
+
+      // Update notifications list with only the latest unique notifications
+      notifications = uniqueNotifications.values.toList();
+
+      debugPrint("Filtered Notifications: $notifications", wrapWidth: 1024);
+    } catch (e) {
       print('Error while fetching notifications: $e');
       final context = navigatorKey.currentContext!;
       Dialogs.showCustomBottomSheet(
@@ -135,8 +135,7 @@ class NotificationController extends GetxController {
           onRetry: () {},
         ),
       );
-    }
-    finally {
+    } finally {
       isLoading.value = false;
     }
   }
@@ -170,6 +169,7 @@ class NotificationController extends GetxController {
         _last7DaysNotifications.add(notification);
       }
     }
+    print("fai ${todayNotifications}");
   }
 
   // Helper method to compare dates

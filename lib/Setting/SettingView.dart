@@ -147,6 +147,7 @@ class SettingView extends StatelessWidget {
                                               print("value $value");
                                               notificationSettingController.pauseAll.value = value;
                                               notificationSettingController.registerUser();
+                                              notificationSettingController.updateScheduler();
                                               showToast(msg: 'Settings Updated', bgColor: Colors.black);
                                             },
                                           ),
@@ -328,6 +329,8 @@ class SettingView extends StatelessWidget {
                                                           ),
                                                           onTap: () {
                                                             notificationSettingController.updateSelectedId(day['id']);
+                                                            notificationSettingController.updateScheduler();
+
                                                             // namazAlertController.selectItem(day['id']);
                                                           },
                                                         );
@@ -538,9 +541,9 @@ class SettingView extends StatelessWidget {
         String getOptionText(int index) {
       switch (index) {
         case 0:
-          return "None";
-        case 1:
           return "Everyone";
+        case 1:
+          return "None";
         default:
           return "";
       }

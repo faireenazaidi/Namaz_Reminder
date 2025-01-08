@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
 import '../../AppManager/dialogs.dart';
+import '../../Notification/notificationController.dart';
 import '../../Services/ApiService/api_service.dart';
 import '../../Widget/no_internet.dart';
 import '../../main.dart';
@@ -14,6 +15,7 @@ import 'AddFriendDataModal.dart';
 class AddFriendController extends GetxController {
   final PeerController peerController = Get.find<PeerController>();
   final DashBoardController dashBoardController = Get.find<DashBoardController>();
+  final NotificationController notificationController = Get.put(NotificationController());
 
   late RegisteredUserDataModal currentUser;
   var requests = <Person>[].obs;
@@ -221,6 +223,7 @@ class AddFriendController extends GetxController {
     update();
    peerController.friendship();
     dashBoardController.fetchMissedPrayersCount();
+    notificationController.fetchNotifications();
   }
 
 
@@ -241,7 +244,9 @@ class AddFriendController extends GetxController {
 
     var data = jsonDecode(await response.stream.bytesToString());
     print("aaaaaaaaaa $data");
+    notificationController.fetchNotifications();
   }
+
 }
 ///////////////////
 
