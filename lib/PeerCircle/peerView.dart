@@ -228,6 +228,8 @@ class PeerView extends GetView<PeerController> {
                                                 .toString());
                                         await dashBoardController.pending.value
                                             .toString();
+
+
                                       },
                                       child: Container(
                                         height: MediaQuery.of(context).size.height * 0.04,
@@ -249,6 +251,11 @@ class PeerView extends GetView<PeerController> {
                                     InkWell(
                                       onTap: () async {
                                         await controller.declineRequest(friendRequestData);
+                                        await notificationController
+                                            .readNotificationMessage(
+                                            notificationController.notifications[index]
+                                            ['id']
+                                                .toString());
                                         controller.friendRequestList.removeAt(index);
                                         controller.update();
                                       },

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:namaz_reminders/PeerCircle/peerController.dart';
 import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
-import '../PeerCircle/peerController.dart';
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
 import '../Widget/no_internet.dart';
@@ -14,7 +14,7 @@ import '../main.dart';
 
 class NotificationController extends GetxController {
   final DashBoardController dashBoardController = Get.find<DashBoardController>();
-
+  final PeerController peerController = Get.put(PeerController());
   // Private variables
   final RxList _notifications = [].obs;
   final RxList _todayNotifications = [].obs;
@@ -67,34 +67,6 @@ class NotificationController extends GetxController {
  //    }
  //  }
 
-  // Future<void> fetchNotifications() async {
-  //   isLoading.value = true;
-  //   try {
-  //     // Call the ApiService to fetch data
-  //     final data = await ApiService().getRequest(
-  //       'user_notifications/${userData.getUserData?.id}/',
-  //     );
-  //     print("APIIRes: $data");
-  //     debugPrint("APIIRes: $data", wrapWidth: 1024);
-  //     print("jdjsdd");
-  //
-  //     // Sort notifications by date in descending order
-  //     data.sort((a, b) {
-  //       DateTime dateA = DateTime.parse(a['created_at']);
-  //       DateTime dateB = DateTime.parse(b['created_at']);
-  //       return dateB.compareTo(dateA);
-  //     });
-  //     // Update notifications list
-  //     notifications = data;
-  //   } catch (e) {
-  //     print('Error while fetching notifications: $e');
-  //     print('$e');
-  //
-  //   }
-  //   finally {
-  //     isLoading.value = false;
-  //   }
-  // }
   Future<void> fetchNotifications() async {
     isLoading.value = true;
     try {
@@ -102,8 +74,9 @@ class NotificationController extends GetxController {
       final data = await ApiService().getRequest(
         'user_notifications/${userData.getUserData?.id}/',
       );
-
+      print("APIIRes: $data");
       debugPrint("APIIRes: $data", wrapWidth: 1024);
+      print("jdjsdd");
 
       // Sort notifications by date in descending order
       data.sort((a, b) {
@@ -111,34 +84,66 @@ class NotificationController extends GetxController {
         DateTime dateB = DateTime.parse(b['created_at']);
         return dateB.compareTo(dateA);
       });
-
-      // Create a Map to store the latest notifications by message
-      Map<String, Map<String, dynamic>> uniqueNotifications = {};
-      for (var notification in data) {
-        String message = notification['message'];
-        if (!uniqueNotifications.containsKey(message)) {
-          uniqueNotifications[message] = notification;
-        }
-      }
-
-      // Update notifications list with only the latest unique notifications
-      notifications = uniqueNotifications.values.toList();
-
-      debugPrint("Filtered Notifications: $notifications", wrapWidth: 1024);
+      // Update notifications list
+      notifications = data;
     } catch (e) {
       print('Error while fetching notifications: $e');
+      print('$e');
+      print('$e');
       final context = navigatorKey.currentContext!;
-      Dialogs.showCustomBottomSheet(
-        context: context,
-        content: NoInternet(
-          message: '$e',
-          onRetry: () {},
-        ),
-      );
-    } finally {
+      Dialogs.showCustomBottomSheet(context: context,
+        content: NoInternet(message: '$e',
+            onRetry: (){fetchNotifications(); peerController.friendship();}),);
+
+    }
+    finally {
       isLoading.value = false;
     }
   }
+  // Future<void> fetchNotifications() async {
+  //   isLoading.value = true;
+  //   try {
+  //     // Call the ApiService to fetch data
+  //     final data = await ApiService().getRequest(
+  //       'user_notifications/${userData.getUserData?.id}/',
+  //     );
+  //
+  //     debugPrint("APIIRes: $data", wrapWidth: 1024);
+  //
+  //     // Sort notifications by date in descending order
+  //     data.sort((a, b) {
+  //       DateTime dateA = DateTime.parse(a['created_at']);
+  //       DateTime dateB = DateTime.parse(b['created_at']);
+  //       return dateB.compareTo(dateA);
+  //     });
+  //
+  //     // Create a Map to store the latest notifications by message
+  //     Map<String, Map<String, dynamic>> uniqueNotifications = {};
+  //     for (var notification in data) {
+  //       String message = notification['message'];
+  //       if (!uniqueNotifications.containsKey(message)) {
+  //         uniqueNotifications[message] = notification;
+  //       }
+  //     }
+  //
+  //     // Update notifications list with only the latest unique notifications
+  //     notifications = uniqueNotifications.values.toList();
+  //
+  //     debugPrint("Filtered Notifications: $notifications", wrapWidth: 1024);
+  //   } catch (e) {
+  //     print('Error while fetching notifications: $e');
+  //     final context = navigatorKey.currentContext!;
+  //     Dialogs.showCustomBottomSheet(
+  //       context: context,
+  //       content: NoInternet(
+  //         message: '$e',
+  //         onRetry: () {},
+  //       ),
+  //     );
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 
 
   String buildFullImageUrl(String? imagePath) {
@@ -220,6 +225,7 @@ class NotificationController extends GetxController {
   //     print("Error: $ex");
   //   }
   // }
+
   Future<void> acceptFriendRequest(NotificationDataModal notificationData) async {
     try {
       final body = {
@@ -282,12 +288,11 @@ class NotificationController extends GetxController {
       notificationData.readStatus = true;
       _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
     }
-      catch (e){
-        print("Error: $e");
+    catch (e){
+      print("Error: $e");
     }
     dashBoardController.fetchMissedPrayersCount();
   }
-
   ///Remove Accepted and decline rqwst from view
 
   // readNotificationMessage(String notificationId) async{
@@ -312,6 +317,7 @@ class NotificationController extends GetxController {
   //     print(response.reasonPhrase);
   //   }
   // }
+
   Future<void> readNotificationMessage(String notificationId) async {
     try {
       final body = {
@@ -332,3 +338,4 @@ class NotificationController extends GetxController {
   }
 
 }
+

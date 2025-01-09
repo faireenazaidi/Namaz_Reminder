@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
+import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 import 'notificationController.dart';
@@ -12,9 +13,11 @@ class NotificationView extends  GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context,) {
+
     NotificationDataModal notificationData = NotificationDataModal(
 
     );
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -37,7 +40,8 @@ class NotificationView extends  GetView<NotificationController> {
         actions: [
           TextButton(
             onPressed: () {
-              // Get.to(() => NotificationSetting (),
+
+              Get.toNamed(AppRoutes.settingRoute);
               //   transition: Transition.rightToLeft,
               //   duration: const Duration(milliseconds: 500),
               //   curve: Curves.ease,);
@@ -152,9 +156,11 @@ class NotificationView extends  GetView<NotificationController> {
                                 onPressed: () async {
                                   try {
                                     await controller.acceptFriendRequest(notificationData);
+                                    // Update the type and refresh UI
                                     notification['type'] = 'friend_request_acc';
                                     controller.update();
                                     await controller.readNotificationMessage(controller.notifications[index]['id'].toString());
+                                    print("sssssssssssssss "+controller.notifications[index]['id'].toString());
                                     print('Friend request accepted and buttons hidden successfully.');
                                   } catch (e) {
                                     print('Error: $e');
@@ -169,30 +175,32 @@ class NotificationView extends  GetView<NotificationController> {
                                   style: TextStyle(fontSize: 12, color: Colors.white),
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  try {
-                                    await controller.declineRequest(notificationData);
-                                    notification['type'] = 'friend_request_declined';
-                                    controller.update();
-                                   await controller.readNotificationMessage(controller.notifications[index]['id'].toString());
 
-                                    print('Friend request declined and buttons hidden successfully.');
-                                  } catch (e) {
-                                    print('Error: $e');
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.circleIndicator,
-                                  minimumSize: const Size(70, 30),
-                                ),
-                                child: const Text(
-                                  'Decline',
-                                  style: TextStyle(fontSize: 12, color: Colors.white),
-                                ),
-                              ),
-                            ],
+                              const SizedBox(width: 8),
+                               ElevatedButton(
+                                        onPressed: () async {
+                                          try {
+                                            await controller.declineRequest(notificationData);
+                                            // Update the type and refresh UI
+                                            notification['type'] = 'friend_request_declined';
+                                            controller.update();
+                                            await controller.readNotificationMessage(controller.notifications[index]['id'].toString());
+                                            print("sssssssssssssss "+controller.notifications[index]['id'].toString());
+                                            print('Friend request declined and buttons hidden successfully.');
+                                          } catch (e) {
+                                            print('Error: $e');
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColor.greyColor,
+                                          minimumSize: const Size(70, 30),
+                                        ),
+                                        child: const Text(
+                                          'Decline',
+                                          style: TextStyle(fontSize: 12, color: Colors.white),
+                                        ),
+                                      ),
+                                   ],
                           ),
                         ),
                       ],

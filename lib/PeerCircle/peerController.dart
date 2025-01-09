@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
+import '../Widget/no_internet.dart';
+import '../main.dart';
 import 'AddFriends/AddFriendDataModal.dart';
 
 
@@ -30,19 +32,41 @@ class PeerController extends GetxController{
     filterFriends(); // Trigger the filtering logic
   }
 
-  friendship() async {
-    var request = http.Request('GET', Uri.parse(
-        'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
+  // friendship() async {
+  //   var request = http.Request('GET', Uri.parse(
+  //       'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
+  //
+  //   http.StreamedResponse response = await request.send();
+  //   isLoading.value = false;
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(await response.stream.bytesToString());
+  //     updateFriendRequestList = data['friendships'];
+  //     print("object"+data['friendships'].toString());
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
 
-    http.StreamedResponse response = await request.send();
+  friendship() async {
     isLoading.value = false;
-    if (response.statusCode == 200) {
-      var data = jsonDecode(await response.stream.bytesToString());
-      updateFriendRequestList = data['friendships'];
-      print("object"+data['friendships'].toString());
-    }
-    else {
-      print(response.reasonPhrase);
+    try {
+      print("Fetching leaderboard data...");
+      final userId = userData.getUserData!.id;
+      final endpoint = 'friendships/?user_id=$userId';
+      final response = await ApiService().getRequest(endpoint);
+      if (response != null) {
+        print("Response: $response");
+        updateFriendRequestList = response['friendships'];
+        print("object"+response['friendships'].toString());
+        }
+
+    } catch (e) {
+      // print("Error: $e");
+      // final context = navigatorKey.currentContext!;
+      // Dialogs.showCustomBottomSheet(context: context,
+      //   content: NoInternet(message: '$e',
+      //       onRetry: (){friendship();}),);
     }
   }
 
@@ -104,6 +128,7 @@ class PeerController extends GetxController{
     else {
       print(response.reasonPhrase);
       print('jjjjjjjjjjjjjjjjj');
+
     }
   }
   }

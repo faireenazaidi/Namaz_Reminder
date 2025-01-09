@@ -68,7 +68,7 @@ class AddFriendController extends GetxController {
     }
     catch (e) {
       print('Error fetching registered users: $e');
-      print('$e');
+      // print('$e');
       // final context = navigatorKey.currentContext!;
       // Dialogs.showCustomBottomSheet(context: context, content: NoInternet(message: '$e', onRetry:  (){} ),);
     }
@@ -222,10 +222,8 @@ class AddFriendController extends GetxController {
      fetchFriendRequests();
     update();
    peerController.friendship();
-    dashBoardController.fetchMissedPrayersCount();
-    notificationController.fetchNotifications();
+   dashBoardController.fetchMissedPrayersCount();
   }
-
 
   ///DECLINE REQUEST
   declineRequest(FriendRequestDataModal friendRequestData) async {
@@ -244,8 +242,9 @@ class AddFriendController extends GetxController {
 
     var data = jsonDecode(await response.stream.bytesToString());
     print("aaaaaaaaaa $data");
-    notificationController.fetchNotifications();
+    dashBoardController.fetchMissedPrayersCount();
   }
+
 
 }
 ///////////////////

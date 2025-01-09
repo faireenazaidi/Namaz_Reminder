@@ -6,7 +6,6 @@ import '../../Services/user_data.dart';
 import '../../Setting/SettingController.dart';
 
 class NotificationSettingController extends GetxController {
-  SettingController settingController = Get.find();
 
   UserData userData = UserData();
   ApiService apiService = ApiService();

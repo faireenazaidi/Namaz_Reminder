@@ -112,11 +112,11 @@ class HijriController extends GetxController {
   }
 
   List<Map<String, dynamic>> hijriDateAdjustment = [
-    {"id": 4, "name": "Two Day Ago"},
-    {"id": 3, "name": "One Day Ago"},
-    {"id": 0, "name": "None"},
-    {"id": 1, "name": "One Day Ahead"},
-    {"id": 2, "name": "Two Day Ahead"},
+    {"id": 4, "name": "-2"},
+    {"id": 3, "name": "-1"},
+    {"id": 0, "name": "0"},
+    {"id": 1, "name": "+1"},
+    {"id": 2, "name": "+2"},
   ];
 
   void updateSelectedId(int id) {
