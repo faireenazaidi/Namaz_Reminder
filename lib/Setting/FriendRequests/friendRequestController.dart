@@ -10,7 +10,8 @@ import '../../main.dart';
 class RequestController extends GetxController {
   UserData userData = UserData();
   ApiService apiService = ApiService();
-  var selectedIndex = Rx<int?>(null);
+  // var selectedIndex = Rx<int?>(null);
+  var selectedIndex = 0.obs;
   var isLoading = false.obs; // Observable to track loading state
 
   @override

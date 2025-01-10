@@ -151,6 +151,11 @@ class MyTextTheme {
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
+  static TextStyle subtitle = GoogleFonts.roboto(
+      color: AppColor.subtitle,
+      fontSize: 13,
+      fontWeight: FontWeight.w400
+  );
   static TextStyle red = GoogleFonts.roboto(
       color: Colors.red,
       fontSize: 12,
@@ -318,7 +323,12 @@ class MyTextTheme {
   static TextStyle mediumCustomGCN = GoogleFonts.roboto(
     color: AppColor.sliderTextGrey,
     fontSize: 16,
-    fontWeight: FontWeight.normal,
+    fontWeight:  FontWeight.normal,
+  );
+  static TextStyle searchbar = GoogleFonts.roboto(
+    color: AppColor.search,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle smallCustomDGCN = GoogleFonts.roboto(

@@ -8,7 +8,13 @@ class AppColor {
   static final primaryColorLightOpaque=primaryColorLight.withOpacity(0.2);
   static const primarySwatchColorLight=Colors.blue;
 
+  static final searchbg=("#F8F9FA").toColor();
+  static final check=("#6AD28B").toColor();
+  static final subtitle=("#606E84").toColor();
+
+
   static final secondaryColorLight=("#8b24e7").toColor();
+  static final search=("#85858580").toColor();
 
   static final bgColor=("#eff3f4").toColor();
   static final bgMedicineColor=("#E4EEF8").toColor();

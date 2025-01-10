@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
+import 'package:namaz_reminders/Setting/SettingController.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/DrawerView.dart';
@@ -28,6 +29,8 @@ class DashBoardView extends GetView<DashBoardController> {
   Widget build(BuildContext context) {
     final DashBoardController controller = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
+    final SettingController settingController = Get.put(SettingController());
+
     Future<LottieComposition?> customDecoder(List<int> bytes) {
       return LottieComposition.decodeZip(bytes, filePicker: (files) {
         return files.firstWhereOrNull(
@@ -364,11 +367,24 @@ class DashBoardView extends GetView<DashBoardController> {
                                     children: [
                                       SizedBox(height: 35,),
                                       Center(
-                                        child: Text(
-                                          '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
+                                        child:
+                                        Text(
+                                          '${(controller.currentPrayerStartTime.value)} - '
+                                              '${(controller.currentPrayerEndTime.value)}',
                                           style: MyTextTheme.smallBCn,
                                         ),
+
+                                      // Obx(() {
+                                      //   return Text(
+                                      //     '${controller.convertTime(controller.currentPrayerStartTime.value, )} -'
+                                      //         '${controller.convertTime(controller.currentPrayerEndTime.value,)}',
+                                      //     style: MyTextTheme.smallBCn,
+                                      //   );
+                                      // }),
                                       ),
+
+
+
                                       const SizedBox(height: 5),
                                       Text(
                                         controller.remainingTime.value,
@@ -591,7 +607,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                         Row(
                                           children: [
                                             Text("starts in ",style: MyTextTheme.smallWCN,),
-                                           controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
+                                           controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),
+                                             style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
                                             // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
                                           ],
                                         )
@@ -622,10 +639,25 @@ class DashBoardView extends GetView<DashBoardController> {
                                       const Text('Starts at',style: TextStyle(
                                           color: Colors.white,fontSize: 11
                                       )),
-                                      Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,style: const TextStyle(
+                                      Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
+                                          style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,fontWeight: FontWeight.w600
-                                      ))
+                                      )),
+                                      // Text(
+                                      //   controller.convertTime(
+                                      //     controller.isGapPeriod.value
+                                      //         ? controller.currentPrayerStartTime.value
+                                      //         : controller.upcomingPrayerStartTime.value,
+                                      //   ),
+                                      //   style: const TextStyle(
+                                      //     color: Colors.white,
+                                      //     fontSize: 14,
+                                      //     fontWeight: FontWeight.w600,
+                                      //   ),
+                                      // ),
+
+
                                     ],
                                   ),
                                   Column(
@@ -638,6 +670,19 @@ class DashBoardView extends GetView<DashBoardController> {
                                           color: Colors.white,
                                         fontSize: 14,fontWeight: FontWeight.w600
                                       ))
+                                      // Text(
+                                      //   controller.convertTime(
+                                      //     controller.isGapPeriod.value
+                                      //         ? controller.currentPrayerEndTime.value
+                                      //         : controller.upcomingPrayerEndTime.value,
+                                      //   ),
+                                      //   style: const TextStyle(
+                                      //     color: Colors.white,
+                                      //     fontSize: 14,
+                                      //     fontWeight: FontWeight.w600,
+                                      //   ),
+                                      // ),
+
                                     ],
                                   ),
                                 ],

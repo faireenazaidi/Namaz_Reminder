@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
+import 'package:namaz_reminders/Setting/SettingController.dart';
 import '../AppManager/dialogs.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,7 @@ import '../main.dart';
 class DashBoardController extends GetxController {
   final PageController pageController = PageController();
   Rx<TextEditingController> locationController = TextEditingController().obs;
-
+  final SettingController settingController = Get.put(SettingController());
   RxString islamicDate = ''.obs;
   RxInt rank = 0.obs;
   RxInt totalPeers = 1.obs;
@@ -66,6 +67,17 @@ class DashBoardController extends GetxController {
 
   }
 
+  String convertTime(String time, ) {
+    if (settingController.timeFormat==true) {
+      // Convert 12-hour to 24-hour
+      final DateTime dateTime = DateFormat("hh:mm a").parse(time);
+      return DateFormat("HH:mm").format(dateTime);
+    } else {
+      // Convert 24-hour to 12-hour
+      final DateTime dateTime = DateFormat("HH:mm").parse(time);
+      return DateFormat("hh:mm a").format(dateTime);
+    }
+  }
 
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
@@ -714,6 +726,8 @@ class DashBoardController extends GetxController {
     this.currentPrayer.value = currentPrayer;
     this.currentPrayerStartTime.value = convertTo12HourFormat(startTime);
     this.currentPrayerEndTime.value = convertTo12HourFormat(endTime);
+    // this.currentPrayerStartTime.value =(startTime);
+    // this.currentPrayerEndTime.value = (endTime);
 
     isPrayed = getPrayedValue(currentPrayer);
     update(['lottie']);
@@ -721,6 +735,14 @@ class DashBoardController extends GetxController {
 
     return currentPrayer;
   }
+  // String convert12To24(String time12Hour) {
+  //   // Parse the 12-hour format time
+  //   final DateTime dateTime = DateFormat("hh:mm a").parse(time12Hour);
+  //
+  //   // Format to 24-hour format
+  //   return DateFormat("HH:mm").format(dateTime);
+  // }
+
 
   bool getPrayedValue(String prayerName) {
     print("prayer list**** $isPrayedList");
@@ -736,6 +758,7 @@ class DashBoardController extends GetxController {
     print("out of loop");
     return false; // Return null if prayer name is not found
   }
+
 
   String getNextPrayer(Map<String, Map<String, String>> prayerDuration, String currentTime) {
     String nextPrayer = '';

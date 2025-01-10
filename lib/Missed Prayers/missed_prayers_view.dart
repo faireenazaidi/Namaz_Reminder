@@ -242,7 +242,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         ],
                                       ):
                                   Text(
-                                    " ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(const Duration(days: 6)))} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} ",
+                                    " ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value)} - ${DateFormat('EEE, d MMMM yyyy').format(controller.selectedDate.value.subtract(const Duration(days: 6)))} ",
                                     style: const TextStyle(fontSize: 12,
                                         color: Colors.black),
                                   )

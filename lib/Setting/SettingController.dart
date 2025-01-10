@@ -1,9 +1,16 @@
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:http/http.dart' as http;
-
-import '../Services/user_data.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class SettingController extends GetxController {
+  var timeFormat = false.obs;
 
-
+  // String formatTime(DateTime dateTime) {
+  //   if (timeFormat.value) {
+  //     // 24-hour format
+  //     return DateFormat('HH:mm').format(dateTime);
+  //   } else {
+  //     // 12-hour format
+  //     return DateFormat('hh:mm a').format(dateTime);
+  //   }
+  // }
 }
