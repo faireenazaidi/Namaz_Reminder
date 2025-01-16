@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/prayerTimings.dart';
+import 'Drawer/drawerController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
 import 'Services/user_data.dart';
@@ -873,42 +874,103 @@ void _scheduleAwesomeNotification(String prayerName, DateTime scheduledTime) {
 // }
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//
+//      final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+//     // final userDataController = Get.find<LoginController>();
+//     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//       statusBarColor: AppColor.cream, // Background color of the status bar
+//       statusBarIconBrightness: Brightness.dark, // Dark icons for light background
+//       statusBarBrightness: Brightness.light, // Adjust for iOS
+//     ));
+//     return
+//       Obx(() =>
+//           GetMaterialApp(
+//       navigatorKey: navigatorKey,
+//       theme: ThemeData(
+//           appBarTheme:AppBarTheme(
+//               systemOverlayStyle: SystemUiOverlayStyle.dark,
+//               surfaceTintColor: AppColor.lightmustard
+//           ),
+//           useMaterial3: true),
+//       initialRoute: AppRoutes.splashRoute,
+//       getPages: AppRoutes.pages,
+//       debugShowCheckedModeBanner: false,
+//       title: 'Namaz Reminders',
+//       // translations: AppTranslation(),  // Translation class
+//       // locale: userDataController.getLangCode == ""
+//       //     ? Get.deviceLocale  // Default to device locale if no language is set
+//       //     : Locale(userDataController.getLangCode),  // Use stored language code
+//       fallbackLocale: const Locale('en', 'US'),  // Fallback language if not available
+//       // darkTheme: ThemeData.dark(),
+//       // themeMode: ThemeMode.light,
+//       themeMode: customDrawerController.isDarkMode.value
+//           ? ThemeMode.dark
+//           : ThemeMode.light,
+//       // home: SplashScreen(),
+//     ));
+//
+//   }
+// }
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
 
-    // final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
-    // final userDataController = Get.find<LoginController>();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: AppColor.cream, // Background color of the status bar
-      statusBarIconBrightness: Brightness.dark, // Dark icons for light background
-      statusBarBrightness: Brightness.light, // Adjust for iOS
-    ));
-    return  GetMaterialApp(
+    // Update System UI Overlay Style dynamically based on the theme
+    SystemChrome.setSystemUIOverlayStyle(
+      customDrawerController.isDarkMode.value
+          ? const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white
+
+      )
+          : SystemUiOverlayStyle(
+        statusBarColor: AppColor.white,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+    );
+
+    return Obx(() => GetMaterialApp(
       navigatorKey: navigatorKey,
-        theme: ThemeData(
-            appBarTheme:AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
-            surfaceTintColor: AppColor.lightmustard
-            ),
-            useMaterial3: true),
-        initialRoute: AppRoutes.splashRoute,
-        getPages: AppRoutes.pages,
-        debugShowCheckedModeBanner: false,
-        title: 'Namaz Reminders',
-        // translations: AppTranslation(),  // Translation class
-        // locale: userDataController.getLangCode == ""
-        //     ? Get.deviceLocale  // Default to device locale if no language is set
-        //     : Locale(userDataController.getLangCode),  // Use stored language code
-        fallbackLocale: const Locale('en', 'US'),  // Fallback language if not available
-        darkTheme: ThemeData.dark(),
-        themeMode: ThemeMode.light,
-        // themeMode: customDrawerController.isDarkMode.value
-        //     ? ThemeMode.dark
-        //     : ThemeMode.light,
-        // home: SplashScreen(),
-      );
-
-
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: AppColor.lightmustard,
+        scaffoldBackgroundColor: AppColor.cream,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColor.lightmustard,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.black87),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white70),
+        ),
+      ),
+      initialRoute: AppRoutes.splashRoute,
+      getPages: AppRoutes.pages,
+      debugShowCheckedModeBanner: false,
+      title: 'Namaz Reminders',
+      fallbackLocale: const Locale('en', 'US'),
+      themeMode: customDrawerController.isDarkMode.value
+          ? ThemeMode.dark
+          : ThemeMode.light,
+    ));
   }
 }

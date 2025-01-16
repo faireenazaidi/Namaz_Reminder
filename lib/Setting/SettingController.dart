@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class SettingController extends GetxController {
-  var timeFormat = false.obs;
+  // var timeFormat = false.obs;
 
   // String formatTime(DateTime dateTime) {
   //   if (timeFormat.value) {

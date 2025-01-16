@@ -14,16 +14,19 @@ class NotificationSettingController extends GetxController {
   void onInit() async{
     print("userData ${userData.getUserData?.toJson()}");
     await registerUser(isFirst: true);
+
+    timeFormat.value = userData.getUserData!.timeForm!;
     pauseAll.value = userData.getUserData!.pauseAll!;
     quietMode.value = userData.getUserData!.quitMode!;
     friendRequests.value = userData.getUserData!.friendRequest!;
     friendNamazPrayed.value = userData.getUserData!.friendPrayed!;
     preNamazAlertId = userData.getUserData!.preNamazAlert!;
     preNamazAlertName.value=getCurrentSubtitle();
+    print("############ ${timeFormat.value}");
     print("############ ${quietMode.value}");
     super.onInit();
   }
-
+  var timeFormat = false.obs;
   var pauseAll = false.obs;
   var quietMode = false.obs;
   var friendRequests = false.obs;
@@ -64,8 +67,11 @@ class NotificationSettingController extends GetxController {
       "fr_noti": friendRequests.value,
       "fn_mark_noti": friendNamazPrayed.value,
       "quiet_mode": quietMode.value,
-      "namaz_alert": preNamazAlertId
+      "namaz_alert": preNamazAlertId,
+      'time_format_24':timeFormat.value,
+
     };
+
     print("registration body $body");
     var request = await apiService.putRequest('update-user/', body,);
     print("request $apiService");

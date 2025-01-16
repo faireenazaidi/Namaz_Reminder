@@ -353,8 +353,9 @@ class ProfileView extends GetView<ProfileController> {
                         ],
                       ),
                     ),
-        
-                    Padding(
+
+
+                Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

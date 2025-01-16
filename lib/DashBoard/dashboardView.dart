@@ -27,9 +27,27 @@ class DashBoardView extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final DashBoardController controller = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
     final SettingController settingController = Get.put(SettingController());
+    ///
+    // int minHour24 = getHoursFromTime(controller.currentPrayerStartTime.value.toString());
+    // int maxHour24 = getHoursFromTime(controller.currentPrayerEndTime.toString());
+    // String minHour = "${(minHour24 % 12 == 0) ? 12 : minHour24 % 12} ${(minHour24 >= 12) ? "PM" : "AM"}";
+    // String maxHour = "${(maxHour24 % 12 == 0) ? 12 : maxHour24 % 12} ${(maxHour24 >= 12) ? "PM" : "AM"}";
+    // print("Min Hour24: $minHour, Max Hour: $maxHour");
+    // if (controller.hour < minHour24 || controller.hour > maxHour24) {
+    //   controller.hour = minHour24; // Set to minHour if out of range
+    // }
+    // // Ensure minute is within the range
+    // int minMinute = getMinutesFromTime(controller.currentPrayerStartTime.value.toString());
+    // int maxMinute = getMinutesFromTime(controller.currentPrayerEndTime.toString());
+    // if (controller.minute < minMinute || controller.minute > maxMinute) {
+    //   controller.minute = minMinute; // Set to minMinute if out of range
+    // }
+    ///
 
     Future<LottieComposition?> customDecoder(List<int> bytes) {
       return LottieComposition.decodeZip(bytes, filePicker: (files) {
@@ -354,7 +372,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                       children: [
                                         const SizedBox(height: 75,),
                                         BlinkingTextWidget(
-                                          text: "${controller.nextPrayer.value.isEmpty?controller.currentPrayer.value:controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                          text: "${controller.nextPrayer.value.isEmpty?controller.currentPrayer.value:controller.nextPrayer.value} starts at ${controller.convertTime(controller.nextPrayerStartTime.value)}",
                                           style: MyTextTheme.greyNormal,
                                         ),
                                       ],
@@ -368,19 +386,19 @@ class DashBoardView extends GetView<DashBoardController> {
                                       SizedBox(height: 35,),
                                       Center(
                                         child:
-                                        Text(
-                                          '${(controller.currentPrayerStartTime.value)} - '
-                                              '${(controller.currentPrayerEndTime.value)}',
+                                        // Text(
+                                        //   '${(controller.currentPrayerStartTime.value)} - '
+                                        //       '${(controller.currentPrayerEndTime.value)}',
+                                        //   style: MyTextTheme.smallBCn,
+                                        // ),
+                                      //
+                                      Obx(() {
+                                        return Text(
+                                          '${controller.convertTime(controller.currentPrayerStartTime.value, )}-'
+                                              '${controller.convertTime(controller.currentPrayerEndTime.value,)}',
                                           style: MyTextTheme.smallBCn,
-                                        ),
-
-                                      // Obx(() {
-                                      //   return Text(
-                                      //     '${controller.convertTime(controller.currentPrayerStartTime.value, )} -'
-                                      //         '${controller.convertTime(controller.currentPrayerEndTime.value,)}',
-                                      //     style: MyTextTheme.smallBCn,
-                                      //   );
-                                      // }),
+                                        );
+                                      }),
                                       ),
 
 
@@ -443,7 +461,19 @@ class DashBoardView extends GetView<DashBoardController> {
                                                   color: Colors.black.withOpacity(0.5), // Optional dark overlay
                                                 ),
                                               ),
-                                               TimePicker()
+                                              Obx(() {
+                                                String startTime = controller.currentPrayerStartTime.value;
+                                                String endTime = controller.currentPrayerEndTime.value;
+
+                                                print("Start Time in Obx: $startTime");
+                                                print("End Time: $endTime");
+
+                                                return TimePicker(
+                                                  startTime: startTime,
+                                                  endTime: endTime,
+                                                );
+                                              }),
+
                                             ],
                                           ),
                                         );
@@ -639,23 +669,23 @@ class DashBoardView extends GetView<DashBoardController> {
                                       const Text('Starts at',style: TextStyle(
                                           color: Colors.white,fontSize: 11
                                       )),
-                                      Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
-                                          style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,fontWeight: FontWeight.w600
-                                      )),
-                                      // Text(
-                                      //   controller.convertTime(
-                                      //     controller.isGapPeriod.value
-                                      //         ? controller.currentPrayerStartTime.value
-                                      //         : controller.upcomingPrayerStartTime.value,
-                                      //   ),
-                                      //   style: const TextStyle(
+                                      // Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
+                                      //     style: const TextStyle(
                                       //     color: Colors.white,
-                                      //     fontSize: 14,
-                                      //     fontWeight: FontWeight.w600,
-                                      //   ),
-                                      // ),
+                                      //     fontSize: 14,fontWeight: FontWeight.w600
+                                      // )),
+                                      Text(
+                                        controller.convertTime(
+                                          controller.isGapPeriod.value
+                                              ? controller.currentPrayerStartTime.value
+                                              : controller.upcomingPrayerStartTime.value,
+                                        ),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
 
 
                                     ],
@@ -666,23 +696,22 @@ class DashBoardView extends GetView<DashBoardController> {
                                       const Text('Ends at',style: TextStyle(
                                           color: Colors.white,fontSize: 11
                                       )),
-                                      Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
-                                          color: Colors.white,
-                                        fontSize: 14,fontWeight: FontWeight.w600
-                                      ))
-                                      // Text(
-                                      //   controller.convertTime(
-                                      //     controller.isGapPeriod.value
-                                      //         ? controller.currentPrayerEndTime.value
-                                      //         : controller.upcomingPrayerEndTime.value,
-                                      //   ),
-                                      //   style: const TextStyle(
+                                      // Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
                                       //     color: Colors.white,
-                                      //     fontSize: 14,
-                                      //     fontWeight: FontWeight.w600,
-                                      //   ),
-                                      // ),
-
+                                      //   fontSize: 14,fontWeight: FontWeight.w600
+                                      // ))
+                                      Text(
+                                        controller.convertTime(
+                                          controller.isGapPeriod.value
+                                              ? controller.currentPrayerEndTime.value
+                                              : controller.upcomingPrayerEndTime.value,
+                                        ),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -1782,7 +1811,7 @@ class _UserRankListState extends State<UserRankList> {
   @override
   Widget build(BuildContext context) {
     if(_filteredRecords.isEmpty){
-      return const Center(child: Text('Prayer timings not available yet.',style: TextStyle(
+      return const Center(child: Text('No one has marked the Prayer.',style: TextStyle(
           color: Colors.grey
       ),));
     }
@@ -1796,7 +1825,7 @@ class _UserRankListState extends State<UserRankList> {
     }
     else{
       return SizedBox(
-        height: 70, // Adjust height as needed for better spacing
+        height: 70,
         child: PageView.builder(
           controller: _pageController,
           scrollDirection: Axis.vertical,

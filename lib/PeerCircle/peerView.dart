@@ -58,69 +58,51 @@ class PeerView extends GetView<PeerController> {
           child: Column(
             children: [
               const SizedBox(height: 20),
+              ///Searchbar
               SizedBox(
                 height: 50,
-                   child: TextField(
-                     controller: searchController,
-                     onChanged: (value) {
-                       peerController.setSearchText(value);
-                     },
-                     cursorColor: AppColor.circleIndicator,
-                     decoration: InputDecoration(
-                       prefixIcon:  Icon(Icons.search,),
-                       hintText: "Search Username..",
-                       hintStyle: MyTextTheme.mediumCustomGCN,
-                       border: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(10),
-                         borderSide: const BorderSide(color: Colors.black),
-                       ),
-                       enabledBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(10),
-                         borderSide: const BorderSide(color: Colors.grey, width: 1),
-                       ),
-                       focusedBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(10),
-                         borderSide: const BorderSide(color: Colors.grey, width: 1),
-                       ),
-                       suffixIcon: IconButton(
-                         icon: const Icon(Icons.cancel, color: Colors.grey),
-                         onPressed: () {
-                           searchController.clear();
-                           peerController.setSearchText('');
-                         },
-                       ),
-                     ),
-                     style: const TextStyle(color: Colors.grey),
-                   ),
-
-                // child: TextField(
-                //   controller: searchController,
-                //   onChanged: (value) {
-                //     // Update the search text in the controller as the user types
-                //     peerController.setSearchText(value);
-                //   },
-                //   cursorColor: AppColor.circleIndicator,
-                //   decoration: InputDecoration(
-                //     prefixIcon: const Icon(Icons.search),
-                //     hintText: "Search Username..",
-                //     hintStyle: MyTextTheme.mediumCustomGCN,
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //       borderSide: const BorderSide(color: Colors.black),
-                //     ),
-                //     enabledBorder: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //       borderSide: const BorderSide(color: Colors.grey, width: 1),
-                //     ),
-                //     focusedBorder: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //       borderSide: const BorderSide(color: Colors.grey, width: 1),
-                //     ),
-                //   ),
-                //   style: const TextStyle(color: Colors.grey),
-                // ),
-
+                child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    peerController.setSearchText(value);
+                    // Trigger a rebuild to update the suffix icon visibility
+                    peerController.update(); // Assuming you are using GetX for state management
+                  },
+                  cursorColor: AppColor.circleIndicator,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: "Search Username..",
+                    hintStyle: MyTextTheme.mediumCustomGCN,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey, width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey, width: 1),
+                    ),
+                    suffixIcon: Obx(() {
+                      // Show the cancel icon only when there is text in the search bar
+                      return peerController.searchText.isNotEmpty
+                          ? IconButton(
+                        icon: const Icon(Icons.cancel, color: Colors.grey),
+                        onPressed: () {
+                          searchController.clear();
+                          peerController.setSearchText('');
+                          peerController.update();
+                        },
+                      )
+                          : const SizedBox.shrink(); // Hide the icon when no text
+                    }),
+                  ),
+                  style: const TextStyle(color: Colors.grey),
+                ),
               ),
+
               const SizedBox(height: 15),
               GetBuilder(
                 init: addFriendController,
@@ -497,7 +479,7 @@ class PeerView extends GetView<PeerController> {
                           return Center(child: CircularProgressIndicator());
                         }
 
-                        if (peerController.filteredFriendsList.isEmpty) {
+                        else if (peerController.filteredFriendsList.isEmpty) {
                           return Center(child: Text('No friends found'));
                         }
 

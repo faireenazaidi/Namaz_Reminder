@@ -10,7 +10,6 @@ import '../AppManager/toast.dart';
 import '../Notification/NotificationSetting/notificationSettingView.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
-import 'FriendRequests/friendRequestView.dart';
 import 'SettingController.dart';
 
 class SettingView extends StatelessWidget {
@@ -54,38 +53,38 @@ class SettingView extends StatelessWidget {
                 children: [
                   SizedBox(height: 10,),
                   /// This Searchbar is temporarily hidden///
-                 Padding(
-                   padding: const EdgeInsets.all(8.0),
-                   child: TextField(
-                     cursorColor: AppColor.circleIndicator,
-                     decoration: InputDecoration(
-                       // prefixIcon:  Icon(Icons.search,),
-                       hintText: "Search for a setting...",
-                       hintStyle: MyTextTheme.searchbar,
-                       filled: true,
-                       fillColor: AppColor.searchbg,
-                       border: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(20),
-                         borderSide: const BorderSide(color: Colors.black),
-                       ),
-                       enabledBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(10),
-                         borderSide:  BorderSide(color:AppColor.search, width: 1),
-                       ),
-                       focusedBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(10),
-                         borderSide: const BorderSide(color: Colors.grey, width: 1),
-                       ),
-                       suffixIcon: IconButton(
-                         icon: const Icon(Icons.cancel, color: Colors.grey),
-                         onPressed: () {
-
-                         },
-                       ),
-                     ),
-                     style: const TextStyle(color: Colors.grey),
-                   ),
-                 ),
+                 // Padding(
+                 //   padding: const EdgeInsets.all(8.0),
+                 //   child: TextField(
+                 //     cursorColor: AppColor.circleIndicator,
+                 //     decoration: InputDecoration(
+                 //       //prefixIcon:  Icon(Icons.search,),
+                 //       hintText: "Search for a setting...",
+                 //       hintStyle: MyTextTheme.searchbar,
+                 //       filled: true,
+                 //       fillColor: AppColor.searchbg,
+                 //       border: OutlineInputBorder(
+                 //         borderRadius: BorderRadius.circular(20),
+                 //         borderSide: const BorderSide(color: Colors.black),
+                 //       ),
+                 //       enabledBorder: OutlineInputBorder(
+                 //         borderRadius: BorderRadius.circular(10),
+                 //         borderSide:  BorderSide(color:AppColor.search, width: 1),
+                 //       ),
+                 //       focusedBorder: OutlineInputBorder(
+                 //         borderRadius: BorderRadius.circular(10),
+                 //         borderSide: const BorderSide(color: Colors.grey, width: 1),
+                 //       ),
+                 //       suffixIcon: IconButton(
+                 //         icon: const Icon(Icons.cancel, color: Colors.grey),
+                 //         onPressed: () {
+                 //
+                 //         },
+                 //       ),
+                 //     ),
+                 //     style: const TextStyle(color: Colors.grey),
+                 //   ),
+                 // ),
 
                   SizedBox(height: 10),
                   // Settings List
@@ -448,67 +447,65 @@ class SettingView extends StatelessWidget {
                               ],
                             ),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            value: settingController.timeFormat.value,
+                            value: notificationSettingController.timeFormat.value,
                             onChanged: (value) {
-                              settingController.timeFormat.value = value;
+                              print("value $value");
+                              notificationSettingController.timeFormat.value = value;
+                              notificationSettingController.registerUser();
+                              showToast(msg: 'Settings Updated',bgColor: Colors.black);
                             },
                           );
                         }),
 
-              SizedBox(height: 15,),
+
                         ///Location ///
-                Obx(() {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/privacy.svg",
-                          height: 16, // Adjust size as needed
-                        ),
-                        SizedBox(width: 10,),
-
-                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Location',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "Allow location access to provide accurate data according to your location",
-                                style: MyTextTheme.subtitle.copyWith(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Switch(
-                          activeTrackColor: AppColor.circleIndicator,
-                          activeColor: AppColor.white,
-                          value: privacyController.location.value,
-                          onChanged: (value) {
-                            privacyController.toggleLocationAccess(value);
-
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }),
+                        // Obx(() {
+                //   return Padding(
+                //     padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                //     child: Row(
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       children: [
+                //         SvgPicture.asset(
+                //           "assets/privacy.svg",
+                //           height: 16, // Adjust size as needed
+                //         ),
+                //         SizedBox(width: 10,),
+                //
+                //          Expanded(
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               const Text(
+                //                 'Location',
+                //                 style: TextStyle(
+                //                   fontWeight: FontWeight.w400,
+                //                   color: Colors.black,
+                //                   fontSize: 14,
+                //                 ),
+                //               ),
+                //               SizedBox(height: 4),
+                //               Text(
+                //                 "Allow location access to provide accurate data according to your location",
+                //                 style: MyTextTheme.subtitle.copyWith(fontSize: 12),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         Switch(
+                //           activeTrackColor: AppColor.circleIndicator,
+                //           activeColor: AppColor.white,
+                //           value: privacyController.location.value,
+                //           onChanged: (value) {
+                //             privacyController.toggleLocationAccess(value);
+                //
+                //           },
+                //         ),
+                //       ],
+                //     ),
+                //   );
+                // }),
                         SizedBox(height: 15,),
-
-
-
-
-                        SizedBox(height: 15,),
-                ///Notifications///
+                       ///Notifications///
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -968,8 +965,7 @@ class SettingView extends StatelessWidget {
       },
     );
   }
-
-  Widget buildSettingItem({
+  Widget buildSettingItem( {
     required String title,
     String? subtitle,
     required VoidCallback onTap,

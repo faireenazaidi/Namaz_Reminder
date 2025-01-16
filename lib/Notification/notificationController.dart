@@ -85,65 +85,29 @@ class NotificationController extends GetxController {
         return dateB.compareTo(dateA);
       });
       // Update notifications list
-      notifications = data;
+      // notifications = data;
+      // Capitalize the first letter of each notification title
+      notifications = data.map((notification)
+      { if (notification['title'] != null && notification['title'] is String)
+      { notification['title'] = notification['title'][0].toUpperCase() + notification['title'].substring(1); }
+      return notification;
+      }).toList();
     } catch (e) {
       print('Error while fetching notifications: $e');
       print('$e');
       print('$e');
       final context = navigatorKey.currentContext!;
-      Dialogs.showCustomBottomSheet(context: context,
-        content: NoInternet(message: '$e',
-            onRetry: (){fetchNotifications(); peerController.friendship();}),);
+      // Dialogs.showCustomBottomSheet(context: context,
+      //   content: NoInternet(message: '$e',
+      //       onRetry: (){fetchNotifications(); peerController.friendship();}),);
 
     }
     finally {
       isLoading.value = false;
     }
   }
-  // Future<void> fetchNotifications() async {
-  //   isLoading.value = true;
-  //   try {
-  //     // Call the ApiService to fetch data
-  //     final data = await ApiService().getRequest(
-  //       'user_notifications/${userData.getUserData?.id}/',
-  //     );
-  //
-  //     debugPrint("APIIRes: $data", wrapWidth: 1024);
-  //
-  //     // Sort notifications by date in descending order
-  //     data.sort((a, b) {
-  //       DateTime dateA = DateTime.parse(a['created_at']);
-  //       DateTime dateB = DateTime.parse(b['created_at']);
-  //       return dateB.compareTo(dateA);
-  //     });
-  //
-  //     // Create a Map to store the latest notifications by message
-  //     Map<String, Map<String, dynamic>> uniqueNotifications = {};
-  //     for (var notification in data) {
-  //       String message = notification['message'];
-  //       if (!uniqueNotifications.containsKey(message)) {
-  //         uniqueNotifications[message] = notification;
-  //       }
-  //     }
-  //
-  //     // Update notifications list with only the latest unique notifications
-  //     notifications = uniqueNotifications.values.toList();
-  //
-  //     debugPrint("Filtered Notifications: $notifications", wrapWidth: 1024);
-  //   } catch (e) {
-  //     print('Error while fetching notifications: $e');
-  //     final context = navigatorKey.currentContext!;
-  //     Dialogs.showCustomBottomSheet(
-  //       context: context,
-  //       content: NoInternet(
-  //         message: '$e',
-  //         onRetry: () {},
-  //       ),
-  //     );
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
+
+
 
 
   String buildFullImageUrl(String? imagePath) {

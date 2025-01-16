@@ -95,13 +95,27 @@ class AddFriendView extends GetView<AddFriendController> {
                             width: 1,
                           ),
                         ),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.cancel, color: Colors.grey),
-                          onPressed: () {
-                            searchController.clear();
-                            controller.updateSearchQuery("");
-                          },
-                        ),
+                        // suffixIcon: IconButton(
+                        //   icon: const Icon(Icons.cancel, color: Colors.grey),
+                        //   onPressed: () {
+                        //     searchController.clear();
+                        //     controller.updateSearchQuery("");
+                        //   },
+                        // ),
+                        suffixIcon:
+                          // Show the cancel icon only when there is text in the search bar
+                        controller.searchQuery.isNotEmpty
+                              ? IconButton(
+                            icon: const Icon(Icons.cancel, color: Colors.grey,weight: 1,),
+                            onPressed: () {
+                              searchController.clear();
+                              controller.updateSearchQuery('');
+                              controller.update();
+                            },
+                          )
+                              : const SizedBox.shrink()
+
+
                       ),
                       style: const TextStyle(
                         color: Colors.grey,

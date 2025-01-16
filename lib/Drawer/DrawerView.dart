@@ -25,7 +25,7 @@ class CustomDrawer extends StatelessWidget {
     return SafeArea(
       top: true,
       child: Drawer(
-        backgroundColor: Colors.white,
+        backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(5),
@@ -291,8 +291,27 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset( "assets/moon-stars.svg",),
+                        SizedBox(width: 6,),
+                        Text("Dark Mode",style: MyTextTheme.smallBC ,),
+                        Spacer(),
+                        Obx(() => Switch(
+                          activeTrackColor: AppColor.circleIndicator,
+                          activeColor: AppColor.white,
+                          value: customDrawerController.isDarkMode.value,
+                          onChanged: (value) {
+                            customDrawerController.toggleDarkMode(value);
+                            Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+                          },
+                        ))
 
+                      ],
+                    ),
+                  ),
                 Divider(
                   color: AppColor.greyLight,
                 ),

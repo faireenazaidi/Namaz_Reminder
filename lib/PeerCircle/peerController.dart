@@ -28,8 +28,8 @@ class PeerController extends GetxController{
   }
 
   void setSearchText(String value) {
-    searchText.value = value; // Update the search text
-    filterFriends(); // Trigger the filtering logic
+    searchText.value = value;
+    filterFriends();
   }
 
   // friendship() async {

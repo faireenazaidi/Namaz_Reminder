@@ -15,6 +15,7 @@ import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 import '../DataModels/LoginResponse.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
+import '../Notification/NotificationSetting/notificationSettingController.dart';
 import '../Services/ApiService/api_service.dart';
 import '../Widget/appColor.dart';
 import '../Widget/location_services.dart';
@@ -25,6 +26,8 @@ class DashBoardController extends GetxController {
   final PageController pageController = PageController();
   Rx<TextEditingController> locationController = TextEditingController().obs;
   final SettingController settingController = Get.put(SettingController());
+  final NotificationSettingController notificationSettingController = Get.put(NotificationSettingController());
+
   RxString islamicDate = ''.obs;
   RxInt rank = 0.obs;
   RxInt totalPeers = 1.obs;
@@ -67,18 +70,50 @@ class DashBoardController extends GetxController {
 
   }
 
-  String convertTime(String time, ) {
-    if (settingController.timeFormat==true) {
-      // Convert 12-hour to 24-hour
-      final DateTime dateTime = DateFormat("hh:mm a").parse(time);
-      return DateFormat("HH:mm").format(dateTime);
-    } else {
-      // Convert 24-hour to 12-hour
-      final DateTime dateTime = DateFormat("HH:mm").parse(time);
-      return DateFormat("hh:mm a").format(dateTime);
+  // String convertTime(String time) {
+  //   if (time.isEmpty) {
+  //     return "Invalid time input";
+  //   }
+  //   try {
+  //     if (settingController.timeFormat == true) {
+  //       // Convert 12-hour to 24-hour
+  //
+  //       final DateTime dateTime = DateFormat("hh:mm a").parse(time);
+  //       return DateFormat("HH:mm").format(dateTime);
+  //     }
+  //     else {
+  //       // Convert 24-hour to 12-hour
+  //
+  //       final DateTime dateTime = DateFormat("HH:mm").parse(time);
+  //       return DateFormat("hh:mm a").format(dateTime); // AM/PM included
+  //     }
+  //   }
+  //   catch (e)
+  //   {
+  //     return "Error: Unable to parse time";
+  //   }
+  // }
+
+  String convertTime(String time) {
+    if (time.isEmpty) {
+      return " ";
+    }
+    try {
+      if (notificationSettingController.timeFormat == true) {
+        // Convert 12-hour to 24-hour
+        final DateTime dateTime = DateFormat("hh:mm a").parse(time); // 12-hour format
+        String convertedTime = DateFormat("HH:mm ").format(dateTime); // 24-hour format
+        print("12-hour Input: $time, 24-hour Output: $convertedTime");
+        return convertedTime;
+      } else {
+        return time;
+      }
+    }
+    catch (e) {
+      print("Error parsing time: $time, Exception: $e");
+      return "Error: Unable to parse time";
     }
   }
-
 
   var prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].obs;
   var upcomingPrayers = [
@@ -506,9 +541,7 @@ class DashBoardController extends GetxController {
 
       final hijriDate = getExtractedData[0].date?.hijri;
       islamicDate.value =
-      '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ??
-          "Month"} ${hijriDate?.year ?? "Year"}';
-       ' ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
+      '${hijriDate?.day ?? "Day"} ${hijriDate?.month?.en ?? "Month"} ${hijriDate?.year ?? "Year"} ${hijriDate?.designation?.abbreviated ?? "Abbreviation"}';
       print("baqar");
       print("isEmpty ${userData.getPrayerDurationForShia}");
       updatePrayerDuration = userData.getUserData!.fiqh.toString() == '0' // Shia fiqh
@@ -1265,7 +1298,102 @@ RxString nextPrayerName = ''.obs;
     }
   }
 
-
+  // submitPrayer({
+  //   String? valDate,
+  //   bool? isFromMissed,
+  //   Future<dynamic> Function()? missedCallBack,
+  //   String? prayerNames,
+  //   String? startTime,
+  //   String? endTime,
+  //   required BuildContext context,
+  // }) async {
+  //   String currentTime = DateFormat('HH:mm').format(DateTime.now());
+  //
+  //   if (
+  //   (isFromMissed ?? false) == false &&
+  //       !isTimeWithinRange(startTime ?? currentPrayerStartTime.value,
+  //           endTime ?? currentPrayerEndTime.value,
+  //           currentTime)) {
+  //
+  //     Get.snackbar(
+  //       'Invalid Submission',
+  //       'You can only submit this prayer between ${startTime ?? currentPrayerStartTime.value} and ${endTime ?? currentPrayerEndTime.value}.',
+  //       backgroundColor: Colors.black,
+  //       colorText: Colors.white,
+  //       snackPosition: SnackPosition.BOTTOM,
+  //       duration: Duration(seconds: 3),
+  //     );
+  //     return;
+  //   }
+  //
+  //   Get.back();
+  //   Dialogs.showLoading(context, message: 'loading...');
+  //   DateTime date = DateTime.now();
+  //   String formattedDate = valDate ?? DateFormat('dd-MM-yyyy').format(date);
+  //   print("formattedDate $formattedDate");
+  //   try {
+  //     var headers = {'Content-Type': 'application/json'};
+  //     var userId = userData.getUserData!.id.toString();
+  //     var mobileNo = userData.getUserData!.mobileNo.toString();
+  //     if (!isAm && hour < 12) {
+  //       hour += 12; // Convert to PM (24-hour format)
+  //     } else if (isAm && hour == 12) {
+  //       hour = 0; // Handle 12 AM as 00:00 in 24-hour format
+  //     }
+  //     DateTime time = DateTime(0, 1, 1, hour, minute);
+  //     String formattedTime = DateFormat('HH:mm').format(time);
+  //
+  //     var request = http.Request(
+  //         'POST',
+  //         Uri.parse(
+  //             'http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
+  //     request.body = json.encode({
+  //       "user_id": int.parse(userId),
+  //       "prayer_name": prayerNames ?? currentPrayer.value,
+  //       "mobile_no": int.parse(mobileNo),
+  //       "latitude": position != null
+  //           ? position!.latitude.toString()
+  //           : userData.getLocationData!.latitude.toString(),
+  //       "longitude": position != null
+  //           ? position!.longitude.toString()
+  //           : userData.getLocationData!.longitude.toString(),
+  //       "timestamp": formattedTime,
+  //       "jamat": prayedAtMosque.value,
+  //       'prayed': true
+  //     });
+  //     request.headers.addAll(headers);
+  //     http.StreamedResponse response = await request.send();
+  //     String responseString = await response.stream.bytesToString();
+  //     print("Raw API response: $responseString");
+  //     Dialogs.hideLoading();
+  //
+  //     if (isFromMissed!) {
+  //       missedCallBack!();
+  //       Get.snackbar('Prayer Marked', 'Success',
+  //           backgroundColor: Colors.black,
+  //           colorText: Colors.white,
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           duration: const Duration(seconds: 1));
+  //     } else {
+  //       isPrayed = true;
+  //       isGifVisible = true;
+  //       update();
+  //       trackMarkPrayer = currentPrayer.value;
+  //       leaderboard();
+  //       Future.delayed(Duration(seconds: 3), () async {
+  //         isGifVisible = false;
+  //         if (userData.getUserData!.fiqh == '0') {
+  //           onPrayerMarked(currentPrayer.value);
+  //         }
+  //         update();
+  //       });
+  //     }
+  //     fetchMissedPrayersCount();
+  //     print('Jjjjjjj');
+  //   } catch (e) {
+  //     print('Error: $e');
+  //   }
+  // }
 
 
 List isPrayedList = [];
@@ -1371,7 +1499,9 @@ List isPrayedList = [];
         newDate = baseDate;
     }
 
-    final hijriNewDate = HijriCalendar.fromDate(newDate); // Convert to Hijri date
+    final hijriNewDate = HijriCalendar.fromDate(newDate);
+   // final hijriNewDate = HijriCalendar.fromDate(newDate.subtract(Duration(days: 1)));
+
 
     // Update the islamicDate value with the new Hijri date
     islamicDate.value =
@@ -1495,6 +1625,7 @@ List isPrayedList = [];
     // Set the date of the parsed time to today
     return DateTime(now.year, now.month, now.day, parsedTime.hour, parsedTime.minute);
   }
+
 }
 
 

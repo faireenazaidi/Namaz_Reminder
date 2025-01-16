@@ -75,9 +75,28 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    // int minHour24 = getHoursFromTime(dashBoardController.currentPrayerStartTime.value.toString());
+    // int maxHour24 = getHoursFromTime(dashBoardController.currentPrayerEndTime.toString());
+    // String minHour = "${(minHour24 % 12 == 0) ? 12 : minHour24 % 12} ${(minHour24 >= 12) ? "PM" : "AM"}";
+    // String maxHour = "${(maxHour24 % 12 == 0) ? 12 : maxHour24 % 12} ${(maxHour24 >= 12) ? "PM" : "AM"}";
+    // print("Min Hour24: $minHour, Max Hour: $maxHour");
+    // if (dashBoardController.hour < minHour24 || dashBoardController.hour > maxHour24) {
+    //   dashBoardController.hour = minHour24; // Set to minHour if out of range
+    // }
+    //
+    //
+    // // Ensure minute is within the range
+    // int minMinute = getMinutesFromTime(dashBoardController.currentPrayerStartTime.value.toString());
+    // int maxMinute = getMinutesFromTime(dashBoardController.currentPrayerEndTime.toString());
+    // if (dashBoardController.minute < minMinute || dashBoardController.minute > maxMinute) {
+    //   dashBoardController.minute = minMinute; // Set to minMinute if out of range
+    // }
+
+
     // Get screen size
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    print(getMinutesFromTime(dashBoardController.currentPrayerEndTime.toString()).toString());
 
     return ScaleTransition(
       scale: _scaleAnimation,
@@ -127,7 +146,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     Flexible(
                       child: NumberPicker(
                         itemCount: 5,
-                        minValue: 1,
+                        minValue:  1,
                         maxValue: 12,
                         // itemWidth: screenWidth * 0.15,
                         // itemHeight: screenHeight * 0.12,
@@ -154,8 +173,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       ),
                     ),
 
-
-
                     // Colon separator
                     Text(
                       " : ",
@@ -168,7 +185,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     // Minute picker
                     Flexible(
                       child: NumberPicker(
-                        itemCount: 5,
+                        itemCount:5,
                         minValue: 0,
                         maxValue: 59,
                         value: dashBoardController.minute,
@@ -233,7 +250,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                                 ),
                               ),
                             ),
-
                           ),
                         ],
                       ),
@@ -297,26 +313,53 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
     },
   );
 }
-// void initializePickerValues() {
-//   // Parse the start time string (assumes format like "5:30 AM" or "5:30 PM")
-//   String startTime = controller.currentPrayerStartTime.value; // e.g., "5:30 AM"
-//   String endTime = controller.currentPrayerEndTime.value; // e.g., "6:45 PM"
+
+// Function to extract hours and minutes as minutes from midnight
+// int getMinutesFromTime(String time) {
+//   List<String> timeParts = time.split(' ');
+//   String timeOnly = timeParts[0]; // "12:15"
+//   String period = timeParts[1]; // "AM" or "PM"
 //
-//   List<String> startParts = startTime.split(' ');
-//   String startAmPm = startParts[1]; // "AM" or "PM"
-//   List<String> startTimeParts = startParts[0].split(':');
-//   int startHour = int.parse(startTimeParts[0]);
-//   int startMinute = int.parse(startTimeParts[1]);
+//   List<String> hourMinuteParts = timeOnly.split(':');
+//   int hours = int.parse(hourMinuteParts[0]);
+//   print(hours);
+//   int minutes = int.parse(hourMinuteParts[1]);
+//   print("ggrdf"+minutes.toString());
 //
-//   // Adjust hour to 12-hour format
-//   if (startAmPm == "PM" && startHour != 12) {
-//     startHour += 12; // Convert PM hour to 24-hour format
-//   } else if (startAmPm == "AM" && startHour == 12) {
-//     startHour = 0; // Midnight adjustment
+//   // Convert to 24-hour format
+//   if (period == "PM" && hours != 12) {
+//     hours += 12;
+//   } else if (period == "AM" && hours == 12) {
+//     hours = 0;
 //   }
+//   // Return total minutes from midnight
+//   return hours * 60 + minutes;
 //
-//   // Set controller values
-//   controller.hour = startHour % 12 == 0 ? 12 : startHour % 12; // Convert back to 12-hour format
-//   controller.minute = startMinute;
-//   controller.isAm = startHour < 12; // Determine AM/PM based on 24-hour hour value
 // }
+int getHoursFromTime(String time) {
+  List<String> timeParts = time.split(' ');
+  String timeOnly = timeParts[0]; // "12:15"
+  String period = timeParts[1]; // "AM" or "PM"
+
+  List<String> hourMinuteParts = timeOnly.split(':');
+  int hours = int.parse(hourMinuteParts[0]);
+
+  // Convert to 24-hour format
+  if (period == "PM" && hours != 12) {
+    hours += 12;
+  } else if (period == "AM" && hours == 12) {
+    hours = 0;
+  }
+  return hours; // Return only the hours in 24-hour format
+}
+
+int getMinutesFromTime(String time) {
+  List<String> timeParts = time.split(' ');
+  String timeOnly = timeParts[0]; // "12:15"
+  List<String> hourMinuteParts = timeOnly.split(':');
+  return int.parse(hourMinuteParts[1]); // Return only the minutes
+}
+
+
+
+
