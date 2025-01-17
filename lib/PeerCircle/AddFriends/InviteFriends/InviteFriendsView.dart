@@ -17,11 +17,11 @@ class InviteView extends GetView<InviteController> {
     return SafeArea(
       top: true,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: Text('Contacts', style: MyTextTheme.mediumBCD),
+          title: Text('Contacts', style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
           leading: InkWell(
             onTap: () {
               Get.back();

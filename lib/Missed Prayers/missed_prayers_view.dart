@@ -303,12 +303,13 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                   return SliverList(
                       delegate: SliverChildListDelegate([Container(
                         height: Get.height*0.62,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(50.0),
                             ),
-                            color: Colors.white
-                        ),
+                            color: Theme.of(context).scaffoldBackgroundColor,
+
+                            ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -1747,12 +1748,13 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                       delegate: SliverChildListDelegate([
                         Container(
                           height: Get.height,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(50.0),
                               ),
-                              color: Colors.white
-                          ),
+                              color: Theme.of(context).scaffoldBackgroundColor,
+
+                              ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 8.0, 8.0, 8.0, 80),

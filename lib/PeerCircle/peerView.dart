@@ -24,16 +24,16 @@ class PeerView extends GetView<PeerController> {
     return SafeArea(
       top: true,
       child: Scaffold(
-        backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: Text('Peer Circle', style: MyTextTheme.mediumBCD),
+          title: Text('Peer Circle',style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Divider(
               height: 1.0,
-              color: AppColor.packageGray,
+                color:Theme.of(context).dividerTheme.color
             ),
           ),
           leading: InkWell(
@@ -52,8 +52,7 @@ class PeerView extends GetView<PeerController> {
             ),
           ],
         ),
-        body:
-        Padding(
+        body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
@@ -70,9 +69,9 @@ class PeerView extends GetView<PeerController> {
                   },
                   cursorColor: AppColor.circleIndicator,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: Icon(Icons.search,color:Theme.of(context).iconTheme.color),
                     hintText: "Search Username..",
-                    hintStyle: MyTextTheme.mediumCustomGCN,
+                    hintStyle:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(color: Colors.black),
@@ -116,8 +115,7 @@ class PeerView extends GetView<PeerController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "REQUESTS",
-                              style: MyTextTheme.greyNormal,
+                              "REQUESTS", style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                             ),
                             // Show "SEE ALL" only if requests are more than 2
                             Visibility(
@@ -133,7 +131,7 @@ class PeerView extends GetView<PeerController> {
                                 },
                                 child: Text(
                                   "SEE ALL",
-                                  style: MyTextTheme.greyNormal,
+                                  style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                                 ),
                               ),
                             ),
@@ -186,11 +184,7 @@ class PeerView extends GetView<PeerController> {
                                       children: [
                                         Text(
                                           friendRequestData.name.toString(),
-                                          style: MyTextTheme.mediumGCB.copyWith(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold)
                                         ),
                                       ],
                                     ),
@@ -211,13 +205,12 @@ class PeerView extends GetView<PeerController> {
                                         await dashBoardController.pending.value
                                             .toString();
 
-
                                       },
                                       child: Container(
                                         height: MediaQuery.of(context).size.height * 0.04,
                                         width: MediaQuery.of(context).size.width * 0.2,
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: AppColor.white),
+                                         // border: Border.all(color: AppColor.white),
                                           borderRadius: BorderRadius.circular(10),
                                           color: AppColor.circleIndicator,
                                         ),
@@ -245,7 +238,7 @@ class PeerView extends GetView<PeerController> {
                                         height: MediaQuery.of(context).size.height * 0.04,
                                         width: MediaQuery.of(context).size.width * 0.2,
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: AppColor.white),
+                                          // border: Border.all(color: AppColor.white),
                                           borderRadius: BorderRadius.circular(10),
                                           color: AppColor.greyColor,
                                         ),
@@ -263,7 +256,9 @@ class PeerView extends GetView<PeerController> {
                             );
                           },
                         ),
-                        Divider(color: Colors.grey[300], thickness: 1),
+                        Divider(
+                            color:Theme.of(context).dividerTheme.color,
+                            thickness: 1),
                       ],
                     ),
                   );
@@ -271,7 +266,6 @@ class PeerView extends GetView<PeerController> {
               ),
 
               SizedBox(height: 15,),
-
 
               // Expanded(
               //   child: GetBuilder<PeerController>(
@@ -469,7 +463,7 @@ class PeerView extends GetView<PeerController> {
 
                     Text(
                       "FRIENDS",
-                      style: MyTextTheme.greyNormal,
+                      style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                     ),
 
                     // Friend list below the title
@@ -526,10 +520,7 @@ class PeerView extends GetView<PeerController> {
                                             children: [
                                               Text(
                                                 friend.user2.name.toString(),
-                                                style: MyTextTheme.mediumGCB.copyWith(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
+                                                style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold
                                                 ),
                                               ),
                                               Text(
@@ -578,16 +569,16 @@ class PeerView extends GetView<PeerController> {
                                                             onPressed: () {
                                                               Navigator.of(context).pop();
                                                             },
-                                                            child: const Text(
-                                                              'No, Go Back',
-                                                              style: TextStyle(
-                                                                  color: Colors.white),
-                                                            ),
                                                             style: TextButton.styleFrom(
                                                               padding:
                                                               const EdgeInsets.symmetric(
                                                                   horizontal: 10,
                                                                   vertical: 5),
+                                                            ),
+                                                            child: const Text(
+                                                              'No, Go Back',
+                                                              style: TextStyle(
+                                                                  color: Colors.white),
                                                             ),
                                                           ),
                                                         ),

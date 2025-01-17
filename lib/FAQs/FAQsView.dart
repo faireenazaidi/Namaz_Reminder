@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import '../LocationSelectionPage/locationPageView.dart';
-import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 import 'FAQsController.dart';
 
 class FAQSView extends StatelessWidget {
+  const FAQSView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final FAQController faqController = Get.put(FAQController());
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: Text('FAQs', style: MyTextTheme.mediumBCD),
+          title: Text('FAQs', style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Divider(
               height: 1.5,
-              color: AppColor.packageGray,
+              color:Theme.of(context).dividerTheme.color
             ),
           ),
           leading: InkWell(
@@ -45,9 +44,8 @@ class FAQSView extends StatelessWidget {
                     children: [
                       ListTile(
                         dense: true,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12.0,),
-      
-                        title: Text(faq['question'],style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12.0,),
+                        title: Text(faq['question'],style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
                         trailing: Icon(faq['isExpanded'] ? Icons.remove : Icons.add),
                         onTap: () {
                           faqController.toggleExpansion(index);
@@ -60,11 +58,13 @@ class FAQSView extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               faq['answer'],
-                              style: TextStyle(color: Colors.black54),
+                              style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color)
                             ),
                           ),
                         ),
-                      Divider(),
+                       Divider(
+                          color:Theme.of(context).dividerTheme.color
+                      ),
                     ],
                   );
                 },

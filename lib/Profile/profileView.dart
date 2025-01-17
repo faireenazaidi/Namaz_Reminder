@@ -21,11 +21,11 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
-        title: Text('Edit Profile', style: MyTextTheme.mediumBCD,),
+        title: Text('Edit Profile',style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.0),
           child: Divider(
@@ -91,7 +91,7 @@ class ProfileView extends GetView<ProfileController> {
                               },
                               child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color:  Theme.of(context).scaffoldBackgroundColor,
                                     // Background color of the icon
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -100,7 +100,7 @@ class ProfileView extends GetView<ProfileController> {
                                     ),
                                   ),
                                   padding: EdgeInsets.all(6),
-                                  child: SvgPicture.asset("assets/cam.svg")
+                                  child: SvgPicture.asset("assets/cam.svg",color:Theme.of(context).iconTheme.color,)
                               ),
                             ),
                           ),
@@ -186,11 +186,8 @@ class ProfileView extends GetView<ProfileController> {
                           Text("User Name", style: MyTextTheme.mediumGCB,),
                           TextFormField(
                             controller: controller.userNameC,
-                            enabled: false,
                             cursorColor: AppColor.circleIndicator,
                             decoration: InputDecoration(
-                              filled: true,
-                              fillColor: AppColor.leaderboard,
                               hintText: "User name",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               border: OutlineInputBorder(
@@ -202,7 +199,7 @@ class ProfileView extends GetView<ProfileController> {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
-                                  color: AppColor.packageGray,
+                                  color: Colors.grey,
                                   width: 1,
                                 ),
                               ),
@@ -276,12 +273,10 @@ class ProfileView extends GetView<ProfileController> {
                             cursorColor: AppColor.circleIndicator,
                             readOnly: true,
                             decoration: InputDecoration(
-                              filled: true,
-                              fillColor: AppColor.leaderboard,
                               hintText: "Enter your phone number",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               prefixIcon: SvgPicture.asset(
-                                "assets/call.svg", fit: BoxFit.scaleDown,),
+                                "assets/call.svg", fit: BoxFit.scaleDown,color:Theme.of(context).iconTheme.color,),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
@@ -323,7 +318,7 @@ class ProfileView extends GetView<ProfileController> {
                               hintText: "Enter your email",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               prefixIcon: Icon(
-                                Icons.email_outlined, color: AppColor.greyColor,
+                                Icons.email_outlined,color:Theme.of(context).iconTheme.color,
                                 size: 20,),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),

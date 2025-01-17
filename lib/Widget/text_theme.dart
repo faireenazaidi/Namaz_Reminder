@@ -12,7 +12,11 @@ class MyTextTheme {
       fontSize: 30,
       fontWeight: FontWeight.bold
   );
-
+  static TextStyle date = GoogleFonts.roboto(
+  color: AppColor.black,
+  fontSize: 13.5,
+  fontWeight: FontWeight.normal
+  );
   static TextStyle veryLargePCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 22,

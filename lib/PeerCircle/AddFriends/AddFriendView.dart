@@ -15,8 +15,6 @@ class AddFriendView extends GetView<AddFriendController> {
 
   @override
   Widget build(BuildContext context) {
-    final NotificationController notificationController = Get.put(NotificationController());
-    final DashBoardController dashBoardController = Get.find<DashBoardController>();
     final TextEditingController searchController = TextEditingController();
 
     String capitalizeFirstLetter(String name) {
@@ -26,11 +24,11 @@ class AddFriendView extends GetView<AddFriendController> {
     return SafeArea(
       top: true,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: Text('Invite friends', style: MyTextTheme.mediumBCD),
+          title: Text('Invite friends', style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
           leading: InkWell(
             onTap: () {
               Get.back();
@@ -74,7 +72,7 @@ class AddFriendView extends GetView<AddFriendController> {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.search),
                         hintText: "Search Username..",
-                        hintStyle: MyTextTheme.mediumCustomGCN,
+                        hintStyle: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
@@ -274,7 +272,7 @@ class AddFriendView extends GetView<AddFriendController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("SUGGESTIONS", style: MyTextTheme.greyNormal),
+                      Text("SUGGESTIONS", style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),),
                     ],
                   ),
 
@@ -283,7 +281,7 @@ class AddFriendView extends GetView<AddFriendController> {
                       child: Center(
                         child: Text(
                           "No Suggestions.",
-                          style: MyTextTheme.mediumGCB
+                          style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                         ),
                       ),
                     ),
@@ -336,11 +334,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                       children: [
                                         Text(
                                           capitalizeFirstLetter(registeredData.name.toString()),
-                                          style: MyTextTheme.mediumGCB.copyWith(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold)
                                         ),
                                         // SizedBox(height: 20,),
                                         Text(
@@ -365,7 +359,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                       height: 30,
                                       width: 80,
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: AppColor.white),
+                                       // border: Border.all(color: AppColor.white),
                                         borderRadius: BorderRadius.circular(10),
                                         color: AppColor.circleIndicator,
                                       ),

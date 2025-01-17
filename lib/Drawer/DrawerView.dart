@@ -26,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
       top: true,
       child: Drawer(
         backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(5),
                 bottomRight:  Radius.circular(5),
@@ -36,375 +36,323 @@ class CustomDrawer extends StatelessWidget {
           elevation: 5,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  GetBuilder<DashBoardController>(
-                      builder: (controller){
-                        return  Stack(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(top: 20.0,left: 10),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 15.0,),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                GetBuilder<DashBoardController>(
+                    builder: (controller){
+                      return  Stack(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(top: 20.0,left: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15.0,),
+                                    child: CircleAvatar(
+                                      radius: 31,
+                                      backgroundColor: AppColor.circleIndicator,
                                       child: CircleAvatar(
-                                        radius: 31,
-                                        backgroundColor: AppColor.circleIndicator,
-                                        child: CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
-                                              ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
-                                              : null,
-                                          backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
-                                              ? AppColor.packageGray
-                                              : Colors.transparent,
-                                          child: customDrawerController.userData.getUserData!.picture.isEmpty
-                                              ?  Icon(Icons.person, size: 25, color: AppColor.circleIndicator)
-                                              : null,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20,),
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: (){
-                                          Get.to(
-                                                () => ProfileView(),
-                                            transition: Transition.rightToLeft,
-                                            duration: Duration(milliseconds: 400),
-                                            curve: Curves.ease,
-                                          );
-                                        },
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(height: 10,),
-                                            Text(
-                                              UserData().getUserData!.name.toString().toUpperCase(),
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                fontFamily: 'Roboto',
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Text(
-                                              UserData().getUserData!.mobileNo??'',
-                                              style: MyTextTheme.smallGCN,
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Row(
-                                              children: [
-                                                Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
-                                                Text("Edit Profile",style: MyTextTheme.mustardNn,)
-                                              ],
-                                            ),
-
-                                        ],
+                                        radius: 30,
+                                        backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
+                                            ? NetworkImage("http://182.156.200.177:8011${customDrawerController.userData.getUserData!.picture}")
+                                            : null,
+                                        backgroundColor: customDrawerController.userData.getUserData!.picture.isEmpty
+                                            ? AppColor.packageGray
+                                            : Colors.transparent,
+                                        child: customDrawerController.userData.getUserData!.picture.isEmpty
+                                            ?  Icon(Icons.person, size: 25, color: AppColor.circleIndicator)
+                                            : null,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              left: 50,
-                              bottom: 40,
-                              child: Stack(
-                                children: [
-                                  SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
-                                      :myRankController.rank == 2?'assets/silver.svg':
-                                  myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 25,),
-                                  Positioned(
-                                    right: 9,
-                                    bottom: 3,
-                                    child: Column(
-                                      children: [
-                                        Center(
-                                          child: MyRank(
-                                            rankedFriends: dashBoardController.weeklyRanked,
+                                  const SizedBox(width: 20,),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: (){
+                                        Get.to(
+                                              () => ProfileView(),
+                                          transition: Transition.rightToLeft,
+                                          duration: Duration(milliseconds: 400),
+                                          curve: Curves.ease,
+                                        );
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(height: 10,),
+                                          Text(
+                                            UserData().getUserData!.name.toString().toUpperCase(),
+                                            style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color )
                                           ),
-                                        ),
+                                          const SizedBox(height: 5,),
+                                          Text(
+                                            UserData().getUserData!.mobileNo??'',
+                                            style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color ),
+                                          ),
+                                          const SizedBox(height: 5,),
+                                          Row(
+                                            children: [
+                                              Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
+                                              Text("Edit Profile",style: MyTextTheme.mustardNn,)
+                                            ],
+                                          ),
+
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ]
-                      );
-                    }
-                ),
-
-                SizedBox(height: 10,),
-                Divider(
-                  color: AppColor.greyLight,
-                ),
-                SizedBox(height: 10,),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.leaderboardRoute);
-                    // Get.to(
-                    //       () => LeaderBoardView(),
-                    //   transition: Transition.rightToLeft,
-                    //   duration: Duration(milliseconds: 400),
-                    //   curve: Curves.ease,
-                    // );
-                  },
-
-
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/icon.svg"),
-                        SizedBox(width: 6,),
-                        Text("Leaderboard",style: MyTextTheme.smallBC ,),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10,),
-                   Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                          Get.toNamed(AppRoutes.missedPrayers);
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset("assets/missed.svg"),
-                            SizedBox(width: 6),
-                            Text(
-                              "Missed Prayers",
-                              style: MyTextTheme.smallBC,
-                            ),
-                          Spacer(),
-                            Obx((){
-                              if (dashBoardController.missedPrayersCount.value == 0) {
-                                return SizedBox();
-                              }
-                              return  Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  (dashBoardController.missedPrayersCount.value - 1).toString(),
-                                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              );
-                            })
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-                  SizedBox(height: 10,),
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.peerRoute);
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset("assets/pc.svg"),
-                            SizedBox(width: 6),
-                            Text(
-                              "Peer Circle",
-                              style: MyTextTheme.smallBC,
+                              ],
                             ),
-                            Spacer(),
-                           Obx((){
-                             if (dashBoardController.pending.value == 0) {
-                               return SizedBox();
-                             }
-                             return  Container(
-                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                               decoration: BoxDecoration(
-                                 color: AppColor.circleIndicator,
-                                 borderRadius: BorderRadius.circular(12),
-                               ),
-                               child: Text(
-                                 dashBoardController.pending.value.toString(),
-                                 style: TextStyle(
-                                   color: Colors.white,
-                                   fontSize: 12,
-                                   fontWeight: FontWeight.bold,
-                                 ),
-                               ),
+                          ),
+                          Positioned(
+                            left: 50,
+                            bottom: 40,
+                            child: Stack(
+                              children: [
+                                SvgPicture.asset(myRankController.rank==1?'assets/Gold.svg'
+                                    :myRankController.rank == 2?'assets/silver.svg':
+                                myRankController.rank == 3?'assets/Bronze.svg':'assets/other.svg',height: 25,),
+                                Positioned(
+                                  right: 9,
+                                  bottom: 3,
+                                  child: Column(
+                                    children: [
+                                      Center(
+                                        child: MyRank(
+                                          rankedFriends: dashBoardController.weeklyRanked,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ]
+                    );
+                  }
+              ),
 
-                             );
-                           })
-                          ],
-                        ),
-                      ),
-                    ),
+              const SizedBox(height: 10,),
+              Divider(
+                  color:Theme.of(context).dividerTheme.color
+              ),
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(AppRoutes.leaderboardRoute);
+                },
 
-                SizedBox(height: 10,),
-                Divider(
-                  color: AppColor.greyLight,
+
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset( "assets/icon.svg",color:Theme.of(context).iconTheme.color,),
+                      const SizedBox(width: 6,),
+                      Text("Leaderboard",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 10,),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.notifications);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+              ),
+              const SizedBox(height: 10,),
+                 Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: (){
+                        Get.toNamed(AppRoutes.missedPrayers);
+                      },
                       child: Row(
                         children: [
-                          SvgPicture.asset( "assets/notifi.svg"),
-                          SizedBox(width: 6,),
-                          Text("Notifications",style: MyTextTheme.smallBC ,),
+                          SvgPicture.asset("assets/missed.svg",color:Theme.of(context).iconTheme.color ,),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Missed Prayers",
+                            style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+                          ),
+                        const Spacer(),
+                          Obx((){
+                            if (dashBoardController.missedPrayersCount.value == 0) {
+                              return const SizedBox();
+                            }
+                            return  Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                (dashBoardController.missedPrayersCount.value - 1).toString(),
+                                style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            );
+                          })
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.settingRoute);
-                    // Get.to(
-                    //       () => SettingView(), // Replace with your target widget
-                    //   transition: Transition.rightToLeft,
-                    //   duration: Duration(milliseconds: 400),
-                    //   curve: Curves.ease,
-                    // );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/set.svg"),
-                        SizedBox(width: 6,),
-                        Text("Settings",style: MyTextTheme.smallBC ,),
-                      ],
-                    ),
-                  ),
-                ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/moon-stars.svg",),
-                        SizedBox(width: 6,),
-                        Text("Dark Mode",style: MyTextTheme.smallBC ,),
-                        Spacer(),
-                        Obx(() => Switch(
-                          activeTrackColor: AppColor.circleIndicator,
-                          activeColor: AppColor.white,
-                          value: customDrawerController.isDarkMode.value,
-                          onChanged: (value) {
-                            customDrawerController.toggleDarkMode(value);
-                            Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
-                          },
-                        ))
 
-                      ],
-                    ),
-                  ),
-                Divider(
-                  color: AppColor.greyLight,
-                ),
                 SizedBox(height: 10,),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.faqsRoute);
-                    // Get.to(
-                    //       () => FAQSView(),
-                    //   transition: Transition.rightToLeft,
-                    //   duration: Duration(milliseconds: 400),
-                    //   curve: Curves.ease,
-                    // );
-                  },
-                  child: Padding(
+                Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/fq.svg"),
-                        SizedBox(width: 6,),
-                        Text("FAQs",style: MyTextTheme.smallBC ,),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10,),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.feedback);
-                    // Get.to(
-                    //       () => FeedbackView(),
-                    //   transition: Transition.rightToLeft,
-                    //   duration: Duration(milliseconds: 400),
-                    //   curve: Curves.ease,
-                    // );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset( "assets/feed.svg"),
-                        SizedBox(width: 6,),
-                        Text("Feedback",style: MyTextTheme.smallBC ,),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10,),
-                InkWell(
-                  onTap: (){
-                    Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
-                        okPressEvent: ()async{
-                          await UserData().removeUserData();
-                          dashBoardController.locationController.value.clear;
-                          stopBackgroundService();
-                          Get.offAllNamed(AppRoutes.locationPageRoute);
-                        });
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.peerRoute);
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/pc.svg",color:Theme.of(context).iconTheme.color ,),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Peer Circle",
+                            style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+                          ),
+                          const Spacer(),
+                         Obx((){
+                           if (dashBoardController.pending.value == 0) {
+                             return SizedBox();
+                           }
+                           return  Container(
+                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                             decoration: BoxDecoration(
+                               color: AppColor.circleIndicator,
+                               borderRadius: BorderRadius.circular(12),
+                             ),
+                             child: Text(
+                               dashBoardController.pending.value.toString(),
+                               style: const TextStyle(
+                                 color: Colors.white,
+                                 fontSize: 12,
+                                 fontWeight: FontWeight.bold,
+                               ),
+                             ),
 
-                    //Get.toNamed(AppRoutes.locationPageRoute);
+                           );
+                         })
+                        ],
+                      ),
+                    ),
+                  ),
+
+              SizedBox(height: 10,),
+              Divider(
+                  color:Theme.of(context).dividerTheme.color
+              ),
+              SizedBox(height: 10,),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.notifications);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        SvgPicture.asset( "assets/logout.svg"),
-                        SizedBox(width: 6,),
-                        Text("Logout",style: MyTextTheme.smallBC ,),
+                        SvgPicture.asset( "assets/notifi.svg",color:Theme.of(context).iconTheme.color ,),
+                        const SizedBox(width: 6,),
+                        Text("Notifications",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
                       ],
                     ),
                   ),
-               ),
+                ),
                 SizedBox(height: 10,),
-              ],
+              InkWell(
+                onTap: () {
+                  Get.toNamed(AppRoutes.settingRoute);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset( "assets/set.svg",color:Theme.of(context).iconTheme.color ,),
+                      SizedBox(width: 6,),
+                      Text("Settings",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
+                    ],
+                  ),
+                ),
+              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset( "assets/dm.svg",color:Theme.of(context).iconTheme.color ,),
+                      const SizedBox(width: 6,),
+                      Text("Dark Mode",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
+                      Spacer(),
+                      Obx(() => Switch(
+                        activeTrackColor: AppColor.circleIndicator,
+                        activeColor: AppColor.white,
+                        value: customDrawerController.isDarkMode.value,
+                        onChanged: (value) {
+                          customDrawerController.toggleDarkMode(value);
+                          Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+                        },
+                      ))
+                    ],
+                  ),
+                ),
+              Divider(
+                color: AppColor.greyLight,
+              ),
+              SizedBox(height: 10,),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(AppRoutes.faqsRoute);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset( "assets/fq.svg",color:Theme.of(context).iconTheme.color ,),
+                      const SizedBox(width: 6,),
+                      Text("FAQs",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(AppRoutes.feedback);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset( "assets/feed.svg",color:Theme.of(context).iconTheme.color ,),
+                      SizedBox(width: 6,),
+                      Text("Feedback",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10,),
+              InkWell(
+                onTap: (){
+                  Dialogs.actionBottomSheet(subTitle: 'Do you want to logout?',okButtonName: 'Yes' ,okButtonColor: Colors.white,
+                      okPressEvent: ()async{
+                        await UserData().removeUserData();
+                        dashBoardController.locationController.value.clear;
+                        stopBackgroundService();
+                        Get.offAllNamed(AppRoutes.locationPageRoute);
+                      });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset( "assets/logout.svg",color:Theme.of(context).iconTheme.color ,),
+                      const SizedBox(width: 6,),
+                      Text("Logout",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
+                    ],
+                  ),
+                ),
+             ),
+              const SizedBox(height: 10,),
+            ],
             ),
-          ),
         )));
-  }
-
-  // Function to create the ListTiles with reduced padding, small and bold text
-  Widget _buildListTile(BuildContext context, String title, String icon, VoidCallback onTap, [int? count]) {
-    return ListTile(
-      leading: Image.asset(icon),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 12, // Smaller text
-          fontFamily: 'Roboto', // Roboto font
-        ),
-      ),
-      dense: true, // Reduce spacing
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12), // Reduce padding
-      onTap: onTap,
-    );
   }
 }

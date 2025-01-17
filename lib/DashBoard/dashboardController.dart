@@ -1220,23 +1220,140 @@ RxString nextPrayerName = ''.obs;
 //       print('Error: $e');
 //     }
 //   }
-  submitPrayer(
-      {String? valDate,
-        bool? isFromMissed,
-        Future<dynamic> Function()? missedCallBack,
-        String? prayerNames,
-        String? startTime,
-        String? endTime,
-        required BuildContext context}) async {
+//   submitPrayer(
+//       {String? valDate,
+//         bool? isFromMissed,
+//         Future<dynamic> Function()? missedCallBack,
+//         String? prayerNames,
+//         String? startTime,
+//         String? endTime,
+//         required BuildContext context}) async {
+//     Get.back();
+//     Dialogs.showLoading(context, message: 'loading...');
+//     DateTime date = DateTime.now();
+//     String formattedDate = valDate ?? DateFormat('dd-MM-yyyy').format(date);
+//     print("formattedDate $formattedDate");
+//     try {
+//       var headers = {'Content-Type': 'application/json'};
+//       var userId = userData.getUserData!.id.toString();
+//       var mobileNo = userData.getUserData!.mobileNo.toString();
+//       if (!isAm && hour < 12) {
+//         hour += 12; // Convert to PM (24-hour format)
+//       } else if (isAm && hour == 12) {
+//         hour = 0; // Handle 12 AM as 00:00 in 24-hour format
+//       }
+//       DateTime time = DateTime(0, 1, 1, hour, minute);
+//       String formattedTime = DateFormat('HH:mm').format(time);
+//
+//       var request = http.Request(
+//           'POST',
+//           Uri.parse(
+//               'http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
+//       request.body = json.encode({
+//         "user_id": int.parse(userId),
+//         "prayer_name": prayerNames ?? currentPrayer.value,
+//         "mobile_no": int.parse(mobileNo),
+//         "latitude": position != null
+//             ? position!.latitude.toString()
+//             : userData.getLocationData!.latitude.toString(),
+//         "longitude": position != null
+//             ? position!.longitude.toString()
+//             : userData.getLocationData!.longitude.toString(),
+//         "timestamp": formattedTime,
+//         "jamat": prayedAtMosque.value,
+//         'prayed': true
+//       });
+//       request.headers.addAll(headers);
+//       http.StreamedResponse response = await request.send();
+//       String responseString = await response.stream.bytesToString();
+//       print("Raw API response: $responseString");
+//       Dialogs.hideLoading();
+//
+//       if (isFromMissed!) {
+//         missedCallBack!();
+//         Get.snackbar('Prayer Marked', 'Success',
+//             backgroundColor: Colors.black,
+//             colorText: Colors.white,
+//             snackPosition: SnackPosition.BOTTOM,
+//             duration: const Duration(seconds: 1));
+//
+//       } else {
+//         isPrayed = true;
+//         isGifVisible = true;
+//         update();
+//         trackMarkPrayer = currentPrayer.value;
+//         leaderboard();
+//         Future.delayed(Duration(seconds: 3), () async {
+//           isGifVisible = false;
+//           if (userData.getUserData!.fiqh == '0') {
+//             onPrayerMarked(currentPrayer.value);
+//           }
+//           update();
+//         });
+//       }
+//        fetchMissedPrayersCount();
+//       print('Jjjjjjj');
+//     } catch (e) {
+//       print('Error: $e');
+//     }
+//   }
+
+  submitPrayer({
+    String? valDate,
+    bool? isFromMissed,
+    Future<dynamic> Function()? missedCallBack,
+    String? prayerNames,
+    String? startTime,
+    String? endTime,
+    required BuildContext context,
+  }) async {
     Get.back();
-    Dialogs.showLoading(context, message: 'loading...');
+    Dialogs.showLoading(context, message: 'Loading...');
     DateTime date = DateTime.now();
     String formattedDate = valDate ?? DateFormat('dd-MM-yyyy').format(date);
-    print("formattedDate $formattedDate");
+
     try {
+      // Parse start and end times to DateTime for validation
+      DateTime now = DateTime.now();
+      DateTime parsedStartTime = DateFormat('HH:mm').parse(startTime ?? "00:00");
+      DateTime parsedEndTime = DateFormat('HH:mm').parse(endTime ?? "23:59");
+
+      // Convert parsed times to today's date for comparison
+      parsedStartTime = DateTime(now.year, now.month, now.day, parsedStartTime.hour, parsedStartTime.minute);
+      parsedEndTime = DateTime(now.year, now.month, now.day, parsedEndTime.hour, parsedEndTime.minute);
+
+      // Validate against prayer time
+      if (now.isBefore(parsedStartTime) || now.isAfter(parsedEndTime)) {
+        Dialogs.hideLoading();
+        Get.snackbar(
+          'Invalid Prayer Time',
+          'You can only mark this prayer during its valid time range.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+        return; // Exit the method
+      }
+
+      // Validate if the prayer has already been marked
+      if (trackMarkPrayer == prayerNames) {
+        Dialogs.hideLoading();
+        Get.snackbar(
+          'Prayer Already Marked',
+          'This prayer has already been submitted.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+        return; // Exit the method
+      }
+
       var headers = {'Content-Type': 'application/json'};
       var userId = userData.getUserData!.id.toString();
       var mobileNo = userData.getUserData!.mobileNo.toString();
+
       if (!isAm && hour < 12) {
         hour += 12; // Convert to PM (24-hour format)
       } else if (isAm && hour == 12) {
@@ -1246,9 +1363,9 @@ RxString nextPrayerName = ''.obs;
       String formattedTime = DateFormat('HH:mm').format(time);
 
       var request = http.Request(
-          'POST',
-          Uri.parse(
-              'http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
+        'POST',
+        Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'),
+      );
       request.body = json.encode({
         "user_id": int.parse(userId),
         "prayer_name": prayerNames ?? currentPrayer.value,
@@ -1261,9 +1378,10 @@ RxString nextPrayerName = ''.obs;
             : userData.getLocationData!.longitude.toString(),
         "timestamp": formattedTime,
         "jamat": prayedAtMosque.value,
-        'prayed': true
+        'prayed': true,
       });
       request.headers.addAll(headers);
+
       http.StreamedResponse response = await request.send();
       String responseString = await response.stream.bytesToString();
       print("Raw API response: $responseString");
@@ -1276,7 +1394,6 @@ RxString nextPrayerName = ''.obs;
             colorText: Colors.white,
             snackPosition: SnackPosition.BOTTOM,
             duration: const Duration(seconds: 1));
-
       } else {
         isPrayed = true;
         isGifVisible = true;
@@ -1291,109 +1408,13 @@ RxString nextPrayerName = ''.obs;
           update();
         });
       }
-       fetchMissedPrayersCount();
+
+      fetchMissedPrayersCount();
       print('Jjjjjjj');
     } catch (e) {
       print('Error: $e');
     }
   }
-
-  // submitPrayer({
-  //   String? valDate,
-  //   bool? isFromMissed,
-  //   Future<dynamic> Function()? missedCallBack,
-  //   String? prayerNames,
-  //   String? startTime,
-  //   String? endTime,
-  //   required BuildContext context,
-  // }) async {
-  //   String currentTime = DateFormat('HH:mm').format(DateTime.now());
-  //
-  //   if (
-  //   (isFromMissed ?? false) == false &&
-  //       !isTimeWithinRange(startTime ?? currentPrayerStartTime.value,
-  //           endTime ?? currentPrayerEndTime.value,
-  //           currentTime)) {
-  //
-  //     Get.snackbar(
-  //       'Invalid Submission',
-  //       'You can only submit this prayer between ${startTime ?? currentPrayerStartTime.value} and ${endTime ?? currentPrayerEndTime.value}.',
-  //       backgroundColor: Colors.black,
-  //       colorText: Colors.white,
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       duration: Duration(seconds: 3),
-  //     );
-  //     return;
-  //   }
-  //
-  //   Get.back();
-  //   Dialogs.showLoading(context, message: 'loading...');
-  //   DateTime date = DateTime.now();
-  //   String formattedDate = valDate ?? DateFormat('dd-MM-yyyy').format(date);
-  //   print("formattedDate $formattedDate");
-  //   try {
-  //     var headers = {'Content-Type': 'application/json'};
-  //     var userId = userData.getUserData!.id.toString();
-  //     var mobileNo = userData.getUserData!.mobileNo.toString();
-  //     if (!isAm && hour < 12) {
-  //       hour += 12; // Convert to PM (24-hour format)
-  //     } else if (isAm && hour == 12) {
-  //       hour = 0; // Handle 12 AM as 00:00 in 24-hour format
-  //     }
-  //     DateTime time = DateTime(0, 1, 1, hour, minute);
-  //     String formattedTime = DateFormat('HH:mm').format(time);
-  //
-  //     var request = http.Request(
-  //         'POST',
-  //         Uri.parse(
-  //             'http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
-  //     request.body = json.encode({
-  //       "user_id": int.parse(userId),
-  //       "prayer_name": prayerNames ?? currentPrayer.value,
-  //       "mobile_no": int.parse(mobileNo),
-  //       "latitude": position != null
-  //           ? position!.latitude.toString()
-  //           : userData.getLocationData!.latitude.toString(),
-  //       "longitude": position != null
-  //           ? position!.longitude.toString()
-  //           : userData.getLocationData!.longitude.toString(),
-  //       "timestamp": formattedTime,
-  //       "jamat": prayedAtMosque.value,
-  //       'prayed': true
-  //     });
-  //     request.headers.addAll(headers);
-  //     http.StreamedResponse response = await request.send();
-  //     String responseString = await response.stream.bytesToString();
-  //     print("Raw API response: $responseString");
-  //     Dialogs.hideLoading();
-  //
-  //     if (isFromMissed!) {
-  //       missedCallBack!();
-  //       Get.snackbar('Prayer Marked', 'Success',
-  //           backgroundColor: Colors.black,
-  //           colorText: Colors.white,
-  //           snackPosition: SnackPosition.BOTTOM,
-  //           duration: const Duration(seconds: 1));
-  //     } else {
-  //       isPrayed = true;
-  //       isGifVisible = true;
-  //       update();
-  //       trackMarkPrayer = currentPrayer.value;
-  //       leaderboard();
-  //       Future.delayed(Duration(seconds: 3), () async {
-  //         isGifVisible = false;
-  //         if (userData.getUserData!.fiqh == '0') {
-  //           onPrayerMarked(currentPrayer.value);
-  //         }
-  //         update();
-  //       });
-  //     }
-  //     fetchMissedPrayersCount();
-  //     print('Jjjjjjj');
-  //   } catch (e) {
-  //     print('Error: $e');
-  //   }
-  // }
 
 
 List isPrayedList = [];

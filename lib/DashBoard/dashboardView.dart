@@ -29,6 +29,7 @@ class DashBoardView extends GetView<DashBoardController> {
   Widget build(BuildContext context) {
 
 
+    bool goingTo = false;
     final DashBoardController controller = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
     final SettingController settingController = Get.put(SettingController());
@@ -62,7 +63,7 @@ class DashBoardView extends GetView<DashBoardController> {
       child: Container(
         color: Colors.white,
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
                 bottom: PreferredSize(
                   preferredSize:  const Size.fromHeight(1.0),
@@ -72,10 +73,10 @@ class DashBoardView extends GetView<DashBoardController> {
                   ),
                 ),
                 toolbarHeight: 55,
-                backgroundColor: Colors.transparent,
+                backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
                 titleSpacing: 0,
                 title: Text("Prayer O'Clock",
-                  style: MyTextTheme.largeBN,
+                  style: MyTextTheme.largeBN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                   overflow: TextOverflow.ellipsis,),
                 actions: [
                   Padding(
@@ -107,7 +108,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                 child:
                                 Text(
                                   controller.address.split(' ')[0].toString(),
-                                  style: MyTextTheme.greyNormal,
+                                  style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                                 ),
                                 // Text(
                                 //   controller.address.split(' ').take(1).join(' ') + '...',
@@ -205,7 +206,8 @@ class DashBoardView extends GetView<DashBoardController> {
               ),
 
       drawer: const CustomDrawer(),
-      body: RefreshIndicator(color: AppColor.black,
+      body: RefreshIndicator(
+        color: Theme.of(context).cardColor,
         onRefresh: controller.onRefresh,
         child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -235,7 +237,8 @@ class DashBoardView extends GetView<DashBoardController> {
                             children: [
                               Text(
                                 DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
-                                style: const TextStyle(fontSize: 13.5, color: Colors.black),
+                               // style: const TextStyle(fontSize: 13.5, color: Colors.black),
+                                style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Container(
@@ -247,7 +250,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               Obx(
                                     () => Text(
                                   controller.islamicDate.value,
-                                  style: const TextStyle(fontSize: 13.5, color: Colors.black),
+                                      style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -396,7 +399,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                         return Text(
                                           '${controller.convertTime(controller.currentPrayerStartTime.value, )}-'
                                               '${controller.convertTime(controller.currentPrayerEndTime.value,)}',
-                                          style: MyTextTheme.smallBCn,
+                                          style: MyTextTheme.smallBCn.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                         );
                                       }),
                                       ),
@@ -406,12 +409,13 @@ class DashBoardView extends GetView<DashBoardController> {
                                       const SizedBox(height: 5),
                                       Text(
                                         controller.remainingTime.value,
-                                        style: MyTextTheme.largeCustomBCB,
+                                        style: MyTextTheme.largeCustomBCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
                                         "Left for ${controller.currentPrayer.value} Prayer",
-                                        style: MyTextTheme.greyNormal,
+                                        style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
+
                                       ),
                                     ],
                                   );

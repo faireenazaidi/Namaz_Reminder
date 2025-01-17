@@ -15,15 +15,14 @@ class NotificationView extends  GetView<NotificationController> {
   Widget build(BuildContext context,) {
 
     NotificationDataModal notificationData = NotificationDataModal(
-
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
-        title: Text('Notifications', style: MyTextTheme.mediumBCD),
+        title: Text('Notifications',style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
@@ -40,15 +39,10 @@ class NotificationView extends  GetView<NotificationController> {
         actions: [
           TextButton(
             onPressed: () {
-
               Get.toNamed(AppRoutes.settingRoute);
-              //   transition: Transition.rightToLeft,
-              //   duration: const Duration(milliseconds: 500),
-              //   curve: Curves.ease,);
-
             },
             child:SvgPicture.asset(
-              "assets/set.svg",height: 25,color: AppColor.greyDark,
+              "assets/set.svg",height: 25,color:Theme.of(context).iconTheme.color ,
             ),
           ),
         ],
@@ -68,22 +62,23 @@ class NotificationView extends  GetView<NotificationController> {
         children: [
           const SizedBox(height: 100,),
           Image.asset("assets/notifi.gif",),
-          Text("No notifications yet",style: MyTextTheme.B,),
-          Text("Your notification will appear here\n once you received them.",style: MyTextTheme.mediumBCb,)
+          Text("No notifications yet",style: MyTextTheme.B.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color ),),
+          Text("Your notification will appear here\n once you received them.",
+            style: MyTextTheme.mediumBCb.copyWith(color: Theme.of(context).textTheme.titleSmall?.color ),)
         ],
       )
           : ListView(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: [
-          buildCategory('Today', controller.todayNotifications),
-          buildCategory('Yesterday', controller.yesterdayNotifications),
-          buildCategory('Last 7 Days', controller.last7DaysNotifications)
+          buildCategory('Today', controller.todayNotifications,context),
+          buildCategory('Yesterday', controller.yesterdayNotifications,context),
+          buildCategory('Last 7 Days', controller.last7DaysNotifications,context)
         ],
       );
-              }),
+      }),
     );
   }
-  Widget buildCategory(String title, List<dynamic> notifications) {
+  Widget buildCategory(String title, List<dynamic> notifications,context) {
     if (notifications.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -94,12 +89,11 @@ class NotificationView extends  GetView<NotificationController> {
           padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
           child: Text(
             title,
-            style: MyTextTheme.mg,
+            style: MyTextTheme.mg.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color ),
           ),
         ),
 
         // List of notifications
-
         GetBuilder<NotificationController>(
             builder: (controller){
               return     ListView.builder(
@@ -111,7 +105,6 @@ class NotificationView extends  GetView<NotificationController> {
                   var notificationDate = DateTime.parse(notification['created_at']);
                   NotificationDataModal notificationData = NotificationDataModal(
                     userId: notification['request_id']?.toString(),
-                    // Add other properties as needed
                   );
                   // Notification tile
                   return Padding(
@@ -139,11 +132,11 @@ class NotificationView extends  GetView<NotificationController> {
                           ),
                           title: Text(
                             notification['message'],
-                            style: MyTextTheme.smallBCn,
+                            style: MyTextTheme.smallBCn.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color ),
                           ),
                           subtitle: Text(
                             _timeAgo(notificationDate),
-                            style: const TextStyle(color: Colors.grey, fontSize: 12),
+                            style:MyTextTheme.smallBCn.copyWith(color: Theme.of(context).textTheme.titleSmall?.color ),
                           ),
                         ),
 
@@ -209,7 +202,6 @@ class NotificationView extends  GetView<NotificationController> {
                 },
               );
             })
-
         // GetBuilder<NotificationController>(
         //   builder: (controller) {
         //     return ListView.builder(
@@ -321,8 +313,6 @@ class NotificationView extends  GetView<NotificationController> {
         //     );
         //   },
         // ),
-
-
       ],
     );
   }

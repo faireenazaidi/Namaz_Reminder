@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/NotificationSetting/notificationSettingController.dart';
-import 'package:namaz_reminders/Profile/profileController.dart';
 import 'package:namaz_reminders/Setting/FriendRequests/friendRequestController.dart';
 import 'package:namaz_reminders/Setting/HijriDate/hijriController.dart';
-import 'package:namaz_reminders/Setting/Privacy&Security/PrivacyController.dart';
 import '../AppManager/toast.dart';
 import '../Notification/NotificationSetting/notificationSettingView.dart';
 import '../Widget/appColor.dart';
@@ -15,12 +13,9 @@ import 'SettingController.dart';
 class SettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SettingController settingController = Get.put(SettingController());
     final HijriController hijriController = Get.put(HijriController());
     final RequestController requestController = Get.put(RequestController());
-    final PrivacyController privacyController = Get.put(PrivacyController());
     final NotificationSettingController notificationSettingController = Get.put(NotificationSettingController());
-    final ProfileController profileController = Get.put(ProfileController());
 
     return GetBuilder<SettingController>(
       init: SettingController(),
@@ -28,11 +23,11 @@ class SettingView extends StatelessWidget {
         return SafeArea(
           top: true,
           child: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               centerTitle: true,
-              title: Text('Settings', style: MyTextTheme.mediumBCD),
+              title: Text('Settings', style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(1.0),
                 child: Divider(
@@ -51,7 +46,7 @@ class SettingView extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   /// This Searchbar is temporarily hidden///
                  // Padding(
                  //   padding: const EdgeInsets.all(8.0),
@@ -86,7 +81,7 @@ class SettingView extends StatelessWidget {
                  //   ),
                  // ),
 
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Settings List
                   Expanded(
                     child: ListView(
@@ -149,12 +144,11 @@ class SettingView extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset("assets/hijri.svg",height: 16,),
+                                  SvgPicture.asset("assets/hijri.svg",height: 16,color:Theme.of(context).iconTheme.color),
                                   SizedBox(width: 10,),
-                                  Text("Hijri Date Adjustment"),
+                                  Text("Hijri Date Adjustment",style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,)),
                                 ],
                               ),
-
                               Container(
                                 height: 50,
                                 decoration: BoxDecoration(
@@ -434,15 +428,12 @@ class SettingView extends StatelessWidget {
                                 SvgPicture.asset(
                                   "assets/Time.svg",
                                   height: 16,
+                                color:Theme.of(context).iconTheme.color
                                 ),
                                 const SizedBox(width: 10),
-                                const Text(
+                                 Text(
                                   'Use 24 Hours Time Format',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                  ),
+                                    style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,)
                                 ),
                               ],
                             ),
@@ -519,23 +510,20 @@ class SettingView extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        SvgPicture.asset("assets/noti.svg"),
+                                        SvgPicture.asset("assets/noti.svg"
+                                            ,color:Theme.of(context).iconTheme.color),
                                         SizedBox(width: 10,),
 
-                                        const Text(
+                                         Text(
                                           "Notifications",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                          ),
+                                            style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,)
                                         ),
                                       ],
                                     ),
-                                    const Icon(
+                                     Icon(
                                       Icons.arrow_forward_ios,
                                       size: 16,
-                                      color: Colors.black, )
+                                      color:Theme.of(context).iconTheme.color, )
                                   ],
                                 ),
                               ),
@@ -552,7 +540,8 @@ class SettingView extends StatelessWidget {
                               children: [
                                 SvgPicture.asset(
                                   "assets/frndRequest.svg",
-                                  height: 18, // Adjust size as needed
+                                  height: 18,
+                                color:Theme.of(context).iconTheme.color
                                 ),
                                 SizedBox(width: 10,),
 
@@ -560,18 +549,14 @@ class SettingView extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
+                                       Text(
                                         'Allow everyone to send you friend request',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                        ),
+                                          style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,)
                                       ),
                                       SizedBox(height: 4),
                                       Text(
                                         "Manage who can send you joining request",
-                                        style: MyTextTheme.subtitle.copyWith(fontSize: 12),
+                                        style: MyTextTheme.subtitle.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,fontSize: 12)
                                       ),
                                     ],
                                   ),
@@ -953,7 +938,6 @@ class SettingView extends StatelessWidget {
                         //   },
                         //     imagePath:"assets/privacy.svg"
                         // ),
-
                       ],
                     ),
                   ),
@@ -1001,7 +985,6 @@ class SettingView extends StatelessWidget {
       ],
     );
   }
-
         String getOptionText(int index) {
       switch (index) {
         case 0:
@@ -1012,6 +995,5 @@ class SettingView extends StatelessWidget {
           return "";
       }
     }
-
 }
 
