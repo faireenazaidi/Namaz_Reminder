@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../AppManager/dialogs.dart';
 import '../../AppManager/toast.dart';
 import '../../DataModels/LoginResponse.dart';
 import '../../Services/ApiService/api_service.dart';
 import '../../Services/user_data.dart';
+import '../../Widget/no_internet.dart';
+import '../../main.dart';
 class RequestController extends GetxController {
   UserData userData = UserData();
   ApiService apiService = ApiService();
-  var selectedIndex = Rx<int?>(null);
+  // var selectedIndex = Rx<int?>(null);
+  var selectedIndex = 0.obs;
   var isLoading = false.obs; // Observable to track loading state
 
   @override
@@ -22,6 +26,8 @@ class RequestController extends GetxController {
     selectedIndex.value = index;
     await registerUser();
   }
+
+
 
   Future<void> registerUser({bool isFirst = false}) async {
     // Map fr_allow values properly based on selectedIndex
@@ -69,7 +75,13 @@ class RequestController extends GetxController {
       }
     } catch (e) {
       print("Error updating user: $e");
-      showToast(msg: 'An error occurred. Please try again.', bgColor: Colors.red);
+      print('$e');
+      final context = navigatorKey.currentContext!;
+      Dialogs.showCustomBottomSheet(context: context,
+        content: NoInternet(message: '$e',
+            onRetry: (){registerUser(isFirst: true);
+            selectedIndex.value =
+            userData.getUserData!.frAllow! == 2 ? 1 : userData.getUserData!.frAllow!;}),);
     } finally {
       isLoading.value = false; // Hide loading state
     }

@@ -194,6 +194,7 @@ class LocationPageController extends GetxController {
      checkData();
    } catch (e) {
      print("Error occurred in Calculation Method API call: $e");
+
    }
  }
 

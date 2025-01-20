@@ -291,13 +291,9 @@ class Upcoming extends GetView<UpcomingController> {
                                                 ),
                                                 const SizedBox(height: 8),
                                                 Center(
-                                                  child: Text(
-                                                    dashboardController.getPrayerTimes.isEmpty
-                                                        ? "Loading"
-                                                        : dashboardController.getPrayerTimes[index].toString(),
-                                                    style: isHighlighted
-                                                        ? MyTextTheme.smallBCN
-                                                        : MyTextTheme.smallGCN,
+                                                  child: Text(dashboardController.convertTime( dashboardController.getPrayerTimes.isEmpty ?
+                                                    "Loading" : dashboardController.getPrayerTimes[index].toString(),),
+                                                    style: isHighlighted ? MyTextTheme.smallBCN : MyTextTheme.smallGCN,
                                                   ),
                                                 )
                                               ],
@@ -368,7 +364,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                     //   Text(controller.nextPrayer.value, style: MyTextTheme.medium),
+                                     //  Text(controller.nextPrayer.value, style: MyTextTheme.medium),
                                         Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
@@ -420,11 +416,11 @@ class Upcoming extends GetView<UpcomingController> {
                                       children: [
                                         Expanded(
                                           child:
-                                          Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
+                                          Text(dashboardController.convertTime(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value),
                                               style: MyTextTheme.mediumBCD
                                           )
                                         ),
-                                        Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,
+                                        Text(dashboardController.convertTime(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value),
                                             style: MyTextTheme.mediumBCD
                                         )
                                       ],
@@ -496,10 +492,10 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text(startTime12, style: MyTextTheme.mediumBCD),
+                                          child: Text(dashboardController.convertTime(startTime12), style: MyTextTheme.mediumBCD),
                                         ),
                                         if (!isSpecialPrayer)
-                                          Text(endTime12, style: MyTextTheme.mediumBCD),
+                                          Text(dashboardController.convertTime(endTime12), style: MyTextTheme.mediumBCD),
                                       ],
                                     ),
                                   ],

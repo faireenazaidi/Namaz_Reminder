@@ -65,7 +65,8 @@ class PrayerRanking extends StatelessWidget {
 
 
     Map<String, List<Record>> groupedByPrayer = groupByPrayer(records);
-    return Padding(
+    return
+      Padding(
       padding: const EdgeInsets.all(5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,20 +411,16 @@ class PrayerRanking extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child:user.userTimestamp!=null? user.user.picture!=null? Column(
               children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                      "http://182.156.200.177:8011${user.user.picture}",
-                    ),
+                CircleAvatar(
+                  radius: 21,
+                  backgroundImage: NetworkImage(
+                    "http://182.156.200.177:8011${user.user.picture}",
                   ),
                 ),
                 id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
               ],
-            ):Column(
+            ):
+            Column(
               children: [
                 Container(
                   height: 45,
@@ -442,7 +439,7 @@ class PrayerRanking extends StatelessWidget {
             ):
             CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: 25,
+                radius: 30,
                 child: Container(
                height: 3,
                       width: 12,

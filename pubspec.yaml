@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk:  3.5.1
+  sdk:  3.4.4
 
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -81,6 +81,7 @@ dependencies:
   connectivity_plus: ^2.3.0
   audioplayers: ^6.1.0
   app_settings: ^5.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

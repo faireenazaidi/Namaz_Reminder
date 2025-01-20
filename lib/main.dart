@@ -187,18 +187,18 @@ void main() async {
 //   }
 void _handleConnectivityChange(ConnectivityResult result) {
   if (result == ConnectivityResult.none) {
-    //   // Show a dialog when the connection is lost
-    //   Get.defaultDialog(
-    //     title: "Connection Lost",
-    //     middleText: "You have lost your internet connection.",
-    //     // onConfirm: () {
-    //     //   Get.back();
-    //     // },
-    //    cancel: TextButton(
-    //        onPressed: (){
-    //          Get.back();
-    //        }, child: Text("OK"))
-    //   );
+  //   // Show a dialog when the connection is lost
+  //   Get.defaultDialog(
+  //     title: "Connection Lost",
+  //     middleText: "You have lost your internet connection.",
+  //     // onConfirm: () {
+  //     //   Get.back();
+  //     // },
+  //    cancel: TextButton(
+  //        onPressed: (){
+  //          Get.back();
+  //        }, child: Text("OK"))
+  //   );
 
     // Get.showSnackbar(
     //   const GetSnackBar(
@@ -433,12 +433,12 @@ void onStart(ServiceInstance service) async {
   //   firstthird: "21:55 (IST)",
   //   lastthird: "01:57 (IST)",
   // );
-  UserData userData = UserData();
+UserData userData = UserData();
   Timer.periodic(Duration(seconds: 5), (t){
     DateTime currentTime = DateTime.now();
     print("t ${t.tick}");
 
-    print("aaa${userData.getPrayerTimingsData}");
+print("aaa${userData.getPrayerTimingsData}");
 
     // Calculate the remaining time for the current prayer
     try {
@@ -617,96 +617,96 @@ Future<void> fetchPrayerTimeData() async {
     //
     // final response = await http.get(uri);
     List listData = [
-      {
-        "timings": {
-          "Fajr": "04:51 (IST)",
-          "Sunrise": "05:59 (IST)",
-          "Dhuhr": "12:01 (IST)",
-          "Asr": "12:30 (IST)",
-          "Sunset": "17:53 (IST)",
-          "Maghrib": "12:40 (IST)",
-          "Isha": "21:00 (IST)",
-          "Imsak": "04:41 (IST)",
-          "Midnight": "23:56 (IST)",
-          "Firstthird": "21:55 (IST)",
-          "Lastthird": "01:57 (IST)"
-        },
-        "date": {
-          "readable": "01 Oct 2024",
-          "timestamp": "1727753461",
-          "gregorian": {
-            "date": "05-11-2024",
-            "format": "DD-MM-YYYY",
-            "day": "01",
-            "weekday": {
-              "en": "Tuesday"
-            },
-            "month": {
-              "number": 10,
-              "en": "October"
-            },
-            "year": "2024",
-            "designation": {
-              "abbreviated": "AD",
-              "expanded": "Anno Domini"
-            }
-          },
-          "hijri": {
-            "date": "27-03-1446",
-            "format": "DD-MM-YYYY",
-            "day": "27",
-            "weekday": {
-              "en": "Al Thalaata",
-              "ar": "\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621"
-            },
-            "month": {
-              "number": 3,
-              "en": "Rab\u012b\u02bf al-awwal",
-              "ar": "\u0631\u064e\u0628\u064a\u0639 \u0627\u0644\u0623\u0648\u0651\u0644"
-            },
-            "year": "1446",
-            "designation": {
-              "abbreviated": "AH",
-              "expanded": "Anno Hegirae"
-            },
-            "holidays": []
-          }
-        },
-        "meta": {
-          "latitude": 1.234567,
-          "longitude": 2.34567,
-          "timezone": "Asia\/Kolkata",
-          "method": {
-            "id": 0,
-            "name": "Shia Ithna-Ashari, Leva Institute, Qum",
-            "params": {
-              "Fajr": 16,
-              "Isha": 14,
-              "Maghrib": 4,
-              "Midnight": "JAFARI"
-            },
-            "location": {
-              "latitude": 34.6415764,
-              "longitude": 50.8746035
-            }
-          },
-          "latitudeAdjustmentMethod": "ANGLE_BASED",
-          "midnightMode": "STANDARD",
-          "school": "STANDARD",
-          "offset": {
-            "Imsak": 0,
-            "Fajr": 0,
-            "Sunrise": 0,
-            "Dhuhr": 0,
-            "Asr": 0,
-            "Maghrib": 0,
-            "Sunset": 0,
-            "Isha": 0,
-            "Midnight": 0
-          }
-        }
-      },
-    ];
+    {
+      "timings": {
+  "Fajr": "04:51 (IST)",
+  "Sunrise": "05:59 (IST)",
+  "Dhuhr": "12:01 (IST)",
+  "Asr": "12:30 (IST)",
+  "Sunset": "17:53 (IST)",
+  "Maghrib": "12:40 (IST)",
+  "Isha": "21:00 (IST)",
+  "Imsak": "04:41 (IST)",
+  "Midnight": "23:56 (IST)",
+  "Firstthird": "21:55 (IST)",
+  "Lastthird": "01:57 (IST)"
+},
+  "date": {
+  "readable": "01 Oct 2024",
+  "timestamp": "1727753461",
+  "gregorian": {
+  "date": "05-11-2024",
+  "format": "DD-MM-YYYY",
+  "day": "01",
+  "weekday": {
+  "en": "Tuesday"
+},
+  "month": {
+  "number": 10,
+  "en": "October"
+},
+  "year": "2024",
+  "designation": {
+  "abbreviated": "AD",
+  "expanded": "Anno Domini"
+}
+},
+  "hijri": {
+  "date": "27-03-1446",
+  "format": "DD-MM-YYYY",
+  "day": "27",
+  "weekday": {
+  "en": "Al Thalaata",
+  "ar": "\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621"
+},
+  "month": {
+  "number": 3,
+  "en": "Rab\u012b\u02bf al-awwal",
+  "ar": "\u0631\u064e\u0628\u064a\u0639 \u0627\u0644\u0623\u0648\u0651\u0644"
+},
+  "year": "1446",
+  "designation": {
+  "abbreviated": "AH",
+  "expanded": "Anno Hegirae"
+},
+  "holidays": []
+}
+},
+  "meta": {
+  "latitude": 1.234567,
+  "longitude": 2.34567,
+  "timezone": "Asia\/Kolkata",
+  "method": {
+  "id": 0,
+  "name": "Shia Ithna-Ashari, Leva Institute, Qum",
+  "params": {
+  "Fajr": 16,
+  "Isha": 14,
+  "Maghrib": 4,
+  "Midnight": "JAFARI"
+},
+  "location": {
+  "latitude": 34.6415764,
+  "longitude": 50.8746035
+}
+},
+  "latitudeAdjustmentMethod": "ANGLE_BASED",
+  "midnightMode": "STANDARD",
+  "school": "STANDARD",
+  "offset": {
+  "Imsak": 0,
+  "Fajr": 0,
+  "Sunrise": 0,
+  "Dhuhr": 0,
+  "Asr": 0,
+  "Maghrib": 0,
+  "Sunset": 0,
+  "Isha": 0,
+  "Midnight": 0
+}
+}
+},
+  ];
 
     // Extract today’s prayer timings from your list data
     var todayPrayerData = listData.firstWhere((data) => data['date']['gregorian']['date'] == todayDate, orElse: () => null);
@@ -922,9 +922,9 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       customDrawerController.isDarkMode.value
           ? const SystemUiOverlayStyle(
-          statusBarIconBrightness: Brightness.light,
-          statusBarBrightness: Brightness.dark,
-          systemNavigationBarColor: Colors.white
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white
 
       ):  SystemUiOverlayStyle(
         statusBarColor: AppColor.cream,
@@ -939,8 +939,8 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColor.lightmustard,
         scaffoldBackgroundColor:Colors.white,
         appBarTheme: AppBarTheme(
-            backgroundColor: AppColor.lightmustard,
-            systemOverlayStyle: SystemUiOverlayStyle.dark,
+          backgroundColor: AppColor.lightmustard,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
             surfaceTintColor: AppColor.lightmustard
         ),
         textTheme: const TextTheme(
@@ -950,7 +950,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
-        cardColor: Colors.white,
+       cardColor: Colors.white,
         dividerColor:AppColor.packageGray,
         brightness: Brightness.dark,
         primaryColor: Colors.black,
@@ -969,7 +969,7 @@ class MyApp extends StatelessWidget {
         ),
         colorScheme:  ColorScheme.dark(
           primary: Colors.transparent,
-          // onPrimary: AppColor.searchbg,
+          onPrimary: AppColor.searchbg,
           surface: Colors.black,
           onSurface: Colors.white,
         ),

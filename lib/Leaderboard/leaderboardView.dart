@@ -64,7 +64,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                         onTap: () {
                           Get.back();
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back_ios_new,
                           color: Colors.black,
                           size: 20,
@@ -355,12 +355,13 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     delegate: SliverChildListDelegate([
                       Container(
                         height: Get.height * 0.75,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(50.0),
                           ),
-                          color: Colors.white,
-                        ),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+
+                          ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -464,12 +465,13 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                   return SliverList(
                     delegate: SliverChildListDelegate([
                       Container(height: Get.height* 0.57,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(40.0),
                           ),
-                          color: Colors.white,
-                        ),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+
+                          ),
                         child: Stack(
                           children: [
                             // Top indicator (small rounded rectangle)
@@ -688,7 +690,8 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
               const SizedBox(height: 15),
               Text(
                 '$percentage%',
-                style: TextStyle(fontSize: 12, fontWeight:isHighlight? FontWeight.w600:null),
+              //  style: TextStyle(color:Colors.redAccent,fontSize: 12, fontWeight:isHighlight? FontWeight.w600:null),
+                style:MyTextTheme.mediumB.copyWith(fontWeight:isHighlight? FontWeight.w600:null)
               ),
             ],
           ),
@@ -824,23 +827,23 @@ class TopRankedUsers extends StatelessWidget {
           if (rankedFriends.length > 2)
             Transform.rotate(
               angle: -0.22,
-              child: _buildRankCard(rankedFriends[2], 3, 'assets/3medal.svg'),
+              child: _buildRankCard(rankedFriends[2], 3, 'assets/3medal.svg',context),
             ),
           if (rankedFriends.length > 2) const SizedBox(width: 18),
           if (rankedFriends.isNotEmpty)
-            _buildRankCard(rankedFriends[0], 1,  'assets/1medal.svg',),
+            _buildRankCard(rankedFriends[0], 1,  'assets/1medal.svg',context),
           if (rankedFriends.length > 1) const SizedBox(width: 18),
           if (rankedFriends.length > 1)
             Transform.rotate(
               angle: 0.22,
-              child: _buildRankCard(rankedFriends[1], 2,  'assets/2medal.svg'),
+              child: _buildRankCard(rankedFriends[1], 2,  'assets/2medal.svg',context),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildRankCard(Map friend, int rank, String svgPath) {
+  Widget _buildRankCard(Map friend, int rank, String svgPath,context) {
     
     double height = rank ==1? Get.height*0.084:Get.height*0.072;
     double width = rank ==1? Get.width*0.212:Get.width*0.19;
@@ -900,16 +903,16 @@ class TopRankedUsers extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           friend['name'].split(' ')[0],
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+         // style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            style: MyTextTheme.mediumB.copyWith(fontWeight: FontWeight.bold)
         ),
         Text(
           '${friend['percentage'].toStringAsFixed(2)}%',
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      // style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+       style: MyTextTheme.mediumB
         ),
       ],
     );
-
-
   }
 }
 

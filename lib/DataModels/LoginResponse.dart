@@ -108,10 +108,12 @@ class UserModel {
   String? preNamazAlert;
   bool? pauseAll;
   bool? quitMode;
+  bool? timeForm;
   bool? friendRequest;
   bool? friendPrayed;
   int? frAllow;
   int? hijriAdj;
+
 
   UserModel({
     required this.id,
@@ -133,6 +135,7 @@ class UserModel {
      this.friendPrayed,
      this.frAllow,
      this.hijriAdj,
+    this.timeForm,
   });
 
 
@@ -157,6 +160,7 @@ class UserModel {
       friendPrayed: (json['fn_mark_noti']??false).toString()=='true'?true:false,
       frAllow: (json['fr_allow']).toString()=='null'?0:int.parse(json['fr_allow'].toString()),
       hijriAdj: (json['hijri_adj']).toString()=='null'?0:int.parse(json['hijri_adj'].toString()),
+      timeForm: (json['time_format_24'] ?? false).toString() == 'true',
     );
   }
 
@@ -181,6 +185,7 @@ class UserModel {
       'fn_mark_noti': friendPrayed.toString(),
       'fr_allow': frAllow.toString(),
       'hijri_adj': hijriAdj.toString(),
+      'time_format_24':timeForm.toString()
     };
   }
 }

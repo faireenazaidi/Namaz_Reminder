@@ -8,7 +8,13 @@ class AppColor {
   static final primaryColorLightOpaque=primaryColorLight.withOpacity(0.2);
   static const primarySwatchColorLight=Colors.blue;
 
+  static final searchbg=("#F8F9FA").toColor();
+  static final check=("#6AD28B").toColor();
+  static final subtitle=("#606E84").toColor();
+  static final svgColor=("#85858580").toColor();
+
   static final secondaryColorLight=("#8b24e7").toColor();
+  static final search=("#85858580").toColor();
 
   static final bgColor=("#eff3f4").toColor();
   static final bgMedicineColor=("#E4EEF8").toColor();
@@ -16,7 +22,7 @@ class AppColor {
   static final cream=("##F3EAD2").toColor();
 
   static final Color gray = '#101010'.toColor();
-
+  static final Color lightGray = '#1A1A1A'.toColor();
   static const white=Colors.white;
   static Color black=("#000000").toColor();
   static Color g=("#d9d9d9").toColor();

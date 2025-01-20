@@ -60,7 +60,8 @@ class ProfileController extends GetxController{
         "school_of_thought": schoolOFThought['id'],
         "method_name":schoolOFThought['name'],
         "method_id":schoolOFThought['id'],
-        "email":mailC.text.isEmpty?"":mailC.text,
+        // "email":mailC.text.isEmpty?"":mailC.text,
+        "email":mailC.text.toString(),
         "notification_on":userData.getUserData!.pauseAll!,
         "fr_noti":userData.getUserData!.friendRequest!,
         "fn_mark_noti":userData.getUserData!.friendPrayed!,
@@ -188,7 +189,6 @@ class ProfileController extends GetxController{
 
   Future<void> _updateProfilePhoto(String filePath) async {
     updateProfilePhoto(filePath);
-
 
     var headers = {
       'Cookie': 'csrftoken=yQZryaCTtTmYrYdjA6ZZSxgbPfJJlNft',

@@ -9,7 +9,7 @@ class FAQController extends GetxController {
       'isExpanded': true
     },
     {'question': 'Is the app free to use?', 'answer': 'Yes, the app is free to use.', 'isExpanded': false},
-    {'question': 'How do I set my location for accurate prayer times?', 'answer': 'You can set your location in the settings for accurate prayer times.', 'isExpanded': false},
+   // {'question': 'How do I set my location for accurate prayer times?', 'answer': 'You can set your location in the settings for accurate prayer times.', 'isExpanded': false},
     {'question': 'Can I receive Azan notifications?', 'answer': 'Yes, Azan notifications can be enabled.', 'isExpanded': false},
 
   ];

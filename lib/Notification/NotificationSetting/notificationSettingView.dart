@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:namaz_reminders/Notification/NotificationSetting/PreNamazAlert/NamzAlertView.dart';
 import '../../AppManager/toast.dart';
 import '../../Widget/appColor.dart';
 import '../../Widget/text_theme.dart';
-import 'PreNamazAlert/NamazAlertController.dart';
+import 'PreNamazAlert/NamzAlertView.dart';
 import 'notificationSettingController.dart';
 
 
 class NotificationSetting extends StatelessWidget {
   final NotificationSettingController notificationSettingsController = Get.put(NotificationSettingController());
-  // final NamazAlertController namazAlertController = Get.put(NamazAlertController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: Text('Notification Settings', style: MyTextTheme.mediumBCD),
+          title: Text('Notification Settings', style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Divider(
@@ -30,9 +28,7 @@ class NotificationSetting extends StatelessWidget {
           ),
           leading: InkWell(
             onTap: () {
-              Get.back(
-      
-              );
+              Get.back();
             },
             child: Icon(Icons.arrow_back_ios_new,size: 20,),
           ),
@@ -44,8 +40,8 @@ class NotificationSetting extends StatelessWidget {
             children: [
               Obx(() => SwitchListTile(
                 activeTrackColor: AppColor.circleIndicator,
-                title: Text('Pause all',style: MyTextTheme.medium2,),
-                subtitle: Text('Temporarily pause notifications',style: MyTextTheme.smallGCN,),
+                title:  Text('Pause all', style:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,),),
+                subtitle: Text('Temporarily pause notifications', style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,fontSize: 13)),
                 value: notificationSettingsController.pauseAll.value,
                 onChanged: (value) {
                   print("value $value");
@@ -55,9 +51,8 @@ class NotificationSetting extends StatelessWidget {
                 },
               )
               ),
-      
               SizedBox(height: 5,),
-      
+
               //Quiet Mode//
               // Obx(() => SwitchListTile(
               //   activeTrackColor: AppColor.circleIndicator,
@@ -72,57 +67,54 @@ class NotificationSetting extends StatelessWidget {
               //   },
               // )
               // ),
-      
+
               SizedBox(height: 5,),
-      
-              //Requests//
+              //Notify for request//
               Obx(() => SwitchListTile(
                 activeTrackColor: AppColor.circleIndicator,
-                title: Text('Friend requests',style: MyTextTheme.medium2,),
-                subtitle: Text('Notify when someone sends you a joining request',style: MyTextTheme.smallGCN,),
+                title:  Text('Friend requests',style:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,),),
+                subtitle: Text('Notify when someone sends you a joining request',
+                    style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,fontSize: 13 )),
                 value: notificationSettingsController.friendRequests.value,
                 onChanged: (value) {
                   notificationSettingsController.friendRequests.value = value;
                   notificationSettingsController.registerUser();
                   showToast(msg: 'Settings Updated',bgColor: Colors.black);
-      
                 },
               )
               ),
-      
+
               SizedBox(height: 5,),
-      
+
               //Prayed Namaz//
               Obx(() => SwitchListTile(
                 activeTrackColor: AppColor.circleIndicator,
-                title: Text('Friend Namaz Prayed',style: MyTextTheme.medium2,),
-                subtitle:  Text('Get notified when your friend complete their prayers.',style: MyTextTheme.smallGCN,),
+                title: Text('Friend Namaz Prayed',style:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,),),
+                subtitle:  Text('Notify when someone mark prayer in your peers.',
+                    style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,fontSize: 13 )),
                 value: notificationSettingsController.friendNamazPrayed.value,
                 onChanged: (value) {
                   notificationSettingsController.friendNamazPrayed.value = value;
                   notificationSettingsController.registerUser();
                   showToast(msg: 'Settings Updated',bgColor: Colors.black);
-      
+
                 },
               )
               ),
-      
               SizedBox(height: 5,),
-      
               //Namaz Alert//
-
                  ListTile(
-                  title: Text('Pre Namaz Alert',style: MyTextTheme.medium2,),
+                  title:  Text('Pre Namaz Alert',style:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,),),
                   subtitle: Obx(() {
-                      return Text('${notificationSettingsController.preNamazAlertName.value}',style: TextStyle(color: Colors.grey),);
+                      return Text(notificationSettingsController.preNamazAlertName.value,
+                          style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color ));
                     }
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black),
                   onTap: () {
                   Get.to(()=>NamazAlertView());
                   },
                 ),
-
             ],
           ),
         ),

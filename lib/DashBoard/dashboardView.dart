@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
 import 'package:namaz_reminders/Routes/approutes.dart';
+import 'package:namaz_reminders/Setting/SettingController.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:namaz_reminders/DashBoard/dashboardController.dart';
 import 'package:namaz_reminders/Drawer/DrawerView.dart';
@@ -26,8 +27,29 @@ class DashBoardView extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    bool goingTo = false;
     final DashBoardController controller = Get.find();
     final MyRankController myRankController = Get.put(MyRankController());
+    final SettingController settingController = Get.put(SettingController());
+    ///
+    // int minHour24 = getHoursFromTime(controller.currentPrayerStartTime.value.toString());
+    // int maxHour24 = getHoursFromTime(controller.currentPrayerEndTime.toString());
+    // String minHour = "${(minHour24 % 12 == 0) ? 12 : minHour24 % 12} ${(minHour24 >= 12) ? "PM" : "AM"}";
+    // String maxHour = "${(maxHour24 % 12 == 0) ? 12 : maxHour24 % 12} ${(maxHour24 >= 12) ? "PM" : "AM"}";
+    // print("Min Hour24: $minHour, Max Hour: $maxHour");
+    // if (controller.hour < minHour24 || controller.hour > maxHour24) {
+    //   controller.hour = minHour24; // Set to minHour if out of range
+    // }
+    // // Ensure minute is within the range
+    // int minMinute = getMinutesFromTime(controller.currentPrayerStartTime.value.toString());
+    // int maxMinute = getMinutesFromTime(controller.currentPrayerEndTime.toString());
+    // if (controller.minute < minMinute || controller.minute > maxMinute) {
+    //   controller.minute = minMinute; // Set to minMinute if out of range
+    // }
+    ///
+
     Future<LottieComposition?> customDecoder(List<int> bytes) {
       return LottieComposition.decodeZip(bytes, filePicker: (files) {
         return files.firstWhereOrNull(
@@ -41,7 +63,7 @@ class DashBoardView extends GetView<DashBoardController> {
       child: Container(
         color: Colors.white,
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
                 bottom: PreferredSize(
                   preferredSize:  const Size.fromHeight(1.0),
@@ -51,10 +73,10 @@ class DashBoardView extends GetView<DashBoardController> {
                   ),
                 ),
                 toolbarHeight: 55,
-                backgroundColor: Colors.transparent,
+                backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
                 titleSpacing: 0,
                 title: Text("Prayer O'Clock",
-                  style: MyTextTheme.largeBN,
+                  style: MyTextTheme.largeBN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                   overflow: TextOverflow.ellipsis,),
                 actions: [
                   Padding(
@@ -86,7 +108,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                 child:
                                 Text(
                                   controller.address.split(' ')[0].toString(),
-                                  style: MyTextTheme.greyNormal,
+                                  style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                                 ),
                                 // Text(
                                 //   controller.address.split(' ').take(1).join(' ') + '...',
@@ -184,7 +206,8 @@ class DashBoardView extends GetView<DashBoardController> {
               ),
 
       drawer: const CustomDrawer(),
-      body: RefreshIndicator(color: AppColor.black,
+      body: RefreshIndicator(
+        color: Theme.of(context).cardColor,
         onRefresh: controller.onRefresh,
         child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -214,7 +237,8 @@ class DashBoardView extends GetView<DashBoardController> {
                             children: [
                               Text(
                                 DateFormat('EEE, d MMMM yyyy').format(DateTime.now()), // Always shows current date
-                                style: const TextStyle(fontSize: 12, color: Colors.black),
+                               // style: const TextStyle(fontSize: 13.5, color: Colors.black),
+                                style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Container(
@@ -226,7 +250,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               Obx(
                                     () => Text(
                                   controller.islamicDate.value,
-                                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                                      style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -351,7 +375,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                       children: [
                                         const SizedBox(height: 75,),
                                         BlinkingTextWidget(
-                                          text: "${controller.nextPrayer.value.isEmpty?controller.currentPrayer.value:controller.nextPrayer.value} starts at ${controller.nextPrayerStartTime.value}",
+                                          text: "${controller.nextPrayer.value.isEmpty?controller.currentPrayer.value:controller.nextPrayer.value} starts at ${controller.convertTime(controller.nextPrayerStartTime.value)}",
                                           style: MyTextTheme.greyNormal,
                                         ),
                                       ],
@@ -364,20 +388,34 @@ class DashBoardView extends GetView<DashBoardController> {
                                     children: [
                                       SizedBox(height: 35,),
                                       Center(
-                                        child: Text(
-                                          '${controller.currentPrayerStartTime.value} - ${controller.currentPrayerEndTime.value}',
-                                          style: MyTextTheme.smallBCn,
-                                        ),
+                                        child:
+                                        // Text(
+                                        //   '${(controller.currentPrayerStartTime.value)} - '
+                                        //       '${(controller.currentPrayerEndTime.value)}',
+                                        //   style: MyTextTheme.smallBCn,
+                                        // ),
+                                      //
+                                      Obx(() {
+                                        return Text(
+                                          '${controller.convertTime(controller.currentPrayerStartTime.value, )}-'
+                                              '${controller.convertTime(controller.currentPrayerEndTime.value,)}',
+                                          style: MyTextTheme.smallBCn.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+                                        );
+                                      }),
                                       ),
+
+
+
                                       const SizedBox(height: 5),
                                       Text(
                                         controller.remainingTime.value,
-                                        style: MyTextTheme.largeCustomBCB,
+                                        style: MyTextTheme.largeCustomBCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
                                         "Left for ${controller.currentPrayer.value} Prayer",
-                                        style: MyTextTheme.greyNormal,
+                                        style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
+
                                       ),
                                     ],
                                   );
@@ -427,7 +465,19 @@ class DashBoardView extends GetView<DashBoardController> {
                                                   color: Colors.black.withOpacity(0.5), // Optional dark overlay
                                                 ),
                                               ),
-                                               TimePicker()
+                                              Obx(() {
+                                                String startTime = controller.currentPrayerStartTime.value;
+                                                String endTime = controller.currentPrayerEndTime.value;
+
+                                                print("Start Time in Obx: $startTime");
+                                                print("End Time: $endTime");
+
+                                                return TimePicker(
+                                                  startTime: startTime,
+                                                  endTime: endTime,
+                                                );
+                                              }),
+
                                             ],
                                           ),
                                         );
@@ -591,7 +641,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                         Row(
                                           children: [
                                             Text("starts in ",style: MyTextTheme.smallWCN,),
-                                           controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
+                                           controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),
+                                             style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
                                             // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
                                           ],
                                         )
@@ -622,10 +673,25 @@ class DashBoardView extends GetView<DashBoardController> {
                                       const Text('Starts at',style: TextStyle(
                                           color: Colors.white,fontSize: 11
                                       )),
-                                      Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,style: const TextStyle(
+                                      // Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
+                                      //     style: const TextStyle(
+                                      //     color: Colors.white,
+                                      //     fontSize: 14,fontWeight: FontWeight.w600
+                                      // )),
+                                      Text(
+                                        controller.convertTime(
+                                          controller.isGapPeriod.value
+                                              ? controller.currentPrayerStartTime.value
+                                              : controller.upcomingPrayerStartTime.value,
+                                        ),
+                                        style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 14,fontWeight: FontWeight.w600
-                                      ))
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+
+
                                     ],
                                   ),
                                   Column(
@@ -634,10 +700,22 @@ class DashBoardView extends GetView<DashBoardController> {
                                       const Text('Ends at',style: TextStyle(
                                           color: Colors.white,fontSize: 11
                                       )),
-                                      Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
+                                      // Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
+                                      //     color: Colors.white,
+                                      //   fontSize: 14,fontWeight: FontWeight.w600
+                                      // ))
+                                      Text(
+                                        controller.convertTime(
+                                          controller.isGapPeriod.value
+                                              ? controller.currentPrayerEndTime.value
+                                              : controller.upcomingPrayerEndTime.value,
+                                        ),
+                                        style: const TextStyle(
                                           color: Colors.white,
-                                        fontSize: 14,fontWeight: FontWeight.w600
-                                      ))
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -1737,7 +1815,7 @@ class _UserRankListState extends State<UserRankList> {
   @override
   Widget build(BuildContext context) {
     if(_filteredRecords.isEmpty){
-      return const Center(child: Text('Prayer timings not available yet.',style: TextStyle(
+      return const Center(child: Text('No one has marked the Prayer.',style: TextStyle(
           color: Colors.grey
       ),));
     }
@@ -1751,7 +1829,7 @@ class _UserRankListState extends State<UserRankList> {
     }
     else{
       return SizedBox(
-        height: 70, // Adjust height as needed for better spacing
+        height: 70,
         child: PageView.builder(
           controller: _pageController,
           scrollDirection: Axis.vertical,

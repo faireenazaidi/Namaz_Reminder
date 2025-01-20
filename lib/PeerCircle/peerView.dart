@@ -24,16 +24,16 @@ class PeerView extends GetView<PeerController> {
     return SafeArea(
       top: true,
       child: Scaffold(
-        backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
-          title: Text('Peer Circle', style: MyTextTheme.mediumBCD),
+          title: Text('Peer Circle',style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Divider(
               height: 1.0,
-              color: AppColor.packageGray,
+                color:Theme.of(context).dividerTheme.color
             ),
           ),
           leading: InkWell(
@@ -52,25 +52,26 @@ class PeerView extends GetView<PeerController> {
             ),
           ],
         ),
-        body:
-        Padding(
+        body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               const SizedBox(height: 20),
+              ///Searchbar
               SizedBox(
                 height: 50,
                 child: TextField(
                   controller: searchController,
                   onChanged: (value) {
-                    // Update the search text in the controller as the user types
                     peerController.setSearchText(value);
+                    // Trigger a rebuild to update the suffix icon visibility
+                    peerController.update(); // Assuming you are using GetX for state management
                   },
                   cursorColor: AppColor.circleIndicator,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
+                    prefixIcon: Icon(Icons.search,color:Theme.of(context).iconTheme.color),
                     hintText: "Search Username..",
-                    hintStyle: MyTextTheme.mediumCustomGCN,
+                    hintStyle:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(color: Colors.black),
@@ -83,10 +84,24 @@ class PeerView extends GetView<PeerController> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(color: Colors.grey, width: 1),
                     ),
+                    suffixIcon: Obx(() {
+                      // Show the cancel icon only when there is text in the search bar
+                      return peerController.searchText.isNotEmpty
+                          ? IconButton(
+                        icon: const Icon(Icons.cancel, color: Colors.grey),
+                        onPressed: () {
+                          searchController.clear();
+                          peerController.setSearchText('');
+                          peerController.update();
+                        },
+                      )
+                          : const SizedBox.shrink(); // Hide the icon when no text
+                    }),
                   ),
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
+
               const SizedBox(height: 15),
               GetBuilder(
                 init: addFriendController,
@@ -100,8 +115,7 @@ class PeerView extends GetView<PeerController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "REQUESTS",
-                              style: MyTextTheme.greyNormal,
+                              "REQUESTS", style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                             ),
                             // Show "SEE ALL" only if requests are more than 2
                             Visibility(
@@ -117,7 +131,7 @@ class PeerView extends GetView<PeerController> {
                                 },
                                 child: Text(
                                   "SEE ALL",
-                                  style: MyTextTheme.greyNormal,
+                                  style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                                 ),
                               ),
                             ),
@@ -170,11 +184,7 @@ class PeerView extends GetView<PeerController> {
                                       children: [
                                         Text(
                                           friendRequestData.name.toString(),
-                                          style: MyTextTheme.mediumGCB.copyWith(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold)
                                         ),
                                       ],
                                     ),
@@ -194,12 +204,13 @@ class PeerView extends GetView<PeerController> {
                                                 .toString());
                                         await dashBoardController.pending.value
                                             .toString();
+
                                       },
                                       child: Container(
                                         height: MediaQuery.of(context).size.height * 0.04,
                                         width: MediaQuery.of(context).size.width * 0.2,
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: AppColor.white),
+                                         // border: Border.all(color: AppColor.white),
                                           borderRadius: BorderRadius.circular(10),
                                           color: AppColor.circleIndicator,
                                         ),
@@ -215,6 +226,11 @@ class PeerView extends GetView<PeerController> {
                                     InkWell(
                                       onTap: () async {
                                         await controller.declineRequest(friendRequestData);
+                                        await notificationController
+                                            .readNotificationMessage(
+                                            notificationController.notifications[index]
+                                            ['id']
+                                                .toString());
                                         controller.friendRequestList.removeAt(index);
                                         controller.update();
                                       },
@@ -222,7 +238,7 @@ class PeerView extends GetView<PeerController> {
                                         height: MediaQuery.of(context).size.height * 0.04,
                                         width: MediaQuery.of(context).size.width * 0.2,
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: AppColor.white),
+                                          // border: Border.all(color: AppColor.white),
                                           borderRadius: BorderRadius.circular(10),
                                           color: AppColor.greyColor,
                                         ),
@@ -240,14 +256,16 @@ class PeerView extends GetView<PeerController> {
                             );
                           },
                         ),
+                        Divider(
+                            color:Theme.of(context).dividerTheme.color,
+                            thickness: 1),
                       ],
                     ),
                   );
                 },
               ),
-              Divider(color: Colors.grey[300], thickness: 1),
-              SizedBox(height: 15,),
 
+              SizedBox(height: 15,),
 
               // Expanded(
               //   child: GetBuilder<PeerController>(
@@ -445,7 +463,7 @@ class PeerView extends GetView<PeerController> {
 
                     Text(
                       "FRIENDS",
-                      style: MyTextTheme.greyNormal,
+                      style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
                     ),
 
                     // Friend list below the title
@@ -455,7 +473,7 @@ class PeerView extends GetView<PeerController> {
                           return Center(child: CircularProgressIndicator());
                         }
 
-                        if (peerController.filteredFriendsList.isEmpty) {
+                        else if (peerController.filteredFriendsList.isEmpty) {
                           return Center(child: Text('No friends found'));
                         }
 
@@ -502,10 +520,7 @@ class PeerView extends GetView<PeerController> {
                                             children: [
                                               Text(
                                                 friend.user2.name.toString(),
-                                                style: MyTextTheme.mediumGCB.copyWith(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
+                                                style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold
                                                 ),
                                               ),
                                               Text(
@@ -554,16 +569,16 @@ class PeerView extends GetView<PeerController> {
                                                             onPressed: () {
                                                               Navigator.of(context).pop();
                                                             },
-                                                            child: const Text(
-                                                              'No, Go Back',
-                                                              style: TextStyle(
-                                                                  color: Colors.white),
-                                                            ),
                                                             style: TextButton.styleFrom(
                                                               padding:
                                                               const EdgeInsets.symmetric(
                                                                   horizontal: 10,
                                                                   vertical: 5),
+                                                            ),
+                                                            child: const Text(
+                                                              'No, Go Back',
+                                                              style: TextStyle(
+                                                                  color: Colors.white),
                                                             ),
                                                           ),
                                                         ),

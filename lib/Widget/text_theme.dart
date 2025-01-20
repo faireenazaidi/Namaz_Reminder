@@ -12,7 +12,11 @@ class MyTextTheme {
       fontSize: 30,
       fontWeight: FontWeight.bold
   );
-
+  static TextStyle date = GoogleFonts.roboto(
+  color: AppColor.black,
+  fontSize: 13.5,
+  fontWeight: FontWeight.normal
+  );
   static TextStyle veryLargePCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 22,
@@ -150,6 +154,11 @@ class MyTextTheme {
       color: AppColor.greyColor,
       fontSize: 14,
       fontWeight: FontWeight.normal
+  );
+  static TextStyle subtitle = GoogleFonts.roboto(
+      color: AppColor.subtitle,
+      fontSize: 13,
+      fontWeight: FontWeight.w400
   );
   static TextStyle red = GoogleFonts.roboto(
       color: Colors.red,
@@ -318,7 +327,12 @@ class MyTextTheme {
   static TextStyle mediumCustomGCN = GoogleFonts.roboto(
     color: AppColor.sliderTextGrey,
     fontSize: 16,
-    fontWeight: FontWeight.normal,
+    fontWeight:  FontWeight.normal,
+  );
+  static TextStyle searchbar = GoogleFonts.roboto(
+    color: AppColor.search,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle smallCustomDGCN = GoogleFonts.roboto(

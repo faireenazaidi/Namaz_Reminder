@@ -1,15 +1,20 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:namaz_reminders/PeerCircle/peerController.dart';
+import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
-import '../PeerCircle/peerController.dart';
 import '../Services/ApiService/api_service.dart';
 import '../Services/user_data.dart';
+import '../Widget/no_internet.dart';
+import '../main.dart';
 
 class NotificationController extends GetxController {
-  final PeerController peerController = Get.put(PeerController());
   final DashBoardController dashBoardController = Get.find<DashBoardController>();
-
+  final PeerController peerController = Get.put(PeerController());
   // Private variables
   final RxList _notifications = [].obs;
   final RxList _todayNotifications = [].obs;
@@ -37,30 +42,30 @@ class NotificationController extends GetxController {
     fetchNotifications();
   }
 
-  // Fetch notifications from API
-  // Future<void> fetchNotifications() async {
-  //   // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
-  //   final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
-  //   final response = await http.get(url);
-  //   isLoading.value = false;
-  //   if (response.statusCode == 200) {
-  //     print('ResponseAPI : ${response.body}');
-  //
-  //     final data = jsonDecode(response.body);
-  //     print("api rssss" + data.toString());
-  //
-  //     // Sort by date in descending order before setting notifications
-  //     data.sort((a, b) {
-  //       var dateA = DateTime.parse(a['created_at']);
-  //       var dateB = DateTime.parse(b['created_at']);
-  //       return dateB.compareTo(dateA);
-  //     });
-  //     // Update the notifications using the setter
-  //     notifications = data;
-  //   } else {
-  //     // Get.snackbar('Error', 'Failed to load notifications');
-  //   }
-  // }
+ // Fetch notifications from API
+ //  Future<void> fetchNotifications() async {
+ //    // final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+ //    final url = Uri.parse('http://182.156.200.177:8011/adhanapi/user_notifications/${userData.getUserData!.id}/');
+ //    final response = await http.get(url);
+ //    isLoading.value = false;
+ //    if (response.statusCode == 200) {
+ //      print('ResponseAPI : ${response.body}');
+ //
+ //      final data = jsonDecode(response.body);
+ //      print("api rssss" + data.toString());
+ //
+ //      // Sort by date in descending order before setting notifications
+ //      data.sort((a, b) {
+ //        var dateA = DateTime.parse(a['created_at']);
+ //        var dateB = DateTime.parse(b['created_at']);
+ //        return dateB.compareTo(dateA);
+ //      });
+ //      // Update the notifications using the setter
+ //      notifications = data;
+ //    } else {
+ //      // Get.snackbar('Error', 'Failed to load notifications');
+ //    }
+ //  }
 
   Future<void> fetchNotifications() async {
     isLoading.value = true;
@@ -69,7 +74,9 @@ class NotificationController extends GetxController {
       final data = await ApiService().getRequest(
         'user_notifications/${userData.getUserData?.id}/',
       );
-      print("APII Res: $data");
+      print("APIIRes: $data");
+      debugPrint("APIIRes: $data", wrapWidth: 1024);
+      print("jdjsdd");
 
       // Sort notifications by date in descending order
       data.sort((a, b) {
@@ -78,14 +85,30 @@ class NotificationController extends GetxController {
         return dateB.compareTo(dateA);
       });
       // Update notifications list
-      notifications = data;
+      // notifications = data;
+      // Capitalize the first letter of each notification title
+      notifications = data.map((notification)
+      { if (notification['title'] != null && notification['title'] is String)
+      { notification['title'] = notification['title'][0].toUpperCase() + notification['title'].substring(1); }
+      return notification;
+      }).toList();
     } catch (e) {
       print('Error while fetching notifications: $e');
-      //   Get.snackbar('Error', 'Failed to load notifications.');
-    } finally {
-      isLoading.value = false; // Stop loading
+      print('$e');
+      print('$e');
+      final context = navigatorKey.currentContext!;
+      // Dialogs.showCustomBottomSheet(context: context,
+      //   content: NoInternet(message: '$e',
+      //       onRetry: (){fetchNotifications(); peerController.friendship();}),);
+
+    }
+    finally {
+      isLoading.value = false;
     }
   }
+
+
+
 
   String buildFullImageUrl(String? imagePath) {
     const String baseUrl = "http://182.156.200.177:8011";
@@ -115,6 +138,7 @@ class NotificationController extends GetxController {
         _last7DaysNotifications.add(notification);
       }
     }
+    print("fai ${todayNotifications}");
   }
 
   // Helper method to compare dates
@@ -165,6 +189,7 @@ class NotificationController extends GetxController {
   //     print("Error: $ex");
   //   }
   // }
+
   Future<void> acceptFriendRequest(NotificationDataModal notificationData) async {
     try {
       final body = {
@@ -227,12 +252,11 @@ class NotificationController extends GetxController {
       notificationData.readStatus = true;
       _notifications.removeWhere((notification) => notification['id'] == notificationData.notificationId);
     }
-      catch (e){
-        print("Error: $e");
+    catch (e){
+      print("Error: $e");
     }
     dashBoardController.fetchMissedPrayersCount();
   }
-
   ///Remove Accepted and decline rqwst from view
 
   // readNotificationMessage(String notificationId) async{
@@ -257,6 +281,7 @@ class NotificationController extends GetxController {
   //     print(response.reasonPhrase);
   //   }
   // }
+
   Future<void> readNotificationMessage(String notificationId) async {
     try {
       final body = {
@@ -277,3 +302,4 @@ class NotificationController extends GetxController {
   }
 
 }
+
