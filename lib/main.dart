@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/prayerTimings.dart';
+import 'Drawer/Theme/themeController.dart';
 import 'Drawer/drawerController.dart';
 import 'Routes/approutes.dart';
 import 'Services/firebase_services.dart';
@@ -914,34 +915,100 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 //
 //   }
 // }
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+//     // Update System UI Overlay Style dynamically based on the theme
+//     SystemChrome.setSystemUIOverlayStyle(
+//       customDrawerController.isDarkMode.value
+//           ? const SystemUiOverlayStyle(
+//         statusBarIconBrightness: Brightness.light,
+//         statusBarBrightness: Brightness.dark,
+//         systemNavigationBarColor: Colors.white
+//
+//       ):  SystemUiOverlayStyle(
+//         statusBarColor: AppColor.cream,
+//         statusBarIconBrightness: Brightness.dark,
+//         statusBarBrightness: Brightness.light,
+//       ),
+//     );
+//     return Obx(() => GetMaterialApp(
+//       navigatorKey: navigatorKey,
+//       theme: ThemeData(
+//         brightness: Brightness.light,
+//         primaryColor: AppColor.lightmustard,
+//         scaffoldBackgroundColor:Colors.white,
+//         appBarTheme: AppBarTheme(
+//           backgroundColor: AppColor.lightmustard,
+//           systemOverlayStyle: SystemUiOverlayStyle.dark,
+//             surfaceTintColor: AppColor.lightmustard
+//         ),
+//         textTheme: const TextTheme(
+//           bodyLarge: TextStyle(color: Colors.black),
+//           bodyMedium: TextStyle(color: Colors.black87),
+//           titleSmall: TextStyle(color: AppColor.greyColor),
+//         ),
+//       ),
+//       darkTheme: ThemeData(
+//        cardColor: Colors.white,
+//         dividerColor:AppColor.packageGray,
+//         brightness: Brightness.dark,
+//         primaryColor: Colors.black,
+//         scaffoldBackgroundColor: Colors.black,
+//         appBarTheme: const AppBarTheme(
+//           backgroundColor: Colors.black,
+//           systemOverlayStyle: SystemUiOverlayStyle.light,
+//         ),
+//         textTheme: const TextTheme(
+//           titleSmall: TextStyle(color: AppColor.greyColor),
+//           bodyLarge: TextStyle(color: Colors.white),
+//           bodyMedium: TextStyle(color: Colors.white70),
+//           bodySmall: TextStyle(color: Colors.white60),
+//           titleLarge: TextStyle(color: Colors.white),
+//           titleMedium: TextStyle(color: Colors.white70),
+//         ),
+//         colorScheme:  ColorScheme.dark(
+//           primary: Colors.transparent,
+//           onPrimary: AppColor.searchbg,
+//           surface: Colors.black,
+//           onSurface: Colors.white,
+//         ),
+//       ),
+//
+//       initialRoute: AppRoutes.splashRoute,
+//       getPages: AppRoutes.pages,
+//       debugShowCheckedModeBanner: false,
+//       title: 'Namaz Reminders',
+//       fallbackLocale: const Locale('en', 'US'),
+//       themeMode: customDrawerController.isDarkMode.value
+//           ? ThemeMode.dark
+//           : ThemeMode.light,
+//     ));
+//   }
+// }
+
+
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
-    // Update System UI Overlay Style dynamically based on the theme
-    SystemChrome.setSystemUIOverlayStyle(
-      customDrawerController.isDarkMode.value
-          ? const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.white
+    final ThemeController themeController = Get.put(ThemeController());
 
-      ):  SystemUiOverlayStyle(
-        statusBarColor: AppColor.cream,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-      ),
-    );
+    // Update System UI Overlay Style dynamically based on the theme
+    themeController.updateSystemUIOverlayStyle();
     return Obx(() => GetMaterialApp(
       navigatorKey: navigatorKey,
+
       theme: ThemeData(
+
         brightness: Brightness.light,
         primaryColor: AppColor.lightmustard,
-        scaffoldBackgroundColor:Colors.white,
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColor.lightmustard,
           systemOverlayStyle: SystemUiOverlayStyle.dark,
-            surfaceTintColor: AppColor.lightmustard
+          surfaceTintColor: AppColor.lightmustard,
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.black),
@@ -950,8 +1017,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
-       cardColor: Colors.white,
-        dividerColor:AppColor.packageGray,
+        cardColor: Colors.white,
+        dividerColor: AppColor.packageGray,
         brightness: Brightness.dark,
         primaryColor: Colors.black,
         scaffoldBackgroundColor: Colors.black,
@@ -974,15 +1041,12 @@ class MyApp extends StatelessWidget {
           onSurface: Colors.white,
         ),
       ),
-
       initialRoute: AppRoutes.splashRoute,
       getPages: AppRoutes.pages,
       debugShowCheckedModeBanner: false,
       title: 'Namaz Reminders',
       fallbackLocale: const Locale('en', 'US'),
-      themeMode: customDrawerController.isDarkMode.value
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: themeController.themeMode,
     ));
   }
 }

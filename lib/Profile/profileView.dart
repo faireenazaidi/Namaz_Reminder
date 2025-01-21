@@ -397,53 +397,53 @@ class ProfileView extends GetView<ProfileController> {
                               },
                             ),
                           ),
-                          if (controller.schoolOFThought['id'].toString() ==
-                              '7' || controller.schoolOFThought['id']
-                              .toString() == '0')
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 10,),
-                                Text("Times of Prayer",
-                                  style: MyTextTheme.mediumGCB,),
-                                Row(
-                                    children: [
-                                      Obx(() =>
-                                          Radio<String>(
-                                            value: "3",
-                                            activeColor: AppColor
-                                                .circleIndicator,
-                                            groupValue: controller
-                                                .selectedPrayer.value,
-                                            onChanged: (String? value) {
-                                              controller.selectedPrayer(value!);
-                                            },
-                                          )),
-                                      Text("3",
-                                        style: MyTextTheme.mediumGCB,
-                                      ),
-                                      const SizedBox(width: 130,),
-                                      Obx(() =>
-                                          Radio(
-                                            value: "5",
-                                            activeColor: AppColor
-                                                .circleIndicator,
-                                            groupValue: controller
-                                                .selectedPrayer.value,
-                                            onChanged: (String? value) {
-                                              controller.selectedPrayer(value!);
-                                            },
-                                          )),
-                                      InkWell(
-                                          onTap: () {
-                                          },
-                                          child: Text("5",
-                                            style: MyTextTheme.mediumGCB,
-                                          ))
-                                    ]
-                                ),
-                              ],
-                            ),
+                          // if (controller.schoolOFThought['id'].toString() ==
+                          //     '7' || controller.schoolOFThought['id']
+                          //     .toString() == '0')
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     const SizedBox(height: 10,),
+                            //     Text("Times of Prayer",
+                            //       style: MyTextTheme.mediumGCB,),
+                            //     Row(
+                            //         children: [
+                            //           Obx(() =>
+                            //               Radio<String>(
+                            //                 value: "3",
+                            //                 activeColor: AppColor
+                            //                     .circleIndicator,
+                            //                 groupValue: controller
+                            //                     .selectedPrayer.value,
+                            //                 onChanged: (String? value) {
+                            //                   controller.selectedPrayer(value!);
+                            //                 },
+                            //               )),
+                            //           Text("3",
+                            //             style: MyTextTheme.mediumGCB,
+                            //           ),
+                            //           const SizedBox(width: 130,),
+                            //           Obx(() =>
+                            //               Radio(
+                            //                 value: "5",
+                            //                 activeColor: AppColor
+                            //                     .circleIndicator,
+                            //                 groupValue: controller
+                            //                     .selectedPrayer.value,
+                            //                 onChanged: (String? value) {
+                            //                   controller.selectedPrayer(value!);
+                            //                 },
+                            //               )),
+                            //           InkWell(
+                            //               onTap: () {
+                            //               },
+                            //               child: Text("5",
+                            //                 style: MyTextTheme.mediumGCB,
+                            //               ))
+                            //         ]
+                            //     ),
+                            //   ],
+                            // ),
                         ],
                       ),
                     ),

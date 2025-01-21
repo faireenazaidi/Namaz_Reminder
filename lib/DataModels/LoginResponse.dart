@@ -160,7 +160,8 @@ class UserModel {
       friendPrayed: (json['fn_mark_noti']??false).toString()=='true'?true:false,
       frAllow: (json['fr_allow']).toString()=='null'?0:int.parse(json['fr_allow'].toString()),
       hijriAdj: (json['hijri_adj']).toString()=='null'?0:int.parse(json['hijri_adj'].toString()),
-      timeForm: (json['time_format_24'] ?? false).toString() == 'true',
+     // timeForm: (json['time_format_24'] ?? false).toString() == 'true',
+      timeForm: (json['time_format_24']??false).toString()=='true'?true:false,
     );
   }
 

@@ -68,4 +68,5 @@ class CustomDrawerController extends GetxController {
   //   print("CustomDrawerController initialized");
   //   // fetchMissedPrayersCount();
   // }
+
 }

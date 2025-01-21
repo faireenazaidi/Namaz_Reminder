@@ -302,9 +302,9 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                 if (controller.selectedTab.value == 'Daily') {
                   return SliverList(
                       delegate: SliverChildListDelegate([Container(
-                        height: Get.height*0.62,
+                        height: Get.height*0.61,
                         decoration:  BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
+                            borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(50.0),
                             ),
                             color: Theme.of(context).scaffoldBackgroundColor,
@@ -1749,7 +1749,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                         Container(
                           height: Get.height,
                           decoration:  BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
+                              borderRadius: const BorderRadius.vertical(
                                 top: Radius.circular(50.0),
                               ),
                               color: Theme.of(context).scaffoldBackgroundColor,

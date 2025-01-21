@@ -6,6 +6,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Services/user_data.dart';
@@ -1263,10 +1264,12 @@ RxString nextPrayerName = ''.obs;
 //         "jamat": prayedAtMosque.value,
 //         'prayed': true
 //       });
+//       print("Request Bodyyy: ${request.body}");
 //       request.headers.addAll(headers);
 //       http.StreamedResponse response = await request.send();
 //       String responseString = await response.stream.bytesToString();
 //       print("Raw API response: $responseString");
+//       print("timestamp: $formattedTime");
 //       Dialogs.hideLoading();
 //
 //       if (isFromMissed!) {
@@ -1297,75 +1300,61 @@ RxString nextPrayerName = ''.obs;
 //       print('Error: $e');
 //     }
 //   }
+//
 
   submitPrayer({
     String? valDate,
     bool? isFromMissed,
     Future<dynamic> Function()? missedCallBack,
     String? prayerNames,
-    String? startTime,
-    String? endTime,
     required BuildContext context,
   }) async {
     Get.back();
     Dialogs.showLoading(context, message: 'Loading...');
+
     DateTime date = DateTime.now();
     String formattedDate = valDate ?? DateFormat('dd-MM-yyyy').format(date);
 
     try {
-      // Parse start and end times to DateTime for validation
-      DateTime now = DateTime.now();
-      DateTime parsedStartTime = DateFormat('HH:mm').parse(startTime ?? "00:00");
-      DateTime parsedEndTime = DateFormat('HH:mm').parse(endTime ?? "23:59");
+      // Parse start and end times
+      DateTime startDateTime = DateFormat('hh:mm').parse(currentPrayerStartTime.value);
+      DateTime endDateTime = DateFormat('hh:mm').parse(currentPrayerEndTime.value);
 
-      // Convert parsed times to today's date for comparison
-      parsedStartTime = DateTime(now.year, now.month, now.day, parsedStartTime.hour, parsedStartTime.minute);
-      parsedEndTime = DateTime(now.year, now.month, now.day, parsedEndTime.hour, parsedEndTime.minute);
+      // Adjust to today's date
+      startDateTime = DateTime(date.year, date.month, date.day, startDateTime.hour, startDateTime.minute);
+      endDateTime = DateTime(date.year, date.month, date.day, endDateTime.hour, endDateTime.minute);
 
-      // Validate against prayer time
-      if (now.isBefore(parsedStartTime) || now.isAfter(parsedEndTime)) {
+      // Current time
+      DateTime currentPrayerTime = DateTime(date.year, date.month, date.day, date.hour, date.minute);
+
+      print("Current Time: ${DateFormat('HH:mm').format(currentPrayerTime)}");
+      print("Start Time: ${DateFormat('HH:mm').format(startDateTime)}");
+      print("End Time: ${DateFormat('HH:mm').format(endDateTime)}");
+
+      // Validation
+      if (!isFromMissed! && (currentPrayerTime.isBefore(startDateTime) || currentPrayerTime.isAfter(endDateTime))) {
+        print("Validation Failed: Out of Range");
         Dialogs.hideLoading();
         Get.snackbar(
           'Invalid Prayer Time',
-          'You can only mark this prayer during its valid time range.',
+          'The current prayer time is out of range.',
           backgroundColor: Colors.red,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 2),
+          duration: const Duration(seconds: 3),
         );
-        return; // Exit the method
+        return;
       }
 
-      // Validate if the prayer has already been marked
-      if (trackMarkPrayer == prayerNames) {
-        Dialogs.hideLoading();
-        Get.snackbar(
-          'Prayer Already Marked',
-          'This prayer has already been submitted.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 2),
-        );
-        return; // Exit the method
-      }
-
+      // Proceed with API request
       var headers = {'Content-Type': 'application/json'};
       var userId = userData.getUserData!.id.toString();
       var mobileNo = userData.getUserData!.mobileNo.toString();
 
-      if (!isAm && hour < 12) {
-        hour += 12; // Convert to PM (24-hour format)
-      } else if (isAm && hour == 12) {
-        hour = 0; // Handle 12 AM as 00:00 in 24-hour format
-      }
-      DateTime time = DateTime(0, 1, 1, hour, minute);
-      String formattedTime = DateFormat('HH:mm').format(time);
-
+      String formattedTime = DateFormat('HH:mm').format(currentPrayerTime);
       var request = http.Request(
-        'POST',
-        Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'),
-      );
+          'POST',
+          Uri.parse('http://182.156.200.177:8011/adhanapi/prayer-record/${formattedDate}/'));
       request.body = json.encode({
         "user_id": int.parse(userId),
         "prayer_name": prayerNames ?? currentPrayer.value,
@@ -1378,16 +1367,18 @@ RxString nextPrayerName = ''.obs;
             : userData.getLocationData!.longitude.toString(),
         "timestamp": formattedTime,
         "jamat": prayedAtMosque.value,
-        'prayed': true,
+        'prayed': true
       });
-      request.headers.addAll(headers);
 
+      print("Request Body: ${request.body}");
+      request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       String responseString = await response.stream.bytesToString();
       print("Raw API response: $responseString");
+
       Dialogs.hideLoading();
 
-      if (isFromMissed!) {
+      if (isFromMissed) {
         missedCallBack!();
         Get.snackbar('Prayer Marked', 'Success',
             backgroundColor: Colors.black,
@@ -1395,12 +1386,13 @@ RxString nextPrayerName = ''.obs;
             snackPosition: SnackPosition.BOTTOM,
             duration: const Duration(seconds: 1));
       } else {
+        // Update UI after marking prayer
         isPrayed = true;
         isGifVisible = true;
         update();
         trackMarkPrayer = currentPrayer.value;
         leaderboard();
-        Future.delayed(Duration(seconds: 3), () async {
+        Future.delayed(Duration(seconds: 3), () {
           isGifVisible = false;
           if (userData.getUserData!.fiqh == '0') {
             onPrayerMarked(currentPrayer.value);
@@ -1410,14 +1402,20 @@ RxString nextPrayerName = ''.obs;
       }
 
       fetchMissedPrayersCount();
-      print('Jjjjjjj');
     } catch (e) {
       print('Error: $e');
+      Dialogs.hideLoading();
+      Get.snackbar('Error', 'An error occurred while marking prayer.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
 
-List isPrayedList = [];
+
+
+  List isPrayedList = [];
   void updateIsPrayedList(val){
     isPrayedList = val;
     update();
@@ -1648,7 +1646,6 @@ List isPrayedList = [];
   }
 
 }
-
 
 
 

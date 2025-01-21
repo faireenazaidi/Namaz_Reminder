@@ -49,11 +49,6 @@ class PrayerRanking extends StatelessWidget {
     DateTime ishaEndTime =  DateFormat("HH:mm").parse(IshaEndTimeStr);
     DateTime ishaStartTime =  DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Isha']?['start']??'');
 
-
-
-
-
-
     // print('Fajr end time: $fajrEndTime');
     //
     // print(currentTime);
@@ -315,7 +310,8 @@ class PrayerRanking extends StatelessWidget {
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: Row(
+            child:
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -352,9 +348,10 @@ class PrayerRanking extends StatelessWidget {
                                 child: Icon(Icons.person,color: AppColor.circleIndicator,size: 25,),
                               ),
                             ),
-                            id==ranked[index].id.toString()?const Text('You',style: TextStyle(fontSize: 12),):Text(ranked[index].name.split(' ')[0],style: const TextStyle(
-                                fontSize: 12
-                            ),)
+                            id==ranked[index].id.toString()?const 
+                            Text('You',style: TextStyle(fontSize: 12),):
+                            Text(ranked[index].name.split(' ')[0],
+                              style: const TextStyle(fontSize: 12),)
                           ],
                         ),
                       );

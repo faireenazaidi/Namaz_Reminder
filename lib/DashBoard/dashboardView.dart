@@ -207,7 +207,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
       drawer: const CustomDrawer(),
       body: RefreshIndicator(
-        color: Theme.of(context).cardColor,
+        color: Colors.blueGrey,
         onRefresh: controller.onRefresh,
         child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

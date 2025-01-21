@@ -339,7 +339,6 @@ class Upcoming extends GetView<UpcomingController> {
 
                       prayerList.sort((a, b) => a['start']!.compareTo(b['start']!));
                       if (prayerList.isEmpty) return SizedBox.shrink();
-
                       if (index == 0) {
                         return Obx(() {
                           // Separate Obx for handling observable variables only
@@ -364,7 +363,7 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                     //  Text(controller.nextPrayer.value, style: MyTextTheme.medium),
+                                      // Text(controller.upcomingPrayers.toString(), style: MyTextTheme.medium),
                                         Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
                                         InkWell(
                                           onTap: () {},
@@ -419,6 +418,7 @@ class Upcoming extends GetView<UpcomingController> {
                                           Text(dashboardController.convertTime(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value),
                                               style: MyTextTheme.mediumBCD
                                           )
+
                                         ),
                                         Text(dashboardController.convertTime(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value),
                                             style: MyTextTheme.mediumBCD
@@ -441,28 +441,39 @@ class Upcoming extends GetView<UpcomingController> {
                         String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
                         bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
                         //bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
-
+                        bool alreadyExist = prayerName == controller.currentPrayer.value || prayerName == controller.nextPrayerName.value || prayerName == controller.isGapPeriod.value;
                         String specialText = isSpecialPrayer ? "Prohibited to pray" : "";
                         bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
-                        print("IIII"+controller.currentPrayer.value);
-
+                        print('Is Gap Period: ${controller.isGapPeriod.value}');
+                        print('Current Prayer: ${controller.currentPrayer.value}');
+                        print('Next Prayer Name: ${controller.nextPrayerName.value}');
+                        print('Prayer Names: ${prayerName}');
 
                         return Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: controller.nextPrayerName.value != prayerName?
-                            Container(
+
+                     child:
+                     // //controller.nextPrayerName.value != prayerName ?
+                     // controller.currentPrayer.value != prayerName || controller.nextPrayerName.value != prayerName
+                     //     ||controller.isGapPeriod.value != prayerName?
+                     !alreadyExist?
+                     Container(
                               decoration: BoxDecoration(
                                 color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Padding(
+                              child:
+                                Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Column(
+
+                                child:  Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
+
                                         Text(prayerName, style: MyTextTheme.medium),
                                         // if (!isSpecialPrayer)
                                         //   InkWell(
@@ -501,10 +512,10 @@ class Upcoming extends GetView<UpcomingController> {
                                   ],
                                 ),
                               ),
-                            ):
-                            null
+                            ):null
                         );
                       }
+
                       return SizedBox.shrink();
                     },
                   ),

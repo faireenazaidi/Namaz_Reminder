@@ -7,6 +7,7 @@ import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_controller.dart'
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
+import '../Services/user_data.dart';
 import 'LeaderBoardController.dart';
 import 'leaderboardDataModal.dart';
 
@@ -352,11 +353,12 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
               Obx(() {
                 if (leaderBoardController.selectedTab.value == 'Daily') {
                   return SliverList(
-                    delegate: SliverChildListDelegate([
+                    delegate: SliverChildListDelegate(
+                        [
                       Container(
                         height: Get.height * 0.75,
                         decoration:  BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
+                          borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(50.0),
                           ),
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -474,7 +476,6 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           ),
                         child: Stack(
                           children: [
-                            // Top indicator (small rounded rectangle)
                             Align(
                               alignment: Alignment.topCenter,
                               child: Padding(
@@ -810,14 +811,24 @@ class RankingUI extends StatelessWidget {
 
 class TopRankedUsers extends StatelessWidget {
   final List rankedFriends;
-  const TopRankedUsers({super.key, required this.rankedFriends});
+  UserData userData = UserData();
+
+  TopRankedUsers({super.key, required this.rankedFriends});
   @override
   Widget build(BuildContext context) {
-
     // Sort the list in descending order based on percentage
-    if(rankedFriends.isNotEmpty){
+    if (rankedFriends.isNotEmpty) {
       rankedFriends.sort((a, b) => b['percentage'].compareTo(a['percentage']));
     }
+    // Replace with the actual ID of the current user
+    final currentUserId = userData.getUserData!.id.toString();
+    // Find the rank of the current user
+    int myRank = rankedFriends.indexWhere(
+          (friend) => friend['id'].toString() == currentUserId,
+    ) + 1;
+
+    // Print or display the rank for debugging
+    print("My Rank: $myRank");
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -827,16 +838,31 @@ class TopRankedUsers extends StatelessWidget {
           if (rankedFriends.length > 2)
             Transform.rotate(
               angle: -0.22,
-              child: _buildRankCard(rankedFriends[2], 3, 'assets/3medal.svg',context),
+              child: _buildRankCard(
+                rankedFriends[2],
+                3,
+                'assets/3medal.svg',
+                context,
+              ),
             ),
           if (rankedFriends.length > 2) const SizedBox(width: 18),
           if (rankedFriends.isNotEmpty)
-            _buildRankCard(rankedFriends[0], 1,  'assets/1medal.svg',context),
+            _buildRankCard(
+              rankedFriends[0],
+              1,
+              'assets/1medal.svg',
+              context,
+            ),
           if (rankedFriends.length > 1) const SizedBox(width: 18),
           if (rankedFriends.length > 1)
             Transform.rotate(
               angle: 0.22,
-              child: _buildRankCard(rankedFriends[1], 2,  'assets/2medal.svg',context),
+              child: _buildRankCard(
+                rankedFriends[1],
+                2,
+                'assets/2medal.svg',
+                context,
+              ),
             ),
         ],
       ),
@@ -844,7 +870,7 @@ class TopRankedUsers extends StatelessWidget {
   }
 
   Widget _buildRankCard(Map friend, int rank, String svgPath,context) {
-    
+
     double height = rank ==1? Get.height*0.084:Get.height*0.072;
     double width = rank ==1? Get.width*0.212:Get.width*0.19;
     double h = rank ==1? 15:35;
@@ -915,6 +941,5 @@ class TopRankedUsers extends StatelessWidget {
     );
   }
 }
-
 
 
