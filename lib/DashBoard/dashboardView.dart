@@ -16,6 +16,7 @@ import 'package:namaz_reminders/Drawer/DrawerView.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../AppManager/dialogs.dart';
+import '../Drawer/drawerController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Leaderboard/leaderboardView.dart';
 import '../Widget/MyRank/myRankController.dart';
@@ -27,6 +28,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
+    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
 
 
     bool goingTo = false;
@@ -68,8 +70,8 @@ class DashBoardView extends GetView<DashBoardController> {
                 bottom: PreferredSize(
                   preferredSize:  const Size.fromHeight(1.0),
                   child: Divider(
-                    height: 1.0,
-                    color: AppColor.packageGray,
+                    height: 1.5,
+                    color: Theme.of(context).dividerColor,
                   ),
                 ),
                 toolbarHeight: 55,
@@ -207,7 +209,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
       drawer: const CustomDrawer(),
       body: RefreshIndicator(
-        color: Colors.blueGrey,
+        color:Theme.of(context).dividerColor,
         onRefresh: controller.onRefresh,
         child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -295,7 +297,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               ),
                               percent:0.0,
                               progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
-                              backgroundColor: AppColor.circleIndicator,
+                              backgroundColor: AppColor.circleIndicator..withOpacity(0.6),
                             ) :CircularPercentIndicator(
                               restartAnimation: false,
                               circularStrokeCap: CircularStrokeCap.round,
@@ -318,7 +320,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               ),
                               percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
                               progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.circleIndicator,
-                              backgroundColor: Colors.grey.shade300,
+                              backgroundColor:customDrawerController.isDarkMode == false ? AppColor.packageGray:  Colors.white.withOpacity(0.06)
                             );
                           }),
                         //   Obx(() {
@@ -570,7 +572,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             alignment: Alignment.center,
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: AppColor.leaderboard,
+                              color:customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white10,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
@@ -579,8 +581,13 @@ class DashBoardView extends GetView<DashBoardController> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("LEADERBOARD",style: MyTextTheme.greyN,),
-                                    SvgPicture.asset("assets/Close.svg")
+                                    Text("LEADERBOARD",style: MyTextTheme.greyN.copyWith(color: customDrawerController.isDarkMode==true?
+                                    Colors.white70: AppColor.greyDark,),),
+
+                                    CircleAvatar(
+                                      radius: 15,
+                                        backgroundColor:customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.white12,
+                                        child: SvgPicture.asset("assets/arrow.svg",color: customDrawerController.isDarkMode == false ? Colors.black: Colors.white,))
                                   ],
                                 ),
                                 const SizedBox(height: 12,),
@@ -604,9 +611,11 @@ class DashBoardView extends GetView<DashBoardController> {
                           child: Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.black87,
+                            //  color: Colors.black87,
+                              color: customDrawerController.isDarkMode == false ? Colors.black87: AppColor.circleIndicator,
                               image: const DecorationImage(
                                   fit: BoxFit.cover,
+                                  opacity: 20,
                                   image: AssetImage("assets/jalih.png")
                               ),
                               borderRadius: BorderRadius.circular(15),
@@ -618,16 +627,18 @@ class DashBoardView extends GetView<DashBoardController> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,style: MyTextTheme.largeWCB.copyWith(
-                                    fontSize: 20,fontWeight: FontWeight.w600
-                                  ),),
-                                  Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",style: MyTextTheme.mustard2),
+                                    fontSize: 20,fontWeight: FontWeight.w600,color: Theme.of(context).textTheme.bodySmall?.color)
+                                  ),
+                                  Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",
+                                      style: MyTextTheme.mustard2.copyWith(color: customDrawerController.isDarkMode==true?Colors.black:AppColor.circleIndicator))
                                 ],
                               ),
                               const SizedBox(height: 15,),
                               Container(
+                                height: 40,
                                 padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 15),
                                 decoration: BoxDecoration(
-                                  color: Colors.white12,
+                                  color: Colors.black45.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(30)
                                 ),
                                 child: Row(
@@ -640,7 +651,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                         const SizedBox(width: 10,),
                                         Row(
                                           children: [
-                                            Text("starts in ",style: MyTextTheme.smallWCN,),
+                                            Text("starts in ",
+                                              style: MyTextTheme.smallWCN,),
                                            controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),
                                              style: MyTextTheme.smallWCB,) :Text(controller.remainingTime.value,style: MyTextTheme.smallWCB,),
                                             // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
@@ -670,9 +682,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text('Starts at',style: TextStyle(
-                                          color: Colors.white,fontSize: 11
-                                      )),
+                                       Text('Starts at',
+                                          style: MyTextTheme.whitethin.copyWith(color: Theme.of(context).textTheme.bodySmall?.color)
+                                      ),
                                       // Text(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value,
                                       //     style: const TextStyle(
                                       //     color: Colors.white,
@@ -684,11 +696,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                               ? controller.currentPrayerStartTime.value
                                               : controller.upcomingPrayerStartTime.value,
                                         ),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                          style: MyTextTheme.whiteBold.copyWith(color: Theme.of(context).textTheme.bodySmall?.color)
+
                                       ),
 
 
@@ -697,9 +706,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text('Ends at',style: TextStyle(
-                                          color: Colors.white,fontSize: 11
-                                      )),
+                                       Text('Ends at',
+                                          style: MyTextTheme.whitethin.copyWith(color: Theme.of(context).textTheme.bodySmall?.color)
+                                      ),
                                       // Text(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value,style: const TextStyle(
                                       //     color: Colors.white,
                                       //   fontSize: 14,fontWeight: FontWeight.w600
@@ -710,11 +719,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                               ? controller.currentPrayerEndTime.value
                                               : controller.upcomingPrayerEndTime.value,
                                         ),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                          style: MyTextTheme.whiteBold.copyWith(color: Theme.of(context).textTheme.bodySmall?.color)
                                       ),
                                     ],
                                   ),
@@ -724,6 +729,8 @@ class DashBoardView extends GetView<DashBoardController> {
                           ),
 
                           ),
+
+
                         );
                       }),
                     // UserRankCarousel(),
@@ -1865,7 +1872,7 @@ class _UserRankListState extends State<UserRankList> {
                           children: [
                             Text(
                               rank < 10 ? '0$rank' : '$rank',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1878,7 +1885,7 @@ class _UserRankListState extends State<UserRankList> {
                           children: [
                             Text(
                               user.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),

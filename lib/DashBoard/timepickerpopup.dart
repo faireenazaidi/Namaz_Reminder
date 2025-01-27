@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:numberpicker/numberpicker.dart';
-import '../LocationSelectionPage/locationPageView.dart';
+import '../Drawer/drawerController.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import 'dashboardController.dart';
@@ -97,11 +96,13 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     print(getMinutesFromTime(dashBoardController.currentPrayerEndTime.toString()).toString());
+    final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Dialog(
-        backgroundColor: AppColor.gray,
+        backgroundColor:customDrawerController.isDarkMode == false ? AppColor.gray: AppColor.circleIndicator.withOpacity(0.8),
+      //  AppColor.gray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: GestureDetector(
           onTap: () {
@@ -129,12 +130,12 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     SizedBox(width: 3,),
                     Text(
                       'MARK YOUR PRAYER TIME',
-                      style: MyTextTheme.mustard2
+                      style: MyTextTheme.mustard2.copyWith(color: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,)
                     ),
                     SizedBox(width: screenWidth * 0.04),
                     SvgPicture.asset(
-                        "assets/namz.svg",height: 45,
-                    ),
+                        "assets/namz.svg",height: 45,color:  customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,),
+
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -161,12 +162,12 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           });
                         },
                         textStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: screenWidth * 0.08,
+                            color:customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
+                            fontSize: screenWidth * 0.08,
                             fontWeight: FontWeight.w300
                         ),
                         selectedTextStyle: TextStyle(
-                          color: Colors.white,
+                          color: customDrawerController.isDarkMode == false ? AppColor.white: Colors.black,
                           fontSize: screenWidth * 0.11,
                           fontWeight: FontWeight.w400,
                         ),
@@ -179,7 +180,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                       style: TextStyle(
                         fontSize: screenWidth * 0.05,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: customDrawerController.isDarkMode == false ? AppColor.white: Colors.black,
                       ),
                     ),
                     // Minute picker
@@ -199,12 +200,12 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           });
                         },
                         textStyle: TextStyle(
-                          color: Colors.grey,
+                          color:customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
                           fontSize: screenWidth * 0.08,
                           fontWeight: FontWeight.w300
                         ),
                         selectedTextStyle: TextStyle(
-                          color: Colors.white,
+                          color: customDrawerController.isDarkMode == false ? AppColor.white: Colors.black,
                           fontSize: screenWidth * 0.11,
                           fontWeight: FontWeight.w400,
                         ),
@@ -245,7 +246,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                               child: Text(
                                 "PM",
                                 style: TextStyle(
-                                  color: !isAm ? Colors.white : Colors.grey,
+                                  color: customDrawerController.isDarkMode==false&&!isAm ? Colors.white : Colors.grey,
                                   fontSize: !isAm  ? 20.0 : 16.0,
                                 ),
                               ),
@@ -262,6 +263,10 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   children: [
                     Checkbox(
                       value: dashBoardController.prayedAtMosque.value,
+                      // side: BorderSide(
+                      //   color: customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
+                      //   width: 1.5
+                      // ),
                       activeColor: AppColor.circleIndicator,
                       onChanged: (bool? value) {
                         setState(() {
@@ -272,9 +277,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     ),
                     Text(
                       "Prayed at Mosque / Jamat time",
-                      style: MyTextTheme.smallWCN.copyWith(
-                       fontSize: 12// Adjust font size dynamically
-                      ),
+                      style: MyTextTheme.smallWCN.copyWith(fontSize: 12,color: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,),
                       overflow: TextOverflow.ellipsis, // Prevent overflow
                     ),
                   ],
@@ -283,17 +286,27 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   borderRadius: 8,
                   elevation: 2,
                   title: "Submit",
-                  color: AppColor.circleIndicator,
+                  color:customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,
                   onPressed: () {
                     dashBoardController.isAm = isAm;
                     print("isAm ${dashBoardController.isAm}");
                     // Lottie.asset("assets/Crown.lottie",
                     //     decoder: customDecoder, height: 60);
                     dashBoardController.submitPrayer(valDate: widget.date,
-                        isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,
+                        isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,startTime:widget.startTime,endTime: widget.endTime,
                         missedCallBack: widget.missedCallBack, context: context);
+
+                    print("valDate: ${widget.date}");
+                    print("isFromMissed: ${widget.isFromMissed}");
+                    print("prayerNames: ${widget.prayerNames}");
+                    print("startTime: ${widget.startTime}");
+                    print("endTime: ${widget.endTime}");
+                    print("missedCallBack: ${widget.missedCallBack}");
+                    print("context: $context");
                   },
-                ),
+
+        ),
+
                 // Submit Button
               ],
             ),

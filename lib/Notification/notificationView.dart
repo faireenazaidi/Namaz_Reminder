@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../Drawer/drawerController.dart';
 import '../PeerCircle/AddFriends/AddFriendDataModal.dart';
 import '../Routes/approutes.dart';
 import '../Widget/appColor.dart';
@@ -13,7 +14,7 @@ class NotificationView extends  GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context,) {
-
+    final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
     NotificationDataModal notificationData = NotificationDataModal(
     );
 
@@ -26,15 +27,22 @@ class NotificationView extends  GetView<NotificationController> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
-            height: 1.0,
-            color: AppColor.packageGray,
+            height: 1.5,
+            color: customDrawerController.isDarkMode == true? Colors.black:AppColor.packageGray,
           ),
         ),
         leading: InkWell(
           onTap: () {
             Get.back();
           },
-          child: const Icon(Icons.arrow_back_ios_new,size: 20,),
+          child: Transform.scale(
+            scale:
+            MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
+            child:   CircleAvatar(
+                radius: 12,
+                backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                child: const Icon(Icons.arrow_back_ios_new,size: 20,)),
+          ),
         ),
         actions: [
           TextButton(

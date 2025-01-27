@@ -7,6 +7,7 @@ import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_controller.dart'
 import 'package:namaz_reminders/Widget/appColor.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
+import '../Drawer/drawerController.dart';
 import '../Services/user_data.dart';
 import 'LeaderBoardController.dart';
 import 'leaderboardDataModal.dart';
@@ -25,6 +26,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
       LeaderBoardController());
   final DateController dateController = Get.put(DateController());
   final MissedPrayersController missedPrayersController = Get.put(MissedPrayersController());
+  final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+
   // @override
   // void initState() {
   //   super.initState();
@@ -40,7 +43,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
     final screenHeight = MediaQuery.of(context).size.height*0.093;
     print("screenHeight $screenHeight");
     return Scaffold(
-        backgroundColor: AppColor.cream,
+        backgroundColor: customDrawerController.isDarkMode == false? AppColor.cream:AppColor.color,
         body:
           CustomScrollView(
             physics: NeverScrollableScrollPhysics(),
@@ -57,18 +60,22 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     centerTitle: true,
                     pinned: true,
                     expandedHeight: leaderBoardController.selectedTab.value ==
-                        'Weekly' ? MediaQuery.of(context).size.height*0.411 : 200,
-                    backgroundColor: AppColor.cream,
+                        'Weekly' ? MediaQuery.of(context).size.height*0.4 : 200,
+                    backgroundColor: customDrawerController.isDarkMode == false? AppColor.cream:AppColor.color.withOpacity(0.01),
                     leading: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
                         onTap: () {
                           Get.back();
                         },
-                        child: const Icon(
-                          Icons.arrow_back_ios_new,
-                          color: Colors.black,
-                          size: 20,
+                        child: Transform.scale(
+                          scale:
+                          MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
+                          child:   CircleAvatar(
+                              radius: 15,
+                              backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                              child:Icon(Icons.arrow_back_ios_new,size: 20,
+                                color:  customDrawerController.isDarkMode == false ? Colors.grey:Colors.black,)),
                         ),
                       ),
                     ),
@@ -81,7 +88,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           SvgPicture.asset(
                               "assets/jali.svg",
                               fit: BoxFit.cover,
-                              color: AppColor.greyDark
+                            color:Colors.red.withOpacity(0.9)
+
                           ),
                           // Adding Padding and other widgets over the background image
                           Padding(
@@ -109,7 +117,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                             decoration: BoxDecoration(
                                               color: leaderBoardController
                                                   .getSelectedTab == 'Daily'
-                                                  ? Colors.white60
+                                                  ?  customDrawerController.isDarkMode == false ? Colors.white:Colors.white30
                                                   : Colors.transparent,
                                               borderRadius: BorderRadius
                                                   .circular(
@@ -127,8 +135,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                                       color: leaderBoardController
                                                           .selectedTab.value ==
                                                           'Daily'
-                                                          ? AppColor
-                                                          .circleIndicator
+                                                          ? AppColor.circleIndicator
                                                           : Colors.transparent,
                                                       borderRadius: BorderRadius
                                                           .circular(5)
@@ -162,12 +169,16 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                                 DateTime.now().subtract(Duration(days: 1)));
                                             leaderBoardController
                                                 .updateSelectedTab = 'Weekly';
+                                            leaderBoardController.updateIslamicDateBasedOnOption();
+                                            String formattedDate = DateFormat(
+                                                'dd-MM-yyyy').format(DateTime.now().subtract(Duration(days: 1)),);
+                                            leaderBoardController.weeklyApi(formattedDate);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: leaderBoardController
                                                   .selectedTab.value == 'Weekly'
-                                                  ? Colors.white60
+                                                  ?  customDrawerController.isDarkMode == false ? Colors.white:Colors.white30
                                                   : Colors.transparent,
                                               borderRadius: BorderRadius
                                                   .circular(
@@ -288,7 +299,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                 child:   Row(
                                     children: [
                                       SvgPicture.asset(
-                                          "assets/calendar3.svg", height: 15),
+                                          "assets/calendar3.svg", height: 15
+                                        ,color:  customDrawerController.isDarkMode == false ? AppColor.circleIndicator:Colors.black87,),
                                       const SizedBox(width: 5),
                                       Obx(() =>
                                       leaderBoardController

@@ -95,7 +95,9 @@ class LeaderBoardController extends GetxController{
     updateIslamicDateBasedOnOption(date: newDate);
   }
   RxString selectedTab = 'Daily'.obs;
+
   String get getSelectedTab => selectedTab.value;
+
   set updateSelectedTab(String val){
     selectedTab.value = val;
     update();
@@ -355,7 +357,8 @@ class LeaderBoardController extends GetxController{
                 isFromMissed: true,
                 missedPrayerTime: prayerTime,
                 missedCallBack: () {
-                  updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date));
+                  updateSelectedDate(DateFormat("dd-MM-yyyy").parse(date)
+                  );
                   return weeklyApi(date);
                 },
               );

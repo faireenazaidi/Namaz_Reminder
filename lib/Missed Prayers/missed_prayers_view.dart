@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Leaderboard/LeaderBoardController.dart';
+import 'package:namaz_reminders/Missed%20Prayers/missed_prayers_controller.dart';
 import '../AppManager/dialogs.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Drawer/drawerController.dart';
@@ -14,13 +16,13 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
 
   @override
   Widget build(BuildContext context) {
-    // LeaderBoardController controller = Get.put(LeaderBoardController());
-    // final DateController dateController = Get.put(DateController());
+    // DateTime dateFormat = DateTime.now();    // LeaderBoardController controller = Get.put(LeaderBoardController());
+     final MissedPrayersController missedPrayersController = Get.put(MissedPrayersController());
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
     // TODO: implement build
     return Scaffold(
-        backgroundColor: AppColor.cream,
+        backgroundColor: customDrawerController.isDarkMode == false? AppColor.cream:AppColor.color,
         body: CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
             slivers: [
@@ -29,7 +31,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                 centerTitle: true,
                 pinned: true,
                 expandedHeight: 300.0,
-                backgroundColor: AppColor.cream,
+                backgroundColor: customDrawerController.isDarkMode == false? AppColor.cream:AppColor.color,
                 leading: Padding(
                   padding: const EdgeInsets.all(8.0),
                   // child: InkWell(
@@ -44,8 +46,15 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                     onTap: ()  {
                       Get.back();
                     },
-                    child: const Icon(
-                        Icons.arrow_back_ios_new, color: Colors.black),
+                    child: Transform.scale(
+                      scale:
+                      MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
+                      child:   CircleAvatar(
+                          radius: 15,
+                          backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                          child:  Icon(Icons.arrow_back_ios_new,size: 20,
+                            color:  customDrawerController.isDarkMode == false ? Colors.grey:Colors.black,)),
+                    ),
                   ),
                 ),
                 flexibleSpace: FlexibleSpaceBar(
@@ -76,11 +85,12 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                             DateTime.now());
                                         controller.updateSelectedTab = 'Daily';
                                       },
+
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: controller.selectedTab.value ==
                                               'Daily'
-                                              ? Colors.white60
+                                              ? customDrawerController.isDarkMode == false ? Colors.white:Colors.white30
                                               : Colors.transparent,
                                           borderRadius: BorderRadius.circular(
                                               20),
@@ -128,12 +138,18 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         controller.updateSelectedDate(
                                             DateTime.now().subtract(Duration(days: 1)));
                                         controller.updateSelectedTab = 'Weekly';
+                                        // print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+missedPrayersController.formattedDate.value);
+                                        String formattedDate = DateFormat(
+                                            'dd-MM-yyyy').format(DateTime.now().subtract(Duration(days: 1)),);
+
+                                        controller.weeklyApi(formattedDate);
+
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: controller.getSelectedTab ==
                                               'Weekly'
-                                              ? Colors.white60
+                                              ?customDrawerController.isDarkMode == false ? Colors.white:Colors.white30
                                               : Colors.transparent,
                                           borderRadius: BorderRadius.circular(
                                               20),
@@ -175,7 +191,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                       ),
                                     ),
                                   ],
-                                )),
+                                )
+                            ),
                             const SizedBox(height: 60),
                             InkWell(
                               splashColor: Colors.transparent,
@@ -214,7 +231,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               Row(
                                 children: [
                                   SvgPicture.asset(
-                                      "assets/calendar3.svg", height: 15),
+                                      "assets/calendar3.svg", height: 15,
+                                    color:  customDrawerController.isDarkMode == false ? AppColor.circleIndicator:Colors.black87,),
                                   const SizedBox(width: 5),
                                   Obx(() =>
                                   controller
@@ -266,27 +284,27 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: AppColor.circleIndicator,
+                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
                                   child: const Text("F"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: AppColor.circleIndicator,
+                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
                                   child: const Text("D"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: AppColor.circleIndicator,
+                                  backgroundColor:customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
                                   child: const Text("A"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: AppColor.circleIndicator,
+                                  backgroundColor:customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
                                   child: const Text("M"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: AppColor.circleIndicator,
+                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
                                   child: const Text("I"),
                                 ),
                               ],
@@ -367,7 +385,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
-                                                                .white70,
+                                                                .transparent,
                                                             child: CircleAvatar(
                                                                 radius: 22,
                                                                 backgroundColor: Colors
@@ -646,7 +664,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
-                                                                .white70,
+                                                                .transparent,
                                                             child: CircleAvatar(
                                                                 radius: 22,
                                                                 backgroundColor: Colors
@@ -928,7 +946,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
-                                                                .white70,
+                                                                .transparent,
                                                             child: CircleAvatar(
                                                                 radius: 22,
                                                                 backgroundColor: Colors
@@ -1206,7 +1224,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               ?  CircleAvatar(
                                                               radius: 20,
                                                               backgroundColor: Colors
-                                                                  .white70,
+                                                                  .transparent,
                                                               child: CircleAvatar(
                                                                   radius: 22,
                                                                   backgroundColor: Colors
@@ -1494,7 +1512,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ?  CircleAvatar(
                                                             radius: 20,
                                                             backgroundColor: Colors
-                                                                .white70,
+                                                                .transparent,
                                                             child: CircleAvatar(
                                                                 radius: 22,
                                                                 backgroundColor: Colors
@@ -1990,7 +2008,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               child: Column(
                                                                 children: [
                                                                   Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .all(5),
                                                                     padding: const EdgeInsets
                                                                         .all(1),

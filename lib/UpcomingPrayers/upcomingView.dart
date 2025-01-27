@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:namaz_reminders/Drawer/drawerController.dart';
 import 'package:namaz_reminders/UpcomingPrayers/upcomingController.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import '../DashBoard/dashboardController.dart';
@@ -15,6 +16,8 @@ class Upcoming extends GetView<UpcomingController> {
     Get.find<DashBoardController>();
     final DateController dateController = Get.put(DateController());
     final UpcomingController upcomingController = Get.put(UpcomingController());
+    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+
 
     ///----------Scroll the Highlighted prayer in centre--------///
 
@@ -28,13 +31,13 @@ class Upcoming extends GetView<UpcomingController> {
     }
     //-----------------------------------//
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Row(
           children: [
             Text(
               "Upcoming Prayers",
-              style: MyTextTheme.mediumBCD,
+              style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
               overflow: TextOverflow.ellipsis,
             ),
             Spacer(),
@@ -61,18 +64,25 @@ class Upcoming extends GetView<UpcomingController> {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.5,
-            color: AppColor.packageGray,
+              color:Theme.of(context).dividerColor
           ),
         ),
         titleSpacing: 0,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: InkWell(
           onTap: () {
             dashboardController.fetchPrayerTime();
             Get.back();
           },
-          child: Icon(Icons.arrow_back_ios, size: 20),
+          child: Transform.scale(
+            scale:
+            MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
+            child:   CircleAvatar(
+                radius: 12,
+                backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                child: const Icon(Icons.arrow_back_ios_new,size: 20,)),
+          ),
         ),
       ),
 
@@ -85,7 +95,6 @@ class Upcoming extends GetView<UpcomingController> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const SizedBox(height: 15),
                     Center(
                       child: Row(
                         children: [
@@ -111,8 +120,7 @@ class Upcoming extends GetView<UpcomingController> {
                           Obx(() => Text(
                             DateFormat('EEE, d MMMM yyyy')
                                 .format(dateController.selectedDate.value),
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.black),
+                            style:MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontSize: 13),
                             overflow: TextOverflow.ellipsis,
                           )),
                           Container(
@@ -125,10 +133,11 @@ class Upcoming extends GetView<UpcomingController> {
                             child: Obx(
                                   () => Text(
                                 dashboardController.islamicDate.value,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black),
+                                style:MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontSize: 13),
                                 overflow: TextOverflow.ellipsis,
                               ),
+
+
                             ),
                           ),
                         ],
@@ -138,7 +147,7 @@ class Upcoming extends GetView<UpcomingController> {
                     Container(
                       height: 160,
                       decoration: BoxDecoration(
-                        color: Colors.black87,
+                        color: customDrawerController.isDarkMode == false ? Colors.black87: AppColor.circleIndicator,
                         image: const DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage("assets/jalih.png"),
@@ -270,32 +279,47 @@ class Upcoming extends GetView<UpcomingController> {
                                           children: [
                                             SvgPicture.asset(
                                               "assets/Vec.svg",
-                                              colorFilter: isPassedPrayer
+                                              color: customDrawerController.isDarkMode == false ? AppColor.color: AppColor.black,
+                                              // colorFilter: isPassedPrayer
+                                              //     ? const ColorFilter.matrix(<double>[
+                                              //   0.2126, 0.7152, 0.072, 0, 0,
+                                              //   0.2126, 0.7152, 0.0722, 0, 0,
+                                              //   0.2126, 0.7152, 0.0722, 0, 0,
+                                              //   0, 0, 0, 1, 0,
+                                              // ])
+                                              //     : null,
+                                              colorFilter: (customDrawerController.isDarkMode == false && isPassedPrayer)
                                                   ? const ColorFilter.matrix(<double>[
-                                                0.2126, 0.7152, 0.072, 0, 0,
-                                                0.2126, 0.7152, 0.0722, 0, 0,
-                                                0.2126, 0.7152, 0.0722, 0, 0,
-                                                0, 0, 0, 1, 0,
+                                                0.2126, 0.7152, 0.0722, 0, 0, // Red
+                                                0.2126, 0.7152, 0.0722, 0, 0, // Green
+                                                0.2126, 0.7152, 0.0722, 0, 0, // Blue
+                                                0, 0, 0, 1, 0,               // Alpha
                                               ])
+                                                  : isPassedPrayer
+                                                  ? const ColorFilter.mode(Colors.black87, BlendMode.srcIn)
                                                   : null,
+
+
                                             ),
                                             Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   dashboardController.prayerNames[index].toUpperCase(),
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: isHighlighted ? 15 : 14,
-                                                  ),
+                                                    style: MyTextTheme.mediumBCB.copyWith(
+                                                       color: Theme.of(context).textTheme.bodySmall?.color,fontWeight: FontWeight.w500)
                                                 ),
                                                 const SizedBox(height: 8),
                                                 Center(
                                                   child: Text(dashboardController.convertTime( dashboardController.getPrayerTimes.isEmpty ?
                                                     "Loading" : dashboardController.getPrayerTimes[index].toString(),),
-                                                    style: isHighlighted ? MyTextTheme.smallBCN : MyTextTheme.smallGCN,
+                                                    style: isHighlighted ? MyTextTheme.smallBCN.copyWith(
+                                                        color: Theme.of(context).textTheme.bodySmall?.color)
+                                                   : MyTextTheme.smallGCN.copyWith(
+                                                        color: Theme.of(context).textTheme.bodySmall?.color,fontWeight: FontWeight.w500)
                                                   ),
-                                                )
+                                                  ),
+
                                               ],
                                             ),
                                           ],
@@ -320,6 +344,7 @@ class Upcoming extends GetView<UpcomingController> {
                     itemCount: dashboardController.upcomingPrayers.length,
                     itemBuilder: (context, index) {
                       var upcomingPrayers = dashboardController.upcomingPrayers;
+                     // String nextPray = dashboardController.getNextPrayerName();
                       var prayerDurations = dashboardController.upcomingPrayerDuration;
                       String currentTime = DateFormat('HH:mm').format(DateTime.now());
                       String ishaEndTime = prayerDurations['Isha']?['start'] ?? '23:59';
@@ -352,7 +377,7 @@ class Upcoming extends GetView<UpcomingController> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: AppColor.leaderboard,
+                                color: customDrawerController.isDarkMode == false ?AppColor.leaderboard: Colors.white10,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
@@ -363,12 +388,15 @@ class Upcoming extends GetView<UpcomingController> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                      // Text(controller.upcomingPrayers.toString(), style: MyTextTheme.medium),
-                                        Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value, style: MyTextTheme.medium,),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Icon(Icons.more_horiz),
-                                        ),
+
+                                      // Text(nextPray, style: MyTextTheme.medium),
+                                        Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,
+                                          style: MyTextTheme.medium.copyWith(
+                                              color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.w500)),
+                                        // InkWell(
+                                        //   onTap: () {},
+                                        //   child: Icon(Icons.more_horiz),
+                                        // ),
                                       ],
                                     ),
                                     SizedBox(height: 10),
@@ -376,19 +404,29 @@ class Upcoming extends GetView<UpcomingController> {
                                       width: double.infinity,
                                       padding: const EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
-                                        color: AppColor.packageGray,
+                                        color: customDrawerController.isDarkMode == false ?AppColor.packageGray: Colors.white12,
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.timer_outlined),
+                                          const Icon(Icons.timer_outlined,color:  AppColor.greyColor,),
                                           SizedBox(width: 5),
-                                          Text('starts in'),
-                                          SizedBox(width: 5),
-                                          Obx(() => Text(
-                                            dashboardController.remainingTime.value,
-                                            style: MyTextTheme.smallGCN,
-                                          )),
+                                          Obx(() =>
+                                          //     Text(
+                                          //   dashboardController.remainingTime.value,
+                                          //   style: MyTextTheme.smallGCN,
+                                          // )
+                                          Row(
+                                            children: [
+                                              Text("starts in ",
+                                                style: MyTextTheme.smallGCN,),
+                                              controller.nextPrayerName.value=='Fajr'?Text(controller.formatDuration(controller.upcomingRemainingTime.value),
+                                                style: MyTextTheme.smallGCN,) :Text(controller.remainingTime.value,
+                                                style: MyTextTheme.smallGCN.copyWith(fontWeight: FontWeight.w600 ),),
+                                              // Text("${controller.upcomingRemainingTime.value.inHours.toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inMinutes% 60).toString().padLeft(2, '0')}:${(controller.upcomingRemainingTime.value.inSeconds % 60).toString().padLeft(2, '0')}",style: MyTextTheme.smallWCB,),
+                                            ],
+                                          )
+                                          ),
                                           Spacer(),
                                           // InkWell(
                                           //   onTap: () {
@@ -407,8 +445,10 @@ class Upcoming extends GetView<UpcomingController> {
                                     SizedBox(height: 5),
                                     Row(
                                       children: [
-                                        Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                        Text('Ends at', style: MyTextTheme.smallGCN),
+                                        Expanded(child: Text('Starts at',
+                                            style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color))
+                                        ),
+                                        Text('Ends at', style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
                                       ],
                                     ),
                                     Row(
@@ -416,12 +456,12 @@ class Upcoming extends GetView<UpcomingController> {
                                         Expanded(
                                           child:
                                           Text(dashboardController.convertTime(controller.isGapPeriod.value?controller.currentPrayerStartTime.value:controller.upcomingPrayerStartTime.value),
-                                              style: MyTextTheme.mediumBCD
+                                              style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)
                                           )
 
                                         ),
                                         Text(dashboardController.convertTime(controller.isGapPeriod.value?controller.currentPrayerEndTime.value:controller.upcomingPrayerEndTime.value),
-                                            style: MyTextTheme.mediumBCD
+                                            style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)
                                         )
                                       ],
                                     ),
@@ -441,79 +481,166 @@ class Upcoming extends GetView<UpcomingController> {
                         String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
                         bool isSpecialPrayer = prayerName == 'Sunset' || prayerName == 'Sunrise' || prayerName == 'Zawal';
                         //bool sun = prayerName == 'Sunset' || prayerName == 'Sunrise' ;
-                        bool alreadyExist = prayerName == controller.currentPrayer.value || prayerName == controller.nextPrayerName.value || prayerName == controller.isGapPeriod.value;
+                        //bool alreadyExist = prayerName == controller.upcomingPrayers.value;
                         String specialText = isSpecialPrayer ? "Prohibited to pray" : "";
                         bool isHighlighted = (isSpecialPrayer && startTime24 == currentTime);
                         print('Is Gap Period: ${controller.isGapPeriod.value}');
                         print('Current Prayer: ${controller.currentPrayer.value}');
                         print('Next Prayer Name: ${controller.nextPrayerName.value}');
                         print('Prayer Names: ${prayerName}');
+                       // print('nextPrayer ${nextPray}');
 
                         return Padding(
                             padding: EdgeInsets.all(8.0),
 
-                     child:
-                     // //controller.nextPrayerName.value != prayerName ?
-                     // controller.currentPrayer.value != prayerName || controller.nextPrayerName.value != prayerName
-                     //     ||controller.isGapPeriod.value != prayerName?
-                     !alreadyExist?
-                     Container(
+                    // child:
+                     // nextPrayer != prayerName ?
+
+                     // Container(
+                     //          decoration: BoxDecoration(
+                     //            color:  customDrawerController.isDarkMode == false ?AppColor.leaderboard: Colors.white12,
+                     //            borderRadius: BorderRadius.circular(10),
+                     //          ),
+                     //          child:
+                     //            Padding(
+                     //            padding: const EdgeInsets.all(8.0),
+                     //
+                     //            child:  Column(
+                     //              crossAxisAlignment: CrossAxisAlignment.start,
+                     //              children: [
+                     //
+                     //                Row(
+                     //                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     //                  children: [
+                     //
+                     //                    Text(prayerName, style: MyTextTheme.medium.copyWith(
+                     //                        color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.w500)),
+                     //                    // if (!isSpecialPrayer)
+                     //                    //   InkWell(
+                     //                    //     onTap: () {
+                     //                    //       dashboardController.toggleMute(prayerName);
+                     //                    //     },
+                     //                    //     child: Obx(() => SvgPicture.asset(
+                     //                    //       dashboardController.prayerMuteStates[prayerName] == true
+                     //                    //           ? 'assets/mute.svg'
+                     //                    //           : 'assets/sound.svg',
+                     //                    //       height: 20,
+                     //                    //     )),
+                     //                    //   ),
+                     //                  ],
+                     //                ),
+                     //                if (isSpecialPrayer) ...[
+                     //                  SizedBox(height: 5),
+                     //                  Text(specialText, style: MyTextTheme.red),
+                     //                ],
+                     //                SizedBox(height: 5),
+                     //                Row(
+                     //                  children: [
+                     //                    Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color))),
+                     //                    if (!isSpecialPrayer) Text('Ends at', style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
+                     //                  ],
+                     //                ),
+                     //                Row(
+                     //                  children: [
+                     //                    Expanded(
+                     //                      child: Text(dashboardController.convertTime(startTime12),
+                     //                          style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
+                     //                    ),
+                     //                    if (!isSpecialPrayer)
+                     //                      Text(dashboardController.convertTime(endTime12),
+                     //                          style: MyTextTheme.mediumBCD.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
+                     //                  ],
+                     //                ),
+                     //              ],
+                     //            ),
+                     //          ),
+                     //        )
+
+                     child: Obx(() {
+                          bool isGapPeriod = controller.isGapPeriod.value;
+                          bool isCurrentPrayer = controller.currentPrayer.value == prayerName;
+                          bool isNextPrayer = controller.nextPrayerName.value == prayerName;
+
+                          // Determine whether to show the container
+                          if ((isGapPeriod && !isCurrentPrayer) || (!isGapPeriod && !isNextPrayer)) {
+                            return Container(
                               decoration: BoxDecoration(
-                                color: isHighlighted ? AppColor.highlight : AppColor.leaderboard,
+                                color: customDrawerController.isDarkMode == false
+                                    ? AppColor.leaderboard
+                                    : Colors.white12,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child:
-                                Padding(
+                              child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-
-                                child:  Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-
-                                        Text(prayerName, style: MyTextTheme.medium),
-                                        // if (!isSpecialPrayer)
-                                        //   InkWell(
-                                        //     onTap: () {
-                                        //       dashboardController.toggleMute(prayerName);
-                                        //     },
-                                        //     child: Obx(() => SvgPicture.asset(
-                                        //       dashboardController.prayerMuteStates[prayerName] == true
-                                        //           ? 'assets/mute.svg'
-                                        //           : 'assets/sound.svg',
-                                        //       height: 20,
-                                        //     )),
-                                        //   ),
+                                        Text(
+                                          prayerName,
+                                          style: MyTextTheme.medium.copyWith(
+                                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     if (isSpecialPrayer) ...[
-                                      SizedBox(height: 5),
+                                      const SizedBox(height: 5),
                                       Text(specialText, style: MyTextTheme.red),
                                     ],
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Row(
                                       children: [
-                                        Expanded(child: Text('Starts at', style: MyTextTheme.smallGCN)),
-                                        if (!isSpecialPrayer) Text('Ends at', style: MyTextTheme.smallGCN),
+                                        Expanded(
+                                          child: Text(
+                                            'Starts at',
+                                            style: MyTextTheme.smallGCN.copyWith(
+                                              color: Theme.of(context).textTheme.bodyLarge?.color,
+                                            ),
+                                          ),
+                                        ),
+                                        if (!isSpecialPrayer)
+                                          Text(
+                                            'Ends at',
+                                            style: MyTextTheme.smallGCN.copyWith(
+                                              color: Theme.of(context).textTheme.bodyLarge?.color,
+                                            ),
+                                          ),
                                       ],
                                     ),
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Text(dashboardController.convertTime(startTime12), style: MyTextTheme.mediumBCD),
+                                          child: Text(
+                                            dashboardController.convertTime(startTime12),
+                                            style: MyTextTheme.mediumBCD.copyWith(
+                                              color: Theme.of(context).textTheme.bodyLarge?.color,
+                                            ),
+                                          ),
                                         ),
                                         if (!isSpecialPrayer)
-                                          Text(dashboardController.convertTime(endTime12), style: MyTextTheme.mediumBCD),
+                                          Text(
+                                            dashboardController.convertTime(endTime12),
+                                            style: MyTextTheme.mediumBCD.copyWith(
+                                              color: Theme.of(context).textTheme.bodyLarge?.color,
+                                            ),
+                                          ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                            ):null
-                        );
+                            );
+                          }
+
+                          // If conditions aren't met, return an empty container
+                          return const SizedBox.shrink();
+                        }),
+
+                      );
                       }
 
                       return SizedBox.shrink();

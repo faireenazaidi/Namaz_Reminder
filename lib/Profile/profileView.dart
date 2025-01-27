@@ -7,6 +7,7 @@ import 'package:namaz_reminders/Widget/myButton.dart';
 import 'package:namaz_reminders/Widget/text_theme.dart';
 import 'package:namaz_reminders/Widget/MyRank/myweeklyrank.dart';
 import '../DashBoard/dashboardController.dart';
+import '../Drawer/drawerController.dart';
 import '../Leaderboard/LeaderBoardController.dart';
 import '../Widget/MyRank/myRankController.dart';
 import '../Widget/appColor.dart';
@@ -16,8 +17,9 @@ class ProfileView extends GetView<ProfileController> {
   final LeaderBoardController leaderBoardController = Get.put(
       LeaderBoardController());
   final MyRankController myRankController = Get.put(MyRankController());
-  final DashBoardController dashboardController = Get.put(
-      DashBoardController());
+  final DashBoardController dashboardController = Get.put(DashBoardController());
+  final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,14 +32,22 @@ class ProfileView extends GetView<ProfileController> {
           preferredSize: Size.fromHeight(1.0),
           child: Divider(
               height: 1.0,
-              color: AppColor.packageGray
+              color:Theme.of(context).dividerColor
           ),
         ),
         leading: InkWell(
             onTap: () {
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios_new, size: 20,)),
+          child: Transform.scale(
+            scale:
+            MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
+            child:   CircleAvatar(
+                radius: 12,
+                backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                child: const Icon(Icons.arrow_back_ios_new,size: 20,)),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -91,7 +101,7 @@ class ProfileView extends GetView<ProfileController> {
                               },
                               child: Container(
                                   decoration: BoxDecoration(
-                                    color:  Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context).scaffoldBackgroundColor,
                                     // Background color of the icon
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -148,6 +158,8 @@ class ProfileView extends GetView<ProfileController> {
                             controller: controller.nameC,
                             cursorColor: AppColor.circleIndicator,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                               hintText: "Enter your full name",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               border: OutlineInputBorder(
@@ -188,6 +200,8 @@ class ProfileView extends GetView<ProfileController> {
                             controller: controller.userNameC,
                             cursorColor: AppColor.circleIndicator,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                               hintText: "User name",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               border: OutlineInputBorder(
@@ -198,7 +212,7 @@ class ProfileView extends GetView<ProfileController> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.grey,
                                   width: 1,
                                 ),
@@ -273,6 +287,8 @@ class ProfileView extends GetView<ProfileController> {
                             cursorColor: AppColor.circleIndicator,
                             readOnly: true,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                               hintText: "Enter your phone number",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               prefixIcon: SvgPicture.asset(
@@ -315,6 +331,8 @@ class ProfileView extends GetView<ProfileController> {
                             controller: controller.mailC,
                             cursorColor: AppColor.circleIndicator,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                               hintText: "Enter your email",
                               hintStyle: MyTextTheme.mediumCustomGCN,
                               prefixIcon: Icon(
@@ -322,7 +340,7 @@ class ProfileView extends GetView<ProfileController> {
                                 size: 20,),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                 ),
                               ),
@@ -360,6 +378,7 @@ class ProfileView extends GetView<ProfileController> {
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
                             decoration: BoxDecoration(
+                              color: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                               border: Border.all(color: AppColor.packageGray,),
                               // Border color
                               borderRadius: BorderRadius.circular(

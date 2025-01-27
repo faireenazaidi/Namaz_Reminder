@@ -4,6 +4,7 @@ import '../Leaderboard/LeaderBoardController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 
 class MissedPrayersController extends GetxController {
+  RxString formattedDate = "".obs;
 
 
   @override

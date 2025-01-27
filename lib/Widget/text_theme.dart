@@ -22,6 +22,17 @@ class MyTextTheme {
       fontSize: 22,
       fontWeight: FontWeight.bold
   );
+  static TextStyle whitethin = GoogleFonts.roboto(
+      color: Colors.white,
+      fontSize: 11,
+      fontWeight: FontWeight.normal
+  );
+  static TextStyle whiteBold = GoogleFonts.roboto(
+      color: Colors.white,
+      fontSize: 14,
+      fontWeight: FontWeight.w600
+  );
+
   static TextStyle largePCB = GoogleFonts.roboto(
       color: AppColor.primaryColorLight,
       fontSize: 18,
@@ -202,6 +213,11 @@ class MyTextTheme {
   );
   static TextStyle mediumBCb = GoogleFonts.roboto(
       color: AppColor.greyColor,
+      fontSize: 14,
+      fontWeight: FontWeight.normal
+  );
+  static TextStyle orange = GoogleFonts.roboto(
+      color: AppColor.circleIndicator,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );

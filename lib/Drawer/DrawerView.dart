@@ -136,10 +136,10 @@ class CustomDrawer extends StatelessWidget {
               ),
 
               const SizedBox(height: 10,),
-              Divider(
-                  color:Theme.of(context).dividerTheme.color
-              ),
-              const SizedBox(height: 10,),
+                Divider(
+                  color: Theme.of(context).dividerColor,
+                ),
+                const SizedBox(height: 10,),
               InkWell(
                 onTap: () {
                   Get.toNamed(AppRoutes.leaderboardRoute);
@@ -239,7 +239,7 @@ class CustomDrawer extends StatelessWidget {
 
               SizedBox(height: 10,),
               Divider(
-                  color:Theme.of(context).dividerTheme.color
+                color: Theme.of(context).dividerColor,
               ),
               SizedBox(height: 10,),
                 InkWell(
@@ -282,8 +282,14 @@ class CustomDrawer extends StatelessWidget {
                       Text("Dark Mode",style: MyTextTheme.smallBC.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color) ,),
                       Spacer(),
                       Obx(() => Switch(
+                        thumbIcon: WidgetStateProperty.all(
+                          const Icon(Icons.circle, color: Colors.white),
+                        ),
                         activeTrackColor: AppColor.circleIndicator,
                         activeColor: AppColor.white,
+                        inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
+                        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                        inactiveThumbColor: Colors.white,
                         value: customDrawerController.isDarkMode.value,
                         onChanged: (value) {
                           customDrawerController.toggleDarkMode(value);
@@ -294,7 +300,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
               Divider(
-                color: AppColor.greyLight,
+                color: Theme.of(context).dividerColor,
               ),
               SizedBox(height: 10,),
               InkWell(

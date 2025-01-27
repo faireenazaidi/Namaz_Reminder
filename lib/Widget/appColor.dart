@@ -7,8 +7,11 @@ class AppColor {
   static final dashboardLightColor=("#EFFBFC").toColor();
   static final primaryColorLightOpaque=primaryColorLight.withOpacity(0.2);
   static const primarySwatchColorLight=Colors.blue;
+  static const color = Color.fromARGB(255, 249, 173, 50);
 
-  static final searchbg=("#F8F9FA").toColor();
+  static final switchin =("#E9ECEF").toColor();
+  static final cardbg =("#F8F9FA").toColor();
+  static final searchbg =("#F8F9FA").toColor();
   static final check=("#6AD28B").toColor();
   static final subtitle=("#606E84").toColor();
   static final svgColor=("#85858580").toColor();
@@ -83,10 +86,12 @@ class AppColor {
   static final Color tile4Color  = ('#330000').toColor();
   static final Color tile5Color  = ('#1A0000').toColor();
   static final Color tile6Color  = ('#000000').toColor();
-  static final Color circleIndicator = '##F9AD32'.toColor();
+  static final Color circleIndicator = ('#F9AD32').toColor();
   static final Color leaderboard = '##F8F9FA'.toColor();
   static final Color blackbg = '##121212CC'.toColor();
   static final Color highlight = '#FFF3F3'.toColor();
+  static final Color scaffBg = ('#121212').toColor();
+  static final Color lightBlack = ('#20202080').toColor();
 
 
 

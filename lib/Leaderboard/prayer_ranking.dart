@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
+import '../Drawer/drawerController.dart';
 import '../Widget/text_theme.dart';
 import 'LeaderBoardController.dart';
 import 'leaderboardDataModal.dart';
@@ -19,6 +20,7 @@ class PrayerRanking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DashBoardController dashBoardController = Get.put(DashBoardController());
+    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
 
     DateTime fajrStartTime = DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Fajr']?['start'] ?? '');
     DateTime fajrEndTime = DateFormat("HH:mm").parse(dashBoardController.prayerDuration['Fajr']?['end'] ?? '');
@@ -109,7 +111,7 @@ class PrayerRanking extends StatelessWidget {
                 child: buildPrayerCircle(
                   'F',
                   currentTime.isBefore(fajrStartTime)
-                      ? AppColor.packageGray  // Prayer has not started yet
+                      ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.white12
                       : currentTime.isAfter(fajrEndTime)
                       ? Colors.redAccent  // Prayer time has passed
                       : AppColor.circleIndicator,
@@ -299,7 +301,7 @@ class PrayerRanking extends StatelessWidget {
               ),
               Text(
                 "Overall",
-                style: MyTextTheme.mediumBCb.copyWith(color: Colors.black),
+                style: MyTextTheme.orange.copyWith(color: Theme.of(context).textTheme.displaySmall?.color),
               ),
 
 
