@@ -5,14 +5,13 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../AppManager/dialogs.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/text_theme.dart';
 
-
 class LocationPage extends GetView<LocationPageController> {
   const LocationPage({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +22,7 @@ class LocationPage extends GetView<LocationPageController> {
           Icon(Icons.abc,color: Colors.red,),
           // Background image
           Container(
+
             height: screenHeight * 0.9,
             // height: 650,
             decoration: const BoxDecoration(
@@ -40,11 +40,13 @@ class LocationPage extends GetView<LocationPageController> {
                   child: Positioned(
                     top: 40,
                     child: IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white,),
+                      icon: const CircleAvatar(
+                        radius: 15,
+                          backgroundColor: Colors.white10,
+                          child: Icon(Icons.arrow_back_ios_new, color: Colors.white,size: 15,)),
                       onPressed: () {
                         controller.dynamicHeightAllocation(isBack: true);
                         // controller.step.value--;
-
                       },
                     ),
                   ),
@@ -61,8 +63,8 @@ class LocationPage extends GetView<LocationPageController> {
                   width: MediaQuery.of(context).size.width,
                   decoration:  BoxDecoration(
                     image: const DecorationImage(
-                        opacity: 9,
-                        image: AssetImage("assets/net.png"),
+                        opacity: 0.04,
+                        image: AssetImage("assets/whiteNett.png"),
                         fit: BoxFit.cover
                     ),
                     color:AppColor.gray,
@@ -99,15 +101,15 @@ class LocationPage extends GetView<LocationPageController> {
 
                         const SizedBox(height: 10),
                         IntlPhoneField(
-                          cursorColor: Colors.grey,
+                          cursorColor: AppColor.color,
                           controller: controller.phoneController.value,
                           decoration: InputDecoration(
                             // Use Row in prefixIcon to combine phone icon and a space
                             prefixIcon: Icon(Icons.abc),
                             hintText: "Enter your phone number",
-                            hintStyle: MyTextTheme.mediumCustomGCN,
+                            hintStyle: MyTextTheme.mediumCusGCN,
                             filled: true,
-                            fillColor: Colors.grey.withOpacity(0.1),
+                            fillColor: Colors.white10,
                             counterText: "",
                             border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -115,11 +117,11 @@ class LocationPage extends GetView<LocationPageController> {
                             ),
                             enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Colors.white,width: 0),
                             ),
                             focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Colors.white,width: 0),
                             ),
                           ),
                           initialCountryCode: 'IN',
@@ -148,7 +150,7 @@ class LocationPage extends GetView<LocationPageController> {
                           elevation: 2,
                           title: "Send OTP",
                           color: controller.isPhoneNumberValid.value
-                              ? AppColor.circleIndicator
+                              ? AppColor.color
                               : AppColor.greyColor,
                           onPressed: () async {
                             if(controller.isPhoneNumberValid.value){
@@ -204,6 +206,7 @@ class LocationPage extends GetView<LocationPageController> {
                                         ],
                                       ),
                                     ),
+                                    Text("OTP:${controller.otp}",style: TextStyle(color: Colors.white),)
 
                                   ],
                                 ),
@@ -220,7 +223,7 @@ class LocationPage extends GetView<LocationPageController> {
                             length: 6,
                             keyboardType: TextInputType.number,
                             autoFocus: false,
-                            cursorColor: AppColor.circleIndicator,
+                            cursorColor: AppColor.color,
                             animationType: AnimationType.scale,
                             showCursor: true,
                             pinTheme: PinTheme(
@@ -295,12 +298,12 @@ class LocationPage extends GetView<LocationPageController> {
                                                     text: "in ",
                                                     style:
                                                     MyTextTheme.smallWCN),
-                                                WidgetSpan(
+                                                const WidgetSpan(
                                                   child: Icon(
                                                     Icons.timer_outlined,
                                                     size: 15,
                                                     color: AppColor
-                                                        .circleIndicator,
+                                                        .color,
                                                   ),
                                                 ),
                                                 TextSpan(
@@ -360,7 +363,7 @@ class LocationPage extends GetView<LocationPageController> {
                         SizedBox(height: 5,),
                         TextField(
                           controller: controller.nameC.value,
-                          cursorColor: AppColor.circleIndicator,
+                          cursorColor: AppColor.color,
                           decoration: InputDecoration(
                             hintText: "Enter your name",
                             hintStyle: MyTextTheme.mediumCustomGCN,
@@ -403,7 +406,7 @@ class LocationPage extends GetView<LocationPageController> {
                               Obx(()=>
                                   Radio<String>(
                                     value:"0",
-                                    activeColor: AppColor.circleIndicator,
+                                    activeColor: AppColor.color,
                                     groupValue: controller.selectedGender.value,
                                     onChanged: (String? value){
                                       controller.updateGender(value!);
@@ -416,7 +419,7 @@ class LocationPage extends GetView<LocationPageController> {
                               Obx(()=>
                                   Radio(
                                     value: "1",
-                                    activeColor: AppColor.circleIndicator,
+                                    activeColor: AppColor.color,
                                     groupValue:  controller.selectedGender.value,
                                     onChanged: (String? value){
                                       controller.updateGender(value!);
@@ -437,7 +440,7 @@ class LocationPage extends GetView<LocationPageController> {
                           height: 50,
                           borderRadius: 10,
                           title: "Next",
-                          color: AppColor.circleIndicator,
+                          color: AppColor.color,
                           onPressed: () {
                             // Check if both name and gender are filled
                             if (controller.nameC.value.text.isNotEmpty && controller.selectedGender.value.isNotEmpty) {
@@ -495,7 +498,7 @@ class LocationPage extends GetView<LocationPageController> {
                                         print("Checkdata${controller.getCalculationList.length}");
                                         return
                                           RadioListTile(
-                                              activeColor: AppColor.circleIndicator,
+                                              activeColor: AppColor.color,
                                               title: Text(controller.getCalculationList[index].name.toString(),style: const TextStyle(color: Colors.white),),
                                               value: controller.getCalculationList[index].id,
                                               groupValue: controller.selectMethod['id'],
@@ -518,7 +521,7 @@ class LocationPage extends GetView<LocationPageController> {
                                     height: 50,
                                     borderRadius: 10,
                                     title: "Next",
-                                    color: AppColor.circleIndicator,
+                                    color: AppColor.color,
                                     onPressed: ()  async {
                                       print("#### ${controller.selectMethod['id']}");
                                       if(controller.selectMethod.isNotEmpty){
@@ -578,7 +581,7 @@ class LocationPage extends GetView<LocationPageController> {
                                 Obx(()=>
                                     Radio<String>(
                                       value:"3",
-                                      activeColor: AppColor.circleIndicator,
+                                      activeColor: AppColor.color,
                                       groupValue: controller.selectedPrayer.value,
                                       onChanged: (String? value){
                                         controller.selectedPrayer(value!);
@@ -591,7 +594,7 @@ class LocationPage extends GetView<LocationPageController> {
                                 Obx(()=>
                                     Radio(
                                       value: "5",
-                                      activeColor: AppColor.circleIndicator,
+                                      activeColor: AppColor.color,
                                       groupValue:  controller.selectedPrayer.value,
                                       onChanged: (String? value){
                                         controller.selectedPrayer(value!);
@@ -611,7 +614,7 @@ class LocationPage extends GetView<LocationPageController> {
                             height: 50,
                             borderRadius: 10,
                             title: "Submit",
-                            color: AppColor.circleIndicator,
+                            color: AppColor.color,
                             onPressed: () async {
                               // Validate Fiqh and Prayer Time selection
                               if (controller.selectedPrayer.value.isNotEmpty) {

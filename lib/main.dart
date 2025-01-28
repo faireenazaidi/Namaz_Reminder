@@ -1082,6 +1082,7 @@ class MyApp extends StatelessWidget {
     themeController.updateSystemUIOverlayStyle();
 
     return Obx(() => GetMaterialApp(
+      navigatorKey: navigatorKey,
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
       themeMode: themeController.themeMode,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:namaz_reminders/Notification/notificationController.dart';
 import 'package:namaz_reminders/PeerCircle/AddFriends/AddFriendController.dart';
@@ -33,7 +34,7 @@ class PeerView extends GetView<PeerController> {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.0,
-              color:Theme.of(context).dividerColor
+              color:customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         leading: InkWell(
@@ -63,51 +64,65 @@ class PeerView extends GetView<PeerController> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             ///Searchbar
             SizedBox(
               height: 50,
-              child: TextField(
-                controller: searchController,
-                onChanged: (value) {
-                  peerController.setSearchText(value);
-                  // Trigger a rebuild to update the suffix icon visibility
-                  peerController.update(); // Assuming you are using GetX for state management
-                },
-                cursorColor: AppColor.circleIndicator,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                  prefixIcon: Icon(Icons.search,color:Theme.of(context).iconTheme.color),
-                  hintText: "Search Username..",
-                  hintStyle:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1),
-                  ),
-                  suffixIcon: Obx(() {
-                    // Show the cancel icon only when there is text in the search bar
-                    return peerController.searchText.isNotEmpty
-                        ? IconButton(
-                      icon: const Icon(Icons.cancel, color: Colors.grey),
-                      onPressed: () {
-                        searchController.clear();
-                        peerController.setSearchText('');
-                        peerController.update();
-                      },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      colors: customDrawerController.isDarkMode == false?
+                      [AppColor.cardbg, AppColor.cardbg]:
+                      [Colors.transparent, Colors.white10],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+
                     )
-                        : const SizedBox.shrink(); // Hide the icon when no text
-                  }),
                 ),
-                style: const TextStyle(color: Colors.grey),
+                child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    peerController.setSearchText(value);
+                    // Trigger a rebuild to update the suffix icon visibility
+                    peerController.update(); // Assuming you are using GetX for state management
+                  },
+                  cursorColor: AppColor.color,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor:Colors.transparent,
+                    //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                    prefixIcon: Icon(Icons.search,color:Theme.of(context).iconTheme.color),
+                    hintText: "Search Username..",
+                    hintStyle:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey, width: 0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey, width: 0),
+                    ),
+                    suffixIcon: Obx(() {
+                      // Show the cancel icon only when there is text in the search bar
+                      return peerController.searchText.isNotEmpty
+                          ? IconButton(
+                        icon: const Icon(Icons.cancel, color: Colors.grey),
+                        onPressed: () {
+                          searchController.clear();
+                          peerController.setSearchText('');
+                          peerController.update();
+                        },
+                      )
+                          : const SizedBox.shrink(); // Hide the icon when no text
+                    }),
+                  ),
+                  style: const TextStyle(color: Colors.grey),
+                ),
               ),
             ),
 
@@ -174,7 +189,7 @@ class PeerView extends GetView<PeerController> {
                                       : null,
                                   color: friendRequestData.picture == null ||
                                       friendRequestData.picture!.isEmpty
-                                      ? AppColor.circleIndicator
+                                      ? AppColor.color
                                       : null,
                                 ),
                                 child: friendRequestData.picture == null ||
@@ -221,7 +236,7 @@ class PeerView extends GetView<PeerController> {
                                       decoration: BoxDecoration(
                                        // border: Border.all(color: AppColor.white),
                                         borderRadius: BorderRadius.circular(10),
-                                        color: AppColor.circleIndicator,
+                                        color: AppColor.color,
                                       ),
                                       child: const Center(
                                         child: Text(
@@ -316,7 +331,7 @@ class PeerView extends GetView<PeerController> {
             //                                 : null,
             //                             color: friend.user2.picture == null ||
             //                                 friend.user2.picture!.isEmpty
-            //                                 ? AppColor.circleIndicator
+            //                                 ? AppColor.color
             //                                 : null,
             //                           ),
             //                           child: friend.user2.picture == null ||
@@ -382,7 +397,7 @@ class PeerView extends GetView<PeerController> {
             //                                         Container(
             //                                           decoration: BoxDecoration(
             //                                             color: AppColor
-            //                                                 .circleIndicator,
+            //                                                 .color,
             //                                             borderRadius: BorderRadius
             //                                                 .circular(10),
             //                                           ),
@@ -453,7 +468,7 @@ class PeerView extends GetView<PeerController> {
             //                         );
             //                       },
             //                       child: Text('Remove', style: TextStyle(
-            //                           color: AppColor.circleIndicator)),
+            //                           color: AppColor.color)),
             //                     ),
             //                   ],
             //                 ),
@@ -513,7 +528,7 @@ class PeerView extends GetView<PeerController> {
                                               : null,
                                           color: friend.user2.picture == null ||
                                               friend.user2.picture!.isEmpty
-                                              ? AppColor.circleIndicator
+                                              ? AppColor.color
                                               : null,
                                         ),
                                         child: friend.user2.picture == null ||
@@ -541,99 +556,241 @@ class PeerView extends GetView<PeerController> {
                                       ),
                                     ],
                                   ),
+
+                                  // TextButton(
+                                  //   onPressed: () {
+                                  //     showDialog(
+                                  //       context: context,
+                                  //       builder: (BuildContext context) {
+                                  //         return Dialog(
+                                  //           backgroundColor:AppColor.scaffBg,
+                                  //           child: Container(
+                                  //             decoration: const BoxDecoration(
+                                  //               image: DecorationImage(
+                                  //                 image: AssetImage("assets/jalih.png"),
+                                  //                 fit: BoxFit.cover
+                                  //               )
+                                  //             ),
+                                  //             child: Column(
+                                  //               mainAxisSize: MainAxisSize.min,
+                                  //               children: [
+                                  //                 const SizedBox(height: 15),
+                                  //                 SvgPicture.asset(
+                                  //                   "assets/namz.svg",
+                                  //                   width: 40,
+                                  //                   height: 50,
+                                  //                 ),
+                                  //                 const SizedBox(height: 10),
+                                  //                 Text(
+                                  //                   peerController.isRemoved.value
+                                  //                       ? "Remove Peer Successful"
+                                  //                       : "ARE YOU SURE?",
+                                  //                   style: MyTextTheme.mustardNn,
+                                  //                 ),
+                                  //                 const SizedBox(height: 10),
+                                  //                 Padding(
+                                  //                   padding: const EdgeInsets.all(8.0),
+                                  //                   child: Row(
+                                  //                     mainAxisAlignment:
+                                  //                     MainAxisAlignment.center,
+                                  //                     children: [
+                                  //                       Container(
+                                  //                         height: 35,
+                                  //                         decoration: BoxDecoration(
+                                  //                           color:
+                                  //                           AppColor.color,
+                                  //                           borderRadius:
+                                  //                           BorderRadius.circular(10),
+                                  //                         ),
+                                  //                         child: TextButton(
+                                  //                           onPressed: () {
+                                  //                             Navigator.of(context).pop();
+                                  //                           },
+                                  //                           style: TextButton.styleFrom(
+                                  //                             padding:
+                                  //                             const EdgeInsets.symmetric(
+                                  //                                 horizontal: 10,
+                                  //                                 vertical: 5),
+                                  //                           ),
+                                  //                           child: const Text(
+                                  //                             'No, Go Back',
+                                  //                             style: TextStyle(
+                                  //                                 color: Colors.white),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       const SizedBox(width: 16),
+                                  //                       Container(
+                                  //                         height: 35,
+                                  //                         decoration: BoxDecoration(
+                                  //                           color: Colors.grey,
+                                  //                           borderRadius:
+                                  //                           BorderRadius.circular(10),
+                                  //                         ),
+                                  //                         child: TextButton(
+                                  //                           onPressed: () async {
+                                  //                             await peerController.removeFriend(
+                                  //                                 friend.user2.id.toString());
+                                  //                             peerController.filteredFriendsList
+                                  //                                 .removeAt(index);
+                                  //                             peerController.update();
+                                  //                             Get.back();
+                                  //                           },
+                                  //                           style: TextButton.styleFrom(
+                                  //                             padding:
+                                  //                             const EdgeInsets.symmetric(
+                                  //                                 horizontal: 10,
+                                  //                                 vertical: 5),
+                                  //                           ),
+                                  //                           child:   Text(
+                                  //                             'Yes, Remove',
+                                  //                             style: TextStyle(
+                                  //                                 color: AppColor.lightGrey),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                 ),
+                                  //                 const SizedBox(height: 20),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         );
+                                  //       },
+                                  //     );
+                                  //   },
+                                  //   child: const Text('Remove',
+                                  //       style: TextStyle(
+                                  //           color: AppColor.color)),
+                                  // ),
                                   TextButton(
                                     onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            backgroundColor: Colors.black,
+                                      Get.dialog(
+                                        Obx(() => Dialog(
+                                          backgroundColor: AppColor.scaffBg,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image: AssetImage("assets/jalih.png"),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            padding: const EdgeInsets.all(16.0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                const SizedBox(height: 20),
-                                                Image.asset(
-                                                  "assets/container.png",
+                                                const SizedBox(height: 15),
+                                                SvgPicture.asset(
+                                                  "assets/namz.svg",
                                                   width: 40,
                                                   height: 50,
                                                 ),
-                                                const SizedBox(height: 16),
-                                                Text("ARE YOU SURE?",
-                                                    style: MyTextTheme.mustard),
-                                                const SizedBox(height: 16),
+                                                const SizedBox(height: 10),
+
+                                                // Dynamic text change
+                                                Text(
+                                                  peerController.isRemoved.value
+                                                      ? "Remove Peer Successful"
+                                                      : "ARE YOU SURE?",
+                                                  style: MyTextTheme.mustardNn,
+                                                ),
+
+                                                const SizedBox(height: 10),
+
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
+                                                      // "No, Go Back" button
                                                       Container(
+                                                        height: 35,
                                                         decoration: BoxDecoration(
-                                                          color:
-                                                          AppColor.circleIndicator,
-                                                          borderRadius:
-                                                          BorderRadius.circular(10),
+                                                          color: AppColor.color,
+                                                          borderRadius: BorderRadius.circular(10),
                                                         ),
                                                         child: TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(context).pop();
+                                                          onPressed: peerController.isRemoved.value
+                                                              ? null
+                                                              : () {
+                                                            Get.back();
                                                           },
                                                           style: TextButton.styleFrom(
-                                                            padding:
-                                                            const EdgeInsets.symmetric(
-                                                                horizontal: 10,
-                                                                vertical: 5),
+                                                            padding: const EdgeInsets.symmetric(
+                                                                horizontal: 10, vertical: 5),
                                                           ),
-                                                          child: const Text(
+                                                          child: Text(
                                                             'No, Go Back',
                                                             style: TextStyle(
-                                                                color: Colors.white),
+                                                              color: peerController.isRemoved.value
+                                                                  ? Colors.white24
+                                                                  : Colors.white
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
+
                                                       const SizedBox(width: 16),
+
+                                                      // "Yes, Remove" button
                                                       Container(
+                                                        height: 35,
                                                         decoration: BoxDecoration(
                                                           color: Colors.grey,
-                                                          borderRadius:
-                                                          BorderRadius.circular(10),
+                                                          borderRadius: BorderRadius.circular(10),
                                                         ),
                                                         child: TextButton(
-                                                          onPressed: () async {
+                                                          onPressed: peerController.isRemoved.value
+                                                              ? null
+                                                              : () async {
                                                             await peerController.removeFriend(
                                                                 friend.user2.id.toString());
                                                             peerController.filteredFriendsList
                                                                 .removeAt(index);
                                                             peerController.update();
-                                                            Get.back();
+
+                                                            // Update state
+                                                            peerController.isRemoved.value = true;
+
+                                                            // Auto-close after 2 seconds (optional)
+                                                            Future.delayed(const Duration(seconds: 2), () {
+                                                              peerController.isRemoved.value = false;
+                                                              Get.back();
+                                                            });
                                                           },
-                                                          child: const Text(
+                                                          style: TextButton.styleFrom(
+                                                            padding: const EdgeInsets.symmetric(
+                                                                horizontal: 10, vertical: 5),
+                                                          ),
+                                                          child: Text(
                                                             'Yes, Remove',
                                                             style: TextStyle(
-                                                                color: Colors.white),
-                                                          ),
-                                                          style: TextButton.styleFrom(
-                                                            padding:
-                                                            const EdgeInsets.symmetric(
-                                                                horizontal: 10,
-                                                                vertical: 5),
+                                                              color: peerController.isRemoved.value
+                                                                  ? Colors.white24
+                                                                  : Colors.white
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
+
                                                 const SizedBox(height: 20),
                                               ],
                                             ),
-                                          );
-                                        },
+                                          ),
+                                        )),
                                       );
                                     },
-                                    child: Text('Remove',
-                                        style: TextStyle(
-                                            color: AppColor.circleIndicator)),
+                                    child: const Text(
+                                      'Remove',
+                                      style: TextStyle(color: AppColor.color),
+                                    ),
                                   ),
+
+
                                 ],
                               ),
                             ],

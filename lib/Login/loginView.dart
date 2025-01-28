@@ -46,11 +46,11 @@ class LoginView extends GetView<LoginController> {
                   ),
                   const SizedBox(height: 20),
                   PrimaryTextField(
-                    prefixIcon: Icon(Icons.email_outlined, color: AppColor.circleIndicator),
+                    prefixIcon: Icon(Icons.email_outlined, color: AppColor.color),
                     hintText: "Enter your email",
                     labelText: "Email",
                     backgroundColor: Colors.white,
-                    borderColor: AppColor.circleIndicator,
+                    borderColor: AppColor.color,
                     obscureText: false,
                     validator: (value) {
                       if (value == null || value.isEmpty) {

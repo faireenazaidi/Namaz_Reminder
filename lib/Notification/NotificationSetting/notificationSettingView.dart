@@ -26,7 +26,7 @@ class NotificationSetting extends StatelessWidget {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.5,
-            color: customDrawerController.isDarkMode == true? Colors.black:AppColor.packageGray,
+            color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         leading: InkWell(
@@ -53,7 +53,7 @@ class NotificationSetting extends StatelessWidget {
               thumbIcon: WidgetStateProperty.all(
                 const Icon(Icons.circle, color: Colors.white),
               ),
-              activeTrackColor: AppColor.circleIndicator,
+              activeTrackColor: AppColor.color,
               activeColor: AppColor.white,
               inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
               trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
@@ -76,7 +76,7 @@ class NotificationSetting extends StatelessWidget {
 
             //Quiet Mode//
             // Obx(() => SwitchListTile(
-            //   activeTrackColor: AppColor.circleIndicator,
+            //   activeTrackColor: AppColor.color,
             //   title: Text('Quiet mode',style: MyTextTheme.medium2,),
             //   subtitle: Text('Automatically mute notifications at night or whenever you need to focus.',style: MyTextTheme.smallGCN,),
             //   value: notificationSettingsController.quietMode.value,
@@ -91,7 +91,7 @@ class NotificationSetting extends StatelessWidget {
             SizedBox(height: 5,),
             //Notify for request//
             // Obx(() => SwitchListTile(
-            //   activeTrackColor: AppColor.circleIndicator,
+            //   activeTrackColor: AppColor.color,
             //   title:  Text('Friend requests',style:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,),),
             //   subtitle: Text('Notify when someone sends you a joining request',
             //       style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,fontSize: 13 )),
@@ -107,7 +107,7 @@ class NotificationSetting extends StatelessWidget {
               thumbIcon: WidgetStateProperty.all(
                 const Icon(Icons.circle, color: Colors.white),
               ),
-              activeTrackColor: AppColor.circleIndicator,
+              activeTrackColor: AppColor.color,
               activeColor: AppColor.white,
               inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
               trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
@@ -138,7 +138,7 @@ class NotificationSetting extends StatelessWidget {
               thumbIcon: WidgetStateProperty.all(
                 const Icon(Icons.circle, color: Colors.white),
               ),
-              activeTrackColor: AppColor.circleIndicator,
+              activeTrackColor: AppColor.color,
               activeColor: AppColor.white,
               inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
               trackOutlineColor: WidgetStateProperty.all(Colors.transparent),

@@ -28,7 +28,7 @@ class NotificationView extends  GetView<NotificationController> {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.5,
-            color: customDrawerController.isDarkMode == true? Colors.black:AppColor.packageGray,
+            color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         leading: InkWell(
@@ -131,7 +131,7 @@ class NotificationView extends  GetView<NotificationController> {
                                 : null,
                             backgroundColor: notification['sender_image'] == null ||
                                 notification['sender_image'].isEmpty
-                                ? AppColor.circleIndicator
+                                ? AppColor.color
                                 : null,
                             child: notification['sender_image'] == null ||
                                 notification['sender_image'].isEmpty
@@ -168,7 +168,7 @@ class NotificationView extends  GetView<NotificationController> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.circleIndicator,
+                                  backgroundColor: AppColor.color,
                                   minimumSize: const Size(70, 30),
                                 ),
                                 child: const Text(
@@ -241,7 +241,7 @@ class NotificationView extends  GetView<NotificationController> {
         //                       : null,
         //                   backgroundColor: notification['sender_image'] == null ||
         //                       notification['sender_image'].isEmpty
-        //                       ? AppColor.circleIndicator
+        //                       ? AppColor.color
         //                       : null,
         //                   child: notification['sender_image'] == null ||
         //                       notification['sender_image'].isEmpty
@@ -279,7 +279,7 @@ class NotificationView extends  GetView<NotificationController> {
         //                         }
         //                       },
         //                       style: ElevatedButton.styleFrom(
-        //                         backgroundColor: AppColor.circleIndicator,
+        //                         backgroundColor: AppColor.color,
         //                         minimumSize: const Size(70, 30),
         //                       ),
         //                       child: const Text(

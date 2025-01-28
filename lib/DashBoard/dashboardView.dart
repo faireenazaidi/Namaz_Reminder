@@ -71,7 +71,7 @@ class DashBoardView extends GetView<DashBoardController> {
                   preferredSize:  const Size.fromHeight(1.0),
                   child: Divider(
                     height: 1.5,
-                    color: Theme.of(context).dividerColor,
+                    color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
                   ),
                 ),
                 toolbarHeight: 55,
@@ -103,7 +103,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                   showCancelButton: false,
                                       initialMessage: 'Change Location',
                                       confirmButtonText: 'Use Current Location',
-                                      confirmButtonColor: Colors.white.withOpacity(0.1),
+                                      confirmButtonColor:Colors.transparent,
                                       successMessage: "Location Updated",
                                       loadingMessage: 'Getting Current Location...');
                                 },
@@ -131,9 +131,9 @@ class DashBoardView extends GetView<DashBoardController> {
                                   Container(
                                     width: 50,
                                     height: 50,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppColor.circleIndicator, // Outer circle color
+                                      color: AppColor.color, // Outer circle color
                                     ),
                                     child: Center(
                                       child: Container(
@@ -154,10 +154,10 @@ class DashBoardView extends GetView<DashBoardController> {
                                               : null,
                                         ),
                                         child: controller.userData.getUserData!.picture.isEmpty
-                                            ? Icon(
+                                            ? const Icon(
                                           Icons.person,
                                           size: 20,
-                                          color: AppColor.circleIndicator,
+                                          color: AppColor.color,
                                         )
                                             : null,
                                       ),
@@ -296,8 +296,8 @@ class DashBoardView extends GetView<DashBoardController> {
                                 ),
                               ),
                               percent:0.0,
-                              progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.circleIndicator,
-                              backgroundColor: AppColor.circleIndicator..withOpacity(0.6),
+                              progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.color,
+                              backgroundColor: AppColor.color..withOpacity(0.6),
                             ) :CircularPercentIndicator(
                               restartAnimation: false,
                               circularStrokeCap: CircularStrokeCap.round,
@@ -319,7 +319,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                 ),
                               ),
                               percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
-                              progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.circleIndicator,
+                              progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.color,
                               backgroundColor:customDrawerController.isDarkMode == false ? AppColor.packageGray:  Colors.white.withOpacity(0.06)
                             );
                           }),
@@ -427,7 +427,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
                           // Conditionally show the "Mark as Prayer" button
                          controller.isPrayed?Text("",style: TextStyle(
-                             color: AppColor.circleIndicator,fontWeight: FontWeight.w600
+                             color: AppColor.color,fontWeight: FontWeight.w600
                          ),):
                          Positioned(
                             bottom: 120,
@@ -448,7 +448,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                   ? const SizedBox.shrink() // Hide the button
                                   : InkWell(
                                 child:controller.isPrayed? Text("Prayed!",style: TextStyle(
-                                    color: AppColor.circleIndicator,fontWeight: FontWeight.w600
+                                    color: AppColor.color,fontWeight: FontWeight.w600
                                 ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
                                 onTap: () {
                                   if (!controller.isPrayed) {
@@ -612,11 +612,12 @@ class DashBoardView extends GetView<DashBoardController> {
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                             //  color: Colors.black87,
-                              color: customDrawerController.isDarkMode == false ? Colors.black87: AppColor.circleIndicator,
-                              image: const DecorationImage(
+                              color: customDrawerController.isDarkMode == false ? Colors.black87: AppColor.color,
+                              image:  DecorationImage(
                                   fit: BoxFit.cover,
                                   opacity: 20,
-                                  image: AssetImage("assets/jalih.png")
+                                  image: customDrawerController.isDarkMode == false ?
+                                  const AssetImage("assets/jalih.png"): const AssetImage("assets/j.png")
                               ),
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -630,7 +631,7 @@ class DashBoardView extends GetView<DashBoardController> {
                                     fontSize: 20,fontWeight: FontWeight.w600,color: Theme.of(context).textTheme.bodySmall?.color)
                                   ),
                                   Text(controller.isPrayed?'Next Prayer':"Upcoming Prayer",
-                                      style: MyTextTheme.mustard2.copyWith(color: customDrawerController.isDarkMode==true?Colors.black:AppColor.circleIndicator))
+                                      style: MyTextTheme.mustard2.copyWith(color: customDrawerController.isDarkMode==true?Colors.black:AppColor.color))
                                 ],
                               ),
                               const SizedBox(height: 15,),
@@ -792,7 +793,7 @@ class DashBoardView extends GetView<DashBoardController> {
   //             const SizedBox(height: 40),
   //             TextField(
   //               //controller: controller.nameC.value,
-  //               cursorColor: AppColor.circleIndicator,
+  //               cursorColor: AppColor.color,
   //               decoration: InputDecoration(
   //                 suffixIcon: Icon(Icons.search),
   //                 hintText: "Enter an address",
@@ -831,7 +832,7 @@ class DashBoardView extends GetView<DashBoardController> {
   //
   //             // TextField(
   //             //   //controller: controller.nameC.value,
-  //             //   cursorColor: AppColor.circleIndicator,
+  //             //   cursorColor: AppColor.color,
   //             //   decoration: InputDecoration(
   //             //     prefixIcon: Icon(Icons.location_on),
   //             //     hintText: "Use Current Location",
@@ -1905,13 +1906,13 @@ class _UserRankListState extends State<UserRankList> {
 
                             ):CircleAvatar(
                               radius: 29,
-                              backgroundColor: AppColor.circleIndicator,
+                              backgroundColor: AppColor.color,
                               child: CircleAvatar(
                                 radius: 28,
                                backgroundColor: AppColor.packageGray,
                                 child: Icon(
                                   Icons.person,
-                                  color: AppColor.circleIndicator,
+                                  color: AppColor.color,
                                   size: 30,
                                 ),
                               ),
@@ -1928,7 +1929,7 @@ class _UserRankListState extends State<UserRankList> {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    SvgPicture.asset('assets/Gold.svg',height: 15,color: AppColor.circleIndicator,),
+                                    SvgPicture.asset('assets/Gold.svg',height: 15,color: AppColor.color,),
                                     Positioned(
                                       bottom: 1,
                                       child: Text(

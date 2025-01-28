@@ -320,7 +320,7 @@ class LeaderBoardController extends GetxController{
       print("API request for date: $date");
 
       // Show loading dialog
-      Dialogs.showLoading(contexts, message: 'Please wait, Getting Prayer Time');
+      //Dialogs.showLoading(contexts, message: 'Please wait, Getting Prayer Time');
 
       // Construct API request
       final latitude = userData.getLocationData?.latitude ?? 0.0;

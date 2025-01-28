@@ -58,7 +58,7 @@ class SeeAll extends GetView<AddFriendController>{
                          )
                              : null,
                          color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
-                             ? AppColor.circleIndicator
+                             ? AppColor.color
                              : null,
                        ),
                        child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
@@ -99,7 +99,7 @@ class SeeAll extends GetView<AddFriendController>{
                              decoration: BoxDecoration(
                                border: Border.all(color: AppColor.white),
                                borderRadius: BorderRadius.circular(10),
-                               color: AppColor.circleIndicator,
+                               color: AppColor.color,
                              ),
                              child: const Center(
                                child: Text("Accept", style: TextStyle(color: Colors.white)),

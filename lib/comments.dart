@@ -61,7 +61,7 @@
 //     : null,
 // color: friendRequestData.picture == null ||
 // friendRequestData.picture!.isEmpty
-// ? AppColor.circleIndicator
+// ? AppColor.color
 //     : null,
 // ),
 // child: friendRequestData.picture == null ||
@@ -111,7 +111,7 @@
 // decoration: BoxDecoration(
 // border: Border.all(color: AppColor.white),
 // borderRadius: BorderRadius.circular(10),
-// color: AppColor.circleIndicator,
+// color: AppColor.color,
 // ),
 // child: const Center(
 // child: Text(
@@ -163,7 +163,7 @@
 // // Update the search text in the controller as the user types
 // peerController.setSearchText(value);
 // },
-// cursorColor: AppColor.circleIndicator,
+// cursorColor: AppColor.color,
 // decoration: InputDecoration(
 // prefixIcon: const Icon(Icons.search),
 // hintText: "Search Username..",
@@ -366,7 +366,7 @@
 //           children: [
 //             Container(
 //               decoration: BoxDecoration(
-//                   color: AppColor.circleIndicator,
+//                   color: AppColor.color,
 //                   borderRadius: BorderRadius.circular(15)
 //               ),
 //               child: IconButton(
@@ -382,7 +382,7 @@
 //             SizedBox(width: 20),
 //             Container(
 //               decoration: BoxDecoration(
-//                   color: AppColor.circleIndicator,
+//                   color: AppColor.color,
 //                   borderRadius: BorderRadius.circular(15)
 //               ),
 //               child: IconButton(

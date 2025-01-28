@@ -9,12 +9,14 @@ import 'package:namaz_reminders/LocationSelectionPage/locationPageView.dart';
 import 'package:namaz_reminders/Widget/myButton.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DataModels/LoginResponse.dart';
+import '../Drawer/drawerController.dart';
 import '../Widget/appColor.dart';
 import '../Widget/text_theme.dart';
 import '../main.dart';
 
 String constantGoogleKey = "AIzaSyAPscPVLVlvdE4nB-Z-wgOUQfwkPZckgBU";
 // Rx<TextEditingController> locationController = TextEditingController().obs;
+final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
 class Dialogs {
   static void actionBottomSheet({String? title,required String subTitle,required Function okPressEvent,
@@ -69,7 +71,7 @@ class Dialogs {
                           style: ElevatedButton.styleFrom(
                             fixedSize: const Size(160,42),
                             elevation: 0,textStyle:const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,letterSpacing: 1),
-                            backgroundColor:cancelButtonColor?? AppColor.circleIndicator,
+                            backgroundColor:cancelButtonColor?? AppColor.color,
                             // Colors.grey.shade100,
                             //padding:EdgeInsets.symmetric(horizontal: 50,vertical: 12),
                             shape: RoundedRectangleBorder(
@@ -86,7 +88,7 @@ class Dialogs {
                           okPressEvent();
                         },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:AppColor.circleIndicator,
+                            backgroundColor:AppColor.color,
                             fixedSize: const Size(160,42),
                             elevation: 0,textStyle:const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,letterSpacing: 1,),
                             //padding:EdgeInsets.symmetric(horizontal: 50,vertical: 12),
@@ -330,7 +332,8 @@ class Dialogs {
             ),
             Center(
               child: Dialog(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
@@ -512,17 +515,24 @@ locationPlace(){
                               inputDecoration: InputDecoration(
                                 border: InputBorder.none,
                                hintText: "Enter an address",
-                                hintStyle: MyTextTheme.greyN,
+                                hintStyle: MyTextTheme.greyN.copyWith(fontWeight: FontWeight.normal),
                               ),
                               textStyle: MyTextTheme.locationT,
                               textEditingController: dashBoardController.locationController.value,
                               googleAPIKey: constantGoogleKey,
                               boxDecoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
+                                  gradient: LinearGradient(
+                                    colors: customDrawerController.isDarkMode == false?
+                                    [AppColor.cardbg, AppColor.cardbg]:
+                                    [Colors.transparent, Colors.white10],
+                                    begin: Alignment.centerRight,
+                                    end: Alignment.centerLeft,
+
+                                  ),
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                   color: Colors.grey,
-                                  width: 1
+                                  width: 0
                                 ),
                               ),
                               debounceTime: 800,
@@ -591,15 +601,25 @@ locationPlace(){
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
-                              SizedBox(
-                                height: 48,
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: customDrawerController.isDarkMode == false?
+                                      [AppColor.cardbg, AppColor.cardbg]:
+                                      [Colors.transparent, Colors.white10],
+                                      begin: Alignment.centerRight,
+                                      end: Alignment.centerLeft,
+
+                                    )
+                              ),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     // fixedSize: Size(Get.height,20),
-                                    backgroundColor: widget.confirmButtonColor ?? Colors.grey,
+                                    backgroundColor: widget.confirmButtonColor ?? Colors.white10,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(
+                                      side: const BorderSide(width: 0,
                                         color: Colors.grey
                                       )
                                     ),
@@ -629,7 +649,7 @@ locationPlace(){
                                 borderRadius: 10,
                                 title: "Save",
                                 color: longitude.value.isNotEmpty
-                                    ? AppColor.circleIndicator
+                                    ? AppColor.color
                                     : AppColor.greyColor,
                                 onPressed: () {
                                   String newLocation = dashBoardController.locationController.value.text.trim();
@@ -757,7 +777,7 @@ locationPlace(){
 //                              SizedBox(height: 20,),
 //                              TextField(
 //                                controller: locationController,
-//                                cursorColor: AppColor.circleIndicator,
+//                                cursorColor: AppColor.color,
 //                                decoration: InputDecoration(
 //                                  hintText: "Enter an address",
 //                                  suffixIcon: Icon(Icons.search,size: 30,),
@@ -848,7 +868,7 @@ locationPlace(){
 //                          height: 50,
 //                          borderRadius: 10,
 //                          title: "Save",
-//                          color: AppColor.circleIndicator,
+//                          color: AppColor.color,
 //                          onPressed: () {
 //                            saveLocation();
 //                            Get.back();

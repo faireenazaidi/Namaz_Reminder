@@ -26,7 +26,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
       LeaderBoardController());
   final DateController dateController = Get.put(DateController());
   final MissedPrayersController missedPrayersController = Get.put(MissedPrayersController());
-  final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+  final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
   // @override
   // void initState() {
@@ -61,7 +61,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     pinned: true,
                     expandedHeight: leaderBoardController.selectedTab.value ==
                         'Weekly' ? MediaQuery.of(context).size.height*0.4 : 200,
-                    backgroundColor: customDrawerController.isDarkMode == false? AppColor.cream:AppColor.color.withOpacity(0.01),
+                    backgroundColor: customDrawerController.isDarkMode == false? AppColor.cream:AppColor.color,
                     leading: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -73,9 +73,9 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                           MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
                           child:   CircleAvatar(
                               radius: 15,
-                              backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                              child:Icon(Icons.arrow_back_ios_new,size: 20,
-                                color:  customDrawerController.isDarkMode == false ? Colors.grey:Colors.black,)),
+                              backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white30,
+                              child:const Icon(Icons.arrow_back_ios_new,size: 20,color: Colors.black,
+                            )),
                         ),
                       ),
                     ),
@@ -84,14 +84,11 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       background: Stack(
                         fit: StackFit.expand,
                         children: [
-                          // Background Image
-                          SvgPicture.asset(
-                              "assets/jali.svg",
-                              fit: BoxFit.cover,
-                            color:Colors.red.withOpacity(0.9)
-
+                          Opacity(
+                            opacity: 0.08,
+                            child: SvgPicture.asset(
+                                "assets/white.svg",fit: BoxFit.cover,),
                           ),
-                          // Adding Padding and other widgets over the background image
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             // Adjust padding as needed
@@ -135,7 +132,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                                       color: leaderBoardController
                                                           .selectedTab.value ==
                                                           'Daily'
-                                                          ? AppColor.circleIndicator
+                                                          ?customDrawerController.isDarkMode == false ? AppColor.color:Colors.white70
                                                           : Colors.transparent,
                                                       borderRadius: BorderRadius
                                                           .circular(5)
@@ -197,8 +194,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                                       color: leaderBoardController
                                                           .selectedTab.value ==
                                                           'Weekly'
-                                                          ? AppColor
-                                                          .circleIndicator
+                                                          ? customDrawerController.isDarkMode == false ? AppColor.color:Colors.white70
                                                           : Colors.transparent,
                                                       borderRadius: BorderRadius
                                                           .circular(5)
@@ -300,7 +296,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                     children: [
                                       SvgPicture.asset(
                                           "assets/calendar3.svg", height: 15
-                                        ,color:  customDrawerController.isDarkMode == false ? AppColor.circleIndicator:Colors.black87,),
+                                        ,color:  customDrawerController.isDarkMode == false ? AppColor.color:Colors.black87,),
                                       const SizedBox(width: 5),
                                       Obx(() =>
                                       leaderBoardController
@@ -314,7 +310,7 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                           Container(
                                             width: 1,
                                             height: 15,
-                                            color: Colors.grey,
+                                            color: customDrawerController.isDarkMode == false ? Colors.grey:Colors.black87,
                                             margin: const EdgeInsets.symmetric(
                                                 horizontal: 10),
                                           ),
@@ -570,7 +566,7 @@ Widget _buildTopUser(String imageUrl, String name, String score, int rank) {
       ),
       const SizedBox(height: 5),
       Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-      Text(score, style:  TextStyle(color: AppColor.circleIndicator)),
+      Text(score, style:  TextStyle(color: AppColor.color)),
     ],
   );
 }
@@ -586,7 +582,7 @@ Widget _buildUserProgress(String imageUrl, String name, String score, {bool high
           height: 350,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: highlight ? [AppColor.circleIndicator, Colors.yellow.shade50] : [Colors.grey.shade400,Colors.white12, ],
+              colors: highlight ? [AppColor.color, Colors.yellow.shade50] : [Colors.grey.shade400,Colors.white12, ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -698,7 +694,7 @@ Widget _buildRankCard(Map friend,int index,bool isHighlight) {
                     color: AppColor.packageGray,
                     borderRadius: BorderRadius.circular(15)
                 ),
-                child:  Icon(Icons.person, color: AppColor.circleIndicator),
+                child:  Icon(Icons.person, color: AppColor.color),
               ),
               const SizedBox(height: 15),
               Text(
@@ -915,11 +911,11 @@ class TopRankedUsers extends StatelessWidget {
                   width: 80,
                 ),
               )
-                  :  Padding(
+                  :  const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.person,
-                  color: AppColor.circleIndicator,
+                  color: AppColor.color,
                   size: 30,
                 ),
               ),

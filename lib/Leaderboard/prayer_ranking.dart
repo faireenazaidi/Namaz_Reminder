@@ -114,7 +114,7 @@ class PrayerRanking extends StatelessWidget {
                       ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.white12
                       : currentTime.isAfter(fajrEndTime)
                       ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.circleIndicator,
+                      : AppColor.color,
                 ),
               ),
 
@@ -159,7 +159,7 @@ class PrayerRanking extends StatelessWidget {
                       ? AppColor.packageGray  // Prayer has not started yet
                       : currentTime.isAfter(dhuhrEndTime)
                       ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.circleIndicator,  // Prayer is ongoing
+                      : AppColor.color,  // Prayer is ongoing
                         // : AppColor.packageGray
                       // : ( DhuhrEndTime.isBefore(currentTime)
                       // ? Colors.redAccent
@@ -208,7 +208,7 @@ class PrayerRanking extends StatelessWidget {
                       ? AppColor.packageGray  // Prayer has not started yet
                       : currentTime.isAfter(asrEndTime)
                       ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.circleIndicator,
+                      : AppColor.color,
                 ),
               ),
               InkWell(
@@ -246,13 +246,17 @@ class PrayerRanking extends StatelessWidget {
                     );
                   }
                 },
-                child: buildPrayerCircle(
-                    'M',
-                  currentTime.isBefore(maghribStartTime)
-                      ? AppColor.packageGray  // Prayer has not started yet
-                      : currentTime.isAfter(maghribEndTime)
-                      ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.circleIndicator,
+                child: CircleAvatar(
+                  radius: 21,
+                  backgroundColor: AppColor.color,
+                  child: buildPrayerCircle(
+                      'M',
+                    currentTime.isBefore(maghribStartTime)
+                        ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.white
+                        : currentTime.isAfter(maghribEndTime)
+                        ? Colors.redAccent
+                        : AppColor.color,
+                  ),
                 ),
               ),
               InkWell(
@@ -296,7 +300,7 @@ class PrayerRanking extends StatelessWidget {
                       ? AppColor.packageGray  // Prayer has not started yet
                       : currentTime.isAfter(ishaEndTime)
                       ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.circleIndicator,
+                      : AppColor.color,
                 ),
               ),
               Text(
@@ -338,7 +342,7 @@ class PrayerRanking extends StatelessWidget {
                               padding: const EdgeInsets.all(1),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: AppColor.circleIndicator,),
+                                border: Border.all(color: AppColor.color,),
                               ),
                               child:ranked[index].picture!=null? CircleAvatar(
                                 radius: 25, // Radius of the circular image
@@ -347,11 +351,11 @@ class PrayerRanking extends StatelessWidget {
                                 ),
                               ): Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Icon(Icons.person,color: AppColor.circleIndicator,size: 25,),
+                                child: Icon(Icons.person,color: AppColor.color,size: 25,),
                               ),
                             ),
                             id==ranked[index].id.toString()?const 
-                            Text('You',style: TextStyle(fontSize: 12),):
+                            Text('You',style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),):
                             Text(ranked[index].name.split(' ')[0],
                               style: const TextStyle(fontSize: 12),)
                           ],
@@ -370,11 +374,11 @@ class PrayerRanking extends StatelessWidget {
   Widget buildPrayerCircle(String label, Color color,) {
     return CircleAvatar(
       radius: 21,
-      backgroundColor: (AppColor == AppColor.circleIndicator)
-          ? AppColor.circleIndicator
+      backgroundColor: (AppColor == AppColor.color)
+          ? AppColor.color
           : (color == Colors.redAccent)
           ? Colors.redAccent
-          : AppColor.amberColor,
+          : Colors.white10,
       child: CircleAvatar(
         radius: 20,
         backgroundColor: color,
@@ -416,7 +420,7 @@ class PrayerRanking extends StatelessWidget {
                     "http://182.156.200.177:8011${user.user.picture}",
                   ),
                 ),
-                id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
+                id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
               ],
             ):
             Column(
@@ -426,14 +430,14 @@ class PrayerRanking extends StatelessWidget {
                   padding: EdgeInsets.all(1),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColor.circleIndicator,),
+                    border: Border.all(color: AppColor.color,),
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.person,color: AppColor.circleIndicator,size: 25,),
+                    child: Icon(Icons.person,color: AppColor.color,size: 25,),
                   ),
                 ),
-                id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
+                id==user.user.id.toString()?const Text("You",style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),):Text(user.user.name.split(' ')[0],style: const TextStyle(fontSize: 12),)
               ],
             ):
             CircleAvatar(

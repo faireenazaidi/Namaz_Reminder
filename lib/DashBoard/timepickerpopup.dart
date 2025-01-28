@@ -101,7 +101,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Dialog(
-        backgroundColor:customDrawerController.isDarkMode == false ? AppColor.gray: AppColor.circleIndicator.withOpacity(0.8),
+        backgroundColor:customDrawerController.isDarkMode == false ? AppColor.gray: AppColor.color.withOpacity(0.9),
       //  AppColor.gray,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: GestureDetector(
@@ -114,9 +114,10 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
               horizontal: screenWidth * 0.04,
               vertical: screenHeight * 0.02,
             ),
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/blacknet.png'),
+                image: customDrawerController.isDarkMode == false ?
+                const AssetImage("assets/whiteNett.png"): const AssetImage("assets/blacNet.png"),opacity: 0.04,
                 fit: BoxFit.cover,
               ),
             ),
@@ -130,11 +131,11 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     SizedBox(width: 3,),
                     Text(
                       'MARK YOUR PRAYER TIME',
-                      style: MyTextTheme.mustard2.copyWith(color: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,)
+                      style: MyTextTheme.mustard2.copyWith(color: customDrawerController.isDarkMode == false ? AppColor.color: Colors.black,)
                     ),
                     SizedBox(width: screenWidth * 0.04),
-                    SvgPicture.asset(
-                        "assets/namz.svg",height: 45,color:  customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,),
+                    customDrawerController.isDarkMode == false ?
+                    SvgPicture.asset("assets/namz.svg", height: 45,):  SvgPicture.asset("assets/namz2.svg", height: 45,)
 
                   ],
                 ),
@@ -162,7 +163,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           });
                         },
                         textStyle: TextStyle(
-                            color:customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
+                            color:customDrawerController.isDarkMode == true ? Colors.black54: Colors.grey,
                             fontSize: screenWidth * 0.08,
                             fontWeight: FontWeight.w300
                         ),
@@ -200,7 +201,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                           });
                         },
                         textStyle: TextStyle(
-                          color:customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
+                          color:customDrawerController.isDarkMode == true ? Colors.black54: Colors.grey,
                           fontSize: screenWidth * 0.08,
                           fontWeight: FontWeight.w300
                         ),
@@ -228,10 +229,20 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                               child: Text(
                                 "AM",
                                 style: TextStyle(
-                                  color: isAm ? Colors.white: Colors.grey,
+                                  color: (customDrawerController.isDarkMode == false
+                                      ? (isAm ? Colors.white : Colors.grey)
+                                      : (isAm ? Colors.black : Colors.black26)),
+
                                   fontSize: isAm  ? 20.0 : 16.0,
                                 ),
                               ),
+                              // child: Text(
+                              //   "AM",
+                              //   style: TextStyle(
+                              //     color: isAm ? Colors.white: Colors.grey,
+                              //     fontSize: isAm  ? 20.0 : 16.0,
+                              //   ),
+                              // ),
                             ),
                           ),
                           GestureDetector(
@@ -243,10 +254,19 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                             child:
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8.0,4,8,8),
+                              // child: Text(
+                              //   "PM",
+                              //   style: TextStyle(
+                              //     color: !isAm ? Colors.white : Colors.grey,
+                              //     fontSize: !isAm  ? 20.0 : 16.0,
+                              //   ),
+                              // ),
                               child: Text(
                                 "PM",
                                 style: TextStyle(
-                                  color: customDrawerController.isDarkMode==false&&!isAm ? Colors.white : Colors.grey,
+                                  color: (customDrawerController.isDarkMode == false
+                                      ? (isAm ? Colors.white : Colors.grey)
+                                      : (isAm ? Colors.black26 : Colors.black)),
                                   fontSize: !isAm  ? 20.0 : 16.0,
                                 ),
                               ),
@@ -263,11 +283,11 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   children: [
                     Checkbox(
                       value: dashBoardController.prayedAtMosque.value,
-                      // side: BorderSide(
-                      //   color: customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
-                      //   width: 1.5
-                      // ),
-                      activeColor: AppColor.circleIndicator,
+                      side: BorderSide(
+                        color: customDrawerController.isDarkMode == true ? Colors.black87: Colors.grey,
+                        width: 1.5
+                      ),
+                      activeColor: customDrawerController.isDarkMode==false?AppColor.color:Colors.black,
                       onChanged: (bool? value) {
                         setState(() {
                           dashBoardController.prayedAtMosque.value = value ?? false;
@@ -277,7 +297,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     ),
                     Text(
                       "Prayed at Mosque / Jamat time",
-                      style: MyTextTheme.smallWCN.copyWith(fontSize: 12,color: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,),
+                      style: MyTextTheme.smallWCN.copyWith(fontSize: 12,color: customDrawerController.isDarkMode == false ? AppColor.color: Colors.black,),
                       overflow: TextOverflow.ellipsis, // Prevent overflow
                     ),
                   ],
@@ -286,16 +306,18 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                   borderRadius: 8,
                   elevation: 2,
                   title: "Submit",
-                  color:customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.black,
+                  color:customDrawerController.isDarkMode == false ? AppColor.color: Colors.black,
                   onPressed: () {
                     dashBoardController.isAm = isAm;
-                    print("isAm ${dashBoardController.isAm}");
+                    // print("isAm ${dashBoardController.isAm}");
                     // Lottie.asset("assets/Crown.lottie",
                     //     decoder: customDecoder, height: 60);
                     dashBoardController.submitPrayer(valDate: widget.date,
-                        isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,startTime:widget.startTime,endTime: widget.endTime,
+                        isFromMissed: widget.isFromMissed,prayerNames:widget.prayerNames,
+                       startTime:widget.startTime,endTime: widget.endTime,
                         missedCallBack: widget.missedCallBack, context: context);
 
+                    //
                     print("valDate: ${widget.date}");
                     print("isFromMissed: ${widget.isFromMissed}");
                     print("prayerNames: ${widget.prayerNames}");

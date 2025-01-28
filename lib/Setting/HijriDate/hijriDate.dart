@@ -99,7 +99,7 @@ import '../../Widget/text_theme.dart';
 //                               decoration: BoxDecoration(
 //                                 borderRadius: BorderRadius.circular(12),
 //                                 color: hijriController.selectedId.value == day['id']
-//                                     ?  AppColor.circleIndicator // Selected color
+//                                     ?  AppColor.color // Selected color
 //                                     : Colors.white70, // Default color
 //                               ),
 //                               child: Center(
@@ -160,7 +160,7 @@ import '../../Widget/text_theme.dart';
 //                     decoration: BoxDecoration(
 //                       borderRadius: BorderRadius.circular(12),
 //                       color: hijriController.selectedId.value == day['id']
-//                           ? AppColor.circleIndicator
+//                           ? AppColor.color
 //                           : Colors.white54,
 //                     ),
 //                     child: Center(

@@ -26,7 +26,7 @@ class FeedbackView extends GetView<FeedbackController>{
          preferredSize: const Size.fromHeight(1.0),
          child: Divider(
            height: 1.0,
-           color:  Theme.of(context).dividerColor,
+           color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
          ),
        ),
        leading: InkWell(
@@ -50,47 +50,68 @@ class FeedbackView extends GetView<FeedbackController>{
            crossAxisAlignment: CrossAxisAlignment.start,
            children: [
              Text('Leave us a feedback',style: MyTextTheme.largeCustomBCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color)),
-             SizedBox(height: 16),
+             SizedBox(height: 10),
             Row(
               children: [
                 Text("Mail address (optional)",style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color))
               ],
             ),
              SizedBox(height: 10,),
-             TextFormField(
-               controller: feedbackController.emailController,
-                 cursorColor: AppColor.circleIndicator,
-                 decoration:  InputDecoration(
-                   filled: true,
-                   fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                   focusedBorder: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(10),
-                     borderSide: const BorderSide(
-                       color: Colors.grey,
-                       width: 1.5,
-                     ),
-                   ),
-                   enabled: true,
-                   enabledBorder:  OutlineInputBorder(
-                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                     borderSide: BorderSide(color:AppColor.packageGray,width: 1.5),
-                   ),
-                   hintText: 'Enter your email address',
-                   hintStyle: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,),
-                   border: OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10)),
-                 ),
-                 onChanged: (value) {
-                   feedbackController.setEmail(value);
-                 },
-                 keyboardType: TextInputType.emailAddress,
-                 autofillHints: const [AutofillHints.email],
-                 validator: (value) =>
-                 value != null && value.isNotEmpty
-                     ? null
-                     : 'Required',
+             Container(
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(10),
+                 gradient: LinearGradient(
+                   colors: customDrawerController.isDarkMode == false?
+                   [AppColor.cardbg, AppColor.cardbg]:
+                   [Colors.transparent, Colors.white10],
+                   begin: Alignment.centerRight,
+                   end: Alignment.centerLeft,
+
+                 )
                ),
-             SizedBox(height: 16),
+               child: TextFormField(
+                 controller: feedbackController.emailController,
+                   cursorColor: AppColor.color,
+                   decoration:  InputDecoration(
+                     filled: true,
+                     fillColor:Colors.transparent,
+                       contentPadding: const EdgeInsets.symmetric(
+                         vertical: 15, // Adjust as needed
+                         horizontal: 10,
+                       ),
+                     focusedBorder: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(10),
+                       borderSide: const BorderSide(
+                         color: Colors.grey,
+                         width: 0,
+                       ),
+                     ),
+                     enabled: true,
+                     enabledBorder:  OutlineInputBorder(
+                       borderRadius: const BorderRadius.all(Radius.circular(10)),
+                       borderSide: BorderSide(
+                         color:AppColor.packageGray,
+                         width: 0,
+                       ),
+                     ),
+                     hintText: 'Enter your email address',
+                     hintStyle: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color,),
+                     border: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(10)),
+                   ),
+                   onChanged: (value) {
+                     feedbackController.setEmail(value);
+                   },
+                   keyboardType: TextInputType.emailAddress,
+                   autofillHints: const [AutofillHints.email],
+                   validator: (value) =>
+                   value != null && value.isNotEmpty
+                       ? null
+                       : 'Required',
+                 ),
+             ),
+
+             SizedBox(height: 15),
              // Rating scale
              Text('On a scale of 1-5 how likely you are to recommend this tool to someone you know?',
                  style: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color)),
@@ -101,10 +122,11 @@ class FeedbackView extends GetView<FeedbackController>{
                  return Obx(() {
                   return RawChip(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(color: AppColor.packageGray, width: 1),
+                      side: BorderSide(
+                        color: AppColor.packageGray,  width: 0,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    selectedColor: AppColor.circleIndicator,
+                    selectedColor: AppColor.color,
                     backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                     label: Text('${index + 1}'),
                     labelStyle:  MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
@@ -135,36 +157,50 @@ class FeedbackView extends GetView<FeedbackController>{
              ),
             const SizedBox(height: 10,),
 
-             TextField(
-               controller: feedbackController.commentController,
-               cursorColor: AppColor.circleIndicator,
-               decoration: InputDecoration(
-                 filled: true,
-                 fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                 hintText: 'Say something here...',
-                 hintStyle:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
-                 border: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(15),
-                 ),
-                 enabledBorder: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(10),
-                   borderSide: const BorderSide(
-                     color: Colors.grey,
-                     width: 1.5,
-                   ),
-                 ),
-                 focusedBorder: OutlineInputBorder(
-                   borderRadius: BorderRadius.circular(10),
-                   borderSide: const BorderSide(
-                     color: Colors.grey,
-                     width: 1.5,
-                   ),
-                 ),
+             Container(
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(10),
+                   gradient: LinearGradient(
+                     colors: customDrawerController.isDarkMode == false?
+                     [AppColor.cardbg, AppColor.cardbg]:
+                     [Colors.transparent, Colors.white10],
+                     begin: Alignment.centerRight,
+                     end: Alignment.centerLeft,
+
+                   )
                ),
-               maxLines: 5,
-               onChanged: (value) {
-                 feedbackController.setComment(value);
-               },
+               child: TextField(
+                 controller: feedbackController.commentController,
+                 cursorColor: AppColor.color,
+                 decoration: InputDecoration(
+                   filled: true,
+                   fillColor: Colors.transparent,
+                   //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                   hintText: 'Say something here...',
+                   hintStyle:MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
+                   border: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(15),
+                   ),
+                   enabledBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(10),
+                     borderSide: const BorderSide(
+                       color: Colors.grey,
+                       width: 0,
+                     ),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(10),
+                     borderSide: const BorderSide(
+                       color: Colors.grey,
+                       width: 0,
+                     ),
+                   ),
+                 ),
+                 maxLines: 5,
+                 onChanged: (value) {
+                   feedbackController.setComment(value);
+                 },
+               ),
              ),
             const SizedBox(height: 24),
              // Submit button
@@ -172,7 +208,7 @@ class FeedbackView extends GetView<FeedbackController>{
                return ElevatedButton(
                  onPressed: feedbackController.isFormValid ? feedbackController.submitFeedback : null,
                  style: ElevatedButton.styleFrom(
-                   backgroundColor: feedbackController.isFormValid ? AppColor.circleIndicator: AppColor.greyColor, // Button color
+                   backgroundColor: feedbackController.isFormValid ? AppColor.color: AppColor.greyColor, // Button color
                    minimumSize: const Size(double.infinity, 50),
                    shape: RoundedRectangleBorder(
                      borderRadius: BorderRadius.circular(10)
@@ -181,6 +217,7 @@ class FeedbackView extends GetView<FeedbackController>{
                  child: const Text('Submit',style: TextStyle(color: Colors.white),),
                );
              }),
+
            ],
          ),
        ),

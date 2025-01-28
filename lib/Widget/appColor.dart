@@ -7,7 +7,8 @@ class AppColor {
   static final dashboardLightColor=("#EFFBFC").toColor();
   static final primaryColorLightOpaque=primaryColorLight.withOpacity(0.2);
   static const primarySwatchColorLight=Colors.blue;
-  static const color = Color.fromARGB(255, 249, 173, 50);
+  static const color = Color.fromARGB(255, 253, 178, 73);
+
 
   static final switchin =("#E9ECEF").toColor();
   static final cardbg =("#F8F9FA").toColor();

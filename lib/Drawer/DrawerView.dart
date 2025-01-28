@@ -52,7 +52,7 @@ class CustomDrawer extends StatelessWidget {
                                     padding: const EdgeInsets.only(top: 15.0,),
                                     child: CircleAvatar(
                                       radius: 31,
-                                      backgroundColor: AppColor.circleIndicator,
+                                      backgroundColor: AppColor.color,
                                       child: CircleAvatar(
                                         radius: 30,
                                         backgroundImage: customDrawerController.userData.getUserData!.picture.isNotEmpty
@@ -62,7 +62,7 @@ class CustomDrawer extends StatelessWidget {
                                             ? AppColor.packageGray
                                             : Colors.transparent,
                                         child: customDrawerController.userData.getUserData!.picture.isEmpty
-                                            ?  Icon(Icons.person, size: 25, color: AppColor.circleIndicator)
+                                            ?  Icon(Icons.person, size: 25, color: AppColor.color)
                                             : null,
                                       ),
                                     ),
@@ -94,7 +94,7 @@ class CustomDrawer extends StatelessWidget {
                                           const SizedBox(height: 5,),
                                           Row(
                                             children: [
-                                              Icon(Icons.edit,color: AppColor.circleIndicator,size: 12,),
+                                              Icon(Icons.edit,color: AppColor.color,size: 12,),
                                               Text("Edit Profile",style: MyTextTheme.mustardNn,)
                                             ],
                                           ),
@@ -218,7 +218,7 @@ class CustomDrawer extends StatelessWidget {
                            return  Container(
                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                              decoration: BoxDecoration(
-                               color: AppColor.circleIndicator,
+                               color: AppColor.color,
                                borderRadius: BorderRadius.circular(12),
                              ),
                              child: Text(
@@ -285,7 +285,7 @@ class CustomDrawer extends StatelessWidget {
                         thumbIcon: WidgetStateProperty.all(
                           const Icon(Icons.circle, color: Colors.white),
                         ),
-                        activeTrackColor: AppColor.circleIndicator,
+                        activeTrackColor: AppColor.color,
                         activeColor: AppColor.white,
                         inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
                         trackOutlineColor: WidgetStateProperty.all(Colors.transparent),

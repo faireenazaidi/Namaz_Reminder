@@ -70,62 +70,76 @@ class AddFriendView extends GetView<AddFriendController> {
               children: [
                 SizedBox(
                   height: 50,
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: (value) {
-                      controller.updateSearchQuery(value);
-                    },
-                    cursorColor: AppColor.circleIndicator,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor:customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: "Search Username..",
-                      hintStyle: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
-                      border: OutlineInputBorder(
+                  child: Container(
+                    decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Colors.black,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      // suffixIcon: IconButton(
-                      //   icon: const Icon(Icons.cancel, color: Colors.grey),
-                      //   onPressed: () {
-                      //     searchController.clear();
-                      //     controller.updateSearchQuery("");
-                      //   },
-                      // ),
-                      suffixIcon:
-                        // Show the cancel icon only when there is text in the search bar
-                      controller.searchQuery.isNotEmpty
-                            ? IconButton(
-                          icon: const Icon(Icons.cancel, color: Colors.grey,weight: 1,),
-                          onPressed: () {
-                            searchController.clear();
-                            controller.updateSearchQuery('');
-                            controller.update();
-                          },
+                        gradient: LinearGradient(
+                          colors: customDrawerController.isDarkMode == false?
+                          [AppColor.cardbg, AppColor.cardbg]:
+                          [Colors.transparent, Colors.white10],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+
                         )
-                            : const SizedBox.shrink()
-
-
                     ),
-                    style: const TextStyle(
-                      color: Colors.grey,
+                    child: TextField(
+                      controller: searchController,
+                      onChanged: (value) {
+                        controller.updateSearchQuery(value);
+                      },
+                      cursorColor: AppColor.color,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: "Search Username..",
+                        hintStyle: MyTextTheme.smallGCN.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                        ),
+                        // suffixIcon: IconButton(
+                        //   icon: const Icon(Icons.cancel, color: Colors.grey),
+                        //   onPressed: () {
+                        //     searchController.clear();
+                        //     controller.updateSearchQuery("");
+                        //   },
+                        // ),
+                        suffixIcon:
+                          // Show the cancel icon only when there is text in the search bar
+                        controller.searchQuery.isNotEmpty
+                              ? IconButton(
+                            icon: const Icon(Icons.cancel, color: Colors.grey,weight: 1,),
+                            onPressed: () {
+                              searchController.clear();
+                              controller.updateSearchQuery('');
+                              controller.update();
+                            },
+                          )
+                              : const SizedBox.shrink()
+
+
+                      ),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
@@ -193,7 +207,7 @@ class AddFriendView extends GetView<AddFriendController> {
                 //                         )
                 //                             : null,
                 //                         color: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
-                //                             ? AppColor.circleIndicator
+                //                             ? AppColor.color
                 //                             : null,
                 //                       ),
                 //                       child: friendRequestData.picture == null || friendRequestData.picture!.isEmpty
@@ -236,7 +250,7 @@ class AddFriendView extends GetView<AddFriendController> {
                 //                             decoration: BoxDecoration(
                 //                               border: Border.all(color: AppColor.white),
                 //                               borderRadius: BorderRadius.circular(10),
-                //                               color: AppColor.circleIndicator,
+                //                               color: AppColor.color,
                 //                             ),
                 //                             child: const Center(
                 //                               child: Text("Accept", style: TextStyle(color: Colors.white)),
@@ -329,7 +343,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                       )
                                           : null,
                                       color: registeredData.picture == null || registeredData.picture!.isEmpty
-                                          ? AppColor.circleIndicator
+                                          ? AppColor.color
                                           : null,
                                     ),
                                     child: registeredData.picture == null || registeredData.picture!.isEmpty
@@ -370,7 +384,7 @@ class AddFriendView extends GetView<AddFriendController> {
                                     decoration: BoxDecoration(
                                      // border: Border.all(color: AppColor.white),
                                       borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.circleIndicator,
+                                      color: AppColor.color,
                                     ),
                                     child:  const Center(
                                       child: Text("Request", style: TextStyle(color: Colors.white)),

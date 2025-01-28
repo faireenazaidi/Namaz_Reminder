@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -51,7 +50,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                       MediaQuery.of(context).size.width <360 ? 0.6: 0.7,
                       child:   CircleAvatar(
                           radius: 15,
-                          backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                          backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white30,
                           child:  Icon(Icons.arrow_back_ios_new,size: 20,
                             color:  customDrawerController.isDarkMode == false ? Colors.grey:Colors.black,)),
                     ),
@@ -63,11 +62,12 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                     fit: StackFit.expand,
                     children: [
                       // Background image
-                      SvgPicture.asset(
-                          "assets/jali.svg",
-                          fit: BoxFit.cover,
-                          color: AppColor.greyDark
+                      Opacity(
+                        opacity: 0.08,
+                        child: SvgPicture.asset(
+                          "assets/white.svg",fit: BoxFit.cover,),
                       ),
+
                       // Overlay with content
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -106,7 +106,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                               decoration: BoxDecoration(
                                                   color: controller.selectedTab
                                                       .value == 'Daily'
-                                                      ? AppColor.circleIndicator
+                                                      ? customDrawerController.isDarkMode == false ? AppColor.color:Colors.white70
                                                       : Colors.transparent,
                                                   borderRadius: BorderRadius
                                                       .circular(5)
@@ -165,8 +165,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                   color: controller.selectedTab
                                                       .value == 'Daily'
                                                       ? Colors.transparent
-                                                      : AppColor
-                                                      .circleIndicator,
+                                                      :customDrawerController.isDarkMode == false ? AppColor.color:Colors.white70,
                                                   borderRadius: BorderRadius
                                                       .circular(5)
                                               ),
@@ -232,7 +231,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                 children: [
                                   SvgPicture.asset(
                                       "assets/calendar3.svg", height: 15,
-                                    color:  customDrawerController.isDarkMode == false ? AppColor.circleIndicator:Colors.black87,),
+                                    color:  customDrawerController.isDarkMode == false ? AppColor.color:Colors.black87,),
                                   const SizedBox(width: 5),
                                   Obx(() =>
                                   controller
@@ -284,27 +283,27 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
+                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.color: Colors.black26,
                                   child: const Text("F"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
+                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.color: Colors.black26,
                                   child: const Text("D"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor:customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
+                                  backgroundColor:customDrawerController.isDarkMode == false ? AppColor.color: Colors.black26,
                                   child: const Text("A"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor:customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
+                                  backgroundColor:customDrawerController.isDarkMode == false ? AppColor.color: Colors.black26,
                                   child: const Text("M"),
                                 ),
                                 const SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.circleIndicator: Colors.white24,
+                                  backgroundColor: customDrawerController.isDarkMode == false ? AppColor.color: Colors.black26,
                                   child: const Text("I"),
                                 ),
                               ],
@@ -429,7 +428,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 :
                                                              Icon(
                                                               Icons.person,
-                                                              color: AppColor.circleIndicator,
+                                                              color: AppColor.color,
                                                               size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
@@ -605,8 +604,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             controller.userData
                                                                 .getUserData!.id
                                                             ? const Text('You',
-                                                          style: TextStyle(
-                                                              fontSize: 10),)
+                                                            style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500))
                                                             :
                                                         Text(controller
                                                             .getLeaderboardList
@@ -706,7 +704,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               )
                                                                   : Icon(
                                                                 Icons.person,
-                                                                color: AppColor.circleIndicator,
+                                                                color: AppColor.color,
                                                                 size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
@@ -886,8 +884,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             controller.userData
                                                                 .getUserData!.id
                                                             ? const Text('You',
-                                                          style: TextStyle(
-                                                              fontSize: 10),)
+                                                          style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),)
                                                             :
                                                         Text(controller
                                                             .getLeaderboardList
@@ -989,7 +986,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               )
                                                                   : Icon(
                                                                 Icons.person,
-                                                                color: AppColor.circleIndicator,
+                                                                color: AppColor.color,
                                                                 size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
@@ -1165,8 +1162,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             controller.userData
                                                                 .getUserData!.id
                                                             ? const Text('You',
-                                                          style: TextStyle(
-                                                              fontSize: 10),)
+                                                          style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),)
                                                             :
                                                         Text(controller
                                                             .getLeaderboardList
@@ -1272,7 +1268,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                 )
                                                                     : Icon(
                                                                   Icons.person,
-                                                                  color: AppColor.circleIndicator,
+                                                                  color: AppColor.color,
                                                                   size: 30,),
                                                               // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                             ),
@@ -1449,8 +1445,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             controller.userData
                                                                 .getUserData!.id
                                                             ? const Text('You',
-                                                          style: TextStyle(
-                                                              fontSize: 10),)
+                                                            style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500))
                                                             :
                                                         Text(controller
                                                             .getLeaderboardList
@@ -1556,7 +1551,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               )
                                                                   : Icon(
                                                                 Icons.person,
-                                                                color: AppColor.circleIndicator,
+                                                                color: AppColor.color,
                                                                 size: 30,),
                                                             // Icon(isMissedPrayers?Icons.close:Icons.check,color: Colors.red,),
                                                           ),
@@ -1730,8 +1725,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             controller.userData
                                                                 .getUserData!.id
                                                             ? const Text('You',
-                                                          style: TextStyle(
-                                                              fontSize: 10),)
+                                                          style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),)
                                                             :
                                                         Text(controller
                                                             .getLeaderboardList
@@ -1883,15 +1877,15 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       ),
                                                                     ],
                                                                   )
-                                                                      : Padding(
-                                                                    padding: const EdgeInsets
+                                                                      : const Padding(
+                                                                    padding: EdgeInsets
                                                                         .all(
                                                                         8.0),
                                                                     child: Icon(
                                                                       Icons
                                                                           .person,
                                                                       color: AppColor
-                                                                          .circleIndicator,
+                                                                          .color,
                                                                       size: 20,
                                                                     ),
                                                                   ),
@@ -1904,8 +1898,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                         .id
                                                                     ? const Text(
                                                                   'You',
-                                                                  style: TextStyle(
-                                                                      fontSize: 10),)
+                                                                  style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),)
                                                                     :
                                                                 Text(record.user
                                                                     .name.split(
@@ -1939,7 +1932,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       .showLoading(
                                                                       context,
                                                                       message: 'Please wait, Getting Prayer Time');
-                                                                  // Use await to make getPrayerTime asynchronous
+                                                               //   Use await to make getPrayerTime asynchronous
                                                                   DateTime? prayerTime = await Future
                                                                       .delayed(
                                                                       Duration
@@ -2088,8 +2081,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                           .id
                                                                       ? Text(
                                                                     'You',
-                                                                    style: TextStyle(
-                                                                        fontSize: 10),)
+                                                                      style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500))
                                                                       :
                                                                   Text(
                                                                     record.user

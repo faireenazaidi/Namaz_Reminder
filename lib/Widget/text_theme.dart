@@ -217,7 +217,7 @@ class MyTextTheme {
       fontWeight: FontWeight.normal
   );
   static TextStyle orange = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 14,
       fontWeight: FontWeight.normal
   );
@@ -345,6 +345,11 @@ class MyTextTheme {
     fontSize: 16,
     fontWeight:  FontWeight.normal,
   );
+  static TextStyle mediumCusGCN = GoogleFonts.roboto(
+    color: Colors.white54,
+    fontSize: 16,
+    fontWeight:  FontWeight.w300,
+  );
   static TextStyle searchbar = GoogleFonts.roboto(
     color: AppColor.search,
     fontSize: 14,
@@ -414,23 +419,23 @@ class MyTextTheme {
       fontWeight: FontWeight.w500
   );
   static TextStyle mustard = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 16,
       fontWeight: FontWeight.bold
   );
 
   static TextStyle mustardS = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
   static TextStyle mustardB = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 14,
       fontWeight: FontWeight.bold
   );
   static TextStyle mustard2 = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 14,
       fontWeight: FontWeight.w400
   );
@@ -445,22 +450,22 @@ class MyTextTheme {
       fontWeight: FontWeight.w400
   );
   static TextStyle mustardSN = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 12,
       fontWeight: FontWeight.normal
   );
   static TextStyle mustardN = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 16,
       fontWeight: FontWeight.w600
   );
   static TextStyle mustardNn = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 12,
       fontWeight: FontWeight.w600
   );
   static TextStyle m = GoogleFonts.roboto(
-      color: AppColor.circleIndicator,
+      color: AppColor.color,
       fontSize: 16,
       fontWeight: FontWeight.normal
   );

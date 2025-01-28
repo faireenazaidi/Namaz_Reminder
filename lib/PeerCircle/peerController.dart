@@ -15,7 +15,7 @@ class PeerController extends GetxController{
   var friendsList=[].obs;
   var friendsLists = <Friendship>[].obs;
   var filteredFriendsList = <Friendship>[].obs; // Filtered list for search results
-
+  var isRemoved = false.obs;
   UserData userData = UserData();
   final apiService = ApiService();
 

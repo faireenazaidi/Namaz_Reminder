@@ -16,7 +16,7 @@ class Upcoming extends GetView<UpcomingController> {
     Get.find<DashBoardController>();
     final DateController dateController = Get.put(DateController());
     final UpcomingController upcomingController = Get.put(UpcomingController());
-    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
+    final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
 
     ///----------Scroll the Highlighted prayer in centre--------///
@@ -64,7 +64,7 @@ class Upcoming extends GetView<UpcomingController> {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.5,
-              color:Theme.of(context).dividerColor
+              color:customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         titleSpacing: 0,
@@ -147,10 +147,11 @@ class Upcoming extends GetView<UpcomingController> {
                     Container(
                       height: 160,
                       decoration: BoxDecoration(
-                        color: customDrawerController.isDarkMode == false ? Colors.black87: AppColor.circleIndicator,
-                        image: const DecorationImage(
+                        color: customDrawerController.isDarkMode == false ? Colors.black87: AppColor.color,
+                        image:  DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage("assets/jalih.png"),
+                          image: customDrawerController.isDarkMode == false ?
+                          const AssetImage("assets/jalih.png"): const AssetImage("assets/j.png")
                         ),
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -399,12 +400,12 @@ class Upcoming extends GetView<UpcomingController> {
                                         // ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: 5),
                                     Container(
                                       width: double.infinity,
                                       padding: const EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
-                                        color: customDrawerController.isDarkMode == false ?AppColor.packageGray: Colors.white12,
+                                        color: customDrawerController.isDarkMode == false ?AppColor.packageGray: Colors.white10,
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Row(

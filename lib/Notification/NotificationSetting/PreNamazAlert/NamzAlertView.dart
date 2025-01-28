@@ -19,7 +19,7 @@ class NamazAlertView extends GetView<NotificationSettingController>{
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.5,
-            color: customDrawerController.isDarkMode == true? Colors.black:AppColor.packageGray,
+            color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         leading: InkWell(
@@ -63,7 +63,7 @@ class NamazAlertView extends GetView<NotificationSettingController>{
 
 
                                   fontWeight: controller.preNamazAlertId == day['id']
-                                        ? FontWeight.bold
+                                        ? FontWeight.w500
                                         : FontWeight.normal,
                                   ),
                                 ),

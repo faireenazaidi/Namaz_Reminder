@@ -39,7 +39,7 @@ class InviteView extends GetView<InviteController> {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.0,
-              color:Theme.of(context).dividerColor
+            color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
       ),
@@ -82,7 +82,7 @@ class InviteView extends GetView<InviteController> {
                     ? Text(contact.phones!.first.value ?? "No Number")
                     : null,
                 leading: CircleAvatar(
-                  backgroundColor: AppColor.circleIndicator,
+                  backgroundColor: AppColor.color,
                   child: Text(
                     contact.initials(),
                     style: const TextStyle(color: Colors.white),

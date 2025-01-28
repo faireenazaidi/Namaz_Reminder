@@ -23,7 +23,7 @@ class FAQSView extends StatelessWidget {
           preferredSize: const Size.fromHeight(1.0),
           child: Divider(
             height: 1.5,
-            color: Theme.of(context).dividerColor,
+            color: customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         leading: InkWell(

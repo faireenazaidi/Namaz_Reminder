@@ -88,7 +88,7 @@ class RankedFriendsIndicator extends StatelessWidget {
                             left: Radius.circular(10),
                             right: Radius.circular(10),
                           ),
-                          color: AppColor.circleIndicator,
+                          color: AppColor.color,
                         ),
                          width: MediaQuery.of(context).size.width * getHighlightedBarWidth(context),
 

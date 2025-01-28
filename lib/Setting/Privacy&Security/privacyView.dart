@@ -37,7 +37,7 @@
 //           child: Column(
 //             children: [
 //               Obx(() => SwitchListTile(
-//                 activeTrackColor: AppColor.circleIndicator,
+//                 activeTrackColor: AppColor.color,
 //                 title: Text('Location',style: MyTextTheme.medium2,),
 //                 subtitle: Text('Allow location access to provide accurate data according to your location.',style: MyTextTheme.smallGCN,),
 //                 value: privacyController.location.value,

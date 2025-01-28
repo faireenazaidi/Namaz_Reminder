@@ -21,7 +21,7 @@ class NoInternet extends StatelessWidget {
           Navigator.of(context).pop();
           onRetry();
         }, title: 'Retry',
-          borderRadius: 10,color: AppColor.circleIndicator,)
+          borderRadius: 10,color: AppColor.color,)
       ],
     );
   }

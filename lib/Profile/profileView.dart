@@ -32,7 +32,7 @@ class ProfileView extends GetView<ProfileController> {
           preferredSize: Size.fromHeight(1.0),
           child: Divider(
               height: 1.0,
-              color:Theme.of(context).dividerColor
+            color:customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
           ),
         ),
         leading: InkWell(
@@ -48,6 +48,26 @@ class ProfileView extends GetView<ProfileController> {
                 child: const Icon(Icons.arrow_back_ios_new,size: 20,)),
           ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (controller.nameC.text.isEmpty) {
+                Get.snackbar(
+                  'Error',
+                  'Please enter your name',
+                  snackPosition: SnackPosition.TOP,
+                  backgroundColor: Colors.black,
+                  colorText: Colors.white,
+                );
+              }
+              else {
+                controller
+                    .registerUser();
+              }
+            },
+            child: Text("Save", style: MyTextTheme.mustard),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -68,7 +88,7 @@ class ProfileView extends GetView<ProfileController> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppColor.circleIndicator,
+                                color: AppColor.color,
                                 width: 2.0,
                               ),
                             ),
@@ -85,7 +105,7 @@ class ProfileView extends GetView<ProfileController> {
                                       ? AppColor.packageGray
                                       : Colors.transparent,
                                   child: controller.profilePhoto.isEmpty && controller.userData.getUserData!.picture.isEmpty
-                                      ? Icon(Icons.person, size: 50, color: AppColor.circleIndicator)
+                                      ? Icon(Icons.person, size: 50, color: AppColor.color)
                                       : null,
                                 )
                               ],
@@ -154,37 +174,53 @@ class ProfileView extends GetView<ProfileController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Full Name", style: MyTextTheme.mediumGCB,),
-                          TextFormField(
-                            controller: controller.nameC,
-                            cursorColor: AppColor.circleIndicator,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                              hintText: "Enter your full name",
-                              hintStyle: MyTextTheme.mediumCustomGCN,
-                              border: OutlineInputBorder(
+                          SizedBox(height: 5,),
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
+                                gradient: LinearGradient(
+                                  colors: customDrawerController.isDarkMode == false?
+                                  [AppColor.cardbg, AppColor.cardbg]:
+                                  [Colors.transparent, Colors.white10],
+                                  begin: Alignment.centerRight,
+                                  end: Alignment.centerLeft,
+
+                                )
                             ),
-                            style: const TextStyle(
-                              color: Colors.grey,
+                            child: TextFormField(
+                              controller: controller.nameC,
+                              cursorColor: AppColor.color,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.transparent,
+                                //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                                hintText: "Enter your full name",
+                                hintStyle: MyTextTheme.mediumCustomGCN,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                    width: 0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 0,
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ],
@@ -196,37 +232,53 @@ class ProfileView extends GetView<ProfileController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("User Name", style: MyTextTheme.mediumGCB,),
-                          TextFormField(
-                            controller: controller.userNameC,
-                            cursorColor: AppColor.circleIndicator,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                              hintText: "User name",
-                              hintStyle: MyTextTheme.mediumCustomGCN,
-                              border: OutlineInputBorder(
+                          SizedBox(height: 5,),
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
+                                gradient: LinearGradient(
+                                  colors: customDrawerController.isDarkMode == false?
+                                  [AppColor.cardbg, AppColor.cardbg]:
+                                  [Colors.transparent, Colors.white10],
+                                  begin: Alignment.centerRight,
+                                  end: Alignment.centerLeft,
+
+                                )
                             ),
-                            style: const TextStyle(
-                              color: Colors.grey,
+                            child: TextFormField(
+                              controller: controller.userNameC,
+                              cursorColor: AppColor.color,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.transparent,
+                                //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                                hintText: "User name",
+                                hintStyle: MyTextTheme.mediumCustomGCN,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 0,
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ],
@@ -247,7 +299,7 @@ class ProfileView extends GetView<ProfileController> {
                         children: [
                           Radio<String>(
                             value: "0",
-                            activeColor: AppColor.circleIndicator,
+                            activeColor: AppColor.color,
                             groupValue: controller.genderC.text,
                             onChanged: (String? value) {
                               controller.updateGender(value!);
@@ -260,7 +312,7 @@ class ProfileView extends GetView<ProfileController> {
         
                           Radio(
                             value: "1",
-                            activeColor: AppColor.circleIndicator,
+                            activeColor: AppColor.color,
                             groupValue: controller.genderC.text,
                             onChanged: (String? value) {
                               print(value);
@@ -282,40 +334,56 @@ class ProfileView extends GetView<ProfileController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Phone Number", style: MyTextTheme.mediumGCB,),
-                          TextField(
-                            controller: controller.phoneC,
-                            cursorColor: AppColor.circleIndicator,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                              hintText: "Enter your phone number",
-                              hintStyle: MyTextTheme.mediumCustomGCN,
-                              prefixIcon: SvgPicture.asset(
-                                "assets/call.svg", fit: BoxFit.scaleDown,color:Theme.of(context).iconTheme.color,),
-                              border: OutlineInputBorder(
+                          SizedBox(height: 5,),
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                  width: 1,
-                                ),
-                              ),
+                                gradient: LinearGradient(
+                                  colors: customDrawerController.isDarkMode == false?
+                                  [AppColor.cardbg, AppColor.cardbg]:
+                                  [Colors.transparent, Colors.white10],
+                                  begin: Alignment.centerRight,
+                                  end: Alignment.centerLeft,
+
+                                )
                             ),
-                            style: const TextStyle(
-                              color: Colors.grey,
+                            child: TextField(
+                              controller: controller.phoneC,
+                              cursorColor: AppColor.color,
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.transparent,
+                                //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                                hintText: "Enter your phone number",
+                                hintStyle: MyTextTheme.mediumCustomGCN,
+                                prefixIcon: SvgPicture.asset(
+                                  "assets/call.svg", fit: BoxFit.scaleDown,color:Theme.of(context).iconTheme.color,),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                    width: 0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                    width: 0,
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ],
@@ -327,40 +395,57 @@ class ProfileView extends GetView<ProfileController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Email", style: MyTextTheme.mediumGCB,),
-                          TextField(
-                            controller: controller.mailC,
-                            cursorColor: AppColor.circleIndicator,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                              hintText: "Enter your email",
-                              hintStyle: MyTextTheme.mediumCustomGCN,
-                              prefixIcon: Icon(
-                                Icons.email_outlined,color:Theme.of(context).iconTheme.color,
-                                size: 20,),
-                              border: OutlineInputBorder(
+                          SizedBox(height: 5,),
+
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: AppColor.packageGray,
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
+                                gradient: LinearGradient(
+                                  colors: customDrawerController.isDarkMode == false?
+                                  [AppColor.cardbg, AppColor.cardbg]:
+                                  [Colors.transparent, Colors.white10],
+                                  begin: Alignment.centerRight,
+                                  end: Alignment.centerLeft,
+
+                                )
                             ),
-                            style: const TextStyle(
-                              color: Colors.grey,
+                            child: TextField(
+                              controller: controller.mailC,
+                              cursorColor: AppColor.color,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.transparent,
+                                //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
+                                hintText: "Enter your email",
+                                hintStyle: MyTextTheme.mediumCustomGCN,
+                                prefixIcon: Icon(
+                                  Icons.email_outlined,color:Theme.of(context).iconTheme.color,
+                                  size: 20,),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: AppColor.packageGray,
+                                    width: 0,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                    width: 0,
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ],
@@ -375,14 +460,24 @@ class ProfileView extends GetView<ProfileController> {
                         children: [
                           Text("School of Thought",
                               style: MyTextTheme.mediumGCB),
+                          SizedBox(height: 5,),
+
                           Container(
+                            height: 50,
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
                             decoration: BoxDecoration(
-                              color: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
-                              border: Border.all(color: AppColor.packageGray,),
-                              // Border color
-                              borderRadius: BorderRadius.circular(
-                                  10.0),
+
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: LinearGradient(
+                                    colors: customDrawerController.isDarkMode == false?
+                                    [AppColor.cardbg, AppColor.cardbg]:
+                                    [Colors.transparent, Colors.white10],
+                                    begin: Alignment.centerRight,
+                                    end: Alignment.centerLeft,
+
+                                  ),
+
+                              border: Border.all(color: AppColor.packageGray,width: 0),
                             ),
                             child: DropdownButton<String>(
                               dropdownColor: Colors.white,
@@ -431,7 +526,7 @@ class ProfileView extends GetView<ProfileController> {
                             //               Radio<String>(
                             //                 value: "3",
                             //                 activeColor: AppColor
-                            //                     .circleIndicator,
+                            //                     .color,
                             //                 groupValue: controller
                             //                     .selectedPrayer.value,
                             //                 onChanged: (String? value) {
@@ -446,7 +541,7 @@ class ProfileView extends GetView<ProfileController> {
                             //               Radio(
                             //                 value: "5",
                             //                 activeColor: AppColor
-                            //                     .circleIndicator,
+                            //                     .color,
                             //                 groupValue: controller
                             //                     .selectedPrayer.value,
                             //                 onChanged: (String? value) {
@@ -466,29 +561,29 @@ class ProfileView extends GetView<ProfileController> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 5,),
-                    MyButton(
-                      borderRadius: 10,
-                      onPressed: () {
-                        if (controller.nameC.text.isEmpty) {
-                          Get.snackbar(
-                            'Error',
-                            'Please enter your name',
-                            snackPosition: SnackPosition.TOP,
-                            backgroundColor: Colors.black,
-                            colorText: Colors.white,
-                          );
-                        }
-                        else {
-                          controller
-                              .registerUser();
-                        }
-                      },
-                      title: 'Update',
-                      color: AppColor.circleIndicator,
-                    ),
+                    // const SizedBox(height: 5,),
+                    // MyButton(
+                    //   borderRadius: 10,
+                    //   onPressed: () {
+                    //     if (controller.nameC.text.isEmpty) {
+                    //       Get.snackbar(
+                    //         'Error',
+                    //         'Please enter your name',
+                    //         snackPosition: SnackPosition.TOP,
+                    //         backgroundColor: Colors.black,
+                    //         colorText: Colors.white,
+                    //       );
+                    //     }
+                    //     else {
+                    //       controller
+                    //           .registerUser();
+                    //     }
+                    //   },
+                    //   title: 'Update',
+                    //   color: AppColor.color,
+                    // ),
         
-        
+
                   ],
                 );
               }

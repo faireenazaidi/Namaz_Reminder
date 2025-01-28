@@ -32,7 +32,7 @@ class SettingView extends StatelessWidget {
               preferredSize: const Size.fromHeight(1.0),
               child: Divider(
                 height: 1.5,
-                color: customDrawerController.isDarkMode == true? Colors.black:AppColor.packageGray,
+                color:customDrawerController.isDarkMode == true? AppColor.scaffBg:AppColor.packageGray,
                 ),
               ),
 
@@ -59,7 +59,7 @@ class SettingView extends StatelessWidget {
                // Padding(
                //   padding: const EdgeInsets.all(8.0),
                //   child: TextField(
-               //     cursorColor: AppColor.circleIndicator,
+               //     cursorColor: AppColor.color,
                //     decoration: InputDecoration(
                //       //prefixIcon:  Icon(Icons.search,),
                //       hintText: "Search for a setting...",
@@ -112,7 +112,7 @@ class SettingView extends StatelessWidget {
                       //                   decoration: BoxDecoration(
                       //                     borderRadius: BorderRadius.circular(12),
                       //                     color: hijriController.selectedId.value == day['id']
-                      //                         ? AppColor.circleIndicator
+                      //                         ? AppColor.color
                       //                         : Colors.white70,
                       //                   ),
                       //                   child: Center(
@@ -299,7 +299,7 @@ class SettingView extends StatelessWidget {
                       //         //           Radio<String>(
                       //         //             value: "3",
                       //         //             activeColor: AppColor
-                      //         //                 .circleIndicator,
+                      //         //                 .color,
                       //         //             groupValue: profileController
                       //         //                 .selectedPrayer.value,
                       //         //             onChanged: (String? value) {
@@ -314,7 +314,7 @@ class SettingView extends StatelessWidget {
                       //         //           Radio(
                       //         //             value: "5",
                       //         //             activeColor: AppColor
-                      //         //                 .circleIndicator,
+                      //         //                 .color,
                       //         //             groupValue: profileController
                       //         //                 .selectedPrayer.value,
                       //         //             onChanged: (String? value) {
@@ -347,7 +347,7 @@ class SettingView extends StatelessWidget {
                       //               crossAxisAlignment: CrossAxisAlignment.start,
                       //               children: [
                       //                 SwitchListTile(
-                      //                   activeTrackColor: AppColor.circleIndicator,
+                      //                   activeTrackColor: AppColor.color,
                       //                   title: const Text(
                       //                     'Pause all',
                       //                     style: TextStyle(color: Colors.white),
@@ -379,7 +379,7 @@ class SettingView extends StatelessWidget {
                       //             crossAxisAlignment: CrossAxisAlignment.start,
                       //             children: [
                       //               SwitchListTile(
-                      //                 activeTrackColor: AppColor.circleIndicator,
+                      //                 activeTrackColor: AppColor.color,
                       //                 title: const Text('Friend requests',style: TextStyle(color: Colors.white)),
                       //                 //subtitle: Text('Notify when someone sends you a joining request',style: MyTextTheme.smallGCN,),
                       //                 value: notificationSettingController.friendRequests.value,
@@ -403,7 +403,7 @@ class SettingView extends StatelessWidget {
                       //             crossAxisAlignment: CrossAxisAlignment.start,
                       //             children: [
                       //               SwitchListTile(
-                      //                 activeTrackColor: AppColor.circleIndicator,
+                      //                 activeTrackColor: AppColor.color,
                       //                 title: Text('Friend namaz prayed',style: TextStyle(color: Colors.white),),
                       //                // subtitle:  Text('Get notified when your friend complete their prayers.',style: MyTextTheme.smallGCN,),
                       //                 value: notificationSettingController.friendNamazPrayed.value,
@@ -456,7 +456,7 @@ class SettingView extends StatelessWidget {
                           trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
                           inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
                           inactiveThumbColor: Colors.white,
-                          activeTrackColor: AppColor.circleIndicator,
+                          activeTrackColor: AppColor.color,
                           activeColor: AppColor.white,
                           thumbIcon: WidgetStateProperty.all(
                             const Icon(Icons.circle, color: Colors.white),
@@ -499,7 +499,7 @@ class SettingView extends StatelessWidget {
               //           ),
               //         ),
               //         Switch(
-              //           activeTrackColor: AppColor.circleIndicator,
+              //           activeTrackColor: AppColor.color,
               //           activeColor: AppColor.white,
               //           value: privacyController.location.value,
               //           onChanged: (value) {
@@ -583,7 +583,7 @@ class SettingView extends StatelessWidget {
                                 thumbIcon: WidgetStateProperty.all(
                                   const Icon(Icons.circle, color: Colors.white),
                                 ),
-                                activeTrackColor: AppColor.circleIndicator,
+                                activeTrackColor: AppColor.color,
                                 activeColor: AppColor.white,
                                 inactiveTrackColor:  customDrawerController.isDarkMode == false ? AppColor.switchin: Colors.white12,
                                 trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
@@ -611,7 +611,7 @@ class SettingView extends StatelessWidget {
                       //                     crossAxisAlignment: CrossAxisAlignment.start,
                       //                     children: [
                       //                       SwitchListTile(
-                      //                         activeTrackColor: AppColor.circleIndicator,
+                      //                         activeTrackColor: AppColor.color,
                       //                         title: const Text(
                       //                           'Pause all',
                       //                           style: TextStyle(color: Colors.white),
@@ -655,7 +655,7 @@ class SettingView extends StatelessWidget {
                 //                               crossAxisAlignment: CrossAxisAlignment.start,
                 //                               children: [
                 //                                 SwitchListTile(
-                //                                   activeTrackColor: AppColor.circleIndicator,
+                //                                   activeTrackColor: AppColor.color,
                 //                                   title: const Text(
                 //                                     'Pause all',
                 //                                     style: TextStyle(color: Colors.white),
@@ -715,7 +715,7 @@ class SettingView extends StatelessWidget {
                       //     //                         decoration: BoxDecoration(
                       //     //                           borderRadius: BorderRadius.circular(12),
                       //     //                           color: requestController.selectedIndex.value == i?
-                      //     //                               AppColor.circleIndicator:Colors.white70
+                      //     //                               AppColor.color:Colors.white70
                       //     //                         ),
                       //     //                         child: Center(
                       //     //                           child: Text(
@@ -783,7 +783,7 @@ class SettingView extends StatelessWidget {
                       //                                   decoration: BoxDecoration(
                       //                                     borderRadius: BorderRadius.circular(10),
                       //                                     color:  notificationSettingController.preNamazAlertId == day['id']?
-                      //                                     AppColor.circleIndicator:Colors.white70,
+                      //                                     AppColor.color:Colors.white70,
                       //                                   ),
                       //                                   child: Center(
                       //                                     child: Text(
@@ -834,7 +834,7 @@ class SettingView extends StatelessWidget {
                       //             crossAxisAlignment: CrossAxisAlignment.start,
                       //             children: [
                       //               SwitchListTile(
-                      //                 activeTrackColor: AppColor.circleIndicator,
+                      //                 activeTrackColor: AppColor.color,
                       //                 activeColor: AppColor.white,
                       //                 title: const Text(
                       //                   'Location',

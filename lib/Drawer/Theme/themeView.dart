@@ -37,7 +37,7 @@ class AppThemes {
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       textTheme:  TextTheme(
-        displaySmall: TextStyle(color: AppColor.circleIndicator),
+        displaySmall: TextStyle(color: AppColor.color),
         titleSmall: const TextStyle(color: AppColor.greyColor),
         bodyLarge: const TextStyle(color: Colors.white),
         bodyMedium: const TextStyle(color: Colors.white70),

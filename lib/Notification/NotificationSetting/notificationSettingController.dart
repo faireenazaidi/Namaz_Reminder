@@ -98,7 +98,7 @@ class NotificationSettingController extends GetxController {
     {"id": '4', "name": "15 minutes ago"},
     {"id": '3', "name": "10 minutes ago"},
     {"id": '2', "name": "5 minutes ago"},
-    {"id": '1', "name": "On Time Alert"},
+    {"id": '1', "name": "At the namaz time"},
     {"id": '0', "name": "No Alert"},
   ];
   String getCurrentSubtitle() {
