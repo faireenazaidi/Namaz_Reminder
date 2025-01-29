@@ -366,8 +366,9 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                       Container(
                         height: Get.height * 0.75,
                         decoration:  BoxDecoration(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(50.0),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30.0),
+                            topRight: Radius.circular(30.0)
                           ),
                           color: Theme.of(context).scaffoldBackgroundColor,
 
@@ -381,7 +382,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                 width: 110,
                                 height: 8,
                                 decoration: BoxDecoration(
-                                  color: AppColor.packageGray,
+                                  color: customDrawerController.isDarkMode==false?
+                                  AppColor.packageGray:Colors.grey,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
@@ -476,8 +478,9 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                     delegate: SliverChildListDelegate([
                       Container(height: Get.height* 0.57,
                         decoration:  BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(40.0),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(30.0),
+                              topRight: Radius.circular(30.0)
                           ),
                           color: Theme.of(context).scaffoldBackgroundColor,
 
@@ -492,7 +495,8 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                   width: 110,
                                   height: 8,
                                   decoration: BoxDecoration(
-                                    color: AppColor.packageGray,
+                                    color: customDrawerController.isDarkMode==false?
+                                    AppColor.packageGray:Colors.grey,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),

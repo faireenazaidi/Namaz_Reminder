@@ -51,8 +51,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                       child:   CircleAvatar(
                           radius: 15,
                           backgroundColor: customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white30,
-                          child:  Icon(Icons.arrow_back_ios_new,size: 20,
-                            color:  customDrawerController.isDarkMode == false ? Colors.grey:Colors.black,)),
+                          child:const Icon(Icons.arrow_back_ios_new,size: 20,color: Colors.black,
+                          )),
                     ),
                   ),
                 ),
@@ -321,9 +321,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                       delegate: SliverChildListDelegate([Container(
                         height: Get.height*0.61,
                         decoration:  BoxDecoration(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(50.0),
-                            ),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(30.0),
+                              topRight: Radius.circular(30.0)
+                          ),
                             color: Theme.of(context).scaffoldBackgroundColor,
 
                             ),
@@ -336,7 +337,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                   width: 100,
                                   height: 8,
                                   decoration: BoxDecoration(
-                                      color: AppColor.packageGray,
+                                      color: customDrawerController.isDarkMode==false?
+                                      AppColor.packageGray:Colors.grey,
                                       borderRadius: BorderRadius.circular(10)
                                   ),
                                 ),
@@ -426,7 +428,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                               ),
                                                             )
                                                                 :
-                                                             Icon(
+                                                             const Icon(
                                                               Icons.person,
                                                               color: AppColor.color,
                                                               size: 30,),
@@ -1761,9 +1763,10 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                         Container(
                           height: Get.height,
                           decoration:  BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(50.0),
-                              ),
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(30.0),
+                                topRight: Radius.circular(30.0)
+                            ),
                               color: Theme.of(context).scaffoldBackgroundColor,
 
                               ),
@@ -1777,7 +1780,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     width: 100,
                                     height: 8,
                                     decoration: BoxDecoration(
-                                        color: AppColor.packageGray,
+                                        color: customDrawerController.isDarkMode==false?
+                                        AppColor.packageGray:Colors.grey,
                                         borderRadius: BorderRadius.circular(10)
                                     ),
 

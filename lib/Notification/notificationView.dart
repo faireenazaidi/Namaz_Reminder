@@ -69,7 +69,8 @@ class NotificationView extends  GetView<NotificationController> {
           ?  Column(
         children: [
           const SizedBox(height: 100,),
-          Image.asset("assets/notifi.gif",),
+        //  Image.asset("assets/notifi.gif",),
+          Image.asset("assets/notiBell.gif",),
           Text("No notifications yet",style: MyTextTheme.B.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color ),),
           Text("Your notification will appear here\n once you received them.",
             style: MyTextTheme.mediumBCb.copyWith(color: Theme.of(context).textTheme.titleSmall?.color ),)

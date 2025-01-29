@@ -523,10 +523,10 @@ locationPlace(){
                               boxDecoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: customDrawerController.isDarkMode == false?
-                                    [AppColor.cardbg, AppColor.cardbg]:
+                                    [Colors.transparent, Colors.white10]:
                                     [Colors.transparent, Colors.white10],
-                                    begin: Alignment.centerRight,
-                                    end: Alignment.centerLeft,
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
 
                                   ),
                                 borderRadius: BorderRadius.circular(10),
@@ -604,12 +604,13 @@ locationPlace(){
                               Container(
                                 height: 50,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
                                     gradient: LinearGradient(
                                       colors: customDrawerController.isDarkMode == false?
-                                      [AppColor.cardbg, AppColor.cardbg]:
+                                      [Colors.transparent, Colors.white10]:
                                       [Colors.transparent, Colors.white10],
-                                      begin: Alignment.centerRight,
-                                      end: Alignment.centerLeft,
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
 
                                     )
                               ),

@@ -183,8 +183,8 @@ class ProfileView extends GetView<ProfileController> {
                                   colors: customDrawerController.isDarkMode == false?
                                   [AppColor.cardbg, AppColor.cardbg]:
                                   [Colors.transparent, Colors.white10],
-                                  begin: Alignment.centerRight,
-                                  end: Alignment.centerLeft,
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
 
                                 )
                             ),
@@ -241,8 +241,8 @@ class ProfileView extends GetView<ProfileController> {
                                   colors: customDrawerController.isDarkMode == false?
                                   [AppColor.cardbg, AppColor.cardbg]:
                                   [Colors.transparent, Colors.white10],
-                                  begin: Alignment.centerRight,
-                                  end: Alignment.centerLeft,
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
 
                                 )
                             ),
@@ -343,8 +343,8 @@ class ProfileView extends GetView<ProfileController> {
                                   colors: customDrawerController.isDarkMode == false?
                                   [AppColor.cardbg, AppColor.cardbg]:
                                   [Colors.transparent, Colors.white10],
-                                  begin: Alignment.centerRight,
-                                  end: Alignment.centerLeft,
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
 
                                 )
                             ),
@@ -405,8 +405,8 @@ class ProfileView extends GetView<ProfileController> {
                                   colors: customDrawerController.isDarkMode == false?
                                   [AppColor.cardbg, AppColor.cardbg]:
                                   [Colors.transparent, Colors.white10],
-                                  begin: Alignment.centerRight,
-                                  end: Alignment.centerLeft,
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
 
                                 )
                             ),
@@ -472,8 +472,8 @@ class ProfileView extends GetView<ProfileController> {
                                     colors: customDrawerController.isDarkMode == false?
                                     [AppColor.cardbg, AppColor.cardbg]:
                                     [Colors.transparent, Colors.white10],
-                                    begin: Alignment.centerRight,
-                                    end: Alignment.centerLeft,
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
 
                                   ),
 

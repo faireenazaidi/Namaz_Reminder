@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import '../DashBoard/dashboardController.dart';
 import '../Services/user_data.dart';
@@ -16,7 +17,14 @@ class CustomDrawerController extends GetxController {
   // var pending = 0.obs;
 
   UserData userData = UserData();
+  final GetStorage _storage = GetStorage();
 
+  @override
+  void onInit() {
+    super.onInit();
+    isDarkMode.value = _storage.read('isDarkMode') ?? false;
+  }
+  // Storage instance
   void updateUser(String name, String email) {
     userName.value = name;
     this.email.value = email;
@@ -30,10 +38,13 @@ class CustomDrawerController extends GetxController {
     leaderboardCount.value = count;
   }
 
+  // void toggleDarkMode(bool value) {
+  //   isDarkMode.value = value;
+  // }
   void toggleDarkMode(bool value) {
     isDarkMode.value = value;
+    _storage.write('isDarkMode', value); // Save preference
   }
-
   void selectIndex(int index) {
     selectedIndex.value = index;
   }

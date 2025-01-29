@@ -297,6 +297,13 @@ class MyTextTheme {
       fontSize: 16,
       fontWeight: FontWeight.w500
   );
+
+  // static TextStyle locationField = GoogleFonts.roboto(
+  //     color: AppColor.cardbg,
+  //     fontSize: 16,
+  //     fontWeight: FontWeight.w500
+  // );
+
   static TextStyle smallBCN = GoogleFonts.roboto(
       color: AppColor.greyLight,
       fontSize: 14,

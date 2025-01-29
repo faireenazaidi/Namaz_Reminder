@@ -426,7 +426,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             ),
 
                           // Conditionally show the "Mark as Prayer" button
-                         controller.isPrayed?Text("",style: TextStyle(
+                         controller.isPrayed?const Text("",style: TextStyle(
                              color: AppColor.color,fontWeight: FontWeight.w600
                          ),):
                          Positioned(
@@ -447,7 +447,7 @@ class DashBoardView extends GetView<DashBoardController> {
                               return isBeforeNextPrayer
                                   ? const SizedBox.shrink() // Hide the button
                                   : InkWell(
-                                child:controller.isPrayed? Text("Prayed!",style: TextStyle(
+                                child:controller.isPrayed? const Text("Prayed!",style: TextStyle(
                                     color: AppColor.color,fontWeight: FontWeight.w600
                                 ),) :Text("Mark as Prayed", style: MyTextTheme.mustardN),
                                 onTap: () {
