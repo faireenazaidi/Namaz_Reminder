@@ -13,7 +13,6 @@ import 'package:namaz_reminders/Widget/text_theme.dart';
 
 class AddFriendView extends GetView<AddFriendController> {
   const AddFriendView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
@@ -54,15 +53,26 @@ class AddFriendView extends GetView<AddFriendController> {
       body: GetBuilder(
         init: controller,
         builder: (_) {
+          // List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
+          //     .where((user) {
+          //       // Check if the search query matches the name or phone number (convert to lowercase for case-insensitivity)
+          //       final searchQuery = controller.searchQuery.toLowerCase();
+          //       final nameMatch = user.name?.toLowerCase().contains(searchQuery) ?? false;
+          //       final phoneMatch = user.mobileNo?.contains(searchQuery) ?? false;
+          //       return nameMatch || phoneMatch;
+          //     })
+          //     .toList();
           List<RegisteredUserDataModal> filteredUsers = controller.getRegisteredUserList
+              .where((user) => user.name != null) // Remove users with null names
               .where((user) {
-                // Check if the search query matches the name or phone number (convert to lowercase for case-insensitivity)
-                final searchQuery = controller.searchQuery.toLowerCase();
-                final nameMatch = user.name?.toLowerCase().contains(searchQuery) ?? false;
-                final phoneMatch = user.mobileNo?.contains(searchQuery) ?? false;
-                return nameMatch || phoneMatch;
-              })
-              .toList();
+            final searchQuery = controller.searchQuery.toLowerCase();
+            final nameMatch = user.name!.toLowerCase().contains(searchQuery);
+            final phoneMatch = user.mobileNo?.contains(searchQuery) ?? false;
+            return nameMatch || phoneMatch;
+          })
+              .toList()
+            ..sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase())); // Sort by name
+
 
           return Padding(
             padding: const EdgeInsets.all(12.0),
@@ -377,7 +387,7 @@ class AddFriendView extends GetView<AddFriendController> {
 
                                     }
                                   },
-                                  child:matchedRequest==null?
+                                  child:matchedRequest ==null?
                                   Container(
                                     height: 30,
                                     width: 80,

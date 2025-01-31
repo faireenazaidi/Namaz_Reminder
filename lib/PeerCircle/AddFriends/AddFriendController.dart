@@ -39,7 +39,7 @@ class AddFriendController extends GetxController {
     checkInviteStatus(userData.getUserData!.id);
     fetchRegisteredUsers();
     fetchFriendRequests();
-    // filteredUserList.value = getRegisteredUserList;
+   // filteredUserList.value = getRegisteredUserList;
   }
   void updateSearchQuery(String query) {
     searchQuery = query;
@@ -151,6 +151,8 @@ class AddFriendController extends GetxController {
     }
   }
 
+
+
   RxList invitedFriendList = [].obs;
   List<RegisteredUserDataModal> get getInvitedFriendList =>
       List<RegisteredUserDataModal>.from(
@@ -200,7 +202,7 @@ class AddFriendController extends GetxController {
 
     }
   }
-  ///ACCEPT REQUEST
+  //ACCEPT REQUEST
   acceptFriendRequest(FriendRequestDataModal friendRequestData) async {
     var headers = {
       'Content-Type': 'application/json'
@@ -217,13 +219,16 @@ class AddFriendController extends GetxController {
 
     var data = jsonDecode(await response.stream.bytesToString());
 
-    print("fff $data");
+    print("friend request is: $data");
 
      fetchFriendRequests();
     update();
    peerController.friendship();
    dashBoardController.fetchMissedPrayersCount();
   }
+
+
+
 
   ///DECLINE REQUEST
   declineRequest(FriendRequestDataModal friendRequestData) async {
@@ -244,8 +249,6 @@ class AddFriendController extends GetxController {
     print("aaaaaaaaaa $data");
     dashBoardController.fetchMissedPrayersCount();
   }
-
-
 }
 ///////////////////
 

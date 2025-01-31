@@ -18,7 +18,6 @@ class PeerView extends GetView<PeerController> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-    final PeerController peerController = Get.put(PeerController());
     final AddFriendController addFriendController = Get.put(AddFriendController());
     final NotificationController notificationController = Get.put(NotificationController());
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
@@ -83,9 +82,9 @@ class PeerView extends GetView<PeerController> {
                 child: TextField(
                   controller: searchController,
                   onChanged: (value) {
-                    peerController.setSearchText(value);
+                    controller.setSearchText(value);
                     // Trigger a rebuild to update the suffix icon visibility
-                    peerController.update(); // Assuming you are using GetX for state management
+                    controller.update(); // Assuming you are using GetX for state management
                   },
                   cursorColor: AppColor.color,
                   decoration: InputDecoration(
@@ -109,13 +108,13 @@ class PeerView extends GetView<PeerController> {
                     ),
                     suffixIcon: Obx(() {
                       // Show the cancel icon only when there is text in the search bar
-                      return peerController.searchText.isNotEmpty
+                      return controller.searchText.isNotEmpty
                           ? IconButton(
                         icon: const Icon(Icons.cancel, color: Colors.grey),
                         onPressed: () {
                           searchController.clear();
-                          peerController.setSearchText('');
-                          peerController.update();
+                          controller.setSearchText('');
+                          controller.update();
                         },
                       )
                           : const SizedBox.shrink(); // Hide the icon when no text
@@ -493,18 +492,18 @@ class PeerView extends GetView<PeerController> {
                   // Friend list below the title
                   Expanded(
                     child: GetBuilder<PeerController>(builder: (_) {
-                      if (peerController.isLoading.value) {
+                      if (controller.isLoading.value) {
                         return Center(child: CircularProgressIndicator());
                       }
 
-                      else if (peerController.filteredFriendsList.isEmpty) {
+                      else if (controller.filteredFriendsList.isEmpty) {
                         return Center(child: Text('No friends found'));
                       }
 
                       return ListView.builder(
-                        itemCount: peerController.filteredFriendsList.length,
+                        itemCount: controller.filteredFriendsList.length,
                         itemBuilder: (context, index) {
-                          Friendship friend = peerController.filteredFriendsList[index];
+                          Friendship friend = controller.filteredFriendsList[index];
                           return Column(
                             children: [
                               Row(
@@ -543,7 +542,8 @@ class PeerView extends GetView<PeerController> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              friend.user2.name.toString(),
+                                             // friend.user2.name.toString(),
+                                              controller.capitalizeFirstLetter(friend.user2.name.toString(),),
                                               style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold
                                               ),
                                             ),
@@ -690,7 +690,7 @@ class PeerView extends GetView<PeerController> {
 
                                                 // Dynamic text change
                                                 Text(
-                                                  peerController.isRemoved.value
+                                                  controller.isRemoved.value
                                                       ? "Remove Peer Successful"
                                                       : "ARE YOU SURE?",
                                                   style: MyTextTheme.mustardNn,
@@ -711,7 +711,7 @@ class PeerView extends GetView<PeerController> {
                                                           borderRadius: BorderRadius.circular(10),
                                                         ),
                                                         child: TextButton(
-                                                          onPressed: peerController.isRemoved.value
+                                                          onPressed: controller.isRemoved.value
                                                               ? null
                                                               : () {
                                                             Get.back();
@@ -723,7 +723,7 @@ class PeerView extends GetView<PeerController> {
                                                           child: Text(
                                                             'No, Go Back',
                                                             style: TextStyle(
-                                                              color: peerController.isRemoved.value
+                                                              color: controller.isRemoved.value
                                                                   ? Colors.white24
                                                                   : Colors.white
                                                             ),
@@ -741,21 +741,21 @@ class PeerView extends GetView<PeerController> {
                                                           borderRadius: BorderRadius.circular(10),
                                                         ),
                                                         child: TextButton(
-                                                          onPressed: peerController.isRemoved.value
+                                                          onPressed: controller.isRemoved.value
                                                               ? null
                                                               : () async {
-                                                            await peerController.removeFriend(
+                                                            await controller.removeFriend(
                                                                 friend.user2.id.toString());
-                                                            peerController.filteredFriendsList
+                                                            controller.filteredFriendsList
                                                                 .removeAt(index);
-                                                            peerController.update();
+                                                            controller.update();
 
                                                             // Update state
-                                                            peerController.isRemoved.value = true;
+                                                            controller.isRemoved.value = true;
 
                                                             // Auto-close after 2 seconds (optional)
                                                             Future.delayed(const Duration(seconds: 2), () {
-                                                              peerController.isRemoved.value = false;
+                                                              controller.isRemoved.value = false;
                                                               Get.back();
                                                             });
                                                           },
@@ -766,7 +766,7 @@ class PeerView extends GetView<PeerController> {
                                                           child: Text(
                                                             'Yes, Remove',
                                                             style: TextStyle(
-                                                              color: peerController.isRemoved.value
+                                                              color: controller.isRemoved.value
                                                                   ? Colors.white24
                                                                   : Colors.white
                                                             ),

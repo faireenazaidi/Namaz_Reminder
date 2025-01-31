@@ -194,10 +194,11 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                             ),
                             const SizedBox(height: 60),
                             InkWell(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
+                              // splashColor: Colors.transparent,
+                              // highlightColor: Colors.transparent,
                               onTap: () async {
                                 if(controller.getSelectedTab == 'Weekly'){
+
                                   DateTime? picked = await showDatePicker(
                                     context: context,
                                     initialDate: controller.getSelectedTab ==
@@ -210,7 +211,28 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                         ? DateTime.now()
                                         : DateTime.now().subtract(
                                         Duration(days: 1)),
+                                    builder: (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: Theme.of(context).copyWith(
+                                          dialogBackgroundColor: Colors.red,
+
+                                          colorScheme: const ColorScheme.light(
+                                            primary: Colors.yellow,  // Header & selected date color
+                                            onPrimary: Colors.black, // Header text color
+                                            onSurface: Colors.red, // Text color
+                                          ),
+                                          textButtonTheme: TextButtonThemeData(
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Colors.yellow, // OK & Cancel button color
+                                            ),
+                                          ),
+                                        ),
+                                        child: child!,
+                                      );
+                                    },
                                   );
+
+
                                   if (picked != null) {
                                     controller.updateSelectedDate(picked);
                                     print("sssssssssss${controller.selectedDate}");
@@ -272,7 +294,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                               child: Obx(() {
                                   return Text(
                                     controller.getSelectedTab == 'Daily'?"TODAY'S TIMELINE":"Weekly TIMELINE",
-                                    style: const TextStyle(color: Colors.grey,
+                                    style: const TextStyle(color: Colors.black38,
                                         fontWeight: FontWeight.bold),
                                   );
                                 }
@@ -403,9 +425,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 20.8,
-                                                          backgroundColor: Colors
-                                                              .yellowAccent,
+                                                          radius: 21,
+                                                          backgroundColor: AppColor.color,
                                                           child: CircleAvatar(
                                                             backgroundColor: Colors.white,
                                                             child: controller
@@ -681,7 +702,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                             ))
                                                             : !isMissedPrayers
                                                             ? CircleAvatar(
-                                                          radius: 20.8,
+                                                          radius: 21,
                                                           backgroundColor: Colors.yellowAccent,
                                                           child: CircleAvatar(
                                                             backgroundColor: Colors.white,
@@ -704,7 +725,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                       .picture}", // Replace with your image URL
                                                                 ),
                                                               )
-                                                                  : Icon(
+                                                                  : const Icon(
                                                                 Icons.person,
                                                                 color: AppColor.color,
                                                                 size: 30,),
@@ -2139,3 +2160,4 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
     );
   }
 }
+

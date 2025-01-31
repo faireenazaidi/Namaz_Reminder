@@ -419,9 +419,9 @@ class ProfileView extends GetView<ProfileController> {
                                 //customDrawerController.isDarkMode == false ? AppColor.cardbg: Colors.white12,
                                 hintText: "Enter your email",
                                 hintStyle: MyTextTheme.mediumCustomGCN,
-                                prefixIcon: Icon(
-                                  Icons.email_outlined,color:Theme.of(context).iconTheme.color,
-                                  size: 20,),
+                                prefixIcon:
+                                SvgPicture.asset(
+                                  "assets/Email.svg", fit: BoxFit.scaleDown,color:Theme.of(context).iconTheme.color,),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(

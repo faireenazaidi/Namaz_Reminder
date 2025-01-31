@@ -32,43 +32,43 @@ class PeerController extends GetxController{
     filterFriends();
   }
 
-  // friendship() async {
-  //   var request = http.Request('GET', Uri.parse(
-  //       'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
-  //
-  //   http.StreamedResponse response = await request.send();
-  //   isLoading.value = false;
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(await response.stream.bytesToString());
-  //     updateFriendRequestList = data['friendships'];
-  //     print("object"+data['friendships'].toString());
-  //   }
-  //   else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
-
   friendship() async {
-    isLoading.value = false;
-    try {
-      print("Fetching leaderboard data...");
-      final userId = userData.getUserData!.id;
-      final endpoint = 'friendships/?user_id=$userId';
-      final response = await ApiService().getRequest(endpoint);
-      if (response != null) {
-        print("Response: $response");
-        updateFriendRequestList = response['friendships'];
-        print("object"+response['friendships'].toString());
-        }
+    var request = http.Request('GET', Uri.parse(
+        'http://182.156.200.177:8011/adhanapi/friendships/?user_id=${userData.getUserData!.id.toString()}'));
 
-    } catch (e) {
-      // print("Error: $e");
-      // final context = navigatorKey.currentContext!;
-      // Dialogs.showCustomBottomSheet(context: context,
-      //   content: NoInternet(message: '$e',
-      //       onRetry: (){friendship();}),);
+    http.StreamedResponse response = await request.send();
+    isLoading.value = false;
+    if (response.statusCode == 200) {
+      var data = jsonDecode(await response.stream.bytesToString());
+      updateFriendRequestList = data['friendships'];
+      print("object"+data['friendships'].toString());
+    }
+    else {
+      print(response.reasonPhrase);
     }
   }
+
+  // friendship() async {
+  //   isLoading.value = false;
+  //   try {
+  //     print("Fetching leaderboard data...");
+  //     final userId = userData.getUserData!.id;
+  //     final endpoint = 'friendships/?user_id=$userId';
+  //     final response = await ApiService().getRequest(endpoint);
+  //     if (response != null) {
+  //       print("Response: $response");
+  //       updateFriendRequestList = response['friendships'];
+  //       print("object"+response['friendships'].toString());
+  //       }
+  //
+  //   } catch (e) {
+  //     // print("Error: $e");
+  //     // final context = navigatorKey.currentContext!;
+  //     // Dialogs.showCustomBottomSheet(context: context,
+  //     //   content: NoInternet(message: '$e',
+  //     //       onRetry: (){friendship();}),);
+  //   }
+  // }
 
   List friendshipList = [];
 
@@ -82,19 +82,43 @@ class PeerController extends GetxController{
     filterFriends();
     update();
   }
+  // void filterFriends() {
+  //   if (searchText.value.isEmpty) {
+  //     filteredFriendsList.value = getFriendshipList;
+  //   } else {
+  //     filteredFriendsList.value = getFriendshipList.where((friend) {
+  //       return friend.user2.name
+  //           .toString()
+  //           .toLowerCase()
+  //           .contains(searchText.value.toLowerCase());
+  //     }).toList();
+  //   }
+  //   update();
+  // }
+//
   void filterFriends() {
     if (searchText.value.isEmpty) {
-      filteredFriendsList.value = getFriendshipList;
+      // Sort the friends list in ascending order by name
+      filteredFriendsList.value = getFriendshipList
+        ..sort((a, b) => a.user2.name.toLowerCase().compareTo(b.user2.name.toLowerCase()));
     } else {
       filteredFriendsList.value = getFriendshipList.where((friend) {
         return friend.user2.name
             .toString()
             .toLowerCase()
             .contains(searchText.value.toLowerCase());
-      }).toList();
+      }).toList()
+        ..sort((a, b) => a.user2.name.toLowerCase().compareTo(b.user2.name.toLowerCase()));
+      capitalizeFirstLetter(filteredFriendsList.toString());
     }
+
     update();
   }
+  String capitalizeFirstLetter(String name) {
+    if (name.isEmpty) return name;
+    return name[0].toUpperCase() + name.substring(1).toLowerCase();
+  }
+
 
 
   void removeFriends(int index){

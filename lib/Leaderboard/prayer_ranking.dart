@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:namaz_reminders/Widget/appColor.dart';
+import '../AppManager/dialogs.dart';
 import '../DashBoard/dashboardController.dart';
 import '../DashBoard/timepickerpopup.dart';
 import '../Drawer/drawerController.dart';
@@ -108,13 +109,17 @@ class PrayerRanking extends StatelessWidget {
                     );
                   }
                 },
-                child: buildPrayerCircle(
-                  'F',
-                  currentTime.isBefore(fajrStartTime)
-                      ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.white12
-                      : currentTime.isAfter(fajrEndTime)
-                      ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.color,
+                child: CircleAvatar(
+                  radius: 20.55,
+                  backgroundColor: AppColor.color,
+                  child: buildPrayerCircle(
+                    'F',
+                    currentTime.isBefore(fajrStartTime)
+                        ?  customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.black
+                        : currentTime.isAfter(fajrEndTime)
+                        ? Colors.redAccent  // Prayer time has passed
+                        : AppColor.color,
+                  ),
                 ),
               ),
 
@@ -153,18 +158,22 @@ class PrayerRanking extends StatelessWidget {
                     );
                   }
                 },
-                child: buildPrayerCircle(
-                  'D',
-                  currentTime.isBefore(dhuhrStartTime)
-                      ? AppColor.packageGray  // Prayer has not started yet
-                      : currentTime.isAfter(dhuhrEndTime)
-                      ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.color,  // Prayer is ongoing
-                        // : AppColor.packageGray
-                      // : ( DhuhrEndTime.isBefore(currentTime)
-                      // ? Colors.redAccent
-                      // : AppColor.packageGray),
+                child: CircleAvatar(
+                  radius: 20.55,
+                  backgroundColor: AppColor.color,
+                  child: buildPrayerCircle(
+                    'D',
+                    currentTime.isBefore(dhuhrStartTime)
+                        ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.black
+                        : currentTime.isAfter(dhuhrEndTime)
+                        ? Colors.redAccent  // Prayer time has passed
+                        : AppColor.color,  // Prayer is ongoing
+                          // : AppColor.packageGray
+                        // : ( DhuhrEndTime.isBefore(currentTime)
+                        // ? Colors.redAccent
+                        // : AppColor.packageGray),
 
+                  ),
                 ),
               ),
               InkWell(
@@ -202,13 +211,17 @@ class PrayerRanking extends StatelessWidget {
                     );
                   }
                 },
-                child: buildPrayerCircle(
-                    'A',
-                  currentTime.isBefore(asrStartTime)
-                      ? AppColor.packageGray  // Prayer has not started yet
-                      : currentTime.isAfter(asrEndTime)
-                      ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.color,
+                child: CircleAvatar(
+                  radius: 20.55,
+                  backgroundColor: AppColor.color,
+                  child: buildPrayerCircle(
+                      'A',
+                    currentTime.isBefore(asrStartTime)
+                        ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.black
+                        : currentTime.isAfter(asrEndTime)
+                        ? Colors.redAccent  // Prayer time has passed
+                        : AppColor.color,
+                  ),
                 ),
               ),
               InkWell(
@@ -247,12 +260,12 @@ class PrayerRanking extends StatelessWidget {
                   }
                 },
                 child: CircleAvatar(
-                  radius: 21,
+                  radius: 20.55,
                   backgroundColor: AppColor.color,
                   child: buildPrayerCircle(
                       'M',
                     currentTime.isBefore(maghribStartTime)
-                        ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.white
+                        ? customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.black
                         : currentTime.isAfter(maghribEndTime)
                         ? Colors.redAccent
                         : AppColor.color,
@@ -294,14 +307,19 @@ class PrayerRanking extends StatelessWidget {
                     );
                   }
                 },
-                child: buildPrayerCircle(
-                    'I',
-                  currentTime.isBefore(ishaStartTime)
-                      ? AppColor.packageGray  // Prayer has not started yet
-                      : currentTime.isAfter(ishaEndTime)
-                      ? Colors.redAccent  // Prayer time has passed
-                      : AppColor.color,
+                child: CircleAvatar(
+                  radius: 20.55,
+                  backgroundColor: AppColor.color,
+                  child: buildPrayerCircle(
+                      'I',
+                    currentTime.isBefore(ishaStartTime)
+                        ?customDrawerController.isDarkMode == false ? AppColor.packageGray: Colors.black
+                        : currentTime.isAfter(ishaEndTime)
+                        ? Colors.redAccent  // Prayer time has passed
+                        : AppColor.color,
+                  ),
                 ),
+
               ),
               Text(
                 "Overall",
@@ -378,17 +396,25 @@ class PrayerRanking extends StatelessWidget {
           ? AppColor.color
           : (color == Colors.redAccent)
           ? Colors.redAccent
-          : Colors.white10,
+          : Colors.transparent,
       child: CircleAvatar(
         radius: 20,
         backgroundColor: color,
         child: Text(
           label,
-          style: const TextStyle(color: Colors.black, fontSize: 16,fontWeight: FontWeight.w400),
+        //  style: const TextStyle(color: Colors.black, fontSize: 16,fontWeight: FontWeight.w400),
+          style: TextStyle(
+            color: (customDrawerController.isDarkMode== true && color == Colors.black)
+                ? Colors.white
+                : Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
     );
   }
+
 
   Widget buildUserList(List<Record>? users) {
     if (users == null || users.isEmpty) {

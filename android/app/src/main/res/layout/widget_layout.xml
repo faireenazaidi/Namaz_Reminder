@@ -1,12 +1,11 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="@drawable/img"
     android:alpha="1"
+    android:background="@drawable/img"
     android:orientation="vertical"
-   > <!-- Replace with a simple color -->
+    android:padding="16dp"
+    android:rotationX="-2"> <!-- Replace with a simple color -->
 
     <TextView
         android:id="@+id/title"
@@ -24,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <!-- Progress Bar -->
         <ProgressBar

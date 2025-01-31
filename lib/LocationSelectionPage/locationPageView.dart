@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/LocationSelectionPage/locationPageController.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../AppManager/dialogs.dart';
+import '../Drawer/drawerController.dart';
 import '../Widget/appColor.dart';
 import '../Widget/myButton.dart';
 import '../Widget/text_theme.dart';
@@ -15,6 +16,7 @@ class LocationPage extends GetView<LocationPageController> {
 
   @override
   Widget build(BuildContext context) {
+    final CustomDrawerController customDrawerController = Get.put(CustomDrawerController());
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
@@ -100,48 +102,60 @@ class LocationPage extends GetView<LocationPageController> {
                         ),
 
                         const SizedBox(height: 10),
-                        IntlPhoneField(
-                          cursorColor: AppColor.color,
-                          controller: controller.phoneController.value,
-                          decoration: InputDecoration(
-                            // Use Row in prefixIcon to combine phone icon and a space
-                            prefixIcon: Icon(Icons.abc),
-                            hintText: "Enter your phone number",
-                            hintStyle: MyTextTheme.mediumCusGCN,
-                            filled: true,
-                            fillColor: Colors.white10,
-                            counterText: "",
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white,width: 0),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(color: Colors.white,width: 0),
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: customDrawerController.isDarkMode == false?
+                                [Colors.transparent, Colors.white10]:
+                                [Colors.transparent, Colors.white10],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+
+                              )
                           ),
-                          initialCountryCode: 'IN',
-                          dropdownIconPosition: IconPosition.trailing,
-                          dropdownTextStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
+                          child: IntlPhoneField(
+                            cursorColor: AppColor.color,
+                            controller: controller.phoneController.value,
+                            decoration: InputDecoration(
+                              // Use Row in prefixIcon to combine phone icon and a space
+                              prefixIcon: Icon(Icons.abc),
+                              hintText: "Enter your phone number",
+                              hintStyle: MyTextTheme.mediumCusGCN,
+                              filled: true,
+                              fillColor: Colors.white10,
+                              counterText: "",
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(color: Colors.white,width: 0),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(color: Colors.white,width: 0),
+                              ),
+                            ),
+                            initialCountryCode: 'IN',
+                            dropdownIconPosition: IconPosition.trailing,
+                            dropdownTextStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            showCountryFlag: false,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                            onCountryChanged: (val){
+                              print("country change ${val.maxLength}");
+                              controller.numberMaxLength.value=val.maxLength;
+                            },
+                            onChanged: (phone) {
+                              print(phone.completeNumber);
+                            },
                           ),
-                          showCountryFlag: false,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                          onCountryChanged: (val){
-                            print("country change ${val.maxLength}");
-                            controller.numberMaxLength.value=val.maxLength;
-                          },
-                          onChanged: (phone) {
-                            print(phone.completeNumber);
-                          },
                         ),
                         const SizedBox(height: 20),
                         MyButton(
@@ -218,6 +232,7 @@ class LocationPage extends GetView<LocationPageController> {
 
                           const SizedBox(height: 30),
                           PinCodeTextField(
+
                             autoDismissKeyboard: true, //for otp auto fill//
                             // autofillHints: [AutofillHints.oneTimeCode],
                             length: 6,
@@ -361,38 +376,50 @@ class LocationPage extends GetView<LocationPageController> {
                           style: MyTextTheme.mediumWCN,
                         ),
                         SizedBox(height: 5,),
-                        TextField(
-                          controller: controller.nameC.value,
-                          cursorColor: AppColor.color,
-                          decoration: InputDecoration(
-                            hintText: "Enter your name",
-                            hintStyle: MyTextTheme.mediumCustomGCN,
-                            // prefixIcon: Image.asset("asset/profile.png"),
-                            fillColor: Colors.white.withOpacity(0.1),
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Colors.white,
-                                width: 1,
-                              ),
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(
+                                colors: customDrawerController.isDarkMode == false?
+                                [Colors.transparent, Colors.white10]:
+                                [Colors.transparent, Colors.white10],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              )
                           ),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          child: TextField(
+                            controller: controller.nameC.value,
+                            cursorColor: AppColor.color,
+                            decoration: InputDecoration(
+                              hintText: "Enter your name",
+                              hintStyle: MyTextTheme.mediumCustomGCN,
+                              // prefixIcon: Image.asset("asset/profile.png"),
+                              fillColor: Colors.white.withOpacity(0.1),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         Padding(
