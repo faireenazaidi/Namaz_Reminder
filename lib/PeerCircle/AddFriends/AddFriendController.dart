@@ -225,6 +225,7 @@ class AddFriendController extends GetxController {
     update();
    peerController.friendship();
    dashBoardController.fetchMissedPrayersCount();
+
   }
 
 

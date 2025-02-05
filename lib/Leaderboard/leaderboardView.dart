@@ -239,6 +239,32 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                           ? leaderBoardController.selectedDate.value
                                           : DateTime.now().subtract(
                                           const Duration(days: 1)),
+                                      builder: (BuildContext context, Widget? child) {
+                                        return Theme(
+                                          data: Theme.of(context).copyWith(
+                                            // Use the current theme's brightness to determine the color scheme
+                                            colorScheme: Theme.of(context).brightness == Brightness.dark
+                                                ? const ColorScheme.dark(
+
+                                              primary: AppColor.color,
+                                              onPrimary: Colors.white,
+                                              onSurface: Colors.white,
+                                            )
+                                                : const ColorScheme.light(
+                                              primary: AppColor.color,
+                                              onPrimary: Colors.black,
+                                              onSurface: Colors.black,
+                                            ),
+                                            textButtonTheme: TextButtonThemeData(
+                                              style: TextButton.styleFrom(
+                                                foregroundColor: AppColor.color, // OK & Cancel button color
+                                              ),
+                                            ),
+                                          ),
+                                          child: child!,
+                                        );
+
+                                      },
                                     );
                                     if (picked != null) {
                                       leaderBoardController.updateSelectedDate(
@@ -328,8 +354,10 @@ class _LeaderBoardViewState extends State<LeaderBoardView> {
                                             "${DateFormat('EEE, d MMMM yyyy').format(leaderBoardController.selectedDate.value.subtract(Duration(days: 6)))}",
                                         style: const TextStyle(fontSize: 12,
                                             color: Colors.black),
-                                      )
-                                      )
+                                      ),
+
+                                      ),
+
                                     ],
                                   ),
                                 ),

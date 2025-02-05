@@ -369,10 +369,13 @@ class Upcoming extends GetView<UpcomingController> {
                         return Obx(() {
                           // Separate Obx for handling observable variables only
                           String nextPrayer = prayerList[0]['name']!;
-                          String startTime24 = prayerDurations[nextPrayer]?['start'] ?? 'N/A';
-                          String endTime24 = prayerDurations[nextPrayer]?['end'] ?? 'N/A';
-                          // String startTime12 = dashboardController.convertTo12HourFormat(startTime24);
-                          // String endTime12 = dashboardController.convertTo12HourFormat(endTime24);
+                         // String startTime24 = prayerDurations[nextPrayer]?['start'] ?? 'N/A';
+                         // String endTime24 = prayerDurations[nextPrayer]?['end'] ?? 'N/A';
+                          String prayerName = prayerList[index]['name']!;
+                          String startTime24 = prayerDurations[prayerName]?['start'] ?? 'N/A';
+                          String endTime24 = prayerDurations[prayerName]?['end'] ?? 'N/A';
+                          print("pppppppppppp:"+prayerName);
+
 
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -390,14 +393,15 @@ class Upcoming extends GetView<UpcomingController> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
 
-                                      // Text(nextPray, style: MyTextTheme.medium),
-                                        Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,
-                                          style: MyTextTheme.medium.copyWith(
-                                              color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.w500)),
-                                        // InkWell(
-                                        //   onTap: () {},
-                                        //   child: Icon(Icons.more_horiz),
-                                        // ),
+                                       Text(prayerName,  style: MyTextTheme.medium.copyWith(
+                                color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.w500)),
+                                      //   Text(controller.isGapPeriod.value?controller.currentPrayer.value:controller.nextPrayerName.value,
+                                      //     style: MyTextTheme.medium.copyWith(
+                                      //         color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.w500)),
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Icon(Icons.more_horiz),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(height: 5),

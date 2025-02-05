@@ -157,7 +157,6 @@ void main() async {
   Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
     _handleConnectivityChange(result);
   });
-
   runApp(MyApp());
 }
 
@@ -1082,6 +1081,7 @@ class MyApp extends StatelessWidget {
     themeController.updateSystemUIOverlayStyle();
 
     return Obx(() => GetMaterialApp(
+
       navigatorKey: navigatorKey,
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,

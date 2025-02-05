@@ -15,6 +15,7 @@ import '../AppManager/dialogs.dart';
 import '../DataModels/CalendarDataModel.dart';
 import 'package:http/http.dart' as http;
 import '../DataModels/LoginResponse.dart';
+import '../Drawer/drawerController.dart';
 import '../Leaderboard/leaderboardDataModal.dart';
 import '../Notification/NotificationSetting/notificationSettingController.dart';
 import '../Services/ApiService/api_service.dart';
@@ -27,6 +28,7 @@ class DashBoardController extends GetxController {
   final PageController pageController = PageController();
   Rx<TextEditingController> locationController = TextEditingController().obs;
   final SettingController settingController = Get.put(SettingController());
+
   final NotificationSettingController notificationSettingController = Get.put(
       NotificationSettingController());
 

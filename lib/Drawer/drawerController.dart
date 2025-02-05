@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -13,16 +12,25 @@ class CustomDrawerController extends GetxController {
   var leaderboardCount = 5.obs;
   var isDarkMode = false.obs;
   var selectedIndex = (-1).obs;
-  // var missedPrayersCount = 0.obs;
-  // var pending = 0.obs;
 
   UserData userData = UserData();
-  final GetStorage _storage = GetStorage();
 
   @override
   void onInit() {
+    loadDarkModePreference();
     super.onInit();
-    isDarkMode.value = _storage.read('isDarkMode') ?? false;
+  }
+  // Load dark mode preference from storage
+  void loadDarkModePreference() {
+    final storedValue = GetStorage().read<bool>('isDarkMode');
+    if (storedValue != null) {
+      isDarkMode.value = storedValue;
+      print("loaded dark mode preferences: $storedValue");
+    }
+    else
+      {
+        print("Noo dark mode preferences: ${isDarkMode.value}");
+      }
   }
   // Storage instance
   void updateUser(String name, String email) {
@@ -38,46 +46,19 @@ class CustomDrawerController extends GetxController {
     leaderboardCount.value = count;
   }
 
-  // void toggleDarkMode(bool value) {
-  //   isDarkMode.value = value;
-  // }
+  // Save dark mode preference to storage
+  void saveDarkModePreference() {
+    GetStorage().write('isDarkMode', isDarkMode.value);
+    print("Saveddd: ${isDarkMode.value}");
+    saveDarkModePreference();
+  }
+
   void toggleDarkMode(bool value) {
     isDarkMode.value = value;
-    _storage.write('isDarkMode', value); // Save preference
+
   }
   void selectIndex(int index) {
     selectedIndex.value = index;
   }
-
-  // Future<void> fetchMissedPrayersCount() async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=6&prayername=isha'),
-  //         //Uri.parse('http://182.156.200.177:8011/adhanapi/missed-prayers/?user_id=${userData.getUserData!.id}&prayername=${dashBoardController.currentPrayer}')
-  //
-  //     );
-  //     if (response.statusCode == 200) {
-  //       var data = jsonDecode(response.body);
-  //       int totalMissedPrayers = data['total_missed_prayers'] ?? 0;
-  //       missedPrayersCount.value = totalMissedPrayers;
-  //
-  //       print('Total Missed Prayers: ${missedPrayersCount.value}');
-  //       int totalPending = data['total_pending'] ?? 0;
-  //       pending.value = totalPending;
-  //       print('Pending: ${pending.value}');
-  //     } else {
-  //       print('Failed to fetch total missed prayers: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching total missed prayers: $e');
-  //   }
-  // }
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   print("CustomDrawerController initialized");
-  //   // fetchMissedPrayersCount();
-  // }
 
 }

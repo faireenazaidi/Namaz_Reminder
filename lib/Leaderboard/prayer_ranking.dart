@@ -61,7 +61,6 @@ class PrayerRanking extends StatelessWidget {
     // print(dhuhrEndTime);
 
 
-
     Map<String, List<Record>> groupedByPrayer = groupByPrayer(records);
     return
       Padding(
@@ -72,7 +71,6 @@ class PrayerRanking extends StatelessWidget {
           SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
             children: [
               InkWell(
                 onTap: () async {
@@ -330,7 +328,6 @@ class PrayerRanking extends StatelessWidget {
             ],
 
           ),
-
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.all(5.0),
@@ -372,7 +369,7 @@ class PrayerRanking extends StatelessWidget {
                                 child: Icon(Icons.person,color: AppColor.color,size: 25,),
                               ),
                             ),
-                            id==ranked[index].id.toString()?const 
+                            id==ranked[index].id.toString()?const
                             Text('You',style: TextStyle(fontSize: 12,color: AppColor.color,fontWeight: FontWeight.w500),):
                             Text(ranked[index].name.split(' ')[0],
                               style: const TextStyle(fontSize: 12),)

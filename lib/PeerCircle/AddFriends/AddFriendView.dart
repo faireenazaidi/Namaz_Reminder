@@ -318,109 +318,218 @@ class AddFriendView extends GetView<AddFriendController> {
                       ),
                     ),
                   ),
-              Expanded(
-                  child:
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: filteredUsers.length,
-                      itemBuilder: (context, index) {
-                        RegisteredUserDataModal registeredData = filteredUsers[index];
-                        log("controller.invitedFriendList ${controller.invitedFriendList}");
-                        var matchedRequest = controller.invitedFriendList.firstWhere((request) => request['receiver']['id'].toString() == registeredData.userId.toString(),
-                          orElse: () => null,     );
-                        print("matchedRequest $matchedRequest");
-                        print("registeredData.userId ${registeredData.userId}");
-                        print("registeredData.userId ${registeredData.name}");
-                        print("registeredData.userId ${registeredData.mobileNo}");
-                        print("Item${registeredData.picture}");
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(5,8,5,8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 35,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: registeredData.picture != null && registeredData.picture!.isNotEmpty
-                                          ? DecorationImage(
-                                        image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
-                                        fit: BoxFit.cover,
-                                      )
-                                          : null,
-                                      color: registeredData.picture == null || registeredData.picture!.isEmpty
-                                          ? AppColor.color
-                                          : null,
-                                    ),
-                                    child: registeredData.picture == null || registeredData.picture!.isEmpty
-                                        ? const Icon(Icons.person, size: 20, color: Colors.white)
+              // Expanded(
+              //     child:
+              //       ListView.builder(
+              //         shrinkWrap: true,
+              //         itemCount: filteredUsers.length,
+              //         itemBuilder: (context, index) {
+              //           RegisteredUserDataModal registeredData = filteredUsers[index];
+              //           log("controller.invitedFriendList ${controller.invitedFriendList}");
+              //           var matchedRequest = controller.invitedFriendList.firstWhere((request) => request['sender']['id'].toString() == registeredData.userId.toString(),
+              //             orElse: () => null,     );
+              //
+              //           print("Matched Request Status: ${matchedRequest != null ? matchedRequest['status_display'] : 'No request'}");
+              //
+              //           print("matchedRequest $matchedRequest");
+              //           print("registeredData.userId ${registeredData.userId}");
+              //           print("registeredData.userId ${registeredData.name}");
+              //           print("registeredData.userId ${registeredData.mobileNo}");
+              //           print("Item${registeredData.picture}");
+              //           return Padding(
+              //             padding: const EdgeInsets.fromLTRB(5,8,5,8),
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 Row(
+              //                   mainAxisAlignment: MainAxisAlignment.start,
+              //                   children: [
+              //                     Container(
+              //                       width: 35,
+              //                       height: 40,
+              //                       decoration: BoxDecoration(
+              //                         shape: BoxShape.circle,
+              //                         image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+              //                             ? DecorationImage(
+              //                           image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
+              //                           fit: BoxFit.cover,
+              //                         )
+              //                             : null,
+              //                         color: registeredData.picture == null || registeredData.picture!.isEmpty
+              //                             ? AppColor.color
+              //                             : null,
+              //                       ),
+              //                       child: registeredData.picture == null || registeredData.picture!.isEmpty
+              //                           ? const Icon(Icons.person, size: 20, color: Colors.white)
+              //                           : null,
+              //                     ),
+              //                     const SizedBox(width: 10,),
+              //                     Column(
+              //                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                       mainAxisAlignment: MainAxisAlignment.start,
+              //                       children: [
+              //                         Text(
+              //                           capitalizeFirstLetter(registeredData.name.toString()),
+              //                           style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold)
+              //                         ),
+              //                         // SizedBox(height: 20,),
+              //                         Text(
+              //                             registeredData.username.toString(),
+              //                           style: MyTextTheme.smallGCB
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //
+              //                   InkWell(
+              //                     onTap: () async {
+              //                       if(matchedRequest==null){
+              //                         await controller.sendFriendRequest(registeredData);
+              //                         controller.checkInviteStatus(UserData().getUserData!.id.toString());
+              //
+              //                       }
+              //                     },
+              //                     child:matchedRequest ==null?
+              //                     Container(
+              //                       height: 30,
+              //                       width: 80,
+              //                       decoration: BoxDecoration(
+              //                        // border: Border.all(color: AppColor.white),
+              //                         borderRadius: BorderRadius.circular(10),
+              //                         color: AppColor.color,
+              //                       ),
+              //                       child:  const Center(
+              //                         child: Text("Request", style: TextStyle(color: Colors.white)),
+              //                       ),
+              //                     )
+              //                         :
+              //                     Container(
+              //                       height: 30,
+              //                       width: 80,
+              //                       decoration: BoxDecoration(
+              //                         borderRadius: BorderRadius.circular(10),
+              //                         color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
+              //                       ),
+              //                       child:  Center(
+              //                         child: Text(matchedRequest['status_display'], style: const TextStyle(color: Colors.white)),
+              //                       ),
+              //                     ),
+              //
+              //                   ),
+              //
+              //
+              //               ]
+              //             ),
+              //           );
+              //         },
+              //       ),
+              //     ),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: filteredUsers.length,
+                    itemBuilder: (context, index) {
+                      RegisteredUserDataModal registeredData = filteredUsers[index];
+                      log("controller.invitedFriendList ${controller.invitedFriendList}");
+                      // Get the current user's ID
+                      String currentUserId = UserData().getUserData!.id.toString();
+
+                      // Check for a matched request where the current user is either the sender or the receiver
+                      var matchedRequest = controller.invitedFriendList.firstWhere(
+                            (request) =>
+                        (request['sender']['id'].toString() == registeredData.userId.toString() &&
+                            request['receiver']['id'].toString() == currentUserId) ||
+                            (request['receiver']['id'].toString() == registeredData.userId.toString() &&
+                                request['sender']['id'].toString() == currentUserId),
+                        orElse: () => null,
+                      );
+
+                      print("Matched Request Status: ${matchedRequest != null ? matchedRequest['status_display'] : 'No request'}");
+
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 8, 5, 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 35,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: registeredData.picture != null && registeredData.picture!.isNotEmpty
+                                        ? DecorationImage(
+                                      image: NetworkImage("http://182.156.200.177:8011${registeredData.picture}"),
+                                      fit: BoxFit.cover,
+                                    )
+                                        : null,
+                                    color: registeredData.picture == null || registeredData.picture!.isEmpty
+                                        ? AppColor.color
                                         : null,
                                   ),
-                                  const SizedBox(width: 10,),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        capitalizeFirstLetter(registeredData.name.toString()),
-                                        style: MyTextTheme.mediumGCB.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color,fontWeight: FontWeight.bold)
-                                      ),
-                                      // SizedBox(height: 20,),
-                                      Text(
-                                          registeredData.username.toString(),
-                                        style: MyTextTheme.smallGCB
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-
-                                InkWell(
-                                  onTap: () async {
-                                    if(matchedRequest==null){
-                                      await controller.sendFriendRequest(registeredData);
-                                      controller.checkInviteStatus(UserData().getUserData!.id.toString());
-
-                                    }
-                                  },
-                                  child:matchedRequest ==null?
-                                  Container(
-                                    height: 30,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                     // border: Border.all(color: AppColor.white),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.color,
-                                    ),
-                                    child:  const Center(
-                                      child: Text("Request", style: TextStyle(color: Colors.white)),
-                                    ),
-                                  )
-                                      :
-                                  Container(
-                                    height: 30,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color:matchedRequest['status_display']=="Accepted"? Colors.green:AppColor.greyColor,
-                                    ),
-                                    child:  Center(
-                                      child: Text(matchedRequest['status_display'], style: const TextStyle(color: Colors.white)),
-                                    ),
-                                  ),
-
+                                  child: registeredData.picture == null || registeredData.picture!.isEmpty
+                                      ? const Icon(Icons.person, size: 20, color: Colors.white)
+                                      : null,
                                 ),
-
-                            ]
-                          ),
-                        );
-                      },
-                    ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      capitalizeFirstLetter(registeredData.name.toString()),
+                                      style: MyTextTheme.mediumGCB.copyWith(
+                                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      registeredData.username.toString(),
+                                      style: MyTextTheme.smallGCB,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                if (matchedRequest == null) {
+                                  await controller.sendFriendRequest(registeredData);
+                                  controller.checkInviteStatus(currentUserId);
+                                }
+                              },
+                              child: matchedRequest == null
+                                  ? Container(
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColor.color,
+                                ),
+                                child: const Center(
+                                  child: Text("Request", style: TextStyle(color: Colors.white)),
+                                ),
+                              )
+                                  : Container(
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: matchedRequest['status_display'] == "Accepted" ? Colors.green : AppColor.greyColor,
+                                ),
+                                child: Center(
+                                  child: Text(matchedRequest['status_display'], style: const TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
+                ),
               ],
             ),
           );

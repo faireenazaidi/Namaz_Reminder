@@ -7,6 +7,7 @@
     android:padding="16dp"
     android:rotationX="-2"> <!-- Replace with a simple color -->
 
+    <!-- Progress Bar and Time Row -->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -16,7 +17,6 @@
         android:textSize="16sp"
         android:typeface="sans" />
 
-    <!-- Progress Bar and Time Row -->
     <LinearLayout
         android:id="@+id/progress_time_row"
         android:layout_width="match_parent"

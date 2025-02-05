@@ -93,8 +93,31 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
 
 
     // Get screen size
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    bool isTablet = screenHeight > 500;
+
+// For Phones
+    double itemWidthPhone = screenWidth * 0.12;  // For phone, adjust itemWidth based on screen width
+    double itemHeightPhone = screenHeight * 0.06; // For phone, adjust itemHeight based on screen height
+    double fontSizePhone = screenWidth * 0.08; // For phone, adjust font size based on screen width
+    double selectedFontSizePhone = screenWidth * 0.08; // For phone, adjust selected font size based on screen width
+
+// For Tablets
+    double itemWidthTablet = screenWidth * 0.15;  // For tablet, adjust itemWidth based on screen width
+    double itemHeightTablet = screenHeight * 0.1; // For tablet, adjust itemHeight based on screen height
+    double fontSizeTablet = screenWidth * 0.1; // For tablet, adjust font size based on screen width
+    double selectedFontSizeTablet = screenWidth * 0.09; // For tablet, adjust selected font size based on screen width
+
+// Use different styles based on whether it's a phone or tablet
+    double itemWidth = isTablet ? itemWidthTablet : itemWidthPhone;
+    double itemHeight = isTablet ? itemHeightTablet : itemHeightPhone;
+    double fontSize = isTablet ? fontSizeTablet : fontSizePhone;
+    double selectedFontSize = isTablet ? selectedFontSizeTablet : selectedFontSizePhone;
+
+
+
     print(getMinutesFromTime(dashBoardController.currentPrayerEndTime.toString()).toString());
     final CustomDrawerController customDrawerController = Get.find<CustomDrawerController>();
 
@@ -109,7 +132,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
             // Navigator.of(context).pop();
           },
           child: Container(
-            width: screenWidth * 0.70,
+            height: screenHeight * 0.52,
+            width: screenWidth * 0.65,
             padding: EdgeInsets.symmetric(
               horizontal: screenWidth * 0.04,
               vertical: screenHeight * 0.02,
@@ -139,7 +163,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
 
                   ],
                 ),
-                const SizedBox(height: 5),
                 // Hour and Minute Pickers
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -150,9 +173,9 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         itemCount: 5,
                         minValue:  1,
                         maxValue: 12,
-                        // itemWidth: screenWidth * 0.15,
-                        // itemHeight: screenHeight * 0.12,
-                   value: dashBoardController.hour,
+                        itemWidth: screenWidth,
+                        itemHeight:45,
+                        value: dashBoardController.hour,
                         haptics: false,
                         zeroPad: true,
                         infiniteLoop: true, // Prevent going forward
@@ -169,7 +192,7 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         ),
                         selectedTextStyle: TextStyle(
                           color: customDrawerController.isDarkMode == false ? AppColor.white: Colors.black,
-                          fontSize: screenWidth * 0.11,
+                          fontSize: selectedFontSize,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -190,6 +213,8 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         itemCount:5,
                         minValue: 0,
                         maxValue: 59,
+                        itemWidth:screenWidth,
+                        itemHeight:60,
                         value: dashBoardController.minute,
                         zeroPad: true,
                         infiniteLoop: true,
@@ -207,12 +232,13 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                         ),
                         selectedTextStyle: TextStyle(
                           color: customDrawerController.isDarkMode == false ? AppColor.white: Colors.black,
-                          fontSize: screenWidth * 0.11,
+                          fontSize: selectedFontSize,
                           fontWeight: FontWeight.w400,
                         ),
+
                       ),
                     ),
-                    const SizedBox(width: 10),
+
                     // AM/PM Selector
                     Flexible(
                       child: Column(
@@ -277,7 +303,6 @@ class _TimePickerState extends State<TimePicker> with SingleTickerProviderStateM
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
 
                 Row(
                   children: [

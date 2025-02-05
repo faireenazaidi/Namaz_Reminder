@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:namaz_reminders/DashBoard/timepickerpopup.dart';
@@ -60,6 +61,7 @@ class DashBoardView extends GetView<DashBoardController> {
     }
     print(controller.upcomingPrayerStartTime);
     print("jjj");
+
     return DoubleBack(
       message: "Press again to exit!",
       child: Container(
@@ -108,10 +110,17 @@ class DashBoardView extends GetView<DashBoardController> {
                                       loadingMessage: 'Getting Current Location...');
                                 },
                                 child:
-                                Text(
-                                  controller.address.split(' ')[0].toString(),
-                                  style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
-                                ),
+                                // Text(
+                                //   controller.address.split(' ')[0].toString(),
+                                //   style: MyTextTheme.greyNormal.copyWith(color: Theme.of(context).textTheme.titleSmall?.color),
+                                // ),
+                                    Text(
+                                      controller.address.replaceAll(',', '').split(' ')[0].toString(),
+                                      style: MyTextTheme.greyNormal.copyWith(
+                                        color: Theme.of(context).textTheme.titleSmall?.color,
+                                      ),
+                                    )
+
                                 // Text(
                                 //   controller.address.split(' ').take(1).join(' ') + '...',
                                 //   style: MyTextTheme.greyNormal,
@@ -249,14 +258,19 @@ class DashBoardView extends GetView<DashBoardController> {
                                 color: Colors.grey,
                                 margin: const EdgeInsets.symmetric(horizontal: 10), // Adjust spacing between texts and divider
                               ),
+                              // Obx(
+                              //       () => Text(
+                              //     controller.islamicDate.value,
+                              //         style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+                              //   ),
+                              // ),
                               Obx(
                                     () => Text(
                                   controller.islamicDate.value,
-                                      style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
-                                  overflow: TextOverflow.ellipsis,
+                                  style: MyTextTheme.date.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+                                      overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-
                             ],
                           ),
                         ],
@@ -268,18 +282,70 @@ class DashBoardView extends GetView<DashBoardController> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
+                          // Obx(() {
+                          //   // controller.calculateCompletionPercentage();
+                          //   // print("completionPercentage ${controller.completionPercentage}");
+                          //   // print("controller.isPrayed ${controller.isPrayed}");
+                          //   // print("controller.nextPrayer ${controller.nextPrayer}");
+                          //   // print("controller.nextPrayer ${controller.currentPrayer}");
+                          //   // print("controller.nextPrayer ${controller.currentPrayerStartTime}");
+                          //   return controller.isPrayed?CircularPercentIndicator(
+                          //     restartAnimation: false,
+                          //     circularStrokeCap: CircularStrokeCap.round,
+                          //     animation: false,
+                          //     // animateFromLastPercent: true,
+                          //     animationDuration: 1200,
+                          //     radius: 130,
+                          //     lineWidth: 40,
+                          //     widgetIndicator: Container(
+                          //       height: 5,
+                          //       width: 5,
+                          //       alignment: Alignment.center,
+                          //       child: Lottie.asset(
+                          //         "assets/Star.lottie",
+                          //         fit: BoxFit.contain,
+                          //         width: 80,
+                          //         height: 80,
+                          //         decoder: customDecoder,
+                          //       ),
+                          //     ),
+                          //     percent:0.0,
+                          //     progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.color,
+                          //     backgroundColor: AppColor.color..withOpacity(0.6),
+                          //   ) :CircularPercentIndicator(
+                          //     restartAnimation: false,
+                          //     circularStrokeCap: CircularStrokeCap.round,
+                          //     animation: true,
+                          //     animateFromLastPercent: true,
+                          //     animationDuration: 1200,
+                          //     radius: 140,
+                          //     lineWidth: 40,
+                          //     widgetIndicator: Container(
+                          //       height: 5,
+                          //       width: 5,
+                          //       alignment: Alignment.center,
+                          //       child: Lottie.asset(
+                          //         "assets/Star.lottie",
+                          //         fit: BoxFit.contain,
+                          //         width: 80,
+                          //         height: 80,
+                          //         decoder: customDecoder,
+                          //       ),
+                          //     ),
+                          //     percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
+                          //     progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.color,
+                          //     backgroundColor:customDrawerController.isDarkMode == false ? AppColor.packageGray:  Colors.white.withOpacity(0.06)
+                          //   );
+                          // }),
                           Obx(() {
-                            // controller.calculateCompletionPercentage();
-                            // print("completionPercentage ${controller.completionPercentage}");
-                            // print("controller.isPrayed ${controller.isPrayed}");
-                            // print("controller.nextPrayer ${controller.nextPrayer}");
-                            // print("controller.nextPrayer ${controller.currentPrayer}");
-                            // print("controller.nextPrayer ${controller.currentPrayerStartTime}");
-                            return controller.isPrayed?CircularPercentIndicator(
+                            // Ensure completionPercentage is within 0.0 and 1.0
+                            double completionPercentage = controller.completionPercentage.value.clamp(0.0, 1.0);
+
+                            return controller.isPrayed
+                                ? CircularPercentIndicator(
                               restartAnimation: false,
                               circularStrokeCap: CircularStrokeCap.round,
                               animation: false,
-                              // animateFromLastPercent: true,
                               animationDuration: 1200,
                               radius: 130,
                               lineWidth: 40,
@@ -295,10 +361,11 @@ class DashBoardView extends GetView<DashBoardController> {
                                   decoder: customDecoder,
                                 ),
                               ),
-                              percent:0.0,
-                              progressColor:controller.currentPrayer.value=='Free'?Colors.grey :AppColor.color,
-                              backgroundColor: AppColor.color..withOpacity(0.6),
-                            ) :CircularPercentIndicator(
+                              percent: 0.0,
+                              progressColor: controller.currentPrayer.value == 'Free' ? Colors.grey : AppColor.color,
+                              backgroundColor: AppColor.color.withOpacity(0.6),
+                            )
+                                : CircularPercentIndicator(
                               restartAnimation: false,
                               circularStrokeCap: CircularStrokeCap.round,
                               animation: true,
@@ -318,37 +385,15 @@ class DashBoardView extends GetView<DashBoardController> {
                                   decoder: customDecoder,
                                 ),
                               ),
-                              percent:controller.completionPercentage.value==0.0?0.0:1.0-controller.completionPercentage.value,
-                              progressColor:controller.isGapPeriod.value?Colors.grey :AppColor.color,
-                              backgroundColor:customDrawerController.isDarkMode == false ? AppColor.packageGray:  Colors.white.withOpacity(0.06)
+                              percent: controller.completionPercentage.value == 0.0
+                                  ? 0.0
+                                  : 1.0 - completionPercentage,  // Ensure value is within 0.0 to 1.0
+                              progressColor: controller.isGapPeriod.value ? Colors.grey : AppColor.color,
+                              backgroundColor: customDrawerController.isDarkMode == false
+                                  ? AppColor.packageGray
+                                  : Colors.white.withOpacity(0.06),
                             );
                           }),
-                        //   Obx(() {
-                        //     double completionPercentage = controller.calculateCompletionPercentage();
-                        //     // Circle center and radius
-                        //     double radius = 100;
-                        //     // Radius of the circle (adjust based on CircularPercentIndicator radius)
-                        //     double angle = 2 * pi * completionPercentage;
-                        //     // Convert percentage to radians
-                        //
-                        //   // Calculate x and y positions based on angle
-                        //   double x = radius * cos(angle);
-                        //   double y = radius * sin(angle);
-                        //
-                        //   return Positioned(
-                        //     left: radius + x - 120,
-                        //     // Offset to center the crown on the circle
-                        //     top: radius - y - 100,
-                        //     // Offset to center the crown on the circle
-                        //     child: CircleAvatar(
-                        //       radius: 15,
-                        //       backgroundColor: Colors.white,
-                        //       child:     Lottie.asset("assets/Star.lottie",
-                        //           decoder: customDecoder, height: 1000),
-                        //     ),
-                        //
-                        //   );
-                        // }),
                           if(!controller.isPrayed)
                             Positioned(
                               top: 70,

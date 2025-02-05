@@ -214,21 +214,28 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                     builder: (BuildContext context, Widget? child) {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
-                                          dialogBackgroundColor: Colors.red,
+                                          // Use the current theme's brightness to determine the color scheme
+                                          colorScheme: Theme.of(context).brightness == Brightness.dark
+                                              ? const ColorScheme.dark(
 
-                                          colorScheme: const ColorScheme.light(
-                                            primary: Colors.yellow,  // Header & selected date color
-                                            onPrimary: Colors.black, // Header text color
-                                            onSurface: Colors.red, // Text color
+                                            primary: AppColor.color,
+                                            onPrimary: Colors.white,
+                                            onSurface: Colors.white,
+                                          )
+                                              : const ColorScheme.light(
+                                            primary: AppColor.color,
+                                            onPrimary: Colors.black,
+                                            onSurface: Colors.black,
                                           ),
                                           textButtonTheme: TextButtonThemeData(
                                             style: TextButton.styleFrom(
-                                              foregroundColor: Colors.yellow, // OK & Cancel button color
+                                              foregroundColor: AppColor.color, // OK & Cancel button color
                                             ),
                                           ),
                                         ),
                                         child: child!,
                                       );
+
                                     },
                                   );
 
@@ -267,7 +274,8 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                           Container(
                                             width: 1,
                                             height: 15,
-                                            color: Colors.grey,
+                                          //  color: Colors.grey,
+                                              color: customDrawerController.isDarkMode == false ? Colors.grey:Colors.black87,
                                             margin: const EdgeInsets.symmetric(
                                                 horizontal: 10),
                                           ),
@@ -593,6 +601,7 @@ class MissedPrayersView extends GetView<LeaderBoardController>{
                                                                     null
                                                                     ? CircleAvatar(
                                                                   radius: 24,
+
                                                                   // Radius of the circular image
                                                                   backgroundImage: NetworkImage(
                                                                     "http://182.156.200.177:8011${controller
